@@ -1,0 +1,63 @@
+﻿@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.PointsDetailModel
+@{
+	ViewBag.Title = "PointsAddView";
+	Layout = "~/Areas/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Areas/Scripts/FMErrorAndExceptionHandling.js"></script>
+
+<style>
+	.layoutTable td {
+		padding: 5px 10px;
+	}
+
+    .field-validation-error {
+        color: Red;
+    }
+</style>
+
+<script type="text/javascript">
+	window.onload = function (e) {
+		window.parent.CurrentHelpKey = "MenuBar/FMMenuBar.aspx?target=../InventoryManagement/PointsSummary/AddPoints";
+	}
+</script>
+<div class="headline">@FMBaseController.TranslateText("Points")</div>
+
+@using (Html.BeginForm("PointsDetail"))
+{
+	@Html.AntiForgeryToken()
+
+	<table class="layoutTable" style="margin-top: 15px;">
+        <tr>
+            <td class="formfieldtitle">@FMBaseController.TranslateText("Point ID Prefix")</td>
+            <td class="formfield">
+                @Html.TextBoxFor(model => model.ID, new { required = "true", autofocus = "autofocus", maxlength = "27" })
+                @Html.ValidationMessageFor(model => model.ID, "")
+            </td>
+        </tr>
+		<tr>
+			<td class="formfieldtitle">@FMBaseController.TranslateText("Point Template")</td>
+			<td class="formfield">@Html.DropDownListFor(m => m.TemplateSelection, new SelectList(Model.Templates, "IdentityGuid", "ID", Model.TemplateSelection))</td>
+		</tr>
+        <tr>
+            <td class="formfieldtitle">@FMBaseController.TranslateText("How many to create")</td>
+            <td class="formfield">
+                @Html.TextBoxFor(model => model.NumberToCreate, new { required = "true", type = "number", min = "1", step = "1", max = "999" })
+                @Html.ValidationMessageFor(model => model.NumberToCreate, "")
+            </td>
+         </tr>
+	</table>
+
+	<div style="margin-top: 15px">
+		<table>
+			<tr>
+                <td style="width: 150px">
+                    <button id="cancelButton" class="formfieldtitle pushButton" title="Cancel and Exit Page" onclick="location.href='@Url.Action("PointsSummaryView", "PointsSummary")'">@FMBaseController.TranslateText("Cancel")</button>
+                </td>
+				<td>
+					@Html.FMButtonIdAsCommand("createButton", "createPoints", "&" + FMBaseController.TranslateText("Create"), true, "Bulk Create Points")
+				</td>
+			</tr>
+		</table>
+	</div>
+}

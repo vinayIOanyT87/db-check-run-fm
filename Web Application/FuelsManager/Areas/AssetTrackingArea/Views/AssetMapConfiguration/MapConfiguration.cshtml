@@ -1,0 +1,284 @@
+﻿@using System.Web.Configuration
+@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.AssetTrackingArea.ViewModels.MapConfigurationModel
+@{
+    ViewBag.Title = "MapConfiguration";
+}
+
+<!DOCTYPE html>
+<header>
+    <script type="text/javascript" language="javascript" src="~/Areas/Lib/jquery-ui-1.10.3.custom.js"></script>
+    <script type="text/javascript" language="javascript" src="~/Areas/scripts/modalpopup.js"></script>
+    <script type="text/javascript" language="javascript" src="~/Areas/scripts/CSRFToken.js"></script>
+    <style>
+        .ui-dialog .ui-dialog-content {
+    color: white !important;
+    height: 560px !important;
+    padding: 1em 2em 0em 2em !important;
+}
+         .divTable {
+             width: 85%;
+             height: 50%;
+             display: table;
+             padding: 3px;
+         }
+
+        .divTableRow {
+            width: 100%;
+            height: 100%;
+            display: table-row;
+            padding: 3px;
+        }
+
+        .divTableCell {
+            width: 25%;
+            height: 100%;
+            display: table-cell;
+            padding: 3px;
+            vertical-align: top;
+        }
+
+        .divTableCell2 {
+            width: 25%;
+            height: 100%;
+            display: table-cell;
+            padding: 3px;
+            vertical-align: top;
+            position: absolute;
+            right: 40%;
+        }
+
+        .headline {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 18px;
+            font-style: italic;
+            font-weight: bold;
+            color: #0d246a;
+            line-height: normal;
+            white-space: nowrap;
+        }
+
+        .formfieldtitle {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            font-style: normal;
+            line-height: normal;
+            font-weight: bold;
+            font-variant: normal;
+            text-transform: none;
+            white-space: nowrap;
+        }
+
+        .formfield input {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            font-style: normal;
+            line-height: normal;
+            font-weight: normal;
+            font-variant: normal;
+            text-transform: none;
+            color: #000000;
+        }
+
+        .errorField {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 16px;
+            font-style: normal;
+            line-height: normal;
+            font-weight: bold;
+            font-variant: normal;
+            text-transform: none;
+            color: #FF0000;
+        }
+    </style>
+</header>
+<script>
+    window.onload = function (e) {
+        window.parent.CurrentHelpKey = "MenuBar/FMMenuBar.aspx?target=../AssetTrackingArea/AssetMapConfiguration/MapConfiguration";
+    }
+
+    //=========================================================================
+    // This function handles the select event of the Map Source dropdown control.
+    // It will set the selected value into a hidden field to be consumed
+    // by the controller.
+    //=========================================================================
+    function GetSelectedMapSource() {
+        var selectedMapSource = $("#MapSource").val();
+        $('#selectedMapSourceInput').val(selectedMapSource);
+    }
+
+    //==========================================================================
+    // This function will display the calculate coordinate popup dialog.
+    //==========================================================================
+    ShowModalPopUp = function ()
+    {
+        var latTextBox	= document.getElementById("LatitudeStr");
+        var longTextBox	= document.getElementById("LongitudeStr");
+        var zoomTextbox = document.getElementById("ZoomStr");
+        var argu = "";
+
+        if (latTextBox.value == null)
+        {
+            argu = argu + "&latitude=-9999";
+        }
+        else
+        {
+            argu = argu + "&latitude=" + latTextBox.value;
+        }
+
+        if (longTextBox.value == null)
+        {
+            argu = argu + "&longitude=-9999";
+        }
+        else
+        {
+            argu = argu + "&longitude=" + longTextBox.value;
+        }
+
+        if (zoomTextbox.value == null)
+        {
+            argu = argu + "&zoom=-9999";
+        }
+        else
+        {
+            argu = argu + "&zoom=" + zoomTextbox.value;
+        }
+
+        showModalDialogFrame({
+            url: "MapConfiguration?ispopup=True" + argu,
+            width: 855,
+            height: 560,
+            resizable: false,
+            title: "Calculate Coordinates",
+            onClose: function () {
+                if (this.returnValue != null)
+                {
+                    var latitudeValue = ReplaceNonBreakingSpaceHexWithSpace(this.returnValue[0]);
+                    var longitudeValue = ReplaceNonBreakingSpaceHexWithSpace(this.returnValue[1]);
+                    var zoomValue = ReplaceNonBreakingSpaceHexWithSpace(this.returnValue[2]);
+
+                    // -9999 means the user pressed cancel.
+                    if (latitudeValue !== "-9999" && longitudeValue !== "-9999" && zoomValue !== "-9999")
+                    {
+                        latTextBox.value = latitudeValue;
+                        longTextBox.value = longitudeValue;
+                        zoomTextbox.value = zoomValue;
+                    }
+                }
+            }
+        });
+    }
+</script>
+<body style="overflow-x: hidden; overflow-y: hidden;">
+<div>
+	<div id="result" style="display: none;"></div>
+	<section id="MapConfigurationForm">
+		@using (Html.BeginForm("MapConfiguration", "AssetMapConfiguration", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+		{
+			@Html.AntiForgeryToken()
+			@Html.ValidationSummary(true)
+
+			<div class="divTable">
+				<div class="divTableRow">
+					<div class="divTableCell">
+						@Html.Label(FMBaseController.TranslateText("Map Configuration"), new { @Class = "headline" })
+					</div>
+				</div>
+			</div>
+			<p></p>
+			<div style="position: absolute; left: 32px;">
+				<div class="divTable" style="width: 600px;">
+					<div class="divTableRow">
+						<div class="divTableCell">
+							@Html.LabelFor(model => model.MapName, FMBaseController.TranslateText("Map Name:"), new { @class = "formfieldtitle" })
+						</div>
+						<div class="divTableCell">
+							@Html.TextBoxFor(model => model.MapName, new { @Class = "formfield", style = "width:260px", maxlength = "20" })
+						</div>
+					</div>
+					<div class="divTableRow">
+						<div class="divTableCell">
+							@Html.LabelFor(model => model.Description, FMBaseController.TranslateText("Description:"), new { @class = "formfieldtitle" })
+						</div>
+						<div class="divTableCell">
+							@Html.TextBoxFor(model => model.Description, new { @Class = "formfield", style = "width:600px", maxlength = "200" })
+						</div>
+					</div>
+					<div class="divTableRow">
+						<div class="divTableCell">
+							@Html.LabelFor(model => model.LatitudeStr, FMBaseController.TranslateText("Latitude:"), new { @class = "formfieldtitle" })
+						</div>
+						<div class="divTableCell">
+							@Html.TextBoxFor(model => model.LatitudeStr, new { @Class = "formfield", style = "width:260px", maxlength = "20" })
+						</div>
+					</div>
+					<div class="divTableRow">
+						<div class="divTableCell">
+							@Html.LabelFor(model => model.LongitudeStr, FMBaseController.TranslateText("Longitude:"), new { @class = "formfieldtitle" })
+						</div>
+						<div class="divTableCell">
+							@Html.TextBoxFor(model => model.LongitudeStr, new { @Class = "formfield", style = "width:260px", maxlength = "20" })
+						</div>
+					</div>
+					<div class="divTableRow">
+						<div class="divTableCell">
+							@Html.LabelFor(model => model.ZoomStr, FMBaseController.TranslateText("Zoom:"), new { @class = "formfieldtitle" })
+						</div>
+						<div class="divTableCell">
+							@Html.TextBoxFor(model => model.ZoomStr, new { @Class = "formfield", style = "width:160px", maxlength = "2" })
+						</div>
+					</div>
+					<div class="divTableRow">
+						<div class="divTableCell">
+							@Html.LabelFor(model => model.ActionListMapSources, FMBaseController.TranslateText("Sources:"), new { @class = "formfieldtitle" })
+						</div>
+						<div class="divTableCell">
+							@Html.DropDownListFor(model => model.MapSource, Model.ActionListMapSources, new { @class = "formfield", @style = "width:230px", @onchange = "GetSelectedMapSource()" })
+						</div>
+					</div>
+					<div class="divTableRow">
+						<div class="divTableCell">
+							@Html.LabelFor(model => model.Show, FMBaseController.TranslateText("Show map:"), new { @class = "formfieldtitle" })
+						</div>
+						<div class="divTableCell">
+							@if (@Model.EnableShow)
+							{
+								@Html.CheckBoxFor(model => model.Show)
+							}
+							else
+							{
+								@Html.CheckBoxFor(model => model.Show, new { @disabled = "true" })
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+				<p></p>
+				<div style="position: absolute; top: 275px; left: 450px;">
+							<button name="NewMapConfigBtn" type="submit" value="NewMapConfigBtn" class="formfieldtitle" disabled="@(Model.IsEditable ? null : "disabled")">@FMBaseController.TranslateText("New")</button>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<button name="OkMapConfigBtn" type="submit" value="OkMapConfigBtn" class="formfieldtitle" disabled="@(Model.IsEditable ? null : "disabled")">@FMBaseController.TranslateText("OK")</button>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<button name="CancelMapConfigBtn" type="submit" value="CancelMapConfigBtn" class="formfieldtitle">@FMBaseController.TranslateText("Cancel")</button>
+				</div>
+			<p></p>
+			<div style="position: absolute; top: 300px; left: 32px;">
+						<input id="selectedMapSourceInput" name="selectedMapSourceInput" type="hidden" value="" />
+						@Html.HiddenFor(model => model.AssetTrackingMapConfigurationGuid)
+						@Html.HiddenFor(model => model.MapSource)
+						@Html.HiddenFor(model => model.SiteGuid)
+					<div>&nbsp;</div>
+					<div >
+						@Html.ValidationMessage("Error", new { @Class = "errorField", style = "width:360px" })
+					</div>
+			</div>
+		}
+		<div style="position: absolute; top: 330px; left: 32px;">
+			<button id="MapCoordinateBtn1" name="mapCoordinateLink1" onclick="ShowModalPopUp();" value="mapCoordinateLink1" class="formfieldtitle"
+			        style="border: none; background: none; text-decoration: underline; cursor: pointer;">
+				@FMBaseController.TranslateText("Calculate map coordinates")
+			</button>
+		</div>
+	</section>
+</div>
+</body>

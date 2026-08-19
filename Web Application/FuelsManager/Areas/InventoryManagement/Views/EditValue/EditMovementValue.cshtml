@@ -1,0 +1,1181 @@
+﻿
+@using System.Web.Mvc.Html
+@using System.Globalization
+@using FMPointCommon
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@using FMBusinessObjects.DataObjects
+@using Opc.Ua
+
+@model FuelsManager.Areas.InventoryManagement.ViewModels.EditValueModel
+
+<style>
+    .minmaxdialogtext {
+        color: rgb(194,194,194);
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 10px;
+        font-style: normal;
+        font-weight: normal;
+        position: relative;
+        top: -10px;
+    }
+
+    .control-label {
+        color: rgb(194,194,194);
+    }
+
+    .value-slider {
+    }
+
+    .dialogforcedtext {
+        color: rgb(194,194,194);
+    }
+
+    .cbClass {
+    }
+    /*slider*/
+    .ui-slider-tick-mark {
+        display: inline-block;
+        width: 1px;
+        background: rgb(194,194,194);
+        height: 6px;
+        position: absolute;
+        top: -10px;
+    }
+
+    .ui-slider-horizontal {
+        height: .6em;
+        background: rgb(230,230,230);
+        top: 20px;
+        border: solid transparent;
+    }
+
+    .ui-slider .ui-slider-handle {
+        width: 20px;
+        height: 22px;
+        top: -30px;
+        border: transparent;
+    }
+
+    .ui-widget-header {
+        border: 1px solid rgb( 86,126,185);
+        background: rgb( 86,126,185) url("@(Url.Content("~/areas/content/redmond/images/ui-bg_gloss-wave_55_5c9ccc_500x100.png"))") 50% 50% repeat-x;
+        color: #ffffff;
+        font-weight: bold;
+    }
+
+    .ui-slider-handle.ui-state-default, .ui-slider-handle.ui-widget-content.ui-state-default {
+        background: transparent url("@(Url.Content("~/fmwebapp/images/FancySlider.png"))") 50% 50% repeat-x !important;
+        outline: none;
+    }
+
+    .ui-slider-handle {
+        position: relative;
+        background: rgb(194,194,194);
+        border: 3px solid #c2e1f5;
+    }
+
+    #EditValueDatePicker {
+        z-index: inherit;
+    }
+
+    #EditValueDateTimePicker {
+        z-index: inherit;
+    }
+
+        #EditValueDateTimePicker.hasDatepicker, #EditValueDatePicker.hasDatepicker {
+            width: calc( 100% - 40px);
+            display: inline-block;
+        }
+
+    .ui-datepicker-trigger {
+        width: 25px;
+        margin-left: 10px;
+    }
+</style>
+
+
+@using (Html.BeginForm("ButtonSubmit", "EditValue", FormMethod.Post, new { id = "EditValueForm" }))
+{
+    @Html.AntiForgeryToken();
+    {
+        var editTagViewObject = Json.Encode(new { Model.SelectedPointValue });
+        <input id="TVEditModelObject" type="hidden" value='@editTagViewObject'>
+        <input id="TVEditModelUpdatePointService" type="hidden" value='@Model.UpdatePointService.ToString()'>
+        <input id="TVEditModelAllowOverUnderRange" type="hidden" value='@Model.AllowOverUnderRange.ToString()'>
+    }
+
+    @Html.HiddenFor(m => m.SelectedPointValue.PointValueIdentifier);
+    @Html.Hidden("alert-exceed-max", @FMBaseController.TranslateText("Entered Value Is Greater Than Maximum."))
+    @Html.Hidden("alert-exceed-min", @FMBaseController.TranslateText("Entered Value Is Less Than Minimum."))
+    @Html.Hidden("exceed-range-permission", @FMBaseController.TranslateText("Do not have Exceed Range permission."))
+    @Html.Hidden("value-exceeds-limits", @FMBaseController.TranslateText("Value Exceeds Limits"))
+
+    var units = (int)Model.SelectedPointValue.Units;
+    var numberFormatInfo = new NumberFormatInfo { NumberGroupSizes = Model.Site.GetNumberGroupSizes(), NumberGroupSeparator = Model.Site.NumberGroupSeparator, NumberDecimalSeparator = Model.Site.NumberDecimalSeparator };
+
+    var numDecPlaces = 0;// Model.SelectedPointValue.DecimalPlaces;
+    if (units == 27 || units == 19)
+    {
+        numDecPlaces = 6;
+    }
+    numberFormatInfo.NumberDecimalDigits = numDecPlaces;
+    var numberFormatInfoString = String.Format("{{{0}" + "\"NegativeSign\":\"{1}\",{0}" + "\"NumberDecimalDigits\":{2},{0}" + "\"NumberDecimalSeparator\":\"{3}\",{0}" + "\"NumberGroupSeparator\":\"{4}\",{0}" + "\"NumberGroupSizes\":{5},{0}" + "\"NumberNegativePattern\":{6},{0}" + "\"ShortDatePattern\":\"{7}\"{0}" + "\"TimePattern\":\"{8}\"{0}}}", Environment.NewLine, "-", 0, Model.Site.NumberDecimalSeparator, Model.Site.NumberGroupSeparator, Model.Site.GetNumberGroupSizes()[0], 1, Model.Site.ShortDatePattern, Model.Site.TimePattern);
+    var max = "";
+    var min = "";
+    var currentvalue = "";
+    var slidervalue = "";
+    var type = Type.GetType(Model.SelectedPointValue.ValueTypeString);
+    if (type == null)
+    {
+        type = Type.GetType(Model.SelectedPointValue.ValueTypeString + ", FMBusinessObjects");
+    }
+
+
+    max = PointManager.FormatValue(Type.GetType("System.Double"), Model.SelectedPointValue.Units, numberFormatInfo, Model.SelectedPointValue.Maximum);
+    min = PointManager.FormatValue(Type.GetType("System.Double"), Model.SelectedPointValue.Units, numberFormatInfo, Model.SelectedPointValue.Minimum);
+
+    currentvalue = PointManager.FormatValueFullPrecision(type, Model.SelectedPointValue.Units, numberFormatInfo, Model.SelectedPointValue.Value);
+    if (PointTemplateTag.IsNumeric(Model.SelectedPointValue.ValueTypeString) &&
+         (int)Model.SelectedPointValue.Units != 27 &&
+         (int)Model.SelectedPointValue.Units != 19)
+    {
+        var tagvalue = "";
+
+        if (Model.SelectedPointValue.Value != null)
+        {
+            tagvalue = Model.SelectedPointValue.Value.ToString();
+        }
+
+        if (tagvalue == "")
+        {
+            tagvalue = min;
+        }
+
+        double newvalue = (double)PointManager.ParseValue(Type.GetType("System.Double"), Model.SelectedPointValue.Units, numberFormatInfo, tagvalue);
+        slidervalue = newvalue.ToString("F", numberFormatInfo);
+    }
+
+    else if (Model.SelectedPointValue.ValueTypeString == "FMBusinessObjects.DataObjects.DeviceAlarmMapReference")
+    {
+        var tagvalue = "";
+
+        var damr = Model.SelectedPointValue.Value as DeviceAlarmMapReference;
+        if (damr == null)
+        {
+            damr = new DeviceAlarmMapReference();
+        }
+        if (damr.CurrentValue.HasValue)
+        {
+            tagvalue = damr.CurrentValue.ToString();
+        }
+
+        if (tagvalue == "")
+        {
+            tagvalue = min;
+        }
+
+        double newvalue = (double)PointManager.ParseValue(Type.GetType("System.Double"), Model.SelectedPointValue.Units, numberFormatInfo, tagvalue);
+        slidervalue = newvalue.ToString("F", numberFormatInfo);
+
+    }
+
+    else if (Model.SelectedPointValue.ValueTypeString == "System.DateTime")
+    {
+        if (Model.SelectedPointValue.Value != null)
+        {
+            currentvalue = ((DateTime)Model.SelectedPointValue.Value).ToString(Model.Site.ShortDatePattern);
+        }
+    }
+
+    else if (Model.SelectedPointValue.ValueTypeString == "System.DateTimeOffset")
+    {
+        if (Model.SelectedPointValue.Value != null)
+        {
+            currentvalue = ((DateTimeOffset)Model.SelectedPointValue.Value).ToString(Model.Site.ShortDatePattern + " " + Model.Site.TimePattern);
+        }
+    }
+    else
+    {
+        slidervalue = currentvalue;
+    }
+    if (currentvalue == "")
+    {
+        if (PointTemplateTag.IsNumeric(Model.SelectedPointValue.ValueTypeString)
+        || Model.SelectedPointValue.ValueTypeString == "FMBusinessObjects.DataObjects.DeviceAlarmMapReference")
+        {
+            currentvalue = min;
+            // get rid of the comma. This only effects numbers > 999
+            var tempstring = currentvalue.Replace(",", "");
+            slidervalue = tempstring;
+        }
+    }
+    <input id="NumberFormatInfoString" type="hidden" value='@numberFormatInfoString' />
+
+    <section id="EditValuePartial" class="">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div id="EditValueListErrors" class="alert alert-danger hidden">
+                <a href="#" class="close" onclick="$('#EditValueListErrors').fadeOut(2000, function () { $('#EditValueListErrors').removeClass('hidden').addClass('hidden'); $('#EditValueListErrors').removeAttr('style'); return false; }); return false;" aria-label="close">&times;</a>
+            </div>
+        </div>
+        <!-- This was changed to reference Point ID but there is no PointID property in the SelectedPointValue object (which is a PointTag class)  This needs to be resolved.-->
+        <div class="row" style="margin-bottom:10px">
+            @Html.Label(@FMBaseController.TranslateText("Point:"), new { @class = "control-label col-sm-2" })
+            @Html.Label(Model.SelectedPointValue.PointID, new { @class = "control-label col-sm-9", style = "color:rgb( 106,156,229);" })
+        </div>
+        <div class="row" style="margin-bottom:10px">
+            @Html.Label(@FMBaseController.TranslateText(Model.SelectedPointValue.PointValueIdentifier.PointValueType.ToString()) + ":", new { @class = "control-label col-sm-2" })
+            @Html.Label(Model.SelectedPointValue.ID, new { @class = "control-label col-sm-9", style = "color:rgb( 106,156,229);" })
+        </div>
+        <div class="row">
+            @if (PointTemplateTag.IsNumeric(Model.SelectedPointValue.ValueTypeString)
+            || Model.SelectedPointValue.ValueTypeString == "FMBusinessObjects.DataObjects.DeviceAlarmMapReference")
+            {
+                <div class="value-slider col-md-12">
+                    <div id="EdittagSlider" data-min="@Model.SelectedPointValue.Minimum" data-max="@Model.SelectedPointValue.Maximum" data-value="@slidervalue" data-num-decimals="@numDecPlaces" data-unit="@units"></div>
+                </div>
+            }
+        </div>
+        <div class="row">
+            @if (PointTemplateTag.IsNumeric(Model.SelectedPointValue.ValueTypeString)
+            || Model.SelectedPointValue.ValueTypeString == "FMBusinessObjects.DataObjects.DeviceAlarmMapReference")
+            {
+                <div class="col-md-12">
+                    @Html.Raw("<div class=\"minmaxdialogtext pull-left\">" + min + "</div>")
+                    @Html.Raw("<div class=\"minmaxdialogtext pull-right\">" + max + "</div>")
+                </div>
+            }
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                @if (Model.SelectedPointValue.ValueTypeString.IndexOf("FMBusinessObjects.DataObjects.CodedVariables") != -1)
+                {
+                    <select class="form-control" id="EditValueDropDownList">
+                        @foreach (var enumVal in EditValueController.GetEnumSelectList(Model.SelectedPointValue.ValueTypeString))
+                        {
+                            <option value=@enumVal.Value @{if (Convert.ToInt32(Model.SelectedPointValue.Value).ToString() == @enumVal.Value) { <text> selected</text> } }>@enumVal.Text</option>
+                        }
+                    </select>
+                }
+                else if ((Model.SelectedPointValue.PointValueIdentifier.PointValueType == PointValueType.Setting
+                        && (Model.SelectedPointValue.PointValueIdentifier.PropertyID == "ProductTable"
+                        || Model.SelectedPointValue.PointValueIdentifier.PropertyID == "BottomsTable"
+                        || Model.SelectedPointValue.PointValueIdentifier.PropertyID == "SolidsTable"))
+                        || (Model.SelectedPointValue.PointValueIdentifier.PointValueType == PointValueType.Point
+                        && Model.SelectedPointValue.PointValueIdentifier.PropertyID == "ProductID")
+                        || (Model.SelectedPointValue.PointValueIdentifier.PointValueType == PointValueType.Tag
+                        && Model.SelectedPointValue.ValueTypeString == "FMBusinessObjects.DataObjects.PointCommandStatusListReference")
+                        || Model.SelectedPointValue.ValueTypeString == "System.Boolean")
+                {
+
+                    <select class="form-control" id="EditValueDropDownList">
+
+                        @if (Model.EnumerationList != null)
+                        {
+                            foreach (var enumVal in Model.EnumerationList)
+                            {
+                                if (Model.SelectedPointValue.ValueTypeString == "FMBusinessObjects.DataObjects.PointCommandStatusListReference")
+                                {
+                                    if (Model.SelectedPointValue.Value is PointCommandStatusListReference
+                                    && (Model.SelectedPointValue.Value as PointCommandStatusListReference).CurrentValue.HasValue)
+                                    {
+                                        <option value="@enumVal.Value" @{if ((Model.SelectedPointValue.Value as PointCommandStatusListReference).CurrentValue.Value.ToString() == @enumVal.Value) { <text> selected</text> } }>
+                                            @enumVal.Text
+                                    </option>
+                                }
+                                else
+                                {
+                                    <option value="@enumVal.Value">@enumVal.Text</option>
+                                }
+                            }
+                            else if (Model.SelectedPointValue.ValueTypeString == "System.Boolean")
+                            {
+                                <option value="@enumVal.Value" @{if (((Model.SelectedPointValue.Value != null && (bool)Model.SelectedPointValue.Value) ? "True" : "False") == @enumVal.Value) { <text> selected</text> } }>
+                                    @enumVal.Text
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@enumVal.Value" @{if ((Model.SelectedPointValue.Value as String) == @enumVal.Text) { <text> selected</text>}}>
+                                @enumVal.Text
+                        </option>
+                    }
+                }
+            }
+                    </select>
+                }
+                else if (Model.SelectedPointValue.ValueTypeString == "System.DateTime")
+                {
+                    <input type="text" class="form-control" id="EditValueDatePicker" value="@currentvalue" />
+                }
+
+                else if (Model.SelectedPointValue.ValueTypeString == "System.DateTimeOffset")
+                {
+                    <input type="text" class="form-control" id="EditValueDateTimePicker" value="@currentvalue" />
+                }
+                else if (Model.SelectedPointValue.ValueTypeString == "System.TimeSpan")
+                {
+                    <input type="text" class="form-control text-center" id="EditValueTimeSpan" value="@currentvalue" />
+                }
+                else
+                {
+                    @Html.TextBox("EditValueTextBox", currentvalue, new { id = "EditValueTextBox", style = "width: 100%; color:rgb( 106,156,229); border-style:solid; border-color:rgb( 230,230,230);", @class = "form-control" })
+                }
+            </div>
+        </div>
+
+        <div style="margin-top:15px">
+            @Html.CheckBox("forcedcheck", (Model.SelectedPointValue.OpcStatusSubCode == StatusCodes.GoodLocalOverride), new { onclick = "setEditValueAccess(false);", @class = "cbClass", disabled = true, style = "display: none" })
+            @Html.Label(@FMBaseController.TranslateText("Force Data"), new { @class = "dialogforcedtext", id = "ForcedText", style = "display: none" })
+        </div>
+    </section>
+
+
+    <section id="EditValueErrors">
+        <div id="EditValueErrors"></div>
+    </section>
+
+    <div class="hidden">
+        <div id="confirm-exceed-min-dialog" title="@FMBaseController.TranslateText("Value Exceeds Limits")">
+            <p>@FMBaseController.TranslateText("Entered Value Is Less Than Minimum.")<br />@FMBaseController.TranslateText("Continue With This Value?")</p>
+        </div>
+
+        <div id="confirm-exceed-max-dialog" title="@FMBaseController.TranslateText("Value Exceeds Limits")">
+            <p>@FMBaseController.TranslateText("Entered Value Is Greater Than Maximum.")<br />@FMBaseController.TranslateText("Continue With This Value?")</p>
+        </div>
+    </div>
+
+}
+
+<script>
+
+	var alertminmaxdialogopen = false;
+	var belowminvalueisok = false;
+	var abovemaxvalueisok = false;
+	function setForcedCheckbox()
+	{
+		var selectedPointValue = GetSelectedPointValue();
+
+		if (selectedPointValue.InputOutputType === 1 //manual
+			|| (selectedPointValue.InhibitOverride)
+			|| (selectedPointValue.Input === false && selectedPointValue.InputOutputType !== 2) // calculated
+			|| selectedPointValue.AlarmStatus
+			|| selectedPointValue.Access.Override === false)
+		{
+			document.getElementById("forcedcheck").disabled = true;
+			document.getElementById("ForcedText").style.color = 'rgb( 178,178,178)';
+		}
+		else
+		{
+			document.getElementById("forcedcheck").disabled = false;
+			document.getElementById("forcedcheck").style.borderColor = 'rgb( 106,156,229)';
+			document.getElementById("ForcedText").style.color = 'rgb( 106,156,229)';
+		}
+	}
+
+	function setEditValueAccess(initializaton)
+	{
+		var selectedPointValue = GetSelectedPointValue();
+
+		if (selectedPointValue.InputOutputType === 1 && selectedPointValue.Access.Modify) //manual
+		{
+			document.getElementById("MovementPointTagEditValueOkButton").disabled = false;
+			setTimeout(function ()
+			{
+				$('#EditValueTextBox').focus().select();
+			}, 10);
+
+		}
+		else if ((selectedPointValue.InputOutputType === 2 || //calculated
+			selectedPointValue.InputOutputType === 3 ||
+			selectedPointValue.InputOutputType === 4) && selectedPointValue.Access.Modify) // opcua
+		{
+			var inputElement = document.getElementById('forcedcheck');
+			var editValueTextBox = document.getElementById("EditValueTextBox");
+			var editValueDropDownList = document.getElementById("EditValueDropDownList");
+			var editValueDateEdit = document.getElementById("EditValueDatePicker");
+			var editValueDateTimeEdit = document.getElementById("EditValueDateTimePicker");
+			var editValueTimeSpanEdit = document.getElementById("EditValueTimeSpan");
+
+			if (inputElement.checked
+                || (selectedPointValue.Input === false && selectedPointValue.InputOutputType !== 2)) // calculated
+			{
+				if (editValueTextBox)
+				{
+					editValueTextBox.disabled = false;
+					setTimeout(function ()
+					{
+						$('#EditValueTextBox').focus().select();;
+					}, 10);
+				}
+				else if (editValueDropDownList) {
+					editValueDropDownList.disabled = false;
+					setTimeout(function () {
+						$('#EditValueDropDownList').focus();
+					}, 10);
+				}
+				else if (editValueDateEdit) {
+					$('#EditValueDatePicker').datepicker("option", "disabled", false);
+					editValueDateEdit.disabled = false;
+					setTimeout(function () {
+						$('#EditValueDatePicker').focus();
+					}, 10);
+				} else if (editValueDateTimeEdit) {
+					$('#EditValueDateTimePicker').datetimepicker("option", "disabled", false);
+					editValueDateTimeEdit.disabled = false;
+					setTimeout(function () {
+						$('#EditValueDateTimePicker').focus();
+					}, 10);
+				} else if (editValueTimeSpanEdit) {
+					editValueTimeSpanEdit.disabled = false;
+					setTimeout(function () {
+						$('#EditValueTimeSpan').focus();
+					}, 10);
+				}
+
+				document.getElementById("MovementPointTagEditValueOkButton").disabled = false;
+				var $slider = $('#EdittagSlider');
+
+				if ($slider.length > 0)
+				{
+					$slider.slider("enable");
+				}
+			}
+			else
+			{
+				//if (editValueTextBox)
+				//{
+				//	editValueTextBox.disabled = true;
+				//}
+				//else
+				if (editValueDropDownList)
+				{
+					editValueDropDownList.disabled = true;
+				}
+				else if (editValueDateEdit) {
+					$('#EditValueDatePicker').datepicker("option", "disabled", true);
+					editValueDateEdit.disabled = true;
+				}
+				else if (editValueDateTimeEdit) {
+					$('#EditValueDateTimePicker').datetimepicker("option", "disabled", true);
+					editValueDateTimeEdit.disabled = true;
+				}
+				else if (editValueTimeSpanEdit) {
+					editValueTimeSpanEdit.disabled = true;
+				}
+
+				if (initializaton)
+				{
+                    document.getElementById("MovementPointTagEditValueOkButton").disabled = (selectedPointValue.Value === null);
+				//	if ((selectedPointValue.ValueTypeString == "FMBusinessObjects.DataObjects.PointCommandStatusListReference") && (selectedPointValue.Value != null))
+				//	{
+				//		document.getElementById("MovementPointTagEditValueOkButton").disabled = false;
+				//	}
+				}
+
+				var $slider = $('#EdittagSlider');
+
+			//	if ($slider.length > 0)
+			//	{
+			//		$slider.slider("disable");
+			//	}
+			}
+		}
+	//	else
+	//	{
+	//		document.getElementById("MovementPointTagEditValueOkButton").disabled = true;
+	//	}
+	}
+
+	function GetSelectedPointValue()
+	{
+		var valueTextBox = document.getElementById('TVEditModelObject');
+
+		if (valueTextBox != null)
+		{
+			var mod = JSON.parse(valueTextBox.value);
+			return mod.SelectedPointValue;
+		}
+
+		return null;
+	}
+
+	function setSliderTicks()
+	{
+		var $slider = $('#EdittagSlider');
+		var max = $slider.slider("option", "max");
+		var min = $slider.slider("option", "min");
+		var width = $slider.width();
+		if (min < 0)
+		{
+			max = max + math.abs(min); // compensate for a non zero min
+		}
+		else
+		{
+			max = max - min;
+		}
+
+		if (max > 10)
+		{
+			max = 10;
+		}
+		else if (max < 2)
+		{
+			max = 2;
+		}
+
+		var spacing = width / max;
+		$slider.find('.ui-slider-tick-mark').remove();
+
+		for (var i = 0; i < max ; i++)
+		{
+			$('<span class="ui-slider-tick-mark"></span>').css('left', (spacing * i) + 'px').appendTo($slider);
+		}
+
+		// always add the last tick at maximum range
+		$('<span class="ui-slider-tick-mark"></span>').css('left', width + 'px').appendTo($slider);
+	}
+
+	function SetBelowMinimumValueOK()
+	{
+		belowminvalueisok = true;
+		alertminmaxdialogopen = false;
+		var $slider = $('#EdittagSlider');
+		$slider.slider("enable");
+	}
+
+	function SetBelowMinimumValueNotOK()
+	{
+		belowminvalueisok = false;
+		alertminmaxdialogopen = false;
+		var $slider = $('#EdittagSlider');
+		$slider.slider("enable");
+		var numFormatInfoString = $('#NumberFormatInfoString').val();
+		var siteNumFormatInfo = JSON.parse(numFormatInfoString);
+		siteNumFormatInfo.NumberDecimalDigits = parseInt($("#EdittagSlider").attr("data-num-decimals"));
+		var unitIndex = (isNaN($("#EdittagSlider").attr("data-unit"))) ? ~~0 : ~~Number($("#EdittagSlider").attr("data-unit"));
+		if (unitIndex === FMENGINEERINGUNIT.FML_FtIn16th || unitIndex === FMENGINEERINGUNIT.FML_FtIn8th) {
+			siteNumFormatInfo.NumberDecimalDigits = 6;
+		}
+		var minRange = math.round(parseFloat($("#EdittagSlider").attr("data-min")), siteNumFormatInfo.NumberDecimalDigits);
+
+		$("#EditValueTextBox").val(FMFormatValues.FormatValue(unitIndex, siteNumFormatInfo, minRange));
+		$("#EdittagSlider").slider('value', minRange);
+	}
+
+	function SetAboveMaximumValueOK()
+	{
+		abovemaxvalueisok = true;
+		alertminmaxdialogopen = false;
+		var $slider = $('#EdittagSlider');
+		$slider.slider("enable");
+	}
+
+	function SetAboveMaximumValueNotOK()
+	{
+		belowminvalueisok = false;
+		alertminmaxdialogopen = false;
+		var $slider = $('#EdittagSlider');
+		$slider.slider("enable");
+		var numFormatInfoString = $('#NumberFormatInfoString').val();
+		var siteNumFormatInfo = JSON.parse(numFormatInfoString);
+		siteNumFormatInfo.NumberDecimalDigits = parseInt($("#EdittagSlider").attr("data-num-decimals"));
+		var unitIndex = (isNaN($("#EdittagSlider").attr("data-unit"))) ? ~~0 : ~~Number($("#EdittagSlider").attr("data-unit"));
+		if (unitIndex === FMENGINEERINGUNIT.FML_FtIn16th || unitIndex === FMENGINEERINGUNIT.FML_FtIn8th) {
+			siteNumFormatInfo.NumberDecimalDigits = 6;
+		}
+
+		var maxRange = math.round(parseFloat($("#EdittagSlider").attr("data-max")), siteNumFormatInfo.NumberDecimalDigits);
+		$("#EditValueTextBox").val(FMFormatValues.FormatValue(unitIndex, siteNumFormatInfo, maxRange));
+		$("#EdittagSlider").slider('value', maxRange);
+	}
+
+	createListenersKeyboard = function ()
+	{
+		document.onkeydown = onKeyDownHandler;
+	}
+
+	onKeyDownHandler = function (event)
+	{
+		var keyCode;
+		var keyValue;
+		if (window.event)
+		{
+			keyCode = window.event.keyCode;
+			keyValue = window.event.key;
+		}
+		else
+		{
+			keyCode = event.keyCode;
+			keyValue = event.Key;
+		}
+		if (keyCode === 13)	// enter key pressed
+		{
+			if (alertminmaxdialogopen == true)
+			{
+				alertminmaxdialogopen = false;
+			}
+			else
+			{
+				// if cancel is active then issue a cancel else issue an ok
+				if (document.getElementById("MovementPointTagEditValueOkButton").disabled === false)
+				{
+					var focused = document.activeElement;
+					if (focused != null)
+					{
+						if (focused.id === "MovementPointTagEditValueCancelButton")
+						{
+							document.getElementById("MovementPointTagEditValueCancelButton").focus();
+						}
+						else // issue an OK as the default
+						{
+							document.getElementById("MovementPointTagEditValueOkButton").focus();
+						}
+					}
+				}
+				else
+				{
+					event.preventDefault();
+				}
+			}
+		}
+
+		if (keyCode === 27)	// esc key pressed
+		{
+			if (alertminmaxdialogopen == true)
+			{
+				alertminmaxdialogopen = false;
+			}
+			else
+			{
+				document.getElementById("MovementPointTagEditValueCancelButton").focus();
+				document.getElementById("MovementPointTagEditValueCancelButton").click();
+			}
+		}
+	}
+
+	function IsNumeric(valueTypeString) {
+		return (valueTypeString === 'System.Double'
+		|| valueTypeString === 'System.Single'
+		|| valueTypeString === 'System.Int16'
+		|| valueTypeString === 'System.Int32'
+		|| valueTypeString === 'System.Int64'
+		|| valueTypeString === 'System.UInt16'
+		|| valueTypeString === 'System.UInt32'
+		|| valueTypeString === 'System.UInt64') ? 1 : 0;
+	}
+
+	function InitEditValueScreen()
+	{
+		var numFormatInfoString		= $('#NumberFormatInfoString').val();
+		var numFormatInfo			= JSON.parse(numFormatInfoString);
+		FMLayout.dateFormat			= ConvertToJQueryUIDateFormat(numFormatInfo.ShortDatePattern);
+		FMLayout.timeFormat			= "hh:mm:ss tt";
+		FMLayout.calendarLocation	= '@(Url.Content("~/dispatchwebapp/images"))';
+
+		if (numFormatInfo.TimePattern != null && numFormatInfo.TimePattern !== "" && typeof(numFormatInfo.TimePattern) != "undefined")
+		{
+			FMLayout.timeFormat = ConvertToJQueryUITimeFormat(numFormatInfo.TimePattern);
+		}
+
+		if ( $("#EditValueTimeSpan").length > 0 ) {
+			$('#EditValueTimeSpan').mask('###.00:00:00', { reverse: true, placeholder: "__:__:__" });
+		}
+
+		$("#EditValueTextBox").on('input', function ()
+		{
+			var selectedPointValue = GetSelectedPointValue();
+
+			if (IsNumeric(selectedPointValue.ValueTypeString)
+			|| selectedPointValue.valueTypeString === 'FMBusinessObjects.DataObjects.DeviceAlarmMapReference')
+			{
+				var numFormatInfoString = $('#NumberFormatInfoString').val();
+				var siteNumFormatInfo = JSON.parse(numFormatInfoString);
+				siteNumFormatInfo.NumberDecimalDigits = parseInt($("#EdittagSlider").attr("data-num-decimals"));
+
+				var unitIndex = (isNaN($("#EdittagSlider").attr("data-unit"))) ? ~~0 : ~~Number($("#EdittagSlider").attr("data-unit"));
+				if (unitIndex === FMENGINEERINGUNIT.FML_FtIn16th || unitIndex === FMENGINEERINGUNIT.FML_FtIn8th) {
+					siteNumFormatInfo.NumberDecimalDigits = 6;
+				}
+
+				var minRange = math.round(parseFloat($("#EdittagSlider").attr("data-min")), siteNumFormatInfo.NumberDecimalDigits);
+				var maxRange = math.round(parseFloat($("#EdittagSlider").attr("data-max")), siteNumFormatInfo.NumberDecimalDigits);
+				var doNotShowAlertOnError = 1;
+
+				var localValue = math.number(FMFormatValues.ParseValue(unitIndex, siteNumFormatInfo, $(this).val(), doNotShowAlertOnError));
+				// since we are doing a comparision below we need to round this value so it is rounded the same as above or the comparision will fail
+				newValue = math.round(localValue, siteNumFormatInfo.NumberDecimalDigits);
+
+				if (!isNaN(newValue))
+				{
+					if (abovemaxvalueisok === false && newValue > maxRange)
+					{
+						var $slider = $('#EdittagSlider');
+						$slider.slider("disable");
+					}
+					else if (belowminvalueisok == false && newValue < minRange)
+					{
+						var $slider = $('#EdittagSlider');
+						$slider.slider("disable");
+					}
+					else
+					{
+						var $slider = $('#EdittagSlider');
+						$slider.slider("enable");
+					}
+
+					$("#EdittagSlider").slider('value', newValue);
+				}
+			}
+		});
+
+		$("#MovementPointTagEditValueOkButton").on('click', function ()
+		{
+			var newValue = null;
+			var newRawValue = null;
+			var selectedPointValue = GetSelectedPointValue();
+
+			if (IsNumeric(selectedPointValue.ValueTypeString)
+			|| selectedPointValue.ValueTypeString === 'FMBusinessObjects.DataObjects.DeviceAlarmMapReference')
+			{
+			    var allowOverUnderRange = $("#TVEditModelAllowOverUnderRange").val().toLowerCase();
+
+				var numFormatInfoString = $('#NumberFormatInfoString').val();
+				var siteNumFormatInfo = JSON.parse(numFormatInfoString);
+				siteNumFormatInfo.NumberDecimalDigits = parseInt($("#EdittagSlider").attr("data-num-decimals"));
+
+				var unitIndex = (isNaN($("#EdittagSlider").attr("data-unit"))) ? ~~0 : ~~Number($("#EdittagSlider").attr("data-unit"));
+
+				if (unitIndex === FMENGINEERINGUNIT.FML_FtIn16th || unitIndex === FMENGINEERINGUNIT.FML_FtIn8th) {
+					siteNumFormatInfo.NumberDecimalDigits = 6;
+				}
+
+				var minRange = math.round(parseFloat($("#EdittagSlider").attr("data-min")), siteNumFormatInfo.NumberDecimalDigits);
+				var maxRange = math.round(parseFloat($("#EdittagSlider").attr("data-max")), siteNumFormatInfo.NumberDecimalDigits);
+
+				if ($("#EditValueTextBox").val() !== '') {
+					var localValue = math.number(FMFormatValues.ParseValue(unitIndex, siteNumFormatInfo, $("#EditValueTextBox").val()));
+					// since we are doing a comparision below we need to round this value so it is rounded the same as above or the comparision will fail
+					newValue = math.round(localValue, siteNumFormatInfo.NumberDecimalDigits);
+
+					if (siteNumFormatInfo.NumberDecimalDigits === 0) {
+						newRawValue = newValue;
+					}
+					else {
+						newRawValue = localValue;
+					}
+				}
+
+				//var elementForced = document.getElementById('forcedcheck');
+				//if (elementForced.disabled === false && elementForced.checked === false)
+				//{
+				//	newValue = null;
+				//}
+
+				if (!isNaN(newValue))
+				{
+				    if (allowOverUnderRange === "false" && (newValue > maxRange || newValue < minRange))
+				    {
+				        var tempString = "";
+				        // tell the user that over and above value is not allowed
+				        if(newValue > maxRange)
+				            tempString = "Above Maximum";
+				        else
+				            tempString = "Below Minimum";
+				        FMLayout.Alert("Setting Variables " + tempString + " is not allowed", "Edit Dialog");
+				        return;
+				    }
+					else if (abovemaxvalueisok === false && newValue > maxRange)
+					{
+						if ( selectedPointValue.Access.ExceedRange === false)
+						{
+							FMLayout.Alert($("#alert-exceed-max").val() + ' ' + $("#exceed-range-permission").val(), $("#value-exceeds-limits").val());
+							return;
+						}
+
+						FMLayout.ConfirmYesNo($("#confirm-exceed-max-dialog"),
+							$("#confirm-exceed-max-dialog").attr("title"),
+							function ()
+							{
+								SetAboveMaximumValueOK();
+								$('#MovementPointTagEditValueOkButton').click();
+							},
+							function ()
+							{
+								SetAboveMaximumValueNotOK();
+							});
+
+						alertminmaxdialogopen = true;
+						return;
+					}
+					else if (belowminvalueisok === false && newValue < minRange)
+					{
+						if (selectedPointValue.Access.ExceedRange === false)
+						{
+							FMLayout.Alert($("#alert-exceed-min").val() + ' ' + $("#exceed-range-permission").val(), $("#value-exceeds-limits").val());
+							return;
+						}
+
+						FMLayout.ConfirmYesNo($("#confirm-exceed-min-dialog"),
+							$("#confirm-exceed-min-dialog").attr("title"),
+							function ()
+							{
+								SetBelowMinimumValueOK();
+								$('#MovementPointTagEditValueOkButton').click();
+							},
+							function ()
+							{
+								SetBelowMinimumValueNotOK();
+							});
+
+						alertminmaxdialogopen = true;
+						return;
+					}
+				}
+
+
+				if (selectedPointValue.ValueTypeString === "FMBusinessObjects.DataObjects.DeviceAlarmMapReference")
+				{
+					var deviceAlarmMapGuid = "00000000-0000-0000-0000-000000000000";
+					if (selectedPointValue.Value != null
+					&& selectedPointValue.Value.hasOwnProperty("DeviceAlarmMapGuid")
+					&& selectedPointValue.Value.DeviceAlarmMapGuid !== "") {
+						deviceAlarmMapGuid = selectedPointValue.Value.DeviceAlarmMapGuid;
+					};
+					newRawValue = JSON.stringify({ "DeviceAlarmMapGuid": deviceAlarmMapGuid, "CurrentValue": newValue });
+				}
+				else if (newRawValue != null) {//(newValue != null) {
+					newValue = FMFormatValues.FormatValueFullPrecision(unitIndex, siteNumFormatInfo, newRawValue);
+				}
+
+			}
+			else
+			{
+
+				if ($("#EditValueTextBox").length === 1)
+				{
+					newValue = $("#EditValueTextBox").val();
+					newRawValue = newValue;
+				}
+				else if ($("#EditValueDropDownList").length === 1)
+				{
+					newValue = $("#EditValueDropDownList").val();
+					newRawValue = newValue;
+
+					if ((selectedPointValue.PointValueIdentifier.PointValueType === 1
+						&& (selectedPointValue.PointValueIdentifier.PropertyID === 'ProductTable'
+						|| selectedPointValue.PointValueIdentifier.PropertyID === 'BottomsTable'
+						|| selectedPointValue.PointValueIdentifier.PropertyID === 'SolidsTable'))
+						|| (selectedPointValue.PointValueIdentifier.PointValueType === 2
+						&& selectedPointValue.PointValueIdentifier.PropertyID === 'ProductID')
+						|| (selectedPointValue.ValueTypeString !== "FMBusinessObjects.DataObjects.PointCommandStatusListReference")
+						&& !selectedPointValue.ValueTypeString.startsWith("FMBusinessObjects.DataObjects.CodedVariables")
+						&& selectedPointValue.ValueTypeString !== 'System.Boolean')
+					{
+						newValue = $("#EditValueDropDownList option[value= '" + newValue + "']").text();
+					}
+
+					if (selectedPointValue.ValueTypeString.startsWith("FMBusinessObjects.DataObjects.CodedVariables") ){
+						newValue = $("#EditValueDropDownList option[value= '" + newValue + "']").text();
+					}
+					if (selectedPointValue.ValueTypeString === "FMBusinessObjects.DataObjects.PointCommandStatusListReference")
+					{
+						var pointCommandStatusListGuid = "00000000-0000-0000-0000-000000000000";
+						if (selectedPointValue.Value != null
+						&& selectedPointValue.Value.hasOwnProperty("PointCommandStatusListGuid")
+						&& selectedPointValue.Value.PointCommandStatusListGuid != "")
+						{
+							pointCommandStatusListGuid = selectedPointValue.Value.PointCommandStatusListGuid;
+						};
+						var keyPointCommandStatus = $("#EditValueDropDownList option[value= '" + newValue + "']").text();
+						newRawValue = JSON.stringify({ "PointCommandStatusListGuid": pointCommandStatusListGuid, "CurrentValue": newValue, "CurrentKey": keyPointCommandStatus });
+						newValue = keyPointCommandStatus;
+					}
+				}
+				else if ($('#EditValueDatePicker').length === 1)
+				{
+					newValue = $("#EditValueDatePicker").val();
+					newRawValue = newValue;
+				}
+				else if ($('#EditValueDateTimePicker').length === 1)
+				{
+					newValue = $("#EditValueDateTimePicker").val();
+					newRawValue = $("#EditValueDateTimePicker").val();
+				}
+				else if ($('#EditValueTimeSpan').length === 1)
+				{
+					$( "#EditValueTimeSpan" ).parent().removeClass( "has-error" );
+					newValue = $("#EditValueTimeSpan").val();
+					// make sure that the value is valid
+					if (newValue !== "") {
+						var dateSeparator = newValue.split(".");
+						var timePart = "";
+						if (dateSeparator.length === 1) {
+							timePart = dateSeparator[0];
+						} else {
+							timePart = dateSeparator[1];
+						}
+
+						var timeParts = timePart.split(":");
+						var hours = 0;
+						var minutes = 0;
+						var seconds = 0;
+						if (timeParts.length >= 0) {
+							hours = parseInt(timeParts[0]);
+						}
+						if (timeParts.length >= 1) {
+							minutes = parseInt(timeParts[1]);
+						}
+						if (timeParts.length >= 2) {
+							seconds = parseInt(timeParts[2]);
+						}
+						if (hours > 24 || minutes > 60 || seconds > 60) {
+							$("#EditValueTimeSpan").parent().addClass("has-error");
+							return;
+						} else if (hours >= 24 && minutes > 0 && seconds > 0) {
+							$("#EditValueTimeSpan").parent().addClass("has-error");
+							return;
+						}
+					}
+					newRawValue = newValue;
+				}
+			}
+
+			var token = $('input[name =__RequestVerificationToken]').val();
+			var headers = {};
+			headers['__RequestVerificationToken'] = token;
+
+			var pointValueIdentifierString = $("#SelectedPointValue_PointValueIdentifier").val();
+			var strings = pointValueIdentifierString.split(' ');
+
+			if (strings.length < 2)
+			{
+				return;
+			}
+
+			var pointValueIdentifier = { IdentityGuid: strings[0], PointValueType: strings[1], PropertyID: (strings.length === 3) ? strings[2] : '' };
+
+			// If the parent page wants an update value, the set the new value in the parent's
+			// hidden input element.
+			var newValueInputValueElement = document.getElementById( "PointTagNewValueInputId" );
+			if ( newValueInputValueElement != null )
+			{
+				$( "#PointTagNewValueInputId" ).val( newValue );
+			}
+			var newRawValueInputValueElement = document.getElementById("PointTagNewRawValueInputId");
+			if (newRawValueInputValueElement != null) {
+				$("#PointTagNewRawValueInputId").val(newRawValue);
+			}
+
+			// close all the notifications currently openned
+			FMErrorAndExceptionHandling.CloseNotifications();
+
+			var updatePointService = $( "#TVEditModelUpdatePointService" ).val().toLowerCase();
+			if (updatePointService == "true")
+			{
+				$.ajax( {
+					type: "POST",
+					headers: headers,
+					async: false,
+					url: "@Url.Action("SetValue", "EditValue")",
+					cache: false,
+					contentType: "application/json; charset=utf-8",
+					dataType: "json",
+					data: JSON.stringify({ 'pointValueIdentifier': pointValueIdentifier, 'value': newRawValue, 'localoverride': $("#forcedcheck").prop('checked') }),
+					success: function( response, xhr, settings )
+					{
+						FMErrorAndExceptionHandling.HandleMessages( response, function( data, inError )
+						{
+							// This element is defined on the Parent page.
+							var newValueInputValueElement = document.getElementById( "PointTagNewValueInputId" );
+
+							if ( inError )
+							{
+								// In an error condition, clear the new value from the parent's page.
+								if ( newValueInputValueElement != null )
+								{
+									$( "#PointTagNewValueInputId" ).val( "" );
+								}
+							}
+							else
+							{
+								// Call the parent's page to update the new value.
+								if ( newValueInputValueElement != null )
+								{
+									try
+									{
+										// May not be defined.
+										HandleEditTagValueUpdate();
+									}
+									catch ( e )
+									{
+										// ignore
+									}
+								}
+
+								// if successful then close the modal
+								$( '#MovementPointTagEditValueCloseButton' ).click();
+							}
+						} );
+					},
+					error: function( xhr, textStatus, error )
+					{
+						FMErrorAndExceptionHandling.ShowException( xhr, textStatus, error );
+					}
+				} );
+			}
+			else
+			{
+				// This element is defined on the Parent page.
+				var newValueInputValueElement = document.getElementById("PointTagNewValueInputId");
+				// Call the parent's page to update the new value.
+				if (newValueInputValueElement != null) {
+					try {
+						// May not be defined.
+						HandleEditTagValueUpdate();
+					}
+					catch (e) {
+						// ignore
+					}
+				}
+				// if successful then close the modal
+				$('#MovementPointTagEditValueCloseButton').click();
+			}
+
+		});
+
+		$("#MovementPointTagEditValueCancelButton").click(function ()
+		{
+			$('#MovementPointTagEditValueCloseButton').click();
+		});
+
+		if ($("#EditValueDatePicker").length > 0) {
+			$('#EditValueDatePicker').datepicker({
+                buttonImage: FMLayout.calendarLocation +"/calendar.gif",
+				buttonImageOnly: true,
+				showOn: "button",
+				dateFormat: FMLayout.dateFormat,
+				beforeShow: function () {
+					setTimeout(function () {
+						$('.ui-datepicker').css('z-index', 1100);
+					}, 0);
+				}
+			});
+
+			if ($('#EditValueDatePicker').val() !== "") {
+				$('#EditValueDatePicker').datepicker("setDate", moment($('#EditValueDatePicker').val()).format(numFormatInfo.ShortDatePattern.toUpperCase()));
+			}
+		}
+
+		if ($("#EditValueDateTimePicker").length > 0)
+		{
+
+			$("#EditValueDateTimePicker").datetimepicker({
+                buttonImage: FMLayout.calendarLocation + "/calendar.gif",
+				buttonImageOnly: true,
+				 showOn: "button",
+             showTimezone: false,
+             useLocalTimezone: false,
+             defaultTimezone: $("#datepickerTimezoneString").val(),
+				dateFormat: FMLayout.dateFormat,
+				timeFormat: FMLayout.timeFormat,
+				showSecond: (FMLayout.timeFormat.indexOf('ss') === -1) ? false : true,
+				beforeShow: function ()
+				{
+					setTimeout(function ()
+					{
+						$('.ui-datepicker').css('z-index', 1100);
+					}, 0);
+				},
+				onSelect: function (d, i)
+				{
+					if (d !== i.lastVal)
+					{
+						$(this).change();
+					}
+				}
+			});
+
+			if ($("#EditValueDateTimePicker").val() !== "") {
+				$("#EditValueDateTimePicker").datetimepicker("setDate", moment($("#EditValueDateTimePicker").val()).format(numFormatInfo.ShortDatePattern.toUpperCase() + " " + ConvertToMomentUITimeFormat(numFormatInfo.TimePattern)));
+			}
+		}
+
+		setForcedCheckbox();
+
+		$(function () {
+			if ($("#EdittagSlider").length > 0) {
+				var numFormatInfoString = $('#NumberFormatInfoString').val();
+				var siteNumFormatInfo = JSON.parse(numFormatInfoString);
+				siteNumFormatInfo.NumberDecimalDigits = parseInt($("#EdittagSlider").attr("data-num-decimals"));
+				var unitIndex = (isNaN($("#EdittagSlider").attr("data-unit"))) ? ~~0 : ~~Number($("#EdittagSlider").attr("data-unit"));
+
+				var NumDecimalPlcs = siteNumFormatInfo.NumberDecimalDigits;
+				if (unitIndex === FMENGINEERINGUNIT.FML_FtIn16th || unitIndex === FMENGINEERINGUNIT.FML_FtIn8th) {
+					NumDecimalPlcs = 6;
+				}
+
+				var minRange = math.round(parseFloat($("#EdittagSlider").attr("data-min")), NumDecimalPlcs);
+				var maxRange = math.round(parseFloat($("#EdittagSlider").attr("data-max")), NumDecimalPlcs);
+				var value = math.number(FMFormatValues.ParseValue(unitIndex, siteNumFormatInfo, $("#EdittagSlider").attr("data-value")));
+				var numDecimalPlaces = parseInt($("#EdittagSlider").attr("data-num-decimals"), 10);
+
+
+				if (numDecimalPlaces > 0 && unitIndex !== FMENGINEERINGUNIT.FML_FtIn16th && unitIndex !== FMENGINEERINGUNIT.FML_FtIn8th) {
+					if (numDecimalPlaces > 5)
+						numDecimalPlaces = 5;
+
+					numDecimalPlaces = 1 / math.pow(10, numDecimalPlaces);
+				}
+				else {
+					if (unitIndex === FMENGINEERINGUNIT.FML_FtIn16th) {
+						numDecimalPlaces = (1 / 12) / 16;
+					}
+					else if (unitIndex === FMENGINEERINGUNIT.FML_FtIn8th) {
+						numDecimalPlaces = (1 / 12) / 8;
+					}
+					else {
+						numDecimalPlaces = 1;
+					}
+				}
+
+				$("#EdittagSlider").slider({
+					range: "min",
+					value: value,
+					min: minRange,
+					max: maxRange,
+					step: numDecimalPlaces,
+					slide: function (event, ui) {
+						var numFormatInfoString = $('#NumberFormatInfoString').val();
+						var siteNumFormatInfo = JSON.parse(numFormatInfoString);
+						siteNumFormatInfo.NumberDecimalDigits = parseInt($(this).attr("data-num-decimals"));
+						var unitIndex = (isNaN($("#EdittagSlider").attr("data-unit"))) ? ~~0 : ~~Number($("#EdittagSlider").attr("data-unit"));
+
+						if (unitIndex === FMENGINEERINGUNIT.FML_FtIn16th || unitIndex === FMENGINEERINGUNIT.FML_FtIn8th) {
+							siteNumFormatInfo.NumberDecimalDigits = 6;
+						}
+
+						$(this).attr("data-value", ui.value);
+
+						$("#EditValueTextBox").val(FMFormatValues.FormatValue(parseInt($(this).attr("data-unit")), siteNumFormatInfo, ui.value));
+
+					}
+				});
+				setSliderTicks();
+				setEditValueAccess(true);
+			}
+			else {
+				setEditValueAccess(true);
+			}
+		});
+
+		createListenersKeyboard();
+	}
+
+
+	$( document ).ready( function()
+	{
+		setTimeout( InitEditValueScreen, 500 );
+	} );
+
+</script>

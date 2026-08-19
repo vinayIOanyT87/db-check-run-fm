@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <State>$base64$PFNvdXJjZUNvbnRyb2xJbmZvIHhtbG5zOnhzZD0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEiIHhtbG5zOnhzaT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEtaW5zdGFuY2UiIHhtbG5zOmR3ZD0iaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS9EYXRhV2FyZWhvdXNlL0Rlc2lnbmVyLzEuMCI+DQogIDxFbmFibGVkPnRydWU8L0VuYWJsZWQ+DQogIDxQcm9qZWN0TmFtZT4iJC9GdWVsc01hbmFnZXIgLk5FVC9SZWxlYXNlNy4xL1Byb2plY3RzL1NreXRhbmtpbmcgUmVwb3J0cyIsIE9ZQU5BQUFBPC9Qcm9qZWN0TmFtZT4NCiAgPEF1eFBhdGg+PC9BdXhQYXRoPg0KICA8TG9jYWxQYXRoPi48L0xvY2FsUGF0aD4NCiAgPFByb3ZpZGVyPk1TU0NDSTpNaWNyb3NvZnQgVmlzdWFsIFNvdXJjZVNhZmU8L1Byb3ZpZGVyPg0KPC9Tb3VyY2VDb250cm9sSW5mbz4=</State>
+  <DataSources>
+    <ProjectItem>
+      <Name>ConsolidatedDBDataSource.rds</Name>
+      <FullPath>ConsolidatedDBDataSource.rds</FullPath>
+    </ProjectItem>
+  </DataSources>
+  <Reports>
+    <ProjectItem>
+      <Name>Consumption Daily Report.rdl</Name>
+      <FullPath>Consumption Daily Report.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>IntoPlane Daily Summary Report.rdl</Name>
+      <FullPath>IntoPlane Daily Summary Report.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>IntoPlane Monthly Summary Report.rdl</Name>
+      <FullPath>IntoPlane Monthly Summary Report.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>Journal Gross.rdl</Name>
+      <FullPath>Journal Gross.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>Managed Consumption Daily Report.rdl</Name>
+      <FullPath>Managed Consumption Daily Report.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>Owner Consumption Summary Report.rdl</Name>
+      <FullPath>Owner Consumption Summary Report.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>SUMMARY_GROSS_JOURNAL.rdl</Name>
+      <FullPath>SUMMARY_GROSS_JOURNAL.rdl</FullPath>
+    </ProjectItem>
+  </Reports>
+  <Configurations>
+    <Configuration>
+      <Name>Debug</Name>
+      <Platform>Win32</Platform>
+      <Options>
+        <TargetServerURL>http://localhost/ReportServer</TargetServerURL>
+        <TargetFolder>Standard Reports</TargetFolder>
+        <OverwriteDataSources>true</OverwriteDataSources>
+      </Options>
+    </Configuration>
+    <Configuration>
+      <Name>DebugLocal</Name>
+      <Platform>Win32</Platform>
+      <Options>
+        <TargetFolder>ReportProject</TargetFolder>
+      </Options>
+    </Configuration>
+    <Configuration>
+      <Name>Production</Name>
+      <Platform>Win32</Platform>
+      <Options>
+        <TargetFolder>ReportProject</TargetFolder>
+      </Options>
+    </Configuration>
+  </Configurations>
+</Project>

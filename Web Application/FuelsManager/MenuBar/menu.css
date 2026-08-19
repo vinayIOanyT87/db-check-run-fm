@@ -1,0 +1,1242 @@
+﻿/***************************************************************************
+/// Module Name:  menu.css
+/// Author:       Andy Hush
+/// Copyright (c) Varec, Inc.  All rights reserved.
+/// Summary:      A style sheet for rendering the drop-down mega-menus.
+///************************************************************************/
+.headerBar {
+	/*list-style: none;
+	min-width: 900px;
+	height: 33px;
+	margin: -8px -8px 0 -8px;
+	padding: 0 10px 0 0;
+	background-image: url('../FMWebApp/images/fuels-manager-bar.gif'); 
+    z-index:205;
+	*/
+    background: #486899;
+    background-repeat: no-repeat;
+	
+}
+
+.headerBar li {
+	display:block;
+	float: right;
+	font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	margin-left:10px;
+    vertical-align: middle;
+}
+
+.headerBar a 
+{
+    font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-size:10px;
+    color:black;
+    vertical-align:middle;
+}
+
+.headerBar a:hover
+{
+    color:red
+}
+
+.selectStyle
+{
+    background: #486899;
+    font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	font-size: 11px;
+	font-weight:normal;
+	color: white;
+    border:none;
+}
+
+body {
+    background-color: rgb(240, 240, 240) !important;
+}
+
+.mainMenu {
+    border: 0;
+	margin: 0;
+    width: 100%;
+    display: table;
+    max-height: 65px;
+	
+	/* Background */
+    background: #486899;
+}
+
+.mainMenu .LeftMenuSection
+{
+    min-width: 750px;
+    max-width: 750px;
+    margin-left: 0;
+    margin-right:auto;
+    display: table-cell;
+    vertical-align:top;
+}
+
+.mainMenu .RightMenuSectionSpacer
+{
+    min-width: 10px;
+    max-width: 10px;
+    margin-left: 0;
+    margin-right:auto;
+    display: table-cell;
+    vertical-align:top;
+}
+
+@media only screen and (max-width: 1160px) {
+	.mainMenu .mainMenuLogoDiv {
+		display: none !important;
+	}
+}
+
+@media only screen and (max-width: 1100px) {
+	#mhLocationIcon {
+		display: none !important;
+	}
+}
+
+@media only screen and (max-width: 1080px) {
+	#mhQuickLinksDisplay {
+		display: none !important;
+	}
+}
+
+
+
+
+
+	.mainMenu .mainMenuLogoDiv {
+		padding: 6px 6px 3px 6px;
+		display: table-cell;
+		vertical-align: middle;
+		width: 45px;
+	}
+
+.mainMenu .LeftMenuSection ul
+{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    white-space:nowrap;
+}
+
+.mainMenu .LeftMenuSection li {
+	display:table-cell;
+    vertical-align: middle;
+	text-align:center;
+	position:relative;
+	margin-top:0;
+    min-width: 75px;
+	line-height:21px;
+    height: 57px;
+}
+
+.mainMenu .LeftMenuSection li.gradient:hover {
+	border: 0 solid #777777;
+	padding: 0;
+	
+	/* Background color and gradients */
+	
+	background: #F4F4F4;
+	background: -moz-linear-gradient(top, #FFFFFF, #FAFAFA);
+	background: -webkit-gradient(linear, 0 0, 0 100%, from(#FFFFFF), to(#FAFAFA));
+}
+
+.mainMenu .LeftMenuSection .MyMenuLI {
+	background: none;
+	z-index:215;
+	width:84px;
+	height:39px;
+}
+
+.mainMenu .LeftMenuSection .MyMenuLI:hover {
+	border: none;
+	padding: 0 7px 4px 7px;
+	background: none;
+}
+
+.mainMenu .LeftMenuSection li a {
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: white;
+	display: block;
+	outline: 0;
+	text-decoration: none;
+	white-space: normal;
+}
+
+.mainMenu .LeftMenuSection li .MyMenuA {
+	font-size: 16px;
+	font-style:italic;
+	position:absolute;
+	z-index:225
+}
+
+/* Main Menu title hover */
+.mainMenu .LeftMenuSection li:hover a {
+	color:#002147;
+}
+
+.mainMenu .LeftMenuSection li:hover .MyMenuA {
+	color:white;
+}
+
+.mainMenu .LeftMenuSection li .imageswap
+{
+    padding: 0;
+    height: 24px;
+    margin: 0 0 -9px 0;
+}
+
+.mainMenu .LeftMenuSection li .menuText
+{
+    padding: 0;
+    margin: 0 0 0 0;
+    font-weight: normal;
+}
+
+.mainMenu .LeftMenuSection li .imageswap img.off {
+	
+    display: inline;
+}
+
+.mainMenu .LeftMenuSection li .imageswap img.on {
+   
+	display: none;
+}
+
+.mainMenu .LeftMenuSection li:hover .imageswap img.off {
+   
+    display: none;
+}
+
+.mainMenu .LeftMenuSection li:hover .imageswap img.on {
+   
+    display: inline;
+}
+
+.mainMenu .LeftMenuSection .MyMenuLI:hover .drop {
+	/*background:url("../FMWebApp/images/white-arrow.png") no-repeat right 10px;*/
+}
+
+.dropdown_Accounting,
+.dropdown_Configuration,
+.dropdown_Operations,
+.dropdown_Administration,
+.dropdown_Assets,
+.dropdown_Reports,
+.dropdown_Dispatch,
+.dropdown_About,
+.dropdown_Help,
+.dropdown_MyMenu,
+.dropdown_DataAnalytics,
+.dropdown_Map,
+.dropdown_Graphics,
+.dropdown_Mobile
+{
+	margin: 10px auto;
+	float: left;
+	position: absolute;
+	left: -999em; /* Hides the drop down */
+	top: -999em; /* Hides the drop down */
+	text-align: left;
+	padding: 10px 5px 0 5px;
+	border: 1px solid #777777;
+	border-top: none;
+	z-index: 999;
+	/* Gradient background */
+	background: #F4F4F4;
+	background: -moz-linear-gradient(top, #FAFAFA, #E9E9E9);
+	background: -webkit-gradient(linear, 0 0, 0 100%, from(#FAFAFA), to(#E9E9E9));
+	font-weight: normal;
+}
+
+.dropdown_MyMenu { left:-1px;width: 330px; }
+.dropdown_Accounting {left:-1px;width: 600px;}
+.dropdown_Configuration { left:-1px;width: 660px; min-width:200px }
+.dropdown_Operations { left:-350px;width: 660px; min-width:200px }
+.dropdown_Administration { left:-170px;width: 495px; }
+.dropdown_Assets { left:-170px;width: 495px; }
+.dropdown_Reports { left:-75px;width: 330px; }
+.dropdown_Dispatch { left:-75px;width: 330px; }
+.dropdown_DataAnalytics { left:-1px;width: 330px; }
+.dropdown_Map { left:-1px;width: 330px; }
+.dropdown_Graphics { left:-1px;width: 330px; }
+.dropdown_Mobile { left: -1px;width: 330px;}
+
+.mainMenu  .LeftMenuSection li:hover .dropdown_MyMenu,
+.myMenuBkgdImg:hover .dropdown_MyMenu,
+.mainMenu  .LeftMenuSection li:hover .dropdown_Accounting,
+.mainMenu  .LeftMenuSection li:hover .dropdown_Dispatch,
+.mainMenu  .LeftMenuSection li:hover .dropdown_Configuration {
+	left:-1px;
+	top:auto;
+}
+
+.mainMenu  .LeftMenuSection li:hover .dropdown_Operations {
+	left:-350px;
+	top:auto;
+}
+
+.mainMenu li:hover .dropdown_Configuration,
+.mainMenu li:hover .dropdown_Operations,
+.mainMenu li:hover .dropdown_Administration,
+.mainMenu li:hover .dropdown_Assets,
+.mainMenu li:hover .dropdown_Reports,
+.mainMenu li:hover .dropdown_Dispatch,
+.mainMenu li:hover .dropdown_DataAnalytics,
+.mainMenu li:hover .dropdown_Map,
+.mainMenu li:hover .dropdown_Graphics,
+.mainMenu li:hover .dropdown_Mobile
+{
+	top: auto;
+}
+
+/* Delay dropdown on all but MyMenu */
+.mainMenu li:hover .dropdown_Accounting,
+.mainMenu li:hover .dropdown_Configuration,
+.mainMenu li:hover .dropdown_Administration,
+.mainMenu li:hover .dropdown_Assets,
+.mainMenu li:hover .dropdown_Operations,
+.mainMenu li:hover .dropdown_Reports,
+.mainMenu li:hover .dropdown_Dispatch,
+.mainMenu li:hover .dropdown_DataAnalytics,
+.mainMenu li:hover .dropdown_Map,
+.mainMenu li:hover .dropdown_Graphics,
+.mainMenu li:hover .dropdown_Mobile
+{
+	/* Delay */
+	transition-property: all;
+	transition-delay: 200ms;
+	/* Firefox 4 */
+	-moz-transition-property: all;
+	-moz-transition-delay: 200ms;
+	/* Safari and Chrome */
+	-webkit-transition-property: all;
+	-webkit-transition-delay: 200ms;
+	/* Opera */
+	-o-transition-property: all;
+	-o-transition-delay: 200ms;
+}
+
+.dropdown_Mobile li {
+	white-space: normal;
+	float: left;
+	width: 100%;
+	height: auto;
+	word-wrap: break-word;
+}
+
+.mainMenu .RightMenuSection
+{
+    max-width: 485px;
+    margin-right: 0;
+    margin-left: auto;
+    display: table-cell;
+    vertical-align:middle;
+}
+
+.mainMenu .RightMenuSection ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.mainMenu .RightMenuSection li {
+       
+    display: table-cell;
+    margin-left: 5px;
+    margin-right: 2px;
+    padding-right:5px;
+    vertical-align: middle;
+    text-align: center;
+    height: 57px;
+    position: relative;
+    width: 40px;
+}
+
+.mainMenu .RightMenuSection li div {
+    display: block;
+    font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	font-size: 11px;
+	font-weight:normal;
+	color: white;
+}
+
+.quickLinkBox {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: #3B577F;
+}
+
+#mhLocationIcon {
+    width: 15px;
+    padding-right: 3px;
+}
+#mhLocationIcon > div > img {
+    width: 12px;
+    height: 19px;
+}
+
+.mainMenu .RightMenuSection li .collapseQuickLinks
+{
+    position:absolute;
+    z-index: 1;
+    display:block;
+    height:20px;
+    width:20px;
+    background:url('../FMWebApp/images/Menu-Icon-Boxed-Link.svg') no-repeat left top;
+   background-size: 100% 100%;
+    margin-left: 8px;
+    margin-top: 16px;
+}
+
+.mainMenu .RightMenuSection li .expandQuickLinks
+{
+   position:absolute;
+    z-index: 2;
+    display:block;
+    height:20px;
+    width:20px;
+    background:url('../FMWebApp/images/Menu-Icon-Link-Without-Box.svg') no-repeat left top;
+    background-size: 100% 100%;
+    margin-left: 8px;
+    margin-top: 16px;
+}
+
+/* Main Menu title hover */
+.mainMenu .RightMenuSection li:hover span {
+	color:#002147;
+}
+
+.mainMenu .RightMenuSection li.gradient:hover {
+	border: 0 solid #777777;
+	padding: 0;
+	
+	/* Background color and gradients */
+	
+	background: #F4F4F4;
+	background: -moz-linear-gradient(top, #FFFFFF, #FAFAFA);
+	background: -webkit-gradient(linear, 0 0, 0 100%, from(#FFFFFF), to(#FAFAFA));
+}
+
+.mainMenu  .RightMenuSection li ul {
+	list-style:none;
+	padding:0;
+	margin:0 0 12px 0;
+}
+.mainMenu  .RightMenuSection li ul li {
+	font-size:12px;
+	line-height:24px;
+    height:auto;
+	position:relative;
+	padding:0;
+	margin:0;
+	float:none;
+    display:block;
+	text-align:left;
+}
+.mainMenu  .RightMenuSection li ul li:hover {
+	background:none;
+	border:none;
+	padding:0;
+	margin:0;
+}
+
+/* Leaf menu item hyperlink */
+.mainMenu  .RightMenuSection li:hover div a {
+	line-height:23px;
+	font-size:12px;
+	color:black;
+}
+
+/* Leaf MyMenu menu item hyperlink */
+.mainMenu  .RightMenuSection .MyMenuLI:hover div a {
+	color:white;
+}
+
+/* Leaf menu item hyperlink hover */
+.mainMenu  .RightMenuSection li:hover div a:hover {
+	color:red;
+}
+
+/* hide thead default arrow in the site select */
+#SiteSelect::-ms-expand {
+    display: none;
+}
+#SiteSelect {
+        background-image: url(../FMWebApp/images/arrow-down.svg);
+    background-repeat: no-repeat;
+    background-position: right center;
+    padding-right: 20px;
+    background-size: 15px 15px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.colNormal,
+.colWide,
+.colNarrow
+{
+	display:inline;
+	float: left;
+	position: relative;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.colNarrow
+{
+	width:122px;
+}
+
+.colNormal
+{
+	width:155px;
+}
+
+.colWide
+{
+	width:190px;
+}
+
+.category, .menuRow {
+	display:inline;
+	float: left;
+	position: relative;
+}
+
+/* Category heading */
+/* Basic style for category heading, leaf menu item */
+.mainMenu  .LeftMenuSection h3 {
+	font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	line-height:19px;
+	font-size:12pt;
+	text-align:left;
+    color:#4D4D4D;
+	font-weight:bold;
+	margin:3px 5px 4px 5px;
+	padding-bottom:2px;
+	border-bottom:1px solid #888888;
+}
+
+
+/* MyMenu Category heading */
+.mainMenu  .LeftMenuSection .MyMenuLI {
+	color:white;
+}
+
+/* Leaf menu item hyperlink */
+.mainMenu  .LeftMenuSection li:hover div a {
+	line-height:23px;
+	font-size:12px;
+	color:black;
+}
+
+/* Leaf MyMenu menu item hyperlink */
+.mainMenu  .LeftMenuSection .MyMenuLI:hover div a {
+	color:white;
+}
+
+/* Leaf menu item hyperlink hover */
+.mainMenu  .LeftMenuSection li:hover div a:hover {
+	color:red;
+}
+
+/* Leaf MyMenu menu item hyperlink hover */
+.mainMenu  .LeftMenuSection .MyMenuLI:hover div a:hover {
+	color:#D1E3F6;
+}
+
+.mainMenu  .LeftMenuSection li ul {
+	list-style:none;
+	padding:0;
+	margin:0 0 12px 0;
+}
+.mainMenu  .LeftMenuSection li ul li {
+	font-size:12px;
+	line-height:24px;
+    height:auto;
+	position:relative;
+	padding:0;
+	margin:0;
+	float:none;
+    display:block;
+	text-align:left;
+}
+.mainMenu  .LeftMenuSection li ul li:hover {
+	background:none;
+	border:none;
+	padding:0;
+	margin:0;
+}
+
+.myMenuBkgdImg
+{
+	position:relative;
+	overflow:visible;
+	z-index:220;
+	top:-9px;
+	left:-15px
+}
+
+.quickLinksDiv, .cuiDiv {
+    margin: 0; 
+    display: table;
+    width: 100%;
+	height: 30px;
+}
+
+.quickLinkBarLeft{
+    display:table-cell;
+    width: auto;
+    margin:0;
+    background: #3B577F;
+    vertical-align:middle;
+}
+
+.quickLinkBarRight{
+    display:table-cell;
+    width:25px;
+    margin:0;
+    background: #3B577F;
+    vertical-align:middle;
+}
+
+.quickLinkBarRight img {
+    margin-left: 4px;
+}
+
+.quickLinksBar {
+	list-style: none;
+	min-height: 28px;
+	max-height: 28px;
+	min-width: 100px;
+	margin: 0 0 0 0;
+	padding: 0 0 0 1px;
+	overflow:hidden;
+
+	background: #3B577F;
+
+	/* Borders */
+	border: 1px solid #354F75;
+	border-top-width: 0;
+}
+
+
+
+.quickLinksBar li {
+	float: left;
+	display: block;
+	position: relative;
+	padding: 0 0 0 0;
+	margin-right: 10px;
+    margin-left: 10px;
+	margin-top: 3px;
+	border: none;
+}
+
+.quickLinksBar .quickLinksLabelListItem
+{
+	padding-top:12px;
+}
+
+.quickLinksBar .quickLinksLabelListItem a
+{
+	font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+	font-size: 14px; 
+	font-weight: bold;
+	color:#575654;
+	display: block;
+	outline: 0;
+	text-decoration: none;
+}
+
+.quickLinksBar .quickLinksLabelListItem a:visited {
+	color:#575654;
+}
+
+.quickLinksBar .quickLinksLabelListItem a:hover {
+	color:red;
+}
+
+.quickLinksBar li .quickLink {
+	padding-right:0;
+	font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	font-size: 12px;
+	line-height:21px;
+    color: white;
+    display: block;
+	outline: 0;
+	text-decoration: none;
+}
+
+
+.quickLinksBar li .quickLink:visited {
+	color:yellow;
+}
+
+.quickLinksBar li .quickLink:hover {
+	color:cyan;
+}
+
+.addQuickLink
+{
+    background:url('../FMWebApp/images/Menu-Icon-Add.svg') no-repeat;
+    display:block;
+    text-align:center;
+    min-height: 13px;
+    min-width: 13px;
+    margin-top: 4px;
+    background-size: 100% 100%;
+}
+
+.generalText
+{
+    color: Black;
+	font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 12px;
+}
+.generalText:hover { cursor:default; }
+
+
+#mhbUserIcon .menuUserIcon {
+	vertical-align: middle;
+    width: 21px;
+    height: 21px;
+    text-align: center;
+    border: 1px solid white;
+    border-radius: 90px;
+	overflow: hidden;
+    margin-left: 12px;
+}
+
+#mhbUserIcon img {
+	margin: auto;
+    vertical-align: middle;
+    width: 17px;
+    height: 17px;
+    margin-top: 7px;
+}
+
+#ulHeaderBar {
+	float: right;
+}
+
+#mhbUserIcon .menuUserDropdown {
+    display: none;
+    position: absolute;
+    background-color: white;
+    color: rgb(86,126,185);
+    width: 200px;
+    height: 350px;
+    z-index: 999;
+    left: -165px;
+    top: 60px;    
+    -webkit-box-shadow: 1px 1px 5px 0 rgba(153,153,153,0.75);
+    -moz-box-shadow: 1px 1px 5px 0 rgba(153,153,153,0.75);
+    box-shadow: 1px 1px 5px 0 rgba(153,153,153,0.75);
+
+}
+
+#mhbUserIcon:hover .menuUserDropdown{
+        display: block;
+}
+
+#mhbUserIcon .menuUserDropdown:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: -18px;
+    left: 89%;
+    width: 0;
+    height: 0;
+    border-color:  transparent transparent  #FFFFFF transparent ;
+    border-style: solid;
+    border-width: 10px;
+}
+
+.mainMenu #mhbSiteDropDown {
+    border-right-style: solid;
+    border-right-color: rgb(66,97,143);
+    border-right-width: 1px;
+    padding-right: 8px;
+}
+
+.mainMenu #mhbUserIcon {
+    border-left-style: solid;
+    border-left-color: rgb(80,115,169);
+    border-left-width: 1px;
+}
+
+#mhbUserIcon .topSection {
+    display: block;
+    position: relative;
+    height: 100px;
+	width: 100%;
+    margin-top: 15px;
+    text-align: center; }
+
+#mhbUserIcon .topSection .menuUserIcon {
+    vertical-align: middle;
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    border: 3px solid white;
+    border-radius: 90px;
+    overflow: hidden;
+    background-color: rgb(86,126,185);
+    margin: auto;
+    }
+
+#mhbUserIcon .topSection .menuUserIcon img {
+margin: auto;
+    vertical-align: middle;
+    width: 90px;
+    height: 90px;
+    margin-top: 22px; 
+}
+
+#mhbUserIcon .middleSection	{
+    display: block;
+    height: 50px;
+    width: 100%;
+    float: left;
+    text-align: center;
+    color: rgb(86,126,185);
+    font-size: 1.8em;
+    overflow-y: hidden;
+    margin-top: 5px;
+}
+
+#mhbUserIcon .middleSection	span{
+    display: block;
+    width: 100%;
+    float: left;
+}
+
+#mhbUserIcon .middleSection	#FMM_lblLoginSite{
+    font-size: 15px;
+    font-style: italic;
+    color: rgb(153,153,153);
+}
+
+#mhbUserIcon .bottomSection	{
+    display: block;
+    float: left;
+    width: 100%;
+    text-align: center;
+    line-height: 35px
+}
+
+#mhbUserIcon .bottomSection	a, #mhbUserIcon .bottomSection	a:hover {
+    display: block;
+    width: 75%;
+    margin: auto;
+    margin-top: 10px;
+    color: rgb(86,126,185);
+    font-size: 12px;
+    border-style: solid;
+    border-width: 1px;
+    line-height: 35px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    background-color:#486899 !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+    border-color:white transparent transparent transparent !important;
+}
+.select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b
+{
+    border-color:transparent transparent white transparent !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered{
+    background-color:#486899 !important;
+    color:white !important;
+    text-align:left !important;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+.select2,
+.select2-container,
+.select2-container--default
+{
+    width:240px !important;
+}
+
+.select2-container--default .select2-selection--single{
+    background-color:#486899 !important;
+    color:white !important;
+    border:none;
+}
+.select2-container--default .select2-results>.select2-results__options {
+    max-height: 400px;
+    overflow-x: hidden;
+    margin-top: 5px;
+}
+.select2-container--default {
+    background-color: #486899 !important;
+}
+
+.select2-results__option {
+    padding: 0 !important;
+    width: 250px; 
+    background-color: white;
+}
+
+.select2-results__option:hover
+{
+     background-color: #486899 !important;
+}
+
+.select2-container--open .select2-dropdown--below {
+    margin-top: 5px;
+    width: 240px;
+}
+
+.SiteOptionCommmon{
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 11px;
+    font-weight: normal;
+    background-repeat:no-repeat;
+    background-position:center left;
+    padding-left:42px;
+    display: table-cell;
+    vertical-align: middle;
+    width:250px;
+    height:30px;
+}
+
+.SiteBreak {
+    background-color: white;
+    color:white;
+    height:10px !important;
+}
+
+.SiteGroupOptionActive {
+    background-image: url("../FMWebApp/images/SiteGroupIcon-Active.png");
+    background-color: white;
+    color:#486899;
+    font-weight: bold;
+}
+
+.SiteGroupOptionActive:hover {
+    background-image: url("../FMWebApp/images/SiteGroupIcon-Highlighted.png");
+    background-color: rgb(86,126,185);
+    color:white;
+    font-weight: bold;
+}
+
+.SiteGroupOptionInActive {
+    background-image: url("../FMWebApp/images/SiteGroupIcon-InActive.png");
+    background-color: white;
+    color:black;
+    font-weight: normal;
+    
+}
+
+.SiteGroupOptionInActive:hover {
+    background-image: url("../FMWebApp/images/SiteGroupIcon-Highlighted.png");
+    background-color:rgb(86,126,185);
+    color:white;
+    font-weight: normal;
+}
+
+.SiteOptionActive {
+    background-image: url("../FMWebApp/images/SiteIcon-Active.png");
+    background-color: rgb(247,247,247);
+    color:#486899;
+    font-weight: bold;
+   
+}
+
+.SiteOptionActive:hover {
+    background-image: url("../FMWebApp/images/SiteIcon-Highlighted.png");
+    background-color: rgb(86,126,185);
+    color:white;
+    font-weight: bold;
+   
+}
+
+.SiteOptionInActive {
+    background-image: url("../FMWebApp/images/SiteIcon-InActive.png");
+    background-color: rgb(247,247,247);
+    color:black;
+    font-weight: normal;
+   
+}
+
+.SiteOptionInActive:hover {
+    background-image: url("../FMWebApp/images/SiteIcon-Highlighted.png");
+    background-color: rgb(86,126,185);
+    color:white;
+    font-weight: normal;
+}
+
+		/* THE FOLLOWING STYLE IS PART OF THE ALARM NOTIFICATION PROTOTYPE, IF SELECTED WE WILL NEED TO MOVE IT TO menu.css */
+	 .badge-notify {
+		 display: inline-block;
+		 min-width: 10px;
+		 padding: 3px 7px;
+		 position: absolute;
+		 top: 26px;
+		 left: 12px;
+		 font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+		 font-weight: normal;
+		 font-size: 10px;
+		 border-radius: 6px;
+		 opacity: .8;
+		 line-height: 1;
+		 text-align: center;
+		 white-space: nowrap;
+		 vertical-align: middle;
+	 }
+
+	.notify {
+		display: inline-block;
+		min-width: 10px;
+		padding: 3px 7px;
+		position: absolute;
+		top: 26px;
+		left: 12px;
+		font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-weight: normal;
+		font-size: 10px;
+		border-radius: 6px;
+		opacity: .8;
+		line-height: 1;
+		text-align: center;
+		white-space: nowrap;
+		vertical-align: middle;
+	}
+
+
+	.blink {
+		animation: blink-animation 1s steps(5, start) infinite;
+		-webkit-animation: blink-animation 1s steps(5, start) infinite;
+	}
+	@keyframes blink-animation {
+		to {
+			visibility: hidden;
+		}
+	}
+	@-webkit-keyframes blink-animation {
+		to {
+			visibility: hidden;
+		}
+	}
+
+	#mhbConflicts .menuConflictsIcon a .mhbConflictsCountIcon, #mhbCoonflicts:hover .menuConflictsIcon a .mhbConflictsCountIcon {
+		color: white !important;
+	}
+
+
+	#mhbAlarms .menuAlarmIcon a .mhbAlarmCountIcon, #mhbAlarms:hover .menuAlarmIcon a .mhbAlarmCountIcon {
+		color: white !important;
+	}
+
+	/* Jquery UI Dialog custom look for Fuelsmanager*/
+
+	.ui-dialog {
+		 min-width: 500px;
+		 padding: 0px !important;
+		 font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+	}
+
+	.ui-widget select {
+		 color: black;
+	}
+
+	.ui-dialog .ui-icon{
+		 background-image: url(../Areas/Content/redmond/images/ui-icons_ffffff_256x240.png) !important;
+	}
+
+	.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br {
+		  -moz-border-radius: 0px !important;
+		 -webkit-border-radius: 0px !important;
+		 -khtml-border-radius: 0px !important;
+		 border-radius: 0px !important;
+	}
+
+	.ui-dialog .ui-dialog-buttonpane {
+		 border-width: 0 !important;
+		 margin: 0 0 0 0;
+		 padding: 0 0 0 0 !important;
+	}
+
+.ui-dialog.ui-widget-content {
+	border: none;
+	color: white !important;
+	background: #476899 url(../FMWebApp/images/dialog-big-icon.png) left bottom no-repeat !important;
+}
+
+	.ui-dialog.ui-widget-content.no-background-image {
+		border: none;
+		color: white !important;
+		background: #476899 !important;
+	}
+
+	.ui-dialog .ui-dialog-content {
+		 color: white !important;
+	}
+	.ui-dialog-titlebar.ui-widget-header {
+		 border: none;
+		 background: #476899;
+		 color: white;
+		 font-weight: normal;    
+		 text-align: center !important;
+	}
+
+	.ui-dialog .ui-dialog-title {
+		 float: none !important;
+		 font-weight: bold;
+	}
+
+	.ui-dialog.dialog-title-icon-info .ui-dialog-title {
+		 background: url(../Areas/FMWebApp/images/dialog-small-icon.png) no-repeat scroll -2px -2px;
+		 padding-left:35px;    
+	}
+
+
+	.ui-dialog-titlebar-close {
+		 border: none !important;
+		 background: transparent !important;
+	}
+
+	.ui-dialog-titlebar-close.ui-state-focus {
+		 background: #3b5780 !important;
+	}
+
+	.ui-dialog-buttonpane {
+		 background: transparent !important;
+	}
+
+	.ui-dialog  .ui-button-text {
+			  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+	}
+
+	.ui-dialog .ui-dialog-buttonpane button {
+		 min-width: 100px;
+		 background-color: #476899;
+		 color: white;
+		 border: none;
+		 height: 30px;
+	}
+
+	.ui-dialog .ui-state-default, .ui-dialog .ui-widget-content .ui-state-default,
+	.ui-dialog .ui-state-default:hover, .ui-dialog .ui-widget-content .ui-state-default:hover {
+		 border: 1px solid #476899 !important;
+		 background: transparent;
+		 font-weight: normal;
+		 color: white;
+		 outline-color: transparent;
+	}
+
+	.ui-dialog .ui-state-default.ui-state-focus, .ui-dialog .ui-widget-content .ui-state-default.ui-state-focus {
+		 border: none;
+		 background: #3b5780 ;
+		 font-weight: normal;
+		 color: white;
+	}
+
+	.no-close .ui-dialog-titlebar-close {
+		 display: none
+	}
+
+	.ui-dialog .ui-dialog-titlebar .ui-button .ui-icon-closethick {
+		left: 0px !important;
+		top: 0px !important; 
+	}
+
+    /* The Modal (background) */
+    .alternateUserModal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .alternateUserModal-content {
+	    background-color: #fefefe;
+	    margin: auto;
+	    padding: 20px;
+	    border: 1px solid #888;
+	    width: 40%;
+    }
+
+    /* The Close Button */
+    .alternateUserClose {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .alternateUserClose:hover,
+    .alternateUserClose:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    /* Confirmation buttons */
+	.confirmationButton {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 11px;
+		font-style: normal;
+		font-weight: normal;
+		color: white;
+		background: rgb( 86,126,185);
+		line-height: normal;
+		white-space: nowrap;
+		border: 1px solid;
+		width: 80px;
+		height: 25px;
+	}
+
+	/* Button disabled */
+	.buttonDisabled {
+		background: grey;
+	}
+
+	/* Button disabled */
+	.buttonEnabled {
+		background: rgb( 86,126,185);
+	}
+
+.cuiDiv {
+	background: #3B577F;
+	font-size: 12px;
+	line-height: 28px;
+	color: white;
+	text-align: center;
+	vertical-align: middle;
+	height: 28px;
+}
+.cuiBottomDiv {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+}
+
+.quickLinksBar {
+
+	/* Borders */
+	border: none;
+	border-top-width: 0;
+}

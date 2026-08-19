@@ -1,0 +1,27 @@
+﻿.alarmTestEquationHeader {
+	border: none;
+	padding: 0px 0px 5px 10px;
+	font-family: "Helvetica Neue";
+	font-size: 11px;
+	font-style: normal;
+	font-variant: normal;
+	text-align: left;
+	width: 100px;
+	white-space: nowrap;
+}
+
+.alarmTestEquationTd {
+	border: none;
+	padding: 0px 0px 5px 10px;
+	font-family: "Helvetica Neue";
+	font-size: 12px;
+	font-style: normal;
+	font-variant: normal;
+	text-align: left;
+	width: 100px;
+	white-space: nowrap;
+}
+
+.alrmTestEquationDropDown {
+	width: 100%
+}

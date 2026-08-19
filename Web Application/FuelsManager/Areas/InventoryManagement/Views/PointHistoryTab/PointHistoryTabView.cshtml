@@ -1,0 +1,1230 @@
+﻿@using System.Web.Mvc.Html
+@using FMBusinessObjects.UtilityObjects
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.PointHistoryTabModel
+
+
+<style>
+  .PointHistoryHeaderButtonClass {
+    text-align: left;
+    padding-top: 4px;
+    min-width: 95px;
+    background-color: transparent;
+    color: #486899 !important;
+    border: 1px solid #486899;
+    height: 34px;
+    white-space: nowrap;
+    vertical-align: middle;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 5px;
+    cursor: pointer;
+    touch-action: manipulation;
+    user-select: none;
+    margin-right: 5px;
+  }
+
+  button:active {
+    background-color: whitesmoke;
+  }
+
+  button:hover {
+    background-color: whitesmoke;
+  }
+
+  .PointHistoryHeaderButtonClass img {
+    top: -2px;
+    position: relative;
+  }
+
+  #PointHistoryTable td {
+    padding: 4px;
+  }
+
+  .PointHistoryLabel {
+    padding-top: 5px;
+    padding-right: 10px;
+    padding-left: 20px;
+    font-size: 14px;
+    font-weight: normal;
+    color: rgb(72,104,153);
+    text-align: left !important;
+    vertical-align: middle;
+  }
+
+  .input-group.date {
+    width: 100%;
+  }
+
+  input.hasDatepicker {
+    display: inline-block;
+    width: 85%;
+    height: 34px;
+  }
+
+  .ui-datepicker-trigger {
+    display: inline-block;
+    float: right !important;
+    Width: 25px !important;
+    height: 25px;
+    margin-top: 5px;
+  }
+
+  #PointHistoryIdText {
+    font-size: 20px;
+    padding-right: 20px;
+  }
+
+  .pointhistory-header-space {
+    height: 5px;
+  }
+</style>
+
+<script>
+  var PointHistoryTab = PointHistoryTab || {
+    stack_bottomright_pointhistory: {},
+    messageAttributes: {},
+  }
+
+  //=====================================================================
+  // This function will validate whether the date/time is valid. False
+  // indicates invalid.
+  //=====================================================================
+  PointHistoryTab.ValidateDateTime = function (inDateTime) {
+    if (inDateTime == null || inDateTime === "") {
+      return true;
+    }
+
+   FMErrorAndExceptionHandling.CloseNotifications();
+	FMErrorAndExceptionHandling.ClearControlErrors();
+   FMErrorAndExceptionHandling.OnlyOneNotification = true;
+    var numFormatInfoString = $("#NumberFormatInfoString").val();
+    var numFormatInfo = JSON.parse(numFormatInfoString);
+    var pattern = numFormatInfo.ShortDatePattern;
+
+    // Moment does not like the slashes in a pattern, but handles the slashes in the date.
+    pattern = pattern.replaceAll("/", "-");
+    pattern = pattern.replaceAll("y", "Y");
+    pattern = pattern.replaceAll("d", "D");
+    pattern = pattern.replaceAll("m", "M");
+
+    pattern = pattern + " " + "hh:mm tt";
+
+    var dateTime = moment(inDateTime, pattern);
+    var valid = dateTime.isValid();
+
+    if (valid == false) {
+      return false;
+    }
+
+    return true;
+  };
+
+  //=================================================================
+  // This function handles the Start Date/Time change event.
+  //=================================================================
+  PointHistoryTab.HandleStartDateTimeEvent = function (tabId, controlId, pointId, pointGuid) {
+    var dateTimeStr = $("#PointHistoryStartTimePicker_"+controlId).val();
+    if (PointHistoryTab.ValidateDateTime(dateTimeStr) == false) {
+      $("#PointHistoryStartTimePicker_"+controlId).val("");
+      FMErrorAndExceptionHandling.ShowError('Start Date/Time is invalid.', null, PointHistoryTab.messageAttributes);
+    }
+
+    PointHistoryTab.PersistPointHistory({ tabId: tabId, controlId: controlId, pointId: pointId, pointGuid: pointGuid, start: $("#PointHistoryStartTimePicker_"+controlId).val(), interval: $("#PointHistoryIntervalSelect_"+controlId).val(), intervalQuantity: $("#PointHistoryIntervalQuantity_"+controlId).val(), range: $("#PointHistoryRangeSelect_"+controlId).val(), rangeQuantity: $("#PointHistoryRangeQuantity_"+controlId).val(), columns: $("#PointHistoryColumns_" + controlId).val() });
+  };
+
+	PointHistoryTab.SetMaximums = function (controlId) {
+
+	  // Minute Interval & Hour Range
+	  if ($("#PointHistoryIntervalSelect_" + controlId).val() === "0"
+		  && $("#PointHistoryRangeSelect_" + controlId).val() === "0") {
+
+		  $("#PointHistoryIntervalQuantity_" + controlId).attr("max", 60);
+		  $("#PointHistoryRangeQuantity_" + controlId).attr("max", 24);
+
+		  if( $("#PointHistoryIntervalQuantity_" + controlId).val() > 60) {
+			  $("#PointHistoryIntervalQuantity_" + controlId).val(60);
+		  }
+
+		  if ($("#PointHistoryRangeQuantity_" + controlId).val() > 24) {
+			  $("#PointHistoryRangeQuantity_" + controlId).val(24);
+		  }
+	  }
+
+	  // Minute Interval & Day Range
+	  else if ($("#PointHistoryIntervalSelect_" + controlId).val() === "0"
+		  && $("#PointHistoryRangeSelect_" + controlId).val() === "1") {
+
+		  $("#PointHistoryIntervalQuantity_" + controlId).attr("max", 60);
+		  $("#PointHistoryRangeQuantity_" + controlId).attr("max", 7);
+
+		  if ($("#PointHistoryIntervalQuantity_" + controlId).val() > 60) {
+			  $("#PointHistoryIntervalQuantity_" + controlId).val(60);
+		  }
+
+		  if ($("#PointHistoryRangeQuantity_" + controlId).val() > 7) {
+			  $("#PointHistoryRangeQuantity_" + controlId).val(7);
+		  }
+	  }
+
+	  // Hour Interval & Day Range
+	  else if ($("#PointHistoryIntervalSelect_" + controlId).val() === "1"
+		  && $("#PointHistoryRangeSelect_" + controlId).val() === "1") {
+
+		  $("#PointHistoryIntervalQuantity_" + controlId).attr("max", 24);
+		  $("#PointHistoryRangeQuantity_" + controlId).attr("max", 31);
+
+		  if ($("#PointHistoryIntervalQuantity_" + controlId).val() > 24) {
+			  $("#PointHistoryIntervalQuantity_" + controlId).val(24);
+		  }
+
+		  if ($("#PointHistoryRangeQuantity_" + controlId).val() > 31) {
+			  $("#PointHistoryRangeQuantity_" + controlId).val(31);
+		  }
+	  }
+
+	  // Hour Interval & Month Range
+	  else if ($("#PointHistoryIntervalSelect_" + controlId).val() === "1"
+		  && $("#PointHistoryRangeSelect_" + controlId).val() === "2") {
+
+		  $("#PointHistoryIntervalQuantity_" + controlId).attr("max", 24);
+		  $("#PointHistoryRangeQuantity_" + controlId).attr("max", 12);
+
+		  if ($("#PointHistoryIntervalQuantity_" + controlId).val() > 24) {
+			  $("#PointHistoryIntervalQuantity_" + controlId).val(24);
+		  }
+
+		  if ($("#PointHistoryRangeQuantity_" + controlId).val() > 12) {
+			  $("#PointHistoryRangeQuantity_" + controlId).val(12);
+		  }
+	  }
+
+
+	  // Day Interval & Month Range
+	  else if ($("#PointHistoryIntervalSelect_" + controlId).val() === "2"
+		  && $("#PointHistoryRangeSelect_" + controlId).val() === "2") {
+
+		  $("#PointHistoryIntervalQuantity_" + controlId).attr("max", 7);
+		  $("#PointHistoryRangeQuantity_" + controlId).attr("max", 12);
+
+		  if ($("#PointHistoryIntervalQuantity_" + controlId).val() > 7) {
+			  $("#PointHistoryIntervalQuantity_" + controlId).val(7);
+		  }
+
+		  if ($("#PointHistoryRangeQuantity_" + controlId).val() > 12) {
+			  $("#PointHistoryRangeQuantity_" + controlId).val(12);
+		  }
+	  }
+
+	  // Day Interval & Year Range
+	  else if ($("#PointHistoryIntervalSelect_" + controlId).val() === "2"
+		  && $("#PointHistoryRangeSelect_" + controlId).val() === "3") {
+
+		  $("#PointHistoryIntervalQuantity_" + controlId).attr("max", 7);
+		  $("#PointHistoryRangeQuantity_" + controlId).attr("max", 1);
+
+		  if ($("#PointHistoryIntervalQuantity_" + controlId).val() > 7) {
+			  $("#PointHistoryIntervalQuantity_" + controlId).val(7);
+		  }
+
+		  if ($("#PointHistoryRangeQuantity_" + controlId).val() > 1) {
+			  $("#PointHistoryRangeQuantity_" + controlId).val(1);
+		  }
+	  }
+	};
+
+  PointHistoryTab.HandleIntervalSelectEvent = function (tabId, controlId, pointId, pointGuid, updateRange) {
+
+	 var selectedRange = $("#PointHistoryRangeSelect_" + controlId).val();
+    var selectedInterval = $("#PointHistoryIntervalSelect_" + controlId).val();
+
+    $("#PointHistoryRangeSelect_"+controlId+" > option").each(function () {
+      if ($(this).val() === "0") {
+        if (selectedInterval === "0") {
+          $(this).show();
+        }
+        if (selectedInterval === "1") {
+          $(this).hide();
+        }
+        if (selectedInterval === "2") {
+          $(this).hide();
+        }
+      }
+
+      if ($(this).val() === "1") {
+        if (selectedInterval === "0") {
+          $(this).show();
+        }
+        if (selectedInterval === "1") {
+          $(this).show();
+        }
+        if (selectedInterval === "2") {
+          $(this).hide();
+        }
+      }
+
+      if ($(this).val() === "2") {
+        if (selectedInterval === "0") {
+          $(this).hide();
+        }
+        if (selectedInterval === "1") {
+          $(this).show();
+        }
+        if (selectedInterval === "2") {
+          $(this).show();
+        }
+      }
+
+      if ($(this).val() === "3") {
+        if (selectedInterval === "0") {
+          $(this).hide();
+        }
+        if (selectedInterval === "1") {
+          $(this).hide();
+        }
+        if (selectedInterval === "2") {
+          $(this).show();
+        }
+      }
+
+      if (updateRange) {
+        if (selectedInterval === "0") {
+          $("#PointHistoryRangeSelect_" + controlId).val("0");
+          $("#PointHistoryRangeQuantity_" + controlId).val("1");
+        }
+        if (selectedInterval === "1") {
+          $("#PointHistoryRangeSelect_" + controlId).val("1");
+          $("#PointHistoryRangeQuantity_" + controlId).val("1");
+        }
+        if (selectedInterval === "2") {
+          $("#PointHistoryRangeSelect_" + controlId).val("2");
+          $("#PointHistoryRangeQuantity_" + controlId).val("1");
+        }
+        PointHistoryTab.HandleRangeSelectEvent(tabId, controlId, pointId, pointGuid);
+      }
+	 });
+
+	  PointHistoryTab.SetMaximums(controlId);
+
+    PointHistoryTab.PersistPointHistory({ tabId: tabId, controlId: controlId, pointId: pointId, pointGuid: pointGuid, start: $("#PointHistoryStartTimePicker_"+controlId).val(), interval: $("#PointHistoryIntervalSelect_"+controlId).val(), intervalQuantity: $("#PointHistoryIntervalQuantity_"+controlId).val(), range: $("#PointHistoryRangeSelect_"+controlId).val(), rangeQuantity: $("#PointHistoryRangeQuantity_"+controlId).val(), columns: $("#PointHistoryColumns_" + controlId).val() });
+  };
+
+	PointHistoryTab.HandleIntervalQuantityInputEvent = function (controlId) {
+		var intervalQuantity = $("#PointHistoryIntervalQuantity_" + controlId).val();
+    if (intervalQuantity < 1) {
+      $("#PointHistoryIntervalQuantity_" + controlId).val(1);
+    }
+    else if (intervalQuantity > 999) {
+      $("#PointHistoryIntervalQuantity_" + controlId).val(999);
+    }
+    else if (!Number.isInteger(intervalQuantity)) {
+      $("#PointHistoryIntervalQuantity_" + controlId).val('');
+      $("#PointHistoryIntervalQuantity_" + controlId).val(parseInt(intervalQuantity));
+    }
+
+		PointHistoryTab.SetMaximums(controlId);
+	}
+
+	PointHistoryTab.HandleIntervalQuantityChangeEvent = function (tabId, controlId, pointId, pointGuid) {
+		PointHistoryTab.PersistPointHistory({ tabId: tabId, controlId: controlId, pointId: pointId, pointGuid: pointGuid, start: $("#PointHistoryStartTimePicker_" + controlId).val(), interval: $("#PointHistoryIntervalSelect_" + controlId).val(), intervalQuantity: $("#PointHistoryIntervalQuantity_" + controlId).val(), range: $("#PointHistoryRangeSelect_" + controlId).val(), rangeQuantity: $("#PointHistoryRangeQuantity_" + controlId).val(), columns: $("#PointHistoryColumns_" + controlId).val() });
+	};
+
+
+	PointHistoryTab.HandleRangeQuantityInputEvent = function (controlId) {
+		var rangeQuantity = $("#PointHistoryRangeQuantity_" + controlId).val();
+
+		if (rangeQuantity < 1) {
+			$("#PointHistoryRangeQuantity_" + controlId).val(1);
+		}
+    else if (!Number.isInteger(rangeQuantity)) {
+      $("#PointHistoryRangeQuantity_" + controlId).val('');
+      $("#PointHistoryRangeQuantity_" + controlId).val(parseInt(rangeQuantity));
+    }
+
+		PointHistoryTab.SetMaximums(controlId);
+	}
+
+
+	PointHistoryTab.HandleRangeSelectEvent = function (tabId, controlId, pointId, pointGuid) {
+     PointHistoryTab.SetMaximums(controlId);
+
+    PointHistoryTab.PersistPointHistory({ tabId: tabId, controlId: controlId, pointId: pointId, pointGuid: pointGuid, start: $("#PointHistoryStartTimePicker_"+controlId).val(), interval: $("#PointHistoryIntervalSelect_"+controlId).val(), intervalQuantity: $("#PointHistoryIntervalQuantity_"+controlId).val(), range: $("#PointHistoryRangeSelect_"+controlId).val(), rangeQuantity: $("#PointHistoryRangeQuantity_"+controlId).val(), columns: $("#PointHistoryColumns_" + controlId).val() });
+  };
+
+  PointHistoryTab.HandleRangeQuantityChangeEvent = function (tabId, controlId, pointId, pointGuid) {
+    PointHistoryTab.PersistPointHistory({ tabId: tabId, controlId: controlId, pointId: pointId, pointGuid: pointGuid, start: $("#PointHistoryStartTimePicker_" + controlId).val(), interval: $("#PointHistoryIntervalSelect_" + controlId).val(), intervalQuantity: $("#PointHistoryIntervalQuantity_" + controlId).val(), range: $("#PointHistoryRangeSelect_" + controlId).val(), rangeQuantity: $("#PointHistoryRangeQuantity_" + controlId).val(), columns: $("#PointHistoryColumns_" + controlId).val() });
+  }
+
+   PointHistoryTab.HandleRefreshBtnEvent = function (tabId, controlId, pointId, pointGuid) {
+      var dateTimeStr = $("#PointHistoryStartTimePicker_" + controlId).val();
+    if (PointHistoryTab.ValidateDateTime(dateTimeStr) == false) {
+      $("#PointHistoryStartTimePicker_" + controlId).val("");
+      FMErrorAndExceptionHandling.ShowError('Start Date/Time is invalid.', null, PointHistoryTab.messageAttributes);
+      return;
+    }
+
+    PointHistoryTab.PersistPointHistory({ tabId: tabId, controlId: controlId, pointId: pointId, pointGuid: pointGuid, start: $("#PointHistoryStartTimePicker_" + controlId).val(), interval: $("#PointHistoryIntervalSelect_" + controlId).val(), intervalQuantity: $("#PointHistoryIntervalQuantity_" + controlId).val(), range: $("#PointHistoryRangeSelect_" + controlId).val(), rangeQuantity: $("#PointHistoryRangeQuantity_" + controlId).val(), columns: $("#PointHistoryColumns_" + controlId).val() });
+  };
+
+	PointHistoryTab.PersistPointHistory = function (settings) {
+		settings.columns = JSON.parse(settings.columns);
+		FMOperateIndex.PersistUpdateDrawingSettings(settings.tabId, settings.controlId, settings);
+		var restoring = window.localStorage.getItem('operateBeingRestored') || "false";
+		if (restoring === "true") {
+			return;
+		}
+		if (FMOperateIndex.restoringScreenQueueInProgress[settings.controlId] === true) {
+			return;
+		}
+
+    $.ajax({
+      type: 'post',
+      dataType: 'json',
+      cache: false,
+      url: 'SaveOperatePointHistory',
+      contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+      data: { "startDateString": settings.start, "intervalQuantity": settings.intervalQuantity, "intervalType": settings.interval, "rangeQuantity": settings.rangeQuantity, "rangeType": settings.range, "columnsDefinition": JSON.stringify(settings.columns) },
+      success: function (response) {
+        FMErrorAndExceptionHandling.HandleMessages(response, function (data, inError) {
+          if (!inError || (data != null)) {
+            var controlId = settings.controlId;
+            var data = PointHistoryTab.GetHistoryData(controlId, settings.pointGuid, $("#PointHistoryIntervalSelect_" + controlId).val(), $("#PointHistoryIntervalQuantity_" + controlId).val(), $("#PointHistoryRangeSelect_" + controlId).val(), $("#PointHistoryRangeQuantity_" + controlId).val(), $("#PointHistoryStartTimePicker_" + controlId).val());
+          }
+        });
+      },
+      error: function (xhr, textStatus, error) {
+        var activeTab = this.activeTab;
+        var newId = this.newId;
+
+        // need to make sure that the error we are getting is because we close the page before getting the response
+        if (xhr.status != 0) {
+          FMErrorAndExceptionHandling.ShowException(xhr,
+            textStatus,
+            error,
+            function () {
+            });
+        }
+      }
+    });
+
+  }
+
+  $(document).ready(function () {
+    PointHistoryTab.stack_bottomright_pointhistory = { "dir1": 'up', "dir2": 'left', "firstpos1": 25, "firstpos2": 25, "context": $("#pointhistory" + "@Model.ControlId") };
+    PointHistoryTab.messageAttributes = { addclass: 'stack-bottomright', stack: PointHistoryTab.stack_bottomright_pointhistory };
+
+    $("#PointHistoryStartTimePicker_@Model.ControlId").val("@Model.Start");
+    $('#PointHistoryStartTimePicker_@Model.ControlId').datetimepicker({
+      buttonImage: FMLayout.calendarLocation + '/calendar.gif',
+      buttonImageOnly: true,
+      showOn: "button",
+      showTimezone: false,
+      useLocalTimezone: false,
+      defaultTimezone: $("#datepickerTimezoneString").val(),
+      dateFormat: FMLayout.dateFormat,
+      timeFormat: ConvertToJQueryUITimeFormat("hh:mm tt"),
+      beforeShow: function () {
+        setTimeout(function () {
+          $('.ui-datepicker').css('z-index', 1100);
+        }, 0);
+      },
+      onSelect: function (d, i) {
+        if (d !== i.lastVal) {
+          $(this).change();
+          PointHistoryTab.HandleStartDateTimeEvent("@Model.TabId", "@Model.ControlId", "@Model.ID", "@Model.PointGuid");
+        }
+      }
+    });
+    $("#PointHistoryIntervalSelect_@Model.ControlId").val("@Model.IntervalString");
+    $("#PointHistoryIntervalQuantity_@Model.ControlId").val("@Model.IntervalQuantity");
+    $("#PointHistoryRangeSelect_@Model.ControlId").val("@Model.RangeString");
+    $("#PointHistoryRangeQuantity_@Model.ControlId").val("@Model.RangeQuantity");
+    PointHistoryTab.HandleIntervalSelectEvent('@Model.TabId', '@Model.ControlId', '@Model.ID', '@Model.PointGuid', false);
+    PointHistoryTab.HandleRangeSelectEvent('@Model.TabId', '@Model.ControlId', '@Model.ID', '@Model.PointGuid');
+
+    // grid things start here
+
+    // Formatter for the cells in the slickgrid
+    //( this is just a proxy to call the formatter in FMPointHistory which may not have been defined yet, it gets defined after the grid is created but this function can be called before is actually created)
+    function staticPointHistoryFormatter(row, cell, value, columnDef, dataContext) {
+      if (FMOperateIndex.staticPointHistoryControllers['@Model.ControlId']) {
+        return FMOperateIndex.staticPointHistoryControllers['@Model.ControlId'].staticPointHistoryFormatter(row, cell, value, columnDef, dataContext);
+      }
+      else
+        return '';
+    }
+
+    var data = [];
+    var columns = @Html.Raw(@Model.Columns);
+    var options =
+    {
+      editable: false,
+      enableCellNavigation: true,
+      enableColumnReorder: true,
+      forceFitColumns: false,
+      asyncEditorLoading: false,
+      autoEdit: false,
+      fontSize: 14,
+      rowHeight: 35
+    };
+
+    for (i = 0; i < columns.length; i++) {
+      columns[i].formatter = staticPointHistoryFormatter;
+    }
+
+    var grid = new Slick.Grid('#PointHistoryTableContainer_@Model.ControlId', data, columns, options);
+
+    FMOperateIndex.staticPointHistoryControllers['@Model.ControlId'] = new FMPointHistoryGrid('@Model.ControlId', grid, '@Model.ID', '@Model.PointGuid', @Model.FontSize);
+
+    var myGridColumns = grid.getColumns();
+    // disable the column reordering in the first column (the name)
+    grid.onColumnsReordered.subscribe(function (e, args) {
+      if (myGridColumns[0].id !== grid.getColumns()[0].id) {
+        grid.setColumns(myGridColumns);
+      }
+      else {
+        myGridColumns = grid.getColumns();
+      }
+
+      $("#PointHistoryColumns_@Model.ControlId").val(JSON.stringify(args.grid.getColumns().slice(0)));
+      PointHistoryTab.PersistPointHistory({ tabId: '@Model.TabId', controlId: '@Model.ControlId', pointId: '@Model.ID', pointGuid: '@Model.PointGuid', start: $("#PointHistoryStartTimePicker_@Model.ControlId").val(), interval: $("#PointHistoryIntervalSelect_@Model.ControlId").val(), intervalQuantity: $("#PointHistoryIntervalQuantity_@Model.ControlId").val(), range: $("#PointHistoryRangeSelect_@Model.ControlId").val(), rangeQuantity: $("#PointHistoryRangeQuantity_@Model.ControlId").val(), columns: $("#PointHistoryColumns_@Model.ControlId").val() });
+    });
+
+    var headerMenuPlugin = new Slick.Plugins.HeaderContextMenu({});
+
+    headerMenuPlugin.onBeforeMenuShow.subscribe(function (e, args) {
+      // get the different engineering unit types that we have for the points selected in the grid
+      var tagValueTypes = FMOperateIndex.staticPointHistoryControllers['@Model.ControlId'].getValueTypesForTag(args.column.field);
+      var wellKnownGuids = FMOperateIndex.staticPointHistoryControllers['@Model.ControlId'].getWellKnownGuidsForTag(args.column.field);
+
+      // default the menu items to be enabled
+      args.menu.items[0].disabled = false;
+      args.menu.items[1].disabled = false;
+      args.menu.items[2].disabled = false;
+      args.menu.items[3].disabled = false;
+      args.menu.items[4].disabled = false;
+      args.menu.items[5].disabled = false;
+      args.menu.items[6].disabled = false;
+
+      // don't allow to delete the first column
+      if (args.column.field === 'Date Time') {
+        //args.menu.items[1].disabled = true;
+        args.menu.items[2].disabled = true;
+        //args.menu.items[3].disabled = true;
+        args.menu.items[4].disabled = true;
+        args.menu.items[5].disabled = true;
+        args.menu.items[6].disabled = true;
+      }
+      else {
+        var tagValue = tagValueTypes[0];
+        if (tagValue === "System.Boolean") {
+          args.menu.items[4].disabled = true;
+          args.menu.items[5].disabled = true;
+          args.menu.items[6].disabled = true;
+        }
+        else if (tagValue === "System.Double" || tagValue === "System.Int16" || tagValue === "System.Int32" || tagValue === "System.Int64") {
+          var numericUnits = FMOperateIndex.staticPointHistoryControllers['@Model.ControlId'].getNumericUnitsForTag(args.column.field);
+          var numericValueTypes = FMOperateIndex.staticPointHistoryControllers['@Model.ControlId'].getValueTypesForTag(args.column.field);
+
+          var numericUnit = -9999;
+          if (numericUnits.length === 1) {
+            numericUnit = numericUnits[0];
+          }
+
+          var numericValueType = "None";
+          if (numericValueTypes.length === 1) {
+            numericValueType = numericValueTypes[0];
+          }
+          if (numericUnit !== -9999 && numericValueType !== "System.Double" && numericValueType !== "System.Int16" && numericValueType !== "System.Int32" && numericValueType !== "System.Int64") {
+            args.menu.items[4].disabled = true;
+            args.menu.items[5].disabled = true;
+            args.menu.items[6].disabled = true;
+          }
+          else if (numericUnit === 15) // if no units then disable the menus
+          {
+            args.menu.items[5].disabled = true;
+            args.menu.items[6].disabled = true;
+          }
+          // integers don't need precision since they its always zero
+          if (numericValueType === "System.Int16" && numericValueType === "System.Int32" && numericValueType === "System.Int64") {
+            args.menu.items[4].disabled = true;
+          }
+        } else if (tagValue === "System.String") {
+          args.menu.items[4].disabled = true;
+          args.menu.items[5].disabled = true;
+          args.menu.items[6].disabled = true;
+        } else if (tagValue === "System.DateTimeOffset") {
+          args.menu.items[4].disabled = true;
+          args.menu.items[5].disabled = true;
+          args.menu.items[6].disabled = true;
+        } else if (tagValue === "System.TimeSpan") {
+          args.menu.items[4].disabled = true;
+          args.menu.items[5].disabled = true;
+          args.menu.items[6].disabled = true;
+        } else if (tagValue && tagValue.startsWith("FMBusinessObjects.DataObjects.CodedVariables")) {
+          args.menu.items[4].disabled = true;
+          args.menu.items[5].disabled = true;
+          args.menu.items[6].disabled = true;
+        } else // not a valid combination so disable the menus (no boolean, or numeric types)
+        {
+          args.menu.items[4].disabled = true;
+          args.menu.items[5].disabled = true;
+          args.menu.items[6].disabled = true;
+        }
+
+        if (args.column.hasOwnProperty('showunit')) {
+          if (args.column.showunit) {
+            args.menu.items[6].title = 'Hide Units';
+            args.menu.items[6].iconCssClass = 'header-menu-hide-unit';
+          }
+          else {
+            args.menu.items[6].title = 'Show Units';
+            args.menu.items[6].iconCssClass = 'header-menu-show-unit';
+          }
+        }
+      }
+      e.preventDefault();
+    });
+
+    headerMenuPlugin.onCommand.subscribe(function (e, args) {
+      if (args.command === "insert-column-tag") {
+        selectTagColumn(args);
+      }
+      else if (args.command === "insert-empty-column") {
+        insertEmptyColumn(args);
+      }
+      else if (args.command === "center-align") {
+        var headerCss = "";
+        if (args.column.cssClass) {
+          headerCss = args.column.cssClass.trim();
+        }
+        headerCss = headerCss.replace('text-left', '');
+        headerCss = headerCss.replace('text-right', '');
+        headerCss = headerCss.replace('text-center', '');
+        headerCss += ' text-center';
+        args.column.cssClass = headerCss;
+        grid.invalidateAllRows();
+        grid.render();
+
+        $("#PointHistoryColumns_@Model.ControlId").val(JSON.stringify(args.grid.getColumns().slice(0)));
+        PointHistoryTab.PersistPointHistory({ tabId: '@Model.TabId', controlId: '@Model.ControlId', pointId: '@Model.ID', pointGuid: '@Model.PointGuid', start: $("#PointHistoryStartTimePicker_@Model.ControlId").val(), interval: $("#PointHistoryIntervalSelect_@Model.ControlId").val(), intervalQuantity: $("#PointHistoryIntervalQuantity_@Model.ControlId").val(), range: $("#PointHistoryRangeSelect_@Model.ControlId").val(), rangeQuantity: $("#PointHistoryRangeQuantity_@Model.ControlId").val(), columns: $("#PointHistoryColumns_@Model.ControlId").val() });
+      }
+      else if (args.command === "left-align") {
+        var headerCss = "";
+        if (args.column.cssClass) {
+          headerCss = args.column.cssClass.trim();
+        }
+        headerCss = headerCss.replace('text-left', '');
+        headerCss = headerCss.replace('text-right', '');
+        headerCss = headerCss.replace('text-center', '');
+        headerCss += ' text-left';
+        args.column.cssClass = headerCss;
+        grid.invalidateAllRows();
+        grid.render();
+
+        $("#PointHistoryColumns_@Model.ControlId").val(JSON.stringify(args.grid.getColumns().slice(0)));
+        PointHistoryTab.PersistPointHistory({ tabId: '@Model.TabId', controlId: '@Model.ControlId', pointId: '@Model.ID', pointGuid: '@Model.PointGuid', start: $("#PointHistoryStartTimePicker_@Model.ControlId").val(), interval: $("#PointHistoryIntervalSelect_@Model.ControlId").val(), intervalQuantity: $("#PointHistoryIntervalQuantity_@Model.ControlId").val(), range: $("#PointHistoryRangeSelect_@Model.ControlId").val(), rangeQuantity: $("#PointHistoryRangeQuantity_@Model.ControlId").val(), columns: $("#PointHistoryColumns_@Model.ControlId").val() });
+      }
+      else if (args.command === "right-align") {
+        var headerCss = "";
+        if (args.column.cssClass) {
+          headerCss = args.column.cssClass.trim();
+        }
+        headerCss = headerCss.replace('text-left', '');
+        headerCss = headerCss.replace('text-right', '');
+        headerCss = headerCss.replace('text-center', '');
+        headerCss += ' text-right';
+        args.column.cssClass = headerCss;
+        grid.invalidateAllRows();
+        grid.render();
+
+        $("#PointHistoryColumns_@Model.ControlId").val(JSON.stringify(args.grid.getColumns().slice(0)));
+        PointHistoryTab.PersistPointHistory({ tabId: '@Model.TabId', controlId: '@Model.ControlId', pointId: '@Model.ID', pointGuid: '@Model.PointGuid', start: $("#PointHistoryStartTimePicker_@Model.ControlId").val(), interval: $("#PointHistoryIntervalSelect_@Model.ControlId").val(), intervalQuantity: $("#PointHistoryIntervalQuantity_@Model.ControlId").val(), range: $("#PointHistoryRangeSelect_@Model.ControlId").val(), rangeQuantity: $("#PointHistoryRangeQuantity_@Model.ControlId").val(), columns: $("#PointHistoryColumns_@Model.ControlId").val() });
+      }
+      else if (args.command === "delete-column") {
+        FMLayout.ConfirmYesNo("Are you sure you want to delete the selected column: " + args.column.name + "?", "Delete Column", function () {
+          var columns = grid.getColumns().slice(0);
+          var pos = columns.map(function (e) {
+            return e.id;
+          }).indexOf(args.column.id);
+          columns.splice(pos, 1);
+          grid.setColumns(columns);
+
+          $("#PointHistoryColumns_@Model.ControlId").val(JSON.stringify(args.grid.getColumns().slice(0)));
+          PointHistoryTab.PersistPointHistory({ tabId: '@Model.TabId', controlId: '@Model.ControlId', pointId: '@Model.ID', pointGuid: '@Model.PointGuid', start: $("#PointHistoryStartTimePicker_@Model.ControlId").val(), interval: $("#PointHistoryIntervalSelect_@Model.ControlId").val(), intervalQuantity: $("#PointHistoryIntervalQuantity_@Model.ControlId").val(), range: $("#PointHistoryRangeSelect_@Model.ControlId").val(), rangeQuantity: $("#PointHistoryRangeQuantity_@Model.ControlId").val(), columns: $("#PointHistoryColumns_@Model.ControlId").val() });
+        });
+      }
+      else if (args.command === "rename") {
+        var popover = $(args.headercell).popover("destroy").popover({
+          container: 'body',
+          placement: 'bottom',
+          html: true,
+          content: $('#renamePointHistoryHeader').html(),
+          trigger: "manual"
+        });
+        var dataPopover = popover.data('bs.popover');
+        $("#customModalBackground").removeClass("hidden");
+        $(args.headercell).popover('show');
+
+        // update values in the popover
+        dataPopover.tip().find('.popover-content').find('#fieldname').val(args.column.field);
+        dataPopover.tip().find('.popover-content').find('#header').val(args.column.name);
+        dataPopover.tip().find('.popover-content').find('#header').focus();
+
+        // click on reset name
+        dataPopover.tip().find('.popover-content').find('[name=renamepointhistoryResetName]').on('click', function (event) {
+          var resetName = args.column.field;
+          dataPopover.tip().find('.popover-content').find('#header').val(resetName);
+        });
+
+        // close the pop over when clicking cancel
+        dataPopover.tip().find('.popover-content').find('[name=renamepointhistorycancel]').on('click', function (event) {
+          $(args.headercell).popover('destroy');
+          $("#customModalBackground").removeClass("hidden").addClass("hidden");
+          event.stopPropagation();
+        });
+        // update the column name when clicking ok
+        dataPopover.tip().find('.popover-content').find('[name=renamepointhistoryok]').on('click', function (event) {
+          args.grid.updateColumnHeader(args.column.id, dataPopover.tip().find('.popover-content').find('#header').val());
+          $("#PointHistoryColumns_@Model.ControlId").val(JSON.stringify(args.grid.getColumns().slice(0)));
+          PointHistoryTab.PersistPointHistory({ tabId: '@Model.TabId', controlId: '@Model.ControlId', pointId: '@Model.ID', pointGuid: '@Model.PointGuid', start: $("#PointHistoryStartTimePicker_@Model.ControlId").val(), interval: $("#PointHistoryIntervalSelect_@Model.ControlId").val(), intervalQuantity: $("#PointHistoryIntervalQuantity_@Model.ControlId").val(), range: $("#PointHistoryRangeSelect_@Model.ControlId").val(), rangeQuantity: $("#PointHistoryRangeQuantity_@Model.ControlId").val(), columns: $("#PointHistoryColumns_@Model.ControlId").val() });
+          $(args.headercell).popover('destroy');
+          $("#customModalBackground").removeClass("hidden").addClass("hidden");
+          event.stopPropagation();
+        });
+      }
+      else if (args.command === "changeprecision") {
+        var popover = $(args.headercell).popover("destroy").popover({
+          container: 'body',
+          placement: 'bottom',
+          html: true,
+          content: $('#changePrecisionPointGroupHeader').html(),
+          trigger: "manual"
+        });
+        var dataPopover = popover.data('bs.popover');
+        $("#customModalBackground").removeClass("hidden");
+        $(args.headercell).popover('show');
+
+        // add an id to the checkbox so the label automatically changes the checkbox (if specified in the html we get duplicates because it makes a copy of the html and it will not work)
+        dataPopover.tip().find('.popover-content').find('input[type=checkbox]').attr("id", "changePrecisionDefaultToPoint");
+
+        var precisionField = dataPopover.tip().find('.popover-content').find('[name=numDecimals]');
+        $(precisionField).spinner({
+          min: 0,
+          max: 9,
+          step: 1
+        }).on('input', function () {
+          if ($(this).data('onInputPrevented'))
+            return;
+          var val = this.value,
+            $this = $(this),
+            max = $this.spinner('option', 'max'),
+            min = $this.spinner('option', 'min');
+          if (this.value.length > 1) val = this.value.substring(0, 1);
+          // We want only number, no alpha.
+          // We set it to previous default value.
+          if (!val.match(/^[\d]$/))
+            val = $(this).data('defaultValue');
+          this.value = val > max ? max : val < min ? min : val;
+        }).on('keydown', function (e) {
+          // we set default value for spinner.
+          if (!$(this).data('defaultValue'))
+            $(this).data('defaultValue', this.value);
+          // To handle backspace
+          $(this).data('onInputPrevented', e.which === 8 ? true : false);
+        }); // set default value
+        // update values in the popover
+        if (args.column.hasOwnProperty('DecimalPlaces')) {
+          if (args.column['DecimalPlaces'] === -1) {
+            $(precisionField).spinner("value", 0);
+            $(precisionField).spinner('disable');
+            $('input[name=changePrecisionDefaultToPoint]').prop('checked', true);
+          }
+          else {
+            $(precisionField).spinner("value", args.column['DecimalPlaces']);
+            $(precisionField).spinner('enable');
+            $('input[name=changePrecisionDefaultToPoint]').prop('checked', false);
+          }
+        }
+        else {
+          $(precisionField).spinner("value", 0);
+          $(precisionField).spinner('disable');
+          $('input[name=changePrecisionDefaultToPoint]').prop('checked', true);
+        }
+
+
+        // close the pop over when clicking cancel
+        dataPopover.tip().find('.popover-content').find('[name=changePrecisionPointGroupCancel]').on('click', function (event) {
+          $(args.headercell).popover('destroy');
+          $("#customModalBackground").removeClass("hidden").addClass("hidden");
+          event.stopPropagation();
+        });
+        // update the column name when clicking ok
+        dataPopover.tip().find('.popover-content').find('[name=changePrecisionPointGroupOk]').on('click', function (event) {
+          if ($('input[name=changePrecisionDefaultToPoint]').prop('checked')) {
+            args.column['DecimalPlaces'] = -1;
+          }
+          else {
+            args.column['DecimalPlaces'] = $(precisionField).spinner('value');
+          }
+          $(args.headercell).popover('destroy');
+          $("#customModalBackground").removeClass("hidden").addClass("hidden");
+          grid.invalidateAllRows();
+          grid.render();
+          event.stopPropagation();
+
+          $("#PointHistoryColumns_@Model.ControlId").val(JSON.stringify(args.grid.getColumns().slice(0)));
+          PointHistoryTab.PersistPointHistory({ tabId: '@Model.TabId', controlId: '@Model.ControlId', pointId: '@Model.ID', pointGuid: '@Model.PointGuid', start: $("#PointHistoryStartTimePicker_@Model.ControlId").val(), interval: $("#PointHistoryIntervalSelect_@Model.ControlId").val(), intervalQuantity: $("#PointHistoryIntervalQuantity_@Model.ControlId").val(), range: $("#PointHistoryRangeSelect_@Model.ControlId").val(), rangeQuantity: $("#PointHistoryRangeQuantity_@Model.ControlId").val(), columns: $("#PointHistoryColumns_@Model.ControlId").val() });
+        });
+      }
+      else if (args.command === "changeunit") {
+        var popover = $(args.headercell).popover("destroy").popover({
+          container: 'body',
+          placement: 'bottom',
+          html: true,
+          content: $('#changeUnitPointGroupHeader').html(),
+          trigger: "manual"
+        });
+        var dataPopover = popover.data('bs.popover');
+        $(args.headercell).popover('show');
+        $("#customModalBackground").removeClass("hidden");
+
+        // add an id to the checkbox so the label automatically changes the checkbox (if specified in the html we get duplicates because it makes a copy of the html and it will not work)
+        dataPopover.tip().find('.popover-content').find('input[type=checkbox]').attr("id", "changeUnitDefaultToPoint");
+
+        // add checked based upon current configuration
+        if (args.column['Unit'] === -1) {
+          $('input[name=changeUnitDefaultToPoint]').prop("checked", true);
+        }
+
+
+        // update values in the popover
+        loadUnitsByUnitType(dataPopover.tip().find('.popover-content').find('[name=changeunitUOMList]'), args.column);
+
+        // close the pop over when clicking cancel
+        dataPopover.tip().find('.popover-content').find('[name=changeUnitPointGroupCancel]').on('click', function (event) {
+          $(args.headercell).popover('destroy');
+          $("#customModalBackground").removeClass("hidden").addClass("hidden");
+          event.stopPropagation();
+        });
+
+        // update unit when clicking ok
+        dataPopover.tip().find('.popover-content').find('[name=changeUnitPointGroupOk]').on('click', function (event) {
+          if (dataPopover.tip().find('.popover-content').find('[name=changeUnitDefaultToPoint]').prop('checked')) {
+            args.column['Unit'] = -1;
+          }
+          else {
+            var selectedUnit = dataPopover.tip().find('.popover-content').find('.list-group-item.active');
+            if (selectedUnit.length === 1) {
+              args.column['Unit'] = parseInt(selectedUnit.attr('data-value'));
+            }
+          }
+          grid.invalidateAllRows();
+          grid.render();
+          $(args.headercell).popover('destroy');
+          $("#customModalBackground").removeClass("hidden").addClass("hidden");
+          event.stopPropagation();
+
+          $("#PointHistoryColumns_@Model.ControlId").val(JSON.stringify(args.grid.getColumns().slice(0)));
+          PointHistoryTab.PersistPointHistory({ tabId: '@Model.TabId', controlId: '@Model.ControlId', pointId: '@Model.ID', pointGuid: '@Model.PointGuid', start: $("#PointHistoryStartTimePicker_@Model.ControlId").val(), interval: $("#PointHistoryIntervalSelect_@Model.ControlId").val(), intervalQuantity: $("#PointHistoryIntervalQuantity_@Model.ControlId").val(), range: $("#PointHistoryRangeSelect_@Model.ControlId").val(), rangeQuantity: $("#PointHistoryRangeQuantity_@Model.ControlId").val(), columns: $("#PointHistoryColumns_@Model.ControlId").val() });
+        });
+      }
+      else if (args.command === "showunits") {
+        if (args.column.hasOwnProperty('showunit')) {
+          args.column.showunit = !args.column.showunit;
+        }
+        else {
+          args.column.showunit = true;
+        }
+
+        event.stopPropagation();
+        grid.invalidateAllRows();
+        grid.render();
+
+        $("#PointHistoryColumns_@Model.ControlId").val(JSON.stringify(args.grid.getColumns().slice(0)));
+        PointHistoryTab.PersistPointHistory({ tabId: '@Model.TabId', controlId: '@Model.ControlId', pointId: '@Model.ID', pointGuid: '@Model.PointGuid', start: $("#PointHistoryStartTimePicker_@Model.ControlId").val(), interval: $("#PointHistoryIntervalSelect_@Model.ControlId").val(), intervalQuantity: $("#PointHistoryIntervalQuantity_@Model.ControlId").val(), range: $("#PointHistoryRangeSelect_@Model.ControlId").val(), rangeQuantity: $("#PointHistoryRangeQuantity_@Model.ControlId").val(), columns: $("#PointHistoryColumns_@Model.ControlId").val() });
+      }
+
+      PointHistoryTab.PersistPointHistory({ tabId: '@Model.TabId', controlId: '@Model.ControlId', pointId: '@Model.ID', pointGuid: '@Model.PointGuid', start: $("#PointHistoryStartTimePicker_@Model.ControlId").val(), interval: $("#PointHistoryIntervalSelect_@Model.ControlId").val(), intervalQuantity: $("#PointHistoryIntervalQuantity_@Model.ControlId").val(), range: $("#PointHistoryRangeSelect_@Model.ControlId").val(), rangeQuantity: $("#PointHistoryRangeQuantity_@Model.ControlId").val(), columns: $("#PointHistoryColumns_@Model.ControlId").val() });
+    });
+
+    var loadUnitsByUnitType = function (container, column) {
+      var stack_bottomright_operatortab = { "dir1": 'up', "dir2": 'left', "firstpos1": 25, "firstpos2": 25, "context": $("#pointgroup" + '@Model.ControlId') };
+
+      // get the different engineering unit types that we have for the points selected in the grid
+      var unitTypes = FMOperateIndex.staticPointHistoryControllers['@Model.ControlId'].getNumericUnitsForTag(column.field);
+      unitTypes = unitTypes[0];
+
+      $.ajax({
+        type: 'Get',
+        url: 'GetUnitsByUnitType',
+        dataType: "json",
+        data: { "unitType": unitTypes },
+        cache: false,
+        success: function (response) {
+          var messageAttributes = { addclass: 'stack-bottomright', stack: stack_bottomright_operatortab, width: '450px' };
+          FMErrorAndExceptionHandling.HandleMessages(response, function (data, inError) {
+            if (inError) {
+              //--- We need to display some type of message
+              return;
+            }
+            $(container).html('');
+
+            var columnUnit = -1;
+            if (column.Unit) {
+              columnUnit = column.Unit;
+            }
+            // sort the units alphabetically
+            data = data.sort(function (a, b) {
+              return a.UnitAbbreviation.localeCompare(b.UnitAbbreviation);
+            });
+
+
+            for (var i = 0; i < data.length; i++) {
+              var uomtemplate = '';
+              if ($(container).is('select')) {
+                uomtemplate = '<option value="' + data[i].Unit + '">' + data[i].UnitAbbreviation + '</option>';
+              }
+              else {
+                var uomEventHandler = "$(this).parent().find('.list-group-item').removeClass('active');$(this).addClass('active'); $('input[name=changeUnitDefaultToPoint]').prop('checked', false); ";
+                uomtemplate = '<a href="#" class="list-group-item' + (columnUnit == data[i].Unit ? ' active' : '') + ' " data-value="' + data[i].Unit + '" onclick="' + uomEventHandler + '" title="' + data[i].UnitDescription + '">' + data[i].UnitAbbreviation + '</a>';
+              }
+              $(container).append(uomtemplate);
+            }
+
+            if (!$(container).is('select')) {
+              if (columnUnit === -1) {
+                $(container).closest('.popover-content').find('[name=changeUnitDefaultToPoint]').prop('checked', true);
+              }
+              else {
+                $(container).closest('.popover-content').find('[name=changeUnitDefaultToPoint]').prop('checked', false);
+              }
+
+              $(container).niceScroll({ cursorwidth: '10px', autohidemode: true, cursorcolor: '#486899', background: 'transparent', horizrailenabled: false });
+
+            }
+            else {
+              var numformatInfo = FMOperateIndex.numformatInfo;
+
+              var numDecimals = 2;
+              if (column.hasOwnProperty('DecimalPlaces')) {
+                if (column['DecimalPlaces'] !== -1)
+                  numDecimals = column['DecimalPlaces'];
+              }
+              numformatInfo.NumberDecimalDigits = numDecimals;
+
+              if (column.hasOwnProperty('filter')) {
+                $(container).val(column.filter.unit);
+
+                defaultNumericInputMaskForFilter(column.filter.unit, $(container).parent().find('.popover-content'), FMOperateIndex.numformatInfo.NumberDecimalSeparator, numDecimals);
+
+                $(container).parent().find('[name=numericFilterMin]').val(FMFormatValues.FormatValue(column.filter.unit, numformatInfo, column.filter.minValue));
+                if (column.filter.maxValue !== "") {
+                  $(container).parent().find('[name=numericFilterMax]').val(FMFormatValues.FormatValue(column.filter.unit, numformatInfo, column.filter.maxValue));
+                }
+              }
+              else {
+                if (columnUnit !== -1) {
+                  $(container).val(columnUnit);
+                }
+
+                // set the mask based on the default unit
+                defaultNumericInputMaskForFilter(parseInt($(container).val()), $(container).parent(), FMOperateIndex.numformatInfo.NumberDecimalSeparator, numDecimals);
+
+              }
+            }
+          }, messageAttributes);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+          FMErrorAndExceptionHandling.ShowError(thrownError);
+        }
+      });
+    }
+
+    //more menu config goes here
+    grid.registerPlugin(headerMenuPlugin);
+
+    var selectTagColumn = function (args) {
+      // create the backdrop and wait for next modal to be triggered
+      $('body').modalmanager('loading');
+
+      $("#PointHistorySelectionModalBody").html('<div id="pointGroupModalMenuLoader" class="LoadingAnimation transparent"> <img src="' + window.applicationRootName + '/fmwebapp/images/loader_squares_120.gif"></div>');
+      $("#PointHistorySelectionModal").modal("show");
+
+      // put messages on the actual tab
+      var stack_bottomright_operatortab = { "dir1": 'up', "dir2": 'left', "firstpos1": 25, "firstpos2": 25, "context": $("#pointhistory" + "@Model.ControlId") };
+
+      $.ajax({
+        type: 'Get',
+        url: 'GetListOfTagNamesPartialView',
+        dataType: "json",
+        cache: false,
+        success: function (response) {
+          var messageAttributes = { addclass: 'stack-bottomright', stack: stack_bottomright_operatortab, width: '450px' };
+
+          FMErrorAndExceptionHandling.HandleMessages(response, function (view, inError) {
+            if (inError) {
+              $("#PointHistorySelectionModal").modal("hide");
+              return;
+            }
+            $("#PointHistorySelectionModalBody").html(view);
+            $('#PointHistorySelectionModalBody .operateSubMenuList').css("height", $('.operateSubMenuList').parent().height());
+
+            $("#PointHistorySelectionModalBody .operateTagsSubMenuElement").each(function () {
+              $(this).attr('ondblclick', "$(this).removeClass('selected').addClass('selected'); FMOperateIndex.PointHistorySelectionModalSelectButton();");
+            });
+
+            $('#PointHistorySelectionModalBody .operateSubMenuList').uncolumnize();
+            $('#PointHistorySelectionModalBody .operateSubMenuList').columnize({
+              columns: 2,
+              buildOnce: true,
+              cssClassPrefix: "points",
+              lastNeverTallest: true
+            });
+
+            $("#PointHistorySelectionModalBody .operateSubMenuList").niceScroll({ cursorwidth: '10px', horizrailenabled: false, autohidemode: false, cursorcolor: "#486899", background: "white" });
+
+            // override the code executed on the Select Button of the selection modal to deal with new tags
+            FMOperateIndex.PointHistorySelectionModalSelectButton = function () {
+              if ($('.operateTagsSubMenuElement.selected').length === 0) {
+                FMLayout.Alert("No Tag selected.");
+              }
+              else {
+                $('.operateTagsSubMenuElement.selected').sort(function (a, b) { // sort in reverse since we are inserting in the same position
+                  return $(a).attr('data-name').toUpperCase().localeCompare($(b).attr('data-name').toUpperCase());
+                }).each(function (index) {
+                  var newColumn = $(this).attr('data-name');
+                  var newid = newColumn.replace(/ /g, '') + new Date().getTime().toString(); // generate a unique id (in case there are multiple columns for the same tag)
+                  var fontSize = grid.getOptions().fontSize;
+                  var columnDefinition = { id: newid, name: newColumn, field: newColumn, headerCssClass: "text-center grid-font-" + fontSize, cssClass: "grid-font-" + fontSize, formatter: staticPointHistoryFormatter };
+                  columnDefinition.header = {
+                    menu: { items: FMOperateIndex.PointHistoryCreateHeaderMenu() }
+                  };
+
+                  var columns = grid.getColumns().slice(0);
+                  // insert the new column in the middle somewhere
+                  var pos = columns.map(function (e) {
+                    return e.id;
+                  }).indexOf(args.column.id);
+
+                  // if we are inserting in the Date/Time put the column next to it, otherwise create it in the place the user clicked
+                  if (pos === 0) {
+                    pos++;
+                  }
+
+                  columns.splice(pos, 0, columnDefinition);
+
+                  grid.setColumns(columns);
+                  //grid.getData().refresh();
+
+                  grid.resizeCanvas();
+
+                  FMOperateIndex.staticPointHistoryControllers['@Model.ControlId'].addColumn(columnDefinition);
+                  $("#PointHistoryColumns_@Model.ControlId").val(JSON.stringify(columns));
+                  PointHistoryTab.PersistPointHistory({ tabId: '@Model.TabId', controlId: '@Model.ControlId', pointId: '@Model.ID', pointGuid: '@Model.PointGuid', start: $("#PointHistoryStartTimePicker_@Model.ControlId").val(), interval: $("#PointHistoryIntervalSelect_@Model.ControlId").val(), intervalQuantity: $("#PointHistoryIntervalQuantity_@Model.ControlId").val(), range: $("#PointHistoryRangeSelect_@Model.ControlId").val(), rangeQuantity: $("#PointHistoryRangeQuantity_@Model.ControlId").val(), columns: $("#PointHistoryColumns_@Model.ControlId").val() });
+
+                  // resize the newly created column to fit the column name (doing this by double clicking on the resize handle of the header)
+                  var newCreatedColumn = $(grid.getContainerNode()).find(".slick-header-column")[pos];
+                  $(newCreatedColumn).find('.slick-resizable-handle').dblclick();
+                });
+                $("#PointHistorySelectionModal").modal("hide");
+
+              }
+            }
+          }, messageAttributes);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+          FMErrorAndExceptionHandling.ShowError(thrownError);
+          $("#PointHistorySelectionModal").modal("hide");
+        }
+      });
+    };
+
+    var insertEmptyColumn = function (args) {
+      var newColumn = "";
+      var newColumnName = "";
+      var newid = newColumn.replace(/ /g, '') + new Date().getTime().toString(); // generate a unique id (in case there are multiple columns for the same tag)
+      var fontSize = grid.getOptions().fontSize;
+      var columnDefinition = { id: newid, name: newColumnName, field: newColumn, headerCssClass: "text-center grid-font-" + fontSize, cssClass: "grid-font-" + fontSize };
+      columnDefinition.header = {
+        menu: { items: FMOperateIndex.PointHistoryCreateHeaderMenu() }
+      };
+
+      var columns = grid.getColumns().slice(0);
+      // insert the new column in the middle somewhere
+      var pos = columns.map(function (e) {
+        return e.id;
+      }).indexOf(args.column.id);
+
+      // if we are inserting in the Point Name put the column next to it, otherwise create it in the place the user clicked
+      if (pos === 0) {
+        pos++;
+      }
+
+      columns.splice(pos, 0, columnDefinition);
+      grid.setColumns(columns);
+
+      grid.resizeCanvas();
+      // resize the newly created column to fit the column name (doing this by double clicking on the resize handle of the header)
+      var newCreatedColumn = $(grid.getContainerNode()).find(".slick-header-column")[pos];
+      $(newCreatedColumn).find('.slick-resizable-handle').dblclick();
+    }
+
+    /*--------------- AUTO SIZE COLUMNS -----------------*/
+    var columnSizePlugin = new Slick.AutoColumnSize();
+    grid.onColumnsResized.subscribe(function (e, data) {
+      // save the grid columns
+      $("#PointHistoryColumns_@Model.ControlId").val(JSON.stringify(grid.getColumns().slice(0)));
+      PointHistoryTab.PersistPointHistory({ tabId: '@Model.TabId', controlId: '@Model.ControlId', pointId: '@Model.ID', pointGuid: '@Model.PointGuid', start: $("#PointHistoryStartTimePicker_@Model.ControlId").val(), interval: $("#PointHistoryIntervalSelect_@Model.ControlId").val(), intervalQuantity: $("#PointHistoryIntervalQuantity_@Model.ControlId").val(), range: $("#PointHistoryRangeSelect_@Model.ControlId").val(), rangeQuantity: $("#PointHistoryRangeQuantity_@Model.ControlId").val(), columns: $("#PointHistoryColumns_@Model.ControlId").val() });
+    });
+
+    grid.registerPlugin(columnSizePlugin);
+    /*--------------- END AUTO SIZE COLUMNS  -----------------*/
+
+    grid.render();
+
+    PointHistoryTab.GetHistoryData = function (controlId, pointGuid, interval, intervalQuantity, range, rangeQuantity, start) {
+      var tagIds = [];
+      var columns = FMOperateIndex.staticPointHistoryControllers[controlId]._grid.getColumns();
+      for (i = 0; i < columns.length; i++) {
+        if (columns[i].field !== 'Date Time' && columns[i].field !== '' && !tagIds.includes(columns[i].field)){
+          tagIds.push(columns[i].field);
+        }
+      }
+
+        var timezoneOffsetStr = $("#TimezoneOffsetString").val();
+        var timezoneOffset = parseInt(timezoneOffsetStr);
+
+        var startMomentTime = moment(start);
+        startMomentTime = startMomentTime.subtract(timezoneOffset, 'minutes'); //go to UTC time
+        startMomentTime = startMomentTime.add(startMomentTime.utcOffset(), 'minutes'); //go to client time
+        start = startMomentTime.toDate().toLocaleString()
+
+      // put messages on the actual tab
+      var stack_bottomright_operatortab = { "dir1": 'up', "dir2": 'left', "firstpos1": 25, "firstpos2": 25, "context": $("#pointhistory" + controlId) };
+
+      $.ajax({
+        type: 'post',
+        dataType: 'json',
+        cache: false,
+        url: $('#urlGetPointHistoryData').val(),
+        controlId: controlId,
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+        data: { pointGuid: pointGuid, startString: start, interval: interval, intervalQuantity: Math.trunc(intervalQuantity), range: range, rangeQuantity: Math.trunc(rangeQuantity), tagIds },
+        success: function (response) {
+          var messageAttributes = { addclass: 'stack-bottomright', stack: stack_bottomright_operatortab, width: '450px' };
+          var controlId = this.controlId;
+
+          FMErrorAndExceptionHandling.HandleMessages(response, function (view, inError) {
+            if (!inError || (view != null)) {
+              // handle the results
+              var data = [];
+              for (i = 0; i < response.Data.length; i++) {
+                var row = {};
+                var momentTime = moment(response.Data[i].Time);
+
+                momentTime = momentTime.subtract(momentTime.utcOffset(), 'minutes'); //go to UTC time
+                momentTime = momentTime.add(timezoneOffset, 'minutes'); //go to site time
+
+                row['Date Time'] = moment(momentTime).format('YYYY/MM/DD HH:mm:ss');
+                for (const property in response.Data[i].Values) {
+                  row[property] = response.Data[i].Values[property];
+                }
+                data.push(row);
+              }
+
+              FMOperateIndex.staticPointHistoryControllers[controlId]._grid.setData(data);
+              FMOperateIndex.staticPointHistoryControllers[controlId]._grid.render();
+            }
+          }, messageAttributes);
+        },
+        error: function (xhr, textStatus, error) {
+          var controlId = this.controlId;
+
+          // need to make sure that the error we are getting is because we close the page before getting the response
+          if (xhr.status != 0) {
+            FMErrorAndExceptionHandling.ShowException(xhr,
+              textStatus,
+              error,
+              function () {
+                $("#loaderpointhistory" + newId).remove();
+              });
+          }
+        }
+      });
+    }
+
+    PointHistoryTab.HandleRefreshBtnEvent('@Model.TabId', '@Model.ControlId', '@Model.ID', '@Model.PointGuid');
+    var controlId = '@Model.ControlId';
+    var data = PointHistoryTab.GetHistoryData(controlId, '@Model.PointGuid', $("#PointHistoryIntervalSelect_" + controlId).val(), $("#PointHistoryIntervalQuantity_" + controlId).val(), $("#PointHistoryRangeSelect_" + controlId).val(), $("#PointHistoryRangeQuantity_" + controlId).val(), $("#PointHistoryStartTimePicker_" + controlId).val());
+  });
+
+</script>
+
+<div id="PointHistoryControlDiv">
+  @Html.Hidden("PointHistoryColumns_" + Model.ControlId, Model.Columns)
+  <table id="PointHistoryTable_@Model.ControlId">
+    <tr>
+      <td style="padding-left: 10px;">
+        <div id="PointHistoryIdText">@Model.ID</div>
+      </td>
+      <td style="padding-left: 10px;">
+        <label id="PointHistoryStartDateLabel" class="PointHistoryLabel" for="PointHistoryStartTimePicker_@Model.ControlId">Start Date:</label>
+      </td>
+      <td>
+        <input id="PointHistoryStartTimePicker_@Model.ControlId" type="text" class="form-control text-center datepicker" style="width: 180px !important; border: 1px solid #567eb9" />
+      </td>
+      <td>
+        <label id="PointHistoryIntervalLabel" class="PointHistoryLabel" for="PointHistoryIntervalSelect_@Model.ControlId">Interval:</label>
+      </td>
+      <td>
+        <input id="PointHistoryIntervalQuantity_@Model.ControlId" type="number" class="form-control" style="width: 70px !important; border: 1px solid #567eb9" value="1" oninput="PointHistoryTab.HandleIntervalQuantityInputEvent('@Model.ControlId');" onchange="PointHistoryTab.HandleIntervalQuantityChangeEvent('@Model.TabId', '@Model.ControlId', '@Model.ID', '@Model.PointGuid');" min="1" />
+      </td>
+      <td>
+        <select id="PointHistoryIntervalSelect_@Model.ControlId" class="form-control" style="width: 100px !important; border: 1px solid #567eb9" onchange="PointHistoryTab.HandleIntervalSelectEvent('@Model.TabId', '@Model.ControlId', '@Model.ID', '@Model.PointGuid', true);">
+          <option value="0">Minute</option>
+          <option value="1" selected>Hour</option>
+          <option value="2">Day</option>
+        </select>
+      </td>
+      <td>
+        <label id="PointHistoryRangeLabel" class="PointHistoryLabel" for="PointHistoryRangeSelect_@Model.ControlId">Range:</label>
+      </td>
+      <td>
+        <input id="PointHistoryRangeQuantity_@Model.ControlId" type="number" class="form-control" style="width: 70px !important; border: 1px solid #567eb9" value="1" oninput="PointHistoryTab.HandleRangeQuantityInputEvent('@Model.ControlId');" onchange="PointHistoryTab.HandleRangeQuantityChangeEvent('@Model.TabId', '@Model.ControlId', '@Model.ID', '@Model.PointGuid');" min="1" />
+      </td>
+      <td>
+        <select id="PointHistoryRangeSelect_@Model.ControlId" class="form-control" style="width: 100px !important; border: 1px solid #567eb9" onchange="PointHistoryTab.HandleRangeSelectEvent('@Model.TabId', '@Model.ControlId', '@Model.ID', '@Model.PointGuid');">
+          <option value="0">Hour</option>
+          <option value="1" selected>Day</option>
+          <option value="2">Month</option>
+          <option value="3">Year</option>
+        </select>
+      </td>
+      <td style="padding-left: 10px">
+        <button id="PointHistoryRefreshButton_@Model.ControlId" type="button" class="PointHistoryHeaderButtonClass" onclick="javascript: return PointHistoryTab.HandleRefreshBtnEvent('@Model.TabId', '@Model.ControlId', '@Model.ID', '@Model.PointGuid');">
+          <Span>
+            <img src="~/fmwebapp/images/RefreshMini.png" alt=@FMBaseController.TranslateText("Point History|Refresh") />
+          </Span>
+          @FMBaseController.TranslateText("Point History|Refresh")
+        </button>
+      </td>
+    </tr>
+  </table>
+</div>
+@*<br />
+  <h4>Diagnostic Development Data</h4>
+  <div>@Model.PointGuid</div>
+  <div>@Model.ID</div>
+  <div>@Model.Start</div>
+  <div>@Model.IntervalQuantity</div>
+  <div>@Model.Interval</div>
+  <div>@Model.RangeQuantity</div>
+  <div>@Model.Range</div>*@
+@*<div>@Html.Raw(Model.Columns)</div>*@
+<div class="pointhistory-header-space">
+</div>
+<div id="PointHistoryTableContainer_@Model.ControlId" class="point-history-panel active">
+</div>

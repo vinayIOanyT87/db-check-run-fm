@@ -1,0 +1,1105 @@
+﻿
+@using Varec.CommonComponents.EngineeringUnitsLibrary
+@using FMBusinessObjects.DataObjects
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.PointEditDetailModel
+
+<style>
+	#tagGridEditorPageRight.disable, #tagGridEditorPageLeft.disable {
+		color: #f0f0f0;
+	}
+
+	input[type="checkbox"] + span::before
+	{
+		display: inline-block;
+		vertical-align: middle;
+	}
+
+	input[type="checkbox"] + span::before
+	{
+		content: "";
+		width: 16px;
+		height: 16px;
+		margin: 0 4px 0 0;
+		border: solid 1px #a8a8a8;
+		line-height: 14px;
+		text-align: center;
+
+		-moz-border-radius: 100%;
+		-webkit-border-radius: 100%;
+		border-radius: 100%;
+	}
+
+	input[type="checkbox"] + span::before
+	{
+		-moz-border-radius: 2px;
+		-webkit-border-radius: 2px;
+		border-radius: 2px;
+	}
+
+	input[type="checkbox"]:checked + span::before
+	{
+		content: "\2714";
+		font-size: 12px;
+	}
+
+	#TagEditTable .deleteImg{
+		margin-bottom: 10px;
+		display: inline-block;
+	}
+
+	#TagEditTable .deleteImg[disabled]
+	{
+		cursor: not-allowed;
+		pointer-events: none;
+	}
+
+	.booleanImgSelect.disabled {
+		cursor: not-allowed;
+	}
+
+	.pushButton.disabled {
+		cursor: not-allowed;
+	}
+
+	.tagColumnValue.disabled input{
+		cursor: not-allowed !important;
+		color: lightgray !important;
+	}
+
+	.tagColumnValue input {
+		cursor: pointer !important;
+		color: black !important; 
+	}
+
+	.ui-front {
+		z-index: 1060 !important; 
+	}
+
+	#TagEditTableWrap {
+		 height: calc( 100vh - 200px ) !important;
+	}
+</style>
+
+<div class="row">
+	@{
+		var pointCommandStatusListSelectorText = FMBaseController.TranslateText("PointTemplateEditor|Point Command-Status List Selector");
+		var deviceAlarmMapSelectorText = FMBaseController.TranslateText("PointTemplateEditor|Device Alarm Map Selector");
+	}
+
+
+	@Html.Hidden("TranslatedDeleteTag", @FMBaseController.TranslateText("PointTemplateEditor|Delete Tag"))
+	@Html.Hidden("TranslatedDuplicateTag", @FMBaseController.TranslateText("PointTemplateEditor|Duplicate Tag Name"))
+	@Html.Hidden("TranslatedTagNameMustBeAlphanumeric", FMBaseController.TranslateText("PointTemplateEditor|Tag Name must be alphanumeric"))
+	@{
+		var canViewFCEE = (Model.HasFCEERight) ? "" : "display :none;";
+	}
+
+	<div id="empty_tagrow" class="hidden">
+		<table id="TagEditEmptyRowTable">
+			<tbody>
+				<tr>
+					<td class="tagColumnID col-md-3 text-left" style="overflow: auto; white-space: nowrap">
+						<img id="Tags_{id}__DeleteTag" name="Tags[{id}].DeleteTag" class="deleteImg" src='~/fmwebapp/images/Delete-column.png' />
+						<input class="form-control column-tag-name" id="Tags_{id}__Name" name="Tags[{id}].Name" type="text" maxlength="50" style="width:calc(100% - 55px); display:inline-block">
+						<span id="Tags_{id}_TagPointCommandStatusListSelector" name="Tags[{id}].TagPointCommandStatusListSelector" title="@pointCommandStatusListSelectorText" class="point-command-status-list-reference hidden" style="display: inline-block; width: 20px; text-align: center;"><i class="glyphicon glyphicon-cog"></i></span>
+						<span id="Tags_{id}_TagDeviceAlarmMapSelector" name="Tags[{id}]._TagDeviceAlarmMapSelector" title="@deviceAlarmMapSelectorText" class="device-alarm-map-reference hidden" style="display: inline-block; width: 20px; text-align: center;"><i class="glyphicon glyphicon-cog"></i></span>
+					</td>
+					<td class="hidden tagColumnPointTagGuid text-left"></td>
+					<td class="tagColumnDataType col-md-2 text-left page1" style="overflow: hidden; white-space: nowrap">
+						<select class="form-control" id="Tags_{id}__DataType" name="Tags[{id}].DataType">
+							@foreach (var dataType in new SelectList(@Model.TagDataTypes.Select(s => new SelectListItem { Value = s.Key, Text = s.Value }).OrderBy(x => x.Text), "Value", "Text"))
+							{
+								<option value="@dataType.Value">@dataType.Text</option>
+							}
+						</select>
+					</td>
+					<td class="tagColumnInputOutputType col-md-2 page1" style="overflow: auto; white-space: nowrap">
+						<select class="form-control" id="Tags_{id}__InputOutputType" name="Tags[{id}].InputOutputType">
+							@foreach (var inputType in @Model.TagInputOutputTypes.OrderBy(x => x.Text))
+							{
+								<option value="@inputType.Value">@inputType.Text</option>
+							}
+						</select>
+					</td>
+					<td class="tagColumnInhibitInputOutputTypeConfiguration col-md-1 text-center page1">
+						<img id="Tags_{id}__InhibitInputOutputTypeConfiguration" class="booleanImgSelect" draggable="false" data-value="true" title="Yes" alt="toggleOn" src="~/fmwebapp/images/On.png">
+					</td>
+					<td class="tagColumnUnitType col-md-2 page1">
+						<select class="form-control" id="Tags_{id}__EngineeringUnitsType" name="Tags[{id}].EngineeringUnitsType">
+							@foreach (var unitType in new SelectList(((EngineeringUnitType[])Enum.GetValues(typeof(EngineeringUnitType))).ToList().Except(new List<EngineeringUnitType> { EngineeringUnitType.FmuAll, EngineeringUnitType.FmuArea, EngineeringUnitType.FmuEnergy, EngineeringUnitType.FmuPower, EngineeringUnitType.FmuTime }).Select(s => new SelectListItem { Text = EngineeringUnits.GetUnitTypeString(s), Value = s.ToString() }).OrderBy(x => x.Text), "Value", "Text"))
+							{
+								<option value="@unitType.Value">@unitType.Text</option>
+							}
+						</select>
+					</td>
+					<td class="tagColumnUnits col-md-1 page1">
+						<select class="form-control" id="Tags_{id}__Unit" name="Tags[{id}].Unit" disabled="disabled">
+							<option value="255"></option>
+						</select>
+					</td>
+					<td class="tagColumnServerUnits col-md-1 page1" style="@canViewFCEE">
+						<select class="form-control" id="Tags_{id}__ServerUnit" name="Tags[{id}].ServerUnit" disabled="disabled">
+							<option value="255"></option>
+						</select>
+					</td>
+					<td class="tagColumnApplyPointEngineeringUnits col-md-1 text-center page1">
+						<img id="Tags_{id}__ApplyPointEngineeringUnits" class="booleanImgSelect" draggable="false" data-value="true" title="Yes" alt="toggleOn" src="~/fmwebapp/images/On.png">
+					</td>
+					<td class="tagColumnValue col-md-1 text-right page2 hidden">
+						<input class="form-control input-md text-right " id="Tags_{id}__Value" maxlength="2" name="Tags[{id}].Value" type="text" disabled="disabled">
+					</td>
+					<td class="tagColumnDecimalPlaces col-md-1 text-right page2 hidden">
+						<input class="form-control input-md text-right " id="Tags_{id}__DecimalPlaces" maxlength="2" name="Tags[{id}].DecimalPlaces" type="text" disabled>
+					</td>
+					<td class="tagColumnApplyPointDecimalPlaces col-md-1 text-center page2 hidden">
+						<img id="Tags_{id}__ApplyPointDecimalPlaces" class="booleanImgSelect" draggable="false" data-value="true" title="Yes" alt="toggleOn" src="~/fmwebapp/images/On.png">
+					</td>
+					<td class="tagColumnMinimum col-md-2 text-right page2 hidden">
+						<input class="form-control input-md text-right " data-raw-value="0" id="Tags_{id}__Minimum" maxlength="20" name="Tags[{id}].Minimum" type="text" placeholder="" disabled>
+					</td>
+					<td class="tagColumnApplyPointMinimum col-md-1 text-center page2 hidden">
+						<img id="Tags_{id}__ApplyPointMinimum" class="booleanImgSelect" draggable="false" data-value="true" title="Yes" alt="toggleOn" src="~/fmwebapp/images/On.png">
+					</td>
+					<td class="tagColumnMaximum col-md-2 text-right page2 hidden">
+						<input class="form-control input-md text-right" data-raw-value="0" id="Tags_{id}__Maximum" maxlength="20" name="Tags[{id}].Maximum" type="text" placeholder="" disabled>
+					</td>
+					<td class="tagColumnApplyPointMaximum col-md-1 text-center page2 hidden">
+						<img id="Tags_{id}__ApplyPointMaximum" class="booleanImgSelect" draggable="false" data-value="true" title="Yes" alt="toggleOn" src="~/fmwebapp/images/On.png">
+					</td>
+					<td class="tagColumnAssociations text-center col-md-2 page3 hidden">
+						<img name="alarm" style="margin-right: 50px;" alt="Alarm Disabled" title="No Associated Alarm" src="~/fmwebapp/images/Alarm Disable.png">
+						<img name="module" alt="Associated Module" title="No Associated Module" data-value="false" src="~/fmwebapp/images/Module Disable.png">
+					</td>
+					<td class="tagColumnWellKnownTag col-md-3 text-left page3 hidden" style="overflow: hidden; white-space: nowrap">
+						<select class="form-control" id="Tags_{id}__WellKnownTag" name="Tags[{id}].WellKnwonTag">
+							@foreach (var wellKnownIdentityTag in new SelectList(@Model.WellKnownTags.Select(s => new SelectListItem { Value = s.Key.ToString(), Text = s.Value }).OrderBy(x => x.Text), "Value", "Text"))
+							{
+								<option value="@wellKnownIdentityTag.Value">@wellKnownIdentityTag.Text</option>
+							}
+						</select>
+					</td>
+					<td class="tagColumnInput col-md-1 text-center page3 hidden">
+						<img id="Tags_{id}__Input" class="booleanImgSelect" draggable="false" data-value="true" title="Yes" alt="toggleOn" src="~/fmwebapp/images/On.png">
+					</td>
+					<td class="tagColumnInhibitOverride col-md-1 text-center page3 hidden">
+						<img id="Tags_{id}__InhibitOverride" class="booleanImgSelect" draggable="false" data-value="true" title="Yes" alt="toggleOn" src="~/fmwebapp/images/On.png">
+					</td>
+					<td class="tagColumnArchived col-md-1 text-center page3 hidden">
+						<img id="Tags_{id}__Archived" class="booleanImgSelect" draggable="false" data-value="true" title="Yes" alt="toggleOn" src="~/fmwebapp/images/On.png">
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<table id="TagEditTableHeader" class="table table-bordered table-responsive table-hover FuelsManager-table-header">
+		<thead>
+			<tr>
+				<th class="col-sm-3 col-md-3 text-left">
+					<label class="column-tag-header">@FMBaseController.TranslateText("TAGS")</label>
+					<span id="tagGridEditorPageLeft" class="disable" title="Previous Properties" style="font-size: 18px; cursor: pointer; vertical-align: middle; margin-left: 10px;"><i class="glyphicon glyphicon-circle-arrow-left"></i></span>
+					<span id="tagGridEditorPageRight" title="Next Properties" style="font-size: 18px; cursor: pointer; vertical-align: middle;"><i class="glyphicon glyphicon-circle-arrow-right"></i></span>
+					<div class="filter-tag filter-addon filter-right-addon pull-right">
+						<input id="PEfilter_tags" type="text" class="form-control" />
+						<img alt="Filter Tags" title="Search" src="~/fmwebapp/images/Search Icon.png" />
+					</div>
+				</th>
+				<th class="col-sm-2 col-md-2 text-center page1">@FMBaseController.TranslateText("ModuleEditor|DATA TYPE")</th>
+				<th class="col-sm-1 col-md-1 text-center page1">@FMBaseController.TranslateText("ModuleEditor|DATA SOURCE")</th>
+				<th class="col-sm-1 col-md-1 text-center page1">@FMBaseController.TranslateText("ModuleEditor|CONFIG SOURCE")</th>
+				<th class="col-sm-1 col-md-1 text-center page1">@FMBaseController.TranslateText("ModuleEditor|UNIT TYPE")</th>
+				<th class="col-sm-2 col-md-1 text-center page1">@FMBaseController.TranslateText("UNIT")</th>
+				<th class="col-sm-2 col-md-1 text-center page1" style="@canViewFCEE">@FMBaseController.TranslateText("SERVER UNIT")</th>
+				<th class="col-sm-1 col-md-1 text-center page1">@FMBaseController.TranslateText("ModuleEditor|DEF UNIT")</th>
+				<th class="col-sm-2 col-md-1 text-center page2 hidden">@FMBaseController.TranslateText("VALUE")</th>
+				<th class="col-sm-1 col-md-1 text-center page2 hidden">@FMBaseController.TranslateText("PRECISION")</th>
+				<th class="col-sm-1 col-md-1 text-center page2 hidden">@FMBaseController.TranslateText("DEF PRECISION")</th>
+				<th class="col-sm-1 col-md-2 text-center page2 hidden">@FMBaseController.TranslateText("MIN")</th>
+				<th class="col-sm-1 col-md-1 text-center page2 hidden">@FMBaseController.TranslateText("DEF MIN")</th>
+				<th class="col-sm-1 col-md-2 text-center page2 hidden">@FMBaseController.TranslateText("MAX")</th>
+				<th class="col-sm-1 col-md-1 text-center page2 hidden">@FMBaseController.TranslateText("DEF MAX")</th>
+				<th class="col-sm-2 col-md-2 text-center page3 hidden">@FMBaseController.TranslateText("ASSOCIATIONS")</th>
+				<th class="col-sm-3 col-md-3 text-center page3 hidden">@FMBaseController.TranslateText("WELL KNOWN TAG")</th>
+				<th class="col-sm-1 col-md-1 text-center page3 hidden">@FMBaseController.TranslateText("INPUT")</th>
+				<th class="col-sm-1 col-md-1 text-center page3 hidden">@FMBaseController.TranslateText("OVERRIDE")</th>
+				<th class="col-sm-1 col-md-1 text-center page3 hidden">@FMBaseController.TranslateText("ARCHIVED")</th>
+			</tr>
+		</thead>
+	</table>
+	<div id="TagEditTableWrap" class="panel">
+		<table id="TagEditTable" class="table table-bordered table-responsive table-hover">
+			<tbody>
+				@{
+					var tagList = Model.Tags.OrderBy(x => x.Name).ToList();
+					var onImgPath = Url.Content("~/fmwebapp/images/On.png");
+					var offImgPath = Url.Content("~/fmwebapp/images/Off.png");
+				}
+						@for (int i = 0; i < tagList.Count; i++)
+						{
+							var tag = Model.PointTemplate.Tags[tagList[i].PointTagGuid];
+							int index = Model.Tags.FindIndex(c => c.PointTagGuid == tagList[i].PointTagGuid);
+							var deleteName = "Tags[" + i + "].Delete";
+							var deleteID = "Tag_" + i + "__Delete";
+							var associatedModule = Model.PointTemplate.PointTemplateTagModuleReference(tagList[i].PointTagGuid);
+							var moduleInhibitedInputOutputConfiguration = Model.PointTemplate.PointTemplateTagInputOutputConfigurationInhibitedByModule(tagList[i].PointTagGuid);
+							var associatedModuleImg = Url.Content((associatedModule) ? "~/fmwebapp/images/Module Blue.png" : "~/fmwebapp/images/Module Disable.png");
+							var associatedAlarm = Model.AlarmTagHashSet.Contains(tag.IdentityGuid);
+							var associatedAlarmImg = Url.Content(associatedAlarm ? "~/fmwebapp/images/Alarm Blue.png" : "~/fmwebapp/images/Alarm Disable.png");
+							var associatedAlarmImgTitle = associatedAlarm ? "Used in Alarm" : "No Associated Alarm";
+							var editTag = (associatedModule || associatedAlarm || Model.PointTemplate.Standard || !Model.ModifyEnabled) ? false : true;
+							var inhibitedInputOutputConfig = (@Model.Tags[index].InhibitInputOutputTypeConfiguration || moduleInhibitedInputOutputConfiguration || Model.PointTemplate.Standard || !Model.ModifyEnabled);
+							var derivedPoints = (Model.PointTemplate.DerivedPointCount > 0) ? true : false;
+							var deleteTagImg = Url.Content((!editTag) ? "~/fmwebapp/images/Delete-column-inactive.png" : "~/fmwebapp/images/Delete-column.png");
+							var disabledDelete = (!editTag) ? "disabled=\"disabled\"" : "";
+							var floatToggleClass = (tag.EngineeringUnitsType != EngineeringUnitType.FmuNodim && (tag.ValueTypeString == "System.Single" || tag.ValueTypeString == "System.Double") && !Model.PointTemplate.Standard && Model.ModifyEnabled) ? "booleanImgSelect" : "booleanImgSelect disabled";
+
+							// Enable/Disable config source
+							var configSourceClass = Model.ModifyEnabled && !moduleInhibitedInputOutputConfiguration && !Model.PointTemplate.Standard ? "booleanImgSelect" : "booleanImgSelect disabled";
+							var configUnitsClass = (tag.EngineeringUnitsType != EngineeringUnitType.FmuNodim && (tag.ValueTypeString == "System.Single" || tag.ValueTypeString == "System.Double") && !Model.PointTemplate.Standard && Model.ModifyEnabled && Model.PointTemplate.DerivedPointCount == 0) ? "booleanImgSelect" : "booleanImgSelect disabled";
+							var disableServerUnit = !Model.HasModifyFCEERight || tagList[i].InputOutputType != PointTemplateTag.PointTagInputOutputType.FCEE || !Model.ModifyEnabled;
+							var tagInputOutputTypes = Model.TagInputOutputTypes;
+							if (tag.Input == false)
+							{
+								tagInputOutputTypes = Model.OutputTagChangeAgents;
+							}
+
+				<tr>
+					<td class="tagColumnID col-md-3 text-left" style="overflow: auto; white-space: nowrap">
+						<img id="Tags_@(i)__DeleteTag" class="deleteImg" src="@deleteTagImg" @disabledDelete />
+						@Html.TextBoxFor(m => m.Tags[index].Name, tagList[i].Name, new { @class = "form-control column-tag-name", @maxlength = "50", @style = "width:calc( 100% - 55px); display:inline-block" }).Disable(!editTag)
+						<span id="Tags_@(i)_TagPointCommandStatusListSelector" name="Tags[@(i)].TagPointCommandStatusListSelector" title="@pointCommandStatusListSelectorText" class="point-command-status-list-reference @((tagList[i].DataType == "FMBusinessObjects.DataObjects.PointCommandStatusListReference" &&  (Model.ModifyEnabled && !Model.PointTemplate.Standard))  ? "" : "hidden")" style="display: inline-block; width: 20px; text-align: center;">
+							<i class="glyphicon glyphicon-cog"></i>
+						</span>
+						<span id="Tags_@(i)_TagDeviceAlarmMapSelector" name="Tags[@(i)].TagDeviceAlarmMapSelector" title="@deviceAlarmMapSelectorText" class="device-alarm-reference @((tagList[i].DataType == "FMBusinessObjects.DataObjects.DeviceAlarmMapReference" &&  (Model.ModifyEnabled && !Model.PointTemplate.Standard))  ? "" : "hidden")" style="display: inline-block; width: 20px; text-align: center;">
+							<i class="glyphicon glyphicon-cog"></i>
+						</span>
+					</td>
+					<td class="hidden tagColumnPointTagGuid text-left">
+						@tagList[i].PointTagGuid
+					</td>
+					<td class="tagColumnDataType col-md-2 text-left page1" style="overflow: hidden; white-space: nowrap">
+						@Html.DropDownListFor(m => m.Tags[index].DataType, new SelectList(@Model.TagDataTypes.Select(s => new SelectListItem { Value = s.Key, Text = s.Value }).OrderBy(x => x.Text), "Value", "Text", @tagList[i].DataType), new { @class = "form-control" }).Disable(!editTag || derivedPoints)
+					</td>
+					<td class="tagColumnInputOutputType col-md-1 page1" style="overflow: auto; white-space: nowrap">
+						@Html.DropDownListFor(m => m.Tags[index].InputOutputType, tagInputOutputTypes.OrderBy(x => x.Text), new { @class = "form-control" }).Disable(@Model.Tags[index].InhibitInputOutputTypeConfiguration || Model.PointTemplate.Standard || !Model.ModifyEnabled || moduleInhibitedInputOutputConfiguration)
+					</td>
+					<td class="tagColumnInhibitInputOutputTypeConfiguration col-md-1 text-center page1">
+						<img id="Tags_@(i)__InhibitInputOutputTypeConfiguration" class="@configSourceClass" draggable="false" @( Html.Raw(!tagList[i].InhibitInputOutputTypeConfiguration && !moduleInhibitedInputOutputConfiguration ? string.Format("data-value='true' title='Yes' alt='toggleOn' src='{0}'", onImgPath) : string.Format("data-value='false' title='No' alt='toggleOff' src='{0}'", offImgPath)))>
+					</td>
+					<td class="tagColumnUnitType col-md-1 page1">
+						@Html.DropDownListFor(m => m.Tags[index].EngineeringUnitsType, new SelectList(((EngineeringUnitType[])Enum.GetValues(typeof(EngineeringUnitType))).ToList().Except(new List<EngineeringUnitType> { EngineeringUnitType.FmuAll, EngineeringUnitType.FmuArea, EngineeringUnitType.FmuEnergy, EngineeringUnitType.FmuPower, EngineeringUnitType.FmuTime }).Select(s => new SelectListItem { Text = EngineeringUnits.GetUnitTypeString(s), Value = s.ToString() }).OrderBy(x => x.Text), "Value", "Text", @tagList[i].EngineeringUnitsType), (Model.Tags[index].DataType != "System.Double" && Model.Tags[index].DataType != "System.Single") ? new { @class = "form-control hidden" } : new { @class = "form-control" }).Disable(!editTag || derivedPoints)
+					</td>
+					<td class="tagColumnUnits col-md-1 page1">
+						@Html.DropDownListFor(m => m.Tags[index].Unit, EngineeringUnits.GetUnitsByType((EngineeringUnitType)Enum.Parse(typeof(EngineeringUnitType), @Model.Tags[index].EngineeringUnitsType.ToString(), true)).Select(s => new SelectListItem { Text = EngineeringUnits.GetUnitAbbreviation(s), Value = ((int)s).ToString() }).OrderBy(x => x.Text), (Model.Tags[index].DataType != "System.Double" && Model.Tags[index].DataType != "System.Single") ? new { @class = "form-control hidden" } : new { @class = "form-control" }).Disable(Model.PointTemplate.Standard || Model.PointTemplate.DerivedPointCount > 0 || tagList[i].ApplyPointEngineeringUnits || !Model.ModifyEnabled)
+					</td>
+					<td class="tagColumnServerUnits col-md-1 page1"  style="@canViewFCEE">
+						@Html.DropDownListFor(m => m.Tags[index].ServerUnit, EngineeringUnits.GetUnitsByType((EngineeringUnitType)Enum.Parse(typeof(EngineeringUnitType), @Model.Tags[index].EngineeringUnitsType.ToString(), true)).Select(s => new SelectListItem { Text = EngineeringUnits.GetUnitAbbreviation(s), Value = ((int)s).ToString() }).OrderBy(x => x.Text), (Model.Tags[index].DataType != "System.Double" && Model.Tags[index].DataType != "System.Single") ? new { @class = "form-control hidden" } : new { @class = "form-control" }).Disable(disableServerUnit)
+					</td>
+					<td class="tagColumnApplyPointEngineeringUnits col-md-1 text-center page1">
+						<img id="Tags_@(i)__ApplyPointEngineeringUnits" class="@configUnitsClass" draggable="false" @(Html.Raw(tagList[i].ApplyPointEngineeringUnits ? string.Format("data-value='true' title='Yes' alt='toggleOn' src='{0}'", onImgPath) : string.Format("data-value='false' title='No' alt='toggleOff' src='{0}'", offImgPath)))>
+					</td>
+					<td class="tagColumnValue col-md-1 text-right page2 hidden">
+						@Html.TextBoxFor(m => m.Tags[index].Value, new { @class = "form-control input-md text-right ", maxlength = 2, title = @Model.Tags[index].Value, data_raw_value = @Model.Tags[index].ValueRaw })
+					</td>
+					<td class="tagColumnDecimalPlaces col-md-1 text-right page2 hidden">
+						@Html.TextBoxFor(m => m.Tags[index].DecimalPlaces, new { @class = "form-control input-md text-right ", maxlength = 2 }).Disable(Model.PointTemplate.Standard || tagList[i].ApplyPointDecimalPlaces || !Model.ModifyEnabled)
+					</td>
+					<td class="hidden tagColumnApplyPointDecimalPlaces col-md-1 text-center page2 hidden">
+						<img id="Tags_@(i)__ApplyPointDecimalPlaces" class="@floatToggleClass" draggable="false" @( Html.Raw(tagList[i].ApplyPointDecimalPlaces ? string.Format("data-value='true' title='Yes' alt='toggleOn' src='{0}'", onImgPath) : string.Format("data-value='false' title='No' alt='toggleOff' src='{0}'", offImgPath)))>
+					</td>
+					<td class="tagColumnMinimum col-md-2 text-right page2 hidden">
+						@Html.TextBoxFor(m => m.Tags[index].Minimum, new { @class = "form-control input-md text-right ", maxlength = 20, data_raw_value = @Model.Tags[index].MinimumRaw.ToString("G17") }).Disable(Model.PointTemplate.Standard || tagList[i].ApplyPointMinimum || !Model.ModifyEnabled)
+					</td>
+					<td class="hidden tagColumnApplyPointMinimum col-md-1 text-center page2 hidden">
+						<img id="Tags_@(i)__ApplyPointMinimum" class="@floatToggleClass" draggable="false" @(Html.Raw(tagList[i].ApplyPointMinimum ? string.Format("data-value='true' title='Yes' alt='toggleOn' src='{0}'", onImgPath) : string.Format("data-value='false' title='No' alt='toggleOff' src='{0}'", offImgPath)))>
+					</td>
+					<td class="tagColumnMaximum col-md-2 text-right page2 hidden">
+						@Html.TextBoxFor(m => m.Tags[index].Maximum, new { @class = "form-control input-md text-right ", maxlength = 20, data_raw_value = @Model.Tags[index].MaximumRaw.ToString("G17") }).Disable(Model.PointTemplate.Standard || tagList[i].ApplyPointMaximum || !Model.ModifyEnabled)
+					</td>
+					<td class="tagColumnApplyPointMaximum col-md-1 text-center page2 hidden">
+						<img id="Tags_@(i)__ApplyPointMaximum" class="@floatToggleClass" draggable="false" @(Html.Raw(tagList[i].ApplyPointMaximum ? string.Format("data-value='true' title='Yes' alt='toggleOn' src='{0}'", onImgPath) : string.Format("data-value='false' title='No' alt='toggleOff' src='{0}'", offImgPath)))>
+					</td>
+					<td class="tagColumnAssociations text-center col-md-2 page3 hidden">
+						<img name="alarm" style="margin-right: 50px;" alt="@associatedAlarmImgTitle" title="@associatedAlarmImgTitle" data-value="@associatedAlarm" src="@associatedAlarmImg" />
+						<img name="module" alt="Associated Module" title="Used in Module" data-value="@associatedModule" src="@associatedModuleImg" />
+					</td>
+					<td class="tagColumnWellKnownTag col-md-3 text-left page3 hidden" style="overflow: hidden; white-space: nowrap">
+						@Html.DropDownListFor(m => m.Tags[index].WellKnownIdentityGuidString, new SelectList(@Model.WellKnownTags.Select(s => new SelectListItem { Value = s.Key.ToString(), Text = s.Value }).OrderBy(x => x.Text), "Value", "Text", @tagList[i].WellKnownIdentityGuidString), new { @class = "form-control" }).Disable(!editTag)
+					</td>
+					<td class="tagColumnInput col-md-1 text-center page3 hidden">
+						<img id="Tags_@(i)__Input" class="booleanImgSelect" draggable="false" @(Html.Raw(tagList[i].Input ? string.Format("data-value='true' title='Yes' alt='toggleOn' src='{0}'", onImgPath) : string.Format("data-value='false' title='No' alt='toggleOff' src='{0}'", offImgPath)))>
+					</td>
+					<td class="tagColumnInhibitOverride col-md-1 text-center page3 hidden">
+						<img id="Tags_@(i)__InhibitOverride" class="booleanImgSelect" draggable="false" @(Html.Raw(!tagList[i].InhibitOverride ? string.Format("data-value='true' title='Yes' alt='toggleOn' src='{0}'", onImgPath) : string.Format("data-value='false' title='No' alt='toggleOff' src='{0}'", offImgPath)))>
+					</td>
+					<td class="tagColumnArchived col-md-1 text-center page3 hidden">
+						<img id="Tags_@(i)__Archived" class="booleanImgSelect" draggable="false" @(Html.Raw(tagList[i].Archived ? string.Format("data-value='true' title='Yes' alt='toggleOn' src='{0}'", onImgPath) : string.Format("data-value='false' title='No' alt='toggleOff' src='{0}'", offImgPath)))>
+					</td>
+				</tr>
+						}
+			</tbody>
+		</table>
+
+	</div>
+</div>
+
+<div class="row">
+	<div class="pull-left">
+		@{ 
+			var addDisable = (Model.PointTemplate.Standard || !Model.ModifyEnabled) ? "disabled=\"disabled\"" : "";
+			var addClass = (Model.PointTemplate.Standard || !Model.ModifyEnabled) ? "formfieldtitle pushButton disabled" : "formfieldtitle pushButton";
+		}
+		<button id="AddTagButtonId" type="button" onclick="" class="@addClass" @addDisable style="width: 140px;">
+			@FMBaseController.TranslateText("Add Tag")
+		</button>
+	</div>
+</div>
+
+<div id="dialogboxmessages" class="hidden">
+	<div id="confirm-delete-tag-dialog" title="Delete Tag">
+		<p>@FMBaseController.TranslateText("PointTemplateEditor|Delete Tag?")<br /></p>
+	</div>
+</div>
+
+<section id="customPointTemplateModals">
+	<div class="row">
+		<input id="PointTagNewValueInputId" type="hidden" value="" />
+		<input id="PointTagNewRawValueInputId" type="hidden" value="" />
+		<div id="PointTemplateTagEditValueScreen" class="fade modal editvalue" data-backdrop="static" data-focus-on="input:first" role="dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button id="PointTagEditValueCloseButton" type="button" class="close" onclick="AlarmEditor.CloseEditLimitTagValue();" data-dismiss="modal">&times;</button>
+					<h4 id="PointTagEditValueScreen" class="modal-title" style="text-align: center; color: rgb(194, 194, 194);">@FMBaseController.TranslateText("SET VALUE")</h4>
+				</div>
+				<div class="modal-body">
+					<section id="PointTemplateTagEditValueScreenBody" class=""></section>
+				</div>
+				<div class="modal-footer">
+					<div class="btn-toolbar">
+						<div class="pull-right">
+							<button id="PointTagEditValueOkButton" type="button" accesskey="O" class="btn btn-default" data-post-click-event="FMPointEditor.PostTagEditChange">@FMBaseController.TranslateText("PointTagEditor|&Ok")</button>
+							<button id="PointTagEditValueCancelButton" type="button" accesskey="C" class="btn">@FMBaseController.TranslateText("PointTagEditor|&Cancel")</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	$(document).ready(function () {
+		if ($('#StandardPointTemplate').val() == 'True'
+		|| $('#ModifyEnabled').val() == 'False') {
+			$('#TagEditTable .tagColumnValue').addClass("disabled");
+			$('#TagEditTable .booleanImgSelect').addClass("disabled").prop('disabled', true);
+		}
+
+		var okButton = $('#PointTagEditValueOkButton');   //bds
+		ampersandIndex = okButton.text().indexOf('&');
+		if (ampersandIndex !== -1) {
+		    var hotKey = okButton.text().charAt(ampersandIndex + 1);
+		    okButton.html(okButton.text().replace('&' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+		    okButton.attr('accesskey', hotKey);
+		}
+
+		var cancelButton = $('#PointTagEditValueCancelButton');   //bds
+		ampersandIndex = cancelButton.text().indexOf('&');
+		if (ampersandIndex !== -1) {
+		    var hotKey = cancelButton.text().charAt(ampersandIndex + 1);
+		    cancelButton.html(cancelButton.text().replace('&' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+		    cancelButton.attr('accesskey', hotKey);
+		}
+	});
+
+	FMPointEditor.renameTag = function(object){
+		var rowId = parseInt($(object).attr('id').replace('Tags_', '').replace('__Name', ''));
+		var newName = $(object).val();
+
+		if ((/[^a-zA-Z0-9\ ]/.test(newName))) {
+			FMLayout.Alert($("#TranslatedTagNameMustBeAlphanumeric").val() + ' : ' + newName, '', function () {
+				$(object).focus();
+			});
+			return;
+		}
+
+		if (FMPointEditor.tagList[rowId].Name !== newName) {
+			var tagList = jQuery.grep(FMPointEditor.tagList, function (a) {
+				return a.Name === newName;
+			});
+
+			if (tagList.length > 0) {
+				FMLayout.Alert($("#TranslatedDuplicateTag").val() + ' : ' + newName, '', function () {
+					$(object).focus();
+				});
+				return;
+			}
+
+			FMPointEditor.tagList[rowId].Name = newName;
+			FMPointEditor.sortTagTable();
+			FMPointEditor.valuesChanged = true;
+		}
+
+		//chrome default behavior scrolls the row into view, IE does not
+		//only want to do this in IE and not both because chrome
+		//works better than javascript scrollIntoView();
+		var ua = window.navigator.userAgent;
+		var old_ie = ua.indexOf('MSIE ');
+		var new_ie = ua.indexOf('Trident/');
+		if ((old_ie > -1) || (new_ie > -1))
+		{
+			rowId = parseInt($(object).attr('id').replace('Tags_', '').replace('__Name', ''));
+			document.getElementById("Tags_" + rowId + "__Name").scrollIntoView();
+		}
+
+	}
+
+	$('.column-tag-name').on('blur', function (object) {
+		FMPointEditor.renameTag(object.currentTarget);
+	});
+
+	$("#tagGridEditorPageLeft").on('click', function () {
+		if (!$(this).hasClass('disable')) {
+			if ($("#TagEditTableHeader .page2").hasClass('hidden')) {
+				$("#TagEditEmptyRowTable .page2").removeClass('hidden');
+				$("#TagEditEmptyRowTable .page3").removeClass('hidden').addClass('hidden');
+				$("#TagEditTable .page2").removeClass('hidden');
+				$("#TagEditTable .page3").removeClass('hidden').addClass('hidden');
+				$("#TagEditTableHeader .page2").removeClass('hidden');
+				$("#TagEditTableHeader .page3").removeClass('hidden').addClass('hidden');
+				$("#tagGridEditorPageRight").removeClass('disable');
+			}
+			else {
+				$("#TagEditEmptyRowTable .page1").removeClass('hidden');
+				$("#TagEditEmptyRowTable .page2").removeClass('hidden').addClass('hidden');
+				$("#TagEditTable .page1").removeClass('hidden');
+				$("#TagEditTable .page2").removeClass('hidden').addClass('hidden');
+				$("#TagEditTableHeader .page1").removeClass('hidden');
+				$("#TagEditTableHeader .page2").removeClass('hidden').addClass('hidden');
+				$("#tagGridEditorPageLeft").removeClass('disable').addClass('disable');
+			}
+		}
+	});
+
+	$("#tagGridEditorPageRight").on('click', function () {
+		if (!$(this).hasClass('disable')) {
+			if ($("#TagEditTableHeader .page2").hasClass('hidden')) {
+				$("#TagEditEmptyRowTable .page1").removeClass('hidden').addClass('hidden');
+				$("#TagEditEmptyRowTable .page2").removeClass('hidden');
+				$("#TagEditTable .page1").removeClass('hidden').addClass('hidden');
+				$("#TagEditTable .page2").removeClass('hidden');
+				$("#TagEditTableHeader .page1").removeClass('hidden').addClass('hidden');
+				$("#TagEditTableHeader .page2").removeClass('hidden');
+				$("#tagGridEditorPageLeft").removeClass('disable');
+			}
+			else {
+				$("#TagEditEmptyRowTable .page2").removeClass('hidden').addClass('hidden');
+				$("#TagEditEmptyRowTable .page3").removeClass('hidden');
+				$("#TagEditTable .page2").removeClass('hidden').addClass('hidden');
+				$("#TagEditTable .page3").removeClass('hidden');
+				$("#TagEditTableHeader .page2").removeClass('hidden').addClass('hidden');
+				$("#TagEditTableHeader .page3").removeClass('hidden');
+				$("#tagGridEditorPageRight").removeClass('disable').addClass('disable');
+			}
+		}
+	});
+
+
+	$("#TagEditTable").on('click', '.booleanImgSelect', function () {
+
+		if ($(this).hasClass('disabled')) {
+			event.preventDefault();
+			event.stopPropagation();
+			return;
+		}
+
+		// we need to update enable/disable the associated field
+		var row = $( this ).closest( 'tr' );
+
+		var rowIndex = row.find( '.column-tag-name' ).attr( 'id' ).replace( 'Tags_', '' ).replace( '__Name', '' );
+
+		var isDecimalsField = $( this ).parent().hasClass( 'tagColumnApplyPointDecimalPlaces' );
+		var isMinField = $( this ).parent().hasClass( 'tagColumnApplyPointMinimum' );
+		var isMaxField = $( this ).parent().hasClass( 'tagColumnApplyPointMaximum' );
+		var isUnitField = $(this).parent().hasClass('tagColumnApplyPointEngineeringUnits');
+		var isInput = $(this).parent().hasClass('tagColumnInput');
+		var isInhibitInputOutputTypeConfiguration = $(this).parent().hasClass('tagColumnInhibitInputOutputTypeConfiguration');
+		var isInhibitOverride = $(this).parent().hasClass('tagColumnInhibitOverride');
+        var isArchived = $(this).parent().hasClass('tagColumnArchived');
+
+
+		if ($(this).attr("data-value") === "true") {
+			$(this).attr("data-value", "false");
+			$(this).attr("alt", "toggleOff");
+			$(this).attr("title", "No");
+			$(this).attr("src", "@offImgPath");
+
+			// enable the associated field
+			if (isDecimalsField) {
+				row.find(".tagColumnDecimalPlaces input").prop("disabled", false);
+				FMPointEditor.tagList[rowIndex].ApplyPointDecimalPlaces = false;
+			}
+			else if (isMinField) {
+				row.find(".tagColumnMinimum input").prop("disabled", false);
+				FMPointEditor.tagList[rowIndex].ApplyPointMinimum = false;
+			}
+			else if (isMaxField) {
+				row.find(".tagColumnMaximum input").prop("disabled", false);
+				FMPointEditor.tagList[rowIndex].ApplyPointMaximum = false;
+			}
+			else if (isUnitField) {
+				row.find(".tagColumnUnits select").removeAttr("disabled");
+				FMPointEditor.tagList[rowIndex].ApplyPointEngineeringUnits = false;
+			}
+			else if (isInhibitInputOutputTypeConfiguration) {
+				row.find(".tagColumnInputOutputType select").attr("disabled", "disabled");
+			}
+
+			else if (isInput) {
+				FMPointEditor.tagList[rowIndex].Input = false;
+
+
+				var currentInputOutputType = row.find('td.tagColumnInputOutputType select').prop('value');
+
+				var list = '';
+				$('#TagEditEmptyRowTable .tagColumnInputOutputType select').find('option').each(function (index, element) {
+					if (element.value === '0' || element.value === '3') {
+						return;
+					}
+					list += '<option value="' + element.value + '">' + element.text + '</option>';
+				});
+				row.find(".tagColumnInputOutputType select").html(list);
+
+				if (currentInputOutputType !== '0' && currentInputOutputType !== '3') {
+					row.find('td.tagColumnInputOutputType select').prop('value', currentInputOutputType);
+				}
+			}
+			else if (isInhibitInputOutputTypeConfiguration) {
+				FMPointEditor.tagList[rowIndex].InhibitInputOutputTypeConfiguration = false;
+			}
+			else if (isInhibitOverride) {
+				FMPointEditor.tagList[rowIndex].InhibitOverride = false;
+			}
+            else if (isArchived) {
+                FMPointEditor.tagList[rowIndex].Archived = false;
+            }
+		}
+		else {
+			$(this).attr("data-value", "true");
+			$(this).attr("alt", "toggleOn");
+			$(this).attr("title", "Yes");
+			$(this).attr("src", "@onImgPath");
+			if (isDecimalsField) {
+				FMPointEditor.tagList[rowIndex].ApplyPointDecimalPlaces = true;
+
+				row.find(".tagColumnDecimalPlaces input").prop("disabled", true);
+				var unitType = row.find(".tagColumnUnitType select").val();
+				var decimalPlaces = FMPointEditor.getDefaultDecimalPlaces(unitType);
+				row.find('.tagColumnDecimalPlaces input').val(decimalPlaces);
+				FMPointEditor.tagList[rowIndex].DecimalPlaces = parseInt(decimalPlaces);
+
+
+				if (FMPointEditor.tagList[rowIndex].ApplyPointMinimum) {
+					FMPointEditor.setTagMinimumFromDefaultMinimum(row);
+				}
+				else {
+					FMPointEditor.setTagMinimum(row);
+				}
+				if (FMPointEditor.tagList[rowIndex].ApplyPointMaximum) {
+					FMPointEditor.setTagMaximumFromDefaultMaximum(row);
+				} else {
+					FMPointEditor.setTagMaximum(row);
+				}
+			}
+			else if (isUnitField) {
+				FMPointEditor.tagList[rowIndex].ApplyPointEngineeringUnits = true;
+				row.find(".tagColumnUnits select").attr("disabled", "disabled");
+				var unitType = row.find(".tagColumnUnitType select").val();
+				var defaultUnits = FMPointEditor.getDefaultUnits(unitType);
+				if (defaultUnits != row.find('.tagColumnUnits select').val()) {
+
+					row.find('.tagColumnUnits select').val(defaultUnits);
+					FMPointEditor.unitsChanged(row.find('.tagColumnUnits select'));
+
+					if (FMPointEditor.tagList[rowIndex].ApplyPointMinimum) {
+						FMPointEditor.setTagMinimumFromDefaultMinimum(row);
+					}
+					if (FMPointEditor.tagList[rowIndex].ApplyPointMaximum) {
+						FMPointEditor.setTagMaximumFromDefaultMaximum(row);
+					}
+				}
+
+				if (defaultUnits != row.find('.tagColumnServerUnits select').val()) {
+
+					row.find('.tagServerColumnUnits select').val(defaultUnits);
+				}
+
+			}
+			else if (isMaxField) {
+				FMPointEditor.tagList[rowIndex].ApplyPointMaximum = true;
+				FMPointEditor.setTagMaximumFromDefaultMaximum(row);
+				row.find(".tagColumnMaximum input").prop("disabled", true);
+			}
+			else if (isMinField) {
+				FMPointEditor.tagList[rowIndex].ApplyPointMinimum = true;
+				FMPointEditor.setTagMinimumFromDefaultMinimum(row);
+				row.find(".tagColumnMinimum input").prop("disabled", true);
+			}
+			else if (isInput) {
+				FMPointEditor.tagList[rowIndex].Input = true;
+				var currentInputOutputType = row.find('td.tagColumnInputOutputType select').prop('value');
+
+				var list = '';
+				$('#TagEditEmptyRowTable .tagColumnInputOutputType select').find('option').each(function (index, element) {
+					list += '<option value="' + element.value + '">' + element.text + '</option>';
+				});
+				row.find(".tagColumnInputOutputType select").html(list);
+
+				row.find('td.tagColumnInputOutputType select').prop('value', currentInputOutputType);
+			}
+			else if (isInhibitInputOutputTypeConfiguration) {
+				FMPointEditor.tagList[rowIndex].InhibitInputOutputTypeConfiguration = true;
+				row.find(".tagColumnInputOutputType select").removeAttr("disabled");
+			}
+			else if (isInhibitOverride) {
+				FMPointEditor.tagList[rowIndex].InhibitOverride = true;
+			}
+            else if (isArchived) {
+                FMPointEditor.tagList[rowIndex].Archived = true;
+            }
+		}
+
+		FMPointEditor.valuesChanged = true;
+	} );
+
+	// change the Data Type
+	$("#TagEditTable").on('change', '.tagColumnDataType select', function ()
+	{
+		var dataType = $(this).val();
+		var row = $( this ).closest( 'tr' );
+
+		row.find('.tagColumnID span').removeClass("hidden").addClass("hidden").off('click');
+
+		var rowIndex = row.find('.column-tag-name').attr('id').replace('Tags_', '').replace('__Name', '');
+
+		FMPointEditor.tagList[rowIndex].DataType = dataType;
+
+		if (dataType === "System.Double"
+		|| dataType === "System.Single") {
+			row.find('.tagColumnUnits select').removeClass("hidden").addClass("hidden");
+			row.find('.tagColumnUnitType select').removeClass("hidden");
+			row.find('.tagColumnDecimalPlaces input').removeClass("hidden");
+			row.find('.tagColumnMinimum input').removeClass("hidden");
+			row.find('.tagColumnMaximum input').removeClass("hidden");
+			row.find('.tagColumnUnitType select').val('FmuNodim'); // default to No dimensions
+			row.find('.tagColumnUnits select').val('255');
+			row.find('.tagColumnServerUnits select').val('255');
+			row.find('.tagColumnMinimum input').attr('data-raw-value', '0.0');
+			row.find('.tagColumnMaximum input').attr('data-raw-value', '1000000.0');
+			row.find('.tagColumnApplyPointEngineeringUnits img').prop('disabled', false).removeClass('disabled');
+			row.find('.tagColumnApplyPointDecimalPlaces img').prop('disabled', false).removeClass('disabled');
+			row.find('.tagColumnApplyPointMinimum img').prop('disabled', false).removeClass('disabled');
+			row.find('.tagColumnApplyPointMaximum img').prop('disabled', false).removeClass('disabled');
+
+			FMPointEditor.tagList[rowIndex].EngineeringUnitsType = 'FmuNodim';
+
+			FMPointEditor.setTagMinimum(row);
+			FMPointEditor.setTagMaximum(row);
+		}
+		else {
+			row.find('.tagColumnApplyPointEngineeringUnits img').prop('disabled', true).removeClass("disabled").addClass("disabled").attr("data-value", "false").attr("alt", "toggleOff").attr("title", "No").attr("src", "@offImgPath");
+			row.find('.tagColumnApplyPointDecimalPlaces img').prop('disabled', true).removeClass("disabled").addClass("disabled").attr("data-value", "false").attr("alt", "toggleOff").attr("title", "No").attr("src", "@offImgPath");
+			row.find('.tagColumnApplyPointMinimum img').prop('disabled', true).removeClass("disabled").addClass("disabled").attr("data-value", "false").attr("alt", "toggleOff").attr("title", "No").attr("src", "@offImgPath");
+			row.find('.tagColumnApplyPointMaximum img').prop('disabled', true).removeClass("disabled").addClass("disabled").attr("data-value", "false").attr("alt", "toggleOff").attr("title", "No").attr("src", "@offImgPath");
+			row.find('.tagColumnDecimalPlaces input').removeClass("hidden").addClass("hidden");
+
+			row.find('.tagColumnUnitType select').val('FmuNone');  // default to units type none
+			FMPointEditor.tagList[rowIndex].EngineeringUnitsType = 'FmuNone';
+			row.find('.tagColumnUnits select').val('255');
+
+			if (dataType === "System.Int16"
+			|| dataType === "System.Int32"
+			|| dataType === "System.Int64"
+			|| dataType === "System.UInt16"
+			|| dataType === "System.UInt32"
+			|| dataType === "System.UInt64"
+			|| dataType === "FMBusinessObjects.DataObjects.DeviceAlarmMapReference") {
+				if (dataType == 'FMBusinessObjects.DataObjects.DeviceAlarmMapReference') {
+					row.find('.tagColumnID .device-alarm-map-reference').removeClass("hidden");
+				}
+				row.find('.tagColumnMinimum input').removeClass("hidden");
+				row.find('.tagColumnMaximum input').removeClass("hidden");
+				row.find('.tagColumnUnits select').removeClass("hidden").addClass("hidden");
+				row.find('.tagColumnServerUnits select').removeClass("hidden").addClass("hidden");
+				row.find('.tagColumnUnitType select').removeClass("hidden").addClass("hidden");
+				row.find('.tagColumnDecimalPlaces input').val('0');
+				FMPointEditor.tagList[rowIndex].DecimalPlaces = 0;
+
+				if (dataType === "System.Int16") {
+					row.find('.tagColumnMinimum input').attr('data-raw-value', '-32768');
+					row.find('.tagColumnMaximum input').attr('data-raw-value', '32767');
+				}
+				else if (dataType === "System.Int32") {
+					row.find('.tagColumnMinimum input').attr('data-raw-value', '-2147483648');
+					row.find('.tagColumnMaximum input').attr('data-raw-value', '2147483647');
+				}
+				else if (dataType === "System.Int64") {
+					row.find('.tagColumnMinimum input').attr('data-raw-value', '-9223372036854775808');
+					row.find('.tagColumnMaximum input').attr('data-raw-value', '9223372036854775807');
+				}
+				else if (dataType === "System.UInt16") {
+					row.find('.tagColumnMinimum input').attr('data-raw-value', '0');
+					row.find('.tagColumnMaximum input').attr('data-raw-value', '65535');
+				}
+				else if (dataType === "System.UInt32"
+				|| dataType === "FMBusinessObjects.DataObjects.DeviceAlarmMapReference") {
+					row.find('.tagColumnMinimum input').attr('data-raw-value', '0');
+					row.find('.tagColumnMaximum input').attr('data-raw-value', '4294967295');
+				}
+				else if (dataType === "System.UInt64") {
+					row.find('.tagColumnMinimum input').attr('data-raw-value', '0');
+					row.find('.tagColumnMaximum input').attr('data-raw-value', '18446744073709551615');
+				}
+				FMPointEditor.setTagMinimum(row);
+				FMPointEditor.setTagMaximum(row);
+			}
+			else {
+				if (dataType == 'FMBusinessObjects.DataObjects.PointCommandStatusListReference') {
+					row.find('.tagColumnID .point-command-status-list-reference').removeClass("hidden");
+				}
+				row.find('.tagColumnMinimum input').removeClass("hidden").addClass("hidden");
+				row.find('.tagColumnMaximum input').removeClass("hidden").addClass("hidden");
+				row.find('.tagColumnUnits select').removeClass("hidden").addClass("hidden");
+				row.find('.tagColumnServerUnits select').removeClass("hidden").addClass("hidden");
+				row.find('.tagColumnUnitType select').removeClass("hidden").addClass("hidden");
+
+				// if no numeric no need for max/min
+				row.find('.tagColumnMinimum input').attr('data-raw-value', '0');
+				row.find('.tagColumnMaximum input').attr('data-raw-value', '0');
+				row.find('.tagColumnDecimalPlaces input').val('0');
+				FMPointEditor.setTagMinimum(row);
+				FMPointEditor.setTagMaximum(row);
+			}
+
+		}
+		row.find('.tagColumnValue input').val(''); // reset the value if we change data type
+		if(dataType === 'FMBusinessObjects.DataObjects.DeviceAlarmMapReference'){
+			row.find('.tagColumnValue input').attr('data-raw-value',  JSON.stringify({ 'DeviceAlarmMapGuid': '00000000-0000-0000-0000-000000000000', 'CurrentValue': null }));
+		}
+		else {
+			row.find('.tagColumnValue input').attr('data-raw-value', ''); // reset the raw value if we change data type
+		}
+
+		row.find('.tagColumnValue input').attr('title', '');
+		FMPointEditor.valuesChanged = true;
+	} );
+
+	// change the Unit Type
+	$("#TagEditTable").on('change', '.tagColumnUnitType select', function () {
+		var row = $(this).closest('tr');
+
+		row.find('.tagColumnUnits select').val('');
+
+		var unitsType = $(this).val();
+
+		row.find('.tagColumnApplyPointEngineeringUnits img').prop('disabled', false).removeClass("disabled");
+		row.find('.tagColumnApplyPointDecimalPlaces img').prop('disabled', false).removeClass("disabled");
+		row.find('.tagColumnApplyPointMinimum img').prop('disabled', false).removeClass("disabled");
+		row.find('.tagColumnApplyPointMaximum img').prop('disabled', false).removeClass("disabled");
+
+		switch (unitsType) {
+			case "FmuLength": //Length
+				row.find('.tagColumnUnits select').removeClass("hidden");
+				row.find('.tagColumnUnits select').children().remove();
+				row.find('.tagColumnUnits select').append($("#PELevelEngineeringUnits").children().clone());
+				row.find('.tagColumnUnits select').val($("#PELevelEngineeringUnits").val());
+				row.find('.tagColumnServerUnits select').removeClass("hidden");
+				row.find('.tagColumnServerUnits select').children().remove();
+				row.find('.tagColumnServerUnits select').append($("#PELevelEngineeringUnits").children().clone());
+				row.find('.tagColumnServeeUnits select').val($("#PELevelEngineeringUnits").val());
+				break;
+			case "FmuTemp": //"Temperature":
+				row.find('.tagColumnUnits select').removeClass("hidden");
+				row.find('.tagColumnUnits select').children().remove();
+				row.find('.tagColumnUnits select').append($("#PETemperatureEngineeringUnits").children().clone());
+				row.find('.tagColumnUnits select').val($("#PETemperatureEngineeringUnits").val());
+				row.find('.tagColumnServerUnits select').removeClass("hidden");
+				row.find('.tagColumnServerUnits select').children().remove();
+				row.find('.tagColumnServerUnits select').append($("#PETemperatureEngineeringUnits").children().clone());
+				row.find('.tagColumnServerUnits select').val($("#PETemperatureEngineeringUnits").val());
+				break;
+			case "FmuDensity": //"Density":
+				row.find('.tagColumnUnits select').removeClass("hidden");
+				row.find('.tagColumnUnits select').children().remove();
+				row.find('.tagColumnUnits select').append($("#PEDensityEngineeringUnits").children().clone());
+				row.find('.tagColumnUnits select').val($("#PEDensityEngineeringUnits").val());
+				row.find('.tagColumnServerUnits select').removeClass("hidden");
+				row.find('.tagColumnServerUnits select').children().remove();
+				row.find('.tagColumnServerUnits select').append($("#PEDensityEngineeringUnits").children().clone());
+				row.find('.tagColumnServerUnits select').val($("#PEDensityEngineeringUnits").val());
+				break;
+         case "FmuElect": //"Density":
+            row.find('.tagColumnUnits select').removeClass("hidden");
+            row.find('.tagColumnUnits select').children().remove();
+            row.find('.tagColumnUnits select').append($("#PEElectricalEngineeringUnits").children().clone());
+            row.find('.tagColumnUnits select').val($("#PEElectricalEngineeringUnits").val());
+				row.find('.tagColumnServerUnits select').removeClass("hidden");
+				row.find('.tagColumnServerUnits select').children().remove();
+				row.find('.tagColumnServerUnits select').append($("#PEElectricalEngineeringUnits").children().clone());
+				row.find('.tagColumnServerUnits select').val($("#PEElectricalEngineeringUnits").val());
+            break;
+			case "FmuMassflow": //"Mass Flow":
+				row.find('.tagColumnUnits select').removeClass("hidden");
+				row.find('.tagColumnUnits select').children().remove();
+				row.find('.tagColumnUnits select').append($("#PEMassFlowEngineeringUnits").children().clone());
+				row.find('.tagColumnUnits select').val($("#PEMassFlowEngineeringUnits").val());
+				row.find('.tagColumnServerUnits select').removeClass("hidden");
+				row.find('.tagColumnServerUnits select').children().remove();
+				row.find('.tagColumnServerUnits select').append($("#PEMassFlowEngineeringUnits").children().clone());
+				row.find('.tagColumnServerUnits select').val($("#PEMassFlowEngineeringUnits").val());
+				break;
+			case "FmuMass": //"Mass":
+				row.find('.tagColumnUnits select').removeClass("hidden");
+				row.find('.tagColumnUnits select').children().remove();
+				row.find('.tagColumnUnits select').append($("#PEMassEngineeringUnits").children().clone());
+				row.find('.tagColumnUnits select').val($("#PEMassEngineeringUnits").val());
+				row.find('.tagColumnServerUnits select').removeClass("hidden");
+				row.find('.tagColumnServerUnits select').children().remove();
+				row.find('.tagColumnServerUnits select').append($("#PEMassEngineeringUnits").children().clone());
+				row.find('.tagColumnServerUnits select').val($("#PEMassEngineeringUnits").val());
+				break;
+			case "FmuPressure": //"Pressure":
+				row.find('.tagColumnUnits select').removeClass("hidden");
+				row.find('.tagColumnUnits select').children().remove();
+				row.find('.tagColumnUnits select').append($("#PEPressureEngineeringUnits").children().clone());
+				row.find('.tagColumnUnits select').val($("#PEPressureEngineeringUnits").val());
+				row.find('.tagColumnServerUnits select').removeClass("hidden");
+				row.find('.tagColumnServerUnits select').children().remove();
+				row.find('.tagColumnServerUnits select').append($("#PEPressureEngineeringUnits").children().clone());
+				row.find('.tagColumnServerUnits select').val($("#PEPressureEngineeringUnits").val());
+				break;
+			case "FmuVelocity": //"Velocity/rate":
+				row.find('.tagColumnUnits select').removeClass("hidden");
+				row.find('.tagColumnUnits select').children().remove();
+				row.find('.tagColumnUnits select').append($("#PEVelocityEngineeringUnits").children().clone());
+				row.find('.tagColumnUnits select').val($("#PEVelocityEngineeringUnits").val());
+				row.find('.tagColumnServerUnits select').removeClass("hidden");
+				row.find('.tagColumnServerUnits select').children().remove();
+				row.find('.tagColumnServerUnits select').append($("#PEVelocityEngineeringUnits").children().clone());
+				row.find('.tagColumnServerUnits select').val($("#PEVelocityEngineeringUnits").val());
+				break;
+			case "FmuVolume": //"Volume":
+				row.find('.tagColumnUnits select').removeClass("hidden");
+				row.find('.tagColumnUnits select').children().remove();
+				row.find('.tagColumnUnits select').append($("#PEVolumeEngineeringUnits").children().clone());
+				row.find('.tagColumnUnits select').val($("#PEVolumeEngineeringUnits").val());
+				row.find('.tagColumnServerUnits select').removeClass("hidden");
+				row.find('.tagColumnServerUnits select').children().remove();
+				row.find('.tagColumnServerUnits select').append($("#PEVolumeEngineeringUnits").children().clone());
+				row.find('.tagColumnServerUnits select').val($("#PEVolumeEngineeringUnits").val());
+				break;
+			case "FmuVolflow": //"Volumetric Flow":
+				row.find('.tagColumnUnits select').removeClass("hidden");
+				row.find('.tagColumnUnits select').children().remove();
+				row.find('.tagColumnUnits select').append($("#PEVolumetricFlowEngineeringUnits").children().clone());
+				row.find('.tagColumnUnits select').val($("#PEVolumetricFlowEngineeringUnits").val());
+				row.find('.tagColumnServerUnits select').removeClass("hidden");
+				row.find('.tagColumnServerUnits select').children().remove();
+				row.find('.tagColumnServerUnits select').append($("#PEVolumetricFlowEngineeringUnits").children().clone());
+				row.find('.tagColumnServerUnits select').val($("#PEVolumetricFlowEngineeringUnits").val());
+				row.find('.tagColumnApplyPointEngineeringUnits img').removeClass("disabled");
+				row.find('.tagColumnApplyPointDecimalPlaces img').removeClass("disabled");
+				row.find('.tagColumnApplyPointMinimum img').removeClass("disabled");
+				row.find('.tagColumnApplyPointMaximum img').removeClass("disabled");
+				break;
+			default:
+				row.find('.tagColumnUnits select').removeClass("hidden").addClass("hidden");
+				row.find('.tagColumnUnits select').children().remove();
+				row.find('.tagColumnUnits select').append('<option value="255">None</option>');
+				row.find('.tagColumnUnits select').val("FmuNone");
+				row.find('.tagColumnServerUnits select').removeClass("hidden").addClass("hidden");
+				row.find('.tagColumnServerUnits select').children().remove();
+				row.find('.tagColumnServerUnits select').append('<option value="255">None</option>');
+				row.find('.tagColumnServerUnits select').val("FmuNone");
+				row.find('.tagColumnApplyPointEngineeringUnits img').prop('disabled', true).addClass("disabled");
+				row.find('.tagColumnApplyPointDecimalPlaces img').prop('disabled', true).addClass("disabled");
+				row.find('.tagColumnApplyPointMinimum img').prop('disabled', true).addClass("disabled");
+				row.find('.tagColumnApplyPointMaximum img').prop('disabled', true).addClass("disabled");
+		}
+
+		var units = row.find('.tagColumnUnits select').val();
+		row.find('.tagColumnUnits select').data("prev", units);
+		var serverUnits = row.find('.tagColumnServerUnits select').val();
+		row.find('.tagColumnServerUnits select').data("prev", serverUnits);
+
+		var rowIndex = row.find('.column-tag-name').attr('id').replace('Tags_', '').replace('__Name', '');
+
+		FMPointEditor.tagList[rowIndex].EngineeringUnitsType = unitsType;
+		FMPointEditor.tagList[rowIndex].Units = units;
+		FMPointEditor.tagList[rowIndex].ServerUnits = serverUnits;
+
+		FMPointEditor.setTagDecimalPlacesFromDefaultDecimalPlaces(row);
+		FMPointEditor.setTagMinimumFromDefaultMinimum(row);
+		FMPointEditor.setTagMaximumFromDefaultMaximum(row);
+	});
+
+	$("#TagEditTable").on('click', '.tagColumnValue', function () {
+
+		// Inhibit Edit
+		if ($('#StandardPointTemplate').val() == 'True'
+		|| $('#ModifyEnabled').val() == 'False') {
+			return;
+		}
+
+		var row = $(this).closest('tr');
+
+		var rowIndex = row.find('.column-tag-name').attr('id').replace('Tags_', '').replace('__Name', '');
+
+
+		var dataType = FMPointEditor.tagList[rowIndex].DataType;
+		var id = FMPointEditor.tagList[rowIndex].Name;
+		var value = $(this).find('input').attr("data-raw-value");
+		var unitsType = FMPointEditor.tagList[rowIndex].EngineeringUnitsType;
+		var units = FMPointEditor.tagList[rowIndex].Units;
+		var decimalPlaces = FMPointEditor.tagList[rowIndex].DecimalPlaces;
+		var maximum = $("#Tags_" + rowIndex + "__Maximum").attr( "data-raw-value");
+		var minimum = $("#Tags_" + rowIndex + "__Minimum").attr( "data-raw-value");
+		var pointValueIdentifier = { IdentityGuid: FMPointEditor.tagList[rowIndex].PointTagGuid, PointValueType: 'Tag', PropertyID: '' };
+		var pointTemplateGuid = FMPointEditor.pointGuid;
+		var pointName = $("#PEID").val();
+		var AllowOverUnderRange = "True";
+
+		var url = $('#urlEditPointTemplateTags').val();
+		var token = $('#pointPropertiesForm input[name=__RequestVerificationToken]').val();
+		var headers = {};
+		headers['__RequestVerificationToken'] = token;
+
+		var requestParms = { isPointTemplate: true, pointValueIdentifier: pointValueIdentifier, valueTypeString: dataType, id: id, value: value, decimalPlaces: decimalPlaces, unitType: unitsType, unit: units, maximum: maximum, minimum: minimum, pointTemplateGuid: pointTemplateGuid, pointName: pointName, AllowOverUnderRange: AllowOverUnderRange }
+
+		FMErrorAndExceptionHandling.CloseNotifications();
+
+		// redefine the function that will be executed when applying changes to tag values
+		HandlePointTagEditorNewValueUpdate = function ()
+		{
+			// get the new value
+			var newVal = $("#PointTagNewValueInputId").val();
+			var newRawVal = $("#PointTagNewRawValueInputId").val();
+			$('#Tags_' + rowIndex + '__Value').val(newVal);
+			$('#Tags_' + rowIndex + '__Value').attr('title', newVal);
+			$('#Tags_' + rowIndex + '__Value').attr('data-raw-value', newRawVal);
+			var tagGuid = FMPointEditor.tagList[rowIndex].PointTagGuid;
+
+			// go through the alarms to see if the tag is being used as a limit tag
+			$.each( AlarmEditor.GetAlarmEditorModel().Tags, function( index, tag )
+			{
+				$.each(tag.Alarms, function (index, alarm) {
+					$.each(alarm.AlarmTests, function (index, alarmTest) {
+						if ( alarmTest.LimitTagGuid == tagGuid )
+						{
+							$("#limitValueInputId_" + alarmTest.AlarmTestGuid).text(newVal);
+							$("#limitValueInputId_" + alarmTest.AlarmTestGuid).attr('title', newVal);
+						}
+					});
+				});
+			} );
+		}
+
+		// create the backdrop and wait for next modal to be triggered
+		var modalManager = $('body').modalmanager('loading');
+
+		$.ajax({
+			type: 'POST',
+			cache: false,
+			headers: headers,
+			url: url,
+			data: requestParms,
+			success: function (response) {
+				FMErrorAndExceptionHandling.HandleMessages(response, function (data, inError) {
+					if (!inError || (data != null)) {
+						$('#PointTemplateTagEditValueScreenBody').html(response.Data);
+						$('#PointTemplateTagEditValueScreen').modal('show');
+					}
+					else {
+						$('body').modalmanager('loading'); // remove the loading background
+					}
+				});
+			},
+			error: function (xhr, textStatus, error) {
+				FMErrorAndExceptionHandling.ShowException(xhr, textStatus, error, function () {
+					$('body').modalmanager('loading'); // remove the loading background
+				});
+			}
+		});
+	});
+
+	$("#TagEditTable").on('click', '.tagColumnID span', function () {
+		var row = $(this).closest('tr');
+		var pointTagGuid = row.find('.tagColumnPointTagGuid').text();
+		var pointTagName = row.find('.tagColumnID input').val();
+
+		onPointValueConfigurationEdit('true', 'false', pointTagGuid, pointTagName);
+	} );
+
+	// add a tag
+	$("#AddTagButtonId").on('click', function () {
+		var newGuid = FMPointEditor.newGuid();
+		var newName = 'New Tag';
+		var dataType = 'System.Double';
+		var inputOutputType = '1'; // Manual
+		var unitsType = 'FmuNodim'; // Dimensionless
+		var units = '255'; // No Dimensions
+		var decimalPlaces = 2;
+		var maximum = 1000000.00;
+		var minimum = 0;
+		var applyPointDecimalPlaces = false;
+		var applyPointUnits = false;
+		var applyPointMaximum = false;
+		var applyPointMinimum = false;
+
+		FMPointEditor.addTag(newGuid, newName, dataType, inputOutputType, unitsType, units, decimalPlaces, '', maximum, minimum, applyPointDecimalPlaces, applyPointUnits, applyPointMaximum, applyPointMinimum);
+
+		FMPointEditor.valuesChanged = true;
+	});
+
+	// delete tags
+	$("#TagEditTable").on('click', '.deleteImg', function () {
+		var control = $(this);
+		FMLayout.ConfirmYesNo($('#confirm-delete-tag-dialog'),
+			'Delete Tag',
+			function () {
+
+				var rowNum = parseInt(control.attr('id').replace('Tags_', '').replace('__Name', ''));
+				control.closest('tr').remove();
+				FMPointEditor.tagList.splice(rowNum, 1);
+
+				// reset the row numbers
+				rowNum = 0;
+				$('#TagEditTable tr .column-tag-name').each(function (index) {
+					var rowId = parseInt($(this).attr('id').replace('Tags_', '').replace('__Name', ''));
+					if (rowNum == rowId) {
+						rowNum++;
+						return;
+					}
+
+					var row = $(this).closest('tr');
+					row.find("[id]").each(function (index) {
+						var id = $(this).attr('id');
+						$(this).attr('id', id.replace(rowId, rowNum));
+					});
+					row.find("[name]").each(function (index) {
+						var name = $(this).attr('name');
+						$(this).attr('name', name.replace(rowId, rowNum));
+					});
+
+					FMPointEditor.tagList[rowNum].index = rowNum;
+					rowNum++;
+				});
+
+				FMPointEditor.valuesChanged = true;
+			});
+	});
+
+
+</script>

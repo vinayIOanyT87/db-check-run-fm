@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RptDataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="ConsolidatedDBDataSource">
+  <ConnectionProperties>
+    <Extension>SQLAZURE</Extension>
+    <ConnectString>database=FuelsManager-Dev;server=j4fbqnf0q8.database.windows.net;Connect Timeout=60</ConnectString>
+  </ConnectionProperties>
+  <DataSourceID>115459d0-aa0e-4c65-8553-2b151018e6a1</DataSourceID>
+</RptDataSource>

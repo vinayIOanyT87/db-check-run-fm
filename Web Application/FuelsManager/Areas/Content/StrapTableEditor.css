@@ -1,0 +1,134 @@
+﻿#straptableEditorPartial th {
+    background-color: rgb(242, 242, 242);
+    color: rgb(153, 153, 153);
+    font-size: 14px;
+    border-bottom: 0px;
+}
+
+#straptableEditorPartial label {
+    color: rgb(153,153,153) !important;
+}
+
+#ModulePropertyEditorPropertyScreen button[disabled] {
+    cursor: not-allowed;
+}
+
+#straptableEditorPartial .dataTables_scrollHeadInner {
+        background-color: rgb(242, 242, 242);
+        border-bottom: 1px solid rgb(153, 153, 153);
+}
+
+#straptableEditorPartial .selected {
+	  background-color: rgb(230,230,230) !important;
+}
+
+
+#straptableEditorPartial #StrapTableEditorTable_wrapper {
+    margin-top: 10px !Important  ;
+    margin-bottom: 20px !Important;
+}
+
+.strapTableVolumeColumn {
+	padding-right: 15px !important;
+}
+
+.tab-name {
+    margin-bottom: 0px;
+    font-weight: normal;
+}
+
+.tab-rename {
+    color: rgb( 90,126,178);
+    background: transparent;
+    font-weight: bold;
+    border: none;
+}
+.tab-rename:focus {
+    outline-style: none;
+}
+
+
+.ui-front {
+    z-index: 10000 !important;
+}
+
+body .modal {
+	width: 1250px !important;
+	margin-left: -625px  !important;
+}
+
+straptable .col-lg-9 {
+	width: 75% + 100px;
+}
+
+body .modal_update {
+	width: 600px !important;
+	margin-left: -300px  !important;
+}
+
+
+body .modal_export {
+	width: 600px !important;
+	margin-left: -300px  !important;
+}
+
+/* Ensures that the x shows up in the right hand corner
+    of the dialog
+*/
+.ui-dialog .ui-dialog-titlebar-close span {
+        margin: 0;
+    }
+.ui-button-icon-only .ui-icon {
+        bottom: 0px;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        padding: 0;
+    }
+
+
+.anchor-add-table {
+    height: 35px;
+    margin-top: 8px;
+    width: 30px;
+        padding: 5px 0px 0px 4px !important;
+}
+
+.anchor-add-table label {
+    background: url("../../fmwebapp/images/Add-Blue.png");
+    width: 0px;
+    height: 0px;
+    padding: 10px 10px 10px 10px;
+    background-repeat: no-repeat;
+}
+
+.StrapTableEditorHeader {
+	padding: 0px;
+	width: 100%;
+}
+
+.StrapTableEditorHeader .close {
+	padding: 5px !important;
+	margin-top: -2px !important;
+}
+
+.strapTableDeleteButtonDisabled, button.deleteStrapEntriesButton[disabled] {
+	background-color: lightgray !important;
+}
+
+.h4, .h5, .h6, h4, h5, h6 {
+	margin-top: 0px !important;
+	margin-bottom: 0px !important;
+}
+
+.form-control{
+	border-radius: 0px !important;
+}
+
+#ModulePropertyEditorPropertyScreen .modal, #ModulePropertyEditorPropertyScreen .modal-content{
+    background-color: white !important;
+}
+
+#ModulePropertyEditorPropertyScreen .ui-pnotify {
+	  z-index: 1051; /* make sure the notification are above the scroll bars and not hidden by them*/
+}

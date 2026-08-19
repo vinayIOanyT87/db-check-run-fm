@@ -1,0 +1,151 @@
+﻿@using FuelsManager.Afss.Module.Gasboy.BusinessObjects.DataObjects
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Afss.Module.Gasboy.WebApp
+
+@model FuelsManager.Afss.Module.Gasboy.WebApp.Areas.ExternalStationArea.Models.ExternalStationLogSummaryModel
+@{
+    ViewBag.Title = "ExternalStationLogSummaryIndex";
+    Layout = "~/Areas/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .centeredTableData {
+        text-align:center; 
+        vertical-align:middle;
+    }
+</style>
+<script>
+    FMLayout.dateFormat = '@Html.ConvertDateFormat(Model.ShortDatePattern)';
+    FMLayout.calendarLocation = '@Url.Content("~/DispatchWebApp/images")';
+
+    $(document).ready(function () {
+        var datatable = $('#externalStationFailedTransactionSummaryTable')
+            .DataTable(
+            {
+                // We do not allow searching through the results via the datatable search control
+                "searching": false,
+                // Show First, Previous, Next, and Last buttons for paging
+                "pagingType": "full",
+                // Embed a div in the datatables controls so we can color the bottom of the grid 
+                // like a footer
+                "dom": 'lrt<"#DataTablesFooter"ip>',
+                // Apply no initial sort
+                "order": [],
+                // Save the sort order so that if users navigate away from the page and return their sort is retained
+                "stateSave": true,
+                // Tell datatables that we don't care about highlighting the columns that have been sorted. According to the documentation, this improves performance.
+                "orderClasses": false,
+                "columnDefs": [
+                    // Disallow sorting of the view details / log text columns
+                    { "targets": [0, 4], "orderable": false },
+                    { "targets": 2, "orderData": 3 },
+                    { "targets": [6, 8], "visible": false }
+                ]
+            });
+    });
+
+</script>
+<div>
+    <div class="container-fluid">
+        <div class="row headline" style="padding-bottom:10px">@FMBaseController.TranslateText("External Fuel Service Station Exception Logs")</div>
+
+        @using (Html.BeginForm("ExternalStationLogSummaryIndex", "ExternalStationLog", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.ShortDatePattern)
+            @Html.HiddenFor(m => m.TimePattern)
+
+            var viewDetailsText = FMBaseController.TranslateText("View Details");
+            var timestampText = FMBaseController.TranslateText("Timestamp");
+            var externalStationText = FMBaseController.TranslateText("External Station");
+            var logEntryText = FMBaseController.TranslateText("Log Entry");
+            var logTypeText = FMBaseController.TranslateText("Log Type");
+            
+            <div class="row">
+                <div class="col-md-3">
+                    <label class="formfieldtitle">
+                        @FMBaseController.TranslateText("External Station")
+                    </label>
+                    <div>
+                        @Html.DropDownListFor(m => m.SelectedExternalStationGuid, new SelectList(Model.ExternalStations as List<GasboyStation>, "IdentityGuid", "ID"), FMBaseController.TranslateText("{All}"), new { @class = "formfield" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="formfieldtitle">
+                        @FMBaseController.TranslateText("Log Type")
+                    </label>
+                    <div>
+                        @Html.EnumDropDownListFor(m => m.SelectedLogType, FMBaseController.TranslateText("{All}"), new { @class = "formfield" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <input type="submit" name="submitButton" value='@FMBaseController.TranslateText("Refresh")' class="formfieldtitle pushButton maxWidth100" style="margin-top:21px; margin-bottom: 5px" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="formfieldtitle">
+                        @FMBaseController.TranslateText("Date Range")
+                    </label>
+                    <div class="formfieldtitle">
+                        From:
+                        @Html.TextBoxFor(m => m.BeginDate, new { @class = "formfield minWidth100 datepicker" })
+                        @Html.TextBoxFor(m => m.BeginTime, new { @class = "formfield minWidth100" })
+                        To:
+                        @Html.TextBoxFor(m => m.EndDate, new { @class = "formfield minWidth100 datepicker" })
+                        @Html.TextBoxFor(m => m.EndTime, new { @class = "formfield minWidth100" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <section>
+                    <div>
+                        <table id="externalStationLogSummaryTable" class="hover stripe row-border cell-border" style="width:900px">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @viewDetailsText
+                                    </th>
+                                    <th>
+                                        @externalStationText
+                                    </th>
+                                    <th>
+                                        @timestampText
+                                    </th>
+                                    <th style="display: none;">
+                                        @timestampText
+                                    </th>
+                                    <th>
+                                        @logTypeText
+                                    </th>
+                                    <th>
+                                        @logEntryText
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (GasboyStationLog log in @Model.ExternalStationLogs)
+                                {
+                                    <tr>
+                                        <td class="centeredTableData">
+                                            <a title="@viewDetailsText" href='@Url.Action("ExternalStationLog", "ExternalStationLog", new { externalStationLogGuid = @log.IdentityGuid, logType = @log.LogType })'>
+                                                <span>
+                                                    <img src="~/FMWebApp/Images/FMICO_Search_16.gif" alt="View Details" />
+                                                </span>
+                                            </a>
+                                        </td>
+                                        <td>@log.ExternalStationID</td>
+                                        <td>@log.LogDate.ToString(Model.ShortDatePattern + " " + Model.TimePattern)</td>
+                                        <td style="display: none;">@log.LogDate.ToString("MM-dd-yyyy HH:mm:ss")'</td>
+                                        <td>@log.LogType.EnumDisplayName()</td>
+                                        <td>@log.ID</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>                 
+                </section>
+            </div>
+        }
+    </div>
+</div>

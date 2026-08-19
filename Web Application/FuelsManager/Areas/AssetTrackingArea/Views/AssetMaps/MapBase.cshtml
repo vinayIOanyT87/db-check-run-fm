@@ -1,0 +1,803 @@
+﻿@using FMBusinessObjects.DataObjects
+@using FuelsManager.Areas.AssetTrackingArea.Controllers
+@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.AssetTrackingArea.ViewModels.AssetMapsViewModel
+@{
+	ViewBag.Title = "MapBase";
+}
+
+<link href="~/Areas/Content/GeoTrackingMapStyles.css" rel="stylesheet" type="text/css"/>
+
+<script src="~/Areas/Lib/ol2/OpenLayers.js"></script>
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyCHJQXbg-0_jcxhFTaZE-LXi4Ck0cx-ORk&callback=Function.prototype"></script>
+<script src="~/Areas/scripts/GeoTrackingSideMenu.js" type="text/javascript"></script>
+<script src="~/Areas/scripts/GeoTrackingMapPopupFormatter.js" type="text/javascript"></script>
+<script src="~/Areas/scripts/GeoTrackingEquipmentHistory.js" type="text/javascript"></script>
+<script src="~/Areas/scripts/GeoTrackingMap.js" type="text/javascript"></script>
+<script src="~/Areas/lib/jquery.nicescroll.min.js"></script>
+<script>
+    var useExtent = 0;
+
+    window.onload = function (e) {
+        window.parent.CurrentHelpKey = "MenuBar/FMMenuBar.aspx?target=../AssetTrackingArea/AssetMaps/MapBase";
+    }
+
+	//======================================================================================
+	// This function handles the initialization of the OpenLayers map.
+	//======================================================================================
+	function init()
+	{
+		var model = FMGeoTrackingMap.GetMapViewModel();
+		useExtent = model.UseExtentInt;
+		InitializeSideMenu();
+
+		// Build the equipment history records.
+		FMGeoTrackingEquipmentHistory.CreatePeriodDropdown();
+
+		$('#MenuItemChange').val(false);
+
+		var mapLat = model.MapLatitude;
+		var mapLong = model.MapLongitude;
+
+		var wgs1984Projection			= new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
+		var sphericalMecatorProjection	= new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+		var mapnik						= null;
+		var map							= null;
+
+		// Set the default map to Open Street Map
+		if (model.MapSourceIndex === 0)
+		{
+			// Controls when empty will remove the default Pan/Zoom buttons.
+			map		= new OpenLayers.Map("MapHost", {zoomDuration: 1, controls: []});
+			mapnik	= new OpenLayers.Layer.OSM();
+		}
+
+		// MapServer maps
+		if (model.MapSourceIndex === 1)
+		{
+			// Controls when empty will remove the default Pan/Zoom buttons.
+			var options =
+			{
+				projection: sphericalMecatorProjection,
+				numZoomLevels: 24,
+				zoomDuration: 1,
+				controls: []
+			}
+
+			map = new OpenLayers.Map("MapHost", options);
+			mapnik = new OpenLayers.Layer.MapServer(
+				"Georgia",
+				"https://149.8.161.116/MapServer/mapserv.exe",
+				{
+					map: 'Apps/osm/basemaps/osm-google.map', layers: 'all', srs: 'EPSG:900913',
+					mode: 'map'
+				});
+		}
+
+		// Google maps
+		if (model.MapSourceIndex === 2)
+		{
+			// Controls when empty will remove the default Pan/Zoom buttons.
+			map	= new OpenLayers.Map("MapHost", {zoomDuration: 1, controls: []});
+			mapnik = new OpenLayers.Layer.Google("Google Streets", { type : google.maps.MapTypeId.ROADMAP, sphericalMercator : true, numZoomLevels: 23, MAX_ZOOM_LEVEL: 22 });
+		}
+
+		// Bing maps
+		if (model.MapSourceIndex === 3)
+		{
+			// Controls when empty will remove the default Pan/Zoom buttons.
+			map	= new OpenLayers.Map("MapHost", {zoomDuration: 1, controls: []});
+			mapnik = new OpenLayers.Layer.Bing({ name: "Bing", key: "AgdSyKfgwxktthiefb80kRKbqMBUUYsxNNAiI6bFibmIHUqLLzH94g7UIkLTGevR", type: "Road" });
+		}
+
+		var position	= new OpenLayers.LonLat(mapLong, mapLat).transform(wgs1984Projection, sphericalMecatorProjection);
+		var zoom		= model.Zoom;
+
+		if (map == null)
+		{
+			map		= new OpenLayers.Map("MapHost", {zoomDuration: 1, controls: []});
+			mapnik	= new OpenLayers.Layer.OSM();
+		}
+
+		map.addLayer(mapnik);
+		map.setCenter(position, zoom);
+
+		// Add the controls back in. This was due to removing all controls in order
+		// to remove the default zoom buttons.
+		map.addControl(new OpenLayers.Control.Navigation());
+		map.addControl(new OpenLayers.Control.ArgParser());
+		map.addControl(new OpenLayers.Control.Attribution());
+
+		// Add the new zoom and pan buttons in.
+		var panZoomCntlHorizontalPos = FMGeoTrackingSideMenu.CalculatePanZoomObjLocation();
+		var panZoomCntl = new OpenLayers.Control.PanZoom({ 'position': new OpenLayers.Pixel(panZoomCntlHorizontalPos, 0) });
+		map.addControl(panZoomCntl);
+
+		// Bing map is behaving differently than other maps. It is
+		// triggering the zoom event when the Refresh button is
+		// being pressed. This code is to handle that issue.
+		var ignoreBingZoom = false;
+		if (model.ActiveButtonIndex === 0)
+		{
+			ignoreBingZoom = true;
+		}
+
+		// Set the zoom change event and capture the most
+		// current zoom level.  This is used when the map
+		// is refreshed.
+		map.events.register('zoomend', map,
+			function()
+			{
+				var zoomInfo;
+
+				// For Bing map this event is triggered on the Refresh button and do not know why.
+				// It does not do it for other maps. Therefore, we want to ignore updating the
+				// lastest zoom value.
+				if (model.MapSourceIndex === 3)
+				{
+					// If the zoom event was caused by the map zoom buttons (+ or -), then update
+					// the current zoom.
+					if (ignoreBingZoom === false)
+					{
+						// With Bing maps the get zoom always comes back one zoom
+						// level lower.  Therefore, need to add one to the zoom.
+						zoomInfo = map.getZoom() + 1;
+						$('#Zoom').val(zoomInfo);
+					}
+
+					ignoreBingZoom = false;
+				}
+				else
+				{
+					zoomInfo = map.getZoom();
+					$('#Zoom').val(zoomInfo);
+				}
+			});
+
+		// Register the moving of the map event. It will get the new center position
+		// of the map and save it for when the map is redrawn. The values have to
+		// be transformed back from the spherical mercator projection.
+		map.events.on(
+		{"moveend": function()
+		{
+			var point = map.getCenter();
+			var centerPosition = point.transform(sphericalMecatorProjection, wgs1984Projection);
+			$('#MapLatitudeStr').val(centerPosition.lat.toString());
+			$('#MapLongitudeStr').val(centerPosition.lon.toString());
+		}
+		});
+
+		var vectorLayerAll = new OpenLayers.Layer.Vector("OverlayAll", {rendererOptions: {zIndexing: true }});
+
+		FMGeoTrackingMap.mapObj											= map;
+		FMGeoTrackingMap.currentMarkerUrl								= '@Url.Content(@Model.EquipmentIcon)';
+		FMGeoTrackingMap.crumbMarkerUrl									= '@Url.Content(@Model.BreadcrumbIcon)';
+		FMGeoTrackingMap.currentContaminatedMarkerUrl					= '@Url.Content(@Model.EquipmentContaminatedIcon)';
+		FMGeoTrackingMap.currentInvestigationMarkerUrl					= '@Url.Content(@Model.EquipmentInvestigationIcon)';
+		FMGeoTrackingMap.currentCompleteInvestigationFailedMarkerUrl	= '@Url.Content(@Model.EquipmentCompleteInvestigationFailedIcon)';
+		FMGeoTrackingMap.currentCompleteInvestigationPassedMarkerUrl	= '@Url.Content(@Model.EquipmentCompleteInvestigationPassedIcon)';
+		FMGeoTrackingMap.crumbContaminatedMarkerUrl						= '@Url.Content(@Model.BreadcrumbContaminatedIcon)';
+		FMGeoTrackingMap.crumbInvestigationMarkerUrl					= '@Url.Content(@Model.BreadcrumbInvestigationIcon)';
+		FMGeoTrackingMap.crumbCompleteInvestigationFailedMarkerUrl		= '@Url.Content(@Model.BreadcrumbCompleteInvestigationFailedIcon)';
+		FMGeoTrackingMap.crumbCompleteInvestigationPassedMarkerUrl		= '@Url.Content(@Model.BreadcrumbCompleteInvestigationPassedIcon)';
+		FMGeoTrackingMap.facilityMarkerUrl								= '@Url.Content(@Model.FacilityIcon)';
+		FMGeoTrackingMap.tankMarkerUrl									= '@Url.Content(@Model.TankIcon)';
+		FMGeoTrackingMap.deliveryLocationMarkerUrl						= '@Url.Content(@Model.DeliveryLocationIcon)';
+		FMGeoTrackingMap.wgs1984Projection								= wgs1984Projection;
+		FMGeoTrackingMap.sphericalMecatorProjection						= sphericalMecatorProjection;
+		FMGeoTrackingMap.autoRefreshTime								= model.MapRefreshTimeInMilliSeconds;
+
+		FMGeoTrackingMapPopupFormatter.imageRootPath = '@Url.Content("~/Areas/images/AssetMapImages")';
+
+		// Clear retrieving error message and flag.
+		FMGeoTrackingMap.retrievingDataErrorMsg = "";
+		FMGeoTrackingMap.retrievingDataErrorFlag = false;
+
+		// Retrieve all the data from the server.
+		var equipmentMapDataList		= FMGeoTrackingMap.GetEquipmentMapData();
+		var facilityMapDataList			= FMGeoTrackingMap.GetFacilityMapData();
+		var tankMapDataList				= FMGeoTrackingMap.GetTankMapData();
+		var deliveryLocationMapDataList = FMGeoTrackingMap.GetDeliveryLocationMapData();
+
+		// Add the items to the map.
+		FMGeoTrackingMap.AddBreadCrumbs(map, vectorLayerAll, equipmentMapDataList);
+		FMGeoTrackingMap.AddFacilityMarkers(map, vectorLayerAll, facilityMapDataList);
+		FMGeoTrackingMap.AddTankMarkers(map, vectorLayerAll, tankMapDataList);
+		FMGeoTrackingMap.AddDeliveryLocationMarkers(map, vectorLayerAll, deliveryLocationMapDataList);
+
+		if (FMGeoTrackingMap.retrievingDataErrorFlag)
+		{
+			alert(FMGeoTrackingMap.retrievingDataErrorMsg);
+		}
+
+		if (useExtent === 1 )
+		{
+			map.zoomToExtent(vectorLayerAll.getDataExtent());
+		}
+
+		// Add a scale to the map.
+		var scaleLine = new OpenLayers.Control.ScaleLine();
+		map.addControl(scaleLine);
+		var elements = document.getElementsByClassName('olControlScaleLine');
+		var scaleElement = elements[0];
+		var newLeftPos = (window.innerWidth - 250).toString() + "px";
+		scaleElement.style.left = newLeftPos;
+
+		// Add a selector control to the vectorLayer that contains the popup functions.
+		FMGeoTrackingMap.controls = {
+			selector: new OpenLayers.Control.SelectFeature(vectorLayerAll,
+			{ hover: false, onSelect: FMGeoTrackingMap.createPopup, onUnselect: FMGeoTrackingMap.destroyPopup })
+		};
+
+		map.addControl(FMGeoTrackingMap.controls['selector']);
+		FMGeoTrackingMap.controls['selector'].activate();
+
+		// Set auto refreshing.
+		FMGeoTrackingMap.AutoRefresh();
+	}
+
+	function SubmitForm()
+	{
+		$("#MapBaseForm").submit();
+	}
+
+	//==================================================================
+	// This function initializes the side menu.
+	//==================================================================
+	function InitializeSideMenu()
+	{
+		FMGeoTrackingSideMenu.imageRootPath = '@Url.Content("~/Areas/images/AssetMapImages/")';
+
+		// Set the menu item checkboxes based on selection from the postback.
+		FMGeoTrackingSideMenu.SetMenuCheckboxes();
+		FMGeoTrackingSideMenu.selectedEquipment = "-88";
+		FMGeoTrackingSideMenu.selectedFacility = "-88";
+		FMGeoTrackingSideMenu.selectedTank = "-88";
+		FMGeoTrackingSideMenu.selectedDeliveryLocation = "-88";
+
+		// Set the menu item for the radio buttons.
+		FMGeoTrackingSideMenu.SetMenuRadioBtns();
+
+		FMGeoTrackingSideMenu.SetInitialMenuExpansion();
+	}
+
+
+	//==============================================================================================
+	// This function builds the equipment history popup.  It calls the FMGeoTrackingEquipmentHistory
+	// script that does the load of the work.
+	//==============================================================================================
+	function BuildEquipmentHistoryPopup(vehicleId)
+	{
+		var breadcrumbState = "Current";
+		var fromDateStr = "";
+		var endDateStr = "";
+
+		FMGeoTrackingEquipmentHistory.RetrieveHistoryDataFromServer(vehicleId, fromDateStr, endDateStr, breadcrumbState);
+
+		var vehicleIdElement = document.getElementById("EquipmentIdFilterLabel");
+		if (vehicleIdElement != null)
+		{
+			vehicleIdElement.innerHTML = vehicleId;
+		}
+
+		// Set the Period dropdown to the Current selection. Meaning to just
+		// get the current position.
+		var periodDropdownElement = document.getElementById("PeriodDropdown");
+		periodDropdownElement.selectedIndex = 2;
+		FMGeoTrackingEquipmentHistory.previousBreadcrumbSelection = 2;
+
+		// Make the Equipment History dialog draggable.
+		//$("#EquipmentHistoryDiv").draggable({
+		//	iframeFix: true,
+		//	containment: "window"
+		//});
+
+		// This sets the nice scrolling on the Property Window.
+		$('#EquipmentHistoryScrollDiv').niceScroll({
+			cursorwidth: '5px'
+			, autohidemode: false
+			, cursorcolor: "#486899"
+			, background: "rgb(240, 240, 240)"
+			, railoffset: true
+			, enablemousewheel: true
+			, railpadding: { top: 0, right: 3, left: 7, bottom: 4 }
+			, smoothscroll: true
+			, mousescrollstep: 5
+			, horizrailenabled: false
+		});
+
+		// Clear the Date filters
+		$("#EquipHistoryStartDate").val("");
+		$("#EquipHistoryEndDate").val("");
+
+		// Create the Start and End date pickers.
+		$(function() {
+			$("#EquipHistoryStartDate").datepicker(
+			{
+				dateFormat: "yy/mm/dd",
+				onSelect: FMGeoTrackingEquipmentHistory.StartDateOnSelect
+			});
+		});
+
+		$(function() {
+			$("#EquipHistoryEndDate").datepicker(
+			{
+				dateFormat: "yy/mm/dd",
+				onSelect: FMGeoTrackingEquipmentHistory.EndDateOnSelect
+			});
+		});
+
+		FMGeoTrackingEquipmentHistory.imageRootPath = '@Url.Content("~/Areas/images/AssetMapImages")';
+		FMGeoTrackingEquipmentHistory.AddEquipmentRecordRows();
+
+		var equipmentTableDiv = document.getElementById("EquipmentHistoryDiv");
+		equipmentTableDiv.style.display = "block";
+	}
+</script>
+
+
+<body onload="init();" onresize="FMGeoTrackingSideMenu.RefreshMap();" style="overflow-x: hidden;">
+<div class="row">
+	<div id="MapHost" style="position: absolute; width: 1895px; height: 785px; z-index: 1;"></div>
+</div>
+</body>
+@Html.Hidden("MapViewModel", AssetMapsController.SerializeModel(Model))
+@using (Html.BeginForm("MapBase", "AssetMaps", FormMethod.Post, new
+{
+	id = "MapBaseForm",
+	@class = "form-horizontal",
+	role = "form"
+}))
+{
+	@Html.AntiForgeryToken()
+	@Html.ValidationSummary(true)
+
+	<div class="divTable">
+		<div class="divTableRow">
+			<div class="divTableCell">
+				@Html.ValidationMessage("Error", new { @Class = "errorField", style = "width:360px" })
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<input id="autoRefresh" name="autoRefresh" type="hidden" value="" />
+		@Html.HiddenFor(model => model.MapName)
+		@Html.HiddenFor(model => model.Zoom)
+		@Html.HiddenFor(model => model.MapSourceIndex)
+		@Html.HiddenFor(model => model.MenuItemChange)
+		@Html.HiddenFor(model => model.MapLongitude)
+		@Html.HiddenFor(model => model.MapLatitude)
+		@Html.HiddenFor(model => model.MapLongitudeStr)
+		@Html.HiddenFor(model => model.MapLatitudeStr)
+		@Html.HiddenFor(model => model.DropdownModel.EquipmentMenuExpanded)
+		@Html.HiddenFor(model => model.DropdownModel.FacilityMenuExpanded)
+		@Html.HiddenFor(model => model.DropdownModel.DeliveryLocationMenuExpanded)
+		@Html.HiddenFor(model => model.DropdownModel.TankMenuExpanded)
+		@Html.HiddenFor(model => model.DropdownModel.BreadcrumbMenuExpanded)
+		@Html.HiddenFor(model => model.DropdownModel.SelectedEquipment)
+		@Html.HiddenFor(model => model.DropdownModel.SelectedDeliveryLocation)
+		@Html.HiddenFor(model => model.DropdownModel.SelectedFacility)
+		@Html.HiddenFor(model => model.DropdownModel.SelectedTank)
+		@Html.HiddenFor(model => model.DropdownModel.SelectedBreadcrumb)
+		@Html.HiddenFor(model => model.DropdownModel.SelectedBreadcrumbIndex)
+	</div>
+}
+
+<div id="mySidenav" class="sidenav" style="overflow-y: hidden;">
+	<div style="left: 20px; top: 10px; width: 100%; position: absolute;">
+		<table style="width: 270px; height: 40px;">
+			<tr>
+				<td style="padding-right: 4px; padding-bottom: 8px; width: 20px">
+					<img src="~/Areas/images/AssetMapImages/Title-Icon-Blue.png" style="width: 19px; height: 19px;" />
+				</td>
+				<td style="width: 240px">
+					<label class="mapMenuHeadline">@Model.MapName</label>
+				</td>
+				<td style="padding-bottom: 5px; padding-right: 10px; width: 20px">
+					<span onclick="FMGeoTrackingSideMenu.closeNav();">
+						<img src="~/Areas/images/AssetMapImages/Collapse-side-menu-blue.png" style="width: 20px; height: 20px;" />
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3" style="width: 280px">
+					<span style="padding-right: 10px; float: right;" onclick="FMGeoTrackingMap.HandleRefreshEvent();">
+						<img src="~/Areas/images/AssetMapImages/Refresh-Button.png" style="width: 22px; height: 22px;" />
+					</span>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div>
+		<div style="left: -10px; position: relative;">
+			<UL id="MapFilterMenu">
+				<LI>
+					<div id="EquipmentMenuDivId">
+						<span id="EquipmentMenuSpanId" onclick=' FMGeoTrackingSideMenu.EquipmentMenuSpan(); '>
+							<img src='@Url.Content(@Model.EquipmentIcon)' style="width: 25px; height: 25px;" />
+							<label class="filterGroupHeadLine">@FMBaseController.TranslateText("Filter per equipment")</label>
+							<img id="EquipmentMenuExpandArrow" src="~/Areas/images/AssetMapImages/Arrow-down.png" style="width: 15px; height: 15px; float: right; margin-right: 10px; margin-top: 5px;" />
+						</span>
+					</div>
+					<UL id="EquipmentUlId" class="menuSubItems">
+						@for (int nextItem = 0; nextItem < @Model.DropdownModel.EquipmentDropdownList.Count(); nextItem++)
+						{
+							var inputId = "CheckboxEquipment" + nextItem;
+							var itemId = @Model.DropdownModel.EquipmentDropdownList[nextItem].Text;
+							var itemGuidStr = @Model.DropdownModel.EquipmentDropdownList[nextItem].Value;
+							<LI>
+								<table>
+									<tr>
+										<td>
+											<label class="customCheckbox">
+												<input id="@inputId" type="checkbox" value="@itemId" onchange='FMGeoTrackingSideMenu.EquipmentCbOnChange(this);' />
+												<span></span>
+											</label>
+											<label for="@inputId" class="filterGroupItem">@itemId</label>
+										</td>
+									</tr>
+								</table>
+							</LI>
+						}
+					</UL>
+				</LI>
+				<LI>
+					<div id="DeliveryLocationMenuDivId">
+						<span id="DeliveryLocationMenuSpanId" onclick=' FMGeoTrackingSideMenu.DeliveryLocationMenuSpan(); '>
+							<img src='@Url.Content(@Model.DeliveryLocationIcon)' style="width: 25px; height: 25px;" />
+							<label class="filterGroupHeadLine">@FMBaseController.TranslateText("Filter per delivery location")</label>
+							<img id="DeliveryLocationMenuExpandArrow" src="~/Areas/images/AssetMapImages/Arrow-down.png" style="width: 15px; height: 15px; float: right; margin-right: 10px; margin-top: 5px;" />
+						</span>
+					</div>
+					<UL id="DeliveryLocationUlId" class="menuSubItems">
+						@for (int nextItem = 0; nextItem < @Model.DropdownModel.DeliveryLocationDropdownList.Count(); nextItem++)
+						{
+							var inputId = "CheckboxDeliveryLocation" + nextItem;
+							var itemId = @Model.DropdownModel.DeliveryLocationDropdownList[nextItem].Text;
+							var itemGuidStr = @Model.DropdownModel.DeliveryLocationDropdownList[nextItem].Value;
+							<LI>
+								<table>
+									<tr>
+										<td>
+											<label class="customCheckbox">
+												<input id="@inputId" type="checkbox" value="@itemId" onchange='FMGeoTrackingSideMenu.LocationCbOnChange(this);' />
+												<span></span>
+											</label>
+											<label for="@inputId" class="filterGroupItem">@itemId</label>
+										</td>
+									</tr>
+								</table>
+							</LI>
+						}
+					</UL>
+				</LI>
+				<LI>
+					<div id="FacilityMenuDivId">
+						<span id="FacilityMenuSpanId" onclick=' FMGeoTrackingSideMenu.FacilityMenuSpan(); '>
+							<img src='@Url.Content(@Model.FacilityIcon)' style="width: 25px; height: 25px;" />
+							<label class="filterGroupHeadLine">@FMBaseController.TranslateText("Filter per facility")</label>
+							<img id="FacilityMenuExpandArrow" src="~/Areas/images/AssetMapImages/Arrow-down.png" style="width: 15px; height: 15px; float: right; margin-right: 10px; margin-top: 5px;" />
+						</span>
+					</div>
+					<UL id="FacilityUlId" class="menuSubItems">
+						@for (int nextItem = 0; nextItem < @Model.DropdownModel.FacilityDropdownList.Count(); nextItem++)
+						{
+							var inputId = "CheckboxFacility" + nextItem;
+							var itemId = @Model.DropdownModel.FacilityDropdownList[nextItem].Text;
+							var itemGuidStr = @Model.DropdownModel.FacilityDropdownList[nextItem].Value;
+							<LI>
+								<table>
+									<tr>
+										<td>
+											<label class="customCheckbox">
+												<input id="@inputId" type="checkbox" value="@itemId" onchange='FMGeoTrackingSideMenu.FacilityCbOnChange(this);' />
+												<span></span>
+											</label>
+											<label for="@inputId" class="filterGroupItem">@itemId</label>
+										</td>
+									</tr>
+								</table>
+							</LI>
+						}
+					</UL>
+				</LI>
+				<LI>
+					<div id="TankMenuDivId">
+						<span id="TankMenuSpanId" onclick=' FMGeoTrackingSideMenu.TankMenuSpan(); '>
+							<img src='@Url.Content(@Model.TankIcon)' style="width: 25px; height: 25px;" />
+							<label class="filterGroupHeadLine">@FMBaseController.TranslateText("Filter per tanks")</label>
+							<img id="TankMenuExpandArrow" src="~/Areas/images/AssetMapImages/Arrow-down.png" style="width: 15px; height: 15px; float: right; margin-right: 10px; margin-top: 5px;" />
+						</span>
+					</div>
+					<UL id="TankUlId" class="menuSubItems">
+						@for (int nextItem = 0; nextItem < @Model.DropdownModel.TankDropdownList.Count(); nextItem++)
+						{
+							var inputId = "CheckboxTank" + nextItem;
+							var itemId = @Model.DropdownModel.TankDropdownList[nextItem].Text;
+							var itemGuidStr = @Model.DropdownModel.TankDropdownList[nextItem].Value;
+							<LI>
+								<table>
+									<tr>
+										<td>
+											<label class="customCheckbox">
+												<input id="@inputId" type="checkbox" value="@itemId" onchange='FMGeoTrackingSideMenu.TankCbOnChange(this);' />
+												<span></span>
+											</label>
+											<label for="@inputId" class="filterGroupItem">@itemId</label>
+										</td>
+									</tr>
+								</table>
+							</LI>
+						}
+					</UL>
+				</LI>
+				<LI>
+					<div id="BreadcrumbMenuDivId">
+						<span id="BreadcrumbMenuSpanId" onclick='FMGeoTrackingSideMenu.BreadcrumbMenuSpan();'>
+							<img src='@Url.Content(@Model.BreadcrumbIcon)' style="width: 25px; height: 25px;" />
+							<label class="filterGroupHeadLine">@FMBaseController.TranslateText("Filter per breadcrumbs")</label>
+							<img id="BreadcrumbMenuExpandArrow" src="~/Areas/images/AssetMapImages/Arrow-down.png" style="width: 15px; height: 15px; float: right; margin-right: 10px; margin-top: 5px;" />
+						</span>
+					</div>
+					<UL class="menuSubItems">
+						@for (int nextItem = 0; nextItem < @Model.DropdownModel.BreadcrumbDropdownList.Count(); nextItem++)
+						{
+							var inputId = "RadioBtnBreadcrumb" + nextItem;
+							var itemId = @Model.DropdownModel.BreadcrumbDropdownList[nextItem].Text;
+							var itemIntegerStr = @Model.DropdownModel.BreadcrumbDropdownList[nextItem].Value;
+							<LI>
+								<table>
+									<tr>
+										<td style="height: 18px;">
+											<label class="customRadioBtn">
+												<input id="@inputId" type="radio" value="@itemId" onchange='FMGeoTrackingSideMenu.BreadcrumbRbOnChange(this);' />
+												<span></span>
+											</label>
+											<label for="@inputId" class="filterGroupItem">@itemId</label>
+										</td>
+									</tr>
+								</table>
+							</LI>
+						}
+					</UL>
+				</LI>
+			</UL>
+		</div>
+		<div>
+			<button id="MapBaseRefreshBtn" name="MapBaseRefreshBtn" onclick="FMGeoTrackingMap.HandleRefreshEvent();" value="MapBaseRefreshBtn" class="mapRefreshButton" style="position: absolute; left: 80px;">
+				@FMBaseController.TranslateText("Refresh")
+			</button>
+		</div>
+	</div>
+</div>
+
+<div style="position: absolute; z-index: 2; top: 55px; left: 10px;">
+	<button id="RefreshIconBtn" name="MapBaseRefreshBtn" onclick="FMGeoTrackingMap.HandleRefreshEvent();" value="MapBaseRefreshBtn" style="border: none; background: none;">
+		<img src="~/Areas/images/AssetMapImages/Refresh-Button.png" style="width: 40px; height: 40px;" />
+	</button>
+</div>
+
+<div style="position: absolute; z-index: 2; top: 15px; left: 10px;">
+	<button id="OpenMenuBtn" onclick='FMGeoTrackingSideMenu.openNav();' style="border: none; background: none;">
+		<img src="~/Areas/images/AssetMapImages/Menu-Button.png" style="width: 40px; height: 40px;" />
+	</button>
+</div>
+<div id="EquipmentHistoryDiv" class="ui-widget-content"
+     style="display: none; position: absolute; z-index: 5; top: 70px; left: 150px; width: 940px; height: auto; max-height: 600px; background-color: #F7F7F7; padding-left: 10px; padding-bottom: 7px; padding-top: 7px">
+	<div class="equipmentHistoryFilterRow">
+		<div class="equipmentHistoryFilterBlock1">
+			<img src="~/Areas/images/AssetMapImages/History-icon.png" style="width: 19px; height: 19px;"/>
+			<label style="font-size: 11px; color: #8F8F8F;">@FMBaseController.TranslateText("Equipment ID:")</label>
+		</div>
+		<div class="equipmentHistoryFilterBlock4">
+			<label id="EquipmentIdFilterLabel" style="font-size: 10px; color: #787878">none</label>
+		</div>
+		<div class="equipmentHistoryFilterBlock3">
+			<div class="verticalSolidLine"></div>
+		</div>
+		<div class="equipmentHistoryFilterBlock1">
+			<label style="font-size: 10px; color: #8F8F8F;">@FMBaseController.TranslateText("Enter Time Period:")</label>
+		</div>
+		<div class="equipmentHistoryFilterBlock2">
+			<select id="PeriodDropdown" onchange=" FMGeoTrackingEquipmentHistory.PeriodDropdownOnChange(); " style="width: 60px; height: 15px; font-size: 10px; color: #8F8F8F;"></select>
+		</div>
+		<div class="equipmentHistoryFilterBlock5">
+			<label style="font-size: 10px; color: #8F8F8F;">@FMBaseController.TranslateText("of 60 days")</label>
+		</div>
+		<div class="equipmentHistoryFilterBlock3">
+			<div class="verticalSolidLine"></div>
+		</div>
+		<div class="equipmentHistoryFilterBlock7">
+			<label style="font-size: 10px; color: #8F8F8F;">@FMBaseController.TranslateText("From date")</label>
+		</div>
+		<div class="equipmentHistoryFilterBlock6">
+			<input id="EquipHistoryStartDate" type="text" style="width: 60px; height: 16px; font-size: 9px; text-align: center; color: #8F8F8F;" readonly="readonly"/>
+		</div>
+		<div class="equipmentHistoryFilterBlock7">
+			<label style="font-size: 10px; color: #8F8F8F;">@FMBaseController.TranslateText("End date")</label>
+		</div>
+		<div class="equipmentHistoryFilterBlock6">
+			<input id="EquipHistoryEndDate" type="text" style="width: 60px; height: 16px; font-size: 9px; text-align: center; color: #8F8F8F;" readonly="readonly"/>
+		</div>
+		<div class="equipmentHistoryFilterBlock8">
+			<button id="CloseEquipHistBtn" onclick=' FMGeoTrackingEquipmentHistory.CloseEquipmentHistory(); ' style="border: none; background: none;">
+				<img src="~/Areas/images/AssetMapImages/Medium-Close-Icon.png" style="width: 19px; height: 19px;"/>
+			</button>
+		</div>
+	</div>
+	<div id="HorizontalSolidLine" class="horizontalSolidLine"></div>
+	<div>
+		<table id="EquipmentHistoryHeaderTable" style="width: 890px;">
+			<thead>
+			<tr>
+				<th class="equipmentHistoryHeaderColumn1">
+					<label style="font-size: 11px; color: #AEAEAE">@FMBaseController.TranslateText("Device ID")</label>
+				</th>
+				<th class="equipmentHistoryHeaderColumn2">
+					<label style="font-size: 11px; color: #AEAEAE">@FMBaseController.TranslateText("")</label>
+				</th>
+				<th class="equipmentHistoryHeaderColumn3">
+					<label style="font-size: 11px; color: #AEAEAE">@FMBaseController.TranslateText("")</label>
+				</th>
+				<th class="equipmentHistoryHeaderColumn4">
+					<label style="font-size: 11px; color: #AEAEAE">@FMBaseController.TranslateText("GPS Coordinates")</label>
+				</th>
+				<th class="equipmentHistoryHeaderColumn5">
+					<label style="font-size: 11px; color: #AEAEAE">@FMBaseController.TranslateText("Message Timestamp")</label>
+				</th>
+				<th class="equipmentHistoryHeaderColumn6">
+					<label style="font-size: 11px; color: #AEAEAE">@FMBaseController.TranslateText("Product")</label>
+				</th>
+				<th class="equipmentHistoryHeaderColumn7">
+					<label style="font-size: 11px; color: #AEAEAE">@FMBaseController.TranslateText("Volume")</label>
+				</th>
+				<th class="equipmentHistoryHeaderColumn8">
+					<label style="font-size: 11px; color: #AEAEAE">@FMBaseController.TranslateText("Water")</label>
+				</th>
+				<th class="equipmentHistoryHeaderColumn9">
+					<label style="font-size: 11px; color: #AEAEAE">@FMBaseController.TranslateText("Density")</label>
+				</th>
+				<th class="equipmentHistoryHeaderColumn10">
+					<label style="font-size: 11px; color: #AEAEAE">@FMBaseController.TranslateText("Dielectric")</label>
+				</th>
+				<th class="equipmentHistoryHeaderColumn11">
+					<label style="font-size: 11px; color: #AEAEAE">@FMBaseController.TranslateText("Remarks")</label>
+				</th>
+			</tr>
+			</thead>
+		</table>
+	</div>
+	<div id="EquipmentHistoryScrollDiv" style="width: 920px; overflow: scroll; height: auto; max-height: 500px;">
+		<table id="EquipmentHistoryTable" style="width: 890px; height: 100%">
+		</table>
+	</div>
+	<div id="CloseDiv" style="padding-right: 38px; padding-top: 5px">
+		<span>
+			<button onclick="FMGeoTrackingEquipmentHistory.CloseEquipmentHistory();" class="equipmentHistoryCloseButton">
+				@FMBaseController.TranslateText("Close")
+			</button>
+			<button id="CompleteInvestigateBtn" onclick="FMGeoTrackingEquipmentHistory.CompleteInvestigationButtonEvent();" class="completeInvestigationButton">
+				@FMBaseController.TranslateText("Complete Investigation")
+			</button>
+			<button id="StartInvestigateBtn" onclick="FMGeoTrackingEquipmentHistory.StartInvestigationButtonEvent();" class="startInvestigationButton">
+				@FMBaseController.TranslateText("Start Investigation")
+			</button>
+		</span>
+	</div>
+	<div style="position: absolute; left: 900px; top: 30px;">
+		<button id="UpScrollArrowBtn" onclick='FMGeoTrackingEquipmentHistory.ScrollUpEvent();' style="border: none; background: none;">
+			<img id="scrollUpArrow" src="~/Areas/images/AssetMapImages/SmallArrowUp.png" style="width: 19px; height: 19px;"/>
+		</button>
+	</div>
+	<div style="position: absolute; left: 900px; bottom: 10px;">
+		<button id="DownScrollArrowBtn" onclick='FMGeoTrackingEquipmentHistory.ScrollDownEvent();' style="border: none; background: none;">
+			<img id="scrollDownArrow" src="~/Areas/images/AssetMapImages/SmallArrowDown.png" style="width: 19px; height: 19px;"/>
+		</button>
+	</div>
+	<!-- Complete Investigate Modal Dialog -->
+	<div id="CompleteInvestigateDiv" class="confirmModal">
+		<div id="CompleteInvestigateContentDiv" class="confirmModal-content">
+			<span id="CompleteInvestigateDialogXClose" class="close" onclick="FMGeoTrackingEquipmentHistory.CompleteInvestigateCancelButtonEvent()">&times;</span>
+			<table>
+				<tr>
+					<td colspan="2">
+						<label style="font-size: 11px; color: #AEAEAE">@FMBaseController.TranslateText("Complete Investigation")?</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label class="customRadioBtn">
+							<input id="RadioBtnPassed" type="radio" value="Passed" onchange='FMGeoTrackingEquipmentHistory.HandlePassedRadioBtnEvent(this);'/>
+							<span></span>
+						</label>
+						<label for="RadioBtnPassed" style="font-size: 11px; color: #AEAEAE">Passed</label>
+					</td>
+					<td>
+						<label class="customRadioBtn">
+							<input id="RadioBtnFailed" type="radio" value="Failed" onchange='FMGeoTrackingEquipmentHistory.HandleFailedRadioBtnEvent(this);' />
+							<span></span>
+						</label>
+						<label for="RadioBtnFailed" style="font-size: 11px; color: #AEAEAE">Failed</label>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<textarea id="CompleteInvestigateRemarksTextarea" style="width: 170px; height: 90px; font-size: x-small"
+						          onblur="FMGeoTrackingEquipmentHistory.HandleCompleteInvestigateTextareaOnBlurEvent()"
+								  onkeyup="FMGeoTrackingEquipmentHistory.HandleCompleteInvestigateTextareaOnBlurEvent()"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<button id="CompleteInvestigateOkBtn" class="confirmationButton" onclick="FMGeoTrackingEquipmentHistory.CompleteInvestigateOkButtonEvent()">
+							@FMBaseController.TranslateText("Yes")
+						</button>
+					</td>
+					<td>
+						<button id="CompleteInvestigateCancelBtn" class="confirmationButton" onclick="FMGeoTrackingEquipmentHistory.CompleteInvestigateCancelButtonEvent()">
+							@FMBaseController.TranslateText("No")
+						</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<!-- Start Investigate Modal Dialog -->
+	<div id="StartInvestigateDialog" class="confirmModal">
+		<div class="confirmModal-content">
+			<span id="StartInvestigateDialogXClose" class="close" onclick="FMGeoTrackingEquipmentHistory.HandleStartInvestigateBtnOnClick('StartInvestigateDialogXClose')">&times;</span>
+			<table>
+				<tr>
+					<td colspan="2">
+						<label>Start Investigation?</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<button id="StartInvestigationYesBtn" class="investigationDialogButton" onclick="FMGeoTrackingEquipmentHistory.HandleStartInvestigateBtnOnClick('StartInvestigationYesBtn')">Yes</button>
+					</td>
+					<td>
+						<button id="StartInvestigationNoBtn" class="investigationDialogButton" onclick="FMGeoTrackingEquipmentHistory.HandleStartInvestigateBtnOnClick('StartInvestigationNoBtn')">No</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+<!-- Update Remarks Modal Dialog -->
+<div id="RemarksModalDiv" class="confirmModal">
+	<div id="RemarksModalContentDiv" class="confirmModal-content">
+		<span id="RemarksModalDialogXClose" class="close" onclick="FMGeoTrackingEquipmentHistory.HandleRemarksModalCancelButtonEvent()">&times;</span>
+		<table>
+			<tr>
+				<td colspan="2">
+					<label style="font-size: 11px; color: #AEAEAE">@FMBaseController.TranslateText("Update Remarks")</label>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<textarea id="RemarksModalTextarea" style="width: 170px; height: 90px; font-size: x-small"
+					          onblur="FMGeoTrackingEquipmentHistory.HandleRemarksTextareaOnBlurEvent()"
+					          onkeyup="FMGeoTrackingEquipmentHistory.HandleRemarksTextareaOnBlurEvent()"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<button id="RemarksModalOkBtn" class="confirmationButton" onclick="FMGeoTrackingEquipmentHistory.HandleRemarksModalOkButtonEvent()">
+						@FMBaseController.TranslateText("Yes")
+					</button>
+				</td>
+				<td>
+					<button id="RemarksModalCancelBtn" class="confirmationButton" onclick="FMGeoTrackingEquipmentHistory.HandleRemarksModalCancelButtonEvent()">
+						@FMBaseController.TranslateText("No")
+					</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+	<div id="loadingIndicatorFade" style="visibility: hidden"></div>
+	<div id="loadingIndicatorModal" style="width: 80px; height: 80px; padding-bottom: 10px; padding-top: 20px; visibility: hidden">
+		<img id="loader" src="~/Areas/images/loader_squares_120.gif"/>
+	</div>
+</div>

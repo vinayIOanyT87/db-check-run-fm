@@ -1,0 +1,105 @@
+// ScullyOPCServer.idl : IDL source for ScullyOPCServer
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (ScullyOPCServer.tlb) and marshalling code.
+
+#include "mtxattr.h"
+import "oaidl.idl";
+import "ocidl.idl";
+import "opcda.idl";
+
+
+[
+	object,
+	uuid(3922F2C9-A5DB-4f67-A6A0-A840B733309C), //{3922F2C9-A5DB-4f67-A6A0-A840B733309C}
+	dual,
+	nonextensible,
+	helpstring("IScullys Interface"),
+	pointer_default(unique)
+]
+interface IScullys : IDispatch{
+	[id(1), helpstring("method Enumerate")] HRESULT Enumerate([out,retval] IDispatch** ppScullyCollection);
+	[id(2), helpstring("method Add")] HRESULT Add([in] IDispatch* pScully,[out,retval] LONG* pIndex);
+	[id(3), helpstring("method Modify")] HRESULT Modify([in] IDispatch* pScully);
+	[id(4), helpstring("method Purge")] HRESULT Purge([in] LONG lIndex);
+	[id(5), helpstring("method GetIndex")] HRESULT GetIndex([in] BSTR bstrID, [out,retval] LONG* pIndex);
+	[id(6), helpstring("method Get")] HRESULT Get([in] LONG lIndex, [out,retval] IDispatch** ppScully);
+	[id(7), helpstring("method EnumeratePortIDs")] HRESULT EnumeratePortIDs([out,retval] VARIANT* pIDs);
+};
+[
+	object,
+	uuid(C4C45BB0-49E0-4813-A87D-F6D2DE1D461C), //{C4C45BB0-49E0-4813-A87D-F6D2DE1D461C}
+	dual,
+	nonextensible,
+	helpstring("IDataAccess Interface"),
+	pointer_default(unique)
+]
+interface IDataAccess : IDispatch{
+	[id(1), helpstring("method GetRecordSet")] HRESULT GetRecordSet(BSTR bstrSQL, [out,retval] IDispatch** ppRecordSet);
+	[id(2), helpstring("method ExecuteQuery")] HRESULT ExecuteQuery(BSTR bstrSQL);
+};
+[
+	object,
+	uuid(D0E7E3F3-EEE7-440e-BA80-14D1835090A2), //{D0E7E3F3-EEE7-440e-BA80-14D1835090A2}
+	dual,
+	nonextensible,
+	helpstring("IPorts Interface"),
+	pointer_default(unique)
+]
+interface IPorts : IDispatch{
+	[id(1), helpstring("method Enumerate")] HRESULT Enumerate([out,retval] IDispatch** ppCardReaderCollection);
+	[id(2), helpstring("method Add")] HRESULT Add([in] IDispatch* pCardReader,[out,retval] LONG* pIndex);
+	[id(3), helpstring("method Modify")] HRESULT Modify([in] IDispatch* pCardReader);
+	[id(4), helpstring("method Purge")] HRESULT Purge([in] LONG lIndex);
+	[id(5), helpstring("method GetIndex")] HRESULT GetIndex([in] BSTR bstrID, [out,retval] LONG* pIndex);
+	[id(6), helpstring("method Get")] HRESULT Get([in] LONG lIndex, [out,retval] IDispatch** ppCardReader);
+	[id(7), helpstring("method EnumeratePortIDs")] HRESULT EnumeratePortIDs([out,retval] VARIANT* pIDs);
+};
+[
+	uuid(B93AB8CF-D487-4d1c-92B3-280A773CC36C), // {B93AB8CF-D487-4d1c-92B3-280A773CC36C}
+	version(1.0),
+	helpstring("ScullyOPCServer 1.0 Type Library")
+]
+library ScullyOPCServerLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(948DA86B-A687-494c-9B93-569B65499B36), //{948DA86B-A687-494c-9B93-569B65499B36}
+		custom(TLBATTR_TRANS_REQUIRED,0),
+		helpstring("Scullys Class")
+	]
+	coclass Scullys
+	{
+		[default] interface IScullys;
+	};
+	[
+		uuid(1F341EE6-E351-4fae-BEDD-30A86A804B4E), //{1F341EE6-E351-4fae-BEDD-30A86A804B4E}
+		custom(TLBATTR_TRANS_SUPPORTED,0),
+		helpstring("DataAccess Class")
+	]
+	coclass DataAccess
+	{
+		[default] interface IDataAccess;
+	};
+
+	[
+		uuid(BF99140E-F916-49c2-9541-61BDD75E4531), //{BF99140E-F916-49c2-9541-61BDD75E4531}
+		custom(TLBATTR_TRANS_REQUIRED,0),
+		helpstring("Ports Class")
+	]
+	coclass Ports
+	{
+		[default] interface IPorts;
+	};
+	[
+		uuid(206D99CF-6189-4440-AB4C-74DAEBCFC8FE), //{206D99CF-6189-4440-AB4C-74DAEBCFC8FE}
+		helpstring("OPCServer Class")
+	]
+	coclass OPCServer
+	{
+		[default] interface IOPCServer;
+		interface IOPCBrowseServerAddressSpace;
+	};
+
+};

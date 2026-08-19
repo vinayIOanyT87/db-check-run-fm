@@ -1,0 +1,9 @@
+; ConsolidatedUtilities.def : Declares the module parameters.
+
+LIBRARY      "ConsolidatedUtilities.DLL"
+
+EXPORTS
+	DllCanUnloadNow		PRIVATE
+	DllGetClassObject	PRIVATE
+	DllRegisterServer	PRIVATE
+	DllUnregisterServer	PRIVATE

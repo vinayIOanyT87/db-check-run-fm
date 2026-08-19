@@ -1,0 +1,887 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>FuelsManager.Afss.DB</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{a9272396-95a8-4a67-bced-237c2a8d9f77}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql110DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>FuelsManager.Afss.DB</RootNamespace>
+    <AssemblyName>FuelsManager.Afss.DB</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <DacApplicationName>FuelsManagerDB</DacApplicationName>
+    <DacVersion>1.0.0.2</DacVersion>
+    <TargetFrameworkProfile />
+    <ValidateCasingOnIdentifiers>False</ValidateCasingOnIdentifiers>
+    <DacDescription>FuelsManagerDB - AFSS</DacDescription>
+    <Trustworthy>True</Trustworthy>
+    <IsEncryptionOn>True</IsEncryptionOn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>..\..\..\..\Database\DB Project\dacpacs\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>
+    </NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>..\..\..\..\Database\DB Project\dacpacs\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>
+    </NoWarn>
+  </PropertyGroup>
+  <!-- VS10 without SP1 will not have VisualStudioVersion set, so do that here -->
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <!-- Default to the v10.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">10.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="dbo" />
+    <Folder Include="dbo\Functions" />
+    <Folder Include="dbo\Stored Procedures" />
+    <Folder Include="dbo\Tables" />
+    <Folder Include="dbo\User Defined Types" />
+    <Folder Include="dbo\Views" />
+    <Folder Include="dbo\Stored Procedures\Procs1" />
+    <Folder Include="FMScripts" />
+    <Folder Include="FMScripts\DataUpload" />
+    <Folder Include="rpt\" />
+    <Folder Include="rpt\Functions\" />
+    <Folder Include="rpt\Stored Procedures\" />
+    <Folder Include="Scripts\" />
+    <Folder Include="lookup" />
+    <Folder Include="lookup\Tables" />
+    <Folder Include="dbo\Stored Procedures\UserDefined" />
+    <Folder Include="Security" />
+    <Folder Include="fmaudit" />
+    <Folder Include="fmaudit\Tables" />
+    <Folder Include="map" />
+    <Folder Include="map\Functions" />
+    <Folder Include="map\Stored Procedures" />
+    <Folder Include="map\Tables" />
+    <Folder Include="map\Stored Procedures\User Defined" />
+    <Folder Include="map\Stored Procedures\Generated" />
+    <Folder Include="sync" />
+    <Folder Include="track" />
+    <Folder Include="track\Tables" />
+    <Folder Include="sync\Stored Procedures" />
+    <Folder Include="sync\Tables" />
+    <Folder Include="sync\Functions" />
+    <Folder Include="sync\User Defined Types" />
+    <Folder Include="sync\Views" />
+    <Folder Include="sync\Stored Procedures\Client" />
+    <Folder Include="sync\Stored Procedures\Client\ApplyIncrementalDelete" />
+    <Folder Include="sync\Stored Procedures\Client\ApplyIncrementalInsert" />
+    <Folder Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate" />
+    <Folder Include="sync\Stored Procedures\Client\SelectDeleteConflict" />
+    <Folder Include="sync\Stored Procedures\Client\SelectIncrementalDelete" />
+    <Folder Include="sync\Stored Procedures\Client\SelectIncrementalInsert" />
+    <Folder Include="sync\Stored Procedures\Client\SelectIncrementalUpdate" />
+    <Folder Include="sync\Stored Procedures\Client\SelectUpdateConflict" />
+    <Folder Include="sync\Stored Procedures\Server" />
+    <Folder Include="sync\Stored Procedures\Server\ApplyIncrementalDelete" />
+    <Folder Include="sync\Stored Procedures\Server\ApplyIncrementalInsert" />
+    <Folder Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate" />
+    <Folder Include="sync\Stored Procedures\Server\SelectDeleteConflict" />
+    <Folder Include="sync\Stored Procedures\Server\SelectIncrementalDelete" />
+    <Folder Include="sync\Stored Procedures\Server\SelectIncrementalInsert" />
+    <Folder Include="sync\Stored Procedures\Server\SelectIncrementalUpdate" />
+    <Folder Include="sync\Stored Procedures\Server\SelectUpdateConflict" />
+    <Folder Include="sync\Stored Procedures\UserDefined" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Script.PostDeploymentMain.sql" />
+    <None Include="FMScripts\DataUpload\Script.IncrementalDataMaintenance.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PreDeploy Include="Script.PreDeploymentMain.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FMScripts\DataUpload\Script.FirstTimeDataUpload.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="lookup\Tables\tblExternalStationSessionStatus.sql" />
+    <Build Include="lookup\Tables\tblExternalStationSessionState.sql" />
+    <Build Include="lookup\Tables\tblExternalStationSessionType.sql" />
+    <Build Include="lookup\Tables\tblExternalStationTransactionFailedStatus.sql" />
+    <Build Include="lookup\Tables\tblExternalStationTransactionStatus.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_ExternalStationDuplicateTransactionGet.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_ExternalStationEnumerate.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_ExternalStationGeneralConfigurationEnumerate.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_ExternalStationGeneralConfigurationGet.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_ExternalStationGeneralConfigurationInsert.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_ExternalStationGeneralConfigurationPurge.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_ExternalStationGeneralConfigurationUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_ExternalStationLogDelete.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_ExternalStationLogEnumerate.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_ExternalStationLogGet.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_ExternalStationLogInsert.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_ExternalStationTransactionDelete.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_ExternalStationTransactionEnumerate.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_ExternalStationTransactionErrorGet.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_ExternalStationTransactionErrorInsert.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_ExternalStationTransactionFailedStatusUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_ExternalStationTransactionGet.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_ExternalStationTransactionGetByTransactionID.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_ExternalStationTransactionInsert.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_ExternalStationUpdateConnectionInformation.sql" />
+    <Build Include="dbo\Tables\tblExternalStation.sql" />
+    <Build Include="dbo\Tables\tblExternalStationGeneralConfiguration.sql" />
+    <Build Include="dbo\Tables\tblExternalStationLog.sql" />
+    <Build Include="dbo\User Defined Types\ExternalStationConnectionInformationType.sql" />
+    <Build Include="dbo\User Defined Types\ExternalStationLogType.sql" />
+    <Build Include="dbo\User Defined Types\ExternalStationTransactionErrorType.sql" />
+    <Build Include="dbo\User Defined Types\ExternalStationTransactionFailedStatusType.sql" />
+    <Build Include="dbo\User Defined Types\ExternalStationTransactionType.sql" />
+    <Build Include="fmaudit\Tables\map_tblEntityExternalStationToSite.sql" />
+    <Build Include="fmaudit\Tables\map_tblExternalStationToProduct.sql" />
+    <Build Include="fmaudit\Tables\tblExternalStation.sql" />
+    <Build Include="fmaudit\Tables\tblExternalStationGeneralConfiguration.sql" />
+    <Build Include="map\Functions\udf_CheckUniquenessExternalStation.sql" />
+    <Build Include="map\Functions\udf_GetExternalStationToSiteHierarchyByAssignment.sql" />
+    <Build Include="map\Tables\tblEntityExternalStationToSite.sql" />
+    <Build Include="map\Tables\tblExternalStationToProduct.sql" />
+    <Build Include="lookup\Tables\tblExternalStationLogType.sql" />
+    <Build Include="lookup\Tables\tblExternalStationStatus.sql" />
+    <Build Include="dbo\Tables\tblExternalStationTransaction.sql" />
+    <Build Include="dbo\Tables\tblExternalStationTransactionError.sql" />
+    <Build Include="dbo\User Defined Types\FindDuplicateExternalStationTransactionType.sql" />
+    <Build Include="lookup\Tables\tblExternalStationType.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_ExternalStationDelete.sql" />
+    <Build Include="dbo\Functions\udf_CheckUniquenessExternalStation.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_ExternalGasboyStationDelete.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_ExternalGasboyStationEventGet.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_ExternalGasboyStationEventInsert.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_ExternalGasboyStationGet.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_ExternalGasboyStationInsert.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_ExternalGasboyStationUpdate.sql" />
+    <Build Include="dbo\Tables\tblExternalGasboyStation.sql" />
+    <Build Include="dbo\Tables\tblGasboyStationGeneralConfiguration.sql" />
+    <Build Include="dbo\Tables\tblGasboyStationEvent.sql" />
+    <Build Include="dbo\Tables\tblGasboyFleet.sql" />
+    <Build Include="dbo\Tables\tblGasboyDevice.sql" />
+    <Build Include="dbo\Tables\tblGasboyDepartment.sql" />
+    <Build Include="dbo\User Defined Types\GasboyStationEventType.sql" />
+    <Build Include="fmaudit\Tables\map_tblEntityGasboyDepartmentToSite.sql" />
+    <Build Include="fmaudit\Tables\map_tblEntityGasboyDeviceToSite.sql" />
+    <Build Include="fmaudit\Tables\map_tblEntityGasboyFleetToSite.sql" />
+    <Build Include="fmaudit\Tables\tblExternalGasboyStation.sql" />
+    <Build Include="lookup\Tables\tblGasboyAuthType.sql" />
+    <Build Include="lookup\Tables\tblGasboyDeviceType.sql" />
+    <Build Include="lookup\Tables\tblGasboyTwoStageDriverValidationType.sql" />
+    <Build Include="lookup\Tables\tblGasboyEmployeeType.sql" />
+    <Build Include="lookup\Tables\tblGasboyEventErrorClassCode.sql" />
+    <Build Include="lookup\Tables\tblGasboyEventObjectType.sql" />
+    <Build Include="lookup\Tables\tblGasboyHardwareType.sql" />
+    <Build Include="lookup\Tables\tblGasboyRecordStatus.sql" />
+    <Build Include="lookup\Tables\tblGasboyVehiclePlateCheckType.sql" />
+    <Build Include="map\Functions\udf_CheckUniquenessGasboyDepartment.sql" />
+    <Build Include="map\Functions\udf_CheckUniquenessGasboyFleet.sql" />
+    <Build Include="map\Tables\tblEntityGasboyDepartmentToSite.sql" />
+    <Build Include="map\Tables\tblEntityGasboyDeviceToSite.sql" />
+    <Build Include="map\Tables\tblEntityGasboyFleetToSite.sql" />
+    <Build Include="map\Stored Procedures\User Defined\usp_ExternalStationToProductDelete.sql" />
+    <Build Include="map\Stored Procedures\User Defined\usp_ExternalStationToProductEnumerate.sql" />
+    <Build Include="map\Stored Procedures\User Defined\usp_ExternalStationToProductGet.sql" />
+    <Build Include="map\Stored Procedures\User Defined\usp_ExternalStationToProductInsert.sql" />
+    <Build Include="map\Stored Procedures\User Defined\usp_ExternalStationToProductUpdate.sql" />
+    <Build Include="map\Stored Procedures\User Defined\usp_ExternalStationToSiteDelete.sql" />
+    <Build Include="map\Stored Procedures\User Defined\usp_GetExternalStationToSiteByRecordGuid.sql" />
+    <Build Include="map\Stored Procedures\User Defined\usp_GetExternalStationToSiteByRecordGuid_InTrans.sql" />
+    <Build Include="map\Stored Procedures\User Defined\usp_GetExternalStationToSiteBySiteGuid.sql" />
+    <Build Include="map\Stored Procedures\Generated\gsp_EntityExternalStationToSiteInsertByPK.sql" />
+    <Build Include="map\Tables\tblGasboyDepartmentToGasboyFleet.sql" />
+    <Build Include="fmaudit\Tables\map_tblGasboyDepartmentToGasboyFleet.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_GasboyFleetGet.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_GasboyFleetInsert.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_GasboyFleetUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_GasboyFleetDelete.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_GasboyDepartmentDelete.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_GasboyDepartmentGet.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_GasboyDepartmentInsert.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_GasboyDepartmentUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_GasboyDepartmentEnumerate.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_GasboyFleetEnumerate.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_GasboyDeviceDelete.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_GasboyDeviceEnumerate.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_GasboyDeviceGet.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_GasboyDeviceInsert.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_GasboyDeviceUpdate.sql" />
+    <Build Include="fmaudit\Tables\tblGasboyStationGeneralConfiguration.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_ExternalStationTransactionEnumerateFailed.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_ExternalStationTransactionErrorEnumerate.sql" />
+    <Build Include="fmaudit\Tables\tblExternalStationTransaction.sql" />
+    <Build Include="fmaudit\Tables\tblExternalStationTransactionError.sql" />
+    <Build Include="fmaudit\Tables\tblGasboyDepartment.sql" />
+    <Build Include="fmaudit\Tables\tblGasboyDevice.sql" />
+    <Build Include="fmaudit\Tables\tblGasboyFleet.sql" />
+    <Build Include="fmaudit\Tables\tblGasboyStationEvent.sql" />
+    <Build Include="track\Tables\tblExternalGasboyStation.sql" />
+    <Build Include="track\Tables\tblExternalStation.sql" />
+    <Build Include="track\Tables\tblExternalStationGeneralConfiguration.sql" />
+    <Build Include="track\Tables\tblExternalStationLog.sql" />
+    <Build Include="track\Tables\tblExternalStationTransaction.sql" />
+    <Build Include="track\Tables\tblExternalStationTransactionError.sql" />
+    <Build Include="track\Tables\tblGasboyDepartment.sql" />
+    <Build Include="track\Tables\tblGasboyDevice.sql" />
+    <Build Include="track\Tables\tblGasboyFleet.sql" />
+    <Build Include="track\Tables\tblGasboyStationEvent.sql" />
+    <Build Include="track\Tables\tblGasboyStationGeneralConfiguration.sql" />
+    <Build Include="dbo\Functions\udf_GetAssignedExternalStationListForSite.sql" />
+    <Build Include="dbo\Functions\udf_GetAssignedGasboyDepartmentListForSite.sql" />
+    <Build Include="dbo\Functions\udf_GetAssignedGasboyDeviceListForSite.sql" />
+    <Build Include="dbo\Functions\udf_GetAssignedGasboyFleetListForSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblExternalStationLogType.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblExternalStationSessionState.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblExternalStationSessionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblExternalStationStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblExternalStationTransactionFailedStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblExternalStationTransactionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblExternalStationType.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblGasboyAuthType.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblGasboyDeviceType.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblGasboyEmployeeType.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblGasboyEventErrorClassCode.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblGasboyEventObjectType.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblGasboyHardwareType.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblGasboyRecordStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblGasboyTwoStageDriverValidationType.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblGasboyVehiclePlateCheckType.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblExternalStationLogType.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblExternalStationSessionState.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblExternalStationSessionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblExternalStationStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblExternalStationTransactionFailedStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblExternalStationTransactionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblExternalStationType.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblGasboyAuthType.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblGasboyDeviceType.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblGasboyEmployeeType.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblGasboyEventErrorClassCode.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblGasboyEventObjectType.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblGasboyHardwareType.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblGasboyRecordStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblGasboyTwoStageDriverValidationType.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblGasboyVehiclePlateCheckType.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblExternalStationLogType.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblExternalStationSessionState.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblExternalStationSessionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblExternalStationStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblExternalStationTransactionFailedStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblExternalStationTransactionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblExternalStationType.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblGasboyAuthType.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblGasboyDeviceType.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblGasboyEmployeeType.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblGasboyEventErrorClassCode.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblGasboyEventObjectType.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblGasboyHardwareType.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblGasboyRecordStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblGasboyTwoStageDriverValidationType.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblGasboyVehiclePlateCheckType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblExternalStationLogType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblExternalStationSessionState.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblExternalStationSessionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblExternalStationStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblExternalStationTransactionFailedStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblExternalStationTransactionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblExternalStationType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblGasboyAuthType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblGasboyDeviceType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblGasboyEmployeeType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblGasboyEventErrorClassCode.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblGasboyEventObjectType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblGasboyHardwareType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblGasboyRecordStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblGasboyTwoStageDriverValidationType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblGasboyVehiclePlateCheckType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblExternalStationLogType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblExternalStationSessionState.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblExternalStationSessionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblExternalStationStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblExternalStationTransactionFailedStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblExternalStationTransactionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblExternalStationType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblGasboyAuthType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblGasboyDeviceType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblGasboyEmployeeType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblGasboyEventErrorClassCode.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblGasboyEventObjectType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblGasboyHardwareType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblGasboyRecordStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblGasboyTwoStageDriverValidationType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblGasboyVehiclePlateCheckType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblExternalStationLogType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblExternalStationSessionState.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblExternalStationSessionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblExternalStationStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblExternalStationTransactionFailedStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblExternalStationTransactionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblExternalStationType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblGasboyAuthType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblGasboyDeviceType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblGasboyEmployeeType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblGasboyEventErrorClassCode.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblGasboyEventObjectType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblGasboyHardwareType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblGasboyRecordStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblGasboyTwoStageDriverValidationType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblGasboyVehiclePlateCheckType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblExternalStationLogType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblExternalStationSessionState.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblExternalStationSessionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblExternalStationStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblExternalStationTransactionFailedStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblExternalStationTransactionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblExternalStationType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblGasboyAuthType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblGasboyDeviceType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblGasboyEmployeeType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblGasboyEventErrorClassCode.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblGasboyEventObjectType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblGasboyHardwareType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblGasboyRecordStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblGasboyTwoStageDriverValidationType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblGasboyVehiclePlateCheckType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblExternalStationLogType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblExternalStationSessionState.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblExternalStationSessionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblExternalStationStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblExternalStationTransactionFailedStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblExternalStationTransactionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblExternalStationType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblGasboyAuthType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblGasboyDeviceType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblGasboyEmployeeType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblGasboyEventErrorClassCode.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblGasboyEventObjectType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblGasboyHardwareType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblGasboyRecordStatus.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblGasboyTwoStageDriverValidationType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblGasboyVehiclePlateCheckType.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblExternalStationLogType.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblExternalStationSessionState.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblExternalStationSessionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblExternalStationStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblExternalStationTransactionFailedStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblExternalStationTransactionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblExternalStationType.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblGasboyAuthType.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblGasboyDeviceType.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblGasboyEmployeeType.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblGasboyEventErrorClassCode.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblGasboyEventObjectType.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblGasboyHardwareType.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblGasboyRecordStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblGasboyTwoStageDriverValidationType.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblGasboyVehiclePlateCheckType.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblExternalStationLogType.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblExternalStationSessionState.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblExternalStationSessionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblExternalStationStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblExternalStationTransactionFailedStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblExternalStationTransactionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblExternalStationType.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblGasboyAuthType.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblGasboyDeviceType.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblGasboyEmployeeType.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblGasboyEventErrorClassCode.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblGasboyEventObjectType.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblGasboyHardwareType.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblGasboyRecordStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblGasboyTwoStageDriverValidationType.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblGasboyVehiclePlateCheckType.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblExternalStationLogType.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblExternalStationSessionState.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblExternalStationSessionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblExternalStationStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblExternalStationTransactionFailedStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblExternalStationTransactionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblExternalStationType.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblGasboyAuthType.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblGasboyDeviceType.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblGasboyEmployeeType.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblGasboyEventErrorClassCode.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblGasboyEventObjectType.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblGasboyHardwareType.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblGasboyRecordStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblGasboyTwoStageDriverValidationType.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblGasboyVehiclePlateCheckType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblExternalStationLogType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblExternalStationSessionState.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblExternalStationSessionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblExternalStationStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblExternalStationTransactionFailedStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblExternalStationTransactionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblExternalStationType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblGasboyAuthType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblGasboyDeviceType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblGasboyEmployeeType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblGasboyEventErrorClassCode.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblGasboyEventObjectType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblGasboyHardwareType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblGasboyRecordStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblGasboyTwoStageDriverValidationType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblGasboyVehiclePlateCheckType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblExternalStationLogType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblExternalStationSessionState.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblExternalStationSessionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblExternalStationStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblExternalStationTransactionFailedStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblExternalStationTransactionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblExternalStationType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblGasboyAuthType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblGasboyDeviceType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblGasboyEmployeeType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblGasboyEventErrorClassCode.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblGasboyEventObjectType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblGasboyHardwareType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblGasboyRecordStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblGasboyTwoStageDriverValidationType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblGasboyVehiclePlateCheckType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblExternalStationLogType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblExternalStationSessionState.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblExternalStationSessionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblExternalStationStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblExternalStationTransactionFailedStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblExternalStationTransactionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblExternalStationType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblGasboyAuthType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblGasboyDeviceType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblGasboyEmployeeType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblGasboyEventErrorClassCode.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblGasboyEventObjectType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblGasboyHardwareType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblGasboyRecordStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblGasboyTwoStageDriverValidationType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblGasboyVehiclePlateCheckType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblExternalStationLogType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblExternalStationSessionState.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblExternalStationSessionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblExternalStationStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblExternalStationTransactionFailedStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblExternalStationTransactionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblExternalStationType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblGasboyAuthType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblGasboyDeviceType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblGasboyEmployeeType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblGasboyEventErrorClassCode.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblGasboyEventObjectType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblGasboyHardwareType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblGasboyRecordStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblGasboyTwoStageDriverValidationType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblGasboyVehiclePlateCheckType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblExternalStationLogType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblExternalStationSessionState.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblExternalStationSessionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblExternalStationStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblExternalStationTransactionFailedStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblExternalStationTransactionStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblExternalStationType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblGasboyAuthType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblGasboyDeviceType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblGasboyEmployeeType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblGasboyEventErrorClassCode.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblGasboyEventObjectType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblGasboyHardwareType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblGasboyRecordStatus.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblGasboyTwoStageDriverValidationType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblGasboyVehiclePlateCheckType.sql" />
+    <Build Include="track\Tables\tblExternalStationSessionType.sql" />
+    <Build Include="track\Tables\tblExternalStationLogType.sql" />
+    <Build Include="track\Tables\tblExternalStationSessionState.sql" />
+    <Build Include="track\Tables\tblExternalStationSessionStatus.sql" />
+    <Build Include="track\Tables\tblExternalStationStatus.sql" />
+    <Build Include="track\Tables\tblExternalStationTransactionFailedStatus.sql" />
+    <Build Include="track\Tables\tblExternalStationTransactionStatus.sql" />
+    <Build Include="track\Tables\tblExternalStationType.sql" />
+    <Build Include="track\Tables\tblGasboyAuthType.sql" />
+    <Build Include="track\Tables\tblGasboyDeviceType.sql" />
+    <Build Include="track\Tables\tblGasboyEmployeeType.sql" />
+    <Build Include="track\Tables\tblGasboyEventErrorClassCode.sql" />
+    <Build Include="track\Tables\tblGasboyEventObjectType.sql" />
+    <Build Include="track\Tables\tblGasboyHardwareType.sql" />
+    <Build Include="track\Tables\tblGasboyRecordStatus.sql" />
+    <Build Include="track\Tables\tblGasboyTwoStageDriverValidationType.sql" />
+    <Build Include="track\Tables\tblGasboyVehiclePlateCheckType.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblExternalStationSessionType.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblExternalStationSessionType.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblExternalStationSessionType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblExternalStationSessionType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblExternalStationSessionType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblExternalStationSessionType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblExternalStationSessionType.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblExternalStationSessionType.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblExternalStationSessionType.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblExternalStationSessionType.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblExternalStationSessionType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblExternalStationSessionType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblExternalStationSessionType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblExternalStationSessionType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblExternalStationSessionType.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblExternalStationSessionType.sql" />
+    <Build Include="track\Tables\tblEntityExternalStationToSite.sql" />
+    <Build Include="track\Tables\tblExternalStationToProduct.sql" />
+    <Build Include="track\Tables\tblEntityGasboyDepartmentToSite.sql" />
+    <Build Include="track\Tables\tblEntityGasboyFleetToSite.sql" />
+    <Build Include="track\Tables\tblGasboyDepartmentToGasboyFleet.sql" />
+    <Build Include="track\Tables\tblEntityGasboyDeviceToSite.sql" />
+    <None Include="Scripts\ScriptsIgnoredOnImport.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblEntityExternalStationToSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblEntityGasboyDepartmentToSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblEntityGasboyDeviceToSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblEntityGasboyFleetToSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblExternalGasboyStation.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblExternalStation.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblExternalStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblExternalStationLog.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblExternalStationToProduct.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblExternalStationTransaction.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblExternalStationTransactionError.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblGasboyDepartment.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblGasboyDepartmentToGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblGasboyDevice.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblGasboyStationEvent.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblGasboyStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblEntityExternalStationToSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblEntityGasboyDepartmentToSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblEntityGasboyDeviceToSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblEntityGasboyFleetToSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblExternalGasboyStation.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblExternalStation.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblExternalStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblExternalStationLog.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblExternalStationToProduct.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblExternalStationTransaction.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblExternalStationTransactionError.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblGasboyDepartment.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblGasboyDepartmentToGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblGasboyDevice.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblGasboyStationEvent.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblGasboyStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblEntityExternalStationToSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblEntityGasboyDepartmentToSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblEntityGasboyDeviceToSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblEntityGasboyFleetToSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblExternalGasboyStation.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblExternalStation.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblExternalStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblExternalStationLog.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblExternalStationToProduct.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblExternalStationTransaction.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblExternalStationTransactionError.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblGasboyDepartment.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblGasboyDepartmentToGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblGasboyDevice.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblGasboyStationEvent.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblGasboyStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblEntityExternalStationToSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblEntityGasboyDepartmentToSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblEntityGasboyDeviceToSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblEntityGasboyFleetToSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblExternalGasboyStation.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblExternalStation.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblExternalStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblExternalStationLog.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblExternalStationToProduct.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblExternalStationTransaction.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblExternalStationTransactionError.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblGasboyDepartment.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblGasboyDepartmentToGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblGasboyDevice.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblGasboyStationEvent.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblGasboyStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblEntityExternalStationToSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblEntityGasboyDepartmentToSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblEntityGasboyDeviceToSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblEntityGasboyFleetToSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblExternalGasboyStation.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblExternalStation.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblExternalStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblExternalStationLog.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblExternalStationToProduct.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblExternalStationTransaction.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblExternalStationTransactionError.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblGasboyDepartment.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblGasboyDepartmentToGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblGasboyDevice.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblGasboyStationEvent.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblGasboyStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblEntityExternalStationToSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblEntityGasboyDepartmentToSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblEntityGasboyFleetToSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblExternalGasboyStation.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblExternalStation.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblExternalStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblExternalStationLog.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblExternalStationToProduct.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblExternalStationTransaction.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblExternalStationTransactionError.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblGasboyDepartment.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblGasboyDepartmentToGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblGasboyDevice.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblGasboyStationEvent.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblGasboyStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblEntityExternalStationToSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblEntityGasboyDepartmentToSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblEntityGasboyFleetToSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblExternalGasboyStation.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblExternalStation.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblExternalStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblExternalStationLog.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblExternalStationToProduct.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblExternalStationTransaction.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblExternalStationTransactionError.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblGasboyDepartment.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblGasboyDepartmentToGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblGasboyDevice.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblGasboyStationEvent.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblGasboyStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblGasboyStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblEntityExternalStationToSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblEntityGasboyDepartmentToSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblEntityGasboyDeviceToSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblEntityGasboyFleetToSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblExternalGasboyStation.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblExternalStation.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblExternalStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblExternalStationLog.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblExternalStationToProduct.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblExternalStationTransaction.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblExternalStationTransactionError.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblGasboyDepartment.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblGasboyDepartmentToGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblGasboyDevice.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblGasboyStationEvent.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblEntityExternalStationToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblEntityGasboyDepartmentToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblEntityGasboyDeviceToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblEntityGasboyFleetToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblExternalGasboyStation.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblExternalStation.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblExternalStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblExternalStationLog.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblExternalStationToProduct.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblExternalStationTransaction.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblExternalStationTransactionError.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblGasboyDepartment.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblGasboyDepartmentToGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblGasboyDevice.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblGasboyStationEvent.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblGasboyStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblEntityExternalStationToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblEntityGasboyDepartmentToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblEntityGasboyDeviceToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblEntityGasboyFleetToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblExternalGasboyStation.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblExternalStation.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblExternalStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblExternalStationLog.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblExternalStationToProduct.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblExternalStationTransaction.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblExternalStationTransactionError.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblGasboyDepartment.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblGasboyDepartmentToGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblGasboyDevice.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblGasboyStationEvent.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblGasboyStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblEntityExternalStationToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblEntityGasboyDepartmentToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblEntityGasboyDeviceToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblEntityGasboyFleetToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblExternalGasboyStation.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblExternalStation.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblExternalStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblExternalStationLog.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblExternalStationToProduct.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblExternalStationTransaction.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblExternalStationTransactionError.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblGasboyDepartment.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblGasboyDepartmentToGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblGasboyDevice.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblGasboyStationEvent.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblGasboyStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblEntityExternalStationToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblEntityGasboyDepartmentToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblEntityGasboyDeviceToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblEntityGasboyFleetToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblExternalGasboyStation.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblExternalStation.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblExternalStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblExternalStationLog.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblExternalStationToProduct.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblExternalStationTransaction.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblExternalStationTransactionError.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblGasboyDepartment.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblGasboyDepartmentToGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblGasboyDevice.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblGasboyStationEvent.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblGasboyStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblEntityExternalStationToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblEntityGasboyDepartmentToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblEntityGasboyDeviceToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblEntityGasboyFleetToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblExternalGasboyStation.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblExternalStation.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblExternalStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblExternalStationLog.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblExternalStationToProduct.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblExternalStationTransaction.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblExternalStationTransactionError.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblGasboyDepartment.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblGasboyDepartmentToGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblGasboyDevice.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblGasboyStationEvent.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblGasboyStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblEntityExternalStationToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblEntityGasboyDepartmentToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblEntityGasboyFleetToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblExternalGasboyStation.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblExternalStation.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblExternalStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblExternalStationLog.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblExternalStationToProduct.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblExternalStationTransaction.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblExternalStationTransactionError.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblGasboyDepartment.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblGasboyDepartmentToGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblGasboyDevice.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblGasboyStationEvent.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblGasboyStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblEntityExternalStationToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblEntityGasboyDepartmentToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblEntityGasboyFleetToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblExternalGasboyStation.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblExternalStation.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblExternalStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblExternalStationLog.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblExternalStationToProduct.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblExternalStationTransaction.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblExternalStationTransactionError.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblGasboyDepartment.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblGasboyDepartmentToGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblGasboyDevice.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblGasboyStationEvent.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblGasboyStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblEntityExternalStationToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblEntityGasboyDepartmentToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblEntityGasboyDeviceToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblEntityGasboyFleetToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblExternalGasboyStation.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblExternalStation.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblExternalStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblExternalStationLog.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblExternalStationToProduct.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblExternalStationTransaction.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblExternalStationTransactionError.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblGasboyDepartment.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblGasboyDepartmentToGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblGasboyDevice.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblGasboyFleet.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblGasboyStationEvent.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblGasboyStationGeneralConfiguration.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblEntityGasboyDeviceToSite.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblEntityGasboyDeviceToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblEntityGasboyDeviceToSite.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblEntityGasboyDeviceToSite.sql" />
+    <Build Include="map\Functions\udf_GetGasboyDeviceToSiteHierarchyByAssignment.sql" />
+    <Build Include="map\Stored Procedures\User Defined\usp_CreateExternalStationDeviceToSiteMapping.sql" />
+    <Build Include="map\Stored Procedures\User Defined\usp_ExternalStationDeviceToSiteDelete.sql" />
+    <Build Include="map\Stored Procedures\User Defined\usp_GetExternalStationDeviceToSiteByAssignedFromSiteGuid.sql" />
+    <Build Include="map\Stored Procedures\User Defined\usp_GetExternalStationDeviceToSiteByRecordGuid.sql" />
+    <Build Include="map\Stored Procedures\User Defined\usp_GetExternalStationDeviceToSiteBySiteGuid.sql" />
+    <Build Include="map\Functions\udf_CheckUniquenessGasboyDevice.sql" />
+    <Build Include="map\Stored Procedures\User Defined\usp_GetExternalStationDeviceToSiteByRecordGuid_InTrans.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_GasboyDeviceGetByCardNumber.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_GasboyDeviceEnumerateByCardNumber.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_ExternalStationTransactionStatusUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_ExternalStationTransactionErrorClear.sql" />
+    <Build Include="dbo\Views\vw_BlockedCardListAirCards.sql" />
+    <Build Include="dbo\Views\vw_BlockedCardListAll.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_GetBlockedCardListAirCards.sql" />
+    <Build Include="lookup\Tables\tblGasboyErrorCode.sql" />
+    <Build Include="track\Tables\tblGasboyErrorCode.sql" />
+    <Build Include="dbo\Views\vw_CardListAll.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalDelete\gsp_ClientApplyIncrementalDeletes_tblGasboyErrorCode.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalInsert\gsp_ClientApplyIncrementalInserts_tblGasboyErrorCode.sql" />
+    <Build Include="sync\Stored Procedures\Client\ApplyIncrementalUpdate\gsp_ClientApplyIncrementalUpdates_tblGasboyErrorCode.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectDeleteConflict\gsp_ClientSelectDeleteConflicts_tblGasboyErrorCode.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalDelete\gsp_ClientSelectIncrementalDeletes_tblGasboyErrorCode.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalInsert\gsp_ClientSelectIncrementalInserts_tblGasboyErrorCode.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectIncrementalUpdate\gsp_ClientSelectIncrementalUpdates_tblGasboyErrorCode.sql" />
+    <Build Include="sync\Stored Procedures\Client\SelectUpdateConflict\gsp_ClientSelectUpdateConflicts_tblGasboyErrorCode.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalDelete\gsp_ServerApplyIncrementalDeletes_tblGasboyErrorCode.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalInsert\gsp_ServerApplyIncrementalInserts_tblGasboyErrorCode.sql" />
+    <Build Include="sync\Stored Procedures\Server\ApplyIncrementalUpdate\gsp_ServerApplyIncrementalUpdates_tblGasboyErrorCode.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectDeleteConflict\gsp_ServerSelectDeleteConflicts_tblGasboyErrorCode.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalDelete\gsp_ServerSelectIncrementalDeletes_tblGasboyErrorCode.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalInsert\gsp_ServerSelectIncrementalInserts_tblGasboyErrorCode.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectIncrementalUpdate\gsp_ServerSelectIncrementalUpdates_tblGasboyErrorCode.sql" />
+    <Build Include="sync\Stored Procedures\Server\SelectUpdateConflict\gsp_ServerSelectUpdateConflicts_tblGasboyErrorCode.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="FuelsManager.Afss.DB.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <ArtifactReference Include="$(DacPacRootPath)\Extensions\Microsoft\SQLDB\Extensions\SqlServer\110\SqlSchemas\master.dacpac">
+      <HintPath>$(DacPacRootPath)\Extensions\Microsoft\SQLDB\Extensions\SqlServer\110\SqlSchemas\master.dacpac</HintPath>
+      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
+      <DatabaseVariableLiteralValue>master</DatabaseVariableLiteralValue>
+    </ArtifactReference>
+    <ArtifactReference Include="..\..\..\..\Database\DB Project\dacpacs\FuelsManagerDB.dacpac">
+      <HintPath>..\..\..\..\Database\DB Project\dacpacs\FuelsManagerDB.dacpac</HintPath>
+      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
+    </ArtifactReference>
+  </ItemGroup>
+</Project>

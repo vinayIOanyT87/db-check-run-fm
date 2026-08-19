@@ -1,0 +1,263 @@
+﻿@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.PointAccessDetailModel
+
+<script src="~/Areas/Lib/jquery.nicescroll.min.js"></script>
+<style>
+	.panel-header {
+		color: #567eb9;
+		font-size: 16px;
+	}
+	.usergroup-checkboxes {
+		position: absolute;
+		right: 15px;
+	}
+	.usergroup-checkall {
+		position: absolute;
+		right: 30px;
+	}
+
+	#userGroupList {
+		height: calc(100vh - 160px);
+	}
+
+	#UserTableContainer {
+		height: calc(100vh - 100px);
+		overflow-y: hidden;
+	}
+
+</style>
+@{
+	var ModifyDisable = (@Model.HasPointAccessModifyRight) ? "" : "disabled='disabled'";
+}
+<div style ="overflow:hidden" class="row">
+	<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+	</div>
+	<div class="panel-pag col-xs-4 col-sm-4 col-md-4 col-lg-4 panelContent">
+		<div id="UserGroups" class="text-center" >
+			<div class="panel-header" style="padding-bottom: 7px">@FMBaseController.TranslateText("PointAccess|USER GROUPS")
+				<span class="usergroup-checkall">
+					<label>
+						<input id="ug_all" name="ug_all" type="checkbox" value="true" hidden="hidden" @ModifyDisable/>
+						<span></span>
+					</label>
+				</span>
+			</div>
+			<ul id="userGroupList" class="list-group text-left" style="overflow-y: hidden ">
+				@foreach (var userGroup in @Model.UserGroupList.OrderBy(x => x.ID))
+				{
+					<li class="list-group-item" data-guid="@userGroup.IdentityGuid">
+						<span class="usergroup-name" title="@userGroup.ID">@userGroup.ID</span>
+						<span class="usergroup-checkboxes">
+						<label>
+							<input class="checkbox-usergroup-assign" id="ck_ug_a_@userGroup.IdentityGuid" name="ck_ug_a_@userGroup.IdentityGuid" type="checkbox" value="true" hidden="hidden" @ModifyDisable />
+							<span></span>
+						</label>
+					</span>
+					</li>
+				}
+			</ul>
+		</div>
+	</div>
+	<div class="panel-pag col-xs-4 col-sm-4 col-md-4 col-lg-4">
+		<div id="UserTableContainer" class="text-center">
+			<div class="panel-header" style="padding-bottom: 7px">@FMBaseController.TranslateText("PointAccess|USERS")</div>
+			<table id="userTable" class="table table-condensed table-bordered" style="background-color: white; table-layout: fixed">
+				<thead>
+				<tr>
+					<th scope="col" class="text-center">@FMBaseController.TranslateText("PointAccess|ID")</th>
+					<th scope="col" class="text-center">@FMBaseController.TranslateText("PointAccess|Name")</th>
+				</tr>
+				</thead>
+				<tbody id="Users">
+				@foreach (var user in @Model.Users.AsReadOnly().OrderBy(x => x.ID))
+				{
+					<tr data-guid="@user.IdentityGuid">
+						<td>@user.ID</td>
+						<td>@user.Name</td>
+					</tr>
+				}
+				</tbody>
+
+			</table>
+			<div class="panel-header" id="emptyText" name="emptyText">No Users configured for selected User Group </div>
+		</div>
+	</div>
+	<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+	</div>
+</div>
+
+<script>
+	$( document ).ready( function()
+	{
+		$("#emptyText").removeClass('hidden').addClass('hidden');
+
+		$("#userGroupList, #UserTableContainer").niceScroll({
+			cursorwidth: '10px',
+			autohidemode: false,
+			cursorcolor: '#486899',
+			background: 'rgb(240, 240, 240)',
+			horizrailenabled: false,
+			railoffset: true,
+			railpadding: { top: 0, right: 0, left: -10, bottom: 0 },
+			smoothscroll: true
+		});
+		$("#userGroupList").scroll(function () {
+			$("#userGroupList").getNiceScroll().resize();
+		});
+
+		$( "#userGroupList li" ).on( 'click', function()
+		{
+
+			if ( $( this ).hasClass( 'active' ) )
+			{
+				$("#userGroupList li.active").removeClass('active');
+				$("#Users tr").removeClass('hidden');
+				$("#emptyText").removeClass('hidden').addClass('hidden');
+			
+
+			}
+			else
+			{
+				var userGroupGuid = $( this ).attr( 'data-guid' );
+				FMPointAccessUserGroups.Filter.userGroupGuid = userGroupGuid;
+				$("#userGroupList li.active").removeClass('active');
+				$(this).addClass('active');
+				FMPointAccessUserGroups.ApplyFilter();
+
+			}
+            
+		});
+        
+		$("#ug_all").on('click', function ()
+		{
+			var checkStatus = $(this).prop("checked");
+			$("#userGroupList li .checkbox-usergroup-assign").each(function (index) {
+				if (!$(this).prop("checked") == checkStatus) {
+                    $(this).prop("checked", checkStatus).trigger('change');
+				}
+			});
+
+		});
+
+		$("#Users tr").each(function (index) {
+			$(this).addClass('unselected');
+		});
+
+		$("#userGroupList li .checkbox-usergroup-assign").each(function (index) {
+			var userGroupGuid = $(this).closest( 'li' ).attr('data-guid');
+			$(this).change(function () {
+				if ( this.checked )
+				{
+					FMPointAccessUserGroups.BoldedGroups.push(userGroupGuid);
+				}
+				else
+				{
+					var index = FMPointAccessUserGroups.BoldedGroups.indexOf(userGroupGuid);
+					if (index > -1) {
+						FMPointAccessUserGroups.BoldedGroups.splice(index, 1);
+					}
+				}
+				FMPointAccessUserGroups.ApplyUserFade();
+
+				// update Model
+				// Assume only one pointAccessGroup on the screen (get the Model[0] entry)
+				var selectedPointAccessGroupToUserGroupAssignment = jQuery.grep(FMPointAccess.Model[0].PointAccessGroupToUserGroupAssignmentList, function (a) {
+					return a.UserGroupGuid === userGroupGuid;
+				});
+
+				if ( selectedPointAccessGroupToUserGroupAssignment.length > 0 )
+				{
+					selectedPointAccessGroupToUserGroupAssignment[0].Assigned = this.checked;
+				}
+				else {
+					FMPointAccess.Model[0].PointAccessGroupToUserGroupAssignmentList.push({
+						Assigned: this.checked,
+						PointAccessGroupToUserGroupGuid: "00000000-0000-0000-0000-000000000000",
+						UserGroupGuid: userGroupGuid
+					});
+				}
+
+			});
+		});
+		FMPointAccessUserGroups.ApplyUserFade();
+	});
+
+
+	FMPointAccessUserGroups =
+		{
+			Filter: { userGroupGuid: "" },
+			BoldedGroups: []
+		}
+
+	FMPointAccessUserGroups.PopulateBoldedGroups = function () {
+		$("#userGroupList li .checkbox-usergroup-assign").each(function (index)
+		{
+			var userGroupGuid = $( this ).closest( 'li' ).attr( 'data-guid' );
+			if (this.checked) {
+				FMPointAccessUserGroups.BoldedGroups.push(userGroupGuid);
+			}
+			else {
+				var index = FMPointAccessUserGroups.BoldedGroups.indexOf(userGroupGuid);
+				if (index > -1) {
+					FMPointAccessUserGroups.BoldedGroups.splice(index, 1);
+				}
+			}
+		});
+	}
+
+	FMPointAccessUserGroups.mappings = [];
+    @foreach (var m in Model.UsertoGroupMap)
+	{
+		@:FMPointAccessUserGroups.mappings.push(["@m.GroupGuid","@m.UserGuid"]);
+	}
+
+	FMPointAccessUserGroups.ApplyFilter = function()
+	{
+		var usersToShow = [];
+		FMPointAccessUserGroups.mappings.forEach( function( e )
+		{
+			if ( e[0] == FMPointAccessUserGroups.Filter.userGroupGuid )
+				usersToShow.push( e[1] );
+		});
+		if ( usersToShow.length == 0 )
+		{
+			$( "#emptyText" ).removeClass( 'hidden' );
+		}
+		else
+		{
+			 $("#emptyText").removeClass('hidden').addClass('hidden');
+		}
+		$( "#Users tr" ).each( function( index )
+			{
+				var guid = $( this ).attr( 'data-guid' );
+				if ( usersToShow.indexOf( guid ) > -1 )
+				{
+					$( this ).removeClass( 'hidden' );
+				}
+				else
+					$( this ).removeClass( 'hidden' ).addClass( 'hidden' );
+			} );
+		
+	}
+
+	FMPointAccessUserGroups.ApplyUserFade = function()
+	{
+		var usersToBold = [];
+		FMPointAccessUserGroups.mappings.forEach(function (e)
+		{
+			if (FMPointAccessUserGroups.BoldedGroups.indexOf(e[0]) > -1)
+				usersToBold.push(e[1]);
+		});
+		$("#Users tr").each(function (index) {
+			var guid = $(this).attr('data-guid');
+			if (usersToBold.indexOf(guid) > -1) {
+				$(this).removeClass('unselected');
+			}
+			else
+
+			$(this).addClass('unselected');
+		});
+		
+	}
+	
+</script>

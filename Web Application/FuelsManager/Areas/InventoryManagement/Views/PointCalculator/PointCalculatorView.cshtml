@@ -1,0 +1,553 @@
+﻿@using System.Globalization
+@using Varec.CommonComponents.EngineeringUnitsLibrary
+@using FMBusinessObjects.DataObjects
+@using FMPointCommon
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@using Newtonsoft.Json
+@using Opc.Ua
+@model FuelsManager.Areas.InventoryManagement.ViewModels.PointCalculatorModel
+
+@Html.Hidden("urlEditPointTemplateTags", @Url.Action("EditValueForCalculatorUI", "EditValue"))
+@Html.Hidden("urlPointCalculatorUpdateValues", @Url.Action("PointCalculatorUpdateValues", "PointCalculator"))
+@Html.Hidden("urlPointCalculatorReport", @Url.Action("PointCalculatorReport", "PointCalculator"))
+@Html.Hidden("urlPointCalculatorInitiateTransfer", @Url.Action("PointCalculatorInitiateTransfer", "PointCalculator"))
+@Html.Hidden("urlPointCalculatorCheckIfOkToTransfer", @Url.Action("PointCalculatorCheckIfOkToTransfer", "PointCalculator"))
+@Html.Hidden("urlPointCalculatorAcronyms", @Url.Action("Acronyms", "PointCalculator"))
+@Html.Hidden("urlPointCalculatorIsBatchModeTags", @Url.Action("IsBatchModeTags", "PointCalculator"))
+@Html.Hidden("urlUpdateRowVisibilityConfigValue", @Url.Action("PointCalculatorSaveRowVisibilityConfigValue", "PointCalculator"))
+
+<style type="text/css">
+
+	.keyvalue {
+		color: rgb(72, 104, 153);
+		font-weight: bold;
+		/*background-color: rgb(0, 0, 0);*/
+	}
+
+	.table-scroll {
+		overflow: auto;
+		max-height: calc(100vh - 120px);
+		scrollbar-color: #486899 white;
+	}
+
+	#CalculatorTable {
+		margin: 15px;
+		display: block;
+		overflow: hidden;
+		/*max-height: calc( 100vh - 120px );*/
+	}
+
+		#CalculatorTable thead tr {
+			background: #f0f0f0;
+		}
+
+		#CalculatorTable > tbody > tr:nth-child(odd of :not(.hidden)) {
+			background-color: #f9f9f9;
+		}
+
+	.calculator-tag-name span {
+		text-overflow: ellipsis;
+		width: 100%;
+		overflow: hidden;
+		white-space: nowrap;
+	}
+
+	#CalculatorTable a.editLinkClassDisabled {
+		pointer-events: none;
+		display: block;
+		width: 36px;
+		height: 20px;
+	}
+
+	#CalculatorTable tr {
+		height: 22px;
+		padding-top: 4px;
+		padding-bottom: 4px;
+		font-size: 12px;
+	}
+
+	#CalculatorTable span.value {
+		width: calc( 100% - 38px);
+		overflow: hidden;
+		display: inline-block;
+		text-overflow: ellipsis;
+	}
+
+	#CalculatorTable .calculator-start-value, #CalculatorTable .calculator-end-value, #CalculatorTable .calculator-diff-value {
+		padding-right: 0px;
+		cursor: default;
+	}
+
+	.calculator-icons .value-up, .calculator-icons .value-down, .calculator-icons .value-no-change {
+		padding: 0px 13px;
+	}
+
+	.value-up {
+		color: #5cb85c;
+	}
+
+	.value-down {
+		color: #d9534f;
+	}
+
+	.font-bold {
+		font-weight: bold;
+	}
+
+	.pointCalculatorDisableButtonClass {
+		cursor: not-allowed !important;
+	}
+</style>
+
+<link href="~/Areas/Content/FMPointCalculator.css" rel="stylesheet" type="text/css" />
+
+<script>window.csrfToken='@FMBaseController.CSRFToken';</script>
+
+
+@Html.Hidden("PointCalculatorModel", JsonConvert.SerializeObject(Model))
+<div class="modal-header" style="background: #f0f0f0;">
+	<div class="row">
+		<div class="col-md-7">
+			<h4 id="PointCalculatorManagingScreen" class="modal-title">@FMBaseController.TranslateText("Point Calculator")</h4>
+		</div>
+		<div class="col-md-12 text-right">
+			<div class="row">
+				<button id="PointCalculatorScreen_CloseButton" type="button" class="close" data-dismiss="modal">&times;</button>
+				<div style="margin-right:20px;margin-top:15px;">
+					Calculator Mode: &nbsp;
+					<select id="pointCalculatorMode" onchange="FMPointCalculator.SetMode();" style="height: 36px;">
+						<option value="batch">Batch Mode</option>
+						<option value="differential">Differential Mode</option>
+					</select>
+					<div id="pointCalculatorTopCustomControlDiv" class="pull-right">
+						<table id="pointCalculatorTopCustomControlTable">
+							<tr>
+								<td>
+									<div id="rowsDivOuter">
+										<table>
+											<tr>
+												<td>
+													<label id="rowsLabel"></label>
+												</td>
+												<td>
+													<div id="rowsDiv" class="rowsDivNoBorder">
+													<div id="rowsInputArea" style="width: 260px;" onclick="FMPointCalculator.HandleRowFilterDropdownExpandCollapse(event);">
+														<label id="showHideRowsLabel" style="margin: 0;">@FMBaseController.TranslateText("Show/Hide Rows")</label>
+													<span id="RowFilterDropDownArrow" class="dropdownarrowicon glyphicon glyphicon-triangle-bottom"></span>
+														</div>
+														<div id="RowFilterDiv" class="hidden">
+															<ul id="RowFilterUl">
+																<li id="SelectAllLi" class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="SelectAllCheckbox" type="checkbox" value="Select All" onchange='FMPointCalculator.HandleAllRowsFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="SelectAllCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Select All")</label>
+																</li>
+																<li id="LevelProductLi" class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="LevelProductCheckbox" type="checkbox" value="Level Product" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="LevelProductCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Level Product")</label>
+																</li>
+																<li class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="VolumeTotalObservedCheckbox" type="checkbox" value="Volume Total Observed" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="VolumeTotalObservedCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Volume Total Observed")</label>
+																</li>
+																<li class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="LevelWaterCheckbox" type="checkbox" value="Level Water" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="LevelWaterCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Level Water")</label>
+																</li>
+																<li class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="VolumeWaterCheckbox" type="checkbox" value="Volume Water" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="VolumeWaterCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Volume Water")</label>
+																</li>
+																<li class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="LevelSolidsCheckbox" type="checkbox" value="Level Solids" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="LevelSolidsCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Level Solids")</label>
+																</li>
+																<li class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="VolumeSolidsCheckbox" type="checkbox" value="Volume Solids" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="VolumeSolidsCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Volume Solids")</label>
+																</li>
+																<li class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="VolumeBottomsCheckbox" type="checkbox" value="Volume Bottoms" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="VolumeBottomsCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Volume Bottoms")</label>
+																</li>
+																<li class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="TemperatureProductCheckbox" type="checkbox" value="Temperature Product" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="TemperatureProductCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Temperature Product")</label>
+																</li>
+																<li class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="TemperatureVaporCheckbox" type="checkbox" value="Temperature Vapor" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="TemperatureVaporCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Temperature Vapor")</label>
+																</li>
+																<li class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="TemperatureAmbientCheckbox" type="checkbox" value="Temperature Ambient" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="TemperatureAmbientCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Temperature Ambient")</label>
+																</li>
+																<li class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="TankShellCorrectionCheckbox" type="checkbox" value="Tank Shell Correction" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="TankShellCorrectionCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Tank Shell Correction")</label>
+																</li>
+																<li class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="DensityProductStandardCheckbox" type="checkbox" value="Density Product Standard" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="DensityProductStandardCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Density Product Standard")</label>
+																</li>
+																<li class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="TemperatureDensityCheckbox" type="checkbox" value="Temperature Density" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="TemperatureDensityCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Temperature Density")</label>
+																</li>
+																<li class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="DensityProductObservedCheckbox" type="checkbox" value="Density Product Observed" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="DensityProductObservedCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Density Product Observed")</label>
+																</li>
+																<li class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="VolumeRoofCorrectionCheckbox" type="checkbox" value="Volume Roof Correction" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="VolumeRoofCorrectionCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Volume Roof Correction")</label>
+																</li>
+
+
+																<li class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="VolumeGrossObservedCheckbox" type="checkbox" value="Volume Gross Observed" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="VolumeGrossObservedCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Volume Gross Observed")</label>
+																</li>
+																<li class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="VolumeCorrectionFactorCheckbox" type="checkbox" value="Volume Correction Factor" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="VolumeCorrectionFactorCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Volume Correction Factor")</label>
+																</li>
+																<li class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="VolumeGrossStandardCheckbox" type="checkbox" value="Volume Gross Standard" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="VolumeGrossStandardCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Volume Gross Standard")</label>
+																</li>
+																<li class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="PercentBSWCheckbox" type="checkbox" value="Percent BSW" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="PercentBSWCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Percent BSW")</label>
+																</li>
+																<li class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="VolumeBSWCheckbox" type="checkbox" value="Volume BSW" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="VolumeBSWCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Volume BSW")</label>
+																</li>
+																<li class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="VolumeNetStandardCheckbox" type="checkbox" value="Volume Net Standard" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="VolumeNetStandardCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Volume Net Standard")</label>
+																</li>
+																<li class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="VolumeTotalCalculatedCheckbox" type="checkbox" value="Volume Total Calculated" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="VolumeTotalCalculatedCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Volume Total Calculated")</label>
+																</li>
+																<li class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="WeightGrossStandardCheckbox" type="checkbox" value="Weight Gross Standard" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="WeightGrossStandardCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Weight Gross Standard")</label>
+																</li>
+																<li class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="VolumeGrossObservedAvailableCheckbox" type="checkbox" value="Volume Gross Observed Available" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="VolumeGrossObservedAvailableCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Volume Gross Observed Available")</label>
+																</li>
+																<li class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="VolumeGrossObservedRemainingCheckbox" type="checkbox" value="Volume Gross Observed Remaining" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="VolumeGrossObservedRemainingCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Volume Gross Observed Remaining")</label>
+																</li>
+																<li class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="WeightNetStandardCheckbox" type="checkbox" value="Weight Net Standard" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="WeightNetStandardCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Weight Net Standard")</label>
+																</li>
+																<li class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="VolumeNetStandardAvailableCheckbox" type="checkbox" value="Volume Net Standard Available" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="VolumeNetStandardAvailableCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Volume Net Standard Available")</label>
+																</li>
+																<li class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="VolumeNetStandardRemainingCheckbox" type="checkbox" value="Volume Net Standard Remaining" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="VolumeNetStandardRemainingCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Volume Net Standard Remaining")</label>
+																</li>
+
+																<li class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="PressureVaporCheckbox" type="checkbox" value="Pressure Vapor" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="PressureVaporCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Pressure Vapor")</label>
+																</li>
+																<li class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="DensityVaporCheckbox" type="checkbox" value="Density Vapor" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="DensityVaporCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Density Vapor")</label>
+																</li>
+																<li class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="MassLiquidCheckbox" type="checkbox" value="Mass Liquid" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="MassLiquidCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Mass Liquid")</label>
+																</li>
+																<li class="RowFilterLiClass">
+																	<label class="customCheckbox">
+																		<input id="MassVaporCheckbox" type="checkbox" value="Mass Vapor" onchange='FMPointCalculator.HandleRowFilterCheckboxChange( this );' />
+																		<span></span>
+																	</label>
+																	<label for="MassVaporCheckbox" class="RowFilterCheckboxLabelClass">@FMBaseController.TranslateText("Mass Vapor")</label>
+																</li>
+															</ul>
+														</div>
+													</div>
+												</td>
+											</tr>
+										</table>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="pointCalculatorModal" class="modal-body" style="background: #f0f0f0;padding-top:2px;">
+	<div class="row">
+		<div class="col-md-7">
+			<h4 style="margin: 0px">@Model.selectedBasePoint</h4>
+		</div>
+		<div class="col-md-12 text-right" style="padding-right:20px;">
+			<input id="InitiateTransferLevel" type="button" value="Initiate Transfer - Level" class="formfieldtitle" onclick="FMPointCalculator.CheckIfOkToTransfer('Level');" /> &nbsp;
+			<input id="InitiateTransferBatch" type="button" value="Initiate Transfer - Batch" class="formfieldtitle" onclick="FMPointCalculator.CheckIfOkToTransfer('Batch');" /> &nbsp;
+			<input type="button" value="Reset Calculator" class="formfieldtitle" onclick="FMPointCalculator.Reset();" /> &nbsp;
+			<input type="button" value="Generate Report" class="formfieldtitle" onclick="FMPointCalculator.GenerateReport();" /> &nbsp;
+			<input type="button" value="Export to CSV" class="formfieldtitle" onclick="FMPointCalculator.GenerateAndDownloadCSV();" />
+		</div>
+	</div>
+	<section class="TagSection">
+		<div class="row">
+			<div id="tableScroll" class="table-scroll">
+				<table id="CalculatorTable" data-pointguid="@Model.selectedBasePointGuid">
+					<thead>
+						<tr class="FuelsManager-table-header">
+							<th class="col-md-5 text-left" style="min-width: 250px;">@FMBaseController.TranslateText("Tag")</th>
+							<th class="col-md-1 text-left" style="min-width: 50px;"></th>
+							<th class="col-md-2 text-right" style="min-width: 175px;">@FMBaseController.TranslateText("Start Value")</th>
+							<th class="col-md-2 text-right" style="min-width: 175px;">@FMBaseController.TranslateText("End Value")</th>
+							@{
+								string batchdifferentialColumnHeader;
+								if (Model.isBatchMode)
+								{
+									batchdifferentialColumnHeader = FMBaseController.TranslateText("Batch Value");
+								}
+								else
+								{
+									batchdifferentialColumnHeader = FMBaseController.TranslateText("Differential Value");
+								}
+							}
+
+							<th class="col-md-2 text-right" style="min-width: 175px;">@batchdifferentialColumnHeader</th>
+						</tr>
+					</thead>
+					<tbody id="TableData">
+						@for (var index = 0; index < @Model.calculatorItemList.Count; ++index)
+						{
+							var value = Model.calculatorItemList[index];
+							if (index == 0)
+							{
+								Model.colorswipeIndex = -1;
+							}
+							if (value.tagGuid == null)
+							{
+								continue;
+							}
+
+							if (!value.isVisible)
+							{
+								continue;
+							}
+
+							Model.colorswipeIndex += 1;
+							var tag = value.tagName;
+							if (value.unitsString != "")
+							{
+								tag += "   " + "(" + value.unitsString + ")";
+							}
+
+							var batchNoEditTagNames = new List<string>
+										{
+							"Volume Water",
+							"Volume Solids",
+							"Volume Bottoms",
+							"Volume BSW"
+							};
+
+							var isDisplayedInBatchMode = value.isBatchModeTag;
+							var isNoEditInBatchMode = batchNoEditTagNames.Contains(value.tagName);
+
+							var startvalue = value.startValue;
+							var endvalue = value.endValue;
+							var difvalue = value.diffValue;
+
+
+							var disabled = "";
+							var batchdisabled = "";
+
+							var pq = 0;
+
+							if (value.editDisabled == 1)
+							{
+								disabled = "disabled";
+								isNoEditInBatchMode = true;
+							}
+
+							if ((Model.isBatchMode && !isDisplayedInBatchMode))
+							{
+								difvalue = string.Empty;
+								batchdisabled = "disabled";
+								pq = 0;
+							}
+							else if (!Model.isBatchMode && value.editDisabled == 1)
+							{
+								batchdisabled = disabled;
+								pq = 1;
+							}
+							else if (Model.isBatchMode && isNoEditInBatchMode)
+							{
+								batchdisabled = "disabled";
+								pq = 2;
+							}
+
+							<tr id="calculatortag_@value.tagGuid.ToString()"
+								 data-datatype="@value.dataType"
+								 data-numberDecimals="@value.numberDecimals"
+								 data-unitsType="@value.UnitsType"
+								 data-units="@value.units"
+								 data-maximum="@value.maximumValue"
+								 data-minimum="@value.minimumValue"
+								 data-endvalue="@value.endValueRaw"
+								 style="display: @(value.isVisible ? "table-row" : "none")">
+								<td class="col-md-3 text-left calculator-tag-name" data-name="@value.tagName">
+									<span title="@tag">@tag</span>
+								</td>
+								<td class="col-md-1 text-left calculator-tag-name">
+									<span title="@value.acronym">@value.acronym</span>
+								</td>
+								<td class="col-md-2 text-right calculator-start-value" data-rawData="@value.startValueRaw">
+									<span class="value" title="@startvalue">@startvalue</span>
+									<span class="calculator-icons pull-right">
+										<a title="Edit" class="@(string.IsNullOrEmpty(disabled) ? "editLinkClass" : "editLinkClassDisabled")" @disabled></a>
+										<span class="value-up glyphicon glyphicon-arrow-up hidden"></span>
+										<span class="value-down glyphicon glyphicon-arrow-down hidden"></span>
+										<span class="value-no-change glyphicon glyphicon-minus hidden"></span>
+									</span>
+								</td>
+								<td class="col-md-2 text-right calculator-end-value" data-rawData="@value.endValueRaw">
+									<span class="value" title="@endvalue">@endvalue</span>
+									<span class="calculator-icons pull-right">
+										<a title="Edit" class="@(string.IsNullOrEmpty(disabled) ? "editLinkClass" : "editLinkClassDisabled") pull-right" @disabled></a>
+										<span class="value-up glyphicon glyphicon-arrow-up hidden"></span>
+										<span class="value-down glyphicon glyphicon-arrow-down hidden"></span>
+										<span class="value-no-change glyphicon glyphicon-minus hidden"></span>
+									</span>
+								</td>
+								<td class="col-md-2 text-right calculator-diff-value" data-rawData="@value.diffValueRaw">
+									<span class="value" title="@difvalue">@difvalue</span>
+									<span class="calculator-icons pull-right">
+										<a title="Edit" class="@(string.IsNullOrEmpty(batchdisabled) ? "editLinkClass" : "editLinkClassDisabled") pull-right" @batchdisabled></a>
+										<span class="value-up glyphicon glyphicon-arrow-up hidden"></span>
+										<span class="value-down glyphicon glyphicon-arrow-down hidden"></span>
+										<span class="value-no-change glyphicon glyphicon-minus hidden"></span>
+									</span>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section>
+</div>
+<script>
+	$(document).ready(function () {
+		FMPointCalculator.Init();
+	});
+</script>

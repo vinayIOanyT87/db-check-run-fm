@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=8" />
+        <title></title>
+        <link href="../CSS/FuelsManager.css" media="screen" rel="stylesheet" type="text/css" />
+		<script src="../Javascripts/CFS.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            function getParameter(paramName) {
+                var searchString = window.location.search.substring(1), i, val, params = searchString.split("&");
+
+                for (i = 0; i < params.length; i++) {
+                    val = params[i].split("=");
+                    if (val[0] == paramName) {
+                        return val[1];
+                    }
+                }
+                return null;
+            }
+
+            function GetUrlData()
+            {
+                var databaseVersion = getParameter("DatabaseVersion");
+                var fuelsManagerVersion = getParameter("FMVersion");
+                var businessServiceName = getParameter("BusinessServiceName");
+                var businessServiceVersion = getParameter("BusinessServiceVersion");
+                var fmPageTitle = getParameter("FMPageTitle");
+                var webServerName = getParameter("WebServerName");
+
+                if (fmPageTitle == "FuelsManager")
+                {
+                    document.getElementsByName("VersionTextArea")[0].value = "Database Version = " + databaseVersion + "\r\nFuelsManager Version = " + fuelsManagerVersion + "\r\n" + businessServiceName + " Version = " + businessServiceVersion + "\r\nWeb Server Name = " + webServerName;
+                }
+                else
+                {
+                    document.getElementsByName("VersionTextArea")[0].value = "Database Version = " + databaseVersion
+                        + "\r\n" + fmPageTitle + " Version = " + fuelsManagerVersion
+                        + "\r\n" + businessServiceName + " Version = " + businessServiceVersion
+                        + "\r\nWeb Server Name = " + webServerName;
+
+                    document.title = fmPageTitle;
+
+                    // Update background image background
+                    var backgroundImageDivElement = document.getElementById("BackgroundImageDiv");
+
+                    if (backgroundImageDivElement != null)
+                    {
+                        var legalBodyElement = document.getElementById("LegalBody");
+                        var versionTextAreaDivElement = document.getElementById("versionTextAreaDiv");
+                        var copyRightSpanElement = document.getElementById("CopyRightSpan");
+                        backgroundImageDivElement.style.backgroundImage = "url('../FMWebApp/images/Fds/32x120_Logo-01.png')";
+                        backgroundImageDivElement.style.height = "35px";
+
+                        if (legalBodyElement != null)
+                        {
+                            legalBodyElement.style.width = "550px";
+                        }
+
+                        if (versionTextAreaDivElement != null)
+                        {
+                            versionTextAreaDivElement.style.width = "100%";
+                        }
+
+                        if (copyRightSpanElement != null)
+                        {
+                            copyRightSpanElement.innerText = "© Leidos, Inc. All rights reserved.  All information displayed is for authorized use only (Terms and Conditions).";
+                        }
+                    }
+                }
+            }
+        </script>
+        <style type="text/css">
+            #TextArea1
+            {
+                height: 97px;
+                width: 921px;
+
+            }
+            #VersionTextArea
+            {
+                font-family:arial; 
+                font-size:14px; 
+                font-weight: bold; 
+                width: 100%;
+                height: 71px;
+                overflow:auto;
+                border: 0;
+	            resize: none;
+            }
+        </style>
+    </head>
+<body id="LegalBody" style="margin: 10px 10px 10px 10px; width: 540px" onload="GetUrlData()">
+    <div id="BackgroundImageDiv" style="width: 100%; height: 33px; background-image: url('../FMWebApp/images/fuels-manager-bar.gif'); background-repeat: no-repeat; "></div>
+    <div style="height:20px;width:100%"></div>
+    <div style="height:50px;width:100%">
+        <span id="CopyRightSpan" style="font-family:Arial;color:#000000;font-size:15px">
+            © Varec, Inc. All rights reserved.  All information displayed is for authorized use only (Terms 
+            and Conditions). 
+        </span>
+    </div>
+    <div style="width:100%; height: 29px;">
+    </div>
+    <div id="versionTextAreaDiv" style="height:77px; width:96%">
+        <textarea id="VersionTextArea" name="VersionTextArea" rows = 3 cols = 50 disabled readonly></textarea></div>
+    <div style="width:100%; height: 29px;">
+    </div>
+    <div style="width:100%; height: 29px;">
+        <input type="button" onclick="window.close()" title="Close" value="Close" class="formfieldtitle" style="float:right" />
+    </div>
+</body>
+</html>

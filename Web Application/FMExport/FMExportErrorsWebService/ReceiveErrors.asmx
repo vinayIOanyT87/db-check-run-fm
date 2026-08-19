@@ -1,0 +1,1 @@
+<%@ WebService Language="C#" CodeBehind="ReceiveErrors.asmx.cs" Class="EnterpriseExportErrorsWebService.ReceiveErrorsClass" %>

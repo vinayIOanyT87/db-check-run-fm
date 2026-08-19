@@ -1,0 +1,39 @@
+﻿@using FuelsManager.Areas.Controllers
+
+@model FuelsManager.Afss.WebApp.Areas.ExternalStation.Models.GasboyStationDataImportModel
+@{
+    Layout = "~/Areas/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .row {
+        max-width: 1000px;
+    } 
+</style>
+<div class="container-fluid">
+    <div class="row headline" style="padding-bottom:10px">@FMBaseController.TranslateText("Gasboy Fuel Service Station Data Import")</div>
+    @using (Html.BeginForm("GasboyStationDataImport", "GasboyStation", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="row">
+            <div class="col-md-2 formfieldtitle">
+                @Html.Label(FMBaseController.TranslateText("Import File") + ":")
+            </div>
+            <div class="col-md-8 formfieldtitle">
+                @Html.TextBoxFor(m => m.File, new { type = "file", style = "width:555px;" })
+            </div>
+            <div class="col-md-2">
+                <input type='submit' value='@FMBaseController.TranslateText("Import")' id="btnImport" name="submitButton" class="formfieldtitle pushButton" />
+            </div>
+        </div>
+        <div class="row" style="margin-top: 10px">
+            <div class="col-md-2 formfieldtitle">
+                @Html.Label(FMBaseController.TranslateText("Import Results") + ":")
+            </div>
+            <div class="col-md-10 formfield">
+                @Html.TextAreaFor(m => m.ImportResults, 20, 85, new { disabled = "disabled" })
+            </div>
+        </div>
+    }
+</div>

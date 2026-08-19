@@ -1,0 +1,1126 @@
+﻿@using Varec.CommonComponents.EngineeringUnitsLibrary
+@using FMBusinessObjects.DataObjects
+@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.PointEditDetailModel
+
+<script src="~/Areas/lib/ace.js"></script>
+<script>function ProgrammersGuideClick() {@Model.GuideOpenerScript}</script>
+
+
+<style>
+	#moduledetails {
+		height: calc(100vh - 100px);
+		background-color: white;
+	}
+
+	.list-group-item.moduledetaillist {
+		color: rgb(153, 153, 153);
+	}
+	.list-group-item.moduledetaillist.selected {
+		background-color: #f0f0f0;
+	}
+
+	.list-group-item.moduledetaillist span {
+		font-size: 18px;
+	}
+
+	#AddModule {
+		color: rgb(153, 153, 153);
+	}
+
+	#AddModule tbody > tr.selected, #AddModule tbody > tr > .selected {
+		color: white;
+	}
+
+	.ModuleListName {
+		position: absolute;
+		width: 100%;
+		right: 2px;
+		top: 25px;
+		line-height: 10px;
+		margin: 0px;
+		text-align: right;
+		padding: 0px 10px;
+		font-size: 10px;
+	}
+
+	#EditModuleModal .modal-footer {
+		padding-top: 0px;
+	}
+
+	#ResolveModuleDivScroll {
+		padding-top: 15px;
+		height: calc(100vh - 320px);
+		margin-top: 10px !important;
+		margin-bottom: 0px !important;
+		overflow: hidden;
+
+	}
+
+	#moduledetails label, #moduledetails .separator-label {
+		color: rgb(153,153,153);
+	}
+
+	.radioBtn .notActive {
+		color: #3276b1 !important;
+		background-color: #fff !important;
+	}
+
+	.radioBtn a {
+		min-width: 0px !important;
+		border-color: #357ebd !important;
+		border-radius: 7px !important;
+	}
+
+	.radioBtn {
+		background-color: #3276b1;
+		border-radius: 7px !important;
+	}
+
+	.scrollableModuleDetail {
+		height: calc(100vh - 290px);
+		overflow: hidden;
+	}
+
+</style>
+
+<div class="row">
+	<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+		<div class="PESectionLink text-center" id="PEModules">
+			<label>@FMBaseController.TranslateText("PointTemplateEditor|MODULES")</label>
+			<div class="filter-tag filter-addon filter-right-addon pull-right">
+				<input id="PEfilter_modules" type="text" class="form-control">
+				<img alt="Filter Modules" title="Search" src="~/fmwebapp/images/Search Icon.png">
+			</div>
+		</div>
+		<ul id="PTTModuleList" class="list-group">
+			@foreach (var moduleInstance in Model.PointTemplate.ModuleInstances.Select(x => x.Value).OrderBy(x => x.Order))
+			{
+				var moduleName = Model.PointTemplate.Modules.Where(x => x.Value.ModuleGuid == moduleInstance.ModuleGuid).Select(x => x.Value.ID).FirstOrDefault();
+			<li class="list-group-item text-center moduledetaillist" data-filtertext="@moduleInstance.ID" data-target="#@moduleInstance.ModuleToPointTemplateGuid"><span class="pull-left glyphicon glyphicon-modal-window" title="Standard Module"></span><label>@moduleInstance.ID</label>@if (moduleName != moduleInstance.ID)
+			{ <div class='ModuleListName'>@moduleName</div>}</li>
+			}
+		</ul>
+		<div class="">
+			@{
+				var buttonDisable = (Model.PointTemplate.Standard || !Model.ModifyEnabled) ? "disabled=\"disabled\"" : "";
+				var addButtonClass = (Model.PointTemplate.Standard || !Model.ModifyEnabled) ? "formfieldtitle pushButton pull-left disabled" : "formfieldtitle pushButton pull-left";
+				var deleteButtonClass = (Model.PointTemplate.Standard || !Model.ModifyEnabled) ? "formfieldtitle pushButton pull-right disabled" : "formfieldtitle pushButton pull-right";
+			}
+
+
+			<button id="AddModuleButton" type="button" onclick="" class="@addButtonClass" @buttonDisable style="width: 150px;" accesskey="a">
+				@FMBaseController.TranslateText("&Add Module")
+			</button>
+			<button id="DeleteModuleButton" type="button" onclick="" class="@deleteButtonClass" @buttonDisable style="width: 150px;" accesskey="r">
+				@FMBaseController.TranslateText("&Remove Module")
+			</button>
+		</div>
+	</div>
+	<div id="moduledetails" class="col-xs-9 col-sm-9 col-md-9 col-lg-9 panel-group">
+		<div id="EmptyModule" class="moduledetail" aria-expanded="false" style="padding: 20px; height: 100%">
+			<div style="height: 100%">
+				<div style="border-style: dashed; border-width: 4px; height: 100%; color: rgb(153, 153, 153);">
+					<h2 style="width: 100%; text-align: center; position: relative; top: calc(50% - 45px);">
+						@FMBaseController.TranslateText("ModuleEditor|Module Details")
+					</h2>
+				</div>
+			</div>
+		</div>
+		@foreach (var module in Model.PointTemplate.ModuleInstances)
+		{
+			Model.SelectedModuleInstanceGuid = module.Key;
+			Html.RenderPartial("PointCustomTemplateDetailModuleDetail", @Model);
+		}
+	</div>
+</div>
+
+@{
+	var saveButton = @FMBaseController.TranslateText("&Save");
+	var selectButton = @FMBaseController.TranslateText("&Select");
+	var applyButton = @FMBaseController.TranslateText("&Apply");
+	var createButton = @FMBaseController.TranslateText("C&reate");
+	var cancelButton = @FMBaseController.TranslateText("&Cancel");
+	var guideButton = FMBaseController.TranslateText("&Programmer's Guide");
+
+}
+<!-- Add Module Modal -->
+@Html.Hidden("urlModuleEditor", @Url.Action("ModuleEditor", "ModuleEditor"))
+<div class="row">
+	<div id="AddModuleModal" class="modal fade modal-md" data-backdrop="static" data-focus-on="input:first" role="dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="AddModuleHeader row">
+					<button type="button" class="close" data-dismiss="modal" onclick="$('#AddModuleCloseButton').click();">×</button>
+					<div class="col-xs-12">
+						<h4>@FMBaseController.TranslateText("PointTemplateEditor|Select Module")</h4>
+					</div>
+				</div>
+				<section id="AddModuleScreen" class="row">
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<table id="AddModule" class="table table-striped table-bordered hover" style="width:100%">
+							<thead class="">
+								<tr>
+									<th class="text-center">
+										@FMBaseController.TranslateText("PointTemplateEditor|Module Name")
+									</th>
+									<th class="hidden">GUID</th>
+								</tr>
+							</thead>
+							<tbody id="AddModuleTableBody">
+							</tbody>
+						</table>
+					</div>
+				</section>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-toolbar">
+					<div class="pull-left" role="group">
+						<button id="AddModuleCreateButton" type="button" class="formfieldtitle pushButton" accessKey="@FMControls.GetAccessKey(createButton)">
+							@Html.Raw(FMControls.FormatButtonText(createButton))
+						</button>
+					</div>
+					<div class="pull-right" role="group">
+						<button id="AddModuleSelectButton" type="button" class="formfieldtitle pushButton" accessKey="@FMControls.GetAccessKey(selectButton)">
+							@Html.Raw(FMControls.FormatButtonText(selectButton))
+						</button>
+						<button id="AddModuleCloseButton" type="button" class="formfieldtitle pushButton" data-dismiss="modal" accessKey="@FMControls.GetAccessKey(cancelButton)">
+							@Html.Raw(FMControls.FormatButtonText(cancelButton))
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+<!-- Edit Module Modal -->
+<div class="row">
+	<div id="EditModuleModal" class="modal container fade" data-backdrop="static" data-focus-on="input:first" role="dialog">
+		<!-- Edit Module Modal content-->
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="EditModuleHeader row">
+					<button type="button" class="close" data-dismiss="modal" onclick="$('#ModuleEditorCloseButton').click();">×</button>
+					<div class="col-xs-12">
+						<h4>@FMBaseController.TranslateText("ModuleEditor|Edit Module")</h4>
+					</div>
+				</div>
+				<section id="moduleEditorScreen" class=""></section>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-toolbar">
+					<div class="pull-left" role="group">
+						<button id="ModuleEditorProgrammersGuideButton" type="button" class="formfieldtitle pushButton" accessKey="@FMControls.GetAccessKey(guideButton)" onclick="javascript: ProgrammersGuideClick()">
+							@Html.Raw(FMControls.FormatButtonText(guideButton))
+						</button>
+					</div>
+					<div class="pull-right" role="group">
+						<button id="ModuleEditorSaveButton" type="button" class="formfieldtitle pushButton" accessKey="@FMControls.GetAccessKey(saveButton)">
+							@Html.Raw(FMControls.FormatButtonText(saveButton))
+						</button>
+						<button id="ModuleEditorCloseButton" type="button" class="formfieldtitle pushButton" data-dismiss="modal" accessKey="@FMControls.GetAccessKey(cancelButton)">
+							@Html.Raw(FMControls.FormatButtonText(cancelButton))
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Resolve Module Modal -->
+@Html.Hidden("RemoveModule", FMBaseController.TranslateText("PointTemplateEditor|Remove Module"))
+<div class="row">
+	<div id="ResolveModuleModal" class="modal modal-lg fade" data-width="900" data-backdrop="static" data-focus-on="input:first" role="dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="ResolveModuleHeader row">
+					<button type="button" class="close" data-dismiss="modal" onclick="$( '#ResolveModuleCloseButton' ).click();">×</button>
+					<div class="col-xs-12">
+						<h4>@FMBaseController.TranslateText("PointTemplateEditor|Resolve Module")</h4>
+					</div>
+				</div>
+				<section id="ResolveModuleScreen" class="">
+					<div class="hidden">@Html.DropDownList("ModuleDataTypeList", new SelectList(PointTemplateTag.EnumerateTagDataTypes().Select(s => new SelectListItem { Value = s.Key, Text = FMBaseController.TranslateText(s.Value) }).OrderBy(x => x.Text), "Value", "Text"), new { @class = "form-control" })</div>
+					<div class="row">
+						<div class="form-group col-sm-5 col-md-5">
+							<label class="control-label" for="PTEModuleResolveInstanceName">@FMBaseController.TranslateText("PointTemplateEditor|INSTANCE NAME")</label>
+							<input class="form-control input-md" id="PTEModuleResolveInstanceName" maxlength="50" name="PTEModuleResolveInstanceName" type="text" value="Rate">
+						</div>
+						<div class="form-group col-sm-7 col-md-7">
+							<label class="control-label" for="PTEModuleResolveName">@FMBaseController.TranslateText("PointTemplateEditor|MODULE NAME")</label>
+							<input class="form-control input-md" id="PTEModuleResolveName" maxlength="50" name="PTEModuleResolveName" data-guid="1DA35F8B-1DB1-4D72-95FB-42B15D03FF5B" type="text" value="Rate" disabled>
+						</div>
+					</div>
+					<div class="row">
+						<div id="ResolveModuleDivScroll" class="col-md-12">
+
+							<div class="row settingsection">
+								<a href="#MEResolveParameters" data-toggle="collapse" class="col-sm-12 col-md-12 col-lg-12" aria-expanded="true">
+									<span class="pull-left separator-label">@FMBaseController.TranslateText("PointTemplateEditor|TAGS")</span><span id="expandModuleResolveParameters" class="pull-right"><div class="expand-icon"></div></span>
+								</a>
+								<div class="settingsectionhorizontalline"></div>
+							</div>
+							<div id="MEResolveParameters" class="row collapse in" aria-expanded="true">
+								<div id="empty_resolveparameterrow" class="hidden">
+									<table>
+										<tbody>
+										<tr>
+											<td class="col-md-2">
+												<input class="form-control input-md text-left" name="ResolveModuleTagNameInput" type="text">
+												<select class="form-control hidden" name="ResolveModuleTagGuidSelect">
+												</select>
+											</td>
+											<td class="col-md-2">
+												@Html.DropDownList("ResolveModuleEngineeringUnitsType", new SelectList(((EngineeringUnitType[])Enum.GetValues(typeof(EngineeringUnitType))).ToList().Except(new List<EngineeringUnitType> { EngineeringUnitType.FmuAll, EngineeringUnitType.FmuArea, EngineeringUnitType.FmuEnergy, EngineeringUnitType.FmuPower, EngineeringUnitType.FmuTime }).Select(s => new SelectListItem { Text = EngineeringUnits.GetUnitTypeString(s), Value = s.ToString() }).OrderBy(x => x.Text), "Value", "Text"), new { @class = "form-control" })
+											</td>
+											<td class="col-md-4"><input class="form-control input-md text-left" name="ResolveModuleParameterName" disabled type="text" value="ProductLevel"></td>
+											<td class="col-md-2 text-center resolveModuleSelectTag">
+												<div class="input-group" name="resolveModuleModuleReuseTagSwitch" style="width: 100%">
+													<div class="radioBtn btn-group">
+														<a class="btn btn-primary btn-sm notActive" data-toggle="resolveModuleReuseTag" data-title="true"><span class="hidden">@FMBaseController.TranslateText("PointTemplateEditor|YES")</span></a>
+														<a class="btn btn-primary btn-sm active" data-toggle="resolveModuleReuseTag" data-title="false"><span>@FMBaseController.TranslateText("PointTemplateEditor|NO")</span></a>
+													</div>
+													<input type="hidden" name="resolveModuleReuseTag" value="false">
+												</div>
+											</td>
+										</tr>
+										</tbody>
+									</table>
+								</div>
+								<div id="empty_resolvesettingrow" class="hidden">
+									<table>
+										<tbody>
+										<tr>
+											<td class="col-md-6">
+												<input class="form-control input-md text-left" name="ResolveModuleSettingsInstanceName" disabled type="text" value="Module1_StrapTable">
+
+											</td>
+											<td class="col-md-6">
+												<input class="form-control input-md text-left" name="ResolveModuleSettingType" type="text" data-value="FMBusinessObjects.DataObjects.StrapTable" disabled>
+											</td>
+
+										</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="form-group col-sm-12 col-md-12 col-lg-12">
+									<table id="ModuleResolveParameters" class="table table-striped table-responsive table-hover FuelsManager-table-header">
+										<thead>
+										<tr>
+											<th class="col-md-4 text-center">@FMBaseController.TranslateText("PointTemplateEditor|TAG NAME")</th>
+											<th class="col-md-2 text-center">@FMBaseController.TranslateText("PointTemplateEditor|UNIT TYPE")</th>
+											<th class="col-md-4 text-center">@FMBaseController.TranslateText("PointTemplateEditor|PARAMETER")</th>
+											<th class="col-md-2 text-center">@FMBaseController.TranslateText("PointTemplateEditor|USE EXISTING")</th>
+										</tr>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
+								</div>
+							</div>
+
+							<div class="row settingsection">
+								<a href="#MEResolveSettings" data-toggle="collapse" class="col-sm-12 col-md-12 col-lg-12" aria-expanded="true">
+									<span class="pull-left separator-label">@FMBaseController.TranslateText("PointTemplateEditor|SETTINGS")</span><span id="expandModuleResolveSettings" class="pull-right"><div class="expand-icon"></div></span>
+								</a>
+								<div class="settingsectionhorizontalline"></div>
+							</div>
+							<div id="MEResolveSettings" class="row collapse in" aria-expanded="true">
+								<div class="form-group col-sm-12 col-md-12 col-lg-12">
+									<table id="ModuleResolveSettings" class="table table-striped table-responsive table-hover FuelsManager-table-header">
+										<thead>
+										<tr>
+											<th class="col-md-6 text-center">@FMBaseController.TranslateText("PointTemplateEditor|SETTING NAME")</th>
+											<th class="col-md-6 text-center">@FMBaseController.TranslateText("PointTemplateEditor|SETTING TYPE")</th>
+										</tr>
+										</thead>
+										<tbody>
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-toolbar">
+					<div class="pull-left" role="group">
+					</div>
+					<div class="pull-right" role="group">
+						<button id="ResolveModuleSaveButton" type="button" class="formfieldtitle pushButton" accessKey="@FMControls.GetAccessKey(applyButton)">
+							@Html.Raw(FMControls.FormatButtonText(applyButton))
+						</button>
+						<button id="ResolveModuleCloseButton" type="button" class="formfieldtitle pushButton" data-dismiss="modal" accessKey="@FMControls.GetAccessKey(cancelButton)">
+							@Html.Raw(FMControls.FormatButtonText(cancelButton))
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+<div id="dialogboxmessages" class="hidden">
+	<div id="confirm-delete-module-dialog" title=@FMBaseController.TranslateText("PointTemplateEditor|Remove Module")>
+		<p>@FMBaseController.TranslateText("PointTemplateEditor|Are you sure you want to remove the selected Module?")<br/>@FMBaseController.TranslateText("PointTemplateEditor|NOTE: Associated Tags & Settings will also be removed if not in use.")</p>
+	</div>
+</div>
+
+<script>
+	$(document).ready(function () {
+		var hotKey;
+		var buttonObj = $('#AddModuleButton');
+		var ampersandIndex = buttonObj.text().indexOf('&');
+		if (ampersandIndex !== -1)
+		{
+			hotKey = buttonObj.text().charAt(ampersandIndex + 1);
+			buttonObj.html(buttonObj.text().replace('&' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+			buttonObj.attr('accesskey', hotKey);
+		}
+
+		buttonObj = $('#DeleteModuleButton');
+		ampersandIndex = buttonObj.text().indexOf('&');
+		if (ampersandIndex !== -1)
+		{
+			hotKey = buttonObj.text().charAt(ampersandIndex + 1);
+			buttonObj.html(buttonObj.text().replace('&' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+			buttonObj.attr('accesskey', hotKey);
+		}
+
+		//--------- binding buttons ------
+		$('#AddModuleButton').on('click', function () {
+
+			_addModule = function () {
+				// create the backdrop and wait for next modal to be triggered
+				var modalManager = $('body').modalmanager('loading');
+
+				if ($.fn.DataTable.isDataTable('#AddModule')) {
+					$('#AddModule').DataTable().destroy();
+				}
+				$('#AddModule tbody').empty();
+
+				var token = $('input[name=__RequestVerificationToken]').val();
+				var headers = {};
+				headers['__RequestVerificationToken'] = token;
+
+				$.ajax({
+					url: '@Url.Action("GetListOfModules", "PointCustomTemplateDetail")',
+					cache: false,
+					type: 'Get',
+					headers: headers,
+					data: { identityGuid: FMPointEditor.pointGuid },
+					success: function (response) {
+						FMErrorAndExceptionHandling.HandleMessages(response, function (data, inError) {
+							if (!inError) {
+
+								var moduleListTable = $('#AddModule').DataTable(
+									{
+										"retrieve": true,
+										"select": { style: 'single' },
+										"ordering": false,
+										"scrollY": '300px',
+										"sScrollX": '100%',
+										"sScrollXInner": '100%',
+										"scrollCollapse": false,
+										"paging": false,
+										"autoWidth": true,
+										"columnDefs": [
+											{
+												"targets": [0], "name": 'Module', "orderable": false, className: 'ModuleSelectColumn text-center',
+												render: function (data, type, row, meta) {
+													return '<span class="pull-left glyphicon ' + (row[2] ? 'glyphicon-modal-window' : 'glyphicon-edit') + '"></span>' + data;
+												}
+
+											},
+											{ "targets": [1], "name": 'Guid', "orderable": false, "visible": false },
+											{ "name": 'CustomFlag', "orderable": false, "visible": false }
+										],
+										"dom": 'rt',
+										"fnInitComplete": function () {
+											// custom scroll bars
+											$(this).parent()
+												.niceScroll({
+													cursorwidth: '10px',
+													autohidemode: false,
+													cursorcolor: '#486899',
+													background: 'rgb(240, 240, 240)',
+													horizrailenabled: false
+												});
+										}
+									});
+
+
+								data.forEach(function (module) {
+									moduleListTable.row.add([module.ID, module.ModuleGuid, module.isStandard]).draw(false);
+								});
+
+								$('#AddModuleModal').modal('show');
+								moduleListTable.draw();
+								moduleListTable.columns.adjust().draw();
+
+							}
+							else {
+								$('body').modalmanager('loading'); // remove the loading background
+							}
+
+						});
+					},
+					error: function (xhr, textStatus, error) {
+						FMErrorAndExceptionHandling.ShowException(xhr, textStatus, error, function () { });
+						$('body').modalmanager('loading'); // remove the loading background
+					}
+
+				});
+			}
+
+			// if the user made any changes prompt to save
+			if (FMPointEditor.valuesChanged) {
+
+				FMLayout.ConfirmSaveCancel($("#dialog-save-confirm"),
+					$("#dialog-save-confirm").attr('title'),
+					function () {
+						// call the save form and tell it to _addModule if successful
+						FMPointEditor.saveChanges($('#pointPropertiesForm').attr("action"), $('#pointPropertiesForm').attr("method"), _addModule, '', '');
+					});
+			}
+				// if no changes then _addModule directly
+			else {
+				_addModule();
+			}
+		});
+
+		$('#DeleteModuleButton').on('click', function () {
+
+			if ( $("#PTTModuleList .moduledetaillist.selected:not( .hidden)").length === 0 )
+			{
+				return;
+			}
+
+			var moduleInstanceGuid = $("#PTTModuleList .moduledetaillist.selected:not( .hidden)").data('target').replace('#', '');
+
+			_deleteModule = function () {
+
+
+				// Prompt to confirm changes
+				FMLayout.ConfirmYesNo($("#confirm-delete-module-dialog"),
+					$('#RemoveModule').val(),
+					function () {
+
+						FMErrorAndExceptionHandling.CloseNotifications();
+						// display animation
+						$('<div class=loadingDiv><img src="@(Url.Content("~/fmwebapp/images/loader_squares_120.gif"))" /></img></div>').prependTo(document.body);
+
+						var token = $('input[name=__RequestVerificationToken]').val();
+						var headers = {};
+						headers['__RequestVerificationToken'] = token;
+
+						$.ajax({
+							url: '@Url.Action("PointsCustomTemplateDeleteModule", "PointCustomTemplateDetail")',
+							cache: false,
+							type: 'Post',
+							headers: headers,
+							data: { pointTemplateGuid: FMPointEditor.pointGuid, moduleInstanceGuid: moduleInstanceGuid },
+							success: function (response) {
+								FMErrorAndExceptionHandling.HandleMessages(response, function (data, inError) {
+									if (!inError) {
+										// check if we got a new view for the tags
+										var tagList = $.grep(data, function (e) { return e.Key === "tagList"; });
+										if (tagList.length == 1 && tagList[0].Value !== "") {
+											FMPointEditor.tagList = JSON.parse(tagList[0].Value);
+										}
+
+										// check if we got a new view for the tags
+										var tagView = $.grep(data, function (e) { return e.Key === "tagView"; });
+										if (tagView.length == 1 && tagView[0].Value !== "") {
+											//replace the tag view
+											$("#PTTTagEditHolder").html(tagView[0].Value);
+											FMPointEditor.initializeTagGrid();
+										}
+
+										// check if we got a new view for the modules
+										var moduleView = $.grep(data, function (e) { return e.Key === "modulesView"; });
+										if (moduleView.length == 1 && moduleView[0].Value !== "") {
+											//replace the modules view
+											$("#PTTModuleEditHolder").html(moduleView[0].Value);
+										}
+
+										// check if we got a new view for the settings
+										var settingView = $.grep(data, function (e) { return e.Key === "settingsView"; });
+										if (settingView.length == 1 && settingView[0].Value !== "") {
+											//replace the settings view
+											$("#PEModulePropertyList").html(settingView[0].Value);
+											FMPointEditor.initializeModuleSettings();
+										}
+
+										// check if we got a new view for the alarms
+										var alarmsView = $.grep(data, function (e) { return e.Key === "alarmsView"; });
+										if (alarmsView.length == 1 && alarmsView[0].Value !== "") {
+											//replace the alarms view
+											$("#PTTAlarmEditHolder").html(alarmsView[0].Value);
+										}
+									}
+									else {
+										// display the error messages
+										var messageList = [];
+										// add messages but avoid duplicates
+										var seen = {};
+
+										$.each(response.ErrorMessage, function (key, message) {
+											// set the control to be flagged as having an error
+
+											$.each(message, function (i, val) {
+												if (!seen[message[i]]) {
+													seen[message[i]] = true;
+													FMErrorAndExceptionHandling.FlagControlHavingError(key);
+													messageList.push("<div>" + message[i] + "</div>");
+												}
+											});
+										});
+										var messages = messageList.join('');
+										FMErrorAndExceptionHandling.ShowError(messages);
+									}
+									// hide the saving animation
+									$(".loadingDiv").remove();
+								});
+							},
+							error: function (xhr, textStatus, error) {
+								FMErrorAndExceptionHandling.ShowException(xhr, textStatus, error, function () { });
+								// hide the saving animation
+								$(".loadingDiv").remove();
+							}
+
+						});
+
+					},
+					function () {
+					});
+			}
+
+			// if the user made any changes prompt to save
+			if (FMPointEditor.valuesChanged) {
+
+				FMLayout.ConfirmSaveCancel($("#dialog-save-confirm"),
+					$("#dialog-save-confirm").attr('title'),
+					function () {
+						// call the save form and tell it to call _deleteModule
+						FMPointEditor.saveChanges($('#pointPropertiesForm').attr("action"), $('#pointPropertiesForm').attr("method"), _deleteModule, '', '');
+					});
+			}
+				// if no changes then call _deleteModule directly
+			else {
+				_deleteModule();
+
+			}
+		});
+
+		// click on the module list to change the module details
+		$("#PTTModuleList").on('click', '.moduledetaillist', function () {
+			$('.moduledetaillist').removeClass('selected');
+			$( this ).addClass( 'selected' );
+			var moduleDetailPanel = $(this).data('target');
+			$('.moduledetail').removeClass('hidden').addClass('hidden');
+			$(moduleDetailPanel).removeClass('hidden');
+
+		});
+
+
+		/* ADD MODULE EVENTS */
+		$('#AddModule tbody').on('dblclick', 'tr', function () {
+			if ($('#AddModule').DataTable().rows({ selected: true })[0].length > 0) {
+				var selectedModule = $('#AddModule').DataTable().rows({ selected: true }).data();
+				var selectedModuleGuid = selectedModule[0][1];
+
+				$('#AddModuleModal').modal('hide');
+				// create the backdrop and wait for next modal to be triggered
+				$('body').modalmanager('loading');
+				// close all the notifications currently openned
+				FMErrorAndExceptionHandling.CloseNotifications();
+
+				var token = $('#pointPropertiesForm input[name =__RequestVerificationToken]').val();
+				var headers = {};
+				headers['__RequestVerificationToken'] = token;
+
+				var moduleGuidString = selectedModuleGuid;
+				var moduleEditorData = { moduleGuidString: moduleGuidString, moduleLibrary: 'false' };
+
+				var urlModuleEditor = $('#urlModuleEditor').val();
+
+				$.ajax({
+					type: "GET",
+					cache: false,
+					headers: headers,
+					url: urlModuleEditor,
+					data: moduleEditorData,
+					success: function (response) {
+						FMErrorAndExceptionHandling.HandleMessages(response, function (data, inError) {
+							if (!inError) {
+								// replace the holder with the partial view
+								$('#moduleEditorScreen').html(data);
+								// show the modal
+								$('#EditModuleModal').modal('show');
+							}
+							else {
+								// remove the loading of the modal
+								var modalManager = $("body").data("modalmanager");
+								modalManager.removeLoading();
+							}
+						});
+
+					},
+					error: function (xhr, textStatus, error) {
+						FMErrorAndExceptionHandling.ShowException(xhr,
+							textStatus,
+							error,
+							function () {
+								// remove the loading of the modal
+								var modalManager = $("body").data("modalmanager");
+								modalManager.removeLoading();
+							});
+					}
+				});
+			}
+		});
+
+		$('#AddModuleCreateButton').on('click', function () {
+			$('#AddModuleModal').modal('hide');
+			// create the backdrop and wait for next modal to be triggered
+			$('body').modalmanager('loading');
+			// close all the notifications currently openned
+			FMErrorAndExceptionHandling.CloseNotifications();
+
+			var token = $('#pointPropertiesForm input[name =__RequestVerificationToken]').val();
+			var headers = {};
+			headers['__RequestVerificationToken'] = token;
+
+			var moduleGuidString = '00000000-0000-0000-0000-000000000000';
+			var moduleEditorData = { moduleGuidString: moduleGuidString, moduleLibrary: 'false' };
+
+			var urlModuleEditor = $('#urlModuleEditor').val();
+
+			$.ajax({
+				type: "GET",
+				cache: false,
+				headers: headers,
+				url: urlModuleEditor,
+				data: moduleEditorData,
+				success: function (response)
+				{
+					FMErrorAndExceptionHandling.HandleMessages(response, function (data, inError)
+					{
+						if (!inError)
+						{
+							// replace the holder with the partial view
+							$('#moduleEditorScreen').html(data);
+							// show the modal
+							$('#EditModuleModal').modal('show');
+						}
+						else
+						{
+							// remove the loading of the modal
+							var modalManager = $("body").data("modalmanager");
+							modalManager.removeLoading();
+						}
+					});
+
+				},
+				error: function (xhr, textStatus, error)
+				{
+					FMErrorAndExceptionHandling.ShowException(xhr,
+						textStatus,
+						error,
+						function ()
+						{
+							// remove the loading of the modal
+							var modalManager = $("body").data("modalmanager");
+							modalManager.removeLoading();
+						});
+				}
+			});
+		});
+
+		$('#AddModuleSelectButton').on('click', function ()
+		{
+
+			// If the user has selected a module open the module screen
+			if ( $( '#AddModule' ).DataTable().rows( { selected: true } )[0].length > 0 )
+			{
+				var selectedModule = $('#AddModule').DataTable().rows({ selected: true }).data();
+				var selectedModuleName = selectedModule[0][0];
+				var selectedModuleGuid = selectedModule[0][1];
+
+				$('#AddModuleModal').modal('hide');
+
+				// create the backdrop and wait for next modal to be triggered
+				var modalManager = $('body').modalmanager('loading');
+
+				var token = $('input[name=__RequestVerificationToken]').val();
+				var headers = {};
+				headers['__RequestVerificationToken'] = token;
+
+				$.ajax({
+					url: '@Url.Action("GetModulesDetails", "PointCustomTemplateDetail")',
+					cache: false,
+					type: 'Get',
+					headers: headers,
+					data: { moduleGuid: selectedModuleGuid },
+					success: function (response) {
+						FMErrorAndExceptionHandling.HandleMessages(response, function (data, inError) {
+
+							if (!inError)
+							{
+								$("#PTEModuleResolveInstanceName").val( data.ID );
+								$("#PTEModuleResolveName").val(data.ID);
+								$("#PTEModuleResolveName").data('guid', data.ModuleGuid);
+								$("#ModuleResolveParameters tbody").empty();
+
+								data.ModuleData.ModuleTags.forEach(function (tag) {
+									// copy an empty row when adding a parameter
+									var newRow = $("#empty_resolveparameterrow tbody").children().clone();
+									// set the defaults
+									newRow.find('[name=ResolveModuleTagNameInput]').val(tag.TagID);
+									var tagList = "";
+									var tagExists = false;
+									FMPointEditor.tagList.forEach(function (existingTag)
+									{
+										if (existingTag.DataType === tag.DataType
+										&& existingTag.EngineeringUnitsType === FMConvertEngUnits.unitsTypeArray[tag.UnitType]) {
+											var selected = ((existingTag.Name === tag.TagID) ? 'selected' : '');
+											if(selected === 'selected'){
+												tagExists = true;
+											}
+											tagList += "<option value='" + existingTag.PointTagGuid + "' " + selected + ">" + existingTag.Name + "</option>";
+										}
+									});
+									newRow.find('[name=ResolveModuleTagGuidSelect]').html(tagList);
+									newRow.find('[name=ResolveModuleEngineeringUnitsType]').val(FMConvertEngUnits.unitsTypeArray[tag.UnitType]);
+                            if (tag.DataType !== "System.Double"
+                                && tag.DataType !== "System.Single")
+									{
+										newRow.find( '[name=ResolveModuleEngineeringUnitsType]' ).attr( "disabled", true ).addClass("hidden");
+									}
+									newRow.find('[name=ResolveModuleParameterName]').val(tag.ParameterName);
+
+									newRow.appendTo("#ModuleResolveParameters tbody").find('[name=EditModuleParameterName]').focus();
+
+									if (tagExists) {
+										newRow.find('[name=resolveModuleModuleReuseTagSwitch] .radioBtn a')[0].click();
+									}
+								});
+
+								$("#ModuleResolveSettings tbody").empty();
+								data.ModuleData.ModuleSettings.forEach(function (module) {
+									// copy an empty row when adding a setting
+									var newRow = $("#empty_resolvesettingrow tbody").children().clone();
+									// set the defaults
+									newRow.find('[name=ResolveModuleSettingsInstanceName]').val(module.SettingName);
+
+									newRow.find('[name=ResolveModuleSettingType]').val(module.DataType);
+									newRow.find( '[name=ResolveModuleSettingType]' ).data( 'value', module.DataType );
+
+									newRow.appendTo("#ModuleResolveSettings tbody").find('[name=ResolveModuleSettingsInstanceName]').focus();
+								});
+
+								$('#ResolveModuleModal').modal('show');
+							}
+							else {
+								$('body').modalmanager('loading'); // remove the loading background
+							}
+
+						});
+					},
+					error: function (xhr, textStatus, error) {
+						FMErrorAndExceptionHandling.ShowException(xhr, textStatus, error, function () { });
+						$('body').modalmanager('loading'); // remove the loading background
+					}
+
+				});
+			}
+
+		});
+
+		/* RESOLVE MODULE EVENTS */
+		$('#ResolveModuleSaveButton').on('click', function ()
+		{
+			FMErrorAndExceptionHandling.CloseNotifications();
+
+			var inError = false;
+			var moduleName = $("#PTEModuleResolveName").val();
+			var moduleGuid = $("#PTEModuleResolveName").data('guid');
+
+			var instanceName = $("#PTEModuleResolveInstanceName").val();
+			if (instanceName === "") {
+				inError = true;
+				$("#PTEModuleResolveInstanceName").parent().removeClass("has-error").addClass("has-error");
+			}
+
+			// get the tags
+			$("#ModuleResolveParameters tbody tr").each(function (index)
+			{
+				var resolveSelectTag = $( this ).find( "[name=resolveModuleReuseTag]" ).val();
+				var resolveModuleTagName = "";
+				var resolveModuleTagGuid = null;
+				if (resolveSelectTag === "true") {
+					resolveModuleTagGuid = $(this).find("[name=ResolveModuleTagGuidSelect]").val();
+					if (resolveModuleTagGuid == null) {
+						inError = true;
+						$(this).find("[name=ResolveModuleTagGuidSelect]").parent().removeClass("has-error").addClass("has-error");
+					}
+				}
+				else {
+					resolveModuleTagName = $(this).find("[name=ResolveModuleTagNameInput]").val();
+					if (resolveModuleTagName === "")	{
+						inError = true;
+						$(this).find("[name=ResolveModuleTagNameInput]").parent().removeClass("has-error").addClass("has-error");
+					}
+
+				}
+			});
+
+			// get the Settings
+			$("#ModuleResolveSettings tbody tr").each(function (index) {
+				var resolveModuleSettingName = $(this).find("[name=ResolveModuleSettingsInstanceName]").val();
+				if (resolveModuleSettingName === "") {
+					inError = true;
+					$(this).find("[name=ResolveModuleSettingsInstanceName]").parent().removeClass("has-error").addClass("has-error");
+				}
+			});
+
+			if (!inError)
+			{
+				// display animation
+				$('<div class=loadingDiv><img src="@(Url.Content("~/fmwebapp/images/loader_squares_120.gif"))" /></img></div>').prependTo(document.body);
+
+				var tagTable = [];
+				var settingsTable = [];
+
+				$('#ModuleResolveParameters tbody tr').each(function () {
+					if ($(this).find('td [name=ResolveModuleParameterName]').length > 0) {
+						tagTable.push({
+							ParameterName: $(this).find('td [name=ResolveModuleParameterName]').val(),
+							TagName: ($(this).find('td [name=resolveModuleReuseTag]').val() == 'true' ? "" : $(this).find('td [name=ResolveModuleTagNameInput]').val()),
+							TagGuid: ($(this).find('td [name=resolveModuleReuseTag]').val() == 'true' ? $(this).find('td [name=ResolveModuleTagGuidSelect]').val() : null),
+							EngineeringUnitsType: $(this).find('td [name=ResolveModuleEngineeringUnitsType]').val() == "" ? "FMU_NODIM" : $(this).find('td [name=ResolveModuleEngineeringUnitsType]').val(),
+						});
+					}
+				});
+
+				$('#ModuleResolveSettings tbody tr').each(function () {
+					if ($(this).find('td [name=ResolveModuleSettingType]').length > 0) {
+						settingsTable.push({
+							SettingType: $(this).find('td [name=ResolveModuleSettingType]').data('value'),
+							newSettingName: ($(this).find('td [name=resolveModuleReuseSetting]').val() == 'true' ? "" : $(this).find('td [name=ResolveModuleSettingsInstanceName]').val()),
+							newSettingGuid: ($(this).find('td [name=resolveModuleReuseSetting]').val() == 'true' ? $(this).find('td [name=ResolveModuleSettingsInstanceGuid]').val() : null)
+						});
+					}
+				});
+				var module = { id: FMPointEditor.pointGuid, moduleGuid: moduleGuid, InstanceName: instanceName, tagList: JSON.stringify(tagTable), settingsList: JSON.stringify(settingsTable) }
+
+				var token = $('input[name=__RequestVerificationToken]').val();
+				var headers = {};
+				headers['__RequestVerificationToken'] = token;
+
+				$.ajax( {
+					url: '@Url.Action("PointsCustomTemplateAddModule", "PointCustomTemplateDetail")',
+					cache: false,
+					type: 'POST',
+					headers: headers,
+					data: module,
+					success: function (response) {
+						FMErrorAndExceptionHandling.HandleMessages(response, function (data, inError)
+						{
+							if (!inError)
+							{
+								$('#ResolveModuleModal').modal('hide');
+
+								// check if we got a new view for the tags
+								var tagList = $.grep(data, function (e) { return e.Key === "tagList"; });
+								if ( tagList.length == 1 && tagList[0].Value !== "" )
+								{
+									FMPointEditor.tagList = JSON.parse( tagList[0].Value );
+								}
+
+								// check if we got a new view for the tags
+								var tagView = $.grep(data, function (e) { return e.Key === "tagView"; });
+								if ( tagView.length == 1 && tagView[0].Value !== "" )
+								{
+									//replace the tag view
+									$("#PTTTagEditHolder").html(tagView[0].Value);
+									FMPointEditor.initializeTagGrid();
+								}
+
+								// check if we got a new view for the modules
+								var moduleView = $.grep(data, function (e) { return e.Key === "modulesView"; });
+								if (moduleView.length == 1 && moduleView[0].Value !== "") {
+									//replace the modules view
+									$("#PTTModuleEditHolder").html(moduleView[0].Value);
+								}
+
+								// check if we got a new view for the settings
+								var settingView = $.grep(data, function (e) { return e.Key === "settingsView"; });
+								if (moduleView.length == 1 && moduleView[0].Value !== "") {
+									//replace the settings view
+									$("#PEModulePropertyList").html(settingView[0].Value);
+									FMPointEditor.initializeModuleSettings();
+								}
+
+
+							}
+							else {
+								// display the error messages
+								var messageList = [];
+								// add messages but avoid duplicates
+								var seen = {};
+
+								$.each(response.ErrorMessage, function (key, message) {
+									// set the control to be flagged as having an error
+
+									$.each(message, function (i, val) {
+										if (!seen[message[i]]) {
+											seen[message[i]] = true;
+											FMErrorAndExceptionHandling.FlagControlHavingError(key);
+											messageList.push("<div>" + message[i] + "</div>");
+										}
+									});
+								});
+								var messages = messageList.join('');
+								FMErrorAndExceptionHandling.ShowError(messages);
+							}
+							// hide the saving animation
+							$(".loadingDiv").remove();
+						});
+					},
+					error: function (xhr, textStatus, error) {
+						FMErrorAndExceptionHandling.ShowException(xhr,
+							textStatus,
+							error,
+							function () {
+								// hide the saving animation
+								$(".loadingDiv").remove();
+							});
+					}
+
+				});
+
+			}
+		});
+
+		// switch between Use Existing Tags or create new ones
+		$("#ModuleResolveParameters").on('click', "[name=resolveModuleModuleReuseTagSwitch] .radioBtn a", function ()
+		{
+			var sel = $(this).data('title');
+			var tog = $(this).data('toggle');
+			$(this).closest('tr').find("[name=" + tog + "]").prop('value', sel);
+			$(this).parent().find('a[data-toggle="' + tog + '"]').not('[data-title="' + sel + '"]').find('span').removeClass('hidden').addClass('hidden');
+			$(this).parent().find('a[data-toggle="' + tog + '"][data-title="' + sel + '"]').find('span').removeClass('hidden');
+			$(this).parent().find('a[data-toggle="' + tog + '"]').not('[data-title="' + sel + '"]').removeClass('active').addClass('notActive');
+			$(this).parent().find('a[data-toggle="' + tog + '"][data-title="' + sel + '"]').removeClass('notActive').addClass('active');
+
+			if ( sel === true )
+			{
+				$(this).closest('tr').find("[name=ResolveModuleTagNameInput]").removeClass('hidden').addClass('hidden');
+				$(this).closest('tr').find("[name=ResolveModuleTagGuidSelect]").removeClass('hidden');
+			}
+			else
+			{
+				$(this).closest('tr').find("[name=ResolveModuleTagNameInput]").removeClass('hidden');
+				$(this).closest('tr').find("[name=ResolveModuleTagGuidSelect]").removeClass('hidden').addClass('hidden');
+			}
+
+		});
+
+
+		$("#ModuleResolveParameters").on('click', '.booleanImgSelect', function () {
+			if ($(this).attr("data-value") === "true") {
+				$(this).attr("data-value", "false");
+				$(this).attr("alt", "toggleOff");
+				$(this).attr("title", "No");
+				$(this).attr("src", "@(Url.Content("~/fmwebapp/images/Off.png"))");
+				$(this).parent().parent().find("[name=ResolveModuleTagNameInput]").removeClass("hidden");
+				$(this).parent().parent().find("[name=ResolveModuleTagGuidSelect]").removeClass("hidden").addClass("hidden");
+			}
+			else {
+				$(this).attr("data-value", "true");
+				$(this).attr("alt", "toggleOn");
+				$(this).attr("title", "Yes");
+				$(this).attr("src", "@(Url.Content("~/fmwebapp/images/On.png"))");
+				$(this).parent().parent().find("[name=ResolveModuleTagNameInput]").removeClass("hidden").addClass("hidden");
+				$(this).parent().parent().find("[name=ResolveModuleTagGuidSelect]").removeClass("hidden");
+			}
+		});
+
+		$('#ModuleResolveParameters').on('change', "[name=ResolveModuleEngineeringUnitsType]", function () {
+			var unitsType = $(this).val();
+			var tagList = '';
+			var row = $(this).closest('tr');
+			var tagID = row.find('[name=ResolveModuleTagNameInput]').val();
+
+			FMPointEditor.tagList.forEach(function (existingTag) {
+				if (existingTag.DataType === 'System.Double'
+				&& existingTag.EngineeringUnitsType === unitsType) {
+					var selected = ((existingTag.Name === tagID) ? 'selected' : '');
+					tagList += "<option value='" + existingTag.PointTagGuid + "' " + selected + ">" + existingTag.Name + "</option>";
+				}
+			});
+			row.find('[name=ResolveModuleTagGuidSelect]').html(tagList);
+		});
+
+		/* MODULE EDITOR TAB EVENTS */
+		if ($('#StandardPointTemplate').val() == 'False'
+		&& $('#DerivedPoints').val() == 'False') {
+			$("#PTTModuleList").sortable({
+				change: function () {
+					FMPointEditor.valuesChanged = true;
+				}
+			});
+		}
+			$("#PTTModuleList").disableSelection();
+		$('#PTTModuleList').niceScroll({
+			cursorwidth: '10px'
+			, autohidemode: false
+			, cursorcolor: "#486899"
+			, background: "#f9f9f9"
+			, horizrailenabled: false
+			, railoffset: true
+			, railpadding: { top: 0, right: 0, left: -5, bottom: 0 }
+			, smoothscroll: true
+		});
+
+		if ( $( '#PTTModuleList' ).length > 0 )
+		{
+			$( '#PTTModuleList' ).children().first().click();
+		}
+
+		$('.scrollableModuleDetail').niceScroll({
+			cursorwidth: '10px'
+			, autohidemode: false
+			, cursorcolor: "#486899"
+			, background: "#f9f9f9"
+			, horizrailenabled: false
+			, railoffset: false
+			, smoothscroll: true
+		});
+
+		$('#ResolveModuleDivScroll').niceScroll({
+			cursorwidth: '10px'
+			, autohidemode: false
+			, cursorcolor: "#486899"
+			, background: "#f9f9f9"
+			, horizrailenabled: false
+			, railoffset: false
+			, smoothscroll: true
+		});
+
+	});
+
+
+</script>

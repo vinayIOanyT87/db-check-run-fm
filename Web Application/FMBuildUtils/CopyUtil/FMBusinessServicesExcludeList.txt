@@ -1,0 +1,9 @@
+obj\
+DataAccessLayer\
+InternalClasses\
+ServiceClasses\
+.cs\
+.pdb\
+.csproj\
+.csproj.user\
+.csproj.vspscc\

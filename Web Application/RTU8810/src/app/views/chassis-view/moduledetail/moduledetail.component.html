@@ -1,0 +1,105 @@
+<div class="container1">
+    <div class="chassis-section-header">Object Browser</div>
+</div>
+<div class="container">
+        <div class="graphicView">
+        <perfect-scrollbar #scrollable>
+            <div id="moduledetail" [style.background-image]="moduleImg"  (click)="changeChannel(0, $event)">
+                <div id="channel1selector" [className]="currentChannel == 1 ? 'channelselector active' : 'channelselector'" [ngStyle]="setChannelCoordinates( 1 )" (click)="changeChannel(1, $event)" title="channel 1"></div>
+                <div id="channel2selector" [className]="currentChannel == 2 ? 'channelselector active' : 'channelselector'" [ngStyle]="setChannelCoordinates( 2 )" (click)="changeChannel(2, $event)" title="channel 2"></div>
+                <div id="channel3selector" [className]="currentChannel == 3 ? 'channelselector active' : 'channelselector'" [ngStyle]="setChannelCoordinates( 3 )" (click)="changeChannel(3, $event)" title="channel 3"></div>
+                <div id="channel4selector" [className]="currentChannel == 4 ? 'channelselector active' : 'channelselector'" [ngStyle]="setChannelCoordinates( 4 )" (click)="changeChannel(4, $event)" title="channel 4"></div>
+                <div id="channel5selector" [className]="currentChannel == 5 ? 'channelselector active' : 'channelselector'" [ngStyle]="setChannelCoordinates( 5 )" (click)="changeChannel(5, $event)" title="channel 5"></div>
+                <div id="channel6selector" [className]="currentChannel == 6 ? 'channelselector active' : 'channelselector'" [ngStyle]="setChannelCoordinates( 6 )" (click)="changeChannel(6, $event)" title="channel 6"></div>
+                <div id="channel7selector" [className]="currentChannel == 7 ? 'channelselector active' : 'channelselector'" [ngStyle]="setChannelCoordinates( 7 )" (click)="changeChannel(7, $event)" title="channel 7"></div>
+                <div id="channel8selector" [className]="currentChannel == 8 ? 'channelselector active' : 'channelselector'" [ngStyle]="setChannelCoordinates( 8 )" (click)="changeChannel(8, $event)" title="channel 8"></div>
+            </div>
+        </perfect-scrollbar>
+
+    </div>
+    <div class="detailView">
+        <perfect-scrollbar>
+            <div style="font-family: Roboto; font-size: 14px; color: #006cb3"> <b>Module Number: {{currentModule}}</b></div>
+            <div style="font-family: Roboto; font-size: 14px; color: #006cb3"><b>Module: {{currentModuleDetails?.name}}</b></div>
+
+            <div *ngIf="currentModuleDetails?.channel1.type == 1 
+                    || currentModuleDetails?.channel2.type == 1 
+                    || currentModuleDetails?.channel3.type == 1 
+                    || currentModuleDetails?.channel4.type == 1 
+                    || currentModuleDetails?.channel5.type == 1 
+                    || currentModuleDetails?.channel6.type == 1 
+                    || currentModuleDetails?.channel7.type == 1 
+                    || currentModuleDetails?.channel8.type == 1 " class="channelheader"><b>Channels</b></div>
+            <div *ngIf="currentModuleDetails?.channel1.type == 1" class="text-center channelinlinetext">
+                <div (click)="changeChannel(1, $event)"><span class="channelid">Channel 1</span></div>
+            </div>
+            <div *ngIf="currentModuleDetails?.channel2.type == 1" class="text-center channelinlinetext">
+                <div (click)="changeChannel(2, $event)"><span class="channelid">Channel 2</span></div>
+            </div>
+
+            <div *ngIf="currentModuleDetails?.channel3.type == 1" class="text-center channelinlinetext">
+                <div (click)="changeChannel(3, $event)"><span class="channelid">Channel 3</span></div>
+            </div>
+
+            <div *ngIf="currentModuleDetails?.channel4.type == 1" class="text-center channelinlinetext">
+                <div (click)="changeChannel(4, $event)"><span class="channelid">Channel 4</span></div>
+            </div>
+
+            <div *ngIf="currentModuleDetails?.channel5.type == 1" class="text-center channelinlinetext">
+                <div (click)="changeChannel(5, $event)"><span class="channelid">Channel 5</span></div>
+            </div>
+
+            <div *ngIf="currentModuleDetails?.channel6.type == 1" class="text-center channelinlinetext">
+                <div (click)="changeChannel(6, $event)"><span class="channelid">Channel 6</span></div>
+            </div>
+
+            <div *ngIf="currentModuleDetails?.channel7.type == 1" class="text-center channelinlinetext">
+                <div (click)="changeChannel(7, $event)"><span class="channelid">Channel 7</span></div>
+            </div>
+
+            <div *ngIf="currentModuleDetails?.channel8.type == 1" class="text-center channelinlinetext">
+                <div (click)="changeChannel(8, $event)"><span class="channelid">Channel 8</span></div>
+            </div>
+
+            <div class="channelheader" *ngIf="currentModuleDetails?.channel1.type == 0 
+                                        || currentModuleDetails?.channel2.type == 0 
+                                        || currentModuleDetails?.channel3.type == 0 
+                                        || currentModuleDetails?.channel4.type == 0 
+                                        || currentModuleDetails?.channel5.type == 0 
+                                        || currentModuleDetails?.channel6.type == 0 
+                                        || currentModuleDetails?.channel7.type == 0 
+                                        || currentModuleDetails?.channel8.type == 0 "><b>Virtual Channels</b></div>
+            <div *ngIf="currentModuleDetails?.channel1.type == 0" class="text-center channelinlinetext">
+                <div (click)="changeChannel(1, $event)"><span class="channelid">Channel 1</span></div>
+            </div>
+
+            <div *ngIf="currentModuleDetails?.channel2.type == 0" class="text-center channelinlinetext">
+                <div (click)="changeChannel(2, $event)"><span class="channelid">Channel 2</span></div>
+            </div>
+
+            <div *ngIf="currentModuleDetails?.channel3.type == 0" class="text-center channelinlinetext">
+                <div (click)="changeChannel(3, $event)"><span class="channelid">Channel 3</span></div>
+            </div>
+
+            <div *ngIf="currentModuleDetails?.channel4.type == 0" class="text-center channelinlinetext">
+                <div (click)="changeChannel(4, $event)"><span class="channelid">Channel 4</span></div>
+            </div>
+
+            <div *ngIf="currentModuleDetails?.channel5.type == 0" class="text-center channelinlinetext">
+                <div (click)="changeChannel(5, $event)"><span class="channelid">Channel 5</span></div>
+            </div>
+
+            <div *ngIf="currentModuleDetails?.channel6.type == 0" class="text-center channelinlinetext">
+                <div (click)="changeChannel(6, $event)"><span class="channelid">Channel 6</span></div>
+            </div>
+
+            <div *ngIf="currentModuleDetails?.channel7.type == 0" class="text-center channelinlinetext">
+                <div (click)="changeChannel(7, $event)"><span class="channelid">Channel 7</span></div>
+            </div>
+
+            <div *ngIf="currentModuleDetails?.channel8.type == 0" class="text-center channelinlinetext">
+                <div (click)="changeChannel(8, $event)"><span class="channelid">Channel 8</span></div>
+            </div>
+        </perfect-scrollbar>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+HKCR
+{
+	OptomuxOPCServer.DataAccess.1 = s 'DataAccess Class'
+	{
+		CLSID = s '{6CAE3271-EFA1-4CB6-AFE9-2417144D2E8B}'
+	}
+	OptomuxOPCServer.DataAccess = s 'DataAccess Class'
+	{
+		CLSID = s '{6CAE3271-EFA1-4CB6-AFE9-2417144D2E8B}'
+		CurVer = s 'OptomuxOPCServer.DataAccess.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {6CAE3271-EFA1-4CB6-AFE9-2417144D2E8B} = s 'DataAccess Class'
+		{
+			ProgID = s 'OptomuxOPCServer.DataAccess.1'
+			VersionIndependentProgID = s 'OptomuxOPCServer.DataAccess'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{1EBA63BD-E098-42BF-B166-F98DA4BC99E6}'
+		}
+	}
+}

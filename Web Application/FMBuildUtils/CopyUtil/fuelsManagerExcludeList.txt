@@ -1,0 +1,15 @@
+obj\
+BuildProject\
+.cs\
+.aspx.cs\
+.aspx.designer.cs\
+.pdb\
+.cpp\
+.txt\
+.h\
+.vcxproj\
+.vcxproj.filters\
+.vcxproj.vspscc\
+.csproj\
+.csproj.user\
+.csproj.vspscc\

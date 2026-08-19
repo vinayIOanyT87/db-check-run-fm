@@ -1,0 +1,63 @@
+﻿#movementDisabledByPartial label {
+	color: rgb(153,153,153) !important;
+}
+
+#MovementDisabledByScreen button[disabled] {
+	cursor: not-allowed;
+}
+
+.ui-front {
+	z-index: 10000 !important;
+}
+
+body .modal {
+	width: 600px !important;
+	margin-left: -375px !important;
+}
+
+.MovementDisabledByHeader {
+	padding: 0px;
+	width: 100%;
+}
+
+.MovementDisabledByHeader .close {
+	padding: 5px !important;
+	margin-top: -2px !important;
+}
+
+.h4, .h5, .h6, h4, h5, h6 {
+	margin-top: 0px !important;
+	margin-bottom: 0px !important;
+}
+
+.form-control {
+	border-radius: 0px !important;
+}
+
+.form-group {
+	height: 60px !important;
+}
+
+#MovementDisabledByScreen .modal, #MovementDisabledByScreen .modal-content {
+	background-color: white !important;
+}
+
+#MovementDisabledByScreen {
+	width: 600px !important;
+}
+
+
+.MovementDisabledByPadding1 {
+	padding-top: 7px;
+	padding-bottom: 7px;
+}
+
+.MovementDisabledByPadding2 {
+	padding-top: 7px;
+	padding-bottom: 7px;
+	padding-left: 40px;
+}
+
+#MovementDisabledByDataTableSection {
+	padding-left: 30px;
+}

@@ -1,0 +1,14 @@
+<div class="transactionFreeFormInputParent">
+  <div>
+      <label [for]="fieldName">{{label}}:</label>
+  </div>
+  <div class="transactionFreeFormInput">
+      <textarea [id]="fieldName"
+              style="width:100%"
+             [(ngModel)]="fieldContents"
+             [disabled]="!canEdit"
+             [appFocusDirective]="currentFocusLabel == fieldName"></textarea>
+      <!--(blur)="blurry()"-->
+      <span [hidden]="!required" style="color:red">*</span>
+  </div>
+</div>

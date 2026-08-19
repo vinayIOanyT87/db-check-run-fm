@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Testing.Extensions.Fakes</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.VisualStudio.TraceCollector.FakesMetadataAssemblyReflector">
+            <summary>
+            System Reflection metadata reader based assembly reflector.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TraceCollector.FakesMetadataAssemblyReflector.GetOriginalTypeName(System.Reflection.Metadata.MetadataReader,System.Reflection.Metadata.TypeDefinition,System.Reflection.Metadata.CustomAttribute)">
+            <summary>
+            Converts the shim type name to the name of the type that's being shimmed.
+            Code generation adds Fakes prefix to the namespace and Shim prefix to the type name.
+            As such Lib1.Declaring`1+Nested`1 would be converted to Lib1.Fakes.ShimDeclaring`1+ShimNested`1.
+            This method reverses the conversion.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TraceCollector.FakesInstrumentationConfigurationFactory.BuildSettings(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.HashSet{System.String}})">
+            <summary>
+             For the given plan and the collected shimmed type key'ed by assembly, this method tries to build the collecion plan.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TraceCollector.FakesInstrumentationConfigurationFactory.AccumulateShimmedTypeForEachAssembly(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.HashSet{System.String}},System.String,System.Collections.Generic.HashSet{System.String})">
+            <summary>
+             For the given assmbly/shimTypes, method tries to accumluate to the knownAssemblies collection.
+            </summary>
+        </member>
+        <member name="M:Microsoft.VisualStudio.TraceCollector.FakesInstrumentationConfigurationFactory.ExtractAssemblyNameFromFakesAssembly(System.String)">
+            <summary>
+             For the given TestProject1.2.0.0.0.fakes.dll, this method tries to strip off the version part of it and return "TestProject1". 
+             When the assembly itself contains some kind of partial version info (e.g. "TestProject1.7.0"), the following code will simply return "TestProject1.7.0". 
+             This could a flaw
+            </summary>
+        </member>
+        <member name="P:Microsoft.Testing.Extensions.Fakes.TestingPlatformFakesEnvironmentVariableProvider.DisplayName">
+            <inheritdoc />
+        </member>
+        <member name="P:Microsoft.Testing.Extensions.Fakes.TestingPlatformFakesEnvironmentVariableProvider.Description">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.Testing.Extensions.Fakes.TestingPlatformFakesEnvironmentVariableProvider.IsEnabledAsync">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.Testing.Extensions.Fakes.TestingPlatformFakesEnvironmentVariableProvider.UpdateAsync(Microsoft.Testing.Platform.Extensions.TestHostControllers.IEnvironmentVariables)">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.Testing.Extensions.Fakes.TestingPlatformProfilersLocationProvider.GetLocationWithEnvironmentOverride(System.String,System.String)">
+            <summary>
+            Gets where a given <paramref name="fileName"/> can be found.
+            The directory can be overriden by <paramref name="environmentVariableName"/>, otherwise
+            depending on whether the project is built for netcore or netfx, the files are either differently under
+            the project's bin folder.
+            In netfx it's going to be directly next to the built assembly depending on the platform. For instance
+            on x86, the bin folder will contain the x86 runtime of <paramref name="fileName"/>.
+            In netcore a runtimes folder is added as is, with runtimes for each platform. For instance on x86,
+            the file will be present under runtimes/win-x86/native/<paramref name="fileName"/>.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Testing.Extensions.Fakes.Resources.FakesEnvironmentVariablesProviderDescription">
+            <summary>Microsoft Fakes Environment Variables Provider.</summary>
+        </member>
+        <member name="P:Microsoft.Testing.Extensions.Fakes.Resources.FakesEnvironmentVariablesProviderDisplayName">
+            <summary>Microsoft Fakes Environment Variables Provider</summary>
+        </member>
+    </members>
+</doc>

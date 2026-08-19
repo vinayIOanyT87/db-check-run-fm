@@ -1,0 +1,27 @@
+HKCR
+{
+	ConsolidatedUtilities.SecureHash.1 = s 'SecureHash Class'
+	{
+		CLSID = s '{F738B889-CA5B-4CF7-B811-FB943533BEF1}'
+	}
+	ConsolidatedUtilities.SecureHash = s 'SecureHash Class'
+	{
+		CLSID = s '{F738B889-CA5B-4CF7-B811-FB943533BEF1}'
+		CurVer = s 'ConsolidatedUtilities.SecureHash.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {F738B889-CA5B-4CF7-B811-FB943533BEF1} = s 'SecureHash Class'
+		{
+			ProgID = s 'ConsolidatedUtilities.SecureHash.1'
+			VersionIndependentProgID = s 'ConsolidatedUtilities.SecureHash'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{7FBD0D6A-BBAB-4A76-AEAE-C24D64187E05}'
+		}
+	}
+}

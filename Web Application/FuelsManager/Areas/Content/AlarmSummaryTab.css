@@ -1,0 +1,393 @@
+﻿.filter-right-addon .glyphicon {
+    right: 0px;
+    color: #CCCCCC;
+    margin-top: 5px;
+}
+
+.filter-addon .glyphicon {
+      position: absolute;
+      padding-top: 9px;
+      padding-left: 5px;
+      pointer-events: none;
+}
+
+#silencebuttonimage{
+    position:relative; 
+    left:-6px !important; 
+    top:-6px;
+}
+
+.alarmSummaryHeaderButtonClass {
+	text-align: left;
+	padding-top: 4px;
+	min-width: 120px;
+	background-color: transparent;
+	color: #486899 !important;
+	border: 1px solid #486899;
+	height: 32px;
+	white-space: nowrap;
+	vertical-align: middle;
+	display: inline-block;
+	padding: 5px 14px;
+	font-size: 13px;
+	font-weight: normal;
+	line-height: 5px;
+	cursor: pointer;
+	touch-action: manipulation;
+	user-select: none;
+	margin-right: 5px;
+}
+
+.alarmSummaryHeaderButtonClass:active {
+	background-color: #d3dded;
+}
+
+.alarmSummaryHeaderButtonClass:hover {
+	background-color: #d3dded;
+}
+
+.alarmSummaryTableClass
+{
+	font-size: 12px;
+	font-style: normal;
+	font-variant: normal;
+	color: #666666;
+	background-color: white;
+	border: none !important;
+}
+
+#alarmSummaryTabFind{
+    font-size: 14px;
+	 color: #567eb9;
+    padding-left: 10px;
+    padding-right: 25px;	 
+	 width: 225px;
+	border-color: #567eb9;
+}
+
+#alarmSummaryTabFind + img {
+    position: absolute;
+    padding-top: 10px;
+    padding-right: 7px;
+    pointer-events: none;
+    top: 0;
+    right: 0;
+}
+
+
+.findDivNoBorder{
+	 float: right; 
+	 height: 100%; 
+    font-size: 14px;
+    font-weight: normal;
+    color: black;
+    background-color: white;
+}
+
+.findResultsDivBorder{
+	 height: 100%; 
+	 border: thin solid #567eb9; 
+    font-size: 14px;
+    font-weight: normal;
+    color: #567eb9;
+    background-color: white;
+}
+
+#findResultsRow {
+    display: inline-block;
+    position: absolute;
+    top: 32px;
+    left: 42px;
+    width: calc( 100% - 42px);
+    z-index: 1; 
+}
+
+#findInputArea{
+	 float: right; 
+	 height: 100%; 
+}
+
+#findLabel {
+	padding-top: 5px;
+	padding-right: 10px;
+	font-size: 14px;
+	font-weight: normal;
+	color: rgb( 72,104,153);
+	text-align: left !important;
+	vertical-align: middle;
+}
+
+#findResultsLabel {
+	width: 80px;
+	padding-top: 5px;
+	padding-left: 10px;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	color: rgb( 90,126,178);
+	text-align: middle !important;
+	vertical-align: middle;
+}
+
+.alarmSummaryFindButtonClass
+{
+	width: calc((100% - 130px) / 2);
+	height: 25px;
+	font-size: 12px;
+	font-style: normal;
+	font-variant: normal;
+	color: rgb( 90,126,178);
+	background-color: white;
+   border: 0 none;
+	border-left: thin solid rgb( 90,126,178);
+	box-sizing: content-box;
+	margin: 0 !important;
+	line-height: 15px;
+	outline: none;
+}
+
+	.alarmSummaryFindButtonClass:hover {
+		background-color: transparent;
+	}
+
+.alarmSummaryBottomButtonClass {
+	width: 150px;
+	font-size: 13px;
+}
+/*
+.alarmSummaryGridButtonClass {
+	width: 222px;
+	border: none;
+	height: 26px;
+	font-size: 12px;
+	font-style: normal;
+	font-variant: normal;
+	color: white;
+	background-color: rgb(86,126,185);
+	border-color: #e6e6e6;
+	text-align: center;
+	vertical-align: middle;
+}
+*/
+
+/*
+.alarmSummaryGridDropdownButtonClass {
+	width: 222px;
+	border: solid;
+    border-width:1px;
+	height: 26px;
+	font-family: "Helvetica Neue";
+	font-size: 12px;
+	font-style: normal;
+	font-variant: normal;
+	color: rgb(86,126,185);
+	background-color: white;
+	border-color: lightgray;
+	text-align: center;
+	vertical-align: middle;
+}
+*/
+.alarmSummaryShelveButtonClass{
+	width: 222px;
+	font-size: 13px;
+}
+
+.alarmSummaryDisableButtonClass{
+	background-color: #f0f0f0 !important;
+	cursor: not-allowed !important;
+}
+
+.alarmSummaryAckDisableButtonClass {
+	background-color: #222222 !important;
+	cursor: not-allowed !important;
+}
+
+/*
+.alarmSummaryEntriesClass{
+    position:relative;
+    left:1300px;
+    margin-top:0px;
+}
+*/
+/*
+.alarmSummaryBottomDropdownListClass
+{
+    width: 22px;
+    position:relative; 
+    top:1px;
+    left:-26px; 
+    border:none; 
+    height:30px; 
+	 color: white;
+    background-color: transparent;
+}
+*/
+/*
+.alarmSummaryBottomDropdownListItemClass
+{
+	font-family: "Helvetica Neue";
+	font-size: 12px;
+	font-style: normal;
+	font-variant: normal;
+	color: rgb(86,126,185);
+	background-color: rgb(86,126,185);
+	text-align: center;
+	vertical-align: middle;
+}
+*/
+
+#ShowingEntriesLabel {
+	font-size: 14px;
+	font-weight: normal;
+	color: rgb(102,102,102);
+}
+
+.AckDivNoBorder{
+	 height: 100%; 
+    font-size: 14px;
+    font-weight: normal;
+    color: black;
+    background-color: white;
+}
+
+.DownArrowClass {
+    position: relative;
+    left: -4px;
+    width: 28px !important;
+    min-width: 0px;
+    height: 30px;
+    padding: 0px 5px;
+	 border-left: 1px solid white;
+    font-size: 12px;
+}
+
+.alarmSummaryFindColoring {
+	color: white;
+	background-color: rgb(86,126,185);
+	border: none !important;
+}
+
+.shelvemodaltransparent {
+	font-size: 12px;
+	font-style: normal;
+	color: #666666;
+	background-color: transparent;
+}
+
+.shelvemodal {
+	font-size: 12px;
+	font-style: normal;
+	color: #666666;
+	background-color: white;
+	width: 560px !important;
+}
+
+.shelvemodaltitle{
+	font-size: 14px;
+	font-style: normal;
+	color: #999999 !important;
+	width: 100%;
+	background-color: white;
+	text-align: left;
+	vertical-align: middle;
+}
+
+.ackcommentmodaltransparent {
+	font-size: 12px;
+	color: #666666;
+	background-color: transparent;
+}
+
+.ackcommentmodal {
+	font-size: 12px;
+}
+
+.okbuttonmodal {
+	font-size: 12px;
+	color: #ffffff;
+	background-color: #567eb9;
+}
+
+.cancelbuttonmodal {
+	font-size: 12px;
+	color: #ffffff;
+	background-color: #567eb9;
+}
+
+
+#ackButton:hover, #ackAllButton:hover, #shelveButton:hover {
+	background-color: rgb(86,126,185);
+}
+
+#AlarmSummaryTable_wrapper .dataTables_scrollBody {
+	height: calc( 100% - 40px) !important;
+}
+
+#AlarmSummaryTabView, #AlarmSummaryTableSection, #AlarmSummaryTable_wrapper {
+	height: 100%;
+}
+
+#AlarmSummaryTable_wrapper:nth-child(2), #AlarmSummaryTable_wrapper:nth-child(2) > div, #AlarmSummaryTable_wrapper .dataTables_scroll {
+	height: 100%;
+}
+
+#AlarmSummaryTableContainer {
+    height: calc( 100% - 80px);
+}
+
+
+#AlarmSummaryTable_wrapper .dataTables_scrollHead tr {
+	color: #666666;
+}
+
+tbody#AlarmSummaryBody tr.odd td:last-child {
+    opacity: .7;
+}
+
+.alarmSummaryTableClass thead th {
+	border: none !important;
+}
+
+#AlarmSummaryBody tr td {
+	border: none;
+	border-collapse: collapse;
+}
+
+#alarmSummaryAcknowledgeButtons, #alarmSummaryAcknowledgeAllButtons, #alarmSummaryShelveButtons {
+	 display: inline-block;
+    float: left;
+}
+
+#alarmSummaryEntryCount {
+	 display: inline-block;
+    float: right;	
+}
+
+.alarmSummaryCommentButton {
+	height: 30px;
+	position: absolute;
+	top: -30px;
+	font-size: 13px;
+	width: 178px;
+	left: 0px;
+	color: #666666;
+	border: none;
+}
+
+#AckWCommentArea, #AckAllWCommentArea {
+	position: relative;
+}
+
+
+#alarmSummaryAcknowledgeAllButtons {
+	margin-left: 5px;
+}
+
+#AlarmSummaryTable_wrapper > div:nth-child( 2 ), #AlarmSummaryTable_wrapper > div:nth-child(2) > div, #AlarmSummaryTable_wrapper .dataTables_scroll {
+	height: 100%;
+}
+
+#alarmSummaryAcknowledgeButtons, #alarmSummaryAcknowledgeAllButtons, #alarmSummaryShelveButtons, #alarmSummaryEntryCount {
+	padding-top: 5px;
+}

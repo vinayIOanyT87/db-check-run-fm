@@ -1,0 +1,553 @@
+﻿@using System.Globalization
+@using FMBusinessObjects.DataObjects
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@using FuelsManager.Areas.InventoryManagement.ViewModels
+@model FuelsManager.Areas.InventoryManagement.ViewModels.PointAccessDetailModel
+
+@{
+
+  Layout = "~/Areas/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Areas/Content/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Content/bootstrap-modal.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Lib/DataTables/DataTables-1.10.15/css/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Lib/DataTables/Select-1.2.2/css/select.dataTables.min.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Content/PointAccessDetail.css" rel="stylesheet" type="text/css" />
+
+<script src="~/Areas/Lib/DataTables/DataTables-1.10.15/js/jquery.dataTables.js"></script>
+<script src="~/Areas/Lib/DataTables/Select-1.2.2/js/dataTables.select.min.js"></script>
+<script src="~/Areas/Lib/DataTables/DataTables-1.10.15/js/dataTables.bootstrap.js"></script>
+<script src="~/Areas/Lib/bootstrap-modal.js"></script>
+<script src="~/Areas/Lib/bootstrap-modalmanager.js"></script>
+<script src="~/Areas/Lib/jquery.nicescroll.min.js"></script>
+<script src="~/Areas/Scripts/FMErrorAndExceptionHandling.js"></script>
+<script src="~/Areas/Scripts/PointAccessDetail.js"></script>
+
+<style>
+</style>
+
+
+<body style="overflow-y: hidden">
+  @Html.AntiForgeryToken()
+  @Html.Hidden("urlUpdatePointAccessGroup", @Url.Action("ModifyPointAccessGroup", "PointAccess"))
+  @Html.Hidden("urlUpdatePointAccessGroupList", @Url.Action("ModifyPointAccessGroups", "PointAccess"))
+  @Html.Hidden("urlAddPointAccessGroupToUserGroup", @Url.Action("AddPointAccessGroupToUserGroup", "PointAccess"))
+  @Html.Hidden("urlDeleteUserGroupFromPointAccessGroup", @Url.Action("DeleteUserGroupFromPointAccessGroup", "PointAccess"))
+  @Html.Hidden("urlListPointAccessGroup", @Url.Action("GetListOfPointAccessGroups", "PointAccess"))
+
+
+  @Html.Hidden("PointAccessGroupScreenMode", @Model.ScreenMode)
+  @Html.Hidden("PointAccessGroupModel", PointAccessController.SerializeModel(Model))
+  @Html.Hidden("UserGroupToPointAccessGroupMap", PointAccessController.SerializeUserGroupToPointAccessGroupMapModel(Model))
+  @{
+    var ModifyDisable = (@Model.HasPointAccessModifyRight) ? "" : "disabled=disabled";
+  }
+
+  <style>
+    /* Styles for category filter select */
+    .filter-box-select {
+      width: 100%;
+      position: relative;
+    }
+
+      .filter-box-select select {
+        appearance: none;
+        color: #567eb9;
+        border: 1px solid;
+        border-radius: 20px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        border-color: #567eb9;
+        width: 100%;
+        height: 32px;
+      }
+
+    select:focus {
+      outline: transparent;
+      border-color: #567eb9;
+    }
+
+    .filter-box-select::before,
+    .filter-box-select::after {
+      --size: 0.5rem;
+      position: absolute;
+      content: "";
+      right: 1rem;
+      pointer-events: none;
+    }
+
+    .filter-box-select::before {
+      border-left: var(--size) solid transparent;
+      border-right: var(--size) solid transparent;
+      border-bottom: var(--size) solid #567eb9;
+      top: 30%;
+    }
+
+    .filter-box-select::after {
+      border-left: var(--size) solid transparent;
+      border-right: var(--size) solid transparent;
+      border-top: var(--size) solid #567eb9;
+      top: 65%;
+    }
+  </style>
+
+  <style>
+    /* Styles for required whitespace */
+    .category-filter-spacer, .alarm-test-spacer {
+      width: 100%;
+      height: 8px;
+    }
+
+    .filter-spacer {
+      width: 100%;
+      height: 40px;
+    }
+  </style>
+
+  <div class="container-fluid">
+    <div class="row" id="PAGmenu">
+      <div id="PointDetailTitle" class="col-lg-4 col-md-4">
+        <span class="back-control">
+          @if (Model.ScreenMode == PointAccessDetailModel.PointDetailViewMode.PointGroupView)
+          {
+            <img src="~/fmwebapp/images/PointAccessGroupsGray.png">
+            <span id="backbutton" class="glyphicon glyphicon-circle-arrow-left" title="@FMBaseController.TranslateText("PointAccess|Back to Point Access View")" style="display: none" data-url='?target=../InventoryManagement/PointAccess/PointAccess/0&CSRFToken=@(this.Session["CSRFToken"])'></span>
+          }
+          @if (Model.ScreenMode == PointAccessDetailModel.PointDetailViewMode.UserGroupView)
+          {
+            <img src="~/fmwebapp/images/UserGroupsGray.png">
+            <span id="backbutton" class="glyphicon glyphicon-circle-arrow-left" title="@FMBaseController.TranslateText("PointAccess|Back to Point Access View")" style="display: none" data-url='?target=../InventoryManagement/PointAccess/PointAccess/1&CSRFToken=@(this.Session["CSRFToken"])'></span>
+          }
+          @if (Model.ScreenMode == PointAccessDetailModel.PointDetailViewMode.UserView)
+          {
+            <img src="~/fmwebapp/images/UserGray.png">
+            <span id="backbutton" class="glyphicon glyphicon-circle-arrow-left" title="@FMBaseController.TranslateText("PointAccess|Back to Point Access View")" style="display: none" data-url='?target=../InventoryManagement/PointAccess/PointAccess/2&CSRFToken=@(this.Session["CSRFToken"])'></span>
+          }
+        </span>
+        <h2 id="PointTemplateTitle" data-guid="@Model.IdentityGuid">@Model.Name</h2>
+      </div>
+      @if (Model.ScreenMode != PointAccessDetailModel.PointDetailViewMode.UserView)
+      {
+        <ul id="PAGMenuItems" class="list-inline col-lg-6 col-md-6">
+          <li id="PAGSecurity" class="PointDetailMenuItem active" style="margin-right: 20px;"><span></span>@FMBaseController.TranslateText("PointAccess|ACCESS RIGHTS")</li>
+          @if (Model.ScreenMode == PointAccessDetailModel.PointDetailViewMode.PointGroupView)
+          {
+            <li id="PAGUserGroups" class="PointDetailMenuItem"><span></span>@FMBaseController.TranslateText("PointAccess|USER GROUPS")</li>
+          }
+          @if (Model.ScreenMode == PointAccessDetailModel.PointDetailViewMode.UserGroupView)
+          {
+            <li id="PAGUsers" class="PointDetailMenuItem"><span></span>@FMBaseController.TranslateText("PointAccess|USERS")</li>
+          }
+        </ul>
+      }
+
+      <div style="position: absolute; right: 15px; padding-top: 5px; padding-bottom: 5px">
+        @if (Model.ScreenMode != PointAccessDetailModel.PointDetailViewMode.UserView)
+        {
+          <button id="ApplyButtonId" type="submit" class="formfieldtitle btn" style="width: 140px;" @ModifyDisable>
+            @FMBaseController.TranslateText("PointAccess|Apply")
+          </button>
+        }
+      </div>
+
+    </div>
+
+    @if (Model.ScreenMode == PointAccessDetailModel.PointDetailViewMode.UserGroupView)
+    {
+      <div class="row" id="PAGFilterPointAccessGroups">
+        <div>
+          @foreach (var pointAccessGroup in @Model.PointAccessGroupAssignmentList.OrderBy(x => x.Name))
+          {
+            <span class="pointgroupfilter label active" data-guid="@pointAccessGroup.PointAccessGroupGuid" data-name="@pointAccessGroup.Name" title="@FMBaseController.TranslateText("PointAccess|Click to toggle Point Access Group rights view")"><span class="pointgroupnamefilter">@pointAccessGroup.Name</span><i class="remove glyphicon glyphicon-remove-sign glyphicon-white" title="@FMBaseController.TranslateText("PointAccess|Delete Point Access Group Association")"></i></span>
+          }
+          <span id="AddPointAccessGroupToUserGroup" class="label label-primary" title="@FMBaseController.TranslateText("PointAccess|Associate to Point Access Group")">+</span>
+        </div>
+      </div>
+    }
+    @if (Model.ScreenMode == PointAccessDetailModel.PointDetailViewMode.UserView)
+    {
+      <div class="row" id="PAGFilterUserGroups">
+        <div>
+          @foreach (var userGroup in @Model.UserGroupToPointAccessGroupMap.OrderBy(x => x.Key))
+          {
+            <span class="pointgroupfilter label active" data-name="@userGroup.Key" title="@FMBaseController.TranslateText("PointAccess|Click to toggle User Group rights view")"><span class="pointgroupnamefilter">@userGroup.Key</span></span>
+          }
+        </div>
+      </div>
+    }
+
+    <section id="sectionaccessrights" class="@( Model.PointAccessGroupAssignmentList.Count == 0 || Model.ScreenMode == PointAccessDetailModel.PointDetailViewMode.UserView ? "readonly": "" )">
+      <div class="row">
+        <div id="accordion">
+          <div id="panel-pointTemplate" class="panel-pag col-sm-4 active">
+            <div class="panelContent p1">
+              <div class="panel-header">@FMBaseController.TranslateText("PointAccess|POINT TEMPLATES")</div>
+              <div class="input-group filter-box filter-box-addon">
+                <input type="text" id="pointtemplate-search" class="filter-box-form-control" placeholder="@FMBaseController.TranslateText("PointAccess|Search...")" autocomplete="off" autofocus="autofocus" />
+                <img alt="Search" title="Search" src="~/fmwebapp/images/Search Icon.png" />
+              </div>
+              <div class="filter-spacer"></div>
+              <div class="input-group filter-extra">
+                <span class="point-template-header-checkboxes pull-right">
+                  <span class="column-header-checkbox-group" title="@FMBaseController.TranslateText("PointAccess|All Points for the selected Point Template will be accessible")">
+                    <label class="column-header-checkbox-label">@FMBaseController.TranslateText("PointAccess|Access All Points")</label>
+                    <label class="column-header-checkbox">
+                      <input id="ck-pt-all" name="ck-pt-all" type="checkbox" value="true" hidden="hidden" @ModifyDisable />
+                      <span class="ignore-click"></span>
+                    </label>
+                  </span>
+                </span>
+              </div>
+              <ul id="pointTemplateList" class="list-group">
+                @foreach (var pointTemplate in @Model.PointTemplateList.OrderBy(x => x.PointTemplateId))
+                {
+                  <li class="list-group-item" data-guid="@pointTemplate.PointTemplateGuid" data-name="@pointTemplate.PointTemplateId">
+                    <span class="template-name" title="@pointTemplate.PointTemplateId">@pointTemplate.PointTemplateId</span>
+                    <span class="point-template-checkboxes" style="margin-right: 20px;">
+                      <label class="ignore-click">
+                        <input class="checkbox-template-access ignore-click" id="ck-pt-all_@pointTemplate.PointTemplateGuid" name="ck-pt-all_@pointTemplate.PointTemplateGuid" type="checkbox" value="true" hidden="hidden" @ModifyDisable />
+                        <span id="ck-pt-all-display_@pointTemplate.PointTemplateGuid" class="ignore-click"></span>
+                      </label>
+                    </span>
+                  </li>
+                }
+              </ul>
+            </div>
+          </div>
+          <div id="panel-point" class="panel-pag col-sm-2">
+            <div class="panelContent p2">
+              <div class="panel-header">@FMBaseController.TranslateText("PointAccess|POINTS")</div>
+              <div class="input-group filter-box filter-box-addon">
+                <input type="text" id="point-search" class="filter-box-form-control" placeholder="@FMBaseController.TranslateText("PointAccess|Search...")" autocomplete="off" />
+                <img alt="Search" title="Search" src="~/fmwebapp/images/Search Icon.png" />
+              </div>
+              @*<div class="panel-header">@FMBaseController.TranslateText("PointAccess|CATEGORY")</div>*@
+              <div class="category-filter-spacer"></div>
+              <div class="filter-box-select">
+                <select id="point-category-filter">
+                  <option value="">Select Point Category Filter</option>
+                  @foreach (var category in @Model.CategoryList)
+                  {
+                    <option value="@category.IdentityGuid">@category.Id</option>
+                  }
+                </select>
+              </div>
+              <div class="input-group filter-extra">
+                <span class="point-template-header-checkboxes pull-right">
+                  <span class="column-header-checkbox-group" title="@FMBaseController.TranslateText("PointAccess|Only selected Points will be accessible")">
+                    <label class="column-header-checkbox-label">@FMBaseController.TranslateText("PointAccess|Access")</label>
+                    <label class="column-header-checkbox">
+                      <input id="ck-p-access" name="ck-p-access" type="checkbox" value="true" hidden="hidden" @ModifyDisable />
+                      <span class="ignore-click"></span>
+                    </label>
+                  </span>
+                </span>
+              </div>
+              <ul id="pointList" class="list-group">
+                @foreach (var point in @Model.PointList.OrderBy(x => x.PointId))
+                {
+                  <li class="list-group-item" data-guid="@point.PointGuid" data-template-guid="@point.PointTemplateGuid" data-name="@point.PointId" data-categories="@point.Categories" data-has-device-alarm-map-tags="@point.HasDeviceAccessMapTags">
+                    <span class="point-name" title="@point.PointId">@point.PointId</span>
+                    <span class="point-template-name">@point.PointTemplateId</span>
+                    <span class="point-template-checkboxes">
+                      <label class="ignore-click">
+                        <input class="checkbox-point-access ignore-click" id="ck-p-access_@point.PointGuid" name="ck-p-access_@point.PointGuid" type="checkbox" value="true" hidden="hidden" @ModifyDisable />
+                        <span id="ck-p-access-display_@point.PointGuid" class="ignore-click"></span>
+                      </label>
+                    </span>
+                  </li>
+                }
+              </ul>
+            </div>
+          </div>
+          <div id="panel-setting" class="panel-pag col-sm-2">
+            <div class="panelContent p3">
+              <div class="panel-header">@FMBaseController.TranslateText("PointAccess|EXPOSED SETTINGS")</div>
+              <div class="input-group filter-box filter-box-addon">
+                <input type="text" id="setting-search" class="filter-box-form-control" placeholder="@FMBaseController.TranslateText("PointAccess|Search...")" autocomplete="off" />
+                <img alt="Search" title="Search" src="~/fmwebapp/images/Search Icon.png" />
+              </div>
+              <div class="filter-spacer"></div>
+              <div class="input-group filter-extra">
+                <span class="point-template-header-checkboxes pull-right">
+                  <span class="column-header-checkbox-group" title="@FMBaseController.TranslateText("PointAccess|Only selected Settings can be viewed in the system")">
+                    <label class="column-header-checkbox-label">@FMBaseController.TranslateText("PointAccess|View")</label>
+                    <label class="column-header-checkbox">
+                      <input id="ck-s-view" name="ck-s-view" type="checkbox" value="true" hidden="hidden" @ModifyDisable />
+                      <span class="ignore-click"></span>
+                    </label>
+                  </span>
+                  <span class="column-header-checkbox-group" title="@FMBaseController.TranslateText("PointAccess|Only selected Settings can be viewed and modified in the system")">
+                    <label class="column-header-checkbox-label">@FMBaseController.TranslateText("PointAccess|Modify")</label>
+                    <label class="column-header-checkbox">
+                      <input id="ck-s-modify" name="ck-s-modify" type="checkbox" value="true" hidden="hidden" @ModifyDisable />
+                      <span class="ignore-click"></span>
+                    </label>
+                  </span>
+                </span>
+              </div>
+              <ul id="settingList" class="list-group">
+                @foreach (var setting in @Model.SettingList.OrderBy(x => x.SettingName))
+                {
+                  <li class="list-group-item" data-guid="@setting.ExposedSettingGuid" data-id="@setting.PropertyID" data-template-guid="@setting.PointTemplateGuid" data-name="@setting.SettingName">
+                    <span class="setting-name" title="@setting.SettingName">@setting.SettingName</span>
+                    <span class="setting-template-name">@setting.PointTemplateId @(setting.ModuleId != "" ? "(" + setting.ModuleId + ")" : "")</span>
+                    <span class="point-template-checkboxes">
+                      <label style="margin-right:10px">
+                        <input class="checkbox-setting-view" id="ck-s-view_@(setting.ExposedSettingGuid)_@setting.PropertyID" name="ck-s-view_@setting.PropertyID" type="checkbox" value="true" hidden="hidden" @ModifyDisable />
+                        <span id="ck-s-view-display_@(setting.ExposedSettingGuid)_@setting.PropertyID" class="ignore-click"></span>
+                      </label>
+                      <label class="@(setting.ModifyDisabled ? "disabled" : "")">
+                        <input class="checkbox-setting-modify @(setting.ModifyDisabled ? "disabled" : "")" id="ck-s-modify_@(setting.ExposedSettingGuid)_@setting.PropertyID" name="ck-s-modify_@setting.PropertyID" type="checkbox" value="@(setting.ModifyDisabled ? "false" : "true")" hidden="hidden" @(setting.ModifyDisabled ? "disabled=disabled" : "") @ModifyDisable />
+                        <span id="ck-s-modify-display_@(setting.ExposedSettingGuid)_@setting.PropertyID" class="ignore-click @(setting.ModifyDisabled ? "disabled" : "")"></span>
+                      </label>
+                    </span>
+                  </li>
+                }
+
+              </ul>
+            </div>
+          </div>
+          <div id="panel-tag" class="panel-pag col-sm-2">
+            <div class="panelContent p4">
+              <div class="panel-header">@FMBaseController.TranslateText("PointAccess|TAGS")</div>
+              <div class="input-group filter-box filter-box-addon">
+                <input type="text" id="tag-search" class="filter-box-form-control" placeholder="@FMBaseController.TranslateText("PointAccess|Search...")" autocomplete="off" />
+                <img alt="Search" title="Search" src="~/fmwebapp/images/Search Icon.png" />
+              </div>
+              <div class="filter-spacer"></div>
+              <div class="input-group filter-extra">
+                <span class="point-template-header-checkboxes pull-right">
+                  <span class="column-header-checkbox-group" title="@FMBaseController.TranslateText("PointAccess|The value of the selected Tags can be viewed")">
+                    <label class="column-header-checkbox-label">@FMBaseController.TranslateText("PointAccess|View")</label>
+                    <label class="column-header-checkbox">
+                      <input id="ck-t-view" name="ck-t-view" type="checkbox" value="true" hidden="hidden" @ModifyDisable />
+                      <span class="ignore-click"></span>
+                    </label>
+                  </span>
+                  <span class="column-header-checkbox-group" title="@FMBaseController.TranslateText("PointAccess|The value of the selected Tags can be modified")">
+                    <label class="column-header-checkbox-label">@FMBaseController.TranslateText("PointAccess|Modify")</label>
+                    <label class="column-header-checkbox">
+                      <input id="ck-t-modify" name="ck-t-modify" type="checkbox" value="true" hidden="hidden" @ModifyDisable />
+                      <span class="ignore-click"></span>
+                    </label>
+                  </span>
+                  <span class="column-header-checkbox-group" title="@FMBaseController.TranslateText("PointAccess|The value of the selected Tags can exceed the pre-establised min/max limits")">
+                    <label class="column-header-checkbox-label">@FMBaseController.TranslateText("PointAccess|Exceed")</label>
+                    <label class="column-header-checkbox">
+                      <input id="ck-t-exceed" name="ck-t-exceed" type="checkbox" value="true" hidden="hidden" @ModifyDisable />
+                      <span class="ignore-click"></span>
+                    </label>
+                  </span>
+                  <span class="column-header-checkbox-group" title="@FMBaseController.TranslateText("PointAccess|The value of the selected Tags can be overridden")">
+                    <label class="column-header-checkbox-label">@FMBaseController.TranslateText("PointAccess|Override")</label>
+                    <label class="column-header-checkbox">
+                      <input id="ck-t-override" name="ck-t-override" type="checkbox" value="true" hidden="hidden" @ModifyDisable />
+                      <span class="ignore-click"></span>
+                    </label>
+                  </span>
+                </span>
+              </div>
+				  <ul id="tagList" class="list-group">
+				  	@foreach (var pointTag in @Model.TagList.OrderBy(x => x.TagId))
+					{
+						if (!pointTag.IsDeviceAlarmMapTag)
+						{
+				  			<li class="list-group-item" data-guid="@pointTag.TagGuid" data-template-guid="@pointTag.PointTemplateGuid" data-name="@pointTag.TagId" data-is-device-alarm-map-tag="@pointTag.IsDeviceAlarmMapTag">
+				  				<span class="tag-name" title="@pointTag.TagId">@pointTag.TagId</span>
+				  				<span class="tag-template-name">@pointTag.PointTemplateId</span>
+								<span class="point-template-checkboxes">
+				  					<label style="margin-right:10px">
+				  						<input class="checkbox-tag-view ignore-click" id="ck-t-view_@pointTag.TagGuid" name="ck-t-view_@pointTag.TagGuid" type="checkbox" value="true" hidden="hidden" @ModifyDisable />
+				  						<span id="ck-t-view-display_@pointTag.TagGuid" class="ignore-click"></span>
+				  					</label>
+				  					<label style="margin-right:10px">
+				  						<input class="checkbox-tag-modify ignore-click" id="ck-t-modify_@pointTag.TagGuid" name="ck-t-modify_@pointTag.TagGuid" type="checkbox" value="true" hidden="hidden" @ModifyDisable />
+				  						<span id="ck-t-modify-display_@pointTag.TagGuid" class="ignore-click"></span>
+				  					</label>
+				  					<label style="margin-right:11px">
+				  						<input class="checkbox-tag-exceed ignore-click" id="ck-t-exceed_@pointTag.TagGuid" name="ck-t-exceed_@pointTag.TagGuid" type="checkbox" value="true" hidden="hidden" @ModifyDisable />
+				  						<span id="ck-t-exceed-display_@pointTag.TagGuid" class="ignore-click"></span>
+				  					</label>
+									<label style="margin-right: 5px;">
+				  						<input class="checkbox-tag-override ignore-click" id="ck-t-override_@pointTag.TagGuid" name="ck-t-override_@pointTag.TagGuid" type="checkbox" value="true" hidden="hidden" @ModifyDisable />
+				  						<span id="ck-t-override-display_@pointTag.TagGuid" class="ignore-click"></span>
+				  					</label>
+								</span>
+							</li>
+						}
+					}
+				  @foreach (var pointTag in @Model.TagList.OrderBy(x => x.PointId).ThenBy(x => x.TagId))
+				  {
+					  if (pointTag.IsDeviceAlarmMapTag)
+					  {
+				  			<li class="list-group-item" data-guid="@pointTag.TagGuid" data-point-guid="@pointTag.PointGuid" data-template-guid="@pointTag.PointTemplateGuid" data-name="@pointTag.TagId" data-is-device-alarm-map-tag="@pointTag.IsDeviceAlarmMapTag">
+				  				<span class="tag-name" title="@pointTag.TagId">@pointTag.TagId</span>
+				  				<span class="tag-template-name">@pointTag.PointTemplateId - @pointTag.PointId</span>
+								<span class="point-template-checkboxes">
+				  					<label style="margin-right:10px">
+				  						<input class="checkbox-tag-view ignore-click" id="ck-t-view_@pointTag.TagGuid" name="ck-t-view_@pointTag.TagGuid" type="checkbox" value="true" hidden="hidden" @ModifyDisable />
+				  						<span id="ck-t-view-display_@pointTag.TagGuid" class="ignore-click"></span>
+				  					</label>
+				  					<label style="margin-right:10px">
+				  						<input class="checkbox-tag-modify ignore-click" id="ck-t-modify_@pointTag.TagGuid" name="ck-t-modify_@pointTag.TagGuid" type="checkbox" value="true" hidden="hidden" @ModifyDisable />
+				  						<span id="ck-t-modify-display_@pointTag.TagGuid" class="ignore-click"></span>
+				  					</label>
+				  					<label style="margin-right:11px">
+				  						<input class="checkbox-tag-exceed ignore-click" id="ck-t-exceed_@pointTag.TagGuid" name="ck-t-exceed_@pointTag.TagGuid" type="checkbox" value="true" hidden="hidden" @ModifyDisable />
+				  						<span id="ck-t-exceed-display_@pointTag.TagGuid" class="ignore-click"></span>
+				  					</label>
+				  					<label style="margin-right: 5px;">
+				  						<input class="checkbox-tag-override ignore-click" id="ck-t-override_@pointTag.TagGuid" name="ck-t-override_@pointTag.TagGuid" type="checkbox" value="true" hidden="hidden" @ModifyDisable />
+				  						<span id="ck-t-override-display_@pointTag.TagGuid" class="ignore-click"></span>
+				  					</label>
+								</span>
+						  </li>
+					  }
+				  }
+				  </ul>
+            </div>
+          </div>
+          <div id="panel-alarm" class="panel-pag col-sm-2">
+            <div class="panelContent p5">
+              <div class="panel-header">@FMBaseController.TranslateText("PointAccess|ALARM TESTS")</div>
+              <div class="input-group filter-box filter-box-addon">
+                <input type="text" id="alarm-search" class="filter-box-form-control" placeholder="@FMBaseController.TranslateText("PointAccess|Search...")" autocomplete="off" />
+                <img alt="Search" title="Search" src="~/fmwebapp/images/Search Icon.png" />
+              </div>
+              <div class="alarm-test-spacer"></div>
+              <div class="filter-box-select">
+                <select id="point-alarm-test-type">
+                  <option value="0">Show Template Alarm Tests</option>
+                  <option value="1">Show Point Alarm Tests</option>
+                </select>
+              </div>
+              <div class="input-group filter-extra">
+                <span class="point-template-header-checkboxes pull-right">
+                  <span class="column-header-checkbox-group" title="@FMBaseController.TranslateText("PointAccess|The selected Alarm Test can be Viewed")">
+                    <label class="column-header-checkbox-label">@FMBaseController.TranslateText("PointAccess|View")</label>
+                    <label class="column-header-checkbox">
+                      <input id="ck-a-view" name="ck-a-view" type="checkbox" value="true" hidden="hidden" @ModifyDisable />
+                      <span class="ignore-click"></span>
+                    </label>
+                  </span>
+                  <span class="column-header-checkbox-group" title="@FMBaseController.TranslateText("PointAccess|The selected Alarm Test can be Viewed and Acknowledged")">
+                    <label class="column-header-checkbox-label">@FMBaseController.TranslateText("PointAccess|Ack")</label>
+                    <label class="column-header-checkbox">
+                      <input id="ck-a-ack" name="ck-a-ack" type="checkbox" value="true" hidden="hidden" @ModifyDisable />
+                      <span class="ignore-click"></span>
+                    </label>
+                  </span>
+                </span>
+              </div>
+              <ul id="alarmList" class="list-group">
+                @foreach (var alarm in @Model.AlarmTestList.OrderBy(x => x.PointAlarmTestId))
+                {
+                  if (!alarm.IsDeviceAlarmMapAlarmTest)
+                  {
+                    <li class="list-group-item" data-guid="@alarm.PointAlarmTestGuid" data-point-guid="" data-tag-guid="@alarm.TagGuid" data-template-guid="@alarm.PointTemplateGuid" data-name="@alarm.PointAlarmTestId" data-is-device-alarm-map-tag="@alarm.IsDeviceAlarmMapAlarmTest">
+                      <span class="alarmtest-name" title="@alarm.PointAlarmTestId">
+                        @alarm.PointAlarmTestId
+                      </span>
+                      <span class="alarmtest-template-name">(@alarm.TagId) @alarm.PointTemplateId</span>
+                      <span class="point-template-checkboxes">
+                        <label style="margin-right:10px">
+                          <input class="checkbox-alarm-view" id="ck-a-view_@alarm.PointAlarmTestGuid" name="ck-a-view_@alarm.PointAlarmTestGuid" type="checkbox" value="true" hidden="hidden" @ModifyDisable />
+                          <span id="ck-a-view-display_@alarm.PointAlarmTestGuid" class="ignore-click"></span>
+                        </label>
+                        <label>
+                          <input class="checkbox-alarm-ack" id="ck-a-ack_@alarm.PointAlarmTestGuid" name="ck-a-ack_@alarm.PointAlarmTestGuid" type="checkbox" value="true" hidden="hidden" @ModifyDisable />
+                          <span id="ck-a-ack-display_@alarm.PointAlarmTestGuid" class="ignore-click"></span>
+                        </label>
+                      </span>
+                    </li>
+                  }
+                  else
+                  {
+                    <li class="list-group-item" data-guid="@alarm.PointAlarmTestGuid" data-point-guid="@alarm.PointGuid" data-tag-guid="@alarm.TagGuid" data-template-guid="@alarm.PointTemplateGuid" data-name="@alarm.PointAlarmTestId" data-is-device-alarm-map-tag="@alarm.IsDeviceAlarmMapAlarmTest">
+                      <span class="alarmtest-name" title="@alarm.PointAlarmTestId">
+                        @alarm.PointAlarmTestId
+                      </span>
+                      <span class="alarmtest-template-name">(@alarm.TagId) @alarm.PointTemplateId - @alarm.PointId</span>
+                      <span class="point-template-checkboxes">
+                        <label style="margin-right:10px">
+                          <input class="checkbox-alarm-view" id="ck-a-view_@alarm.PointAlarmTestGuid" name="ck-a-view_@alarm.PointAlarmTestGuid" type="checkbox" value="true" hidden="hidden" @ModifyDisable />
+                          <span id="ck-a-view-display_@alarm.PointAlarmTestGuid" class="ignore-click"></span>
+                        </label>
+                        <label>
+                          <input class="checkbox-alarm-ack" id="ck-a-ack_@alarm.PointAlarmTestGuid" name="ck-a-ack_@alarm.PointAlarmTestGuid" type="checkbox" value="true" hidden="hidden" @ModifyDisable />
+                          <span id="ck-a-ack-display_@alarm.PointAlarmTestGuid" class="ignore-click"></span>
+                        </label>
+                      </span>
+                    </li>
+                  }
+                }
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="sectionusergroup" class="hidden">
+      @if (Model.ScreenMode == PointAccessDetailModel.PointDetailViewMode.PointGroupView)
+      {
+        Html.RenderPartial("PointAccessDetailUserGroup", @Model);
+      }
+
+    </section>
+    <section id="sectionuser" class="hidden">
+      @if (Model.ScreenMode == PointAccessDetailModel.PointDetailViewMode.UserGroupView)
+      {
+        Html.RenderPartial("PointAccessDetailUser", @Model);
+      }
+    </section>
+
+    <div class="row">
+      <div id="PointAccessGroupSelectionModal" class="fade modal" data-backdrop="static" data-focus-on="input:first" role="dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="PointAccessGroupSelectionHeader row">
+              <button type="button" class="close" data-dismiss="modal" onclick="$('#PointAccessGroupSelectionModalCancelButton').click();">×</button>
+              <div class="col-xs-12">
+                <h4>@FMBaseController.TranslateText("PointAccessGroup|Add Point Access Group")</h4>
+              </div>
+            </div>
+            <section id="PointAccessGroupSelectionScreen" class="row">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <table id="AddPointAccessGroupSelection" class="table table-striped table-bordered hover" style="width:100%">
+                  <thead class="">
+                    <tr>
+                      <th class="text-center">
+                        @FMBaseController.TranslateText("PointAccessGroup|Point Access Group Name")
+                      </th>
+                      <th class="hidden">GUID</th>
+                    </tr>
+                  </thead>
+                  <tbody id="AddPointAccessGroupSelectionTableBody"></tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+          <div class="modal-footer">
+            <div class="btn-toolbar">
+              <div class="pull-right">
+                <button id="PointAccessGroupSelectionModalSelectButton" type="button" accesskey="S" class="btn btn-default"><u>S</u>elect</button>
+                <button id="PointAccessGroupSelectionModalCancelButton" type="button" accesskey="C" class="btn btn-default" data-dismiss="modal"><u>C</u>ancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+
+
+<script>
+</script>

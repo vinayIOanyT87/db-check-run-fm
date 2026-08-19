@@ -1,0 +1,115 @@
+﻿.table-striped > tbody > tr:nth-of-type(2n+1) {
+	color : #555 !important;
+}
+
+.selected {
+	  background-color: rgb(230,230,230) !important;
+}
+
+
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.disabledIcon {
+    pointer-events: none;
+    color: #ccc;
+    cursor: none !important;
+}
+
+
+#TrendEditorMenuItems > li {
+    padding-right: 35px;
+    padding-left: 0px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+
+#TrendEditorMenuItems > li.selected {
+   color: rgb( 86, 126, 185);
+}
+
+
+#TrendEditorSettings img {
+    background: url("../../fmwebapp/images/Settings Icon - unselected.png");
+    width: 0px;
+    height: 0px;
+    padding: 10px 10px 10px 10px;
+}
+
+#TrendEditorSettings.selected img {
+    background: url("../../fmwebapp/images/Settings Icon - selected.png");
+}
+
+#TrendEditorPens img {
+    background: url("../../fmwebapp/images/Tags - unselected.png");
+    width: 0px;
+    height: 0px;
+    padding: 10px 10px 10px 10px;
+}
+
+#TrendEditorPens.selected img {
+    background: url("../../fmwebapp/images/Tags - selected.png");
+}
+
+#TrendEditorLayout img {
+    background: url("../../fmwebapp/images/gridconfig.png");
+    width: 0px;
+    height: 0px;
+    padding: 10px 10px 10px 10px;
+}
+
+#TrendEditorLayout.selected img {
+    background: url("../../fmwebapp/images/gridconfig.png");
+}
+
+
+#TrendEditorModal .ui-pnotify {
+	z-index: 1051; /* make sure the notification are above the scroll bars and not hidden by them*/
+}
+
+
+#TrendEditorStart {
+	Width: calc(100% - 40px);
+	z-index: inherit;	
+}
+
+#TrendEditorEnd {
+	Width: calc(100% - 40px);
+	z-index: inherit;	
+}
+
+.input-group.date {
+    width: 100%;
+}
+
+input.hasDatepicker {
+	display: inline-block;
+	width: 25%;
+}
+
+.ui-datepicker-trigger {
+	display: inline-block;
+	float: right !important;
+	Width: 30px !important;
+}
+
+.sp-replacer {
+	margin-top: 2px !important;
+    margin-bottom: 2px !important;
+}
+
+.nicescroll-rails-vr {
+    display: none!important;
+}
+
+.nicescroll-rails-hr{
+    display: none!important;
+}
+
+

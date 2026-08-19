@@ -1,0 +1,130 @@
+﻿@using System.Web.Mvc.Html
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.MovementUserDataEditorModel
+
+<link href="~/Areas/Content/MovementUserDataEditor.css" rel="stylesheet" type="text/css" />
+<script src="~/Areas/Scripts/MovementUserDataEditor.js"></script>
+
+@using (Html.BeginForm("MovementUserDataEditor", "MovementUserDataEditor", FormMethod.Post, new { @id = "MovementUserDataEditorForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("MovementUserDataSaveUrl", @Url.Action("SaveMovementUserData", "MovementUserDataEditor"))
+    @Html.Hidden("MovementUserDataEditorModelStr", MovementUserDataEditorController.SerializeModel(Model))
+
+    var userData01Lbl = FMBaseController.TranslateText("Movement|User Data 01");
+    var userData02Lbl = FMBaseController.TranslateText("Movement|User Data 02");
+    var userData03Lbl = FMBaseController.TranslateText("Movement|User Data 03");
+    var userData04Lbl = FMBaseController.TranslateText("Movement|User Data 04");
+    var userData05Lbl = FMBaseController.TranslateText("Movement|User Data 05");
+    var userData06Lbl = FMBaseController.TranslateText("Movement|User Data 06");
+    var userData07Lbl = FMBaseController.TranslateText("Movement|User Data 07");
+    var userData08Lbl = FMBaseController.TranslateText("Movement|User Data 08");
+    var userData09Lbl = FMBaseController.TranslateText("Movement|User Data 09");
+    var userData10Lbl = FMBaseController.TranslateText("Movement|User Data 10");
+
+    var title = Model.PointId + " - " + Model.PointPropertyId;
+
+<section id="MovementUserDataTableSection">
+    <div class="MovementSettingsEditorHeader row">
+        <button type="button" class="close" data-dismiss="modal" onclick="$('#MovementUserDataEditorClosePropertyScreen').click();">&times;</button>
+    </div>
+    <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <h4 id="MovementModuleSettingEditorTitle">@title</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <h5>@FMBaseController.TranslateText("Movement|Movement User Data Editor")</h5>
+        </div>
+    </div>
+    <br />
+    <div id="MovementUserDataTopDiv" style="padding-top: 5px; padding-bottom: 5px;">
+        <table id="MovementUserDataTable">
+            <tr>
+                <td class="MovementUserDataTdPadding1">
+                    <label id="UserData01Lbl">@userData01Lbl</label>
+                </td>
+                <td class="MovementUserDataTdPadding2">
+                    <input id="MovementUserData01TB" type="text" class="MovementUserDataInput" maxlength="80" />
+                </td>
+            </tr>
+            <tr>
+                <td class="MovementUserDataTdPadding1">
+                    <label id="UserData02Lbl">@userData02Lbl</label>
+                </td>
+                <td class="MovementUserDataTdPadding2">
+                    <input id="MovementUserData02TB" type="text" class="MovementUserDataInput" maxlength="80" />
+                </td>
+            </tr>
+            <tr>
+                <td class="MovementUserDataTdPadding1">
+                    <label id="UserData03Lbl">@userData03Lbl</label>
+                </td>
+                <td class="MovementUserDataTdPadding2">
+                    <input id="MovementUserData03TB" type="text" class="MovementUserDataInput" maxlength="80" />
+                </td>
+            </tr>
+            <tr>
+                <td class="MovementUserDataTdPadding1">
+                    <label id="UserData04Lbl">@userData04Lbl</label>
+                </td>
+                <td class="MovementUserDataTdPadding2">
+                    <input id="MovementUserData04TB" type="text" class="MovementUserDataInput" maxlength="80" />
+                </td>
+            </tr>
+            <tr>
+                <td class="MovementUserDataTdPadding1">
+                    <label id="UserData05Lbl">@userData05Lbl</label>
+                </td>
+                <td class="MovementUserDataTdPadding2">
+                    <input id="MovementUserData05TB" type="text" class="MovementUserDataInput" maxlength="80" />
+                </td>
+            </tr>
+            <tr>
+                <td class="MovementUserDataTdPadding1">
+                    <label id="UserData06Lbl">@userData06Lbl</label>
+                </td>
+                <td class="MovementUserDataTdPadding2">
+                    <input id="MovementUserData06TB" type="text" class="MovementUserDataInput" maxlength="80" />
+                </td>
+            </tr>
+            <tr>
+                <td class="MovementUserDataTdPadding1">
+                    <label id="UserData07Lbl">@userData07Lbl</label>
+                </td>
+                <td class="MovementUserDataTdPadding2">
+                    <input id="MovementUserData07TB" type="text" class="MovementUserDataInput" maxlength="80" />
+                </td>
+            </tr>
+            <tr>
+                <td class="MovementUserDataTdPadding1">
+                    <label id="UserData08Lbl">@userData08Lbl</label>
+                </td>
+                <td class="MovementUserDataTdPadding2">
+                    <input id="MovementUserData08TB" type="text" class="MovementUserDataInput" maxlength="80" />
+                </td>
+            </tr>
+            <tr>
+                <td class="MovementUserDataTdPadding1">
+                    <label id="UserData09Lbl">@userData09Lbl</label>
+                </td>
+                <td class="MovementUserDataTdPadding2">
+                    <input id="MovementUserData09TB" type="text" class="MovementUserDataInput" maxlength="80" />
+                </td>
+            </tr>
+            <tr>
+                <td class="MovementUserDataTdPadding1">
+                    <label id="UserData10Lbl">@userData10Lbl</label>
+                </td>
+                <td class="MovementUserDataTdPadding2">
+                    <input id="MovementUserData10TB" type="text" class="MovementUserDataInput" maxlength="80" />
+                </td>
+            </tr>
+        </table>
+    </div>
+</section>
+}
+
+

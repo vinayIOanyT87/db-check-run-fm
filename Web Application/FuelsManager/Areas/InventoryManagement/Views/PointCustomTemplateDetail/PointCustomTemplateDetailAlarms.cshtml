@@ -1,0 +1,2889 @@
+﻿@using System.Globalization
+@using System.Web.Mvc.Html
+@using FMBusinessObjects.DataObjects
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.AlarmEditorModel
+
+<link href="~/Areas/Content/AlarmEditor.css" rel="stylesheet" type="text/css" />
+
+<script src="~/Areas/Scripts/FMCommon.js"></script>
+<script src="~/Areas/Scripts/AlarmTestEquationEditor.js"></script>
+
+<style>
+	#alarmTagsTable {
+		background-color: transparent;
+	}
+
+	#alarmTagsTable.table > tbody > tr > td.alarmRow {
+		padding-top: 0px;
+		padding-bottom: 0px;
+	}
+
+	.table.alarmAlarmsTable, .table.alarmTestsTable {
+		margin-bottom: 0px;
+	}
+
+	.alarmTestsTable tr:nth-child(even) {
+		background-color: rgb(239, 246, 252) !important;
+	}
+
+	.alarmTestsTable tr:nth-child(odd) {
+		background-color: white !important;
+	}
+
+	#AlarmEditorAddAlarm .select2 {
+		width: 100% !important;
+	}
+
+	#AlarmEditorAddAlarm .select2-container--default .select2-selection--single {
+		background-color: #fff;
+		border: 1px solid #ccc;
+		border-radius: 0px;
+		height: 34px;
+	}
+
+	.select2-container--open {
+		z-index: 1060;
+	}
+
+	#AlarmEditorAddAlarm {
+		overflow: hidden;
+	}
+
+	#AlarmEditorAddAlarm input::-webkit-input-placeholder {
+		font-style: italic;
+	}
+
+	#AlarmEditorAddAlarm input:-moz-placeholder {
+		font-style: italic;
+	}
+
+	#AlarmEditorAddAlarm input:-ms-input-placeholder {
+		font-style: italic;
+	}
+
+	#AlarmTemplateEditorEquationEditor {
+		overflow-y: hidden;
+	}
+
+	.alarmTestName, .alarmName {
+		cursor: pointer;
+		text-decoration: underline;
+	}
+
+	.alarmName.disabled, .alarmTestName.disabled {
+		cursor: not-allowed !important;
+		text-decoration: underline;
+	}
+
+	.limitTagValue {
+		cursor: pointer;
+	}
+
+	.alarmtestsortcolumn {
+		width: 10px !important;
+		font-size: 14px;
+		cursor: ns-resize;
+	}
+
+	img.disabled {
+		cursor: not-allowed !important;
+	}
+
+	a.disabled {
+		cursor: not-allowed !important;
+	}
+
+.disabledCursor {
+	cursor: not-allowed !important;
+}
+
+	.booleanImgSelect.disabled {
+		cursor: not-allowed;
+	}
+</style>
+
+@{
+	var numberFormatInfoString = String.Format("{{{0}" + "\"NegativeSign\":\"{1}\",{0}" + "\"NumberDecimalDigits\":{2},{0}" + "\"NumberDecimalSeparator\":\"{3}\",{0}" + "\"NumberGroupSeparator\":\"{4}\",{0}" + "\"NumberGroupSizes\":{5},{0}" + "\"NumberNegativePattern\":{6},{0}" + "\"ShortDatePattern\":\"{7}\"{0}}}", Environment.NewLine, "-", 0, Model.NumberDecimalSeparator, Model.NumberGroupSeparator, Model.NumberGroupSizes[0], 1, Model.ShortDatePattern);
+	var PTModifyClassDisable = (Model.HasPTEditRight && Model.HasModifyEnabled) ? "" : "disabled";
+	var PTModifyCursorDisable = (Model.HasPTEditRight && Model.HasModifyEnabled) ? "" : "disabledCursor";
+	var PTModifyHiddenStyle = (Model.HasPTEditRight) ? "" : "display:none";
+}
+@Html.Hidden("alarmEditorNumberFormatInfo", numberFormatInfoString)
+@Html.Hidden("urlGetGraphicNames", Url.Action("GetDrawingNames", "Draw"))
+@Html.Hidden("urlAlarmEditorEditValue", Url.Action("EditValue", "EditValue"))
+@Html.Hidden("urlGetAlarmTestEquationEditor", Url.Action("GetAlarmTestEquationEditorForUnsavedAlarmTest", "AlarmTestEquationEditor"))
+@Html.Hidden("urlUpdateAlarmTest", Url.Action("AlarmEditorUpdateAlarmTest", "AlarmEditor"))
+@Html.Hidden("AlarmEditorModel", AlarmEditorController.SerializeModel(Model))
+@Html.Hidden("PTModifyRight", Model.HasPTEditRight)
+@Html.Hidden("ExpandDataDictionary", FMBaseController.TranslateText("Expand"))
+@Html.Hidden("CollapseDataDictionary", FMBaseController.TranslateText("Collapse"))
+@Html.Hidden("EditAlarmDataDictionary", FMBaseController.TranslateText("AlarmTemplateEditor|Edit Alarm"))
+@Html.Hidden("EditAlarmTestDataDictionary", FMBaseController.TranslateText("AlarmTemplateEditor|Edit Alarm Test"))
+@Html.Hidden("AddAlarmTestDataDictionary", FMBaseController.TranslateText("AlarmTemplateEditor|Add Alarm Test"))
+@Html.Hidden("AddAlarmDataDictionary", FMBaseController.TranslateText("AlarmTemplateEditor|Add Alarm"))
+@Html.Hidden("AddAlarmNameMusBeAlphaNumericDataDictionary", FMBaseController.TranslateText("AlarmTemplateEditor|Alarm Name Must Be Alphanumeric"))
+@Html.Hidden("AddAlarmTagNameMusBeAlphaNumericDataDictionary", FMBaseController.TranslateText("AlarmTemplateEditor|Alarm Status Tag Name Must Be Alphanumeric"))
+@Html.Hidden("AddAlarmTestNameMusBeAlphaNumericDataDictionary", FMBaseController.TranslateText("AlarmTemplateEditor|Alarm Test Name Must Be Alphanumeric"))
+@Html.Hidden("AddAlarmTestTagNameMusBeAlphaNumericDataDictionary", FMBaseController.TranslateText("AlarmTemplateEditor|Alarm Test Limit Tag Name Must Be Alphanumeric"))
+
+<div id="alarmEditorOutterDiv" class="table" style="height: calc(100vh - 80px)">
+	<div id="expandContractButton" class="expandContractButtonClass" onclick="javascript: return AlarmEditor.ContractEnabledAlarms( this );">
+		<Span style="vertical-align: middle; padding: 0; border: 0;">
+			<img src="~/fmwebapp/images/minus.png" class="expandContractButtonImageClass" alt=@FMBaseController.TranslateText("ExpandContract") />
+		</Span>
+		@FMBaseController.TranslateText("Collapse")
+	</div>
+	<table id="alarmTagsTable" class="table alarmTagsTable">
+		<thead class="tableHeaderFormating">
+			<tr class="rowBorder">
+				<th class="tagExpand text-center tagRowTd"></th>
+				<th class="tagName text-left tagRowTd"></th>
+				<th class="tagHysteresis text-center tagRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Deadband")</th>
+				<th class="alarmsEnabledHeader text-left tagRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Enabled")<img id="AlarmTagTableAddAlarm" src="~/fmwebapp/images/Add-icon.png" title="@FMBaseController.TranslateText("Add Alarm")" style="width: 16px;position: relative;cursor: pointer;float: right; @PTModifyHiddenStyle"></th>
+			</tr>
+		</thead>
+		<tbody id="alarmTagsTableBody">
+			@{
+				foreach (var tag in Model.Tags)
+				{
+					var tagRowId = "TagRow_" + tag.PointTagGuid;
+					var alarmRowId = "AlarmRow_" + tag.PointTagGuid;
+					var alarmRowTdId = "AlarmRowTd_" + tag.PointTagGuid;
+					var tableId = "alarmsTable_" + tag.PointTagGuid;
+					var tableBodyId = "alarmsTableBody_" + tag.PointTagGuid;
+					var tagExpandId = "TagExpand_" + tag.PointTagGuid;
+					var tagNameId = "TagName_" + tag.PointTagGuid;
+					//(Eric Simmons - 8-11-2017) Make sure to fix this code call once we implement custom templates.
+					var fromStandardTemplate = false; //FMBusinessObjects.Constants.Guids.VerticalTankTemplateGuid == Model.PointTemplateGuid;
+					var hysteresisId = "Hysteresis_" + tag.PointTagGuid;
+					var hysteresisInputId = "HysteresisInput_" + tag.PointTagGuid;
+					var alarmsEnableToggleId = "AlarmsEnableToggle_" + tag.PointTagGuid;
+					var alarmsEnableToggleImgId = "AlarmsEnableToggleImg_" + tag.PointTagGuid;
+					var alarmsDeleteId = "AlarmTableAlarmDelete_" + tag.PointTagGuid;
+					var alarmrowclassstring = "hidden rowBorder";
+
+					if (tag.AlarmsEnabled)
+					{
+						alarmrowclassstring = "rowBorder";
+					}
+			<tr id="@tagRowId" class="rowBorder tagrowTr">
+				@if (tag.Alarms.Count > 0)
+				{
+					if (tag.AlarmsEnabled)
+					{
+				<td id="@tagExpandId" class="tagExpand col-sm-2 col-md-2 text-right tagRowTd" onclick="javascript: return AlarmEditor.CollapseAlarms( this );"><img name="collapse" draggable="false" title="expanded" alt="expanded" src="~/fmwebapp/images/Arrow-downBl.png"></td>
+					}
+					else
+					{
+				<td id="@tagExpandId" class="tagExpand col-sm-2 col-md-2 text-right tagRowTd" onclick="javascript: return AlarmEditor.ExpandAlarms( this );"><img name="expand" draggable="false" title="collapsed" alt="collapsed" src="~/fmwebapp/images/Arrow-rightBL.png"></td>
+					}
+				}
+				else
+				{
+				<td id="@tagExpandId" class="tagExpand col-sm-2 col-md-2 text-right tagRowTd"></td>
+				}
+				<td id="@tagNameId" class="tagName col-sm-2 col-md-2 text-left tagRowTd @PTModifyClassDisable" data-value="@tag.PointTagGuid">@tag.Id</td>
+				<td id="@hysteresisId" class="tagHysteresis col-sm-2 col-md-2 text-center tagRowTd">
+					<Span>
+						<input id=@hysteresisInputId type="text" class="alarmEditorInput" data-value="@tag.Hysteresis" value="@tag.Hysteresis" onblur="AlarmEditor.SaveHysteresis( this )" @((PointTemplateTag.IsNumeric(@tag.DataType) && Model.HasPTEditRight) ? "" : "disabled") />
+					</Span>
+				</td>
+				@if (tag.AlarmsEnabled)
+				{
+					<td class="alarmsEnabled col-sm-2 col-md-2 text-left tagRowTd" id="@alarmsEnableToggleId">
+						@if (Model.HasDisableAlarmOnPointTemplateRight && Model.HasModifyEnabled)
+						{
+							<img id="@alarmsEnableToggleImgId" draggable="false" title="toggleOn" alt="toggleOn" src="~/fmwebapp/images/On.png" onclick="javascript: return AlarmEditor.DisableAlarms( this );">
+						}
+						else
+						{
+							<img id="@alarmsEnableToggleImgId" class="booleanImgSelect disabled" draggable="false" title="toggleOn" alt="toggleOn" src="~/fmwebapp/images/On.png">
+						}
+						<img id="@alarmsDeleteId" src="~/fmwebapp/images/Trash-icon.png" title="@FMBaseController.TranslateText("AlarmTemplateEditor|Delete All Alarms For Tag")" style="width: 14px; position: relative; cursor: pointer; float: right; @PTModifyHiddenStyle" onclick=' AlarmEditor.DeleteAlarmsForTag( this ); '>
+					</td>
+				}
+				else
+				{
+					<td class="alarmsEnabled col-sm-2 col-md-2 text-left tagRowTd" id="@alarmsEnableToggleId">
+						@if (Model.HasEnableAlarmOnPointTemplateRight && Model.HasModifyEnabled)
+						{
+							<img id="@alarmsEnableToggleImgId" draggable="false" title="toggleOff" alt="toggleOff" src="~/fmwebapp/images/Off.png" onclick="javascript: return AlarmEditor.EnableAlarms( this );">
+						}
+						else
+						{
+							<img id="@alarmsEnableToggleImgId" class="booleanImgSelect disabled" draggable="false" title="toggleOff" alt="toggleOff" src="~/fmwebapp/images/Off.png" >
+						}
+						<img id="@alarmsDeleteId" src="~/fmwebapp/images/Trash-icon.png" title="@FMBaseController.TranslateText("AlarmTemplateEditor|Delete All Alarms For Tag")" style="width: 14px; position: relative; cursor: pointer; float: right;" onclick=' AlarmEditor.DeleteAlarmsForTag( this ); '>
+					</td>
+				}
+			</tr>
+					if (tag.Alarms.Count > 0)
+					{
+			<tr class="@alarmrowclassstring alarmrowTr" id="@alarmRowId">
+				<!--<td class="alarmDummyFirstColumn col-sm-2 col-md-2 text-left"></td>-->
+				<td id="@alarmRowTdId" class="alarmRow col-sm-2 col-md-2 text-left" colspan="4">
+					<table id="@tableId" class="table alarmAlarmsTable">
+						<thead class="tableHeaderFormating">
+							<tr class="rowBorder">
+								<th class="col-sm-2 col-md-2 text-left alarmDummyFirstColumn alarmRowTd firstAlarmTd"></th>
+								<th class="col-sm-2 col-md-2 text-left alarmRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm Name")</th>
+								<th class="col-sm-2 col-md-2 text-left alarmRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm Category")</th>
+								<th class="col-sm-2 col-md-2 text-center alarmRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Order")</th>
+								<th class="col-sm-2 col-md-2 text-left alarmRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm Status Tag")</th>
+								<th class="col-sm-2 col-md-2 text-center alarmRowTd">
+									@FMBaseController.TranslateText("AlarmTemplateEditor|Enabled")
+									<img id="AlarmTableAddAlarm" src="~/fmwebapp/images/Add-icon.png" title="@FMBaseController.TranslateText("AlarmTemplateEditor|Add Alarm")" style="width: 16px;position: relative;cursor: pointer;float: right; @PTModifyHiddenStyle">
+								</th>
+							</tr>
+						</thead>
+						<tbody id="@tableBodyId">
+							@foreach (var alarm in tag.Alarms)
+							{
+								var alarmsTableAlarmRowId = "AlarmsTableAlarmRow_" + alarm.AlarmGuid;
+								var alarmsTableAlarmIdCellId = "AlarmsTableAlarmIdCellId_" + alarm.AlarmGuid;
+								var alarmsTableAlarmCategoryCellId = "alarmsTableAlarmCategoryCellId_" + alarm.AlarmGuid;
+								var alarmsTableAlarmOrderCellId = "alarmsTableAlarmOrderCellId_" + alarm.AlarmGuid;
+								var alarmsTableAlarmStateTagCellId = "alarmsTableAlarmStateTagCellId_" + alarm.AlarmGuid;
+								var alarmsTableAlarmEnabledCellId = "alarmsTableAlarmEnabledCellId_" + alarm.AlarmGuid;
+								var alarmsTableAlarmEnabledCellImgId = "alarmsTableAlarmEnabledCellImgId_" + alarm.AlarmGuid;
+								var alarmsTableAlarmDeleteCellImgId = "alarmsTableAlarmDeleteCellImgId_" + alarm.AlarmGuid;
+								var alarmExpandId = "AlarmExpand_" + alarm.AlarmGuid;
+								var alarmTestsRowId = "AlarmTests_" + alarm.AlarmGuid;
+								var alarmTestsRowTdId = "AlarmTestsTd_" + alarm.AlarmGuid;
+								var alarmTestsTableId = "AlarmTestTable_" + alarm.AlarmGuid;
+								var alarmTestsTableBodyId = "AlarmTestTableBody_" + alarm.AlarmGuid;
+								var rowclassstring = "hidden rowBorder";
+
+								if (tag.AlarmsEnabled && alarm.Enabled)
+								{
+									rowclassstring = "rowBorder";
+								}
+								//var suppressedShelvedSprocketId = "suppressedShelvedSprocketId_" + alarm.AlarmGuid;
+
+							<tr id="@alarmsTableAlarmRowId" class="rowBorder alarmrowTr">
+								@if (alarm.AlarmTests.Count > 0)
+								{
+									if (alarm.Enabled && tag.AlarmsEnabled)
+									{
+									<td class="col-sm-2 col-md-2 text-left alarmDummyFirstColumn alarmRowTd firstAlarmTd" id="@alarmExpandId" onclick="javascript: return AlarmEditor.CollapseTests( this );"><img name="contract" draggable="false" title="expanded" alt="expanded" src="~/fmwebapp/images/Arrow-downBl.png"></td>
+									}
+									else
+									{
+									<td class="col-sm-2 col-md-2 text-left alarmDummyFirstColumn alarmRowTd firstAlarmTd" id="@alarmExpandId" onclick="javascript: return AlarmEditor.ExpandTests( this );"><img name="expand" draggable="false" title="collapsed" alt="collapsed" src="~/fmwebapp/images/Arrow-rightBL.png"></td>
+									}
+								}
+								else
+								{
+									<td class="col-sm-2 col-md-2 text-left alarmDummyFirstColumn alarmRowTd firstAlarmTd" id="@alarmExpandId"></td>
+								}
+								<td class="col-sm-2 col-md-2 text-left alarmRowTd alarmName @PTModifyClassDisable" style="padding-left: 5px;" data-value="@alarm.AlarmStatusTagGuid" id="@alarmsTableAlarmIdCellId">@alarm.Id</td>
+								<td class="col-sm-2 col-md-2 text-left alarmRowTd" id="@alarmsTableAlarmCategoryCellId">@alarm.Category</td>
+								<td class="col-sm-2 col-md-2 text-center alarmRowTd" id="@alarmsTableAlarmOrderCellId">@alarm.Order</td>
+								<td class="col-sm-2 col-md-2 text-left alarmRowTd" id="@alarmsTableAlarmStateTagCellId">@alarm.AlarmStatusTagId</td>
+								@if (alarm.Enabled)
+								{
+									<td class="col-sm-2 col-md-2 text-center alarmRowTd" id="@alarmsTableAlarmEnabledCellId">
+										@if (Model.HasDisableAlarmOnPointTemplateRight  && Model.HasModifyEnabled)
+										{
+											<img id="@alarmsTableAlarmEnabledCellImgId" draggable="false" title="toggleOn" alt="toggleOn" src="~/fmwebapp/images/On.png" onclick="javascript: return AlarmEditor.DisableAlarm( this ); ">
+										}
+										else
+										{
+											<img id="@alarmsTableAlarmEnabledCellImgId" class="booleanImgSelect disabled" draggable="false" title="toggleOn" alt="toggleOn" src="~/fmwebapp/images/On.png" >
+										}
+										<img id="@alarmsTableAlarmDeleteCellImgId" src="~/fmwebapp/images/Trash-icon.png" title="@FMBaseController.TranslateText("AlarmTemplateEditor|Delete Alarm Definition")" style="width: 14px; position: relative; cursor: pointer; float: right; @PTModifyHiddenStyle" onclick=' AlarmEditor.DeleteTemplateAlarm( this ); '>
+									</td>
+								}
+								else
+								{
+									<td class="col-sm-2 col-md-2 text-center alarmRowTd" id="@alarmsTableAlarmEnabledCellId">
+										@if (Model.HasEnableAlarmOnPointTemplateRight && Model.HasModifyEnabled)
+										{
+											<img id="@alarmsTableAlarmEnabledCellImgId" draggable="false" title="toggleOff" alt="toggleOff" src="~/fmwebapp/images/Off.png" onclick="javascript: return AlarmEditor.EnableAlarm( this ); ">
+										}
+										else
+										{
+											<img id="@alarmsTableAlarmEnabledCellImgId" class="booleanImgSelect disabled" draggable="false" title="toggleOff" alt="toggleOff" src="~/fmwebapp/images/Off.png">
+										}
+										<img id="@alarmsTableAlarmDeleteCellImgId" src="~/fmwebapp/images/Trash-icon.png" title="@FMBaseController.TranslateText("AlarmTemplateEditor|Delete Alarm Definition")" style="width: 14px; position: relative; cursor: pointer; float: right; @PTModifyHiddenStyle" onclick=' AlarmEditor.DeleteTemplateAlarm( this ); '>
+									</td>
+								}
+							</tr>
+								if (alarm.AlarmTests.Count > 0)
+								{
+									<tr class="@rowclassstring" id="@alarmTestsRowId">
+										<td class="alarmTestRowTd col-sm-2 col-md-2 text-left" colspan="6" id="@alarmTestsRowTdId">
+											<table id="@alarmTestsTableId" class="table alarmTestsTable">
+												<thead class="tableHeaderFormating">
+													<tr class="rowBorder">
+														<th class="testRowTd"></th>
+														<th class="col-sm-2 col-md-2 text-left testRowTd firstTestTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Test Name")</th>
+														<th class="col-sm-2 col-md-2 text-center testRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Limit Tag")</th>
+														<th class="col-sm-2 col-md-2 text-center testRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Limit Value")</th>
+														<th class="col-sm-2 col-md-2 text-center testRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm State")</th>
+														<th class="col-sm-2 col-md-2 text-center testRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm Text")</th>
+														<th class="tagHysteresis col-sm-2 col-md-2 text-center tagRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Hold Off")</th>
+														<th class="col-sm-2 col-md-2 text-center testRowTd">
+															@FMBaseController.TranslateText("AlarmTemplateEditor|Test")
+															<img class="AlarmTestTableAddAlarmTest" src="~/fmwebapp/images/Add-icon.png" title="@FMBaseController.TranslateText("AlarmTemplateEditor|Add Alarm Test")" style="width: 16px; position: relative; cursor: pointer; float: right; @PTModifyHiddenStyle">
+														</th>
+													</tr>
+												</thead>
+												<tbody id="@alarmTestsTableBodyId">
+													@foreach (var test in alarm.AlarmTests.OrderBy(x => x.Order))
+													{
+														var testObj = test;
+														var testRowId = "testRow_" + test.AlarmTestGuid;
+														var testNameCellId = "testNameCellId_" + test.AlarmTestGuid;
+														var testTestCellId = "testTestCellId_" + test.AlarmTestGuid;
+														var testTestCellDivId = "testTestCellDivId_" + test.AlarmTestGuid;
+														var testLimitTagCellId = "testLimitTagCellId_" + test.AlarmTestGuid;
+														var testLimitValueCellId = "testLimitValueCellId_" + test.AlarmTestGuid;
+														var testAlarmStateCellId = "testAlarmStateCellId_" + test.AlarmTestGuid;
+														var testAlarmTextCellId = "testAlarmTextCellId_" + test.AlarmTestGuid;
+														var testHoldOffCellId = "testHoldOffCellId_" + test.AlarmTestGuid;
+														var testHelpFileCellId = "testHelpFileCellId_" + test.AlarmTestGuid;
+														var testGraphicCellId = "testGraphicCellId_" + test.AlarmTestGuid;
+														var equationSprocketId = "equationSprockedId_" + test.AlarmTestGuid;
+														var helpFileSprocketId = "helpFileSprockedId_" + test.AlarmTestGuid;
+														var diagramSprockedId = "diagramSprockedId_" + test.AlarmTestGuid;
+														var holdOffInputId = "holdOffInputId_" + test.AlarmTestGuid;
+														var limitValueInputId = "limitValueInputId_" + test.AlarmTestGuid;
+														var limitValueInputDisable = test.LimitTagEditable == true ? "" : "disabled";
+														var holdOffId = "HoldOff_" + test.AlarmTestGuid;
+														var timedHoldOffSecondsInputId = "TimedHoldOffSecondsInput_" + test.AlarmTestGuid;
+														var timedHoldOffMinutesInputId = "TimedHoldOffMinutesInput_" + test.AlarmTestGuid;
+														var alarmTestsSortableId = "alarmTestTableSortable_" + test.AlarmTestGuid;
+
+												<tr id="@testRowId" class="rowBorder">
+													<td id="@alarmTestsSortableId" class="text-right alarmtestsortcolumn">
+														<span class="glyphicon glyphicon-option-vertical text-center" style ="@PTModifyHiddenStyle"></span>
+													</td>
+													<td id="@testNameCellId" class="col-sm-2 col-md-2 text-left testRowTd firstTestTd alarmTestName @PTModifyClassDisable">@test.Id</td>
+													<td id="@testLimitTagCellId" class="col-sm-2 col-md-2 text-center testRowTd">@test.LimitTagId</td>
+													<td id="@testLimitValueCellId" class="col-sm-2 col-md-2 text-center testRowTd limitTagValue @PTModifyClassDisable">
+														<label id=@limitValueInputId type="text" data-value="@test.LimitValue" class ="@PTModifyCursorDisable @PTModifyClassDisable">@test.LimitValue</label>
+														<span class="glyphicon glyphicon-pencil pull-right @PTModifyCursorDisable @PTModifyClassDisable"></span>
+													</td>
+													<td id="@testAlarmStateCellId" title="@test.AlarmState" class="col-sm-2 col-md-2 text-center testRowTd alarmTestState">
+														@test.AlarmState
+													</td>
+													<td id="@testAlarmTextCellId" title="@test.AlarmText" class="col-sm-2 col-md-2 text-center testRowTd alarmTestText">
+														@test.AlarmText
+													</td>
+													<td id="@holdOffId" class="tagHysteresis col-sm-2 col-md-2 text-center tagRowTd">
+														<Span>
+															<label class="minutesSecondsFormat">@FMBaseController.TranslateText("AlarmTemplateEditor|min:") </label>
+															<label id=@timedHoldOffMinutesInputId class="text-left" style="width: 40px !important">@test.HoldOffMinutes</label>
+															<label class="minutesSecondsFormat">@FMBaseController.TranslateText("AlarmTemplateEditor|sec:") </label>
+															<label id=@timedHoldOffSecondsInputId class="text-left" style="width: 30px !important">@test.HoldOffSeconds</label>
+														</Span>
+													</td>
+													<td id="@testTestCellId" class="col-sm-2 col-md-2 text-center testRowTd">
+														<div id="@testTestCellDivId" title="@test.AlarmTestEquation" class="alarmEditorTestCell" style="width: calc( 100% - 40px) !important;padding-top: 3px;">
+															@test.AlarmTestEquation
+														</div>
+														@if (!fromStandardTemplate)
+														{
+														<Span class="alarmEditorSprocketSpan" style="font-size: 14px; @PTModifyHiddenStyle" title="@FMBaseController.TranslateText("AlarmTemplateEditor|Edit Test Formula")">
+															<a id="@equationSprocketId" class="equationSprocket glyphicon glyphicon-cog @PTModifyCursorDisable" href='javascript:;' onclick='AlarmEditor.EditTestTemplateEquation( this ); '></a>
+														</Span>
+														}
+														<img class="alarmEditorDeleteAlarmTest" src="~/fmwebapp/images/Trash-icon.png" title="@FMBaseController.TranslateText("AlarmTemplateEditor|Delete Alarm Test")" style="width: 14px;position: relative;cursor: pointer;float: right;display: inline-block; @PTModifyHiddenStyle" onclick='AlarmEditor.DeleteTemplateAlarmTest( this );'>
+													</td>
+												</tr>
+													}
+												</tbody>
+											</table>
+										</td>
+									</tr>
+								}
+							}
+								</tbody>
+							</table>
+						</td>
+					</tr>
+					}
+				}
+			}
+		</tbody>
+
+	</table>
+</div>
+
+
+<table id="blankAlarmTag" class="hidden">
+	<tbody>
+		<tr id="TagRow_{}" class="rowBorder tagrowTr">
+			<td id="TagExpand_{}" class="tagExpand col-sm-2 col-md-2 text-right tagRowTd" onclick="javascript: return AlarmEditor.CollapseAlarms( this );"><img name="collapse" draggable="false" title="expanded" alt="expanded" src="~/fmwebapp/images/Arrow-downBl.png"></td>
+			<td id="TagName_{}" class="tagName col-sm-2 col-md-2 text-left tagRowTd" data-value="">TagID</td>
+			<td id="Hysteresis_{}" class="tagHysteresis col-sm-2 col-md-2 text-center tagRowTd">
+				<Span>
+					<input id="HysteresisInput_{}" type="text" class="alarmEditorInput" data-value="" value="0" onblur="AlarmEditor.SaveHysteresis( this )" />
+				</Span>
+			</td>
+			<td class="alarmsEnabled col-sm-2 col-md-2 text-left tagRowTd" id="AlarmsEnableToggle_{}">
+				<img id="AlarmsEnableToggleImg_{}" draggable="false" title="toggleOff" alt="toggleOff" src="~/fmwebapp/images/Off.png" onclick="javascript: return AlarmEditor.EnableAlarms( this );">
+				<img id="AlarmTableAlarmDelete_{}" src="~/fmwebapp/images/Trash-icon.png" title="@FMBaseController.TranslateText("AlarmTemplateEditor|Delete All Alarms For Tag")" style="width: 14px;position: relative;cursor: pointer;float: right; @PTModifyHiddenStyle" onclick='AlarmEditor.DeleteAlarmsForTag( this );'>
+			</td>
+
+		</tr>
+		<tr class="rowBorder" id="AlarmRow_{}">
+			<td id="AlarmRowTd_{}" class="alarmRow col-sm-2 col-md-2 text-left" colspan="4">
+				<table id="alarmsTable_{}" class="table alarmAlarmsTable">
+					<thead class="tableHeaderFormating">
+						<tr class="rowBorder">
+							<th class="col-sm-2 col-md-2 text-left alarmDummyFirstColumn alarmRowTd firstAlarmTd"></th>
+							<th class="col-sm-2 col-md-2 text-left alarmRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm Name")</th>
+							<th class="col-sm-2 col-md-2 text-left alarmRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm Category")</th>
+							<th class="col-sm-2 col-md-2 text-center alarmRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Order")</th>
+							<th class="col-sm-2 col-md-2 text-left alarmRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm Status Tag")</th>
+							<th class="col-sm-2 col-md-2 text-center alarmRowTd">Enabled<img id="AlarmTableAddAlarm" src="~/fmwebapp/images/Add-icon.png" title="@FMBaseController.TranslateText("AlarmTemplateEditor|Add Alarm")" style="width: 16px;position: relative;float: right;"></th>
+						</tr>
+					</thead>
+					<tbody id="alarmsTableBody_{}"></tbody>
+				</table>
+	</tbody>
+</table>
+
+
+<table id="blankAlarmDefinition" class="hidden">
+	<tbody>
+		<tr id="AlarmsTableAlarmRow_{}" class="rowBorder alarmrowTr" style="background-color: #f5f5f5">
+			<td class="col-sm-2 col-md-2 text-left alarmDummyFirstColumn alarmRowTd firstAlarmTd" id="AlarmExpand_{}" onclick="javascript: return AlarmEditor.CollapseTests( this );"><img name="collapse" draggable="false" title="expanded" alt="expanded" src="~/fmwebapp/images/Arrow-downBl.png"></td>
+			<td class="col-sm-2 col-md-2 text-left alarmRowTd alarmName" style="padding-left: 5px;" id="AlarmsTableAlarmIdCellId_{}"></td>
+			<td class="col-sm-2 col-md-2 text-left alarmRowTd" id="alarmsTableAlarmCategoryCellId_{}"></td>
+			<td class="col-sm-2 col-md-2 text-center alarmRowTd" id="alarmsTableAlarmOrderCellId_{}"></td>
+			<td class="col-sm-2 col-md-2 text-left alarmRowTd" id="alarmsTableAlarmStateTagCellId_{}"></td>
+			<td class="col-sm-2 col-md-2 text-center alarmRowTd" id="alarmsTableAlarmEnabledCellId_{}">
+				<img id="alarmsTableAlarmEnabledCellImgId_{}" draggable="false" title="toggleOn" alt="toggleOff" src="~/fmwebapp/images/Off.png" onclick="javascript: return AlarmEditor.DisableAlarm( this );">
+				<img id="alarmsTableAlarmDeleteCellImgId_{}" src="~/fmwebapp/images/Trash-icon.png" title="@FMBaseController.TranslateText("AlarmTemplateEditor|Delete Alarm Definition")" style="width: 14px;position: relative;cursor: pointer;float: right; @PTModifyHiddenStyle" onclick='AlarmEditor.DeleteTemplateAlarm( this );'>
+			</td>
+		</tr>
+		<tr class="rowBorder" id="AlarmTests_{}">
+			<td class="alarmTestRowTd col-sm-2 col-md-2 text-left" colspan="6" id="AlarmTestsTd_{}">
+				<table id="AlarmTestTable_{}" class="table alarmTestsTable">
+					<thead class="tableHeaderFormating">
+						<tr class="rowBorder">
+							<th class="testRowTd"></th>
+							<th class="col-sm-2 col-md-2 text-left testRowTd firstTestTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Test Name")</th>
+							<th class="col-sm-2 col-md-2 text-center testRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Limit Tag")</th>
+							<th class="col-sm-2 col-md-2 text-center testRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Limit Value")</th>
+							<th class="col-sm-2 col-md-2 text-center testRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm State")</th>
+							<th class="col-sm-2 col-md-2 text-center testRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm Text")</th>
+							<th class="tagHysteresis col-sm-2 col-md-2 text-center tagRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Hold Off")</th>
+							<th class="col-sm-2 col-md-2 text-center testRowTd">
+								@FMBaseController.TranslateText("AlarmTemplateEditor|Test")
+								<img class="AlarmTestTableAddAlarmTest" src="~/fmwebapp/images/Add-icon.png" title="@FMBaseController.TranslateText("AlarmTemplateEditor|Add Alarm Test")" style="width: 16px; position: relative; cursor: pointer; float: right;">
+							</th>
+						</tr>
+					</thead>
+					<tbody id="AlarmTestTableBody_{}"></tbody>
+				</table>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<table id="blankAlarmTestDefinition" class="hidden">
+	<tbody>
+		<tr id="testRow_{}" class="rowBorder" style="background-color: #ffffff">
+			<td id="alarmTestTableSortable_{}" class="text-right alarmtestsortcolumn">
+				<span class="glyphicon glyphicon-option-vertical text-center"></span>
+			</td>
+			<td id="testNameCellId_{}" class="col-sm-2 col-md-2 text-left testRowTd firstTestTd alarmTestName"></td>
+			<td id="testLimitTagCellId_{}" class="col-sm-2 col-md-2 text-center testRowTd"></td>
+			<td id="testLimitValueCellId_{}" class="col-sm-2 col-md-2 text-center testRowTd limitTagValue">
+				<label id="limitValueInputId_{}" type="text" onkeypress="javascript: return AlarmEditor.EditStringKeyHandler();" onblur="AlarmEditor.SaveLimitValue( this )"></label>
+				<span class="glyphicon glyphicon-pencil pull-right"></span>
+			</td>
+			<td id="testAlarmStateCellId_{}" title="" class="col-sm-2 col-md-2 text-center testRowTd alarmTestState"></td>
+			<td id="testAlarmTextCellId_{}" title="" class="col-sm-2 col-md-2 text-center testRowTd alarmTestText"></td>
+			<td id="HoldOff_{}" class="tagHysteresis col-sm-2 col-md-2 text-center tagRowTd">
+				<span>
+					<label class="minutesSecondsFormat">@FMBaseController.TranslateText("AlarmTemplateEditor|min:") </label>
+					<label id="TimedHoldOffMinutesInput_{}" class="text-left" style="width: 40px !important"></label>
+					<label class="minutesSecondsFormat">@FMBaseController.TranslateText("AlarmTemplateEditor|sec:") </label>
+					<label id="TimedHoldOffSecondsInput_{}" class="text-left" style="width: 30px !important"></label>
+				</span>
+			</td>
+			<td id="testTestCellId_{}" class="col-sm-2 col-md-2 text-center testRowTd">
+				<div id="testTestCellDivId_{}" title="" class="alarmEditorTestCell" style="width: calc( 100% - 40px);padding-top: 3px;"></div>
+				<span class="alarmEditorSprocketSpan" style="font-size: 14px;" title="Edit Test Formula">
+					<a id="equationSprockedId_{}" class="equationSprocket glyphicon glyphicon-cog" href="javascript:;" onclick="AlarmEditor.EditTestTemplateEquation( this );"></a>
+				</span>
+				<img class="alarmEditorDeleteAlarmTest" src="~/fmwebapp/images/Trash-icon.png" title="@FMBaseController.TranslateText("AlarmTemplateEditor|Delete Alarm Test")" style="width: 14px;position: relative;cursor: pointer;float: right;display: inline-block; @PTModifyHiddenStyle" onclick='AlarmEditor.DeleteTemplateAlarmTest( this );'>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+
+<!-- Modal -->
+<div class="row">
+	<div id="AlarmEditorGraphicModalDiv" class="modal fade modal-lg" data-backdrop="static" data-focus-on="input:first" role="dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button id="AlarmEditorGraphicCancelIconId" type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body" style="width: 300px !important">
+				<section id="AlarmEditorGraphicSection" class="">
+					<div class="row">
+						<label class="modalDropdownLabel">@FMBaseController.TranslateText("Graphic Names:")</label>
+					</div>
+					<div class="row">
+						<select id="GraphicNameDropdown" class="GraphicNameSelectControl">
+							<option selected="selected" value="-99">None</option>
+						</select>
+					</div>
+				</section>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-toolbar">
+					<div class="pull-left">
+
+					</div>
+					<div class="pull-right">
+						<button id="AlarmEditorGraphicModalCancelBtn" type="button" class="formfieldtitle pushButton" data-dismiss="modal" style="width: 100px;">
+							@FMBaseController.TranslateText("Cancel")
+						</button>
+						<button id="AlarmEditorGraphicModalOkBtn" type="button" class="formfieldtitle pushButton" data-dismiss="modal" style="width: 100px;" onclick="javascript: return AlarmEditor.HandleGraphicOkBtnEvent();">
+							@FMBaseController.TranslateText("OK")
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div id="AlarmTemplateEditorEquationEditor" class="modal fade" data-width="900" data-backdrop="static" data-focus-on="input:first" role="dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 id="AlarmTemplateEditorEquationEditorScreenTitle" class="modal-title">@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm Test Equation")</h4>
+			</div>
+			<div class="modal-body">
+				<section id="AlarmTemplateEditorEquationEditorScreen" class=""></section>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-toolbar">
+					<div class="pull-right">
+						<button id="AlarmEditorEquationEditorSaveButton" type="button" class="formfieldtitle pushButton" style="width: 100px;" onclick="javascript: return AlarmEditor.SaveTestTemplateEquationChanges();">
+							@FMBaseController.TranslateText("&Save")
+						</button>
+						<button id="AlarmEditorEquationEditorCloseButton" type="button" class="formfieldtitle pushButton" data-dismiss="modal" style="width: 100px;" onclick="javascript: return false;">
+							@FMBaseController.TranslateText("&Cancel")
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+	<div id="AlarmEditorAddAlarm" class="modal fade modal-lg" data-width="500" data-backdrop="static" data-focus-on="input:first" role="dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 id="AlarmEditorAddAlarmScreenTitle" class="modal-title text-center">@FMBaseController.TranslateText("AlarmTemplateEditor|Add Alarm")</h4>
+			</div>
+			<div class="modal-body">
+				<section id="AlarmEditorAddAlarmEditorScreenPage1" class="">
+					<label>@FMBaseController.TranslateText("AlarmTemplateEditor|Select Tag")</label>
+					<select class="form-control" id="AlarmEditorAddAlarmtagSelection"></select>
+				</section>
+				<section id="AlarmEditorAddAlarmEditorScreenPage2" class="">
+					<div class="form-group">
+						<label for="addAlarmName">@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm Name")</label>
+						<input id=addAlarmName type="text" class="form-control" maxlength="512" placeholder="@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm Name")" required />
+					</div>
+					<div class="form-group">
+						<label for="addAlarmTagName">@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm Status Tag")</label>
+						<input id=addAlarmTagName type="text" class="form-control" maxlength="100" placeholder="@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm Status Tag Name")" required />
+					</div>
+					<div class="form-group">
+						<label for="addAlarmNotInAlarmText">@FMBaseController.TranslateText("AlarmTemplateEditor|Not Alarm Text")</label>
+						<input id=addAlarmNotInAlarmText type="text" class="form-control" maxlength="200" placeholder="@FMBaseController.TranslateText("AlarmTemplateEditor|Not in Alarm Text")" required />
+					</div>
+					<div class="form-group">
+						<label for="addAlarmTestNormalUnAcknowledgePriority">@FMBaseController.TranslateText("AlarmTemplateEditor|Normal UnAcknowledged Alarm Priority")</label>
+						<select class="form-control" id="addAlarmTestNormalUnAcknowledgePriority">
+							@foreach (var NormalTestPriority in new SelectList(@Model.NormalPriorities.OrderBy(x => x.ID), "IdentityGuid", "ID"))
+							{
+							<option value="@NormalTestPriority.Value">@NormalTestPriority.Text</option>
+							}
+						</select>
+					</div>
+					<div class="form-group" style="height: 59px">
+						<label for="addAlarmCategory" class='col-md-8' style="padding-left: 0px">@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm Category")</label>
+						<label for="addAlarmName" class='col-md-4' style="padding-right: 0px">@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm Order")</label>
+						<div class="col-md-8" style="padding-left: 0px">
+							<select class="form-control" id="addAlarmCategory">
+								@foreach (var alarmCategory in new SelectList(@Model.AlarmCategories.OrderBy(x => x.Value), "Key", "Value"))
+								{
+							<option value="@alarmCategory.Value">@alarmCategory.Text</option>
+								}
+							</select>
+						</div>
+						<div class="col-md-4" style="padding-right: 0px">
+							<input id=addAlarmOrder type="text" class="form-control text-right" onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength="2" required />
+						</div>
+					</div>
+				</section>
+				<section id="AlarmEditorAddAlarmEditorScreenPage3" class="">
+					<div class="form-group">
+						<label for="addAlarmTestName">@FMBaseController.TranslateText("AlarmTemplateEditor|Test Name")</label>
+						<input id=addAlarmTestName type="text" class="form-control" maxlength="512" placeholder="@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm Test Name")" required />
+					</div>
+					<div class="form-group">
+						<label for="addAlarmTestTagName">@FMBaseController.TranslateText("AlarmTemplateEditor|Limit Tag")</label>
+						<input id=addAlarmTestTagName type="text" class="form-control" maxlength="100" placeholder="@FMBaseController.TranslateText("AlarmTemplateEditor|Limit Tag")" required />
+					</div>
+					<div class="form-group">
+						<label for="addAlarmTestAlarmState">@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm State")</label>
+						<input id=addAlarmTestAlarmState type="text" class="form-control" maxlength="200" placeholder="@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm State")" required />
+					</div>
+					<div class="form-group">
+						<label for="addAlarmTestAlarmText">@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm Text")</label>
+						<input id=addAlarmTestAlarmText type="text" class="form-control" maxlength="512" placeholder="@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm Text")" required />
+					</div>
+					<div class="form-group">
+						<label for="addAlarmTestPriority">@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm Priority")</label>
+						<select class="form-control" id="addAlarmTestPriority">
+							@foreach (var AlarmTestPriority in new SelectList(@Model.AlarmPriorities.OrderBy(x => x.ID), "IdentityGuid", "ID"))
+							{
+							<option value="@AlarmTestPriority.Value">@AlarmTestPriority.Text</option>
+							}
+						</select>
+					</div>
+					<div class="form-group" style="overflow:hidden;">
+						<label class="col-md-12" style="padding:0px">@FMBaseController.TranslateText("AlarmTemplateEditor|Hold Off")</label>
+						<div class="col-md-2" style="padding:0px">
+							<label class="text-center" style="width:100%; height: 34px; line-height: 34px;">@FMBaseController.TranslateText("AlarmTemplateEditor|min:")</label>
+						</div>
+						<div class="col-md-4" style="padding:0px">
+							<input id="addAlarmTestHoldOffMinutes" type="text" class="form-control text-right" value="0" maxlength="4" onkeypress="return event.charCode >= 48 &amp;&amp; event.charCode <= 57" required="">
+						</div>
+						<div class="col-md-2" style="padding:0px">
+							<label class="text-center" style="width:100%; height: 34px; line-height: 34px;">@FMBaseController.TranslateText("AlarmTemplateEditor|sec:")</label>
+						</div>
+						<div class="col-md-4" style="padding:0px">
+							<input id="addAlarmTestHoldOffSeconds" type="text" class="form-control text-right" value="0" maxlength="2" onkeypress="return event.charCode >= 48 &amp;&amp; event.charCode <= 57" required="">
+						</div>
+					</div>
+				</section>
+				<section id="AlarmEditorAddAlarmEditorScreenPage4" class=""></section>
+			</div>
+			<div class="modal-footer">
+				<div class="">
+					<button id="AlarmEditorAddAlarmPreviousButton" type="button" class="formfieldtitle btn pull-left" style="width: 100px;">
+						<span class="glyphicon glyphicon-menu-left" style="padding-right: 10px"></span>@FMBaseController.TranslateText("&Previous")
+					</button>
+					<button id="AlarmEditorAddAlarmNextButton" type="button" class="formfieldtitle btn" style="width: 100px;">
+						@FMBaseController.TranslateText("&Next")<span class="glyphicon glyphicon-menu-right" style="padding-left: 10px"></span>
+					</button>
+					<button id="AlarmEditorAddAlarmSaveButton" type="button" class="formfieldtitle btn" style="width: 100px;" onclick="javascript: return AlarmEditor.AddAlarmEntry();">
+						@FMBaseController.TranslateText("&Save")
+					</button>
+					<button id="AlarmEditorAddAlarmCloseButton" type="button" class="formfieldtitle btn" data-dismiss="modal" style="width: 100px;" onclick="javascript: return false;">
+						@FMBaseController.TranslateText("&Cancel")
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+	var testPriorityData = [];
+
+	@foreach (var AlarmTestPriority in @Model.AlarmPriorities.OrderBy(x => x.ID) )
+	{
+		<text>
+	testPriorityData.push( { id: '@AlarmTestPriority.IdentityGuid', html: '<span style="margin-left:10px; padding:0px 15px; background-color: #@AlarmTestPriority.BackgroundSteady; color: #@AlarmTestPriority.TextSteady">Text</span>'});
+	</text>
+	}
+
+	@foreach (var NormalTestPriority in @Model.NormalPriorities.OrderBy(x => x.ID) )
+	{
+		<text>
+			testPriorityData.push( { id: '@NormalTestPriority.IdentityGuid', html: '<span style="margin-left:10px; padding:0px 15px; background-color: #@NormalTestPriority.BackgroundSteady; color: #@NormalTestPriority.TextSteady">Text</span>'});
+		</text>
+	}
+
+
+	$(document).ready(function () {
+		AlarmEditor.Init();
+
+		AlarmEditor.AlarmWizardProperties = { startPage:0, activePage: 1, editAlarm: false };
+
+		var hotKey;
+		var buttonObj = $('#AlarmEditorEquationEditorSaveButton');
+		var ampersandIndex = buttonObj.text().indexOf('&');
+		if (ampersandIndex !== -1)
+		{
+			hotKey = buttonObj.text().charAt(ampersandIndex + 1);
+			buttonObj.html(buttonObj.text().replace('&' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+			buttonObj.attr('accesskey', hotKey);
+		}
+
+		buttonObj = $('#AlarmEditorEquationEditorCloseButton');
+		ampersandIndex = buttonObj.text().indexOf('&');
+		if (ampersandIndex !== -1)
+		{
+			hotKey = buttonObj.text().charAt(ampersandIndex + 1);
+			buttonObj.html(buttonObj.text().replace('&' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+			buttonObj.attr('accesskey', hotKey);
+		}
+
+		buttonObj = $('#AlarmEditorAddAlarmNextButton');
+		ampersandIndex = buttonObj.text().indexOf('&');
+		if (ampersandIndex !== -1)
+		{
+			hotKey = buttonObj.text().charAt(ampersandIndex + 1);
+			buttonObj.html(buttonObj.text().replace('&' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+			buttonObj.attr('accesskey', hotKey);
+		}
+
+		buttonObj = $('#AlarmEditorAddAlarmSaveButton');
+		ampersandIndex = buttonObj.text().indexOf('&');
+		if (ampersandIndex !== -1)
+		{
+			hotKey = buttonObj.text().charAt(ampersandIndex + 1);
+			buttonObj.html(buttonObj.text().replace('&' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+			buttonObj.attr('accesskey', hotKey);
+		}
+
+		buttonObj = $('#AlarmEditorAddAlarmCloseButton');
+		ampersandIndex = buttonObj.text().indexOf('&');
+		if (ampersandIndex !== -1)
+		{
+			hotKey = buttonObj.text().charAt(ampersandIndex + 1);
+			buttonObj.html(buttonObj.text().replace('&' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+			buttonObj.attr('accesskey', hotKey);
+		}
+
+		buttonObj = $('#AlarmEditorAddAlarmPreviousButton');
+		ampersandIndex = buttonObj.text().indexOf('&');
+		if (ampersandIndex !== -1)
+		{
+			hotKey = buttonObj.text().charAt(ampersandIndex + 1);
+			buttonObj.html(buttonObj.text().replace('&' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+			buttonObj.attr('accesskey', hotKey);
+		}
+
+		$("#addAlarmTestPriority").select2({
+			templateSelection: function(selection) {
+				if(selection.selected) {
+					var selectedAlarmTestPriority = jQuery.grep( testPriorityData, function( a )
+					{
+						return a.id === selection.id;
+					} );
+
+					if (selectedAlarmTestPriority.length > 0)
+					{
+						return $.parseHTML(selection.text + selectedAlarmTestPriority[0].html);
+					}
+					return $.parseHTML(selection.text );
+				}
+
+			},
+			templateResult: function(selection) {
+				var selectedAlarmTestPriority = jQuery.grep( testPriorityData, function( a )
+				{
+					return a.id === selection.id;
+				} );
+
+				if (selectedAlarmTestPriority.length > 0)
+				{
+					return $.parseHTML(selection.text + selectedAlarmTestPriority[0].html);
+				}
+				return $.parseHTML(selection.text );
+			}
+
+		});
+
+		$("#addAlarmTestNormalUnAcknowledgePriority").select2({
+			templateSelection: function(selection) {
+				if(selection.selected) {
+					var selectedAlarmTestPriority = jQuery.grep( testPriorityData, function( a )
+					{
+						return a.id === selection.id;
+					} );
+
+					if (selectedAlarmTestPriority.length > 0)
+					{
+						return $.parseHTML(selection.text + selectedAlarmTestPriority[0].html);
+					}
+					return $.parseHTML(selection.text );
+				}
+
+			},
+			templateResult: function(selection) {
+				var selectedAlarmTestPriority = jQuery.grep( testPriorityData, function( a )
+				{
+					return a.id === selection.id;
+				} );
+
+				if (selectedAlarmTestPriority.length > 0)
+				{
+					return $.parseHTML(selection.text + selectedAlarmTestPriority[0].html);
+				}
+				return $.parseHTML(selection.text );
+			}
+
+		});
+
+		$('#AlarmEditorAddAlarmNextButton').on('click', function () {
+			switch (AlarmEditor.AlarmWizardProperties.activePage) {
+				case 1:
+					// set width of the modal to be 500
+					$('body').data().modalmanager.stack[0].options.width = 500
+
+					// reset/initialiaze the fields
+					$("#AlarmEditorAddAlarmEditorScreenPage1").removeClass("hidden").addClass("hidden");
+					$("#AlarmEditorAddAlarmEditorScreenPage2").removeClass("hidden");
+					$("#AlarmEditorAddAlarmEditorScreenPage3").removeClass("hidden").addClass("hidden");
+					$("#AlarmEditorAddAlarmEditorScreenPage4").removeClass("hidden").addClass("hidden");
+
+					// reset buttons
+					$("#AlarmEditorAddAlarmNextButton").removeClass("hidden");
+					$("#AlarmEditorAddAlarmPreviousButton").removeClass("hidden");
+					$("#AlarmEditorAddAlarmSaveButton").removeClass("hidden").addClass("hidden");
+					AlarmEditor.AlarmWizardProperties.activePage = 2;
+
+					$('#AlarmEditorAddAlarmEditorScreenPage2 input[required]:visible').each(function () {
+							$(this).parent().removeClass('has-error');
+						});
+
+					$("#addAlarmName").focus();
+
+					$(window).resize(); // force the modal to center
+					break;
+				case 2:
+					FMErrorAndExceptionHandling.CloseNotifications();
+					// set width of the modal to be 500
+					$('body').data().modalmanager.stack[0].options.width = 500
+
+					var inError = false;
+					$("#addAlarmTagName").attr( 'data-guid', '');
+
+					var controlErrors = $('#AlarmEditorAddAlarmEditorScreenPage2 .has-error');
+					controlErrors.removeClass('has-error');
+
+					controlErrors = $('#AlarmEditorAddAlarmEditorScreenPage3 .has-error');
+					controlErrors.removeClass('has-error');
+
+					$('#AlarmEditorAddAlarmEditorScreenPage2 input[required]:visible').each(function () {
+						if ($(this).val() === "") {
+							inError = true;
+							$(this).parent().removeClass('has-error').addClass('has-error');
+						}
+					});
+
+					var errorMessage = "";
+					// find if the alarm name already exists
+					var alarmName = $("#addAlarmName").val().trim();
+					var tagGuid =  $("#AlarmEditorAddAlarmtagSelection").val();
+					var validAlarmErrorMessage = AlarmEditor.isAlarmNameValid( alarmName, tagGuid );
+					if ( validAlarmErrorMessage !== "") {
+						$("#addAlarmName").parent().removeClass('has-error').addClass('has-error');
+						errorMessage += validAlarmErrorMessage;
+						inError = true;
+					}
+
+					// check if the alarm tag name already exists
+					var alarmTagName = $("#addAlarmTagName").val().trim();
+					var validAlarmTagResult = AlarmEditor.isAlarmStateTagNameValid( alarmTagName );
+					if ( validAlarmTagResult.msg !== "") {
+						$("#addAlarmTagName").parent().removeClass('has-error').addClass('has-error');
+						errorMessage += validAlarmTagResult.msg;
+						inError = true;
+					} else {
+						$("#addAlarmTagName").attr( 'data-guid', validAlarmTagResult.tagGuid);
+					}
+
+					if (inError === true && errorMessage !==""){
+						FMErrorAndExceptionHandling.CloseNotifications();
+						FMErrorAndExceptionHandling.ShowError(errorMessage, function(){});
+						return;
+					}
+
+					if (inError === true) return;
+
+					// reset/initialiaze the fields
+					$("#AlarmEditorAddAlarmEditorScreenPage1").removeClass("hidden").addClass("hidden");
+					$("#AlarmEditorAddAlarmEditorScreenPage2").removeClass("hidden").addClass("hidden");
+					$("#AlarmEditorAddAlarmEditorScreenPage3").removeClass("hidden");
+					$("#AlarmEditorAddAlarmEditorScreenPage4").removeClass("hidden").addClass("hidden");
+
+					// reset buttons
+					$("#AlarmEditorAddAlarmNextButton").removeClass("hidden");
+					$("#AlarmEditorAddAlarmPreviousButton").removeClass("hidden");
+					$("#AlarmEditorAddAlarmSaveButton").removeClass("hidden").addClass("hidden");
+					$(window).resize(); // force the modal to center
+					AlarmEditor.AlarmWizardProperties.activePage = 3;
+
+					$("#addAlarmTestName").focus();
+
+					break;
+				case 3:
+					FMErrorAndExceptionHandling.CloseNotifications();
+					$("#addAlarmTestTagName").attr( 'data-guid', "");
+					$("#addAlarmTestTagName").attr( 'data-usebitmask', 'false');
+					$("#addAlarmTestTagName").attr( 'data-tag-datatype', '');
+					var inError = false;
+					var controlErrors = $('#AlarmEditorAddAlarmEditorScreenPage3 .has-error');
+					controlErrors.removeClass('has-error');
+
+					$('#AlarmEditorAddAlarmEditorScreenPage3 input[required]:visible').each(function () {
+						if ($(this).val() === "") {
+							inError = true;
+							$(this).parent().removeClass('has-error').addClass('has-error');
+						}
+					});
+
+					var errorMessage = "";
+
+					// find if the alarm test name already exists
+					var alarmTestName = $("#addAlarmTestName").val().trim();
+					var alarmState = $("#addAlarmTestAlarmState").val().trim();
+
+					var tagGuid =  $("#AlarmEditorAddAlarmtagSelection").val();
+					var alarmGuid =  $("#addAlarmName").attr( "data-guid" );
+					var inputTagInfo = jQuery.grep(AlarmEditor.GetAlarmEditorModel().Tags, function (row) { return row.PointTagGuid === tagGuid; });
+					if (inputTagInfo.length > 0) {
+						if ( inputTagInfo[0].Alarms.length > 0) {
+							var selectedAlarm = jQuery.grep(inputTagInfo[0].Alarms, function (alarm) { return alarm.AlarmGuid === alarmGuid; });
+							if ( selectedAlarm.length > 0) {
+								var dupplicateAlarmTestName = jQuery.grep(selectedAlarm[0].AlarmTests, function (alarmTest) { return alarmTest.Id.toUpperCase() === alarmTestName.toUpperCase(); });
+								if ( dupplicateAlarmTestName.length > 0) {
+									$("#addAlarmTestName").parent().removeClass('has-error').addClass('has-error');
+									errorMessage += "Test Name already in use for the selected Alarm.\n";
+									inError = true;
+								}
+
+								var dupplicateAlarmState = jQuery.grep(selectedAlarm[0].AlarmTests, function (alarm) { return alarm.AlarmState.toUpperCase() === alarmState.toUpperCase(); });
+								if ( dupplicateAlarmState.length > 0) {
+									$("#addAlarmTestAlarmState").parent().removeClass('has-error').addClass('has-error');
+									errorMessage += "Alarm State already in use for the selected Alarm.\n";
+									inError = true;
+								}
+
+							}
+						}
+					}
+
+					// check if the limit tag name already exists
+					var alarmTagName = $("#addAlarmTestTagName").val().trim();
+					var validAlarmLimitTagResult = AlarmEditor.isAlarmLimitTagNameValid( alarmTagName, tagGuid );
+					if ( validAlarmLimitTagResult.msg !== "") {
+						$("#addAlarmTestTagName").parent().removeClass('has-error').addClass('has-error');
+						errorMessage += validAlarmLimitTagResult.msg;
+						inError = true;
+					} else {
+						$("#addAlarmTestTagName").attr( 'data-guid', validAlarmLimitTagResult.tagGuid);
+						$("#addAlarmTestTagName").attr( 'data-usebitmask', validAlarmLimitTagResult.useBitmask);
+						$("#addAlarmTestTagName").attr( 'data-tag-datatype', validAlarmLimitTagResult.tagDataType);
+					}
+
+					if (inError === true && errorMessage !==""){
+						FMErrorAndExceptionHandling.CloseNotifications();
+						FMErrorAndExceptionHandling.ShowError(errorMessage, function(){});
+						return;
+					}
+					if (inError === true) return;
+
+					// set width of the modal to be 900
+					$('body').data().modalmanager.stack[0].options.width = 900
+					// reset/initialiaze the fields
+					$("#AlarmEditorAddAlarmEditorScreenPage1").removeClass("hidden").addClass("hidden");
+					$("#AlarmEditorAddAlarmEditorScreenPage2").removeClass("hidden").addClass("hidden");
+					$("#AlarmEditorAddAlarmEditorScreenPage3").removeClass("hidden").addClass("hidden");
+					$("#AlarmEditorAddAlarmEditorScreenPage4").removeClass("hidden");
+
+					// reset buttons
+					$("#AlarmEditorAddAlarmNextButton").removeClass("hidden").addClass("hidden");
+					$("#AlarmEditorAddAlarmPreviousButton").removeClass("hidden");
+					$("#AlarmEditorAddAlarmSaveButton").removeClass("hidden");
+
+					// set default values
+					var selectedTag = $("#AlarmEditorAddAlarmtagSelection").select2('data');
+					if (selectedTag.length <= 0) {
+						return;
+					}
+					var tagGuid = selectedTag[0].id;
+					var tagName = selectedTag[0].text;
+					var sourceTagDataType = "System.Double";
+					var alarmLimitTagName = $("#addAlarmTestTagName").val();
+					$( "#AlarmTestEquationTagName .AlarmTestLabel").text( tagName );
+					$( "#AlarmTestEquationLimitTag .AlarmTestLabel").text( alarmLimitTagName );
+
+					// find the input tag since we need to get the datatype
+					var tagInfo = jQuery.grep(FMPointEditor.tagList, function (row) { return row.PointTagGuid === tagGuid; });
+					if (tagInfo.length > 0) {
+						sourceTagDataType = tagInfo[0].DataType;
+					}
+					var reuseLimitTagDataType = $("#addAlarmTestTagName").attr( 'data-tag-datatype');
+					var alarmTestEquationModel = AlarmTestEquationEditor.GetAlarmTestEquationEditorModel();
+					alarmTestEquationModel.LimitName = alarmLimitTagName;
+					alarmTestEquationModel.TagName = tagName;
+					alarmTestEquationModel.TagGuid = tagGuid;
+
+					alarmTestEquationModel.TagType = reuseLimitTagDataType != '' ? reuseLimitTagDataType : sourceTagDataType;
+					alarmTestEquationModel.CanUseBitmask = (sourceTagDataType === "FMBusinessObjects.DataObjects.DeviceAlarmMapReference" || FMPointEditor.isTagNumeric( sourceTagDataType)) && alarmTestEquationModel.TagType !== "System.Double" && alarmTestEquationModel.TagType !== "System.Single";
+					alarmTestEquationModel.UseBitmask = (sourceTagDataType === "FMBusinessObjects.DataObjects.DeviceAlarmMapReference") || (reuseLimitTagDataType != '' && reuseLimitTagDataType != sourceTagDataType && reuseLimitTagDataType == "System.UInt32");
+					// if we are reusing a limit tag that the datatype does not match the source tag and is uint32 then we need to force to be status
+					alarmTestEquationModel.TagAttribute = alarmTestEquationModel.UseBitmask && reuseLimitTagDataType == "System.UInt32" ? 1 : 0;
+					if (alarmTestEquationModel.TagType == "System.Int16" || alarmTestEquationModel.TagType == "System.UInt16" || alarmTestEquationModel.TagType == "FMBusinessObjects.DataObjects.DeviceAlarmMapReference")
+					{
+						alarmTestEquationModel.BitMaskDigits = 4;
+					}
+					if (alarmTestEquationModel.TagType == "System.Int32" || alarmTestEquationModel.TagType == "System.UInt32")
+					{
+						alarmTestEquationModel.BitMaskDigits = 8;
+					}
+					if (alarmTestEquationModel.TagType == "System.Int64" || alarmTestEquationModel.TagType == "System.UInt64")
+					{
+						alarmTestEquationModel.BitMaskDigits = 16;
+					}
+
+
+					AlarmTestEquationEditor.SetAlarmTestEquationEditorModel( alarmTestEquationModel );
+					if ( alarmTestEquationModel.TagAttribute == 0) {
+						if ( alarmTestEquationModel.CanUseBitmask == false ) {
+							AlarmTestEquationEditor.HideBitmask();
+							$("#AlarmTestEquationComparisonSelection").removeClass('hidden').addClass('hidden');
+							if ( alarmTestEquationModel.TagType !== "System.Double" && alarmTestEquationModel.TagType !== "System.Single") {
+								// if tag is not numeric then we cannot use comparison other than equal/not equal
+								// if the previous comparison was not equal or not equal then defeault to equal(4)
+								if ($("#ComparisonOperatorDropDown").val() < 4) {
+									$("#ComparisonOperatorDropDown").val(4);
+								}
+								$("#ComparisonOperatorDropDown option").each(function (index) {
+									if ($(this).val() < 4) {
+										$(this).prop("disabled", true);
+									}
+								});
+							} else {
+								$("#ComparisonOperatorDropDown option").prop("disabled", false);
+							}
+
+							$("#ComparisonOperatorDropDown").select2('destroy');
+							$("#ComparisonOperatorDropDown").select2({ minimumResultsForSearch: -1 });
+						} else {
+							$("#AlarmTestEquationComparisonSelection").removeClass('hidden');
+							$("#ComparisonOperatorDropDown option").each(function (index) {
+								$("#ComparisonOperatorDropDown option").prop("disabled", false);
+							});
+							$("#ComparisonOperatorDropDown").select2('destroy');
+							$("#ComparisonOperatorDropDown").select2({ minimumResultsForSearch: -1 });
+							if ( alarmTestEquationModel.UseBitmask ) {
+								$("input[type=radio][name=operatormode]").filter("[value=bitmap]").prop('checked', true);
+								$("input[type=radio][name=operatormode]").trigger("change");
+							}
+						}
+					} else {
+						$("#AlarmTestEquationComparisonSelection").removeClass('hidden');
+						$("#ComparisonOperatorDropDown option").each(function (index) {
+							$("#ComparisonOperatorDropDown option").prop("disabled", false);
+						});
+						$("#ComparisonOperatorDropDown").select2('destroy');
+						$("#ComparisonOperatorDropDown").select2({ minimumResultsForSearch: -1 });
+						if ( alarmTestEquationModel.UseBitmask ) {
+							$("input[type=radio][name=operatormode]").filter("[value=bitmap]").prop('checked', true);
+							$("input[type=radio][name=operatormode]").trigger("change");
+						}
+						$( "#AlarmTestEquationTagFieldDropDown" ).val( 1 );
+					}
+
+
+					$(window).resize(); // force the modal to center
+					AlarmEditor.AlarmWizardProperties.activePage = 4;
+
+					break;
+				default:
+					break;
+			}
+		});
+
+		$('#AlarmEditorAddAlarmPreviousButton').on('click', function () {
+
+			// set width of the modal to be 500
+			$('body').data().modalmanager.stack[0].options.width = 500
+
+			switch (AlarmEditor.AlarmWizardProperties.activePage) {
+				case 2:
+					// reset/initialiaze the fields
+					$("#AlarmEditorAddAlarmEditorScreenPage1").removeClass("hidden");
+					$("#AlarmEditorAddAlarmEditorScreenPage2").removeClass("hidden").addClass("hidden");
+					$("#AlarmEditorAddAlarmEditorScreenPage3").removeClass("hidden").addClass("hidden");
+					$("#AlarmEditorAddAlarmEditorScreenPage4").removeClass("hidden").addClass("hidden");
+
+					var controlErrors = $('#AlarmEditorAddAlarmEditorScreenPage2 .has-error');
+					controlErrors.removeClass('has-error');
+
+					// reset buttons
+					$("#AlarmEditorAddAlarmNextButton").removeClass("hidden");
+					$("#AlarmEditorAddAlarmPreviousButton").removeClass("hidden").addClass("hidden");
+					$("#AlarmEditorAddAlarmSaveButton").removeClass("hidden").addClass("hidden");
+					AlarmEditor.AlarmWizardProperties.activePage = 1;
+					$(window).resize(); // force the modal to center
+					break;
+				case 3:
+					// reset/initialiaze the fields
+					$("#AlarmEditorAddAlarmEditorScreenPage1").removeClass("hidden").addClass("hidden");
+					$("#AlarmEditorAddAlarmEditorScreenPage2").removeClass("hidden");
+					$("#AlarmEditorAddAlarmEditorScreenPage3").removeClass("hidden").addClass("hidden");
+					$("#AlarmEditorAddAlarmEditorScreenPage4").removeClass("hidden").addClass("hidden");
+
+					// reset buttons
+					$("#AlarmEditorAddAlarmNextButton").removeClass("hidden");
+					if ( AlarmEditor.AlarmWizardProperties.startPage >= 2 ) {
+						$("#AlarmEditorAddAlarmPreviousButton").removeClass("hidden").addClass("hidden");
+					} else {
+						$("#AlarmEditorAddAlarmPreviousButton").removeClass("hidden");
+					}
+					$("#AlarmEditorAddAlarmSaveButton").removeClass("hidden").addClass("hidden");
+
+					var controlErrors = $('#AlarmEditorAddAlarmEditorScreenPage3 .has-error');
+					controlErrors.removeClass('has-error');
+					controlErrors = $('#AlarmEditorAddAlarmEditorScreenPage2 .has-error');
+					controlErrors.removeClass('has-error');
+
+					$(window).resize(); // force the modal to center
+					AlarmEditor.AlarmWizardProperties.activePage = 2;
+					break;
+				case 4:
+					// reset/initialiaze the fields
+					$("#AlarmEditorAddAlarmEditorScreenPage1").removeClass("hidden").addClass("hidden");
+					$("#AlarmEditorAddAlarmEditorScreenPage2").removeClass("hidden").addClass("hidden");
+					$("#AlarmEditorAddAlarmEditorScreenPage3").removeClass("hidden");
+					$("#AlarmEditorAddAlarmEditorScreenPage4").removeClass("hidden").addClass("hidden");
+
+					// reset buttons
+					$("#AlarmEditorAddAlarmNextButton").removeClass("hidden");
+					if ( AlarmEditor.AlarmWizardProperties.startPage >= 3 ) {
+						$("#AlarmEditorAddAlarmPreviousButton").removeClass("hidden").addClass("hidden");
+					} else {
+						$("#AlarmEditorAddAlarmPreviousButton").removeClass("hidden");
+					}
+					$("#AlarmEditorAddAlarmSaveButton").removeClass("hidden").addClass("hidden");
+
+					var controlErrors = $('#AlarmEditorAddAlarmEditorScreenPage3 .has-error');
+					controlErrors.removeClass('has-error');
+
+					$(window).resize(); // force the modal to center
+					AlarmEditor.AlarmWizardProperties.activePage = 3;
+					break;
+				default:
+					break;
+			}
+		});
+
+
+		$('#AlarmTagTableAddAlarm').on('click', function () {
+
+			$( '#AlarmTemplateEditorEquationEditorScreen' ).html( '' );
+
+			// create the backdrop and wait for next modal to be triggered
+			var modalManager = $('body').modalmanager('loading');
+
+			var token = $( '#pointPropertiesForm input[name=__RequestVerificationToken]' ).val();
+			var headers = {};
+			headers['__RequestVerificationToken'] = token;
+			var url = $( '#urlGetAlarmTestEquationEditor' ).val();
+
+
+			var requestParms = {alarmTestGuid: "00000000-0000-0000-0000-000000000000", tagName: "", tagValueTypeString: "System.Double", tagGuid: "00000000-0000-0000-0000-000000000000", limitTagName: "", inputTagDataType: "System.Double",tagField: "0", testType: "4", bitMask: "-1", bitwiseOperator: "0"}
+
+			$.ajax( {
+				type: 'POST',
+				cache: false,
+				headers: headers,
+				url: url,
+				data: requestParms,
+				success: function( response )
+				{
+					FMErrorAndExceptionHandling.HandleMessages( response, function( data, inError )
+					{
+						if ( !inError || ( data != null ) )
+						{
+							$('#AlarmEditorAddAlarmtagSelection').find('option').remove();
+							// get the list of alarms that already have an alarm
+							var alarmList = $("#alarmTagsTable tr>td.tagName").map(function () { return $(this).attr("data-value") });
+
+							// add to the list the alarm tags and the limit tags
+							$.each(AlarmEditor.GetAlarmEditorModel().Tags, function( tagIdx, value ) {
+								$.each(AlarmEditor.GetAlarmEditorModel().Tags[tagIdx].Alarms, function( alarmIdx, value ) {
+									alarmList.push( value.AlarmStatusTagGuid );
+									$.each(AlarmEditor.GetAlarmEditorModel().Tags[tagIdx].Alarms[alarmIdx].AlarmTests, function( alarmTestIdx, value ) {
+										alarmList.push( value.LimitTagGuid );
+									});
+								});
+							});
+
+							var option = '';
+							for (var i = 0; i < FMPointEditor.tagList.length; i++) {
+								// check if the tag is already used in an alarm and is not a date/time data type
+								if ( (!alarmList || ($.inArray(FMPointEditor.tagList[i].PointTagGuid, alarmList) < 0)) &&
+									( FMPointEditor.tagList[i].DataType !== "System.DateTime" && FMPointEditor.tagList[i].DataType !== "System.DateTimeOffset" && FMPointEditor.tagList[i].DataType !== "System.TimeSpan") )
+								{
+									option += '<option value="' + FMPointEditor.tagList[i].PointTagGuid + '">' + FMPointEditor.tagList[i].Name + '</option>';
+								}
+							}
+							$('#AlarmEditorAddAlarmtagSelection').append(option);
+							if ( option === '' )
+							{
+								$( "#AlarmEditorAddAlarmNextButton").attr( 'disabled', 'true');
+							} else {
+								$( "#AlarmEditorAddAlarmNextButton").removeAttr( 'disabled');
+							}
+
+							$('#AlarmEditorAddAlarmtagSelection').select2();
+
+							// reset/initialiaze the fields
+
+							$("#AlarmEditorAddAlarmEditorScreenPage1").removeClass("hidden");
+							$("#AlarmEditorAddAlarmEditorScreenPage2").removeClass("hidden").addClass("hidden");
+							$("#AlarmEditorAddAlarmEditorScreenPage3").removeClass("hidden").addClass("hidden");
+							$("#AlarmEditorAddAlarmEditorScreenPage4").removeClass("hidden").addClass("hidden");
+
+							$("#addAlarmTestTagName").prop( 'disabled', false);
+							$("#addAlarmTestName").prop( 'disabled', false);
+							$("#addAlarmName").prop( 'disabled', false);
+							$("#addAlarmTagName").prop( 'disabled', false);
+							var addAlarmDD = $("#AddAlarmDataDictionary").val();
+							$("#AlarmEditorAddAlarmScreenTitle").text(addAlarmDD);
+
+							$("#addAlarmName").val('');
+							$("#addAlarmTagName").val('');
+							$("#addAlarmNotInAlarmText").val('Normal');
+							$("#addAlarmTestNormalUnAcknowledgePriority").val( "5b7d7344-7d3c-4cde-a834-b5e2c8bfe11f").trigger( "change" );
+							$("#addAlarmOrder").val('0');
+
+							$("#addAlarmTestName").val('');
+							$("#addAlarmTestTagName").val('');
+							$("#addAlarmTestAlarmState").val('');
+							$("#addAlarmTestAlarmText").val('');
+							$("#addAlarmTestHoldOffMinutes").val('0');
+							$("#addAlarmTestHoldOffSeconds").val('0');
+
+							$("#AlarmEditorAddAlarmtagSelection").attr('data-guid', '');
+							$("#addAlarmName").attr('data-guid', '');
+
+							// reset buttons
+							$("#AlarmEditorAddAlarmNextButton").removeClass("hidden");
+							$("#AlarmEditorAddAlarmPreviousButton").removeClass("hidden").addClass("hidden");
+							$("#AlarmEditorAddAlarmSaveButton").removeClass("hidden").addClass("hidden");
+							AlarmEditor.AlarmWizardProperties.startPage = 1;
+							AlarmEditor.AlarmWizardProperties.activePage = 1;
+							AlarmEditor.AlarmWizardProperties.editAlarm = false;
+
+							$("#AlarmEditorAddAlarmEditorScreenPage4").html(data);
+
+							$('#AlarmEditorAddAlarm').modal('show');
+						}
+						else {
+							$('body').modalmanager('loading'); // remove the loading background
+						}
+					} );
+				},
+				error: function( xhr, textStatus, error )
+				{
+					FMErrorAndExceptionHandling.ShowException( xhr, textStatus, error, function()
+					{
+						$('body').modalmanager('loading'); // remove the loading background
+					} );
+				}
+			} );
+
+
+		});
+
+		$('#alarmTagsTable').on('click', '#AlarmTableAddAlarm', function ()
+		{
+
+			$( '#AlarmTemplateEditorEquationEditorScreen' ).html( '' );
+
+			// create the backdrop and wait for next modal to be triggered
+			var modalManager = $('body').modalmanager('loading');
+
+			var token = $( '#pointPropertiesForm input[name=__RequestVerificationToken]' ).val();
+			var headers = {};
+			headers['__RequestVerificationToken'] = token;
+			var url = $( '#urlGetAlarmTestEquationEditor' ).val();
+
+			var tagGuid = $(this).closest('table').attr('id').replace('alarmsTable_', '');
+			var tagName = '';
+			var NormalUnacknoledgePriority = "5b7d7344-7d3c-4cde-a834-b5e2c8bfe11f";
+			var tagInfo = jQuery.grep(AlarmEditor.GetAlarmEditorModel().Tags, function (row) { return row.PointTagGuid === tagGuid; });
+			if (tagInfo.length > 0) {
+				tagName = tagInfo[0].Id;
+				if ( tagInfo[0].Alarms.length > 0) {
+					if ( tagInfo[0].Alarms[0].AlarmTests.length > 0) {
+						NormalUnacknoledgePriority = tagInfo[0].Alarms[0].AlarmTests[0].NormalUnacknowledgedAlarmPriorityGuid;
+					}
+				}
+			}
+
+			var requestParms = {alarmTestGuid: "00000000-0000-0000-0000-000000000000", tagName: tagName, tagValueTypeString: "System.Double", tagGuid: tagGuid, limitTagName: "", inputTagDataType: "System.Double",tagField: "0", testType: "4", bitMask: "-1", bitwiseOperator: "0"}
+
+			$.ajax( {
+				type: 'POST',
+				cache: false,
+				headers: headers,
+				url: url,
+				data: requestParms,
+				success: function( response )
+				{
+					FMErrorAndExceptionHandling.HandleMessages( response, function( data, inError )
+					{
+						if ( !inError || ( data != null ) )
+						{
+
+							$('#AlarmEditorAddAlarmtagSelection').find('option').remove();
+
+							var option = '<option value="' + tagGuid + '">' + tagName + '</option>';
+							$('#AlarmEditorAddAlarmtagSelection').append(option);
+							$('#AlarmEditorAddAlarmtagSelection').select2();
+
+							// reset/initialiaze the fields
+							$("#AlarmEditorAddAlarmEditorScreenPage1").removeClass("hidden").addClass("hidden");
+							$("#AlarmEditorAddAlarmEditorScreenPage2").removeClass("hidden");
+							$("#AlarmEditorAddAlarmEditorScreenPage3").removeClass("hidden").addClass("hidden");
+							$("#AlarmEditorAddAlarmEditorScreenPage4").removeClass("hidden").addClass("hidden");
+
+							$("#addAlarmTestTagName").prop( 'disabled', false);
+							$("#addAlarmTestName").prop( 'disabled', false);
+							$("#addAlarmName").prop( 'disabled', false);
+							$("#addAlarmTagName").prop( 'disabled', false);
+
+							var addAlarmDD = $("#AddAlarmDataDictionary").val();
+							$("#AlarmEditorAddAlarmScreenTitle").text(addAlarmDD);
+
+							$("#addAlarmName").val('');
+							$("#addAlarmTagName").val('');
+							$("#addAlarmTagName").attr( 'data-guid', '');
+							$("#addAlarmNotInAlarmText").val('Normal');
+							$("#addAlarmTestNormalUnAcknowledgePriority").val( NormalUnacknoledgePriority ).trigger( "change" );
+							$("#addAlarmOrder").val('0');
+
+							$("#addAlarmTestName").val('');
+							$("#addAlarmTestTagName").val('');
+							$("#addAlarmTestAlarmState").val('');
+							$("#addAlarmTestAlarmText").val('');
+							$("#addAlarmTestHoldOffMinutes").val('0');
+							$("#addAlarmTestHoldOffSeconds").val('0');
+
+							$("#AlarmEditorAddAlarmtagSelection").attr('data-guid', 'tagGuid');
+							$("#addAlarmName").attr('data-guid', '');
+
+							// reset buttons
+							$("#AlarmEditorAddAlarmNextButton").removeClass("hidden");
+							$("#AlarmEditorAddAlarmPreviousButton").removeClass("hidden").addClass("hidden");
+							$("#AlarmEditorAddAlarmSaveButton").removeClass("hidden").addClass("hidden");
+
+							AlarmEditor.AlarmWizardProperties.startPage = 2;
+							AlarmEditor.AlarmWizardProperties.activePage = 2;
+							AlarmEditor.AlarmWizardProperties.editAlarm = false;
+
+							$("#AlarmEditorAddAlarmEditorScreenPage4").html(data);
+
+							$('#AlarmEditorAddAlarm').modal('show');
+						}
+						else {
+							$('body').modalmanager('loading'); // remove the loading background
+						}
+					} );
+				},
+				error: function( xhr, textStatus, error )
+				{
+					FMErrorAndExceptionHandling.ShowException( xhr, textStatus, error, function()
+					{
+						$('body').modalmanager('loading'); // remove the loading background
+					} );
+				}
+			} );
+
+
+		});
+
+		$('#alarmTagsTable').on('click', '.AlarmTestTableAddAlarmTest', function ()
+		{
+
+			$( '#AlarmTemplateEditorEquationEditorScreen' ).html( '' );
+
+			// create the backdrop and wait for next modal to be triggered
+			var modalManager = $('body').modalmanager('loading');
+
+			var token = $( '#pointPropertiesForm input[name=__RequestVerificationToken]' ).val();
+			var headers = {};
+			headers['__RequestVerificationToken'] = token;
+			var url = $( '#urlGetAlarmTestEquationEditor' ).val();
+
+			var alarmGuid = $(this).closest('table').attr('id').replace('AlarmTestTable_', '');
+			var tagGuid = $(this).closest('table').parent().closest('table').attr('id').replace('alarmsTable_', '');
+			var tagName = '';
+			var tagDataType = 'System.Double';
+			var NormalUnacknoledgePriority = "5b7d7344-7d3c-4cde-a834-b5e2c8bfe11f";
+
+			var tagInfo = jQuery.grep(AlarmEditor.GetAlarmEditorModel().Tags, function (row) { return row.PointTagGuid === tagGuid; });
+			if (tagInfo.length > 0) {
+				tagName = tagInfo[0].Id;
+				tagDataType = tagInfo[0].DataType;
+
+				var selectedAlarmModel = jQuery.grep(tagInfo[0].Alarms, function (a) {
+					return a.AlarmGuid === alarmGuid;
+				});
+
+				if ( selectedAlarmModel.length > 0) {
+					if ( selectedAlarmModel[0].AlarmTests.length > 0) {
+						NormalUnacknoledgePriority = selectedAlarmModel[0].AlarmTests[0].NormalUnacknowledgedAlarmPriorityGuid;
+					}
+				}
+
+			}
+
+			var requestParms = {alarmTestGuid: "00000000-0000-0000-0000-000000000000", tagName: tagName, tagValueTypeString: tagDataType, tagGuid: tagGuid, limitTagName: "", inputTagDataType: tagDataType, tagField: "0", testType: "4", bitMask: "-1", bitwiseOperator: "0"}
+
+			$.ajax( {
+				type: 'POST',
+				cache: false,
+				headers: headers,
+				url: url,
+				data: requestParms,
+				success: function( response )
+				{
+					FMErrorAndExceptionHandling.HandleMessages( response, function( data, inError )
+					{
+						if ( !inError || ( data != null ) )
+						{
+
+							$('#AlarmEditorAddAlarmtagSelection').find('option').remove();
+
+							var option = '<option value="' + tagGuid + '">' + tagName + '</option>';
+							$('#AlarmEditorAddAlarmtagSelection').append(option);
+							$('#AlarmEditorAddAlarmtagSelection').select2();
+
+							// reset/initialiaze the fields
+							$("#AlarmEditorAddAlarmEditorScreenPage1").removeClass("hidden").addClass("hidden");
+							$("#AlarmEditorAddAlarmEditorScreenPage2").removeClass("hidden").addClass("hidden");
+							$("#AlarmEditorAddAlarmEditorScreenPage3").removeClass("hidden");
+							$("#AlarmEditorAddAlarmEditorScreenPage4").removeClass("hidden").addClass("hidden");
+
+							$("#addAlarmTestTagName").prop( 'disabled', false);
+							$("#addAlarmTestName").prop( 'disabled', false);
+							$("#addAlarmName").prop( 'disabled', false);
+							$("#addAlarmTagName").prop( 'disabled', false);
+							var addAlarmTestDD = $("#AddAlarmTestDataDictionary").val();
+							$("#AlarmEditorAddAlarmScreenTitle").text(addAlarmTestDD);
+
+							$("#addAlarmName").val('');
+							$("#addAlarmTagName").val('');
+							$("#addAlarmNotInAlarmText").val('Normal');
+							$("#addAlarmOrder").val('0');
+
+							$("#addAlarmTestName").val('');
+							$("#addAlarmTestTagName").val('');
+							$("#addAlarmTestAlarmState").val('');
+							$("#addAlarmTestAlarmText").val('');
+							$("#addAlarmTestHoldOffMinutes").val('0');
+							$("#addAlarmTestHoldOffSeconds").val('0');
+
+							$("#AlarmEditorAddAlarmtagSelection").attr('data-guid', tagGuid);
+							$("#addAlarmName").attr('data-guid', alarmGuid);
+
+							// reset buttons
+							$("#AlarmEditorAddAlarmNextButton").removeClass("hidden");
+							$("#AlarmEditorAddAlarmPreviousButton").removeClass("hidden").addClass("hidden");
+							$("#AlarmEditorAddAlarmSaveButton").removeClass("hidden").addClass("hidden");
+
+							AlarmEditor.AlarmWizardProperties.startPage = 3;
+							AlarmEditor.AlarmWizardProperties.activePage = 3;
+							AlarmEditor.AlarmWizardProperties.editAlarm = false;
+
+							$("#AlarmEditorAddAlarmEditorScreenPage4").html(data);
+
+							$('#AlarmEditorAddAlarm').modal('show');
+						}
+						else {
+							$('body').modalmanager('loading'); // remove the loading background
+						}
+					} );
+				},
+				error: function( xhr, textStatus, error )
+				{
+					FMErrorAndExceptionHandling.ShowException( xhr, textStatus, error, function()
+					{
+						$('body').modalmanager('loading'); // remove the loading background
+					} );
+				}
+			} );
+
+		});
+
+		// click to edit limit value
+		$('#alarmTagsTable').on('click', '.limitTagValue', function ()
+		{
+			if($(this).hasClass('disabled'))	{
+
+				return;
+			}
+			var inputTagGuid = $(this).parent().closest('table').parent().closest('table').attr('id').replace('alarmsTable_', '');
+			var alarmGuid = $(this).closest('table').attr('id').replace('AlarmTestTable_', '');
+			var alarmTestGuid = $(this).attr('id').replace('testLimitValueCellId_', '');
+
+			var limitTagGuid = "";
+
+			var selectedAlarmTagModel = jQuery.grep(AlarmEditor.GetAlarmEditorModel().Tags, function (a) {
+				return a.PointTagGuid === inputTagGuid;
+			});
+			if (selectedAlarmTagModel.length > 0) {
+				if ( selectedAlarmTagModel[0].Alarms )
+				{
+					var selectedAlarmModel = jQuery.grep(selectedAlarmTagModel[0].Alarms, function (a) {
+						return a.AlarmGuid === alarmGuid;
+					});
+					if (selectedAlarmModel.length > 0) {
+						var selectedAlarmTestModel = jQuery.grep(selectedAlarmModel[0].AlarmTests, function (a) {
+							return a.AlarmTestGuid === alarmTestGuid;
+						});
+						if (selectedAlarmTestModel.length > 0) {
+							limitTagGuid = selectedAlarmTestModel[0].LimitTagGuid;
+						}
+
+					}
+				}
+			}
+
+			if ( limitTagGuid === "" ) {
+				FMErrorAndExceptionHandling.CloseNotifications();
+				FMErrorAndExceptionHandling.ShowError("Limit Tag not found.", function(){});
+				return;
+			}
+
+			// find the index in the actual grid (maybe different that in the internal array)
+			var gridIndex = $( "#TagEditTable .tagColumnPointTagGuid:contains('" + limitTagGuid + "')" ).closest( 'tr' ).index();
+
+			var findTags = $.map(FMPointEditor.tagList, function (obj, index)
+			{
+				if (obj.PointTagGuid == limitTagGuid) {
+					return index;
+				}
+			} );
+
+			var tagGridIndex = 0;
+			if (findTags.length > 0){
+				tagGridIndex = findTags[0];
+			}
+			else {
+				FMErrorAndExceptionHandling.CloseNotifications();
+				FMErrorAndExceptionHandling.ShowError("Limit Tag not found.", function(){});
+				return;
+			}
+
+			var dataType = FMPointEditor.tagList[tagGridIndex].DataType;
+			var id = FMPointEditor.tagList[tagGridIndex].Name;
+			var value = $('#Tags_' + gridIndex + '__Value').attr("data-raw-value");
+			var unitsType = $('#Tags_' + gridIndex + '__EngineeringUnitsType').val();
+			var units = FMPointEditor.tagList[tagGridIndex].Units;
+			var decimalPlaces = FMPointEditor.tagList[tagGridIndex].DecimalPlaces;
+			var maximum = $("#Tags_" + gridIndex + "__Maximum").attr( "data-raw-value");
+			var minimum = $("#Tags_" + gridIndex + "__Minimum").attr("data-raw-value");
+			var pointValueIdentifier = { IdentityGuid: limitTagGuid, PointValueType: 'Tag', PropertyID: '' };
+			var pointTemplateGuid = FMPointEditor.pointGuid;
+			var pointName = $( "#PEID" ).val();
+			var AllowOverUnderRange = "True";
+
+			var url = $( '#urlEditPointTemplateTags' ).val();
+			var token = $( '#pointPropertiesForm input[name=__RequestVerificationToken]' ).val();
+			var headers = {};
+			headers['__RequestVerificationToken'] = token;
+
+			var requestParms = {isPointTemplate: true, pointValueIdentifier: pointValueIdentifier, valueTypeString: dataType, id: id, value: value, decimalPlaces: decimalPlaces, unitType: unitsType, unit: units, maximum: maximum, minimum: minimum, pointTemplateGuid: pointTemplateGuid, pointName: pointName, AllowOverUnderRange:AllowOverUnderRange}
+
+			FMErrorAndExceptionHandling.CloseNotifications();
+
+			// redefine the function that will be executed when applying changes to tag values
+			window.HandlePointTagEditorNewValueUpdate = function() {
+
+				// get the new value
+				var newVal = $( "#PointTagNewValueInputId").val();
+				var newRawVal = $("#PointTagNewRawValueInputId").val();
+				$( "#limitValueInputId_" + alarmTestGuid).text( newVal );
+				$( "#limitValueInputId_" + alarmTestGuid).attr( 'title', newVal );
+				$('#Tags_' + gridIndex + '__Value').val( newVal );
+				$('#Tags_' + gridIndex + '__Value').attr( 'title', newVal );
+				$('#Tags_' + gridIndex + '__Value').attr('data-raw-value', newRawVal);
+			}
+
+			// create the backdrop and wait for next modal to be triggered
+			var modalManager = $('body').modalmanager('loading');
+
+			$.ajax( {
+				type: 'POST',
+				cache: false,
+				headers: headers,
+				url: url,
+				data: requestParms,
+				success: function( response )
+				{
+					FMErrorAndExceptionHandling.HandleMessages( response, function( data, inError )
+					{
+						if ( !inError || ( data != null ) )
+						{
+							$('#PointTemplateTagEditValueScreenBody').html(response.Data);
+							$('#PointTemplateTagEditValueScreen').modal('show');
+						}
+						else {
+							$('body').modalmanager('loading'); // remove the loading background
+						}
+					} );
+				},
+				error: function( xhr, textStatus, error )
+				{
+					FMErrorAndExceptionHandling.ShowException( xhr, textStatus, error, function()
+					{
+						$('body').modalmanager('loading'); // remove the loading background
+					} );
+				}
+			} );
+
+
+
+		});
+
+		// Edit the alarm test
+		$('#alarmTagsTable').on('click', '.alarmTestName', function ()
+		{
+			if($(this).hasClass('disabled'))	{
+				e.prefentDefault();
+				e.stopPropagation();
+				return;
+			}
+
+			var inputTagGuid = $(this).parent().closest('table').parent().closest('table').attr('id').replace('alarmsTable_', '');
+			var inputTagName = '';
+			var alarmGuid = $(this).closest('table').attr('id').replace('AlarmTestTable_', '');
+			var alarmTestGuid = $(this).attr('id').replace('testNameCellId_', '');
+
+			var limitTagGuid = "";
+
+			var selectedAlarmTagModel = jQuery.grep(AlarmEditor.GetAlarmEditorModel().Tags, function (a) {
+				return a.PointTagGuid === inputTagGuid;
+			});
+			if (selectedAlarmTagModel.length > 0) {
+				if ( selectedAlarmTagModel[0].Alarms )
+				{
+					inputTagName = selectedAlarmTagModel[0].Id;
+					var selectedAlarmModel = jQuery.grep(selectedAlarmTagModel[0].Alarms, function (a) {
+						return a.AlarmGuid === alarmGuid;
+					});
+					if (selectedAlarmModel.length > 0) {
+						var selectedAlarmTestModel = jQuery.grep(selectedAlarmModel[0].AlarmTests, function (a) {
+							return a.AlarmTestGuid === alarmTestGuid;
+						});
+						if (selectedAlarmTestModel.length > 0) {
+							limitTagGuid = selectedAlarmTestModel[0].LimitTagGuid;
+						}
+
+					}
+				}
+			}
+
+			if ( limitTagGuid === "" ) {
+				FMErrorAndExceptionHandling.CloseNotifications();
+				FMErrorAndExceptionHandling.ShowError("Alarm Test not found.", function(){});
+				return;
+			}
+
+			FMErrorAndExceptionHandling.CloseNotifications();
+
+			$('#AlarmEditorAddAlarmtagSelection').find('option').remove();
+
+			var option = '<option value="' + inputTagGuid + '">' + inputTagName + '</option>';
+			$('#AlarmEditorAddAlarmtagSelection').append(option);
+			$('#AlarmEditorAddAlarmtagSelection').select2();
+
+			// create the backdrop and wait for next modal to be triggered
+			var modalManager = $('body').modalmanager('loading');
+
+			// reset/initialiaze the fields
+			$("#AlarmEditorAddAlarmEditorScreenPage1").removeClass("hidden").addClass("hidden");
+			$("#AlarmEditorAddAlarmEditorScreenPage2").removeClass("hidden").addClass("hidden");
+			$("#AlarmEditorAddAlarmEditorScreenPage3").removeClass("hidden");
+			$("#AlarmEditorAddAlarmEditorScreenPage4").removeClass("hidden").addClass("hidden");
+
+			var controlErrors = $('#AlarmEditorAddAlarmEditorScreenPage3 .has-error');
+			controlErrors.removeClass('has-error');
+
+			$("#addAlarmTestTagName").prop( 'disabled', true);
+			$("#addAlarmTestName").prop( 'disabled', true);
+
+			var screenTitle = $("#EditAlarmTestDataDictionary").val();
+			$("#AlarmEditorAddAlarmScreenTitle").text(screenTitle);
+
+			$("#addAlarmTestName").val(selectedAlarmTestModel[0].Id);
+			$("#addAlarmTestTagName").val(selectedAlarmTestModel[0].LimitTagId);
+			$("#addAlarmTestAlarmState").val(selectedAlarmTestModel[0].AlarmState);
+			$("#addAlarmTestAlarmText").val(selectedAlarmTestModel[0].AlarmText);
+			$("#addAlarmTestHoldOffMinutes").val(selectedAlarmTestModel[0].HoldOffMinutes);
+			$("#addAlarmTestHoldOffSeconds").val(selectedAlarmTestModel[0].HoldOffSeconds);
+			$("#addAlarmTestPriority").val(selectedAlarmTestModel[0].AlarmPriorityGuid).trigger('change');
+
+			$("#AlarmEditorAddAlarmtagSelection").attr('data-guid', inputTagGuid);
+			$("#addAlarmName").attr('data-guid', alarmGuid);
+			$("#addAlarmTestName").attr('data-guid', alarmTestGuid);
+
+			// reset buttons
+			$("#AlarmEditorAddAlarmNextButton").removeClass("hidden").addClass("hidden");
+			$("#AlarmEditorAddAlarmPreviousButton").removeClass("hidden").addClass("hidden");
+			$("#AlarmEditorAddAlarmSaveButton").removeClass("hidden");
+
+			AlarmEditor.AlarmWizardProperties.startPage = 3;
+			AlarmEditor.AlarmWizardProperties.activePage = 3;
+			AlarmEditor.AlarmWizardProperties.editAlarm = true;
+
+			$("#AlarmEditorAddAlarmEditorScreenPage4").html('');
+
+			$('#AlarmEditorAddAlarm').modal('show');
+
+
+		});
+
+		// edit the alarm
+		$('#alarmTagsTable').on('click', '.alarmName', function ()
+		{
+			if($(this).hasClass('disabled'))	{
+				e.prefentDefault();
+				e.stopPropagation();
+				return;
+			}
+
+			var inputTagGuid = $(this).parent().closest('table').attr('id').replace('alarmsTable_', '');
+			var inputTagName = '';
+			var alarmGuid = $(this).attr('id').replace('AlarmsTableAlarmIdCellId_', '');
+
+			var selectedAlarmTagModel = jQuery.grep(AlarmEditor.GetAlarmEditorModel().Tags, function (a) {
+				return a.PointTagGuid === inputTagGuid;
+			});
+			if (selectedAlarmTagModel.length > 0) {
+				if ( selectedAlarmTagModel[0].Alarms )
+				{
+					inputTagName = selectedAlarmTagModel[0].Id;
+					var selectedAlarmModel = jQuery.grep(selectedAlarmTagModel[0].Alarms, function (a) {
+						return a.AlarmGuid === alarmGuid;
+					});
+				}
+			}
+
+			if ( selectedAlarmModel.length === 0 ) {
+				FMErrorAndExceptionHandling.CloseNotifications();
+				FMErrorAndExceptionHandling.ShowError("Alarm not found.", function(){});
+				return;
+			}
+
+			if ( selectedAlarmModel[0].AlarmTests.length === 0 ) {
+				FMErrorAndExceptionHandling.CloseNotifications();
+				FMErrorAndExceptionHandling.ShowError("Alarm Tests not found for the selected Alarm.", function(){});
+				return;
+			}
+
+			FMErrorAndExceptionHandling.CloseNotifications();
+
+			$('#AlarmEditorAddAlarmtagSelection').find('option').remove();
+
+			var option = '<option value="' + inputTagGuid + '">' + inputTagName + '</option>';
+			$('#AlarmEditorAddAlarmtagSelection').append(option);
+			$('#AlarmEditorAddAlarmtagSelection').select2();
+
+			// create the backdrop and wait for next modal to be triggered
+			var modalManager = $('body').modalmanager('loading');
+
+			// reset/initialiaze the fields
+			$("#AlarmEditorAddAlarmEditorScreenPage1").removeClass("hidden").addClass("hidden");
+			$("#AlarmEditorAddAlarmEditorScreenPage2").removeClass("hidden");
+			$("#AlarmEditorAddAlarmEditorScreenPage3").removeClass("hidden").addClass("hidden");
+			$("#AlarmEditorAddAlarmEditorScreenPage4").removeClass("hidden").addClass("hidden");
+
+			var controlErrors = $('#AlarmEditorAddAlarmEditorScreenPage2 .has-error');
+			controlErrors.removeClass('has-error');
+
+			$("#addAlarmName").prop( 'disabled', true);
+			$("#addAlarmTagName").prop( 'disabled', true);
+			var editAlarmDD = $("#EditAlarmDataDictionary").val();
+			$("#AlarmEditorAddAlarmScreenTitle").text(editAlarmDD);
+
+			$("#addAlarmName").val(selectedAlarmModel[0].Id);
+			$("#addAlarmTagName").val(selectedAlarmModel[0].AlarmStatusTagId);
+			$("#addAlarmTagName").attr( 'data-guid', selectedAlarmModel[0].AlarmStatusTagGuid);
+			$("#addAlarmNotInAlarmText").val(selectedAlarmModel[0].NotAlarmState);
+			$("#addAlarmTestNormalUnAcknowledgePriority").val(selectedAlarmModel[0].AlarmTests[0].NormalUnacknowledgedAlarmPriorityGuid).trigger( "change" );
+			$("#addAlarmCategory option").filter(function() {
+				return $(this).text() == selectedAlarmModel[0].Category;
+			}).attr('selected', true);
+			$( "#addAlarmOrder" ).val(selectedAlarmModel[0].Order);
+
+			$("#AlarmEditorAddAlarmtagSelection").attr('data-guid', inputTagGuid);
+			$("#addAlarmName").attr('data-guid', alarmGuid);
+
+			// reset buttons
+			$("#AlarmEditorAddAlarmNextButton").removeClass("hidden").addClass("hidden");
+			$("#AlarmEditorAddAlarmPreviousButton").removeClass("hidden").addClass("hidden");
+			$("#AlarmEditorAddAlarmSaveButton").removeClass("hidden");
+
+			AlarmEditor.AlarmWizardProperties.startPage = 2;
+			AlarmEditor.AlarmWizardProperties.activePage = 2;
+			AlarmEditor.AlarmWizardProperties.editAlarm = true;
+
+			$("#AlarmEditorAddAlarmEditorScreenPage4").html('');
+
+			$('#AlarmEditorAddAlarm').modal('show');
+			$("#addAlarmNotInAlarmText").focus();
+
+		});
+
+		// predefine the alarm tag name to be the alarm name + " Alarm:
+		$('#addAlarmName').on('blur', function() {
+			var addAlarmName = $("#addAlarmName").val();
+			if ((/[^a-zA-Z0-9\ ]/.test(addAlarmName))) {
+				FMLayout.Alert($("#AddAlarmNameMusBeAlphaNumericDataDictionary").val() + ' : ' + addAlarmName, '', function () {
+					$("#addAlarmName").focus();
+				});
+				return;
+			}
+
+			if ( $("#addAlarmTagName").val() === "" ) {
+				$("#addAlarmTagName").val( addAlarmName + " Alarm");
+			}
+		} );
+
+
+		$('#addAlarmTagName').on('blur', function() {
+			var addAlarmTagName = $("#addAlarmTagName").val();
+			if ((/[^a-zA-Z0-9\ ]/.test(addAlarmTagName))) {
+				FMLayout.Alert($("#AddAlarmTagNameMusBeAlphaNumericDataDictionary").val() + ' : ' + addAlarmTagName, '', function () {
+					$("#addAlarmTagName").focus();
+				});
+				return;
+			}
+		} );
+
+
+		// predefine the alarm test tag name to be the alarm test name + " Limit:
+		$('#addAlarmTestName').on('blur', function() {
+			var newAlarmTestName = $("#addAlarmTestName").val();
+			if ((/[^a-zA-Z0-9\ ]/.test(newAlarmTestName))) {
+				FMLayout.Alert($("#AddAlarmTestNameMusBeAlphaNumericDataDictionary").val() + ' : ' + newAlarmTestName, '', function () {
+					$("#addAlarmTestName").focus();
+				});
+				return;
+			}
+
+
+			if ( $("#addAlarmTestTagName").val() === "" ) {
+				$("#addAlarmTestTagName").val( newAlarmTestName + " Limit")
+			}
+
+			if ( $("#addAlarmTestAlarmState").val() === "" ) {
+				$("#addAlarmTestAlarmState").val( newAlarmTestName + " Alarm")
+			}
+
+			if ( $("#addAlarmTestAlarmText").val() === "" ) {
+				var inputTagName = $( "#AlarmEditorAddAlarmtagSelection option:selected" ).text();
+				$("#addAlarmTestAlarmText").val( inputTagName + " " + newAlarmTestName + " Alarm")
+			}
+
+		} );
+
+		$('#addAlarmTestTagName').on('blur', function() {
+			var addAlarmTestTagName = $("#addAlarmTestTagName").val();
+			if ((/[^a-zA-Z0-9\ ]/.test(addAlarmTestTagName))) {
+				FMLayout.Alert($("#AddAlarmTestTagNameMusBeAlphaNumericDataDictionary").val() + ' : ' + addAlarmTestTagName, '', function () {
+					$("#addAlarmTestTagName").focus();
+				});
+				return;
+			}
+		} );
+
+
+
+		// Create alarm/alarm test definition from Wizard
+		AlarmEditor.AddAlarmEntry = function ()
+		{
+			// if we are in edit mode we need a different type of processing
+			if ( AlarmEditor.AlarmWizardProperties.editAlarm === true ) {
+				AlarmEditor.EditAlarmEntry();
+				return;
+			}
+
+			var inError = false;
+			var controlErrors = $('#AlarmEditorAddAlarmEditorScreenPage4 .has-error');
+			controlErrors.removeClass('has-error');
+			$('#AlarmEditorAddAlarmEditorScreenPage4 input[required]:visible').each(function () {
+				if ($(this).val() === "") {
+					inError = true;
+					$(this).parent().addClass('has-error');
+				}
+			});
+
+			// if wizard failed validation then don't continue
+			if (inError === true) return;
+			var model = AlarmEditor.GetAlarmEditorModel();
+
+			// tag we will use to add alarms
+			var selectedTag = $("#AlarmEditorAddAlarmtagSelection").select2('data');
+			if (selectedTag.length <= 0) {
+				return;
+			}
+			var tagGuid = selectedTag[0].id;
+
+			// process only if wizard started from 1st step
+			if (AlarmEditor.AlarmWizardProperties.startPage < 2) {
+				var tagName = selectedTag[0].text;
+				var newAlarmTag = $("#blankAlarmTag tbody").children().clone();
+				// update the guids
+				newAlarmTag.each(function (index) {
+					if ($(this).attr("id") && $(this).attr("id").indexOf("{}") >= 0) {
+						$(this).attr("id", $(this).attr("id").replace("{}", tagGuid));
+					}
+				});
+				newAlarmTag.find('[id]').each(function (index) {
+					if ($(this).attr("id") && $(this).attr("id").indexOf("{}") >= 0) {
+						$(this).attr("id", $(this).attr("id").replace("{}", tagGuid));
+					}
+				});
+
+				// set the defaults
+				newAlarmTag.find('.tagName').text(tagName).attr("data-value", tagGuid);
+
+				var newFormattedHisteresys = "0";
+				var decimalPlaces = 0;
+				var units = 255;
+				var tagInfo = jQuery.grep(FMPointEditor.tagList, function (row) { return row.PointTagGuid === tagGuid; });
+				if (tagInfo.length > 0) {
+					var numFormatInfoString = $('#NumberFormatInfoString').val();
+					var numformatInfo = JSON.parse(numFormatInfoString);
+					decimalPlaces = tagInfo[0].DecimalPlaces;
+					units = parseInt(tagInfo[0].Units);
+					numformatInfo.NumberDecimalDigits = decimalPlaces;
+					newFormattedHisteresys = FMFormatValues.FormatValue(tagInfo[0].Units, numformatInfo, 0);
+					if (!FMPointEditor.isTagNumeric( tagInfo[0].DataType)) {
+						newFormattedHisteresys = "";
+						newAlarmTag.find('.tagHysteresis input').prop("disabled", true);
+
+				}
+				}
+				newAlarmTag.find('.tagHysteresis input').val(newFormattedHisteresys);
+
+				newAlarmTag.appendTo("#alarmTagsTable>tbody");
+				model.Tags.push({ AlarmsEnabled: false, PointTagGuid: tagGuid, Id: tagName, Hysteresis: newFormattedHisteresys, TagDecimalPlaces: decimalPlaces, TagUnits: units });
+
+				// we need to disable the tag properties
+				AlarmEditor.DisableTagColumnsForAlarmTags ( tagGuid );
+
+			}
+
+
+			// add the alarm definition
+			var alarmGuid = $("#addAlarmName").attr('data-guid');
+
+			// process only if the wizard startd in either the first or second step, otherwise the definition already exists
+			if ( AlarmEditor.AlarmWizardProperties.startPage < 3 ) {
+				alarmGuid = FMPointEditor.newGuid();
+				var newAlarmDefinition = $("#blankAlarmDefinition tbody").children().clone();
+
+				// update the guids
+				newAlarmDefinition.each(function (index) {
+					if ($(this).attr("id") && $(this).attr("id").indexOf("{}") >= 0) {
+						$(this).attr("id", $(this).attr("id").replace("{}", alarmGuid));
+					}
+				});
+				newAlarmDefinition.find('[id]').each(function (index) {
+					if ($(this).attr("id") && $(this).attr("id").indexOf("{}") >= 0) {
+						$(this).attr("id", $(this).attr("id").replace("{}", alarmGuid));
+					}
+				});
+
+				var alarmID = $( "#addAlarmName" ).val();
+				var alarmtagName = $( "#addAlarmTagName" ).val();
+				var alarmNotInAlarmText = $( "#addAlarmNotInAlarmText" ).val();
+				var alarmCategory = $( "#addAlarmCategory option:selected" ).text();
+				var alarmOrder = $( "#addAlarmOrder" ).val();
+				var reuseStatusTagGuid = $("#addAlarmTagName").attr( 'data-guid');
+				var alarmStatusTagId = reuseStatusTagGuid != "" ? reuseStatusTagGuid : FMPointEditor.newGuid();
+
+				newAlarmDefinition.find('#AlarmsTableAlarmIdCellId_' + alarmGuid).text(alarmID);
+				newAlarmDefinition.find('#alarmsTableAlarmStateTagCellId_' + alarmGuid).text(alarmtagName);
+				newAlarmDefinition.find('#alarmsTableAlarmCategoryCellId_' + alarmGuid).text(alarmCategory);
+				newAlarmDefinition.find('#alarmsTableAlarmOrderCellId_' + alarmGuid).text(alarmOrder);
+
+				var alarmModel = {
+					AlarmGuid: alarmGuid,
+					AlarmStatusTagGuid: alarmStatusTagId,
+					AlarmStatusTagId: alarmtagName,
+					NotAlarmState: alarmNotInAlarmText,
+					Category: alarmCategory,
+					Enabled: false,
+					Exclusive: true,
+					Id: alarmID,
+					Order: alarmOrder,
+					SuppressedAndShelvedStatus: "Active"
+				};
+
+				var selectedAlarmTagModel = jQuery.grep( model.Tags, function( a )
+				{
+					return a.PointTagGuid === tagGuid;
+				} );
+				if (selectedAlarmTagModel.length > 0)
+				{
+					if (!selectedAlarmTagModel[0].Alarms)
+						selectedAlarmTagModel[0].Alarms = [];
+					selectedAlarmTagModel[0].Alarms.push(alarmModel);
+				}
+
+				newAlarmDefinition.appendTo("#alarmsTable_" + tagGuid + " > tbody");
+
+				// add the new alarm Definition tag
+				var newGuid = alarmStatusTagId;
+				var newName = alarmtagName;
+				var dataType = 'System.String';
+				var inputOutputType = '2'; // Calculated
+				var unitsType = 'FMU_NONE'; // No Units
+				var units = '255'; // No Dimensions
+				var decimalPlaces = 2;
+				var maximum = 0;
+				var minimum = 0;
+				var applyPointDecimalPlaces = false;
+				var applyPointUnits = false;
+				var applyPointMaximum = false;
+				var applyPointMinimum = false;
+
+				// if we are not reusing an existing tag we need to create one
+				if ( reuseStatusTagGuid == "" ) {
+					FMPointEditor.addTag(newGuid, newName, dataType, inputOutputType, unitsType, units, decimalPlaces, '', maximum, minimum, applyPointDecimalPlaces, applyPointUnits, applyPointMaximum, applyPointMinimum);
+				}
+				// we need to disable the tag properties
+				AlarmEditor.DisableTagColumnsForAlarmTags ( newGuid );
+
+				FMPointEditor.sortTagTable();
+
+				FMPointEditor.valuesChanged = true;
+
+				AlarmEditor.initAlarmTestSorting();
+
+			}
+
+			// add the alarm test definition
+			var newAlarmTestDefinition = $("#blankAlarmTestDefinition tbody").children().clone();
+			var alarmTestGuid = FMPointEditor.newGuid();
+			// update the guids
+			newAlarmTestDefinition.each(function (index) {
+				if ($(this).attr("id") && $(this).attr("id").indexOf("{}") >= 0) {
+					$(this).attr("id", $(this).attr("id").replace("{}", alarmTestGuid));
+				}
+			});
+			newAlarmTestDefinition.find('[id]').each(function (index) {
+				if ($(this).attr("id") && $(this).attr("id").indexOf("{}") >= 0) {
+					$(this).attr("id", $(this).attr("id").replace("{}", alarmTestGuid));
+				}
+			});
+
+			var alarmTestID = $("#addAlarmTestName").val();
+			var alarmLimitTagName = $("#addAlarmTestTagName").val();
+			var alarmLimitValue = '';
+			var alarmState = $("#addAlarmTestAlarmState").val();
+			var alarmText = $("#addAlarmTestAlarmText").val();
+			var alarmHoldoffMin = $("#addAlarmTestHoldOffMinutes").val();
+			var alarmHoldoffSec = $("#addAlarmTestHoldOffSeconds").val();
+			var alarmTestPriority = $("#addAlarmTestPriority").val();
+			var alarmTestUnacknowledgePriority = $("#addAlarmTestNormalUnAcknowledgePriority").val();
+			var alarmTestNormalUnAcknowledgePriority = $("#addAlarmTestNormalUnAcknowledgePriority").val();
+			var reuseLimitTagGuid = $("#addAlarmTestTagName").attr( 'data-guid');
+			var alarmLimitTagGuid = reuseLimitTagGuid != "" ? reuseLimitTagGuid : FMPointEditor.newGuid();
+
+			var ateModel = AlarmTestEquationEditor.GetUpdates();
+			var alarmTestEquation = ateModel.TagName + AlarmEditor.GetTagField( ateModel.TagAttribute ) + ' ' + AlarmEditor.GetBitmask( ateModel.TagAttribute, ateModel.UseBitmask, ateModel.Bitmask.toString(16).toUpperCase(), ateModel.BitwiseOperator ) + AlarmEditor.GetComparison( ateModel.ComparisonOperator ) + ' ' + ateModel.LimitName;
+
+			newAlarmTestDefinition.find('#testNameCellId_' + alarmTestGuid).text(alarmTestID);
+			newAlarmTestDefinition.find('#testLimitTagCellId_' + alarmTestGuid).text(alarmLimitTagName);
+			newAlarmTestDefinition.find('#limitValueInputId_' + alarmTestGuid).text(alarmLimitValue);
+			newAlarmTestDefinition.find('#limitValueInputId_' + alarmTestGuid).attr("data-value",alarmLimitValue);
+			newAlarmTestDefinition.find('#testAlarmStateCellId_' + alarmTestGuid).text(alarmState);
+			newAlarmTestDefinition.find('#testAlarmTextCellId_' + alarmTestGuid).text(alarmText);
+			newAlarmTestDefinition.find('#TimedHoldOffMinutesInput_' + alarmTestGuid).text(alarmHoldoffMin);
+			newAlarmTestDefinition.find('#TimedHoldOffSecondsInput_' + alarmTestGuid).text(alarmHoldoffSec);
+			newAlarmTestDefinition.find('#testTestCellDivId_' + alarmTestGuid).text( alarmTestEquation);
+			newAlarmTestDefinition.find('#testTestCellDivId_' + alarmTestGuid).attr( 'title', alarmTestEquation);
+
+			newAlarmTestDefinition.appendTo("#AlarmTestTable_" + alarmGuid + " > tbody");
+
+			// find the tag we will be working with
+			var findTags = $.map(FMPointEditor.tagList, function (obj, index)
+			{
+				if (obj.PointTagGuid == tagGuid) {
+					return index;
+				}
+			} );
+
+			var tagGridIndex = 0;
+			if (findTags.length > 0){
+				tagGridIndex = findTags[0];
+			}
+			else {
+				return;
+			}
+
+
+			// Update Alarm Editor Model
+			var alarmTestModel = {
+				AlarmState: alarmState,
+				AlarmTestEquation: alarmTestEquation,
+				AlarmTestGuid: alarmTestGuid,
+				AlarmText: alarmText,
+				DrawingGuid: "00000000-0000-0000-0000-000000000000",
+				DrawingId: null,
+				Enabled: false,
+				HelpFile: null,
+				HoldOff: 0,
+				HoldOffMinutes: alarmHoldoffMin,
+				HoldOffSeconds: alarmHoldoffSec,
+				Id: alarmTestID,
+				LimitTagDecimalPlaces: 2,
+				LimitTagEditable: true,
+				LimitTagGuid: alarmLimitTagGuid,
+				LimitTagId: alarmLimitTagName,
+				LimitTagMax: (parseInt( ateModel.TagAttribute ) === 0) ? FMPointEditor.tagList[tagGridIndex].Maximum : 4294967295,
+				LimitTagMin: (parseInt( ateModel.TagAttribute ) === 0) ? FMPointEditor.tagList[tagGridIndex].Minimum : 0,
+				LimitTagUnitsType: FMPointEditor.tagList[tagGridIndex].UnitsType,
+				LimitTagUnits: (parseInt( ateModel.TagAttribute ) === 0) ? FMPointEditor.tagList[tagGridIndex].Units : 255,
+				LimitTagValueType: (parseInt( ateModel.TagAttribute ) === 0) ? FMPointEditor.tagList[tagGridIndex].DataType : "System.UInt32",
+				LimitValue: '',
+				Order: 0,
+				AlarmPriorityGuid: alarmTestPriority,
+				NormalUnacknowledgedAlarmPriorityGuid: alarmTestUnacknowledgePriority,
+				BitMask: parseInt( ateModel.Bitmask),
+				BitwiseOperator: parseInt( ateModel.BitwiseOperator),
+				TagField: parseInt( ateModel.TagAttribute),
+				TestType:  parseInt( ateModel.ComparisonOperator)
+			};
+
+			var selectedAlarmTagModel = jQuery.grep(model.Tags, function (a) {
+				return a.PointTagGuid === tagGuid;
+			});
+			if (selectedAlarmTagModel.length > 0) {
+				if ( selectedAlarmTagModel[0].Alarms )
+				{
+					var selectedAlarmModel = jQuery.grep(selectedAlarmTagModel[0].Alarms, function (a) {
+						return a.AlarmGuid === alarmGuid;
+					});
+					if (selectedAlarmModel.length > 0) {
+						if (!selectedAlarmModel[0].AlarmTests)
+							selectedAlarmModel[0].AlarmTests = [];
+
+						// update all the existing alarm tests with the new Normal Unacknowldge Priority
+						$.each(selectedAlarmModel[0].AlarmTests, function( index, obj ) {
+							obj.NormalUnacknowledgedAlarmPriorityGuid = alarmTestNormalUnAcknowledgePriority
+						});
+						alarmTestModel.Order = selectedAlarmModel[0].AlarmTests.length;
+						selectedAlarmModel[0].AlarmTests.push(alarmTestModel);
+					}
+				}
+			}
+
+			// find the index in the actual grid (maybe different that in the internal array)
+			var gridIndex = $( "#TagEditTable .tagColumnPointTagGuid:contains('" + FMPointEditor.tagList[tagGridIndex].PointTagGuid + "')" ).closest( 'tr' ).index();
+
+			// add the new alarm test tag if we are not reusing an existing one
+			if ( reuseLimitTagGuid == "" ){
+
+				var newGuid = alarmLimitTagGuid;
+				var newName = alarmLimitTagName;
+				var dataType = (parseInt( ateModel.TagAttribute ) === 0) ? FMPointEditor.tagList[tagGridIndex].DataType : "System.UInt32";
+				var maximum = (parseInt( ateModel.TagAttribute ) === 0) ? FMPointEditor.tagList[tagGridIndex].Maximum : 4294967295;
+				var minimum = (parseInt( ateModel.TagAttribute ) === 0) ? FMPointEditor.tagList[tagGridIndex].Minimum : 0;
+				var value = '0'
+				if(dataType === 'FMBusinessObjects.DataObjects.DeviceAlarmMapReference'){
+					dataType = 'System.UInt32';
+					maximum = 4294967295;
+					minimum = 0;
+				}
+				else if(dataType === 'FMBusinessObjects.DataObjects.PointCommandStatusListReference'){
+					value = $('#Tags_' + FMPointEditor.tagList[tagGridIndex].index + '__Value').attr("data-raw-value");
+				}
+				else if(dataType === 'System.Boolean'){
+					value = 'True';
+				}
+				var inputOutputType = '1'; // Manual
+				var unitsType = (parseInt( ateModel.TagAttribute ) === 0) ? $('#Tags_' + gridIndex + '__EngineeringUnitsType').val() : "FMU_NONE";
+				var units = (parseInt( ateModel.TagAttribute ) === 0) ? FMPointEditor.tagList[tagGridIndex].Units : 255;
+				var decimalPlaces = (parseInt( ateModel.TagAttribute ) === 0) ? FMPointEditor.tagList[tagGridIndex].DecimalPlaces : 0;
+				var applyPointDecimalPlaces = FMPointEditor.tagList[tagGridIndex].ApplyPointDecimalPlaces;
+				var applyPointUnits = FMPointEditor.tagList[tagGridIndex].ApplyPointEngineeringUnits;
+				var applyPointMaximum = FMPointEditor.tagList[tagGridIndex].ApplyPointMaximum;
+				var applyPointMinimum = FMPointEditor.tagList[tagGridIndex].ApplyPointMinimum;
+
+				FMPointEditor.addTag(newGuid, newName, dataType, inputOutputType, unitsType, units, decimalPlaces, value, maximum, minimum, applyPointDecimalPlaces, applyPointUnits, applyPointMaximum, applyPointMinimum);
+
+				FMPointEditor.sortTagTable();
+			} else {
+				// update the existing tag with the proper datatype
+				var tagInfo = jQuery.grep(FMPointEditor.tagList, function (row) { return row.PointTagGuid === alarmLimitTagGuid; });
+				if (tagInfo.length > 0) {
+					var rowIndex = tagInfo[0].index;
+					tagInfo[0].DataType = (parseInt( ateModel.TagAttribute ) === 0) ? FMPointEditor.tagList[tagGridIndex].DataType : "System.UInt32";
+					if(tagInfo[0].DataType === 'FMBusinessObjects.DataObjects.DeviceAlarmMapReference'){
+						tagInfo[0].DataType = 'System.UInt16';
+					}
+					tagInfo[0].EngineeringUnitsType = (parseInt( ateModel.TagAttribute ) === 0) ? $('#Tags_' + gridIndex + '__EngineeringUnitsType').val() : "FMU_NODIM";
+					tagInfo[0].Units = (parseInt( ateModel.TagAttribute ) === 0) ? FMPointEditor.tagList[tagGridIndex].Units : 255;
+					tagInfo[0].DecimalPlaces = (parseInt( ateModel.TagAttribute ) === 0) ? FMPointEditor.tagList[tagGridIndex].DecimalPlaces : 0;
+					tagInfo[0].Maximum = (parseInt( ateModel.TagAttribute ) === 0) ? FMPointEditor.tagList[tagGridIndex].Maximum : 4294967295;
+					tagInfo[0].Minimum = (parseInt( ateModel.TagAttribute ) === 0) ? FMPointEditor.tagList[tagGridIndex].Minimum : 0;
+
+					$( "#Tags_" + rowIndex + "__DataType" ).val( tagInfo[0].DataType );
+					$( "#Tags_" + rowIndex + "__EngineeringUnitsType" ).val( tagInfo[0].EngineeringUnitsType );
+					$( "#Tags_" + rowIndex + "__Unit" ).val( tagInfo[0].Units );
+					$( "#Tags_" + rowIndex + "__DecimalPlaces" ).val( tagInfo[0].DecimalPlaces );
+					$( "#Tags_" + rowIndex + "__ServerUnit").val(tagInfo[0].ServerUnits);
+					$( "#Tags_" + rowIndex + "__Minimum" ).attr( "data-raw-value", (parseInt( ateModel.TagAttribute ) === 0) ? $( "#Tags_" + gridIndex + "__Minimum" ).attr( "data-raw-value" ) : 0 );
+					$( "#Tags_" + rowIndex + "__Maximum" ).attr( "data-raw-value", (parseInt( ateModel.TagAttribute ) === 0) ? $( "#Tags_" + gridIndex + "__Maximum" ).attr( "data-raw-value" ) : 4294967295 );
+					var row = $( "#Tags_" + rowIndex + "__DataType" ).closest( 'tr' );
+					FMPointEditor.setTagMinimum(row);
+					FMPointEditor.setTagMaximum(row);
+					FMPointEditor.resetTagInputMask('#Tags_' + rowIndex + '__Minimum');
+					FMPointEditor.resetTagInputMask('#Tags_' + rowIndex + '__Maximum');
+
+				}
+			}
+
+			// we need to disable the tag properties
+			AlarmEditor.DisableTagColumnsForAlarmTags ( alarmLimitTagGuid );
+
+			AlarmEditor.SetAlarmEditorModel(model);
+
+			$('#AlarmEditorAddAlarm').modal('hide');
+			$("#AlarmEditorAddAlarmEditorScreenPage4").html('');
+
+			// Submit changes to the server
+			$('#pointPropertiesForm').submit();
+		}
+
+		AlarmEditor.EditAlarmEntry = function () {
+
+			// updating the alarm
+			if ( AlarmEditor.AlarmWizardProperties.activePage === 2) {
+				var inError = false;
+
+				// if wizard failed validation then don't continue
+				var inError = false;
+				var controlErrors = $('#AlarmEditorAddAlarmEditorScreenPage2 .has-error');
+				controlErrors.removeClass('has-error');
+
+				$('#AlarmEditorAddAlarmEditorScreenPage2 input[required]:visible').each(function () {
+					if ($(this).val() === "") {
+						inError = true;
+						$(this).parent().removeClass('has-error').addClass('has-error');
+					}
+				});
+
+				var errorMessage = "";
+
+				var inputTagGuid = $("#AlarmEditorAddAlarmtagSelection").attr('data-guid');
+				var alarmGuid =  $("#addAlarmName").attr( "data-guid" );
+
+				var selectedAlarm = [];
+				var alarmModel = AlarmEditor.GetAlarmEditorModel();
+				var inputTagInfo = jQuery.grep(alarmModel.Tags, function (row) { return row.PointTagGuid === inputTagGuid; });
+				if (inputTagInfo.length > 0) {
+					if ( inputTagInfo[0].Alarms.length > 0) {
+						selectedAlarm = jQuery.grep(inputTagInfo[0].Alarms, function (alarm) { return alarm.AlarmGuid === alarmGuid; });
+					} else {
+						inError === true;
+						errorMessage = "Alarm not found.";
+					}
+				}
+
+				if (inError === true && errorMessage !==""){
+					FMErrorAndExceptionHandling.CloseNotifications();
+					FMErrorAndExceptionHandling.ShowError(errorMessage, function(){});
+					return;
+				}
+				if (inError === true) return;
+
+				if ( selectedAlarm.length > 0) {
+					selectedAlarm[0].Category = $( "#addAlarmCategory option:selected" ).text();
+					selectedAlarm[0].NotAlarmState = $( "#addAlarmNotInAlarmText" ).val();
+					selectedAlarm[0].Order = $( "#addAlarmOrder" ).val();
+
+					var normalUnacknowledge = $("#addAlarmTestNormalUnAcknowledgePriority").val();
+					$.each(selectedAlarm[0].AlarmTests, function() {
+						this.NormalUnacknowledgedAlarmPriorityGuid = normalUnacknowledge;
+					});
+
+					AlarmEditor.SetAlarmEditorModel(alarmModel);
+
+					$( "#alarmsTableAlarmCategoryCellId_" + alarmGuid ).text($( "#addAlarmCategory option:selected" ).text());
+					$( "#alarmsTableAlarmOrderCellId_" + alarmGuid).text( $( "#addAlarmOrder" ).val() );
+				}
+
+				$('#AlarmEditorAddAlarm').modal('hide');
+			}
+			// updating the alarm test
+			if ( AlarmEditor.AlarmWizardProperties.activePage === 3) {
+				var inError = false;
+
+				// if wizard failed validation then don't continue
+				var inError = false;
+				var controlErrors = $('#AlarmEditorAddAlarmEditorScreenPage3 .has-error');
+				controlErrors.removeClass('has-error');
+
+				$('#AlarmEditorAddAlarmEditorScreenPage3 input[required]:visible').each(function () {
+					if ($(this).val() === "") {
+						inError = true;
+						$(this).parent().removeClass('has-error').addClass('has-error');
+					}
+				});
+
+				var errorMessage = "";
+
+				// find if the alarm test name already exists
+				var alarmTestName = $("#addAlarmTestName").val().trim();
+				var alarmState = $("#addAlarmTestAlarmState").val().trim();
+
+				var inputTagGuid = $("#AlarmEditorAddAlarmtagSelection").attr('data-guid');
+				var alarmGuid =  $("#addAlarmName").attr( "data-guid" );
+				var alarmTestGuid =  $("#addAlarmTestName").attr( "data-guid" );
+
+				var alarmModel = AlarmEditor.GetAlarmEditorModel();
+				var inputTagInfo = jQuery.grep(alarmModel.Tags, function (row) { return row.PointTagGuid === inputTagGuid; });
+				if (inputTagInfo.length > 0) {
+					if ( inputTagInfo[0].Alarms.length > 0) {
+						var selectedAlarm = jQuery.grep(inputTagInfo[0].Alarms, function (alarm) { return alarm.AlarmGuid === alarmGuid; });
+						if ( selectedAlarm.length > 0) {
+							var dupplicateAlarmTestName = jQuery.grep(selectedAlarm[0].AlarmTests, function (alarmTest) { return alarmTest.Id.toUpperCase() === alarmTestName.toUpperCase() && alarmTest.AlarmTestGuid !== alarmTestGuid });
+							if ( dupplicateAlarmTestName.length > 0) {
+								$("#addAlarmTestName").parent().removeClass('has-error').addClass('has-error');
+								errorMessage += "Test Name already in use for the selected Alarm.\n";
+								inError = true;
+							}
+
+							var dupplicateAlarmState = jQuery.grep(selectedAlarm[0].AlarmTests, function (alarmTest) { return alarmTest.AlarmState.toUpperCase() === alarmState.toUpperCase() && alarmTest.AlarmTestGuid !== alarmTestGuid; });
+							if ( dupplicateAlarmState.length > 0) {
+								$("#addAlarmTestAlarmState").parent().removeClass('has-error').addClass('has-error');
+								errorMessage += "Alarm State already in use for the selected Alarm.\n";
+								inError = true;
+							}
+
+						}
+					}
+				}
+
+				if (inError === true && errorMessage !==""){
+					FMErrorAndExceptionHandling.CloseNotifications();
+					FMErrorAndExceptionHandling.ShowError(errorMessage, function(){});
+					return;
+				}
+				if (inError === true) return;
+
+				var selectedAlarmTest = jQuery.grep(selectedAlarm[0].AlarmTests, function (alarmTest) { return alarmTest.AlarmTestGuid === alarmTestGuid });
+				if ( selectedAlarmTest.length > 0) {
+					selectedAlarmTest[0].Id = alarmTestName;
+					selectedAlarmTest[0].AlarmState = alarmState;
+					selectedAlarmTest[0].AlarmText = $( "#addAlarmTestAlarmText" ).val();
+					selectedAlarmTest[0].AlarmPriorityGuid = $( "#addAlarmTestPriority" ).val();
+					selectedAlarmTest[0].HoldOffMinutes = $( "#addAlarmTestHoldOffMinutes" ).val();
+					selectedAlarmTest[0].HoldOffSeconds = $( "#addAlarmTestHoldOffSeconds" ).val();
+					AlarmEditor.SetAlarmEditorModel(alarmModel);
+
+					$( "#testNameCellId_" + alarmTestGuid ).text( alarmTestName );
+					$( "#testAlarmStateCellId_" + alarmTestGuid).text( alarmState );
+					$( "#testAlarmStateCellId_" + alarmTestGuid).attr( 'title',alarmState );
+					$( "#testAlarmTextCellId_" + alarmTestGuid).text( $( "#addAlarmTestAlarmText" ).val() );
+					$( "#testAlarmTextCellId_" + alarmTestGuid).attr( 'title', $( "#addAlarmTestAlarmText" ).val() );
+					$( "#TimedHoldOffMinutesInput_" + alarmTestGuid).text(  $( "#addAlarmTestHoldOffMinutes" ).val() );
+					$( "#TimedHoldOffSecondsInput_" + alarmTestGuid).text(  $( "#addAlarmTestHoldOffSeconds" ).val() );
+				}
+
+				$('#AlarmEditorAddAlarm').modal('hide');
+			}
+
+		};
+
+		// This function is called by the EditValue partial page.
+		window.HandlePointTagEditorNewValueUpdate = function() {
+			AlarmEditor.HandleUpdatingEditLimitTagValue();
+		}
+
+		AlarmEditor.EditTestTemplateEquation = function( currentItem )
+		{
+
+			// create the backdrop and wait for next modal to be triggered
+			var modalManager = $('body').modalmanager('loading');
+
+			// remove the equation editor page from the add alarm wizard to avoid conflicts (like unique ids for tags)
+			$("#AlarmEditorAddAlarmEditorScreenPage4").html('');
+
+			//Use Guid to update Test Equation
+			var alarmTestGuid = currentItem.id.replace( AlarmEditor.EquationSprocketPrefix, '' );
+			var model = AlarmEditor.GetAlarmEditorModel();
+			var pointGuid = model.PointGuid;
+			var token = $( '#pointPropertiesForm input[name=__RequestVerificationToken]' ).val();
+			var headers = {};
+			headers['__RequestVerificationToken'] = token;
+			var url = $( '#urlGetAlarmTestEquationEditor' ).val();
+			var alarmDefinitionGuid = $( currentItem ).closest( 'table' ).attr('id').replace('AlarmTestTable_', '' );
+			var alarmTagGuid = $( currentItem ).closest( 'table' ).parent().closest( 'table' ).parent().attr( 'id' ).replace( 'AlarmRowTd_', '' );
+
+			var alartTestObject = null;
+			var selectedAlarmTag = null;
+			var selectedAlarmDefinition = null;
+			var selectedAlarmTest = null;
+			var selectedInputTagDataType = null;
+
+			selectedAlarmTag = jQuery.grep( model.Tags, function( a ) {
+				return a.PointTagGuid === alarmTagGuid;
+			} );
+			if (selectedAlarmTag.length > 0)
+			{
+				// get the input tag
+				var inputTagList = jQuery.grep( FMPointEditor.tagList, function( a )
+				{
+					return a.PointTagGuid === selectedAlarmTag[0].PointTagGuid;
+				} );
+				if (inputTagList.length > 0 ) {
+					selectedInputTagDataType = inputTagList[0].DataType;
+				} else {
+					FMErrorAndExceptionHandling.CloseNotifications();
+					FMErrorAndExceptionHandling.ShowError("Input Tag not found.", function(){});
+					return;
+				}
+
+				// get the alarm test configuration
+				selectedAlarmDefinition = jQuery.grep( selectedAlarmTag[0].Alarms, function( a )
+				{
+					return a.AlarmGuid === alarmDefinitionGuid;
+				} );
+				if (selectedAlarmDefinition.length > 0){
+					selectedAlarmTest = jQuery.grep( selectedAlarmDefinition[0].AlarmTests, function( a )
+					{
+						return a.AlarmTestGuid === alarmTestGuid;
+					} );
+					if (selectedAlarmTest.length > 0){
+						alartTestObject = selectedAlarmTest[0];
+					}
+				} else {
+					FMErrorAndExceptionHandling.CloseNotifications();
+					FMErrorAndExceptionHandling.ShowError("Alarm information not found.", function(){})
+					return;
+				}
+
+			} else {
+				FMErrorAndExceptionHandling.CloseNotifications();
+				FMErrorAndExceptionHandling.ShowError("Tag used in alarm not found.", function(){})
+				return;
+			}
+
+			var requestParms = {alarmTestGuid: alarmTestGuid, tagName: selectedAlarmTag[0].Id, tagValueTypeString: selectedAlarmTest[0].LimitTagValueType, tagGuid: alarmTagGuid, limitTagName: selectedAlarmTest[0].LimitTagId, inputTagDataType: selectedInputTagDataType,tagField: selectedAlarmTest[0].TagField, testType: selectedAlarmTest[0].TestType, bitMask: selectedAlarmTest[0].BitMask, bitwiseOperator: selectedAlarmTest[0].BitwiseOperator}
+
+
+			$.ajax( {
+				type: 'POST',
+				cache: false,
+				headers: headers,
+				url: url,
+				data: requestParms,
+				success: function( response )
+				{
+					FMErrorAndExceptionHandling.HandleMessages( response, function( data, inError )
+					{
+						if ( !inError || ( data != null ) )
+						{
+							$( '#AlarmTemplateEditorEquationEditorScreen' ).html( data );
+							$( '#AlarmTemplateEditorEquationEditor' ).modal( 'show' );
+						}
+						else {
+							$('body').modalmanager('loading'); // remove the loading background
+						}
+					} );
+				},
+				error: function( xhr, textStatus, error )
+				{
+					FMErrorAndExceptionHandling.ShowException( xhr, textStatus, error, function()
+					{
+						$('body').modalmanager('loading'); // remove the loading background
+					} );
+				}
+			} );
+		};
+
+		AlarmEditor.SaveTestTemplateEquationChanges = function()
+		{
+
+			var ateModel = AlarmTestEquationEditor.GetUpdates();
+			var model = AlarmEditor.GetAlarmEditorModel();
+			var alarmTestEquation = ateModel.TagName + AlarmEditor.GetTagField( ateModel.TagAttribute ) + ' ' + AlarmEditor.GetBitmask( ateModel.TagAttribute, ateModel.UseBitmask, ("0000000000000000" + ateModel.Bitmask.toString(16).toUpperCase()).slice (ateModel.BitMaskDigits * -1), ateModel.BitwiseOperator ) + AlarmEditor.GetComparison( ateModel.ComparisonOperator ) + ' ' + ateModel.LimitName;
+			$( '#AlarmTemplateEditorEquationEditor' ).modal( 'hide' );
+
+			//update model
+			for ( var i = 0; i < model.Tags.length; i++ )
+			{
+				if ( model.Tags[i].PointTagGuid === ateModel.TagGuid )
+				{
+					for ( var j = 0; j < model.Tags[i].Alarms.length; j++ )
+					{
+						for ( var k = 0; k < model.Tags[i].Alarms[j].AlarmTests.length; k++ )
+						{
+							if ( model.Tags[i].Alarms[j].AlarmTests[k].AlarmTestGuid === ateModel.AlarmTestGuid )
+							{
+								model.Tags[i].Alarms[j].AlarmTests[k].AlarmTestEquation = alarmTestEquation;
+								model.Tags[i].Alarms[j].AlarmTests[k].TestType = parseInt( ateModel.ComparisonOperator);
+								model.Tags[i].Alarms[j].AlarmTests[k].TagField = parseInt( ateModel.TagAttribute);
+								model.Tags[i].Alarms[j].AlarmTests[k].BitMask = parseInt( ateModel.Bitmask);
+								model.Tags[i].Alarms[j].AlarmTests[k].BitwiseOperator = parseInt( ateModel.BitwiseOperator);
+
+								// check to see if we need to update the limit tag ( if changing from Value to Status the data type will change)
+								var limitTagInfo = jQuery.grep(FMPointEditor.tagList, function (row) { return row.PointTagGuid === model.Tags[i].Alarms[j].AlarmTests[k].LimitTagGuid; });
+								if (limitTagInfo.length > 0) {
+									if ( model.Tags[i].Alarms[j].AlarmTests[k].TagField === 0) {
+										// find the input tag
+										var sourceTagInfo = jQuery.grep(FMPointEditor.tagList, function (row) { return row.PointTagGuid === ateModel.TagGuid; });
+										if (sourceTagInfo.length > 0) {
+											if ( $( "#Tags_" + limitTagInfo[0].index + "__DataType" ).val() != $( "#Tags_" + sourceTagInfo[0].index + "__DataType" ).val()
+											&& $( "#Tags_" + sourceTagInfo[0].index + "__DataType" ).val() !== 'FMBusinessObjects.DataObjects.DeviceAlarmMapReference') {
+												$( "#Tags_" + limitTagInfo[0].index + "__DataType" ).val( $( "#Tags_" + sourceTagInfo[0].index + "__DataType" ).val() );
+												limitTagInfo[0].DataType = sourceTagInfo[0].DataType;
+												$( "#limitValueInputId_" + model.Tags[i].Alarms[j].AlarmTests[k].AlarmTestGuid ).text( "" );
+												$( "#limitValueInputId_" + model.Tags[i].Alarms[j].AlarmTests[k].AlarmTestGuid ).attr( "data-value", "" );
+												$( "#Tags_" + limitTagInfo[0].index + "__Value" ).val( "" );
+												$( "#Tags_" + limitTagInfo[0].index + "__Value" ).attr( "data-raw-value", "" );
+												$( "#Tags_" + limitTagInfo[0].index + "__Value" ).attr( "title", "" );
+
+											}
+
+											$( "#Tags_" + limitTagInfo[0].index + "__Unit" ).removeClass("hidden");
+											if ( $( "#Tags_" + sourceTagInfo[0].index + "__Unit" ).hasClass("hidden") ) {
+												$( "#Tags_" + limitTagInfo[0].index + "__Unit" ).addClass("hidden");
+											}
+											$( "#Tags_" + limitTagInfo[0].index + "__Unit" ).html( $( "#Tags_" + sourceTagInfo[0].index + "__Unit" ).children().clone())
+											$( "#Tags_" + limitTagInfo[0].index + "__Unit" ).val( $( "#Tags_" + sourceTagInfo[0].index + "__Unit" ).val( ) );
+											limitTagInfo[0].Units = sourceTagInfo[0].Units;
+											$( "#Tags_" + limitTagInfo[0].index + "__EngineeringUnitsType" ).val( $( "#Tags_" + sourceTagInfo[0].index + "__EngineeringUnitsType" ).val( ) );
+											$( "#Tags_" + limitTagInfo[0].index + "__EngineeringUnitsType" ).removeClass("hidden");
+											if ( $( "#Tags_" + sourceTagInfo[0].index + "__EngineeringUnitsType" ).hasClass("hidden") ) {
+												$( "#Tags_" + limitTagInfo[0].index + "__EngineeringUnitsType" ).addClass("hidden");
+											}
+											limitTagInfo[0].EngineeringUnitsType = sourceTagInfo[0].EngineeringUnitsType;
+											$( "#Tags_" + limitTagInfo[0].index + "__DecimalPlace" ).val( $( "#Tags_" + sourceTagInfo[0].index + "__DecimalPlace" ).val() );
+											limitTagInfo[0].DecimalPlaces = sourceTagInfo[0].DecimalPlaces;
+											$( "#Tags_" + limitTagInfo[0].index + "__Maximum" ).val( $( "#Tags_" + sourceTagInfo[0].index + "__Maximum" ).val( ) );
+											$( "#Tags_" + limitTagInfo[0].index + "__Maximum" ).attr( "data-raw-value", $( "#Tags_" + sourceTagInfo[0].index + "__Maximum" ).attr( "data-raw-value" ) );
+											limitTagInfo[0].Maximum = sourceTagInfo[0].Maximum;
+											$( "#Tags_" + limitTagInfo[0].index + "__Minimum" ).val( $( "#Tags_" + sourceTagInfo[0].index + "__Minimum" ).val( ) );
+											limitTagInfo[0].Minimum = sourceTagInfo[0].Minimum;
+											$( "#Tags_" + limitTagInfo[0].index + "__Minimum" ).attr( "data-raw-value", $( "#Tags_" + sourceTagInfo[0].index + "__Minimum" ).attr( "data-raw-value" ) );
+										}
+									} else {
+										if ( $( "#Tags_" + limitTagInfo[0].index + "__DataType" ).val() != "System.UInt32") {
+											$( "#Tags_" + limitTagInfo[0].index + "__DataType" ).val( "System.UInt32" );
+											limitTagInfo[0].DataType = ateModel.TagType;
+											$( "#limitValueInputId_" + model.Tags[i].Alarms[j].AlarmTests[k].AlarmTestGuid ).text( "0" );
+											$( "#limitValueInputId_" + model.Tags[i].Alarms[j].AlarmTests[k].AlarmTestGuid ).attr( "data-value", 0 );
+											$( "#Tags_" + limitTagInfo[0].index + "__Value" ).val( 0 );
+										}
+										$( "#Tags_" + limitTagInfo[0].index + "__Unit" ).val( 255 );
+										$( "#Tags_" + limitTagInfo[0].index + "__Unit" ).removeClass("hidden").addClass("hidden");
+										limitTagInfo[0].Units = 255;
+										$( "#Tags_" + limitTagInfo[0].index + "__EngineeringUnitsType" ).val( "FMU_NODIM" );
+										$( "#Tags_" + limitTagInfo[0].index + "__EngineeringUnitsType" ).removeClass("hidden").addClass("hidden");
+										limitTagInfo[0].EngineeringUnitsType = "FMU_NODIM";
+										$( "#Tags_" + limitTagInfo[0].index + "__DecimalPlace" ).val( 0 );
+										limitTagInfo[0].DecimalPlaces = 0;
+										$( "#Tags_" + limitTagInfo[0].index + "__Maximum" ).val( 4294967295 );
+										$( "#Tags_" + limitTagInfo[0].index + "__Maximum" ).attr( "data-raw-value", 4294967295 );
+										limitTagInfo[0].Maximum = 4294967295;
+										$( "#Tags_" + limitTagInfo[0].index + "__Minimum" ).val( 0 );
+										$( "#Tags_" + limitTagInfo[0].index + "__Minimum" ).attr( "data-raw-value", 0 );
+										limitTagInfo[0].Minimum = 0;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			AlarmEditor.SetAlarmEditorModel( model );
+
+			//update alarmtestequation field
+			var alarmTestEquationDivId = AlarmEditor.TestTestCellDivPrefix + ateModel.AlarmTestGuid;
+			$( "#" + alarmTestEquationDivId).text( alarmTestEquation );
+			$( "#" + alarmTestEquationDivId).attr( 'title', alarmTestEquation );
+
+
+		};
+
+		// delete a template alarm test
+		AlarmEditor.DeleteTemplateAlarmTest = function( currentItem ) {
+
+			var alarmTestGuid = $( currentItem ).parent().attr("id").replace( "testTestCellId_", "" );
+			var alarmDefinitionGuid = $( currentItem ).closest( 'table' ).attr('id').replace('AlarmTestTable_', '' );
+			var alarmTagGuid = $( currentItem ).closest( 'table' ).parent().closest( 'table' ).attr('id').replace('alarmsTable_', '' );
+			var alarmName = $( "#testNameCellId_" + alarmTestGuid ).text();
+
+			var message = '<p>Do you want to delete the Alarm Test "' + alarmName + '"?</p>';
+			var isLastAlarmTest = ( $( currentItem ).closest( 'table' ).find( 'tbody tr' ).length === 1 );
+			var isLastAlarm = false;
+
+			// if we are deleting the last Alarm Test we need to delete the last Alarm Test
+			if ( isLastAlarmTest ) {
+				message += '<p>Deleting this Alarm Test will also delete the Alarm.</p>';
+				// if we are also deleting the last alarm for the tag we need to remove the tag from the list
+				isLastAlarm = ($( currentItem ).closest( 'table' ).parent().closest( 'table > tbody' ).children().length === 2 );  // alarm table has a minimum of 2 rows (the name and the details)
+			}
+
+			// Prompt to confirm delete
+			FMLayout.ConfirmYesNo( message,
+				"Delete Alarm Test",
+				function() {
+					$( currentItem ).closest( 'tr' ).remove();
+					if( isLastAlarmTest ) {
+						$( "#AlarmsTableAlarmRow_" + alarmDefinitionGuid ).remove();
+						$( "#AlarmTests_" + alarmDefinitionGuid ).remove();
+					}
+					if ( isLastAlarm) {
+						$( "#TagRow_" + alarmTagGuid ).remove();
+						$( "#AlarmRow_" + alarmTagGuid ).remove();
+					}
+
+					var model = AlarmEditor.GetAlarmEditorModel();
+					// find the alarm we want to delete in the model
+					var alarmTagIdx = model.Tags.map(function(x) {return x.PointTagGuid; }).indexOf(alarmTagGuid);
+					if ( alarmTagIdx >= 0 ) {
+						if( isLastAlarm ) {
+							// if it's the last alarm test we delete the tag too
+
+							$.each(model.Tags[alarmTagIdx].Alarms, function( alarmIdx, alarm ) {
+								var statusTaginUse = AlarmEditor.isStatusTagUsed( alarm.AlarmStatusTagGuid, alarm.AlarmGuid, model );
+								statusTaginUse = statusTaginUse || AlarmEditor.isTagUsedInModule( alarm.AlarmStatusTagGuid );
+								if ( !statusTaginUse ) {
+									FMPointEditor.deleteTagbyGuid( alarm.AlarmStatusTagGuid );
+								}
+
+								$.each(alarm.AlarmTests, function( alarmTestIdx, alarmTest ) {
+									var limitTaginUse = AlarmEditor.isLimitTagUsed( alarmTest.LimitTagGuid, alarmTest.AlarmTestGuid, model );
+									limitTaginUse = limitTaginUse || AlarmEditor.isTagUsedInModule( alarmTest.LimitTagGuid);
+									if ( !limitTaginUse ) {
+										FMPointEditor.deleteTagbyGuid( alarmTest.LimitTagGuid );
+									}
+								});
+							});
+							// we can enable the columns for the source tag since they are not used for an alarm
+							AlarmEditor.EnableTagColumnsForAlarmTags( model.Tags[alarmTagIdx].PointTagGuid );
+
+							model.Tags.splice(alarmTagIdx, 1);
+						} else {
+							var alarmDefinitionIdx = model.Tags[alarmTagIdx].Alarms.map(function(x) {return x.AlarmGuid; }).indexOf(alarmDefinitionGuid);
+							if ( alarmDefinitionIdx >= 0 ) {
+								var alarmTestIdx = model.Tags[alarmTagIdx].Alarms[alarmDefinitionIdx].AlarmTests.map(function(x) {return x.AlarmTestGuid; }).indexOf(alarmTestGuid);
+								if ( alarmTestIdx >= 0 ) {
+									// check to see if the tag is being used
+									var limitTagGuid = model.Tags[alarmTagIdx].Alarms[alarmDefinitionIdx].AlarmTests[alarmTestIdx].LimitTagGuid;
+									var limitTaginUse = AlarmEditor.isLimitTagUsed( limitTagGuid, alarmTestGuid, model );
+									limitTaginUse = limitTaginUse || AlarmEditor.isTagUsedInModule( limitTagGuid);
+									if ( !limitTaginUse ) {
+										FMPointEditor.deleteTagbyGuid( limitTagGuid );
+									}
+								}
+								if( isLastAlarmTest ) {
+									// if it's the last alarm test we delete the alarm definition too
+									var statusTaginUse = AlarmEditor.isStatusTagUsed( model.Tags[alarmTagIdx].Alarms[alarmDefinitionIdx].AlarmStatusTagGuid, model.Tags[alarmTagIdx].Alarms[alarmDefinitionIdx].AlarmGuid, model );
+									statusTaginUse = statusTaginUse || AlarmEditor.isTagUsedInModule( model.Tags[alarmTagIdx].Alarms[alarmDefinitionIdx].AlarmStatusTagGuid);
+									if ( !statusTaginUse ) {
+										FMPointEditor.deleteTagbyGuid( model.Tags[alarmTagIdx].Alarms[alarmDefinitionIdx].AlarmStatusTagGuid );
+									}
+									model.Tags[alarmTagIdx].Alarms.splice(alarmDefinitionIdx, 1);
+
+								} else {
+									// delete the alarm test entry in the alarm model
+									model.Tags[alarmTagIdx].Alarms[alarmDefinitionIdx].AlarmTests.splice(alarmTestIdx, 1);
+
+									// redo the sort order
+									$.each(model.Tags[alarmTagIdx].Alarms[alarmDefinitionIdx].AlarmTests, function( index, value ) {
+										value.Order = $( "#testRow_" + value.AlarmTestGuid).index();
+									});
+								}
+							}
+						}
+					}
+
+					AlarmEditor.SetAlarmEditorModel(model);
+				});
+		}
+
+		// delete a template alarm definition
+		AlarmEditor.DeleteTemplateAlarm = function( currentItem ) {
+
+			var alarmDefinitionGuid = $( currentItem ).parent().attr("id").replace( "alarmsTableAlarmEnabledCellId_", "" );
+			var alarmTagGuid = $( currentItem ).closest( 'table' ).attr('id').replace('alarmsTable_', '' );
+			var alarmName = $( "#AlarmsTableAlarmIdCellId_" + alarmDefinitionGuid ).text();
+
+			var isLastAlarm = ($( currentItem ).closest( 'table  > tbody' ).children().length === 2 );
+
+			// Prompt to confirm delete
+			FMLayout.ConfirmYesNo('Do you want to delete the Alarm "' + alarmName + '"?',
+				"Delete Alarm",
+				function() {
+					$( currentItem ).closest( 'tr' ).remove();
+					$( "#AlarmTests_" + alarmDefinitionGuid ).closest( 'tr' ).remove();
+
+					if ( isLastAlarm) {
+						$( "#TagRow_" + alarmTagGuid ).remove();
+						$( "#AlarmRow_" + alarmTagGuid ).remove();
+					}
+					var model = AlarmEditor.GetAlarmEditorModel();
+
+					// find the alarm we want to delete in the model
+					var alarmTagIdx = model.Tags.map(function(x) {return x.PointTagGuid; }).indexOf(alarmTagGuid);
+					if ( alarmTagIdx >= 0 ) {
+						if( isLastAlarm ) {
+							$.each(model.Tags[alarmTagIdx].Alarms, function( alarmIdx, alarm ) {
+								var statusTaginUse = AlarmEditor.isStatusTagUsed( alarm.AlarmStatusTagGuid, alarm.AlarmGuid, model );
+								statusTaginUse = statusTaginUse || AlarmEditor.isTagUsedInModule( alarm.AlarmStatusTagGuid );
+								if ( !statusTaginUse ) {
+									FMPointEditor.deleteTagbyGuid( alarm.AlarmStatusTagGuid );
+								}
+
+								$.each(alarm.AlarmTests, function( alarmTestIdx, alarmTest ) {
+									var limitTaginUse = AlarmEditor.isLimitTagUsed( alarmTest.LimitTagGuid, alarmTest.AlarmTestGuid, model );
+									limitTaginUse = limitTaginUse || AlarmEditor.isTagUsedInModule( alarmTest.LimitTagGuid );
+									if ( !limitTaginUse ) {
+										FMPointEditor.deleteTagbyGuid( alarmTest.LimitTagGuid );
+									}
+								});
+							});
+
+							// we can enable the columns for the source tag since they are not used for an alarm
+							AlarmEditor.EnableTagColumnsForAlarmTags( model.Tags[alarmTagIdx].PointTagGuid );
+
+							model.Tags.splice(alarmTagIdx, 1);
+						} else {
+							var alarmDefinitionIdx = model.Tags[alarmTagIdx].Alarms.map(function(x) {return x.AlarmGuid; }).indexOf(alarmDefinitionGuid);
+							if ( alarmDefinitionIdx >= 0 ) {
+								var statusTaginUse = AlarmEditor.isStatusTagUsed( model.Tags[alarmTagIdx].Alarms[alarmDefinitionIdx].AlarmStatusTagGuid, model.Tags[alarmTagIdx].Alarms[alarmDefinitionIdx].AlarmGuid, model );
+								statusTaginUse = statusTaginUse || AlarmEditor.isTagUsedInModule( model.Tags[alarmTagIdx].Alarms[alarmDefinitionIdx].AlarmStatusTagGuid );
+								if ( !statusTaginUse ) {
+									FMPointEditor.deleteTagbyGuid( model.Tags[alarmTagIdx].Alarms[alarmDefinitionIdx].AlarmStatusTagGuid );
+								}
+
+								$.each(model.Tags[alarmTagIdx].Alarms[alarmDefinitionIdx].AlarmTests, function( alarmTestIdx, alarmTest ) {
+									var limitTaginUse = AlarmEditor.isLimitTagUsed( alarmTest.LimitTagGuid, alarmTest.AlarmTestGuid, model );
+									limitTaginUse = limitTaginUse || AlarmEditor.isTagUsedInModule( alarmTest.LimitTagGuid );
+									if ( !limitTaginUse ) {
+										FMPointEditor.deleteTagbyGuid( alarmTest.LimitTagGuid );
+									}
+								});
+
+								// delete the entry
+								model.Tags[alarmTagIdx].Alarms.splice(alarmDefinitionIdx, 1);
+							}
+						}
+					}
+
+					AlarmEditor.SetAlarmEditorModel(model);
+				});
+		}
+
+		// Validate Alarm Name
+		AlarmEditor.isAlarmNameValid = function( alarmName, pointTagGuid ) {
+			var errorMessage = "";
+			var inputTagInfo = jQuery.grep(AlarmEditor.GetAlarmEditorModel().Tags, function (row) { return row.PointTagGuid === pointTagGuid; });
+			if (inputTagInfo.length > 0) {
+				if ( inputTagInfo[0].Alarms.length > 0) {
+					var duplicateAlarmName = jQuery.grep(inputTagInfo[0].Alarms, function (alarm) { return alarm.Id.toUpperCase() === alarmName.toUpperCase(); });
+					if ( duplicateAlarmName.length > 0) {
+						$("#addAlarmName").parent().removeClass('has-error').addClass('has-error');
+						errorMessage += "Alarm Name already in use for the selected Tag.\n";
+						inError = true;
+					}
+				}
+			}
+			return errorMessage;
+		}
+
+		// In the tag grid disable the tag fields for tags used in alarms
+		AlarmEditor.DisableTagColumnsForAlarmTags = function( tagGuid  ) {
+			var tagInfo = jQuery.grep(FMPointEditor.tagList, function (row) { return row.PointTagGuid === tagGuid; });
+			if (tagInfo.length > 0) {
+				var rowIndex = tagInfo[0].index;
+				$( "#Tags_" + rowIndex + "__DeleteTag" ).attr( 'disabled', 'true');
+				$( "#Tags_" + rowIndex + "__DeleteTag" ).attr( 'src', '@(Url.Content("~/fmwebapp/images/Delete-column-inactive.png"))');
+
+				$( "#Tags_" + rowIndex + "__Name" ).attr( 'disabled', 'true');
+				$( "#Tags_" + rowIndex + "__DataType" ).attr( 'disabled', 'true');
+				$( "#Tags_" + rowIndex + "__EngineeringUnitsType" ).attr( 'disabled', 'true');
+
+				var alarmIcon = $( "#Tags_" + rowIndex + "__Name" ).closest('tr').find( '[name=alarm]' );
+				alarmIcon.attr( 'alt', 'Associated Alarm');
+				alarmIcon.attr( 'title', 'Used in Alarm');
+				alarmIcon.attr( 'data-value', 'true');
+				alarmIcon.attr( 'src', '@(Url.Content("~/fmwebapp/images/Alarm Blue.png"))');
+			}
+		}
+
+		// In the tag grid enable the tag fields for tags used in alarms
+		AlarmEditor.EnableTagColumnsForAlarmTags = function( tagGuid  ) {
+			if ( !AlarmEditor.isTagUsedInModule( tagGuid ) ) {
+				var tagInfo = jQuery.grep(FMPointEditor.tagList, function (row) { return row.PointTagGuid === tagGuid; });
+				if (tagInfo.length > 0) {
+					var rowIndex = tagInfo[0].index;
+					$( "#Tags_" + rowIndex + "__DeleteTag" ).removeAttr( 'disabled');
+					$( "#Tags_" + rowIndex + "__DeleteTag" ).attr( 'src', '@(Url.Content("~/fmwebapp/images/Delete-column.png"))');
+
+					$( "#Tags_" + rowIndex + "__Name" ).removeAttr( 'disabled');
+					$( "#Tags_" + rowIndex + "__DataType" ).removeAttr( 'disabled');
+					$( "#Tags_" + rowIndex + "__EngineeringUnitsType" ).removeAttr( 'disabled');
+
+					var alarmIcon = $( "#Tags_" + rowIndex + "__Name" ).closest('tr').find( '[name=alarm]' );
+					alarmIcon.attr( 'alt', 'No Associated Alarm');
+					alarmIcon.attr( 'title', 'No Associated Alarm');
+					alarmIcon.attr( 'data-value', 'false');
+					alarmIcon.attr( 'src', '@(Url.Content("~/fmwebapp/images/Alarm Disable.png"))');
+				}
+			}
+		}
+
+
+
+		if ($('#StandardPointTemplate').val() === 'True'
+		|| $('#ModifyEnabled').val() === 'False') {
+
+			// Difficult to find combination that works for IE and Chrome.  For instance .alarmTestName td didn't properly apply CSS with disabled attribute in IE
+			$('#alarmTagsTable').find('img[src$="@(Url.Content("~/fmwebapp/images/Add-icon.png"))"]').addClass("disabled").prop("disabled",true).removeAttr('onclick').off('click');
+			$('#alarmTagsTable').find('img[src$="@(Url.Content("~/fmwebapp/images/Trash-icon.png"))"]').addClass("disabled").prop("disabled",true).removeAttr('onclick').off('click');
+			$('#alarmTagsTable .equationSprocket').addClass("disabled").attr("disabled","disabled").removeAttr('onclick').off('click');
+			$('#alarmTagsTable .alarmName').addClass("disabled");
+			$('#alarmTagsTable .alarmTestName').addClass("disabled");
+		}
+		else{
+			// Call the initialization after the page loading
+			AlarmEditor.initAlarmTestSorting();
+		}
+
+
+	});
+
+
+
+</script>
+

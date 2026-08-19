@@ -1,0 +1,19 @@
+.commandcard {
+    padding: 20px;
+    background-color: white;
+    height: 170px;
+    border: 1px solid #E0E0E0;
+}
+
+.commandname {
+  font-size: 16px;
+  height: 50px;
+  text-align: left;
+  font-weight: bold;
+  color: #006CB3;
+}
+
+img {
+    width: 100px;
+    margin-top: 30px;
+}

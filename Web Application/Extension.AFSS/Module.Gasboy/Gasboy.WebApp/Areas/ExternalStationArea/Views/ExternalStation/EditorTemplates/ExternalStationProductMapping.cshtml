@@ -1,0 +1,20 @@
+﻿@using FMBusinessObjects.DataObjects
+@using FuelsManager.Afss.Module.Gasboy.BusinessObjects.DataObjects
+@using FuelsManager.Afss.BusinessObjects.DataObjects
+@model ExternalStationProductMapping
+
+<tr>
+    @{ var identifier = Guid.NewGuid(); }
+    @Html.Hidden("Index", identifier, new { Name = "ExternalStation.ProductMappings.Index" })
+    @Html.HiddenFor(m => m.IdentityGuid, new { Name = "ExternalStation.ProductMappings[" + identifier + "].IdentityGuid" })
+    @Html.HiddenFor(m => m.ExternalStationGuid, new { Name = "ExternalStation.ProductMappings[" + identifier + "].ExternalStationGuid" })
+    <td style="width: 36px; vertical-align: top; text-align: center">
+        <a class="deleteLinkClass" title="@ViewBag.deleteText">@ViewBag.deleteText</a>
+    </td>
+    <td>
+        @Html.TextBoxFor(m => m.ID, new { Name = "ExternalStation.ProductMappings[" + identifier + "].ID", maxlength = "50", style = "width: 200px;" })
+    </td>
+    <td>
+        @Html.DropDownListFor(m => m.FuelsManagerProductMasterRecordGuid, new SelectList(ViewBag.products as List<ProductClass>, "MasterRecordGuid", "ID"), string.Empty, new { Name = "ExternalStation.ProductMappings[" + identifier + "].FuelsManagerProductMasterRecordGuid", style = "width: 200px;" })
+    </td>
+</tr>

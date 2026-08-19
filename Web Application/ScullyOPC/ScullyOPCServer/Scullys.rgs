@@ -1,0 +1,27 @@
+HKCR
+{
+	ScullyOPCServer.Scullys.1 = s 'Scullys Class'
+	{
+		CLSID = s '{948DA86B-A687-494c-9B93-569B65499B36}'
+	}
+	ScullyOPCServer.Scullys = s 'Scullys Class'
+	{
+		CLSID = s '{948DA86B-A687-494c-9B93-569B65499B36}'
+		CurVer = s 'ScullyOPCServer.Scullys.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {948DA86B-A687-494c-9B93-569B65499B36} = s 'Scullys Class'
+		{
+			ProgID = s 'ScullyOPCServer.Scullys.1'
+			VersionIndependentProgID = s 'ScullyOPCServer.Scullys'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{B93AB8CF-D487-4d1c-92B3-280A773CC36C}'
+		}
+	}
+}

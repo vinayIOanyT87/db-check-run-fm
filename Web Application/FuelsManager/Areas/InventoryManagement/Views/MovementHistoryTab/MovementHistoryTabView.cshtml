@@ -1,0 +1,765 @@
+﻿
+@using System.Web.Mvc.Html
+@using FMBusinessObjects.UtilityObjects
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.MovementHistoryTabModel
+
+<link href="~/Areas/Content/MovementHistoryTab.css" rel="stylesheet" type="text/css" />
+
+<script>
+	$(function ()
+	{
+		FMLayout.calendarLocation = '@Url.Content("~/DispatchWebApp/images")';
+   });
+   window.csrfTokenStr ='@FMBaseController.CSRFToken';
+</script>
+
+@using (Html.BeginForm("MovementHistoryTabView", "MovementHistoryTab", FormMethod.Get, new
+{
+  @class = "",
+  @id = "MovementHistoryTabView"
+}))
+{
+  @Html.AntiForgeryToken()
+  @Html.Hidden("MovementHistoryGetDataUrl", @Url.Action("GetData", "MovementHistoryTab"))
+  @Html.Hidden("MovementHistoryGetColumnFilterDataUrl", @Url.Action("MovementHistoryTabColumnFilterGetFilter", "MovementHistoryTab"))
+  @Html.Hidden("MovementHistoryUpdateCommentUrl", @Url.Action("UpdateComment", "MovementHistoryTab"))
+  @Html.Hidden("MovementHistorySaveViewStateUrl", @Url.Action("SaveViewState", "MovementHistoryTab"))
+  @Html.Hidden("MovementHistoryPrintReportUrl", @Url.Action("PrintMovementTicket", "MovementHistoryTab"))
+  @Html.Hidden("MovementHistoryTabModel", MovementHistoryTabController.SerializeModel(Model))
+  @Html.Hidden("MovementHistory_DD_Movements", FMBaseController.TranslateText(""))
+  @Html.Hidden("MovementHistory_DD_Show", FMBaseController.TranslateText("Movement|Show"))
+  @Html.Hidden("MovementHistory_DD_Processing", FMBaseController.TranslateText("Movement|Processing"))
+  @Html.Hidden("MovementHistory_DD_Showing", FMBaseController.TranslateText("Movement|Showing"))
+  @Html.Hidden("MovementHistory_DD_to", FMBaseController.TranslateText("Movement|to"))
+  @Html.Hidden("MovementHistory_DD_of", FMBaseController.TranslateText("Movement|of"))
+  @Html.HiddenFor(m => m.Site.MovementTicketReportName)
+  var timeStamp = FMBaseController.TranslateText("Movement|TimeStamp");
+  var site = FMBaseController.TranslateText("Movement|Site");
+  var movementName = FMBaseController.TranslateText("Movement|Name");
+  var movementNode = FMBaseController.TranslateText("Movement|Node");
+  var initiateCount = FMBaseController.TranslateText("Movement|Initiation Count");
+  var commentHdrLbl = FMBaseController.TranslateText("Movement|Comment");
+  var closeoutDataModifiedByHdrLbl = FMBaseController.TranslateText("Movement|Closeout Data Modified By");
+  var closeoutDensityProductInAirHdrLbl = FMBaseController.TranslateText("Movement|Closeout Density Product In Air");
+  var closeoutDensityProductObservedHdrLbl = FMBaseController.TranslateText("Movement|Closeout Density Product Observed");
+  var closeoutDensityProductObservedTimeHdrLbl = FMBaseController.TranslateText("Movement|Closeout Density Product Observed Time");
+  var closeoutDensityProductStandardHdrLbl = FMBaseController.TranslateText("Movement|Closeout Density Product Standard");
+  var closeoutDensityProductStandardTimeHdrLbl = FMBaseController.TranslateText("Movement|Closeout Density Product Standard Time");
+  var closeoutDensityProductStandardInAirHdrLbl = FMBaseController.TranslateText("Movement|Closeout Density Product Standard In Air");
+  var closeoutLevelProductHdrLbl = FMBaseController.TranslateText("Movement|Closeout Level Product");
+  var closeoutLevelProductTimeHdrLbl = FMBaseController.TranslateText("Movement|Closeout Level Product Time");
+  var closeoutLevelWaterHdrLbl = FMBaseController.TranslateText("Movement|Closeout Level Water");
+  var closeoutMassLiquidHdrLbl = FMBaseController.TranslateText("Movement|Closeout Mass Liquid");
+  var closeoutPercentBswHdrLbl = FMBaseController.TranslateText("Movement|Closeout Percent BSW");
+  var closeoutRoofMassHdrLbl = FMBaseController.TranslateText("Movement|Closeout Roof Mass");
+  var closeoutTankShellCorrectionHdrLbl = FMBaseController.TranslateText("Movement|Closeout Tank Shell Correction");
+  var closeoutTemperatureAmbientHdrLbl = FMBaseController.TranslateText("Movement|Closeout Temperature Ambient");
+  var closeoutTemperatureAmbientTimeHdrLbl = FMBaseController.TranslateText("Movement|Closeout Temperature Ambient Time");
+  var closeoutTemperatureDensityHdrLbl = FMBaseController.TranslateText("Movement|Closeout Temperature Density");
+  var closeoutTemperatureProductHdrLbl = FMBaseController.TranslateText("Movement|Closeout Temperature Product");
+  var closeoutTimeHdrLbl = FMBaseController.TranslateText("Movement|Closeout Time");
+  var closeoutTransferGovHdrLbl = FMBaseController.TranslateText("Movement|Closeout Transfer GOV");
+  var closeoutTransferNsvHdrLbl = FMBaseController.TranslateText("Movement|Closeout Transfer NSV");
+  var closeoutTransferMassLiquidHdrLbl = FMBaseController.TranslateText("Movement|Closeout Transfer Mass Liquid");
+  var closeoutTransferVolumeWaterHdrLbl = FMBaseController.TranslateText("Movement|Closeout Transfer Volume Water");
+  var closeoutVolumeBswHdrLbl = FMBaseController.TranslateText("Movement|Closeout Volume BSW");
+  var closeoutVolumeCorrectionFactorHdrLbl = FMBaseController.TranslateText("Movement|Closeout Volume Correction Factor");
+  var closeoutVolumeGrossObservedHdrLbl = FMBaseController.TranslateText("Movement|Closeout Volume Gross Observed");
+  var closeoutVolumeGrossStandardHdrLbl = FMBaseController.TranslateText("Movement|Closeout Volume Gross Standard");
+  var closeoutVolumeNetStandardHdrLbl = FMBaseController.TranslateText("Movement|Closeout Volume Net Standard");
+  var closeoutVolumeRoofCorrectionHdrLbl = FMBaseController.TranslateText("Movement|Closeout Volume Roof Correction");
+  var closeoutVolumeTotalObservedHdrLbl = FMBaseController.TranslateText("Movement|Closeout Volume Total Observed");
+  var closeoutVolumeWaterHdrLbl = FMBaseController.TranslateText("Movement|Closeout Volume Water");
+  var levelProductHdrLbl = FMBaseController.TranslateText("Movement|Level Product");
+  var typeHdrLbl = FMBaseController.TranslateText("Movement|Type");
+  var orderNumberHdrLbl = FMBaseController.TranslateText("Movement|Order Number");
+  var plannedStartTimeHdrLbl = FMBaseController.TranslateText("Movement|Planned Start Time");
+  var productHdrLbl = FMBaseController.TranslateText("Movement|Product");
+  var productDescriptionHdrLbl = FMBaseController.TranslateText("Movement|Product Description");
+  var startTimeHdrLbl = FMBaseController.TranslateText("Movement|Transfer Start Time");
+  var startDensityProductObservedHdrLbl = FMBaseController.TranslateText("Movement|Start Density Product Observed");
+  var startDensityProductObservedTimeHdrLbl = FMBaseController.TranslateText("Movement|Start Density Product Observed Time");
+  var startDensityProductObservedInAirHdrLbl = FMBaseController.TranslateText("Movement|Start Density Product Observed In Air");
+  var startDensityProductStandardHdrLbl = FMBaseController.TranslateText("Movement|Start Density Product Standard");
+  var startDensityProductStandardTimeHdrLbl = FMBaseController.TranslateText("Movement|Start Density Product Standard Time");
+  var startDensityProductStandardInAirHdrLbl = FMBaseController.TranslateText("Movement|Start Density Product Standard In Air");
+  var startUserIdHdrLbl = FMBaseController.TranslateText("Movement|Start User ID");
+  var startLevelProductHdrLbl = FMBaseController.TranslateText("Movement|Start Level Product");
+  var startLevelProductTimeHdrLbl = FMBaseController.TranslateText("Movement|Start Level Product Time");
+  var startLevelWaterHdrLbl = FMBaseController.TranslateText("Movement|Start Level Water");
+  var startLevelWaterTimeHdrLbl = FMBaseController.TranslateText("Movement|Start Level Water Time");
+  var startMassLiquidHdrLbl = FMBaseController.TranslateText("Movement|Start Mass Liquid");
+  var startPercentBswHdrLbl = FMBaseController.TranslateText("Movement|Start Percent BSW");
+  var startTankShellCorrectionHdrLbl = FMBaseController.TranslateText("Movement|Start Tank Shell Correction");
+  var startTemperatureAmbientHdrLbl = FMBaseController.TranslateText("Movement|Start Temperature Ambient");
+  var startTemperatureAmbientTimeHdrLbl = FMBaseController.TranslateText("Movement|Start Temperature Ambient Time");
+  var startTemperatureProductHdrLbl = FMBaseController.TranslateText("Movement|Start Temperature Product");
+  var startTemperatureProductTimeHdrLbl = FMBaseController.TranslateText("Movement|Start Temperature Product Time");
+  var startTemperatureDensityHdrLbl = FMBaseController.TranslateText("Movement|Start Temperature Density");
+  var startTemperatureDensityTimeHdrLbl = FMBaseController.TranslateText("Movement|Start Temperature Density Time");
+  var startVolumeHdrLbl = FMBaseController.TranslateText("Movement|Start Volume");
+  var startVolumeBswHdrLbl = FMBaseController.TranslateText("Movement|Start Volume BSW");
+  var startVolumeCorrectionFactorHdrLbl = FMBaseController.TranslateText("Movement|Start Volume Correction Factor");
+  var startVolumeGrossObservedHdrLbl = FMBaseController.TranslateText("Movement|Start Volume Gross Observed");
+  var startVolumeGrossStandardHdrLbl = FMBaseController.TranslateText("Movement|Start Volume Gross Standard");
+  var startVolumeNetStandardHdrLbl = FMBaseController.TranslateText("Movement|Start Volume Net Standard");
+  var startVolumeRoofCorrectionHdrLbl = FMBaseController.TranslateText("Movement|Start Volume Roof Correction");
+  var startVolumeTotalObservedHdrLbl = FMBaseController.TranslateText("Movement|Start Volume Total Observed");
+  var startVolumeWaterHdrLbl = FMBaseController.TranslateText("Movement|Start Volume Water");
+  var stopTimeHdrLbl = FMBaseController.TranslateText("Movement|Stop Time");
+  var statusHdrLbl = FMBaseController.TranslateText("Movement|Status");
+  var transferDeviationHdrLbl = FMBaseController.TranslateText("Movement|Transfer Deviation");
+  var transferPercentDeviationHdrLbl = FMBaseController.TranslateText("Movement|Transfer Percent Deviation");
+  var transferDirectionHdrLbl = FMBaseController.TranslateText("Movement|Transfer Direction");
+  var transferModeHdrLbl = FMBaseController.TranslateText("Movement|Transfer Mode");
+  var transferStatusHdrLbl = FMBaseController.TranslateText("Movement|Transfer Status");
+  var transferTargetHdrLbl = FMBaseController.TranslateText("Movement|Transfer Target");
+  var transferTargetUnitsHdrLbl = FMBaseController.TranslateText("Movement|Transfer Target Units");
+  var transferLevelTargetHdrLbl = FMBaseController.TranslateText("Movement|Transfer Level Target");
+  var transferVolumeTargetHdrLbl = FMBaseController.TranslateText("Movement|Transfer Volume Target");
+  var transferTimeRemainingHdrLbl = FMBaseController.TranslateText("Movement|Transfer Time Remaining");
+  var transferredVolumeWaterHdrLbl = FMBaseController.TranslateText("Movement|Transferred Volume Water");
+  var transferredVolumeHdrLbl = FMBaseController.TranslateText("Movement|Transferred Volume");
+  var unitsLevelProductHdrLbl = FMBaseController.TranslateText("Movement|Units Level Product");
+  var unitsTemperatureAmbientHdrLbl = FMBaseController.TranslateText("Movement|Units Temperature Ambient");
+  var unitsTemperatureDensityHdrLbl = FMBaseController.TranslateText("Movement|Units Temperature Density");
+  var unitsTemperatureProductHdrLbl = FMBaseController.TranslateText("Movement|Units Temperature Product");
+  var unitsDensityProductObservedHdrLbl = FMBaseController.TranslateText("Movement|Units Density Product Observed");
+  var unitsDensityProductStandardHdrLbl = FMBaseController.TranslateText("Movement|Units Density Product Standard");
+  var unitsVolumeHdrLbl = FMBaseController.TranslateText("Movement|Units Volume");
+  var unitsMassHdrLbl = FMBaseController.TranslateText("Movement|Units Mass");
+  var userData01HdrLbl = FMBaseController.TranslateText("Movement|User Data01");
+  var userData02HdrLbl = FMBaseController.TranslateText("Movement|User Data02");
+  var userData03HdrLbl = FMBaseController.TranslateText("Movement|User Data03");
+  var userData04HdrLbl = FMBaseController.TranslateText("Movement|User Data04");
+  var userData05HdrLbl = FMBaseController.TranslateText("Movement|User Data05");
+  var userData06HdrLbl = FMBaseController.TranslateText("Movement|User Data06");
+  var userData07HdrLbl = FMBaseController.TranslateText("Movement|User Data07");
+  var userData08HdrLbl = FMBaseController.TranslateText("Movement|User Data08");
+  var userData09HdrLbl = FMBaseController.TranslateText("Movement|User Data09");
+  var userData10HdrLbl = FMBaseController.TranslateText("Movement|User Data10");
+  var volumeWaterHdrLbl = FMBaseController.TranslateText("Movement|Volume Water");
+  var commentUserNameHdrLbl = FMBaseController.TranslateText("Movement|Comment User Name");
+  var commentDateTimeHdrLbl = FMBaseController.TranslateText("Movement|Comment Date Time");
+
+  var contextPrintTicket = FMBaseController.TranslateText("Movement|Print Ticket");
+  var contextPreviewTicket = FMBaseController.TranslateText("Movement|Preview Ticket");
+  var contextEditHandgauge = FMBaseController.TranslateText("Movement|Edit Handgauge Values");
+  var contextEditStartData = FMBaseController.TranslateText("Movement|Edit Start Data");
+  var contextEditCloseoutData = FMBaseController.TranslateText("Movement|Edit Closeout Data");
+  var contextEditMovementData = FMBaseController.TranslateText("Movement|Edit Movement Data");
+
+  @Html.Hidden("MovementHistory_TimestampHdr", timeStamp);
+  @Html.Hidden("MovementHistory_SiteHdr", site);
+
+  @Html.Hidden("MovementHistory_MovementNameHdr", movementName);
+  @Html.Hidden("MovementHistory_MovementNodeHdr", movementNode);
+  @Html.Hidden("MovementHistory_InitiationCountHdr", initiateCount);
+  @Html.Hidden("MovementHistory_CommentHdr", commentHdrLbl);
+  @Html.Hidden("MovementHistory_CloseoutDataModifiedHdr", closeoutDataModifiedByHdrLbl);
+  @Html.Hidden("MovementHistory_CloseoutDensityProductInAirHdr", closeoutDensityProductInAirHdrLbl);
+  @Html.Hidden("MovementHistory_CloseoutDensityProductObservedHdr", closeoutDensityProductObservedHdrLbl);
+  @Html.Hidden("MovementHistory_CloseoutDensityProductObservedTimeHdr", closeoutDensityProductObservedTimeHdrLbl);
+  @Html.Hidden("MovementHistory_CloseoutDensityProductStandardHdr", closeoutDensityProductStandardHdrLbl);
+  @Html.Hidden("MovementHistory_CloseoutDensityProductStandardTimeHdr", closeoutDensityProductStandardTimeHdrLbl);
+  @Html.Hidden("MovementHistory_CloseoutDensityProductStandardInAirHdr", closeoutDensityProductStandardInAirHdrLbl);
+  @Html.Hidden("MovementHistory_CloseoutLevelProductHdr", closeoutLevelProductHdrLbl);
+  @Html.Hidden("MovementHistory_CloseoutLevelProductTimeHdr", closeoutLevelProductTimeHdrLbl);
+  @Html.Hidden("MovementHistory_CloseoutLevelWaterHdr", closeoutLevelWaterHdrLbl);
+  @Html.Hidden("MovementHistory_CloseoutMassLiquidHdr", closeoutMassLiquidHdrLbl);
+  @Html.Hidden("MovementHistory_CloseoutPercentBswHdr", closeoutPercentBswHdrLbl);
+  @Html.Hidden("MovementHistory_CloseoutRoofMassHdr", closeoutRoofMassHdrLbl);
+  @Html.Hidden("MovementHistory_CloseoutTankShellCorrectionHdr", closeoutTankShellCorrectionHdrLbl);
+  @Html.Hidden("MovementHistory_CloseoutTemperatureAmbientHdr", closeoutTemperatureAmbientHdrLbl);
+  @Html.Hidden("MovementHistory_CloseoutTemperatureAmbientTimeHdr", closeoutTemperatureAmbientTimeHdrLbl);
+  @Html.Hidden("MovementHistory_CloseoutTemperatureDensityHdr", closeoutTemperatureDensityHdrLbl);
+  @Html.Hidden("MovementHistory_CloseoutTemperatureProductHdr", closeoutTemperatureProductHdrLbl);
+  @Html.Hidden("MovementHistory_CloseoutTimeHdr", closeoutTimeHdrLbl);
+  @Html.Hidden("MovementHistory_CloseoutTransferGovHdr", closeoutTransferGovHdrLbl);
+  @Html.Hidden("MovementHistory_CloseoutTransferNsvHdr", closeoutTransferNsvHdrLbl);
+  @Html.Hidden("MovementHistory_CloseoutTransferMassLiquidHdr", closeoutTransferMassLiquidHdrLbl);
+  @Html.Hidden("MovementHistory_CloseoutTransferVolumeWaterHdr", closeoutTransferVolumeWaterHdrLbl);
+  @Html.Hidden("MovementHistory_CloseoutVolumeBswHdr", closeoutVolumeBswHdrLbl);
+  @Html.Hidden("MovementHistory_CloseoutVolumeCorrectionFactorHdr", closeoutVolumeCorrectionFactorHdrLbl);
+  @Html.Hidden("MovementHistory_CloseoutVolumeGrossObservedHdr", closeoutVolumeGrossObservedHdrLbl);
+  @Html.Hidden("MovementHistory_CloseoutVolumeGrossStandardHdr", closeoutVolumeGrossStandardHdrLbl);
+  @Html.Hidden("MovementHistory_CloseoutVolumeNetStandardHdr", closeoutVolumeNetStandardHdrLbl);
+  @Html.Hidden("MovementHistory_CloseoutVolumeRoofCorrectionHdr", closeoutVolumeRoofCorrectionHdrLbl);
+  @Html.Hidden("MovementHistory_CloseoutVolumeTotalObservedHdr", closeoutVolumeTotalObservedHdrLbl);
+  @Html.Hidden("MovementHistory_CloseoutVolumeWaterHdr", closeoutVolumeWaterHdrLbl);
+  @Html.Hidden("MovementHistory_LevelProductHdr", levelProductHdrLbl);
+  @Html.Hidden("MovementHistory_TypeHdr", typeHdrLbl);
+  @Html.Hidden("MovementHistory_OrderNumberHdr", orderNumberHdrLbl);
+  @Html.Hidden("MovementHistory_PlannedStartTimeHdr", plannedStartTimeHdrLbl);
+  @Html.Hidden("MovementHistory_ProductHdr", productHdrLbl);
+  @Html.Hidden("MovementHistory_ProductDescriptionHdr", productDescriptionHdrLbl);
+  @Html.Hidden("MovementHistory_StartTimeHdr", startTimeHdrLbl);
+  @Html.Hidden("MovementHistory_StartDensityProductObservedHdr", startDensityProductObservedHdrLbl);
+  @Html.Hidden("MovementHistory_StartDensityProductObservedTimeHdr", startDensityProductObservedTimeHdrLbl);
+  @Html.Hidden("MovementHistory_StartDensityProductObservedInAirHdr", startDensityProductObservedInAirHdrLbl);
+  @Html.Hidden("MovementHistory_StartDensityProductStandardHdr", startDensityProductStandardHdrLbl);
+  @Html.Hidden("MovementHistory_StartDensityProductStandardTimeHdr", startDensityProductStandardTimeHdrLbl);
+  @Html.Hidden("MovementHistory_StartDensityProductStandardInAirHdr", startDensityProductStandardInAirHdrLbl);
+  @Html.Hidden("MovementHistory_StartUserIdHdr", startUserIdHdrLbl);
+  @Html.Hidden("MovementHistory_StartLevelProductHdr", startLevelProductHdrLbl);
+  @Html.Hidden("MovementHistory_StartLevelProductTimeHdr", startLevelProductTimeHdrLbl);
+  @Html.Hidden("MovementHistory_StartLevelWaterHdr", startLevelWaterHdrLbl);
+  @Html.Hidden("MovementHistory_StartLevelWaterTimeHdr", startLevelWaterTimeHdrLbl);
+  @Html.Hidden("MovementHistory_StartMassLiquidHdr", startMassLiquidHdrLbl);
+  @Html.Hidden("MovementHistory_StartPercentBswHdr", startPercentBswHdrLbl);
+  @Html.Hidden("MovementHistory_StartTankShellCorrectionHdr", startTankShellCorrectionHdrLbl);
+  @Html.Hidden("MovementHistory_StartTemperatureAmbientHdr", startTemperatureAmbientHdrLbl);
+  @Html.Hidden("MovementHistory_StartTemperatureAmbientTimeHdr", startTemperatureAmbientTimeHdrLbl);
+  @Html.Hidden("MovementHistory_StartTemperatureProductHdr", startTemperatureProductHdrLbl);
+  @Html.Hidden("MovementHistory_StartTemperatureProductTimeHdr", startTemperatureProductTimeHdrLbl);
+  @Html.Hidden("MovementHistory_StartTemperatureDensityHdr", startTemperatureDensityHdrLbl);
+  @Html.Hidden("MovementHistory_StartTemperatureDensityTimeHdr", startTemperatureDensityTimeHdrLbl);
+  @Html.Hidden("MovementHistory_StartVolumeHdr", startVolumeHdrLbl);
+  @Html.Hidden("MovementHistory_StartVolumeBswHdr", startVolumeBswHdrLbl);
+  @Html.Hidden("MovementHistory_StartVolumeCorrectionFactorHdr", startVolumeCorrectionFactorHdrLbl);
+  @Html.Hidden("MovementHistory_StartVolumeGrossObservedHdr", startVolumeGrossObservedHdrLbl);
+  @Html.Hidden("MovementHistory_StartVolumeGrossStandardHdr", startVolumeGrossStandardHdrLbl);
+  @Html.Hidden("MovementHistory_StartVolumeNetStandardHdr", startVolumeNetStandardHdrLbl);
+  @Html.Hidden("MovementHistory_StartVolumeRoofCorrectionHdr", startVolumeRoofCorrectionHdrLbl);
+  @Html.Hidden("MovementHistory_StartVolumeTotalObservedHdr", startVolumeTotalObservedHdrLbl);
+  @Html.Hidden("MovementHistory_StartVolumeWaterHdr", startVolumeWaterHdrLbl);
+  @Html.Hidden("MovementHistory_StopTimeHdr", stopTimeHdrLbl);
+  @Html.Hidden("MovementHistory_StatusHdr", statusHdrLbl);
+  @Html.Hidden("MovementHistory_TransferDeviationHdr", transferDeviationHdrLbl);
+  @Html.Hidden("MovementHistory_TransferPercentDeviationHdr", transferPercentDeviationHdrLbl);
+  @Html.Hidden("MovementHistory_TransferDirectionHdr", transferDirectionHdrLbl);
+  @Html.Hidden("MovementHistory_TransferModeHdr", transferModeHdrLbl);
+  @Html.Hidden("MovementHistory_TransferStatusHdr", transferStatusHdrLbl);
+  @Html.Hidden("MovementHistory_TransferTargetHdr", transferTargetHdrLbl);
+  @Html.Hidden("MovementHistory_TransferTargetUnitsHdr", transferTargetUnitsHdrLbl);
+  @Html.Hidden("MovementHistory_TransferLevelTargetHdr", transferLevelTargetHdrLbl);
+  @Html.Hidden("MovementHistory_TransferVolumeTargetHdr", transferVolumeTargetHdrLbl);
+  @Html.Hidden("MovementHistory_TransferTimeRemainingHdr", transferTimeRemainingHdrLbl);
+  @Html.Hidden("MovementHistory_TransferredVolumeWaterHdr", transferredVolumeWaterHdrLbl);
+  @Html.Hidden("MovementHistory_TransferredVolumeHdr", transferredVolumeHdrLbl);
+  @Html.Hidden("MovementHistory_UnitsLevelProductHdr", unitsLevelProductHdrLbl);
+  @Html.Hidden("MovementHistory_UnitsTemperatureAmbientHdr", unitsTemperatureAmbientHdrLbl);
+  @Html.Hidden("MovementHistory_UnitsTemperatureDensityHdr", unitsTemperatureDensityHdrLbl);
+  @Html.Hidden("MovementHistory_UnitsTemperatureProductHdr", unitsTemperatureProductHdrLbl);
+  @Html.Hidden("MovementHistory_UnitsDensityProductObservedHdr", unitsDensityProductObservedHdrLbl);
+  @Html.Hidden("MovementHistory_UnitsDensityProductStandardHdr", unitsDensityProductStandardHdrLbl);
+  @Html.Hidden("MovementHistory_UnitsVolumeHdr", unitsVolumeHdrLbl);
+  @Html.Hidden("MovementHistory_UnitsMassHdr", unitsMassHdrLbl);
+  @Html.Hidden("MovementHistory_UserData01Hdr", userData01HdrLbl);
+  @Html.Hidden("MovementHistory_UserData02Hdr", userData02HdrLbl);
+  @Html.Hidden("MovementHistory_UserData03Hdr", userData03HdrLbl);
+  @Html.Hidden("MovementHistory_UserData04Hdr", userData04HdrLbl);
+  @Html.Hidden("MovementHistory_UserData05Hdr", userData05HdrLbl);
+  @Html.Hidden("MovementHistory_UserData06Hdr", userData06HdrLbl);
+  @Html.Hidden("MovementHistory_UserData07Hdr", userData07HdrLbl);
+  @Html.Hidden("MovementHistory_UserData08Hdr", userData08HdrLbl);
+  @Html.Hidden("MovementHistory_UserData09Hdr", userData09HdrLbl);
+  @Html.Hidden("MovementHistory_UserData10Hdr", userData10HdrLbl);
+  @Html.Hidden("MovementHistory_VolumeWaterHdr", volumeWaterHdrLbl);
+  @Html.Hidden("MovementHistory_CommentUserNameHdr", commentUserNameHdrLbl);
+  @Html.Hidden("MovementHistory_CommentDateTimeHdr", commentDateTimeHdrLbl);
+
+  var numFormatInfoString = String.Format("{{{0}"
++ "\"NegativeSign\":\"{1}\",{0}"
++ "\"NumberDecimalDigits\":{2},{0}"
++ "\"NumberDecimalSeparator\":\"{3}\",{0}"
++ "\"NumberGroupSeparator\":\"{4}\",{0}"
++ "\"NumberGroupSizes\":{5},{0}"
++ "\"NumberNegativePattern\":{6},{0}"
++ "\"ShortDatePattern\":\"{7}\",{0}"
++ "\"TimePattern\":\"{8}\"{0}}}",
+Environment.NewLine,
+"-",
+0,
+Model.Site.NumberDecimalSeparator,
+Model.Site.NumberGroupSeparator,
+Model.Site.GetNumberGroupSizes()[0],
+1,
+Model.Site.ShortDatePattern,
+Model.Site.TimePattern);
+
+  <input id="NumberFormatInfoString" type="hidden" value='@numFormatInfoString' />
+
+  <section id="MovementHistoryTableSection">
+    <div id="MovementHistoryTopDiv" style="padding-top: 5px; padding-bottom: 5px;">
+      <div id="MovementHistoryTopCustomTypeControlDiv">
+        <table id="MovementHistoryTypeControlTable">
+          <tr>
+            <td>
+              <div id="columnsTypeDivOutter">
+                <table>
+                  <tr>
+                    <td style="padding-left: 10px;">
+                      <label id="MovementHistoryStartDateLabel" for="StartTimePicker">Start Date:</label>
+                    </td>
+                    <td>
+                      <input id="StartTimePicker" type="text" class="form-control text-center datepicker" style="width: 180px !important; border: 1px solid #567eb9" />
+                    </td>
+                    <td style="padding-left: 10px">
+                      <label id="MovementHistoryEndDateLabel" for="EndTimePicker">End Date:</label>
+                    </td>
+                    <td>
+                      <input id="EndTimePicker" type="text" class="form-control text-center datepicker" style="width: 180px !important; border: 1px solid #567eb9" />
+                    </td>
+                    <td style="padding-left: 10px">
+                      <button id="MovementHistoryRefreshButton" type="button" class="MovementHistoryHeaderButtonClass"
+                              onclick="javascript: return MovementHistoryTab.HandleRefreshBtnEvent();">
+                        <Span>
+                          <img src="~/fmwebapp/images/RefreshMini.png" alt=@FMBaseController.TranslateText("Movement|Refresh") />
+                        </Span>
+                        @FMBaseController.TranslateText("Movement|Refresh")
+                      </button>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div id="MovementHistoryTopCustomButtonDiv">
+        <!-- Section for future custom buttons -->
+      </div>
+      <div id="MovementHistoryTopCustomControlDiv" class="pull-right">
+        <table id="MovementHistoryTopCustomControlTable">
+          <tr>
+            <td style="padding-right: 10px;">
+              <div id="MovementHistoryColumnsDivOutter">
+                <table>
+                  <tr>
+                    <td>
+                      <label id="MovementHistoryColumnsLabel"></label>
+                    </td>
+                    <td style="padding-right: 10px;">
+                      <div id="MovementHistoryGaugeDiv" class="columnsDivNoBorder">
+                        <div id="MovementHistoryGaugeInputArea" style="width: 175px;" onclick="MovementHistoryTab.HandleGaugeFilterDropdownExpandCollapse()">
+                          <label id="MovementHistoryShowHideGaugeLabel">@FMBaseController.TranslateText("Movement|Show/Hide Options")</label>
+                          <span id="MovementHistoryShowHideGaugeDropArrow" class="dropdownarrowicon glyphicon glyphicon-triangle-bottom pull-right"></span>
+                        </div>
+                      </div>
+                      <div id="MovementHistoryGaugeFilterDiv" class="hidden" style="width: 175px; max-height: 100px">
+                        <ul id="MovementHistoryGaugeFilterUl">
+                          <li id="MovementHistoryAutoGaugeLi" class="GaugeFilterLiClass">
+                            <label class="customCheckbox">
+                              <input id="MovementHistoryAutoGaugeCheckbox" type="checkbox" value="800" onchange='MovementHistoryTab.HandleGaugeFilterCheckboxChange(  );' />
+                              <span></span>
+                            </label>
+                            <label for="MovementHistoryAutoGaugeCheckbox" class="ColumnFilterCheckboxLabelClass">@FMBaseController.TranslateText("Movement|Show Auto Gauge Row")</label>
+                          </li>
+                          <li id="MovementHistoryHandgaugeLi" class="GaugeFilterLiClass">
+                            <label class="customCheckbox">
+                              <input id="MovementHistoryHandgaugeCheckbox" type="checkbox" value="801" onchange='MovementHistoryTab.HandleGaugeFilterCheckboxChange(  );' />
+                              <span></span>
+                            </label>
+                            <label for="MovementHistoryHandgaugeCheckbox" class="ColumnFilterCheckboxLabelClass">@FMBaseController.TranslateText("Movement|Show Hand Gauge Row")</label>
+                          </li>
+                          <li id="MovementHistoryMidnightRecordLi" class="GaugeFilterLiClass">
+                            <label class="customCheckbox">
+                              <input id="MovementHistoryMidnightRecordCheckbox" type="checkbox" value="802" onchange='MovementHistoryTab.MidnightRecordFilterCheckboxChange(  );' />
+                              <span></span>
+                            </label>
+                            <label for="MovementHistoryMidnightRecordCheckbox" class="ColumnFilterCheckboxLabelClass">@FMBaseController.TranslateText("Movement|Show Midnight Records")</label>
+                          </li>
+                        </ul>
+                      </div>
+                    </td>
+                    <td>
+                      <div id="MovementHistoryColumnsDiv" class="columnsDivNoBorder">
+                        <div id="MovementHistoryColumnsInputArea" style="width: 285px;" onclick="MovementHistoryTab.HandleColumnFilterDropdownExpandCollapse()">
+                          <label id="MovementHistoryShowHideColumnsLabel">@FMBaseController.TranslateText("Movement|Show/Hide Columns")</label>
+                          <span id="MovementHistoryShowHideColumnsDropArrow" class="dropdownarrowicon glyphicon glyphicon-triangle-bottom pull-right"></span>
+                        </div>
+                      </div>
+                      <div id="MovementHistoryColumnFilterDiv" class="hidden" style="width: 285px; max-height: 400px">
+                        <ul id="MovementHistoryColumnFilterUl">
+                          <li id="MovementHistorySelectAllLi" class="ColumnFilterLiClass">
+                            <label class="customCheckbox">
+                              <input id="MovementHistorySelectAllCheckbox" type="checkbox" value="999" onchange='MovementHistoryTab.HandleColumnFilterCheckboxChange( this );' />
+                              <span></span>
+                            </label>
+                            <label for="MovementHistoryDateTimeCheckbox" class="ColumnFilterCheckboxLabelClass">@FMBaseController.TranslateText("Movement|Select All")</label>
+                          </li>
+                          <li id="MovementHistoryDateTimeLi" class="ColumnFilterLiClass">
+                            <label class="customCheckboxDisabled">
+                              <input id="MovementHistoryDateTimeCheckbox" disabled="disabled" type="checkbox" value="0" onchange='MovementHistoryTab.HandleColumnFilterCheckboxChange( this );' />
+                              <span></span>
+                            </label>
+                            <label for="MovementHistoryDateTimeCheckbox" class="ColumnFilterCheckboxLabelClass">@FMBaseController.TranslateText("Movement|Timestamp")</label>
+                          </li>
+                          <li class="ColumnFilterLiClass">
+                            <label class="customCheckboxDisabled">
+                              <input id="MovementNameCheckbox" disabled="disabled" type="checkbox" value="1" onchange='MovementHistoryTab.HandleColumnFilterCheckboxChange( this );' />
+                              <span></span>
+                            </label>
+                            <label for="MovementNameCheckbox" class="ColumnFilterCheckboxLabelClass">@FMBaseController.TranslateText("Movement|Name")</label>
+                          </li>
+                          <li class="ColumnFilterLiClass">
+                            <label class="customCheckboxDisabled">
+                              <input id="MovementNodeCheckbox" disabled="disabled" type="checkbox" value="2" onchange='MovementHistoryTab.HandleColumnFilterCheckboxChange( this );' />
+                              <span></span>
+                            </label>
+                            <label for="MovementNodeCheckbox" class="ColumnFilterCheckboxLabelClass">@FMBaseController.TranslateText("Movement|Node")</label>
+                          </li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </td>
+            <td>
+              <div id="MovementHistoryFindDivOutter" style="position: relative;float: right;">
+                <label id="MovementHistoryFindLabel">@FMBaseController.TranslateText("Movement|Find"):</label>
+                <div id="MovementHistoryFindDiv" class="findDivNoBorder">
+                  <div id="MovementHistoryFindInputArea">
+                    <input id="MovementHistoryTabFind" type="text" class="form-control" autocomplete="off" onkeypress="javascript: return MovementHistoryTab.PreventEnterSubmit();">
+                    <img alt="Find Icon" title="Find" src="~/fmwebapp/images/Search Icon.png">
+                  </div>
+                </div>
+                <div id="MovementHistoryFindResultsRow" class="findResultsRowHidden hidden">
+                  <div id="MovementHistoryFindResultsDiv" class="findResultsDivBorder">
+                    <label id="MovementHistoryFindResultsLabel"><i>@FMBaseController.TranslateText("0 results")</i></label>
+                    <button id="MovementHistoryFindPrevButton" type="button" class="MovementHistoryFindButtonClass" onclick="javascript: return MovementHistoryTab.FindPrev();">
+                      <span class="glyphicon glyphicon-triangle-left"></span>
+                      @FMBaseController.TranslateText("Movement|Prev.")
+                    </button>
+                    <button id="MovementHistoryFindNexButton" type="button" class="MovementHistoryFindButtonClass" onclick="javascript: return MovementHistoryTab.FindNext();">
+                      @FMBaseController.TranslateText("Movement|Next")
+                      <span class="glyphicon glyphicon-triangle-right"></span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div id="MovementHistoryTableContainer" class="col-xs-12">
+        <table id="MovementHistoryTable" class="table table-striped hover MovementHistoryTableClass">
+          <thead style="border: none;">
+            <tr style="border: none;">
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.timeStampColumnIndex); return false;">@timeStamp</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.movementNameColumnIndex); return false;">@movementName</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.movementNodeColumnIndex); return false;">@movementNode</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.initiationCountColumnIndex); return false;">@initiateCount</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.siteColumnIndex); return false;">@site</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.commentColumnIndex); return false;">@commentHdrLbl<span class="glyphicon glyphicon-pencil" style="margin-left: 5px;"></span></th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.closeoutDataModifiedByColumnIndex); return false;">@closeoutDataModifiedByHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.closeoutDensityProductInAirColumnIndex); return false;">@closeoutDensityProductInAirHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.closeoutDensityProductObservedColumnIndex); return false;">@closeoutDensityProductObservedHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.closeoutDensityProductObservedTimeColumnIndex); return false;">@closeoutDensityProductObservedTimeHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.closeoutDensityProductStandardColumnIndex); return false;">@closeoutDensityProductStandardHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.closeoutDensityProductStandardTimeColumnIndex); return false;">@closeoutDensityProductStandardTimeHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.closeoutDensityProductStandardInAirColumnIndex); return false;">@closeoutDensityProductStandardInAirHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.closeoutLevelProductColumnIndex); return false;">@closeoutLevelProductHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.closeoutLevelProductTimeColumnIndex); return false;">@closeoutLevelProductTimeHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.closeoutLevelWaterColumnIndex); return false;">@closeoutLevelWaterHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.closeoutMassLiquidColumnIndex); return false;">@closeoutMassLiquidHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.closeoutPercentBswColumnIndex); return false;">@closeoutPercentBswHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.closeoutRoofMassColumnIndex); return false;">@closeoutRoofMassHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.closeoutTankShellCorrectionColumnIndex); return false;">@closeoutTankShellCorrectionHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.closeoutTemperatureAmbientColumnIndex); return false;">@closeoutTemperatureAmbientHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.closeoutTemperatureAmbientTimeColumnIndex); return false;">@closeoutTemperatureAmbientTimeHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.closeoutTemperatureDensityColumnIndex); return false;">@closeoutTemperatureDensityHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.closeoutTemperatureProductColumnIndex); return false;">@closeoutTemperatureProductHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.closeoutTimeColumnIndex); return false;">@closeoutTimeHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.closeoutTransferGovColumnIndex); return false;">@closeoutTransferGovHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.closeoutTransferNsvColumnIndex); return false;">@closeoutTransferNsvHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.closeoutTransferMassLiquidColumnIndex); return false;">@closeoutTransferMassLiquidHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.closeoutTransferVolumeWaterColumnIndex); return false;">@closeoutTransferVolumeWaterHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.closeoutVolumeBswColumnIndex); return false;">@closeoutVolumeBswHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.closeoutVolumeCorrectionFactorColumnIndex); return false;">@closeoutVolumeCorrectionFactorHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.closeoutVolumeGrossObservedColumnIndex); return false;">@closeoutVolumeGrossObservedHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.closeoutVolumeGrossStandardColumnIndex); return false;">@closeoutVolumeGrossStandardHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.closeoutVolumeNetStandardColumnIndex); return false;">@closeoutVolumeNetStandardHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.closeoutVolumeRoofCorrectionColumnIndex); return false;">@closeoutVolumeRoofCorrectionHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.closeoutVolumeTotalObservedColumnIndex); return false;">@closeoutVolumeTotalObservedHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.closeoutVolumeWaterColumnIndex); return false;">@closeoutVolumeWaterHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.levelProductColumnIndex); return false;">@levelProductHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.typeColumnIndex); return false;">@typeHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.orderNumberColumnIndex); return false;">@orderNumberHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.plannedStartTimeColumnIndex); return false;">@plannedStartTimeHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.productColumnIndex); return false;">@productHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.productDescriptionColumnIndex); return false;">@productDescriptionHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.startTimeColumnIndex); return false;">@startTimeHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.startDensityProductObservedColumnIndex); return false;">@startDensityProductObservedHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.startDensityProductObservedTimeColumnIndex); return false;">@startDensityProductObservedTimeHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.startDensityProductObservedInAirColumnIndex); return false;">@startDensityProductObservedInAirHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.startDensityProductStandardColumnIndex); return false;">@startDensityProductStandardHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.startDensityProductStandardTimeColumnIndex); return false;">@startDensityProductStandardTimeHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.startDensityProductStandardInAirColumnIndex); return false;">@startDensityProductStandardInAirHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.startUserIdColumnIndex); return false;">@startUserIdHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.startLevelProductColumnIndex); return false;">@startLevelProductHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.startLevelProductTimeColumnIndex); return false;">@startLevelProductTimeHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.startLevelWaterColumnIndex); return false;">@startLevelWaterHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.startLevelWaterTimeColumnIndex); return false;">@startLevelWaterTimeHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.startMassLiquidColumnIndex); return false;">@startMassLiquidHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.startPercentBswColumnIndex); return false;">@startPercentBswHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.startTankShellCorrectionColumnIndex); return false;">@startTankShellCorrectionHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.startTemperatureAmbientColumnIndex); return false;">@startTemperatureAmbientHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.startTemperatureAmbientTimeColumnIndex); return false;">@startTemperatureAmbientTimeHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.startTemperatureProductColumnIndex); return false;">@startTemperatureProductHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.startTemperatureProductTimeColumnIndex); return false;">@startTemperatureProductTimeHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.startTemperatureDensityColumnIndex); return false;">@startTemperatureDensityHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.startTemperatureDensityTimeColumnIndex); return false;">@startTemperatureDensityTimeHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.startVolumeColumnIndex); return false;">@startVolumeHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.startVolumeColumnBswIndex); return false;">@startVolumeBswHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.startVolumeCorrectionFactorColumnIndex); return false;">@startVolumeCorrectionFactorHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.startVolumeGrossObservedColumnIndex); return false;">@startVolumeGrossObservedHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.startVolumeGrossStandardColumnIndex); return false;">@startVolumeGrossStandardHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.startVolumeNetStandardColumnIndex); return false;">@startVolumeNetStandardHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.startVolumeRoofCorrectionColumnIndex); return false;">@startVolumeRoofCorrectionHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.startVolumeTotalObservedColumnIndex); return false;">@startVolumeTotalObservedHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.startVolumeWaterColumnIndex); return false;">@startVolumeWaterHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.stopTimeColumnIndex); return false;">@stopTimeHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.statusColumnIndex); return false;">@statusHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.transferDeviationColumnIndex); return false;">@transferDeviationHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.transferPercentDeviationColumnIndex); return false;">@transferPercentDeviationHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.transferDirectionColumnIndex); return false;">@transferDirectionHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.transferModeColumnIndex); return false;">@transferModeHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.transferStatusColumnIndex); return false;">@transferStatusHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.transferTargetColumnIndex); return false;">@transferTargetHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.transferTargetUnitsColumnIndex); return false;">@transferTargetUnitsHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.transferLevelTargetColumnIndex); return false;">@transferLevelTargetHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.transferVolumeTargetColumnIndex); return false;">@transferVolumeTargetHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.transferTimeRemainingColumnIndex); return false;">@transferTimeRemainingHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.transferredVolumeWaterColumnIndex); return false;">@transferredVolumeWaterHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.transferredVolumeColumnIndex); return false;">@transferredVolumeHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.unitsLevelProductColumnIndex); return false;">@unitsLevelProductHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.unitsTemperatureAmbientColumnIndex); return false;">@unitsTemperatureAmbientHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.unitsTemperatureDensityColumnIndex); return false;">@unitsTemperatureDensityHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.unitsTemperatureProductColumnIndex); return false;">@unitsTemperatureProductHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.unitsDensityProductObservedColumnIndex); return false;">@unitsDensityProductObservedHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.unitsDensityProductStandardColumnIndex); return false;">@unitsDensityProductStandardHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.unitsVolumeColumnIndex); return false;">@unitsVolumeHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.unitsMassColumnIndex); return false;">@unitsMassHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.userData01ColumnIndex); return false;">@userData01HdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.userData02ColumnIndex); return false;">@userData02HdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.userData03ColumnIndex); return false;">@userData03HdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.userData04ColumnIndex); return false;">@userData04HdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.userData05ColumnIndex); return false;">@userData05HdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.userData06ColumnIndex); return false;">@userData06HdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.userData07ColumnIndex); return false;">@userData07HdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.userData08ColumnIndex); return false;">@userData08HdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.userData09ColumnIndex); return false;">@userData09HdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.userData10ColumnIndex); return false;">@userData10HdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.volumeWaterColumnIndex); return false;">@volumeWaterHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.commentUserNameColumnIndex); return false;">@commentUserNameHdrLbl</th>
+              <th class="col-sm-2 col-md-2 text-center MovementHistoryTableCellEx" oncontextmenu="MovementHistoryTab.HandleTableHeaderOnContextMenuEvent(MovementHistoryTab.commentDateTimeColumnIndex); return false;">@commentDateTimeHdrLbl</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <!-- Modal -->
+      <div class="row">
+        <div id="MovementHistoryColumnDataFilterModalDiv" class="modal fade" data-width="500" data-backdrop="static" data-focus-on="input:first" role="dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button id="MovementHistoryColumnFilterCancelIconId" type="button" class="close" data-dismiss="modal" onclick="MovementHistoryTab.HandleCancelFiltering();">&times;</button>
+            </div>
+            <div class="modal-body">
+              <section id="MovementHistoryColumnDataFilterSection" class="row">
+                <div class="col-xs-12">
+                  <label class="modalDropdownLabel">@FMBaseController.TranslateText("Choose Columns:")</label>
+                </div>
+                <div class="col-xs-12">
+                  <select id="MovementHistoryChooseColumnDropdownId" class="form-control" onchange="MovementHistoryTab.HandleChooseColumnDropdownEvent()">
+                    <option selected="selected" value="-99">None</option>
+                  </select>
+                </div>
+                <div class="col-xs-12">
+                  <label> </label>
+                </div>
+                <div id="MovementHistoryColumnFilterDateRowDiv" class="col-xs-12 hidden">
+                  <table style="width: 100%">
+                    <tr>
+                      <td>
+                        <label class="modalDropdownLabel">@FMBaseController.TranslateText("From:")</label>
+                      </td>
+                      <td style="width: 5%"></td>
+                      <td>
+                        <label class="modalDropdownLabel">@FMBaseController.TranslateText("To:")</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <input type='text' class="MovementHistory-form-control text-center" id="MovementHistoryColumnFilterFromDateInput" name="MovementHistory.ColumnFilterFromDate" value="" onblur="MovementHistoryTab.HandleAvailableFilterDateChangeEvent('FROM')" />
+                      </td>
+                      <td style="width: 5%"></td>
+                      <td>
+                        <input type='text' class="MovementHistory-form-control text-center" id="MovementHistoryColumnFilterToDateInput" name="MovementHistory.ColumnFilterToDate" value="" onblur="MovementHistoryTab.HandleAvailableFilterDateChangeEvent('TO')" />
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                <div id="MovementHistoryColumnFilterCommentDateRowDiv" class="col-xs-12 hidden">
+                  <table style="width: 100%">
+                    <tr>
+                      <td>
+                        <label class="modalDropdownLabel">@FMBaseController.TranslateText("From:")</label>
+                      </td>
+                      <td style="width: 5%"></td>
+                      <td>
+                        <label class="modalDropdownLabel">@FMBaseController.TranslateText("To:")</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <input type='text' class="MovementHistory-form-control text-center" id="MovementHistoryColumnFilterCommentFromDateInput" name="MovementHistory.ColumnFilterCommentFromDate" value="" onblur="MovementHistoryTab.HandleAvailableFilterCommentDateChangeEvent('FROM')" />
+                      </td>
+                      <td style="width: 5%"></td>
+                      <td>
+                        <input type='text' class="MovementHistory-form-control text-center" id="MovementHistoryColumnFilterCommentToDateInput" name="MovementHistory.ColumnFilterCommentToDate" value="" onblur="MovementHistoryTab.HandleAvailableFilterCommentDateChangeEvent('TO')" />
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                <div id="MovementHistoryColumnFilterPlannedStartTimeRowDiv" class="col-xs-12 hidden">
+                  <table style="width: 100%">
+                    <tr>
+                      <td>
+                        <label class="modalDropdownLabel">@FMBaseController.TranslateText("From:")</label>
+                      </td>
+                      <td style="width: 5%"></td>
+                      <td>
+                        <label class="modalDropdownLabel">@FMBaseController.TranslateText("To:")</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <input type='text' class="MovementHistory-form-control text-center" id="MovementHistoryColumnFilterPlannedStartTimeFromDateInput" name="MovementHistory.ColumnFilterPlannedStartTimeFromDate" value="" onblur="MovementHistoryTab.HandleAvailableFilterPlannedStartTimeChangeEvent('FROM')" />
+                      </td>
+                      <td style="width: 5%"></td>
+                      <td>
+                        <input type='text' class="MovementHistory-form-control text-center" id="MovementHistoryColumnFilterPlannedStartTimeToDateInput" name="MovementHistory.ColumnFilterPlannedStartTimeToDate" value="" onblur="MovementHistoryTab.HandleAvailableFilterPlannedStartTimeChangeEvent('TO')" />
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+
+                <div id="MovementHistoryAvailableFilterDropdownLabelDivId" class="col-xs-12">
+                  <label class="modalDropdownLabel">@FMBaseController.TranslateText("Available Filters:")</label>
+                </div>
+                <div id="MovementHistoryAvailableFilterDropdownDivId" class="col-xs-12">
+                  <select class="form-control" id="MovementHistoryAvailableFilterDropdownId" multiple="multiple" value="Undefined"></select>
+                </div>
+              </section>
+            </div>
+            <div class="modal-footer">
+              <div class="btn-toolbar">
+                <div class="pull-left">
+
+                </div>
+                <div class="pull-right">
+                  <button id="MovementHistoryColumnDataFilterModalClearBtn" type="button" class="formfieldtitle pushButton" style="width: 110px;" onclick="javascript: return MovementHistoryTab.HandleClearAllFiltersBtnEvent();">
+                    @FMBaseController.TranslateText("Clear All Filters")
+                  </button>
+                  <button id="MovementHistoryColumnDataFilterModalOkBtn" type="button" class="formfieldtitle pushButton" data-dismiss="modal" style="width: 100px;" onclick="javascript: return MovementHistoryTab.HandleSaveCurrentFilterAndRefresh();">
+                    @FMBaseController.TranslateText("OK")
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- History row context menu -->
+      <div id="HistoryRowContextMenuDiv" class="MovementHistoryContextMenuCenter">
+        <table>
+          <tr><td>&nbsp;</td></tr>
+          <tr>
+            <td class="HistoryContextMenuTd">
+              <button id="HistoryContextMenuPrintTicket" class="HistoryContextMenuBtn" onclick="MovementHistoryTab.HandleContextMenuSelection('PrintTicket'); return false;">
+                @contextPrintTicket
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td class="HistoryContextMenuTd">
+              <button id="HistoryContextMenuPreviewTicket" class="HistoryContextMenuBtn" onclick="MovementHistoryTab.HandleContextMenuSelection('PreviewTicket'); return false;">
+                @contextPreviewTicket
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td class="HistoryContextMenuTd">
+              <button id="HistoryContextMenuEditHandgauge" class="HistoryContextMenuBtn" onclick="MovementHistoryTab.HandleContextMenuSelection('EditHandgaugeValue'); return false;">
+                @contextEditHandgauge
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td class="HistoryContextMenuTd">
+              <button id="HistoryContextMenuEditStartData" class="HistoryContextMenuBtn" onclick="MovementHistoryTab.HandleContextMenuSelection('EditStartData'); return false;">
+                @contextEditStartData
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td class="HistoryContextMenuTd">
+              <button id="HistoryContextMenuEditCloseoutData" class="HistoryContextMenuBtn" onclick="MovementHistoryTab.HandleContextMenuSelection('EditCloseoutData'); return false;">
+                @contextEditCloseoutData
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td class="HistoryContextMenuTd">
+              <button id="HistoryContextMenuEditMovementData" class="HistoryContextMenuBtn" onclick="MovementHistoryTab.HandleContextMenuSelection('EditMovementData'); return false;">
+                @contextEditMovementData
+              </button>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </section>
+}
+
+<script type="text/javascript">
+  //# sourceURL=_MovementHistoryTabView.cshtml
+  $(document).ready(function () {
+    $("#MovementHistoryTable").removeClass("hidden").addClass("hidden");
+    MovementHistoryTab.HistoryInitialized = false;
+    MovementHistoryTab.Init();
+  });
+
+  $(window).resize(function () { MovementHistoryTab.HandleWindowResize(); });
+
+  $(document).mouseup(function (e) {
+    // handler to make the options and columns dropdowns close back up on
+    var dropdownsToCloseOnOutsideClick = new Array();
+
+    // Only check the divs if they currently are visible
+    if ($("#MovementHistoryGaugeFilterDiv").length > 0 && !$("#MovementHistoryGaugeFilterDiv").attr('class').includes("hidden")) {
+      dropdownsToCloseOnOutsideClick.push($('#MovementHistoryGaugeFilterDiv'));
+    }
+    if ($("#MovementHistoryColumnFilterDiv").length > 0 && !$("#MovementHistoryColumnFilterDiv").attr('class').includes("hidden")) {
+      dropdownsToCloseOnOutsideClick.push($('#MovementHistoryColumnFilterDiv'));
+    }
+
+    $.each(dropdownsToCloseOnOutsideClick, function (key, value) {
+      if (!$(value).is(e.target) // if the target of the click isn't the container...
+        && $(value).has(e.target).length === 0) // ... nor a descendant of the container
+      {
+        if ($(value).selector == '#MovementHistoryColumnFilterDiv') {
+          if ($(e.target).attr('id') != 'MovementHistoryShowHideColumnsDropArrow') {
+            MovementHistoryTab.HandleColumnFilterDropdownExpandCollapse();
+          }
+        } else if ($(value).selector == '#MovementHistoryGaugeFilterDiv') {
+          if ($(e.target).attr('id') != 'MovementHistoryShowHideGaugeDropArrow') {
+            MovementHistoryTab.HandleGaugeFilterDropdownExpandCollapse();
+          }
+        }
+      }
+    })
+
+    return true;
+  })
+</script>
+
+

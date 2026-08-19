@@ -1,0 +1,151 @@
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+
+/* You can add global styles to this file, and also import other style files */
+
+
+/* fonts */
+
+@font-face {
+    font-family: "Helvetica Neue";
+    src: url('assets/OpenSans-Regular-webfont.eot');
+    src: url('assets/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'), url('assets/OpenSans-Regular-webfont.woff') format('woff'), url('assets/OpenSans-Regular-webfont.ttf') format('truetype'), url('assets/OpenSans-Regular-webfont.svg#open_sansregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url('assets/roboto-v15-latin-regular.eot');
+  src: url('assets/roboto-v15-latin-regular.eot?#iefix') format('embedded-opentype'), url('assets/roboto-v15-latin-regular.woff') format('woff'), url('assets/roboto-v15-latin-regular.ttf') format('truetype'), url('assets/roboto-v15-latin-regular.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+html body {
+  margin: 0;
+  background-color: #F2F2F2;
+  font-family: "Helvetica Neue", sans-serif;
+  height: 100vh;
+  color: #808080;
+  padding-right: 0px !important;
+}
+
+html,
+body {
+    height: 100%;
+    padding-left: 0px !important;
+}
+
+::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
+    font-style: italic;
+    color: #D0D0D0 !important;
+}
+
+ ::-moz-placeholder {
+    /* Firefox 19+ */
+    font-style: italic;
+    color: #B0B0B0;
+}
+
+ :-ms-input-placeholder {
+    /* IE 10+ */
+    font-style: italic;
+    color: #B0B0B0;
+}
+
+#rtu8810body button.close:focus {
+    outline: none;
+}
+
+/*  OVERRIDE BOOTSTRAP CLASSES */
+
+#rtu8810body .btn {
+    min-width: 120px;
+    border-color: transparent;
+    border-radius: 4px;
+    box-shadow: 0 0 4px 0 rgba(227, 227, 227, 0.61);
+}
+
+#rtu8810body .btn-primary {
+    background-color: #006cb3;
+}
+
+#rtu8810body .btn-secondary {
+    background-color: white;
+    color:#006cb3;
+    border-color:#006cb3;
+}
+
+#rtu8810body .form-control,
+#rtu8810body .modal-content,
+#rtu8810body .modal-header,
+#rtu8810body .modal-footer,
+#rtu8810body .input-group-text {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+#rtu8810body .modal-header {
+    border-bottom: none;
+}
+
+#rtu8810body .modal-footer {
+    border-top: none;
+}
+
+#rtu8810body .modal-body,
+#rtu8810body .modal-header,
+#rtu8810body .modal-footer {
+    padding: 1rem 1.5rem;
+}
+
+.modal-dialog {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: calc(100vh - 60px);
+}
+
+.modal-xlg {
+    width: 900px;
+    max-width: 900px !important;
+}
+
+.modal-lg {
+    width: 700px;
+    max-width: 700px !important;
+}
+
+@media (max-width: 767px) {
+    .modal-dialog {
+        min-height: calc(100vh - 20px);
+    }
+}
+
+#rtu8810body .ps__rail-y {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+}
+
+#rtu8810body .ps__thumb-y {
+  background-color: #006CB3;
+}
+
+body .bs-datepicker-container .bs-datepicker-head {
+  background-color: #006CB3;
+}
+
+  
+.dropdown-menu {
+    z-index: 3000 !important;
+}
+
+ngb-typeahead-window.dropdown-menu.show {
+  max-height: 300px;
+  overflow-y: auto;
+}

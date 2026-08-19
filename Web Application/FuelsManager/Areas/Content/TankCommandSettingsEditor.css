@@ -1,0 +1,36 @@
+﻿#TankCommandSettingsEditorPartial {
+	margin-top: 15px;
+}
+
+#TankCommandSettingsEditorPartial label {
+    color: rgb(153,153,153) !important;
+}
+
+.TankCommandSettingsEditorHeader {
+    right: 10px;
+    top: -5px;
+    position: absolute;
+}
+
+.TankCommandSettingsEditorHeader .close {
+	padding: 5px !important;
+	margin-top: -2px !important;
+}
+
+#TankCommandSettingsEditorPartial h4, #TankCommandSettingsEditorPartial h5, #TankCommandSettingsEditorPartial h6 {
+	margin-top: 0px !important;
+	margin-bottom: 0px !important;
+}
+
+#TankCommandSettingsEditorPartial .form-group {
+    margin-bottom: 15px !important;
+}
+
+#TankCommandSettingsEditorPartial .checkbox-group {
+	padding-left: 40px;
+	padding-right: 40px;
+}
+
+#ModulePropertyEditorPropertyScreen {
+	width: 650px;
+}

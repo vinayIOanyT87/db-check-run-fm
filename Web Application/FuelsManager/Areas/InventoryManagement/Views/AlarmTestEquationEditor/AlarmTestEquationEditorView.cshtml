@@ -1,0 +1,141 @@
+﻿@using System.Web.Mvc.Html
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.AlarmTestEquationEditorModel
+
+<link href="~/Areas/Content/AlarmTestEquation.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Content/select2.min.css" rel="stylesheet" type="text/css" />
+
+<script src="~/Areas/Lib/select2.js"></script>
+<script src="~/Areas/Scripts/FMCommon.js"></script>
+
+
+<style>
+	.radiogroup {
+		padding-left: 15px;
+		margin-bottom: 20px !important;
+		text-align: center;
+	}
+
+	.radiogroup label {
+		padding: 0px 50px;
+	}
+
+	.AlarmTestLabel {
+		text-overflow: ellipsis;
+		width: 100%;
+		display: block;
+		height: 34px;
+		line-height: 1.42857143;
+		padding: 6px 0px;
+		overflow-x: hidden;
+	}
+
+	#AlarmTestEquationComparison .select2 {
+		width: 100% !important;
+	}
+
+	#AlarmTestEquationComparison .select2-container--default .select2-selection--single {
+		background-color: #fff;
+		border: 1px solid #ccc;
+		border-radius: 0px;
+		height: 34px;
+	}
+
+	#AlarmTestEquationComparison .select2-container--open {
+		z-index: 1060;
+	}
+
+	#select2-ComparisonOperatorDropDown-results .select2-results__option[aria-disabled=true] {
+		display:none;
+	}
+
+</style>
+
+@Html.Hidden("AlarmTestEquationEditorModel", AlarmTestEquationEditorController.SerializeModel(Model))
+@{
+	var tagFieldValueSelected = Model.TagAttribute == 0 ? "selected" : "";
+	var tagFieldStatusSelected = Model.TagAttribute == 1 ? "selected" : "";
+	var tagFieldOpcUaStatusSubcodeSelected = Model.TagAttribute == 1 ? "selected" : "";
+
+	var bitwiseOperatorAndSelected = Model.BitwiseOperator == 0 ? "selected" : "";
+	var bitwiseOperatorOrSelected = Model.BitwiseOperator == 1 ? "selected" : "";
+	var bitwiseOperatorNorSelected = Model.BitwiseOperator == 3 ? "selected" : "";
+	var bitwiseOperatorXorSelected = Model.BitwiseOperator == 4 ? "selected" : "";
+
+	var comparisonOperatorGTSelected = Model.ComparisonOperator == 0 ? "selected" : "";
+	var comparisonOperatorGTESelected = Model.ComparisonOperator == 1 ? "selected" : "";
+	var comparisonOperatorLTSelected = Model.ComparisonOperator == 2 ? "selected" : "";
+	var comparisonOperatorLTESelected = Model.ComparisonOperator == 3 ? "selected" : "";
+	var comparisonOperatorEqSelected = Model.ComparisonOperator == 4 ? "selected" : "";
+	var comparisonOperatorNEqSelected = Model.ComparisonOperator == 5 ? "selected" : "";
+	var bitmaskHiddenClass = Model.UseBitmask == true ? "" : " hidden";
+	// we can display the comparison selection for numeric tags or when using the tag Status
+	var comparisonSelectionHiddenClass = ( Model.CanUseBitmask == true || Model.TagAttribute == 1) ? "" : " hidden";
+	var isNumericHiddenClass = (Model.CanUseBitmask == false && Model.TagAttribute == 0 && (Model.TagType != "System.Double" && Model.TagType != "System.Single")) ? "disabled" : "";
+
+	<div>
+		<div class="row">
+			<div id="AlarmTestEquationComparisonSelection" class="form-group radiogroup @comparisonSelectionHiddenClass">
+				<label class="radio-inline"><input type="radio" name="operatormode" value="nobitmap">@FMBaseController.TranslateText("AlarmTemplateEditor|Use Comparison")</label>
+				<label class="radio-inline"><input type="radio" name="operatormode" value="bitmap">@FMBaseController.TranslateText("AlarmTemplateEditor|Use Bitmask Operation")</label>
+			</div>
+		</div>
+		<div class="row">
+			<label id="AlarmTestEquationTagNameHeader" class="col-sm-3">@FMBaseController.TranslateText("AlarmTemplateEditor|Tag Name")</label>
+			<label id="AlarmTestEquationTagAttributeHeader" class="col-sm-3">@FMBaseController.TranslateText("AlarmTemplateEditor|Tag Attribute")</label>
+			<label id="AlarmTestEquationBitwiseOperatorHeader" class="col-sm-2 @bitmaskHiddenClass">@FMBaseController.TranslateText("AlarmTemplateEditor|Bitwise Operator")</label>
+			<label id="AlarmTestEquationBitmaskHeader" class="col-sm-2 @bitmaskHiddenClass">@FMBaseController.TranslateText("AlarmTemplateEditor|Bitmask")</label>
+			<label id="AlarmTestEquationComparisonHeader" class="col-sm-3">@FMBaseController.TranslateText("AlarmTemplateEditor|Comparison Operator")</label>
+			<label id="AlarmTestEquationLimitTagHeader" class="col-sm-3">@FMBaseController.TranslateText("AlarmTemplateEditor|Limit Tag")</label>
+		</div>
+
+		<div class="row">
+			<div  id="AlarmTestEquationTagName" class="form-group col-sm-3">
+				<span class="AlarmTestLabel text-nowrap" title="@Model.TagName">@Model.TagName</span>
+			</div>
+			<div id="AlarmTestEquationTagAttribute" class="form-group col-sm-3">
+				<select id="AlarmTestEquationTagFieldDropDown" class="form-control">
+					<option @tagFieldValueSelected value="0">@FMBaseController.TranslateText("AlarmTemplateEditor|Value")</option>
+					<option @tagFieldStatusSelected value="1">@FMBaseController.TranslateText("AlarmTemplateEditor|Status")</option>
+					<!-- <option @tagFieldOpcUaStatusSubcodeSelected value="2">OPC UA Status Subcode</option> -->
+				</select>
+			</div>
+			<div id="AlarmTestEquationBitwiseOperator" class="form-group col-sm-2 @bitmaskHiddenClass">
+				<select id="BitwiseOperatorDropDown" class="form-control">
+					<option @bitwiseOperatorAndSelected value="0">AND</option>
+					<option @bitwiseOperatorOrSelected value="1">OR</option>
+					<option @bitwiseOperatorNorSelected value="3">NOR</option>
+					<option @bitwiseOperatorXorSelected value="4">XOR</option>
+				</select>
+			</div>
+			<div id="AlarmTestEquationBitmask" class="form-group col-sm-2 @bitmaskHiddenClass">
+					<input id="AlarmEquationEditorBitmaskInput" type="text" class="form-control text-left" value="@Model.Bitmask" maxlength="@Model.BitMaskDigits" onkeypress="javascript: return AlarmTestEquationEditor.EditHexKeyHandler();" />
+			</div>
+
+				<div id="AlarmTestEquationComparison" class="form-group col-sm-3">
+					<!--TestTypeEnum { GreaterThan = 0, GreaterThanOrEqual = 1, LessThan = 2, LessThanOrEqual = 3, Equals = 4, NotEquals = 5 }-->
+					<select id="ComparisonOperatorDropDown" class="form-control">
+						<option @comparisonOperatorGTSelected value="0" @isNumericHiddenClass>&gt;</option>
+						<option @comparisonOperatorGTESelected value="1" @isNumericHiddenClass>&gt;=</option>
+						<option @comparisonOperatorLTSelected value="2" @isNumericHiddenClass>&lt;</option>
+						<option @comparisonOperatorLTESelected value="3" @isNumericHiddenClass>&lt;=</option>
+						<option @comparisonOperatorEqSelected value="4">=</option>
+						<option @comparisonOperatorNEqSelected value="5">&lt;&gt;</option>
+					</select>
+				</div>
+				<div id="AlarmTestEquationLimitTag" class="form-group col-sm-3">
+					<span class="AlarmTestLabel text-nowrap" title="@Model.LimitName">@Model.LimitName</span>
+				</div>
+			</div>
+
+		</div>
+}
+
+<script type="text/javascript">
+	//# sourceURL=_AlarmEditorView.cshtml
+	$(document).ready(function () {
+		AlarmTestEquationEditor.Init();
+	});
+
+</script>

@@ -1,0 +1,29 @@
+﻿@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.OfflineRollingStockImportModel
+
+@{
+    ViewBag.Title = "OfflineRollingStockImportView";
+    Layout = "~/Areas/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Areas/Content/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Content/bootstrap-modal.css" rel="stylesheet" type="text/css" />
+
+<script src="~/Areas/Lib/jquery.nicescroll.min.js"></script>
+<script src="~/Areas/Lib/bootstrap-modal.js"></script>
+<script src="~/Areas/Lib/bootstrap-modalmanager.js"></script>
+<script src="~/Areas/Scripts/FMErrorAndExceptionHandling.js"></script>
+
+<script src="~/Areas/lib/ace.js"></script>
+
+@using (Html.BeginForm("Import", "OfflineRollingStockImport", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="row headline" style="width: 5in; padding-bottom:15px">@FMBaseController.TranslateText("Offline Rolling Stock Import")</div>
+
+    <input style="padding:4px; padding-bottom:10px" type="file" name="file" />
+    <button class="pushButton" type="submit" value="Upload Image">Upload File </button>
+
+    <div class="row" style="padding-bottom:10px"></div>
+    @Html.TextAreaFor(model => model.logText, new { cols = 150, @rows = 20 })
+}

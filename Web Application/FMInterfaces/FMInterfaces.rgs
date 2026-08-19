@@ -1,0 +1,11 @@
+HKCR
+{
+	NoRemove AppID
+	{
+		'%APPID%' = s 'FMInterfaces'
+		'FMInterfaces.DLL'
+		{
+			val AppID = s '%APPID%'
+		}
+	}
+}

@@ -1,0 +1,10 @@
+Original\
+obj\
+Service References
+.cs\
+.Designer.cs\
+.pdb\
+.csproj\
+.csproj.user\
+.csproj.vspscc\
+.sln

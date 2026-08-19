@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nodeSet>
+  <view uin="hx4xnaq8pz4h31s_v">
+    <property name="$name" value="LogClient" />
+    <property name="$defaultDiagram" value="True" />
+    <property name="$metaclass" value="Package Diagram" />
+    <reference referencedUin="csharp:e_class:src:LogClient:LogClient.Logger">
+      <property name="$shortcutReference" value="true" />
+      <reference referencedUin="csharp:e_field:src:LogClient:LogClient.Logger.ticks" />
+      <reference referencedUin="csharp:e_field:src:LogClient:LogClient.Logger.loggerImpl" />
+      <reference referencedUin="csharp:e_method:src:LogClient:LogClient.Logger.Logger()static" />
+      <reference referencedUin="csharp:e_method:src:LogClient:LogClient.Logger.Logger(System.String)" />
+      <reference referencedUin="csharp:e_method:src:LogClient:LogClient.Logger.Log(LogClient.LogLevel,System.String)" />
+      <reference referencedUin="csharp:e_method:src:LogClient:LogClient.Logger.Debug(System.String)" />
+      <reference referencedUin="csharp:e_method:src:LogClient:LogClient.Logger.Perform(System.String)" />
+      <reference referencedUin="csharp:e_method:src:LogClient:LogClient.Logger.Info(System.String)" />
+      <reference referencedUin="csharp:e_method:src:LogClient:LogClient.Logger.Warn(System.String)" />
+      <reference referencedUin="csharp:e_method:src:LogClient:LogClient.Logger.Error(System.String)" />
+      <reference referencedUin="csharp:e_method:src:LogClient:LogClient.Logger.Critical(System.String)" />
+      <reference referencedUin="csharp:e_field:src:LogClient:LogClient.Logger.appName" />
+      <reference referencedUin="csharp:e_field:src:LogClient:LogClient.Logger.url" />
+      <reference referencedUin="csharp:l_impl:src:LogClient:LogClient.Logger:LogClient.ILogger" />
+      <reference referencedUin="csharp:l_ast:src:LogClient:LogClient.Logger.loggerImpl" />
+      <reference referencedUin="csharp:e_method:src:LogClient:LogClient.Logger.Init()" />
+      <reference referencedUin="csharp:e_field:src:LogClient:LogClient.Logger.sendPerformance" />
+      <reference referencedUin="csharp:e_field:src:LogClient:LogClient.Logger.sendWarn" />
+      <reference referencedUin="csharp:e_field:src:LogClient:LogClient.Logger.sendError" />
+      <reference referencedUin="csharp:e_field:src:LogClient:LogClient.Logger.sendCritical" />
+      <reference referencedUin="csharp:e_field:src:LogClient:LogClient.Logger.mark" />
+      <reference referencedUin="csharp:e_field:src:LogClient:LogClient.Logger.sendDebug" />
+      <reference referencedUin="csharp:e_field:src:LogClient:LogClient.Logger.sendInfo" />
+    </reference>
+    <reference referencedUin="csharp:e_class:src:LogClient:LogClient.ILogger">
+      <property name="$shortcutReference" value="true" />
+    </reference>
+    <reference referencedUin="csharp:e_class:src:LogClient:LogClient.LoggerImpl">
+      <property name="$shortcutReference" value="true" />
+    </reference>
+    <reference referencedUin="csharp:e_class:src:LogClient:LogClient.LogQueue">
+      <property name="$shortcutReference" value="true" />
+    </reference>
+    <reference referencedUin="csharp:e_class:src:LogClient:LogClient.LogMessage">
+      <property name="$shortcutReference" value="true" />
+    </reference>
+    <reference referencedUin="csharp:e_class:src:LogClient:LogClient.BaseTarget">
+      <property name="$shortcutReference" value="true" />
+    </reference>
+    <reference referencedUin="csharp:e_class:src:LogClient:LogClient.LogLevel">
+      <property name="$shortcutReference" value="true" />
+    </reference>
+    <reference referencedUin="csharp:e_class:src:LogClient:LogClient.LogFile">
+      <property name="$shortcutReference" value="true" />
+    </reference>
+    <reference referencedUin="csharp:e_class:src:LogClient:LogClient.LogWriter">
+      <property name="$shortcutReference" value="true" />
+    </reference>
+  </view>
+</nodeSet>

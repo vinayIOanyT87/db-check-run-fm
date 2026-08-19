@@ -1,0 +1,564 @@
+﻿.filter-right-addon .glyphicon {
+    right: 0px;
+    color: #CCCCCC;
+    margin-top: 5px;
+}
+
+.filter-addon .glyphicon {
+    position: absolute;
+    padding-top: 9px;
+    padding-left: 5px;
+    pointer-events: none;
+}
+
+.MovementHistoryHeaderButtonClass {
+    text-align: left;
+    padding-top: 4px;
+    min-width: 95px;
+    background-color: transparent;
+    color: #486899 !important;
+    border: 1px solid #486899;
+    height: 34px;
+    white-space: nowrap;
+    vertical-align: middle;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 5px;
+    cursor: pointer;
+    touch-action: manipulation;
+    user-select: none;
+    margin-right: 5px;
+}
+
+button:active {
+    background-color: whitesmoke;
+}
+
+button:hover {
+    background-color: whitesmoke;
+}
+
+.MovementHistoryTableClass {
+    font-size: 12px;
+    font-style: normal;
+    font-variant: normal;
+    color: #666666;
+    background-color: white;
+    border: none !important;
+}
+
+.findDivNoBorder {
+    float: right;
+    height: 100%;
+    font-size: 14px;
+    font-weight: normal;
+    color: black;
+    background-color: white;
+}
+
+.MovementHistoryTableCellEx {
+    border: none !important;
+    white-space: nowrap;
+}
+
+.MovementHistoryTableCommentCellEx {
+    border: none !important;
+    white-space: nowrap;
+    padding: 4px 0px 0px 0px !important;
+}
+
+
+.MovementHistoryCurrentlySelectedCell {
+    border: solid red 1px !important;
+}
+
+.columnsDivNoBorder {
+    height: 100%;
+    font-size: 14px;
+    font-weight: normal;
+    color: black;
+    background-color: white;
+}
+
+.columnsTypeDivNoBorder {
+    height: 100%;
+    font-size: 14px;
+    font-weight: normal;
+    color: black;
+    background-color: white;
+}
+
+.findResultsDivBorder {
+    height: 100%;
+    border: thin solid #567eb9;
+    font-size: 14px;
+    font-weight: normal;
+    color: #567eb9;
+    background-color: white;
+}
+
+.findResultsRowHidden {
+    display: none;
+    z-index: 1;
+    vertical-align: bottom;
+}
+
+#MovementHistoryFindInputArea {
+    position: relative;
+}
+
+#MovementHistoryTabFind {
+    font-size: 14px;
+    color: #567eb9;
+    padding-left: 10px;
+    padding-right: 25px;
+    width: 225px !important;
+    border: 1px solid #567eb9;
+}
+
+#MovementHistoryTabFind + img {
+    position: absolute;
+    padding-top: 10px;
+    padding-right: 7px;
+    pointer-events: none;
+    top: 0;
+    right: 0;
+}
+
+
+#MovementHistoryColumnsInputArea {
+    float: right;
+    height: 100%;
+    border: thin solid rgb(86,126,185);
+    padding-right: 5px;
+    font-size: 14px;
+    font-weight: normal;
+    color: #666666;
+    height: 34px;
+    line-height: 25px
+}
+
+#MovementHistoryGaugeInputArea {
+    float: right;
+    height: 100%;
+    border: thin solid rgb(86,126,185);
+    padding-right: 5px;
+    font-size: 14px;
+    font-weight: normal;
+    color: #666666;
+    height: 34px;
+    line-height: 25px
+}
+
+#MovementHistoryFindLabel {
+    padding-top: 5px;
+    padding-right: 10px;
+    font-size: 14px;
+    font-weight: normal;
+    color: rgb(72,104,153);
+    text-align: left !important;
+    vertical-align: middle;
+}
+
+#MovementHistoryColumnsLabel {
+    padding-top: 5px;
+    padding-right: 10px;
+    font-size: 14px;
+    font-weight: normal;
+    color: #666666;
+    text-align: left !important;
+    vertical-align: middle;
+}
+
+#MovementHistoryFindResultsLabel {
+    width: 80px;
+    padding-top: 5px;
+    padding-left: 10px;
+    font-size: 12px;
+    font-weight: normal;
+    color: rgb(86,126,185);
+    text-align: middle !important;
+    vertical-align: middle;
+}
+
+.MovementHistoryFindButtonClass {
+    width: calc((100% - 130px) / 2);
+    height: 25px;
+    font-size: 12px;
+    font-style: normal;
+    font-variant: normal;
+    color: rgb( 90,126,178);
+    background-color: white;
+    border: 0 none;
+    border-left: thin solid rgb( 90,126,178);
+    box-sizing: content-box;
+    margin: 0 !important;
+    line-height: 15px;
+    outline: none;
+}
+
+.MovementHistoryFindButtonClass:hover {
+    background-color: transparent;
+}
+
+#MovementHistoryFindResultsRow {
+    display: inline-block;
+    position: absolute;
+    top: 32px;
+    left: 42px;
+    width: calc( 100% - 42px);
+    z-index: 1;
+}
+
+
+.MovementHistoryFindColoring {
+    font-size: 12px;
+    font-style: normal;
+    font-variant: normal;
+    color: white;
+    background-color: rgb(86,126,185);
+    border: none !important;
+}
+
+.customCheckbox input {
+    display: none;
+}
+
+.customCheckbox span {
+    height: 15px;
+    width: 15px;
+    padding-left: 20px;
+    padding-right: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    background: url("../images/Check-box---Inactive.png") no-repeat;
+}
+
+.customCheckbox input:checked + span {
+    background: url("../images/Check-box-Active.png") no-repeat;
+}
+
+.customCheckboxDisabled input {
+    display: none;
+}
+
+.customCheckboxDisabled span {
+    height: 15px;
+    width: 15px;
+    padding-left: 20px;
+    padding-right: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    background: url("../images/Check-box---Inactive.png") no-repeat;
+}
+
+.customCheckboxDisabled input:checked + span {
+    background: url("../images/Check-box-active-disabled.png") no-repeat;
+}
+
+#MovementHistoryColumnFilterDiv {
+    position: absolute;
+    top: 34px;
+    border: 1px;
+    border-top-width: 0px;
+    border-style: solid;
+    background-color: white;
+    border-color: rgb(86,126,185);
+    width: 180px;
+    z-index: 1;
+}
+
+#MovementHistoryGaugeFilterDiv {
+    position: absolute;
+    top: 34px;
+    border: 1px;
+    border-top-width: 0px;
+    border-style: solid;
+    background-color: white;
+    border-color: rgb(86,126,185);
+    width: 180px;
+    z-index: 1;
+}
+
+#MovementHistoryColumnFilterUl {
+    padding-left: 5px;
+    width: 135px;
+}
+
+#MovementHistoryGaugeFilterUl {
+    padding-left: 5px;
+    width: 135px;
+}
+
+.ColumnFilterLiClass {
+    list-style: none;
+    width: 260px;
+}
+
+.GaugeFilterLiClass {
+    list-style: none;
+    width: 260px;
+}
+
+.ColumnFilterCheckboxLabelClass {
+    color: #aaa;
+    font-size: 12px;
+}
+
+#MovementHistoryTable tr.selected td.sortedColumnColor {
+    background-color: #B0BED9;
+}
+
+.sortedColumnColor {
+    background-color: #f0f0f0;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+#MovementHistoryAvailableFilterDropdownDivId .select2-container {
+    width: 100% !important;
+}
+
+#MovementHistoryAvailableFilterDropdownDivId .select2-container--default .select2-selection--multiple {
+    border-radius: 0px !important;
+    border: 1px solid #ccc !important;
+}
+
+#MovementHistoryColumnDataFilterSection .select2-container {
+    z-index: 1060 !important;
+    /*	border: 1px solid #ccc; */
+}
+
+#MovementHistoryColumnDataFilterSection .select2-container--default.select2-container--focus .select2-selection--multiple {
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
+
+.select2-container--open {
+    z-index: 1060 !important;
+}
+
+.select2-dropdown {
+    border-radius: 0px !important;
+}
+
+#MovementHistoryColumnDataFilterSection .ui-datepicker {
+    z-index: 1160 !important;
+}
+
+.input-group.date {
+    width: 100%;
+}
+
+input.hasDatepicker {
+    display: inline-block;
+    width: 85%;
+    height: 34px;
+}
+
+.ui-datepicker-trigger {
+    display: inline-block;
+    float: right !important;
+    Width: 25px !important;
+    height: 25px;
+    margin-top: 5px;
+}
+
+.MovementHistory-form-control {
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 0px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
+
+.MovementHistoryShowCommentIsEditable {
+    border: 1px solid #ccc;
+    font-weight: normal;
+    overflow: hidden;
+    margin-bottom: 0px !important;
+    width: 100%;
+    padding: 0px 10px !important;
+    height: 24px;
+    line-height: 22px;
+    outline: none;
+}
+
+
+#MovementHistoryTable_info, #MovementHistoryTable_paginate {
+    display: inline-block;
+    float: right;
+    margin-left: 15px;
+    color: #666666;
+}
+
+    #MovementHistoryTable_paginate .pagination > li > a, #MovementHistoryTable_paginate .pagination > li > span {
+        border-radius: 0px;
+    }
+
+#MovementHistoryTable_length, #MovementHistoryTopCustomTypeControlDiv, #MovementHistoryTopCustomButtonDiv, #MovementHistoryTopCustomControlDiv {
+    display: inline-block;
+    color: #666666;
+}
+
+#MovementHistoryTable_wrapper div.dataTables_length select {
+    width: 75px !important;
+    display: inline-block;
+    height: 34px;
+    font-size: 14px;
+}
+
+#MovementHistoryTable_wrapper div.dataTables_length label {
+    font-size: 14px;
+    vertical-align: middle;
+    height: 34px;
+    margin: 0px;
+}
+
+#MovementHistoryTopCustomButtonDiv, #MovementHistoryTable_length {
+    vertical-align: top;
+}
+
+#MovementHistoryTopCustomButtonDiv {
+    margin-left: 1px;
+}
+
+.MovementHistoryHeaderButtonClass img {
+    top: -2px;
+    position: relative;
+}
+
+#MovementHistoryShowHideColumnsLabel {
+    padding-left: 7px;
+    padding-top: 4px;
+    color: #666;
+    font-size: 14px;
+}
+
+#MovementHistoryShowHideGaugeLabel {
+    padding-left: 7px;
+    padding-top: 4px;
+    color: #666;
+    font-size: 14px;
+}
+
+#MovementHistoryTable_wrapper .dataTables_scrollHead tr {
+    color: #666666;
+}
+
+.dropdownarrowicon {
+    font-size: 10px;
+    color: rgb(86,126,185);
+    line-height: 30px;
+}
+
+#MovementHistoryTable_wrapper .dataTables_scrollBody {
+    /* height: calc( 100% - 40px) !important; */
+}
+
+#MovementHistoryTabView, #MovementHistoryTopDiv, #MovementHistoryTableSection, #MovementHistoryTable_wrapper {
+    height: 100%;
+}
+
+    #MovementHistoryTable_wrapper > div:nth-child(2), #MovementHistoryTable_wrapper > div:nth-child(2) > div, #MovementHistoryTable_wrapper .dataTables_scroll {
+        height: 100%;
+    }
+
+#MovementHistoryTableContainer {
+    height: calc( 100% - 80px);
+}
+
+#MovementHistory_bottom {
+    margin-top: 5px;
+}
+
+.MovementHistoryTableClass tr.even td.sortedColumnColor {
+    background-color: #fafafa;
+}
+
+.MovementHistory_bottom {
+    padding-top: 5px;
+}
+
+.dataTables_processing {
+    height: 50px !important;
+}
+
+
+#MovementHistoryTable td {
+    padding: 4px;
+}
+
+#MovementHistoryStartDateLabel {
+    padding-top: 5px;
+    padding-right: 10px;
+    font-size: 14px;
+    font-weight: normal;
+    color: rgb(72,104,153);
+    text-align: left !important;
+    vertical-align: middle;
+}
+
+#MovementHistoryEndDateLabel {
+    padding-top: 5px;
+    padding-right: 10px;
+    font-size: 14px;
+    font-weight: normal;
+    color: rgb(72,104,153);
+    text-align: left !important;
+    vertical-align: middle;
+}
+
+#HistoryRowContextMenuDivItems {
+    list-style-type: none;
+}
+
+#HistoryRowContextMenuDiv {
+    background-color: white;
+    width: 300px;
+    height: 275px;
+    border: 1px solid;
+    border-color: rgb(192, 192, 192);
+    box-shadow: 2px 2px rgb(192, 192, 192);
+    padding-left: 10px;
+}
+
+.HistoryContextMenuBtn {
+    color: rgb(34, 34, 34);
+    background-color: white;
+    font-family: Helvetica Neue, Arial, Helvetica;
+    font-size: 15.4px;
+    height: 40px;
+    width: 240px;
+    border: none;
+    text-align: left;
+}
+
+.HistoryContextMenuBtn:hover {
+    background-color: rgb(240, 240, 240);
+}
+
+.HistoryContextMenuTd {
+    padding-left: 40px;
+}
+
+.HistoryContextMenuTd:hover {
+    background-color: rgb(240, 240, 240);
+}
+
+.MovementHistoryContextMenuCenter {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); /* Yep! */
+    width: 48%;
+    height: 59%;
+}

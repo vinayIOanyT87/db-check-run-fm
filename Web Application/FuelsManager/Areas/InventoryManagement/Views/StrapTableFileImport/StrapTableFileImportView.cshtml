@@ -1,0 +1,271 @@
+@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.StrapTableFileImportModel
+
+@{
+    ViewBag.Title = "StrapTableFileImportView";
+    Layout = "~/Areas/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Areas/Content/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Content/bootstrap-modal.css" rel="stylesheet" type="text/css" />
+
+<script src="~/Areas/Lib/jquery.nicescroll.min.js"></script>
+<script src="~/Areas/Lib/bootstrap-modal.js"></script>
+<script src="~/Areas/Lib/bootstrap-modalmanager.js"></script>
+<script src="~/Areas/Scripts/FMErrorAndExceptionHandling.js"></script>
+
+@using (Html.BeginForm("Import", "StrapTableFileImport", FormMethod.Post, new { enctype = "multipart/form-data" , id = "strapTableImport"}))
+{
+    @Html.AntiForgeryToken()
+    <div class="row headline" style="width: 5in; padding-bottom:15px">@FMBaseController.TranslateText("Strap Table") File Import</div>
+
+    <style>
+        .tstFileImportBtn, .btn {
+            -moz-min-width: 90px;
+            -ms-min-width: 90px;
+            -o-min-width: 90px;
+            -webkit-min-width: 90px;
+            min-width: 100px;
+            background-color: rgb(193, 193, 193);
+            color: black;
+            height: 30px;
+            border-style: none;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            background-image: none;
+            border: 1px solid transparent;
+            display: inline-block;
+            padding: 6px 12px;
+            font-size: 13px;
+            font-weight: normal;
+            line-height: 16px;
+            border-radius: 0;
+        }
+        .tstFileImportBtnUpdate {
+            -moz-min-width: 90px;
+            -ms-min-width: 90px;
+            -o-min-width: 90px;
+            -webkit-min-width: 90px;
+            min-width: 100px;
+            background-color: #486899;
+            color: white;
+            height: 30px;
+            border-style: none;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            background-image: none;
+            border: 1px solid transparent;
+            display: inline-block;
+            padding: 6px 12px;
+            font-size: 13px;
+            font-weight: normal;
+            line-height: 16px;
+            border-radius: 0;
+        }
+    </style>
+
+
+    <div>
+        <label for="csvFileImportBtn" class="btn" style="margin-bottom:10px">Select .CSV Config File</label>
+        <input style="display:none" type="file" id="csvFileImportBtn" name="csvFileImportBtn" accept=".csv" />
+        <span style ="margin-bottom:10px" id="csvFileName">No File Selected</span>
+    </div>
+
+    <div>
+        <label id="tstFileImportBtnLabel" for="tstFileImportBtn" class="tstFileImportBtn" style="margin-bottom:35px; margin-top: 25px">Select .TST Files</label>
+        <input multiple style="display: none" type="file" id="tstFileImportBtn" name="tstFileImportBtn" accept=".tst"  disabled />
+    </div>
+
+    <p id="csvErrorMsg" style="color: red; display: none">Invalid CSV file: Missing</p>
+
+
+    <div id="csvNameListContainer">
+        <table id="csvNameList" style="table-layout: auto; width: auto; border-collapse: collapse">
+            <thead>
+                <tr>
+                    <th style="text-align-last: left; padding: 5px; border: 1px solid #666">Point ID</th>
+                    <th style="text-align-last: left; padding: 5px; border: 1px solid #666">TST File Names</th>
+                    <th style="text-align-last: left; padding: 5px; border: 1px solid #666">Strap Table Number</th>
+                    <th style="text-align-last: left; padding: 5px; border: 1px solid #666">Table Assignment</th>
+                    <th style="text-align-last: left; padding: 5px; border: 1px solid #666">TST File Status</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <div>
+        <button class="tstFileImportBtn" type="button" id="StartStrapImportProcessBtn" style="margin-top:30px; margin-bottom:10px"; data-url="@Url.Action("Import", "StrapTableFileImport")" onclick="preventRefresh();" disabled>Start Import Process</button>
+        <div style="white-space:pre">@Model.logText</div>
+    </div>
+   
+
+    <div id="import-log" style="margin-top: 1rem; width: 50%; max-height: 300px; overflow: auto; border: 1px solid #ddd; padding: 10px; display: none">
+        <pre>@Model.logText</pre>
+    </div>
+}
+
+    <script>
+        let nameMap = new Map();
+        let fileNames = [];
+
+        document.getElementById("csvFileImportBtn").addEventListener('change', function () {
+            let file = this.files[0];
+            if (file) {
+                document.getElementById('csvFileName').textContent = file.name;
+
+                processCSV(file);
+            }
+        })
+
+
+        function processCSV(file) {
+            $('#import-log').hide();
+            let reader = new FileReader();
+            reader.onload = function (event) {
+                let text = event.target.result;
+                let lines = text.split("\n").map(line => line.trim()).filter(line => line.length > 0);
+
+                if (lines.length < 2) {
+                    showError("The CSV file does not contain any data to process. Please check the file again.");
+                    return;
+                }
+
+                let headers = lines[0].split(",");
+                let nameIndex = headers.indexOf("File Name");
+                let idIndex = headers.indexOf("POINT ID");
+                let strapIndex = headers.indexOf("Strap Number");
+                let tableAssignIndex = headers.indexOf("Table Assignment");
+
+                if (nameIndex === -1) {
+                    showError("Invalid .CSV File. The File Name header is missing.");
+                    return;
+                }
+
+                if (idIndex === -1) {
+                    showError("Invalid .CSV File. The POINT ID header is missing.");
+                    return;
+                }
+
+                if (strapIndex === -1) {
+                    showError("Invalid .CSV File. The Strap Number header is missing.");
+                    return;
+                }
+
+                if (tableAssignIndex == -1) {
+                    showError("Invalid .CSV File. The Table Assignment header is missing.");
+                    return;
+                }
+
+            document.getElementById("csvErrorMsg").style.display = "none";
+
+            nameMap.clear();
+            nameListHTML = "";
+            fileNames = [];
+            for (let i = 1; i < lines.length; i++) {
+                let values = lines[i].split(",");
+                if (nameIndex !== -1 && values[nameIndex] && values[idIndex]) {
+                    let id = values[idIndex];
+                    let fileName = values[nameIndex];
+                    let strapNum = values[strapIndex];
+                    let tableAssignment = values[tableAssignIndex];
+                    fileNames.push(fileName);
+
+                        if (!nameMap.has(fileName)) {
+                            nameMap.set(fileName, []);
+                        }
+                        nameMap.get(fileName).push(`${i}`);
+
+                    nameListHTML += `<tr id="row-${i} style="border: 1px solid #ddd">
+                    <td style="padding: 5px; text-align-last: center; border: 1px solid #888">${id}</td>
+                    <td style="padding: 5px; text-align-last: center; border: 1px solid #888">${fileName}</td>
+                    <td style="padding: 5px; text-align-last: center; border: 1px solid #888">${strapNum}</td>
+                    <td style="padding: 5px; text-align-last: center; border: 1px solid #888">${tableAssignment}</td>
+                    <td style="padding: 5px; text-align-last: center; border: 1px solid #888" id="match-${i}">Not Selected</td></tr>`;
+                }
+            }
+
+            document.querySelector("#csvNameList tbody").innerHTML = nameListHTML || "<tr><td colspan='2'>No Names found in the CSV.</td></tr>";
+            document.getElementById("tstFileImportBtn").disabled = false;
+            document.getElementById("tstFileImportBtnLabel").classList.remove("tstFileImportBtn");
+            document.getElementById("tstFileImportBtnLabel").classList.add("tstFileImportBtnUpdate");
+            }
+            reader.readAsText(file);
+        }
+
+        function showError(message) {
+            document.querySelector("#csvNameList tbody").innerHTML = "";
+            document.getElementById("csvErrorMsg").textContent = message;
+            document.getElementById("csvErrorMsg").style.display = "block";
+        }
+
+        document.getElementById('tstFileImportBtn').addEventListener('change', function () {
+            let names = [];
+            if (this.files.length > 0) {
+                names = Array.from(this.files).map(f => f.name.trim());
+            }
+            let importOk = true;
+        nameMap.forEach((rows, name) => {
+            let match = names.includes(name);
+            rows.forEach(id => {
+                let matchingCell = document.getElementById(`match-${id}`);
+                if (matchingCell) {
+                    if (match) {
+                        matchingCell.innerHTML = `${name} Selected`;
+                        matchingCell.style.color = "green";
+                        importOk = true;
+                    } else {
+                        matchingCell.innerHTML = `Not Selected`;
+                        matchingCell.style.color = "red";
+                        //importOk = false;
+                    }
+                }
+            });
+        });
+
+            if (importOk)
+            {
+                document.getElementById("StartStrapImportProcessBtn").disabled = false;
+                document.getElementById("StartStrapImportProcessBtn").classList.remove("tstFileImportBtn");
+                document.getElementById("StartStrapImportProcessBtn").classList.add("tstFileImportBtnUpdate");
+
+            }
+        });
+
+
+        // Prevents page reset when import button is hit
+
+        function preventRefresh() { 
+            var form = $("#strapTableImport");
+            var formData = new FormData(form[0]);
+
+            var token = $('input[name=__RequestVerificationToken]').val();
+            var headers = {};
+            headers['__RequestVerificationToken'] = token;
+
+            $('#import-log').show();
+
+            $.ajax({
+                url: $("#StartStrapImportProcessBtn").attr('data-url'),
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                cache: false,
+                headers: headers,
+                success: function (response) {
+                    $("#import-log").html("<pre>" + response + "</pre>");
+                },
+                error: function (xhr, status, error) {
+                    alert("Import Failed: " + error);
+                }
+            });
+
+        }
+
+        
+
+  
+
+    </script>

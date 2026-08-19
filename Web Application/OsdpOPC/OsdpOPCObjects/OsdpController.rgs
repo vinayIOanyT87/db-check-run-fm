@@ -1,0 +1,27 @@
+HKCR
+{
+	OsdpOPCObjects.OsdpController.1 = s 'OsdpController Class'
+	{
+		CLSID = s '{c5dd8573-9622-4ccf-8872-161f0da121dd}'
+	}
+	OsdpOPCObjects.OsdpController = s 'OsdpController Class'
+	{
+		CLSID = s '{c5dd8573-9622-4ccf-8872-161f0da121dd}'
+		CurVer = s 'OsdpOPCObjects.OsdpController.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {c5dd8573-9622-4ccf-8872-161f0da121dd} = s 'OsdpController Class'
+		{
+			ProgID = s 'OsdpOPCObjects.OsdpController.1'
+			VersionIndependentProgID = s 'OsdpOPCObjects.OsdpController'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{9676f116-2caf-49c6-96d4-cd41765a8469}'
+		}
+	}
+}

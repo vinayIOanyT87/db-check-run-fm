@@ -1,0 +1,169 @@
+﻿@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.ReportSummaryModel
+
+<script src="~/Areas/Lib/jquery.columnizer.js"></script>
+
+<div class="operateSubMenuFilter">
+	<div class="row">
+		<div class="col-sm-12 col-md-12 col-lg-12 OperateSelectionMenuTitle">
+			<label class="pull-left">@FMBaseController.TranslateText("REPORTS")</label>
+			<span id="ReportSelectionViewMode" class="glyphicon glyphicon-th-list pull-right icon-container listViewSwitch" title="Switch to Detail View"></span>
+			<div class="Selectionhorizontalline"></div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12 col-md-12 col-lg-12">
+			<div class="filter-settings operate-list-filter-addon">
+				<input id="filter_reports" type="text" class="operate-List-form-control" placeholder="Search for Report Name" />
+				<img alt="Filter Tags" title="Search" src="~/fmwebapp/images/Search Icon.png" />
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="operateSubMenuList" id="reportSubMenuList">
+	@foreach (var reportModel in Model.ReportDetailList)
+	{
+		<div class="operateReportSubMenuElement trends-dontsplit row" data-guid="@reportModel.ReportGuid" onclick="FMOperateIndex.OpenReport( '@reportModel.Name', {guid: '@reportModel.ReportGuid'},false);">
+			<div class="operateReportSubmenuTitle" title="@reportModel.Name">
+				@reportModel.Name
+			</div>
+			<textarea readonly class="operateReportSubmenuTitleDescription detail-view" title="@reportModel.Description">@reportModel.Description</textarea>
+		</div>
+	}
+
+</div>
+
+<script>
+
+	if (!FMOperateIndex.hasOwnProperty("selectedReportName"))
+	{
+		FMOperateIndex.selectedReportName = "";
+	}
+
+	/* Based on the current view selection in the point rolldown menu, set the view to display */
+	function ResetReportInputViewMode() {
+		if ($("#ReportSelectionViewMode").hasClass("listViewSwitch")) {
+			$("#ReportSelectionViewMode").removeClass("glyphicon-align-justify").addClass("glyphicon-th-list");
+			$('.list-view').css('display', 'inherit');
+			$('.detail-view').css('display', 'none');
+			$('.operateReportSubMenuElement').css('height', '30px');
+		} else {
+			$("#ReportSelectionViewMode").removeClass("glyphicon-th-list").addClass("glyphicon-align-justify");
+			$('.list-view').css('display', 'none');
+			$('.detail-view').css('display', 'inherit');
+			$('.operateReportSubMenuElement').css('height', '70px');
+		}
+	}
+
+	//====================================================================
+	// This function will handle the Report list rollout menu filtering
+	// for the Report Name filter.
+	//====================================================================
+	$("#filter_reports").on('input', function ()
+	{
+		FMOperateIndex.selectedReportName = $(this).val();
+		FMOperateIndex.ReportsListRolloutMenuFiltering();
+	});
+
+	//====================================================================
+	// This function will handle the reports list menu filtering
+	// for the Report Name filter.
+	//====================================================================
+	FMOperateIndex.ReportsListRolloutMenuFiltering = function ()
+	{
+		var filterTxt = FMOperateIndex.selectedReportName;
+
+		// No reports to be found, just return.
+		if ($('.operateReportSubMenuElement').length === 0)
+			return;
+
+		$('.operateSubMenuList').uncolumnize();
+		ResetReportInputViewMode();
+
+		if (filterTxt === "") {
+			$('.operateReportSubMenuElement').removeClass("hidden");
+		}
+		else {
+			$('.operateReportSubMenuElement').each(function () {
+				if ($(this).find('.operateReportSubmenuTitle').text().toLowerCase().indexOf(filterTxt.toLowerCase()) >= 0) {
+					$(this).removeClass("hidden");
+				}
+				else {
+					$(this).removeClass("hidden").addClass("hidden");
+				}
+			});
+		}
+		$('.operateSubMenuList').columnize({
+			columns: 2,
+			buildOnce: true,
+			cssClassPrefix: "reports",
+			lastNeverTallest: true
+		});
+
+		// need to destroy and rebuild nicescroll since the refresh does not seem to be working on this case
+		$(".operateSubMenuList").getNiceScroll().remove();
+		$(".operateSubMenuList").niceScroll({ cursorwidth: '10px', autohidemode: false, cursorcolor: "#486899", background: "white" });
+
+		$("#filter_reports").val(filterTxt);  // we need the focus at the end of the last character in the input
+		$("#filter_reports").focus(); // have to reset the focus since it loses focus when running columnize
+	}
+
+
+	$(document).ready(function() {
+
+		$('#ReportSelectionViewMode').on('click', function (e) {
+			if ($("#ReportSelectionViewMode").hasClass("listViewSwitch")) {
+				$("#ReportSelectionViewMode").removeClass("listViewSwitch").addClass("detailViewSwitch");
+				$("#ReportSelectionViewMode").removeClass("glyphicon-th-list").addClass("glyphicon-align-justify");
+				$("#ReportSelectionViewMode").attr("title", "Switch to Compact View");
+				$('.list-view').css('display', 'none');
+				$('.detail-view').css('display', 'inherit');
+				$('.operateReportSubMenuElement').css('height', '70px');
+				FMOperateIndex.PersistUpdateFilterView("reportsViewSelection", 'detailView');
+			} else {
+				$("#ReportSelectionViewMode").removeClass("detailViewSwitch").addClass("listViewSwitch");
+				$("#ReportSelectionViewMode").removeClass("glyphicon-align-justify").addClass("glyphicon-th-list");
+				$("#ReportSelectionViewMode").attr("title", "Switch to Detail View");
+				$('.list-view').css('display', 'inherit');
+				$('.detail-view').css('display', 'none');
+				$('.operateReportSubMenuElement').css('height', '30px');
+				FMOperateIndex.PersistUpdateFilterView("reportsViewSelection", 'compactView');
+			}
+			$(".operateSubMenuList").getNiceScroll().resize();
+		});
+
+		// check the selected view that was used previously
+		var viewMode = FMOperateIndex.GetSelectedFilterView("reportsViewSelection");
+		if (viewMode != null)
+		{
+			if (viewMode === 'detailView')
+			{
+				$("#ReportSelectionViewMode").removeClass("listViewSwitch").addClass("detailViewSwitch");
+				$("#ReportSelectionViewMode").attr("title", "Switch to Compact View");
+			}
+			else
+			{
+				$("#ReportSelectionViewMode").removeClass("detailViewSwitch").addClass("listViewSwitch");
+				$("#ReportSelectionViewMode").attr("title", "Switch to Detail View");
+			}
+			ResetReportInputViewMode();
+		}
+
+		// In IE when setting the focus, the cursor is placed in the first position and we need to have it
+		// in the last character to continue typing the filter
+		// Based on http://stackoverflow.com/questions/511088/use-javascript-to-place-cursor-at-end-of-text-in-text-input-element
+		$("#filter_reports").focus(function(){
+			var that = this;
+			setTimeout(function(){ that.selectionStart = that.selectionEnd = 10000; }, 0);
+		});
+
+		// if we have values from a previous selection then reset the content and call to filter
+		if (FMOperateIndex.selectedReportName !== "") {
+			$("#filter_reports").val(FMOperateIndex.selectedReportName);
+		}
+		if (FMOperateIndex.selectedReportName !== "") {
+			FMOperateIndex.ReportsListRolloutMenuFiltering();
+		}
+	});
+</script>

@@ -1,0 +1,162 @@
+<div class="home-leftpanel">
+    <app-connect></app-connect>
+    <button id="loadConfigButton" class="btn btn-primary buttonTextClass" [disabled]="isRTUNotDisconnected()" (click)="VerifyLoadConfigPrompt()">Load RTU Config</button>
+    <button id="clearConfigButton" class="btn btn-primary buttonTextClass" [disabled]="isRTUNotDisconnected()" (click)="VerifyClearConfigPrompt()">Clear RTU Config</button>
+    <button id="loadRtuXmlFile" class="btn btn-primary buttonTextClass" [disabled]="isRTUNotDisconnected()" (click)="VerifyloadRTUXMLFilePrompt()">Read XML</button>
+    <button id="upgradeConfigFile" class="btn btn-primary buttonTextClass" [disabled]="isRTUNotDisconnected() || this.upgradeButtonActive == false" (click)="VerifyUpgradeConfigFilePrompt()">Upgrade Config File</button>
+    <div id="configNotifications">
+        <div [class.show]="ShowLoaded" class="step">Configuration Loaded.</div>
+        <div [class.show]="ShowCleared" class="step">Configuration Cleared.</div>
+        <div [class.show]="ShowError" class="step">Configuration could not be loaded.</div>
+        <div [class.show]="ShowUpgrade" class="step">Configuration Upgraded.</div>
+    </div>
+    <input type="file" id="file" (change)="handleFileInput($event.target.files)">
+</div>
+
+<div class="home-rightpanel">
+    <perfect-scrollbar>
+        <div class="homeCard" *ngFor="let homeCard of homeCards">
+            <app-home-card [description]='homeCard.description' [icon]='homeCard.icon' [name]='homeCard.name' [action]='homeCard.action' [routerLinkPath]='homeCard.routerLinkPath' [info]='homeCard.info' [detailimg]='homeCard.infoimg' [disabledCard]='homeCard.disabledCard'
+                [externalLink]="homeCard.externalLink"></app-home-card>
+        </div>
+    </perfect-scrollbar>
+</div>
+
+<ng-template #modalSelectRtuXmlFile>
+    <div class="modal-header" style="font-family:Roboto;">
+        <h4 class="modal-title pull-left">Available RTU XML Files</h4>
+    </div>
+    <div class="modal-body" style="font-family:Roboto;">
+        <select class="ng-untouched ng-pristine ng-valid form-control" [(ngModel)]="xmlFileName">
+    <option *ngFor="let filename of _rtuConfiguration.AvailableXmlFiles" [ngValue]="filename">
+        {{filename}}
+    </option>
+</select>
+    </div>
+    <div class="modal-header">
+    </div>
+    <div class="modal-footer">
+        <button id="cancelButton" type="button" class="btn btn-secondary buttonTextClass" (click)="modalRef.hide();">Cancel</button>
+        <button id="saveButton" type="button" class="btn btn-primary buttonTextClass" (click)="saveToRTUSelectedXmlFile();">Select</button>
+    </div>
+</ng-template>
+
+<ng-template #modalVerifyClearConfigAction>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left" style="font-family:Roboto;">Are you sure you want to clear the RTU configuration?</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body" style="font-family:Roboto;">
+        <div class="form-group">
+            You will lose any unsaved or unapplied changes.
+        </div>
+        <div class="form-group">
+            Click <b>OK</b> to continue or <b>Cancel</b> to go back.
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="cancelButton" type="button" class="btn btn-secondary buttonTextClass" (click)="modalRef.hide();">Cancel</button>
+        <button id="copyButton" type="button" class="btn btn-primary buttonTextClass" (click)="clearRtuConfig();">OK</button>
+    </div>
+</ng-template>
+
+<ng-template #modalVerifyLoadConfigAction>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left" style="font-family:Roboto;">Are you sure you want to load a different configuration file?</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body" style="font-family:Roboto;">
+        <div class="form-group">
+            You will lose any unsaved or unapplied changes.
+        </div>
+        <div class="form-group">
+            Click <b>OK</b> to continue or <b>Cancel</b> to go back.
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="cancelButton" type="button" class="btn btn-secondary buttonTextClass" (click)="modalRef.hide();">Cancel</button>
+        <button id="copyButton" type="button" class="btn btn-primary buttonTextClass" (click)="selectRtuConfig();">OK</button>
+    </div>
+</ng-template>
+
+<ng-template #modalVerifyLoadrtuxmlAction>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left" style="font-family:Roboto;">Are you sure you want to load a different RTU XML file?</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body" style="font-family:Roboto;">
+        <div class="form-group">
+            You will lose any unsaved or unapplied changes.
+        </div>
+        <div class="form-group">
+            Click <b>OK</b> to continue or <b>Cancel</b> to go back.
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="cancelButton" type="button" class="btn btn-secondary buttonTextClass" (click)="modalRef.hide();">Cancel</button>
+        <button id="copyButton" type="button" class="btn btn-primary buttonTextClass" (click)="loadRtuXmlFile();">OK</button>
+    </div>
+</ng-template>
+
+<ng-template #modalUpgradeConfigFileAction>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left" style="font-family:Roboto;">Are you sure you want to upgrade?</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body" style="font-family:Roboto;">
+        <div class="form-group">
+            You cannot downgrade and you will lose any unsaved or unapplied changes.
+        </div>
+        <div class="form-group">
+            Click <b>Yes</b> to upgrade or <b>No</b> to continue with the current XML version'.
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="cancelButton" type="button" class="btn btn-secondary buttonTextClass" (click)="modalRef.hide();">No</button>
+        <button id="copyButton" type="button" class="btn btn-primary buttonTextClass" (click)="dropdownOfXMLVersionsForUpgrade();">Yes</button>
+    </div>
+</ng-template>
+
+<ng-template #modalSelectupgradeConfigFile>
+    <div class="modal-header" style="font-family:Roboto;">
+        <h4 class="modal-title pull-left">RTU XML files that are available for your upgrade</h4>
+    </div>
+    <div class="modal-body" style="font-family:Roboto;">
+        <select class="ng-untouched ng-pristine ng-valid form-control" [(ngModel)]="xmlFileName">
+    <option *ngFor="let filename of _rtuConfiguration.viableXMLUpgradeVersions" [ngValue]="filename">
+        {{filename}}
+    </option>
+</select>
+    </div>
+    <div class="modal-header">
+    </div>
+    <div class="modal-footer">
+        <button id="cancelButton" type="button" class="btn btn-secondary buttonTextClass" (click)="modalRef.hide();">Cancel</button>
+        <button id="saveButton" type="button" class="btn btn-primary buttonTextClass" (click)="upgradeConfigFileSelected();">Select</button>
+    </div>
+</ng-template>
+
+<ng-template #modalunavailableupgradeConfigFile>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left" style="font-family:Roboto;">Not able to upgrade at this time</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body" style="font-family:Roboto;">
+        <div class="form-group">
+            You are working with the latest XML version.
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="cancelButton" type="button" class="btn btn-secondary buttonTextClass" (click)="modalRef.hide();">Close</button>
+    </div>
+</ng-template>

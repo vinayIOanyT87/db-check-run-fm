@@ -1,0 +1,12 @@
+app-content-detail {
+    display: block;
+    padding: 10px;
+    padding-left:30px;
+}
+
+app-content-header {
+    background-color: white !important;
+    height: 110px;
+    display: block;
+    position: relative;
+}

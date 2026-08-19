@@ -1,0 +1,110 @@
+<div class='views-section-header'><span class='viewsHeader'>VIEWS</span>
+    <div class='btn-group viewsDropdownButton' dropdown>
+            <a class="dropdown-toggle" dropdownToggle data-toggle="dropdown" aria-controls="views-dropdown">
+                ...
+            </a>
+            <ul id="views-dropdown" *dropdownMenu class="dropdown-menu views-dropdown">
+                <li class="viewsoption" (click)="newViewButton()">New View</li>
+            </ul>
+        </div>
+<div class='content'>
+
+<!-- <button class='newView' (click)="newViewButton()">+</button> -->
+
+<ng-template #modalNewView>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">New Diagnostic View</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="nameTextbox">Name</label>
+            <input type="text" class="form-control" id="nameTextbox" placeholder="New View" [(ngModel)]="viewName">
+            <div [class.show]="uniqueNameWarning" class="step">View name must be unique.</div>
+            <label for="typeDropdown">View Type</label>
+            <select [(ngModel)]="viewType"  id="typeDropdown">
+                <option value="0" [selected]='isSelected'>Static</option>
+                <option value="1">Dynamic Numeric</option>
+                <option value="2">Dynamic Timestamp</option>
+                <option value="3">Dynamic String</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="cancelButton" type="button" class="btn btn-secondary" (click)="modalRef.hide();">Cancel</button>
+        <button id="createButton" type="button" class="btn btn-primary" (click)="add(viewName, viewType);" [disabled]="this.viewName ===''">Create</button>
+    </div>
+</ng-template>
+
+<ng-template #modalCopyView>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Save As</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="urlTextbox">Name</label>
+            <input type="text" class="form-control" id="saveAsNameTextbox" placeholder="Save as" [(ngModel)]="copyViewName">
+            <div [class.show]="uniqueNameWarning" class="step">View name must be unique.</div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="cancelButton" type="button" class="btn btn-secondary" (click)="modalRef.hide();">Cancel</button>
+        <button id="copyButton" type="button" class="btn btn-primary" (click)="copyActive(copyViewName);" [disabled]="this.copyViewName ===''">Create</button>
+    </div>
+</ng-template>
+
+<ng-template #modalDeleteView>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Confirm Delete</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            Are you sure you want to delete the view "{{this.currentView.id}}"?
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="cancelButton" type="button" class="btn btn-secondary" (click)="modalRef.hide();">No</button>
+        <button id="copyButton" type="button" class="btn btn-primary" (click)="delete(this.currentView.id);">Yes</button>
+    </div>
+</ng-template>
+
+
+<div class="diagnosticviews">
+  <div *ngFor="let diagview of views" (click)="setActiveDiagnosticView(diagview.id)" [ngClass]="this.currentView.id == diagview.id ? 'activeViewInList' : 'inactiveViewInList'">
+    <img [src]="this.currentView.id == diagview.id ?  activeViewSrc : inactiveViewSrc" class='diagViewImage'>
+    <span class='badge'>{{diagview.id}} 
+    <span class='badgeDescription' [ngSwitch]="diagview.filterCollection.dataType">
+    <div *ngSwitchCase="0">
+        Static
+    </div>
+    <div *ngSwitchCase="1">
+        Dynamic Numeric
+    </div>
+    <div *ngSwitchCase="2">
+        Dynamic Timestamp
+    </div>
+    <div *ngSwitchCase="3">
+        Dynamic String
+    </div>
+    </span>
+    </span> 
+      <div *ngIf="this.currentView.id == diagview.id " class='btn-group viewDropdownButton' dropdown>
+        <a class="dropdown-toggle" dropdownToggle data-toggle="dropdown" aria-controls="view-dropdown">
+            ...
+        </a>
+        <ul id="view-dropdown" *dropdownMenu class="dropdown-menu view-dropdown">
+            <li class="viewoption" (click)="deletePrompt(diagview.id)">Delete</li>
+            <li class="viewoption" (click)="copyViewButton(diagview)">Save As</li>
+        </ul>
+    </div>
+</div>
+<div class='CreateNewViewListOption' (click)="newViewButton()">+ Create New...</div>
+</div>

@@ -1,0 +1,333 @@
+﻿@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.PointsFilterModel
+<script src="~/Areas/Lib/jquery.columnizer.js"></script>
+
+<style>
+
+  .operateSubmenuTileIcon {
+    height: 75px;
+    width: 75px;
+    padding-top: 13px;
+    padding-left: 13px;
+    display: block;
+    margin: 0px;
+    float: left;
+  }
+
+  .operateSubMenuElement:hover .operateSubmenuTileIcon {
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+</style>
+
+<div class="operateSubMenuFilter">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 OperateSelectionMenuTitle">
+      <label class="pull-left">@FMBaseController.TranslateText("POINT LIST")</label>
+      <span class="PointSelectionViewMode glyphicon glyphicon-th-list pull-right icon-container listViewSwitch" title="Switch to Detail View"></span>
+      <div class="Selectionhorizontalline"></div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6 col-md-6 col-lg-6">
+      @Html.LabelFor(model => model.ActionListPointTypes, FMBaseController.TranslateText("Point Type"), new { @class = "control-label" })
+      @Html.DropDownListFor(model => model.PointTypeId, Model.ActionListPointTypes, new { @class = "form-control PointTypeId", @onchange = "GetSelectedPointType()" })
+    </div>
+    <div class="col-sm-6 col-md-6 col-lg-6">
+      @Html.LabelFor(model => model.ActionListCategories, FMBaseController.TranslateText("Point Category"), new { @class = "control-label" })
+      @Html.DropDownListFor(model => model.CategoryId, Model.ActionListCategories, new { @class = "form-control CategoryId", @onchange = "GetSelectedPointCategory()" })
+    </div>
+    <div class="col-sm-6 col-md-6 col-lg-6">
+      <div class="filter-settings operate-list-filter-addon">
+        <input type="text" class="operatePointNameFilter operate-List-form-control" placeholder="Search for Point Name" />
+        <img alt="Filter Tags" title="Search" src="~/fmwebapp/images/Search Icon.png" />
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-6 col-lg-6">
+      <div class="filter-settings operate-list-filter-addon">
+        <input type="text" class="operatePointProductFilter operate-List-form-control" placeholder="Search for Product Name" />
+        <img alt="Filter Tags" title="Search" src="~/fmwebapp/images/Search Icon.png" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="operateSubMenuList" id="pointSubMenuList">
+  @foreach (var point in Model.Points)
+  {
+	  var pointName = point.ID;
+	  var pointGuid = point.IdentityGuid.ToString();
+	  var pointDescription = point.Description;
+	  var pointCategories = point.PointCategoryCollection.Select(x => x.ID).ToArray();
+	  var pointCategoriesList = "|" + string.Join("|", pointCategories) + "|";  // using "|" as delimiter between the names
+	  var prodID = string.IsNullOrWhiteSpace(point.ProductID) ? "?" : point.ProductID;
+
+    <div class="operateSubMenuElement row points-dontsplit" data-guid="@pointGuid" data-name="@pointName" data-point-type="@point.PointType" data-point-productID="@prodID" data-point-category="@pointCategoriesList" onclick="FMOperateIndex.OpenNewPointHistory( '@point.ID', '@point.PointGuid');">
+			<div class="operateSubmenuTitle list-view" title="@pointName"><img src="~/DisplayImage.ashx?PictureGuid=@point.ProfileImageGuid" class="OperateSmallMenuIcon" /><div class="smallTitle">@pointName</div></div>
+      <div class="operateSubmenuTitle detail-view" title="@pointName">@pointName</div>
+      <div class="operateSubmenuTileIcon detail-view">
+        <img src="~/DisplayImage.ashx?PictureGuid=@point.ProfileImageGuid" height="30" />
+      </div>
+      <textarea readonly class="operateSubmenuTileDescription detail-view">@pointDescription</textarea>
+    </div>
+  }
+</div>
+
+<script>
+	// if used from the menu (we need to restore values)
+	if (!$("@Model.ParentControl").data().hasOwnProperty("selectedPointCategory")) {
+		$("@Model.ParentControl").data("selectedPointCategory", "");
+	}
+	if (!$("@Model.ParentControl").data().hasOwnProperty("selectedPointType")) {
+		$("@Model.ParentControl").data("selectedPointType", "");
+	}
+	if (!$("@Model.ParentControl").data().hasOwnProperty("selectedPointName")) {
+		$("@Model.ParentControl").data("selectedPointName", "");
+	}
+	if (!$("@Model.ParentControl").data().hasOwnProperty("selectedProductID")) {
+		$("@Model.ParentControl").data("selectedProductID", "");
+	}
+
+
+
+	/* Based on the current view selection in the point rolldown menu, set the view to display */
+	function resetPointInputViewMode() {
+		if ($("@Model.ParentControl .PointSelectionViewMode").hasClass("listViewSwitch")) {
+			$("@Model.ParentControl .PointSelectionViewMode").removeClass("glyphicon-align-justify").addClass("glyphicon-th-list");
+			$('@Model.ParentControl .operateSubMenuElement .list-view').css('display', 'inherit');
+			$('@Model.ParentControl .operateSubMenuElement .detail-view').css('display', 'none');
+			$('@Model.ParentControl .operateSubMenuElement').css('height', '30px');
+		} else {
+			$("@Model.ParentControl .PointSelectionViewMode").removeClass("glyphicon-th-list").addClass("glyphicon-align-justify");
+			$('@Model.ParentControl .operateSubMenuElement .list-view').css('display', 'none');
+			$('@Model.ParentControl .operateSubMenuElement .detail-view').css('display', 'inherit');
+			$('@Model.ParentControl .operateSubMenuElement').css('height', '100px');
+		}
+	}
+
+var typingTimer;
+var doneTypingTime = 400;
+
+	//====================================================================
+	// This function will handle the point list rollout menu filtering
+	// for the Point Name filter.
+	//====================================================================
+	$("@Model.ParentControl .operatePointNameFilter").on('input', function () {
+
+		// the following code was to workaround a new bug introduced in IE11 already fixed in Edge, the input event is also triggered on blur so we need to process only if the data has changed
+		var filterTxt = $(this).val();
+
+		if (filterTxt === $(this).data('oldvalue')) {
+			return;
+		}
+		else {
+			$(this).data('oldvalue', filterTxt);
+		}
+
+		clearTimeout(typingTimer);
+		typingTimer = setTimeout(executeSearch, doneTypingTime);
+		$("@Model.ParentControl").data("selectedPointName", filterTxt);
+	});
+
+	function executeSearch() {
+		FMOperateIndex.PointListRolloutMenuFiltering()
+	}
+
+	//====================================================================
+	// This function will handle the point list rollout menu filtering
+	// for the Product Name filter.
+	//====================================================================
+	$("@Model.ParentControl .operatePointProductFilter").on('input', function () {
+
+		// the following code was to workaround a new bug introduced in IE11 already fixed in Edge, the input event is also triggered on blur so we need to process only if the data has changed
+		var filterTxt = $(this).val();
+
+		if (filterTxt === $(this).data('oldvalue')) {
+			return;
+		}
+		else {
+			$(this).data('oldvalue', filterTxt);
+		}
+
+		clearTimeout(typingTimer);
+		typingTimer = setTimeout(executeSearch, doneTypingTime);
+		$("@Model.ParentControl").data("selectedProductID", filterTxt);
+	});
+
+	//===============================================================
+	// This function will handle the selected point type on the point
+	// list rollout menu dropdown.
+	//===============================================================
+	function GetSelectedPointType() {
+		$("@Model.ParentControl").data("selectedPointType", "");
+
+		if ($("@Model.ParentControl .PointTypeId").val() !== "-99") {
+			$("@Model.ParentControl").data("selectedPointType", $("@Model.ParentControl .PointTypeId").val());
+		}
+
+		FMOperateIndex.PointListRolloutMenuFiltering();
+	}
+
+	//===================================================================
+	// This function will handle the selected point category on the point
+	// list rollout menu dropdown.
+	//===================================================================
+	function GetSelectedPointCategory() {
+		$("@Model.ParentControl").data("selectedPointCategory", "");
+
+		if ($("@Model.ParentControl .CategoryId").val() !== "-99") {
+			$("@Model.ParentControl").data("selectedPointCategory", $("@Model.ParentControl .CategoryId").val());
+		}
+
+		FMOperateIndex.PointListRolloutMenuFiltering();
+	}
+
+	//====================================================================
+	// This function will handle the point list rollout menu filtering
+	// for the Point Name filter.
+	//====================================================================
+	FMOperateIndex.PointListRolloutMenuFiltering = function () {
+		// No points to be found, just return.
+		if ($('@Model.ParentControl .operateSubMenuElement').length === 0)
+			return;
+
+		$('@Model.ParentControl .operateSubMenuList').uncolumnize();
+		resetPointInputViewMode();
+
+		var pointNameFilterTxt = $("@Model.ParentControl .operatePointNameFilter").val();
+		var selectedPointCategory = $("@Model.ParentControl").data("selectedPointCategory");
+		var selectedPointType = $("@Model.ParentControl").data("selectedPointType");
+		var productIDFilterTxt = $("@Model.ParentControl .operatePointProductFilter").val() ?? '';
+
+
+		if (pointNameFilterTxt === "" && selectedPointCategory === "" && selectedPointType === "" && productIDFilterTxt === "") {
+			$('@Model.ParentControl .operateSubMenuElement').removeClass("hidden");
+		}
+		else {
+			$('@Model.ParentControl .operateSubMenuElement').each(function () {
+				var pointTypeFound = false;
+				var categoryFound = false;
+
+				var liText = $(this).attr("data-name").toLowerCase();
+				var prodID = $(this).attr("data-point-productID").replace('?', '').toLowerCase();
+
+				if (selectedPointType === "") {
+					pointTypeFound = true;
+				}
+				else {
+					if ($(this).attr("data-point-type") === selectedPointType) {
+						pointTypeFound = true;
+					}
+				}
+
+				if (selectedPointCategory === "") {
+					categoryFound = true;
+				}
+				else {
+					// category names are delimited by "|"
+					if ($(this).attr("data-point-category").indexOf("|" + selectedPointCategory + "|") >= 0) {
+						categoryFound = true;
+					}
+				}
+
+				if (liText.indexOf(pointNameFilterTxt.toLowerCase()) >= 0 && pointTypeFound && categoryFound && prodID.indexOf(productIDFilterTxt.toLowerCase()) >= 0) {
+					$(this).removeClass("hidden");
+				}
+				else {
+					$(this).removeClass("hidden").addClass("hidden");
+				}
+			});
+		}
+
+
+		$('@Model.ParentControl .operateSubMenuList').columnize({
+			columns: 2,
+			buildOnce: true,
+			cssClassPrefix: "points",
+			lastNeverTallest: true
+		});
+
+		// need to destroy and rebuild nicescroll since the refresh does not seem to be working on this case
+		$("@Model.ParentControl .operateSubMenuList").getNiceScroll().remove();
+		$("@Model.ParentControl .operateSubMenuList").niceScroll({ cursorwidth: '10px', horizrailenabled: false, autohidemode: false, cursorcolor: "#486899", background: "white" });
+	}
+
+	//====================================================================
+	// This function will execute when the partial view is ready to be displayed
+	//====================================================================
+	$(document).ready(function () {
+		$('@Model.ParentControl .PointSelectionViewMode').on('click', function (e) {
+			if ($("@Model.ParentControl .PointSelectionViewMode").hasClass("listViewSwitch")) {
+				$("@Model.ParentControl .PointSelectionViewMode").removeClass("listViewSwitch").addClass("detailViewSwitch");
+				$("@Model.ParentControl .PointSelectionViewMode").removeClass("glyphicon-th-list").addClass("glyphicon-align-justify");
+				$("@Model.ParentControl .PointSelectionViewMode").attr("title", "Switch to Compact View");
+				$('@Model.ParentControl .operateSubMenuElement .list-view').css('display', 'none');
+				$('@Model.ParentControl .operateSubMenuElement .detail-view').css('display', 'inherit');
+				$('@Model.ParentControl .operateSubMenuElement' ).css( 'height', '100px' );
+				if ( "@Model.PersistChanges" === "True" ) {FMOperateIndex.PersistUpdateFilterView( "pointsViewSelection", 'detailView' );}
+			}
+			else
+			{
+				$( "@Model.ParentControl .PointSelectionViewMode").removeClass("detailViewSwitch").addClass("listViewSwitch");
+				$("@Model.ParentControl .PointSelectionViewMode").removeClass("glyphicon-align-justify").addClass("glyphicon-th-list");
+				$("@Model.ParentControl .PointSelectionViewMode").attr("title", "Switch to Detail View");
+				$('@Model.ParentControl .operateSubMenuElement .list-view').css('display', 'inherit');
+				$('@Model.ParentControl .operateSubMenuElement .detail-view').css('display', 'none');
+				$('@Model.ParentControl .operateSubMenuElement').css('height', '30px');
+				if ("@Model.PersistChanges" === "True") { FMOperateIndex.PersistUpdateFilterView("pointsViewSelection", 'compactView'); }
+			}
+			$("@Model.ParentControl .operateSubMenuList").getNiceScroll().resize();
+		});
+
+		// if we are persisting changes then restore the view mode from before otherwise default to listview
+		if ("@Model.PersistChanges" === "True") {
+			// check the selected view that was used previously
+			var viewMode = FMOperateIndex.GetSelectedFilterView("pointsViewSelection");
+			if (viewMode != null) {
+				if (viewMode === 'detailView') {
+					$("@Model.ParentControl .PointSelectionViewMode").removeClass("listViewSwitch").addClass("detailViewSwitch");
+					$("@Model.ParentControl .PointSelectionViewMode").attr("title", "Switch to Compact View");
+				}
+				else {
+					$("@Model.ParentControl .PointSelectionViewMode").removeClass("detailViewSwitch").addClass("listViewSwitch");
+					$("@Model.ParentControl .PointSelectionViewMode").attr("title", "Switch to Detail View");
+				}
+			}
+		} else {
+			$("@Model.ParentControl .PointSelectionViewMode").removeClass("detailViewSwitch").addClass("listViewSwitch");
+			$("@Model.ParentControl .PointSelectionViewMode").attr("title", "Switch to Detail View");
+		}
+		resetPointInputViewMode();
+
+
+		/*
+				// In IE when setting the focus, the cursor is placed in the first position and we need to have it
+				// in the last character to continue typing the filter
+				// Based on http://stackoverflow.com/questions/511088/use-javascript-to-place-cursor-at-end-of-text-in-text-input-element */
+		$("@Model.ParentControl .operatePointNameFilter").focus(function () {
+			var that = this;
+			setTimeout(function () { that.selectionStart = that.selectionEnd = 10000; }, 100);
+		});
+
+		// if we have values from a previous selection then reset the content and call to filter
+		if ($("@Model.ParentControl").data("selectedPointCategory") !== "") {
+			$("@Model.ParentControl .CategoryId").val($("@Model.ParentControl").data("selectedPointCategory"));
+		}
+		if ($("@Model.ParentControl").data("selectedPointType") !== "") {
+			$("@Model.ParentControl .PointTypeId").val($("@Model.ParentControl").data("selectedPointType"));
+		}
+
+		if ($("@Model.ParentControl").data("selectedPointName") !== "") {
+			$("@Model.ParentControl .operatePointNameFilter").val($("@Model.ParentControl").data("selectedPointName"));
+		}
+
+		if ($("@Model.ParentControl").data("selectedProductID") !== "") {
+			$("@Model.ParentControl .operatePointProductFilter").val($("@Model.ParentControl").data("selectedProductID"));
+		}
+
+		if ($("@Model.ParentControl").data("selectedPointCategory") !== "" || $("@Model.ParentControl").data("selectedPointType") !== "" || $("@Model.ParentControl").data("selectedPointName") !== "" || $("@Model.ParentControl").data("selectedProductID") !== "") {
+			FMOperateIndex.PointListRolloutMenuFiltering();
+		}
+	});
+
+</script>

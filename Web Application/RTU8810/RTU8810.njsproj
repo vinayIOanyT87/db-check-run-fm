@@ -1,0 +1,403 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>RTU8810</Name>
+    <RootNamespace>RTU8810</RootNamespace>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <ToolsVersionPromptShown>3.2</ToolsVersionPromptShown>
+    <LastActiveSolutionConfig>Release|Any CPU</LastActiveSolutionConfig>
+    <TypeScriptToolsVersion>3.2</TypeScriptToolsVersion>
+    <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>d31a333b-2c55-4197-8d8b-cd67fbb763f6</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>
+    </StartupFile>
+    <StartWebBrowser>True</StartWebBrowser>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <ProjectView>ShowAllFiles</ProjectView>
+    <NodejsPort>1337</NodejsPort>
+    <TypeScriptSourceMap>true</TypeScriptSourceMap>
+    <TypeScriptModuleKind>CommonJS</TypeScriptModuleKind>
+    <EnableTypeScript>true</EnableTypeScript>
+    <StartWebBrowser>True</StartWebBrowser>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include=".editorconfig" />
+    <Content Include=".gitignore" />
+    <Content Include="angular.json" />
+    <Content Include="e2e\tsconfig.e2e.json" />
+    <None Include="publish.bat" />
+    <Content Include="package-lock.json" />
+    <Content Include="src\app\content\content-header\connect-header\connect-header.component.css" />
+    <Content Include="src\app\content\content-header\connect-header\connect-header.component.html" />
+    <Content Include="src\app\views\alarm-view\alarmmanager\alarmmanager.component.css" />
+    <Content Include="src\app\views\alarm-view\alarmmanager\alarmmanager.component.html" />
+    <Content Include="src\app\views\modbus-view\register-map\register-map.component.css" />
+    <Content Include="src\app\views\modbus-view\register-map\register-map.component.html" />
+    <Content Include="src\app\views\settings-view\admin-user-configuration\admin-user-configuration.component.css" />
+    <Content Include="src\app\views\settings-view\admin-user-configuration\admin-user-configuration.component.html" />
+    <Content Include="src\app\views\systemadmin-view\systemadmin-card\systemadmin-card.component.css" />
+    <Content Include="src\app\views\systemadmin-view\systemadmin-card\systemadmin-card.component.html" />
+    <Content Include="src\app\views\systemadmin-view\systemadmin-description\systemadmin-description.component.css" />
+    <Content Include="src\app\views\systemadmin-view\systemadmin-description\systemadmin-description.component.html" />
+    <Content Include="src\app\views\systemadmin-view\systemadmin-detail\systemadmin-detail.component.css" />
+    <Content Include="src\app\views\systemadmin-view\systemadmin-detail\systemadmin-detail.component.html" />
+    <Content Include="src\app\views\systemadmin-view\systemadmin-view.component.css" />
+    <Content Include="src\app\views\systemadmin-view\systemadmin-view.component.html" />
+    <Content Include="src\assets\alarm-active-channel.png" />
+    <Content Include="src\assets\alarm-active-tank.png" />
+    <Content Include="src\assets\alarm-active-undefined.png" />
+    <Content Include="src\assets\alarm-bell-inverse.png" />
+    <Content Include="src\assets\alarm-bell.png" />
+    <Content Include="src\assets\alarm-inactive-channel.png" />
+    <Content Include="src\assets\alarm-inactive-tank.png" />
+    <Content Include="src\assets\alarm-inactive-undefined.png" />
+    <Content Include="src\assets\alarm-selected-channel.png" />
+    <Content Include="src\assets\alarm-selected-tank.png" />
+    <Content Include="src\assets\alarm-selected-undefined.png" />
+    <Content Include="src\assets\alarm-warning-channel-selected.png" />
+    <Content Include="src\assets\alarm-warning-channel.png" />
+    <Content Include="src\assets\alarm-warning-tank-selected.png" />
+    <Content Include="src\assets\alarm-warning-tank.png" />
+    <Content Include="src\assets\apply firmware.png" />
+    <Content Include="src\assets\assets.png" />
+    <Content Include="src\assets\assets1.png" />
+    <Content Include="src\assets\Book-Open-56.png" />
+    <Content Include="src\assets\certificate-menu.png" />
+    <Content Include="src\assets\certificate-menu1.png" />
+    <Content Include="src\assets\certificate-disabled.png" />
+    <Content Include="src\assets\certificate-inactive.png" />
+    <Content Include="src\assets\certificate-selected.png" />
+    <Content Include="src\assets\db to usb.png" />
+    <Content Include="src\assets\factory reset.png" />
+    <Content Include="src\assets\fuel-tank-icon.png" />
+    <Content Include="src\assets\home.png" />
+    <Content Include="src\assets\home1.png" />
+    <Content Include="src\assets\ic-action.png" />
+    <Content Include="src\assets\ic-action1.png" />
+    <Content Include="src\assets\ic-chassis.png" />
+    <Content Include="src\assets\ic-diagnostics.png" />
+    <Content Include="src\assets\ic-diagnostics1.png" />
+    <Content Include="src\assets\ic-settings.png" />
+    <Content Include="src\assets\markspace.png" />
+    <Content Include="src\assets\regmap-inactive.png" />
+    <Content Include="src\assets\regmap-selected.png" />
+    <Content Include="src\assets\regmap.png" />
+    <Content Include="src\assets\fpreg-inactive.png" />
+    <Content Include="src\assets\fpreg-selected.png" />
+    <Content Include="src\assets\fpreg.png" />
+    <Content Include="src\assets\intreg-inactive.png" />
+    <Content Include="src\assets\intreg-selected.png" />
+    <Content Include="src\assets\intreg.png" />
+    <Content Include="src\assets\reset pwd.png" />
+    <Content Include="src\assets\roboto-v15-latin-regular.eot" />
+    <Content Include="src\assets\roboto-v15-latin-regular.svg" />
+    <Content Include="src\assets\roboto-v15-latin-regular.ttf" />
+    <Content Include="src\assets\roboto-v15-latin-regular.woff" />
+    <Content Include="src\assets\roboto-v15-latin-regular.woff2" />
+    <Content Include="src\assets\settings.png" />
+    <Content Include="src\assets\settings1.png" />
+    <Content Include="src\assets\tank.png" />
+    <Content Include="src\assets\tank1.png" />
+    <Content Include="src\assets\tankway.png" />
+    <Content Include="src\assets\reboot rtu.png" />
+    <Content Include="src\assets\restore db.png" />
+    <Content Include="src\assets\rtusmall.png" />
+    <Content Include="src\assets\Varec_color.png" />
+    <Content Include="README.md" />
+    <Content Include="src\app\app.component.css" />
+    <Content Include="src\app\app.component.html" />
+    <Content Include="src\app\content\content-detail\content-detail.component.css" />
+    <Content Include="src\app\content\content-detail\content-detail.component.html" />
+    <Content Include="src\app\content\content-header\content-header.component.css" />
+    <Content Include="src\app\content\content-header\content-header.component.html" />
+    <Content Include="src\app\content\content.component.css" />
+    <Content Include="src\app\content\content.component.html" />
+    <Content Include="src\app\menus\assets-menu\assets-menu.component.css" />
+    <Content Include="src\app\menus\assets-menu\assets-menu.component.html" />
+    <Content Include="src\app\menus\diagnostics-menu\diagnostics-menu.component.css" />
+    <Content Include="src\app\menus\diagnostics-menu\diagnostics-menu.component.html" />
+    <Content Include="src\app\menus\home-menu\home-menu.component.css" />
+    <Content Include="src\app\menus\home-menu\home-menu.component.html" />
+    <Content Include="src\app\menus\settings-menu\settings-menu.component.css" />
+    <Content Include="src\app\menus\settings-menu\settings-menu.component.html" />
+    <Content Include="src\app\sidebar\sidebar.component.css" />
+    <Content Include="src\app\sidebar\sidebar.component.html" />
+    <Content Include="src\app\views\alarm-view\alarm-view.component.css" />
+    <Content Include="src\app\views\alarm-view\alarm-view.component.html" />
+    <Content Include="src\app\views\chassis-view\chassis-view.component.css" />
+    <Content Include="src\app\views\chassis-view\chassis-view.component.html" />
+    <Content Include="src\app\views\chassis-view\chassismoduleview\chassismoduleview.component.css" />
+    <Content Include="src\app\views\chassis-view\chassismoduleview\chassismoduleview.component.html" />
+    <Content Include="src\app\views\chassis-view\inlineconfigurationeditor\inlineconfigurationeditor.component.css" />
+    <Content Include="src\app\views\chassis-view\inlineconfigurationeditor\inlineconfigurationeditor.component.html" />
+    <Content Include="src\app\views\chassis-view\moduleconfiguration\moduleconfiguration.component.css" />
+    <Content Include="src\app\views\chassis-view\moduleconfiguration\moduleconfiguration.component.html" />
+    <Content Include="src\app\views\chassis-view\moduledetail\moduledetail.component.css" />
+    <Content Include="src\app\views\chassis-view\moduledetail\moduledetail.component.html" />
+    <Content Include="src\app\views\diagnostics-view\diagnostics-view.component.css" />
+    <Content Include="src\app\views\diagnostics-view\diagnostics-view.component.html" />
+    <Content Include="src\app\views\diagnostics-view\diagnosticstagviewer\diagnosticstagviewer.component.css" />
+    <Content Include="src\app\views\diagnostics-view\diagnosticstagviewer\diagnosticstagviewer.component.html" />
+    <Content Include="src\app\views\diagnostics-view\diagnosticsviewpicker\diagnosticsviewpicker.component.css" />
+    <Content Include="src\app\views\diagnostics-view\diagnosticsviewpicker\diagnosticsviewpicker.component.html" />
+    <Content Include="src\app\views\home-view\connect\connect.component.css" />
+    <Content Include="src\app\views\home-view\connect\connect.component.html" />
+    <Content Include="src\app\views\home-view\home-card\home-card.component.css" />
+    <Content Include="src\app\views\home-view\home-card\home-card.component.html" />
+    <Content Include="src\app\views\home-view\home-view.component.css" />
+    <Content Include="src\app\views\home-view\home-view.component.html" />
+    <Content Include="src\app\views\modbus-view\modbus-view.component.css" />
+    <Content Include="src\app\views\modbus-view\modbus-view.component.html" />
+    <Content Include="src\app\views\settings-view\networkconfiguration\networkconfiguration.component.css" />
+    <Content Include="src\app\views\settings-view\networkconfiguration\networkconfiguration.component.html" />
+    <Content Include="src\app\views\settings-view\settings-view.component.css" />
+    <Content Include="src\app\views\settings-view\settings-view.component.html" />
+    <Content Include="src\app\views\tank-view\tank-view.component.css" />
+    <Content Include="src\app\views\tank-view\tank-view.component.html" />
+    <Content Include="src\app\views\tank-view\tankmanager\tankmanager.component.css" />
+    <Content Include="src\app\views\tank-view\tankmanager\tankmanager.component.html" />
+    <Content Include="src\assets\.gitkeep" />
+    <Content Include="src\assets\activesaveddiagnostic.png" />
+    <Content Include="src\assets\biphase.png" />
+    <Content Include="src\assets\chassis.png" />
+    <Content Include="src\assets\cpu.png" />
+    <Content Include="src\assets\digitalio.png" />
+    <Content Include="src\assets\emptymodule.png" />
+    <Content Include="src\assets\favicon.ico" />
+    <Content Include="src\assets\OpenSans-Regular-webfont.eot" />
+    <Content Include="src\assets\OpenSans-Regular-webfont.svg" />
+    <Content Include="src\assets\OpenSans-Regular-webfont.ttf" />
+    <Content Include="src\assets\OpenSans-Regular-webfont.woff" />
+    <Content Include="src\assets\saveddiagnostic.png" />
+    <Content Include="src\assets\serial.png" />
+    <Content Include="src\assets\Tank Alarm.png" />
+    <Content Include="src\assets\Tank Active.png" />
+    <Content Include="src\assets\Tank Inactive.png" />
+    <Content Include="src\assets\Tank Selected.png" />
+    <Content Include="src\assets\Varec_w.png" />
+    <Content Include="src\assets\wrench.png" />
+    <Content Include="src\assets\wrench1.png" />
+    <Content Include="src\browserslist" />
+    <Content Include="src\custom-theme.scss" />
+    <Content Include="src\favicon.ico" />
+    <Content Include="src\index.html" />
+    <Content Include="src\styles.css" />
+    <Content Include="src\tsconfig.app.json" />
+    <Content Include="src\tsconfig.spec.json" />
+    <Content Include="src\tslint.json" />
+    <Content Include="package.json" />
+    <Content Include="tfsbuild.bat" />
+    <Content Include="tsconfig.json" />
+    <Content Include="tslint.json" />
+    <TypeScriptCompile Include="e2e\src\app.e2e-spec.ts" />
+    <TypeScriptCompile Include="e2e\src\app.po.ts" />
+    <TypeScriptCompile Include="src\app\app-routing.module.ts" />
+    <TypeScriptCompile Include="src\app\app.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\app.component.ts" />
+    <TypeScriptCompile Include="src\app\app.module.ts" />
+    <TypeScriptCompile Include="src\app\content\content-detail\content-detail.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\content\content-detail\content-detail.component.ts" />
+    <TypeScriptCompile Include="src\app\content\content-header\connect-header\connect-header.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\content\content-header\connect-header\connect-header.component.ts" />
+    <TypeScriptCompile Include="src\app\content\content-header\content-header.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\content\content-header\content-header.component.ts" />
+    <TypeScriptCompile Include="src\app\content\content.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\content\content.component.ts" />
+    <TypeScriptCompile Include="src\app\directives\allow-only-decimals.directive.ts" />
+    <TypeScriptCompile Include="src\app\directives\allow-only-digits.directive.ts" />
+    <TypeScriptCompile Include="src\app\directives\allow-only-hex-values.directive.ts" />
+    <TypeScriptCompile Include="src\app\directives\allow-only-signed-digits.directive.ts" />
+    <TypeScriptCompile Include="src\app\directives\restric-min-max.directive.ts" />
+    <TypeScriptCompile Include="src\app\menus\assets-menu\assets-menu.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\menus\assets-menu\assets-menu.component.ts" />
+    <TypeScriptCompile Include="src\app\menus\diagnostics-menu\diagnostics-menu.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\menus\diagnostics-menu\diagnostics-menu.component.ts" />
+    <TypeScriptCompile Include="src\app\menus\home-menu\home-menu.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\menus\home-menu\home-menu.component.ts" />
+    <TypeScriptCompile Include="src\app\menus\settings-menu\settings-menu.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\menus\settings-menu\settings-menu.component.ts" />
+    <TypeScriptCompile Include="src\app\services\availablemodules.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\services\availablemodules.service.ts" />
+    <TypeScriptCompile Include="src\app\services\localstorage.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\services\localstorage.service.ts" />
+    <TypeScriptCompile Include="src\app\services\networkconfiguration.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\services\networkconfiguration.service.ts" />
+    <TypeScriptCompile Include="src\app\services\notification.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\services\notification.service.ts" />
+    <TypeScriptCompile Include="src\app\services\rtuconfiguration.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\services\rtuconfiguration.service.ts" />
+    <TypeScriptCompile Include="src\app\services\rtuconnect.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\services\rtuconnect.service.ts" />
+    <TypeScriptCompile Include="src\app\services\rtuconnectionstatus.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\services\rtuconnectionstatus.service.ts" />
+    <TypeScriptCompile Include="src\app\services\selectedmodulechannel.service.spec.ts" />
+    <TypeScriptCompile Include="src\app\services\selectedmodulechannel.service.ts" />
+    <TypeScriptCompile Include="src\app\sidebar\sidebar.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\sidebar\sidebar.component.ts" />
+    <TypeScriptCompile Include="src\app\views\alarm-view\alarm-view.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\views\alarm-view\alarm-view.component.ts" />
+    <TypeScriptCompile Include="src\app\views\alarm-view\alarmmanager\alarmmanager.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\views\alarm-view\alarmmanager\alarmmanager.component.ts" />
+    <TypeScriptCompile Include="src\app\views\chassis-view\chassis-view.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\views\chassis-view\chassis-view.component.ts" />
+    <TypeScriptCompile Include="src\app\views\chassis-view\chassismoduleview\chassismoduleview.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\views\chassis-view\chassismoduleview\chassismoduleview.component.ts" />
+    <TypeScriptCompile Include="src\app\views\chassis-view\inlineconfigurationeditor\inlineconfigurationeditor.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\views\chassis-view\inlineconfigurationeditor\inlineconfigurationeditor.component.ts" />
+    <TypeScriptCompile Include="src\app\views\chassis-view\moduleconfiguration\moduleconfiguration.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\views\chassis-view\moduleconfiguration\moduleconfiguration.component.ts" />
+    <TypeScriptCompile Include="src\app\views\chassis-view\moduledetail\moduledetail.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\views\chassis-view\moduledetail\moduledetail.component.ts" />
+    <TypeScriptCompile Include="src\app\views\diagnostics-view\diagnostics-view.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\views\diagnostics-view\diagnostics-view.component.ts" />
+    <TypeScriptCompile Include="src\app\views\diagnostics-view\diagnosticstagviewer\diagnosticstagviewer.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\views\diagnostics-view\diagnosticstagviewer\diagnosticstagviewer.component.ts" />
+    <TypeScriptCompile Include="src\app\views\diagnostics-view\diagnosticsviewpicker\diagnosticsviewpicker.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\views\diagnostics-view\diagnosticsviewpicker\diagnosticsviewpicker.component.ts" />
+    <TypeScriptCompile Include="src\app\views\home-view\connect\connect.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\views\home-view\connect\connect.component.ts" />
+    <TypeScriptCompile Include="src\app\views\home-view\home-card\home-card.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\views\home-view\home-card\home-card.component.ts" />
+    <TypeScriptCompile Include="src\app\views\home-view\home-view.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\views\home-view\home-view.component.ts" />
+    <TypeScriptCompile Include="src\app\views\modbus-view\modbus-view.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\views\modbus-view\modbus-view.component.ts" />
+    <TypeScriptCompile Include="src\app\views\modbus-view\register-map\register-map.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\views\modbus-view\register-map\register-map.component.ts" />
+    <TypeScriptCompile Include="src\app\views\settings-view\admin-user-configuration\admin-user-configuration.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\views\settings-view\admin-user-configuration\admin-user-configuration.component.ts" />
+    <TypeScriptCompile Include="src\app\views\settings-view\networkconfiguration\networkconfiguration.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\views\settings-view\networkconfiguration\networkconfiguration.component.ts" />
+    <TypeScriptCompile Include="src\app\views\settings-view\settings-view.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\views\settings-view\settings-view.component.ts" />
+    <TypeScriptCompile Include="src\app\views\systemadmin-view\systemadmin-card\systemadmin-card.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\views\systemadmin-view\systemadmin-card\systemadmin-card.component.ts" />
+    <TypeScriptCompile Include="src\app\views\systemadmin-view\systemadmin-description\systemadmin-description.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\views\systemadmin-view\systemadmin-description\systemadmin-description.component.ts" />
+    <TypeScriptCompile Include="src\app\views\systemadmin-view\systemadmin-detail\systemadmin-detail.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\views\systemadmin-view\systemadmin-detail\systemadmin-detail.component.ts" />
+    <TypeScriptCompile Include="src\app\views\systemadmin-view\systemadmin-view.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\views\systemadmin-view\systemadmin-view.component.ts" />
+    <TypeScriptCompile Include="src\app\views\tank-view\tank-view.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\views\tank-view\tank-view.component.ts" />
+    <TypeScriptCompile Include="src\app\views\tank-view\tankmanager\tankmanager.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\views\tank-view\tankmanager\tankmanager.component.ts" />
+    <TypeScriptCompile Include="src\environments\environment.prod.ts" />
+    <TypeScriptCompile Include="src\environments\environment.ts" />
+    <TypeScriptCompile Include="src\main.ts" />
+    <TypeScriptCompile Include="src\polyfills.ts" />
+    <TypeScriptCompile Include="src\test.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="e2e\" />
+    <Folder Include="e2e\src\" />
+    <Folder Include="src\" />
+    <Folder Include="src\app\" />
+    <Folder Include="src\app\content\" />
+    <Folder Include="src\app\content\content-detail\" />
+    <Folder Include="src\app\content\content-header\" />
+    <Folder Include="src\app\content\content-header\connect-header\" />
+    <Folder Include="src\app\directives\" />
+    <Folder Include="src\app\menus\" />
+    <Folder Include="src\app\menus\assets-menu\" />
+    <Folder Include="src\app\menus\diagnostics-menu\" />
+    <Folder Include="src\app\menus\home-menu\" />
+    <Folder Include="src\app\menus\settings-menu\" />
+    <Folder Include="src\app\services\" />
+    <Folder Include="src\app\sidebar\" />
+    <Folder Include="src\app\views\" />
+    <Folder Include="src\app\views\alarm-view\" />
+    <Folder Include="src\app\views\alarm-view\alarmmanager\" />
+    <Folder Include="src\app\views\chassis-view\" />
+    <Folder Include="src\app\views\chassis-view\chassismoduleview\" />
+    <Folder Include="src\app\views\chassis-view\inlineconfigurationeditor\" />
+    <Folder Include="src\app\views\chassis-view\moduleconfiguration\" />
+    <Folder Include="src\app\views\chassis-view\moduledetail\" />
+    <Folder Include="src\app\views\diagnostics-view\" />
+    <Folder Include="src\app\views\diagnostics-view\diagnosticstagviewer\" />
+    <Folder Include="src\app\views\diagnostics-view\diagnosticsviewpicker\" />
+    <Folder Include="src\app\views\home-view\" />
+    <Folder Include="src\app\views\home-view\connect\" />
+    <Folder Include="src\app\views\home-view\home-card\" />
+    <Folder Include="src\app\views\modbus-view\" />
+    <Folder Include="src\app\views\modbus-view\register-map\" />
+    <Folder Include="src\app\views\settings-view\" />
+    <Folder Include="src\app\views\settings-view\admin-user-configuration\" />
+    <Folder Include="src\app\views\settings-view\networkconfiguration\" />
+    <Folder Include="src\app\views\systemadmin-view\" />
+    <Folder Include="src\app\views\systemadmin-view\systemadmin-card\" />
+    <Folder Include="src\app\views\systemadmin-view\systemadmin-description\" />
+    <Folder Include="src\app\views\systemadmin-view\systemadmin-detail\" />
+    <Folder Include="src\app\views\tank-view\" />
+    <Folder Include="src\app\views\tank-view\tankmanager\" />
+    <Folder Include="src\assets\" />
+    <Folder Include="src\environments\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="e2e\protractor.conf.js" />
+    <Compile Include="src\karma.conf.js" />
+  </ItemGroup>
+  <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:48022/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

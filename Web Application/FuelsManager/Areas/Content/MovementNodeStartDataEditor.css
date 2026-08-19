@@ -1,0 +1,91 @@
+﻿#movementNodeSettingsEditorPartial label {
+	color: rgb(153,153,153) !important;
+}
+
+#MovementNodeStartDataEditorPropertyScreen button[disabled] {
+	cursor: not-allowed;
+}
+
+.ui-front {
+	z-index: 10000 !important;
+}
+
+body .modal {
+	width: 750px !important;
+	margin-left: -375px !important;
+}
+
+.MovementNodeSettingsEditorHeader {
+	padding: 0px;
+	width: 100%;
+}
+
+.MovementNodeSettingsEditorHeader .close {
+	padding: 5px !important;
+	margin-top: -2px !important;
+}
+
+.h4, .h5, .h6, h4, h5, h6 {
+	margin-top: 0px !important;
+	margin-bottom: 0px !important;
+}
+
+.form-control {
+	border-radius: 0px !important;
+}
+
+.form-group {
+	height: 60px !important;
+}
+
+#MovementNodeStartDataEditorPropertyScreen .modal, #MovementNodeStartDataEditorPropertyScreen .modal-content {
+	background-color: white !important;
+}
+
+#MovementNodeStartDataEditorPropertyScreen {
+	width: 650px !important;
+}
+
+.TransferNodeStartTime {
+	height: 25px !important;
+	width: 200px !important;
+}
+
+.MovementNodeStartDataTdPadding1 {
+	padding-top: 7px;
+	padding-bottom: 7px;
+}
+
+.MovementNodeStartDataTdPadding2 {
+	padding-top: 7px;
+	padding-bottom: 7px;
+	padding-left: 30px;
+}
+
+.MovementNodeStartDataTdPadding3 {
+	padding-top: 7px;
+	padding-bottom: 7px;
+	padding-left: 30px;
+}
+
+#MovementNodeStartDataTableSection {
+	padding-left: 30px;
+}
+
+.MovementNodeStartDataInputHeight {
+	height: 17px !important;
+}
+
+input.hasDatepicker {
+	display: inline-block;
+	width: calc( ( 100% / 2 ) );
+	max-width: 400px;
+}
+
+.ui-datepicker-trigger {
+	Width: 25px !important;
+	margin-left: 5px;
+	float: none !important;
+	margin-top: 0px !important;
+}
+

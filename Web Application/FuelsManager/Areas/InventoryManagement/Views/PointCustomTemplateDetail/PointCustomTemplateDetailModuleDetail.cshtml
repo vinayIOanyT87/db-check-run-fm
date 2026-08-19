@@ -1,0 +1,96 @@
+﻿@using Varec.CommonComponents.EngineeringUnitsLibrary
+@using FMBusinessObjects.DataObjects
+@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.PointEditDetailModel
+
+@{
+	var moduleInstance = Model.PointTemplate.ModuleInstances[Model.SelectedModuleInstanceGuid];
+	var module = Model.PointTemplate.Modules[moduleInstance.ModuleGuid];
+	var moduleInstanceList = Model.PointTemplate.ModuleInstances.Select(x => x.Value).ToList();
+	List<Guid> propertyMap = moduleInstanceList.SelectMany(x => x.ModuleToPointTemplateData.PropertyToModules.ToList()).Select(x => x.PropertyGuid).Distinct().ToList();
+}
+<div id="@moduleInstance.ModuleToPointTemplateGuid.ToString()" class="moduledetail hidden" style="padding: 20px; height: 100%">
+	<div class="row">
+		<div class="form-group col-sm-6 col-md-6">
+			<label class="control-label">@FMBaseController.TranslateText("INSTANCE NAME")</label>
+			<input class="form-control input-md" disabled maxlength="50" name="PTEModuleName" type="text" value="@moduleInstance.ID">
+		</div>
+		<div class="form-group col-sm-6 col-md-6">
+			<label class="control-label">@FMBaseController.TranslateText("MODULE NAME")</label>
+			<input class="form-control input-md" disabled maxlength="50" name="PTEModuleName" type="text" value="@module.ID">
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group col-sm-12 col-md-12">
+			<label class="control-label">@FMBaseController.TranslateText("DESCRIPTION")</label>
+			<input class="form-control input-md" disabled maxlength="100" name="PTEModuleName" type="text">
+		</div>
+	</div>
+	<div class="scrollableModuleDetail">
+		<div class="row settingsection">
+			<div class="pull-left separator-label col-sm-12 col-md-12 col-lg-12">@FMBaseController.TranslateText("TAGS")</div>
+			<div class="settingsectionhorizontalline"></div>
+		</div>
+		<div class="row">
+			<div class="form-group col-sm-12 col-md-12 col-lg-12">
+				<table name="ModuleParametersTable" class="table table-striped table-responsive table-hover FuelsManager-table-header">
+					<thead>
+						<tr>
+							<th class="col-md-5 text-center">TAG NAME</th>
+							<th class="col-md-5 text-center">PARAMETER</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var tag in moduleInstance.ModuleToPointTemplateData.TagToModules)
+						{
+							var moduleParameterDataType = module.ModuleData.ModuleTags.Where(x => x.ParameterName == tag.ModuleParameter).Select(x => x.DataType).FirstOrDefault();
+
+							<tr>
+								<td class="hidden ModuleTagDataType text-left">@moduleParameterDataType</td>
+								<td class="col-md-6">
+									<input class="form-control input-md text-left" name="ModuleTagName" disabled type="text" value="@Model.PointTemplate.Tags[tag.TagGuid].ID">
+								</td>
+								<td class="col-md-6">
+									<input class="form-control input-md text-left" name="ModuleParameterName" disabled type="text" value="@tag.ModuleParameter">
+								</td>
+
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="row settingsection">
+			<div class="pull-left separator-label col-sm-12 col-md-12 col-lg-12">@FMBaseController.TranslateText("SETTINGS")</div>
+			<div class="settingsectionhorizontalline"></div>
+		</div>
+		<div id="MESettings" class="row">
+			<div class="form-group col-sm-12 col-md-12 col-lg-12">
+				<table id="" class="table table-striped table-responsive table-hover FuelsManager-table-header">
+					<thead>
+						<tr>
+							<th class="col-md-6 text-center">@FMBaseController.TranslateText("PointTemplateEditor|SETTING NAME")</th>
+							<th class="col-md-6 text-center">@FMBaseController.TranslateText("PointTemplateEditor|PROPERTY")</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var property in moduleInstance.ModuleToPointTemplateData.PropertyToModules)
+						{
+							var modulePropertyDataType = module.ModuleData.ModuleSettings.Where(x => x.PropertyName == property.PropertyName).Select(x => x.DataType).FirstOrDefault();
+							<tr>
+								<td class="hidden modulePropertyDataType text-left">@modulePropertyDataType</td>
+								<td class="col-md-6">
+									<input class="form-control input-md text-left" name="ModuleSettingName" disabled type="text" value="@Model.PointTemplate.Properties[property.PropertyGuid].ID">
+								</td>
+								<td class="col-md-6">
+									<input class="form-control input-md text-left" name="ModuleParameterName" disabled type="text" value="@property.PropertyName">
+								</td>
+
+							</tr>
+							}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

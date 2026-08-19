@@ -1,0 +1,31 @@
+HKCR
+{
+	Varec.ScullyOPCServer.1 = s 'Varec Scully OPCServer Class'
+	{
+		CLSID = s '{206D99CF-6189-4440-AB4C-74DAEBCFC8FE}'
+	}
+	Varec.ScullyOPCServer = s 'Varec Scully OPCServer Class'
+	{
+		CLSID = s '{206D99CF-6189-4440-AB4C-74DAEBCFC8FE}'
+		CurVer = s 'Varec.ScullyOPCServer.1'
+        OPC
+        {
+            Vendor = s 'Varec'
+        }
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {206D99CF-6189-4440-AB4C-74DAEBCFC8FE} = s 'Varec Scully OPCServer Class'
+		{
+			ProgID = s 'Varec.ScullyOPCServer.1'
+			VersionIndependentProgID = s 'Varec.ScullyOPCServer'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{B93AB8CF-D487-4d1c-92B3-280A773CC36C}'
+		}
+	}
+}

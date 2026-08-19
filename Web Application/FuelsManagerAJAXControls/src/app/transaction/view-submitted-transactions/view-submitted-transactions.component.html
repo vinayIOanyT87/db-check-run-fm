@@ -1,0 +1,57 @@
+<style>
+  #table {
+      width: 100%;
+  }
+      #table thead tr th {
+          border: 1px solid gray;
+          border-collapse: collapse;
+      }
+      #table tbody tr td {
+          border: 1px solid darkgray;
+          border-collapse: collapse;
+      }
+</style>
+<table id="table">
+  <thead>
+      <tr>
+          <th></th>
+          <th scope="col">Date</th>
+          <th scope="col">Flight #</th>
+          <th scope="col">Consumer</th>
+          <th scope="col">Gross</th>
+          <th scope="col">Net</th>
+          <th scope="col">Start</th>
+          <th scope="col">Owner</th>
+          <th scope="col">Vendor</th>
+          <th scope="col">Document Number</th>
+          <th scope="col">Started</th>
+          <th scope="col">Ended</th>
+          <th scope="col">Duration</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr *ngFor="let entry of storedEntries">
+          <td><button (click)="selectTransaction(entry)">view</button></td>
+          <td>{{entry.sentEntry.InventoryDate | date}}</td>
+          <td>{{entry.sentEntry.DestinationRegistrationID1}}</td>
+          <td>{{entry.sentEntry.ShipToID}}</td>
+          <td>{{entry.sentEntry.GrossQuantity}}</td>
+          <td>{{entry.sentEntry.NetQuantity}}</td>
+          <td>{{entry.sentEntry.MeterStart}}</td>
+          <td>{{entry.sentEntry.OwnerID}}</td>
+          <td>{{entry.sentEntry.CarrierID}}</td>
+          <td scope="row">
+              {{getDocumentNumber(entry)}}
+          </td>
+          <td>{{entry.timeStarted}}</td>
+          <td>{{entry.timeComplete}}</td>
+          <td>{{timeDifferenceInMilli(entry)}}ms</td>
+      </tr>
+  </tbody>
+</table>
+<br />
+<button (click)="clearAll()">Clear all</button>
+
+<pre [hidden]="!selectedEntry">
+{{selectedEntry | json}}
+</pre>

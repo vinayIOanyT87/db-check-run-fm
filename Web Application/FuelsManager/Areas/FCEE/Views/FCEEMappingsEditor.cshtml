@@ -1,0 +1,54 @@
+﻿@using FMBusinessObjects.DataObjects
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.FCEEMappingsEditorModel
+
+<link href="~/Areas/Content/FCEEMappingsEditor.css" rel="stylesheet" type="text/css" />
+<script src="~/Areas/Scripts/FCEEMappingsEditor.js"></script>
+
+@using (Html.BeginForm("ButtonSubmit", "FCEEMappingsEditor", FormMethod.Post, new { id = "FCEEMappingsEditorForm" }))
+{
+    <table id="StrapTableEditorTable_@strapTableIndex" class="table table-striped table-bordered hover" style="width:100%">
+        <thead class="">
+            <tr>
+                <th style="width: 36px;" class="text-center">
+                    @numberText
+                </th>
+                <th class="text-center">
+                    @levelText
+                </th>
+                <th class="text-center">
+                    @volumeText
+                </th>
+            </tr>
+        </thead>
+        <tbody id="StrapTableEditorTableBody">
+            @for (var index = 0; index < Model.EditorEntries[strapTableIndex].Count; ++index)
+            {
+                var entry = Model.EditorEntries[strapTableIndex][index];
+                var number = index + 1;
+
+                <tr>
+                    <td>@number</td>
+                    <td>@entry.LevelEntry</td>
+                    <td>@entry.VolumeEntry</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div>
+
+    </div>
+</body>
+</html>

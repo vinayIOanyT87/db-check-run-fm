@@ -1,0 +1,377 @@
+﻿button:active {
+	background-color: whitesmoke;
+}
+
+button:hover {
+	background-color: whitesmoke;
+}
+
+.animationTable {
+	width: 100%;
+	font-family: "Helvetica Neue";
+	font-size: 12px;
+	font-style: normal;
+	font-variant: normal;
+	color: #4d4d4d;
+	text-align: left;
+	white-space: nowrap
+}
+
+.animationRowTd {
+	border: none;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.animationExpand {
+	width: 10px;
+	padding-left: 10px;
+	padding-right: 0;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.animationName {
+	padding-left: 5px;
+	width: 20%;
+}
+
+.animationCount {
+	padding-left: 1px;
+	width: 10%;
+}
+
+.animationAddHeader {
+	padding: 0;
+	width: 10%;
+	padding-left: 10px;
+}
+
+.animationDelHeader {
+	padding: 0;
+	width: 60%;
+	padding-left: 20px;
+}
+
+.animationDelRow {
+	padding: 0;
+	width: 60%;
+	padding-left: 55px;
+}
+
+.animationRowBorder {
+	padding: 0;
+}
+
+.animationDropDown {
+	width: 250px;
+}
+
+.animationTestGroupRowTd {
+	width: 100%;
+	padding: 0;
+	border-top: 3px solid #e6e6e6;
+	border-bottom: 3px solid #e6e6e6;
+}
+
+.animationTableHeaderFormating {
+	font-size: 11px;
+	color: #b3b3b3;
+}
+
+.animationTestGroupTable {
+	width: 100%;
+	font-family: "Helvetica Neue";
+	font-size: 11px;
+	font-style: normal;
+	font-variant: normal;
+	color: #3b5780;
+	text-align: left;
+	white-space: nowrap;
+	background: #eff6fc;
+}
+
+.testGroupRowTd {
+	border: none;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.animationDummyFirstColumn {
+	width: 10px;
+	padding: 0;
+}
+
+.firstAnimationTestGroupTd {
+	padding-left: 40px !important;
+	padding-right: 0;
+}
+
+.animationTestsTable {
+	width: 100%;
+	font-family: "Helvetica Neue";
+	font-size: 11px;
+	font-style: normal;
+	font-variant: normal;
+	color: #3b5780;
+	text-align: left;
+	white-space: nowrap;
+}
+
+.firstAnimationTestTd {
+	padding-left: 80px !important;
+	padding-right: 0;
+}
+
+.firstAnimationTestPropertyTd {
+	padding-left: 120px !important;
+	padding-right: 0;
+}
+
+.animationPercentLabel {
+	width: 10px;
+	color: #3b5780 !important;
+}
+
+.animationTransPercentTextbox {
+	width: 40px;
+	color: #3b5780 !important;
+}
+
+.animationnewmodal {
+		width: 500px !important;
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		margin-left: -150px;
+		margin-top: -10px;
+		z-index: 1052;
+		display: none;
+		overflow: hidden;
+		-webkit-overflow-scrolling: touch;
+		outline: 0;
+	}
+
+.FullContainerClass {
+    padding: 16px !important;
+}
+
+.testPropertyTable {
+	width: 100%;
+}
+
+.testPropertyHeaderCol2 {
+	padding-left: 20px;
+}
+
+.testPropertyHeaderCol3 {
+	padding-left: 5px;
+}
+
+.testPropertyCol1 {
+	width: 5%;
+	padding-bottom: 5px;
+	padding-top: 0px;
+}
+
+.testPropertyCol2 {
+	width: 15%;
+	padding-bottom: 12px;
+	color: #3b5780 !important;
+	padding-left: 20px;
+}
+
+.testPropertyStandardColorCol3 {
+	padding-bottom: 13px;
+	padding-left: 5px;
+}
+
+.testPropertyStandardColorCol4 {
+
+}
+
+.testPropertyStandardColorCol5 {
+	padding-bottom: 13px;
+}
+
+.testPropertyStandardColorCol6 {
+	width: 50%;
+}
+
+.testPropertyTextColorCol3 {
+	width: 5%;
+	padding-bottom: 13px;
+	padding-left: 5px;
+}
+
+.testPropertyTextColorCol4 {
+	padding-bottom: 13px;
+}
+
+.testPropertyTextCol3 {
+	width: 25%;
+	padding-left: 5px;
+}
+
+.testPropertyTB {
+	width: 280px;
+}
+
+.testEditDataTypeLabel {
+	color: #3b5780 !important;
+}
+
+.testEditNonIntCol1 {
+	width: 5%;
+}
+
+.testEditNonIntCol2 {
+	width: 10%;
+	padding-left: 20px;
+}
+
+.testEditNonIntCol3 {
+	width: 20%;
+	padding-left: 20px;
+}
+
+.testEditNonIntCol4 {
+	width: 10%;
+	padding-left: 20px;
+}
+
+.testEditNonIntCol5 {
+	width: 60%;
+	padding-left: 20px;
+}
+
+.testEditIntCol1 {
+	width: 14%;
+}
+
+.testEditIntCol2 {
+	width: 10%;
+	padding-left: 20px;
+}
+
+.testEditIntCol3 {
+	width: 14%;
+	padding-left: 20px;
+}
+
+.testEditIntCol4 {
+	width: 14%;
+	padding-left: 20px;
+}
+
+.testEditIntCol5 {
+	width: 14%;
+	padding-left: 20px;
+}
+
+.testEditIntCol6 {
+	width: 14%;
+	padding-left: 20px;
+}
+
+.testEditIntCol7 {
+	width: 14%;
+	padding-left: 20px;
+}
+
+.dropdownAndTextboxColor {
+	color: #3b5780 !important;
+}
+
+.testHeaderCol1 {
+	width: 5%;
+	padding: 0px;
+}
+
+.testHeaderCol2, .testHeaderCol3, .testHeaderCol4 {
+	padding-left: 20px;
+}
+
+.testHeaderCol5 {
+	padding-left: 10px;
+}
+
+.testCol1 {
+	width: 5%;
+}
+
+.testCol2 {
+	width: 10%;
+}
+
+.testCol3 {
+	width: 10%;
+}
+
+.testCol4 {
+	width: 15%;
+	padding-left: 20px;
+}
+
+.testCol5 {
+	width: 60%;
+}
+
+.testGroupHeaderCol1 {
+	width: 5%;
+	padding: 0px;
+}
+
+.testGroupHeaderCol2, .testGroupHeaderCol3, .testGroupHeaderCol4, .testGroupHeaderCol5, .testGroupHeaderCol6 {
+	padding-left: 20px;
+}
+
+.testGroupCol1 {
+	width: 5%;
+}
+
+.testGroupCol2 {
+	width: 10%;
+	padding-left: 20px;
+}
+
+.testGroupCol3 {
+	width: 10%;
+}
+
+.testGroupCol4 {
+	width: 15%;
+	padding-left: 20px;
+}
+
+.testGroupCol5 {
+	width: 20%;
+	padding-left: 20px;
+}
+
+.testGroupCol6 {
+	width: 40%;
+	padding-left: 20px;
+}
+
+.testPreviewHeader {
+	text-align: center;
+	font-size: 10px;
+	color: #3b5780;
+	font-style: normal;
+	font-weight: normal;
+	font-family: "Helvetica Neue"
+}
+
+.testPreviewPadding {
+	padding-left: 8px
+}
+
+.testPreviewColorSize {
+	width: 18px !important;
+	height: 18px !important;
+}
+
+.testPreviewVisibilityLabel {
+	color: #3b5780 !important;
+}

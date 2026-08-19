@@ -1,0 +1,174 @@
+﻿<#@ template language="C#" hostspecific="True" debug="True" #>
+<#@ output extension="sql" #>
+<#@ assembly name="Microsoft.SqlServer.ConnectionInfo" #>
+<#@ assembly name="Microsoft.SqlServer.Management.Sdk.Sfc" #>
+<#@ assembly name="Microsoft.SqlServer.Smo" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="T4Toolbox.10.0" #>
+<#@ import namespace="Microsoft.SqlServer.Management.Smo" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="T4Toolbox" #>
+<#+
+public class SelectTemplate : FMStoredProcTemplateBase
+{
+	public SelectTemplate(string dbName, TableInfo newInfo) :base(dbName)
+	{
+		this.ObjectSuffix = "Select";		
+		this.MyTable = newInfo;
+	}
+	
+	public override string Description 
+	{
+		get
+		{
+			return "Select record(s) from the " + FullTableName;
+		}
+	}
+		
+	private void WriteSelectParameters(Table mySmoTable, List<Column> columnList)
+	{		
+		Indent();
+		for (int idx=0; idx<columnList.Count; idx++)
+		{
+			Column selectByColumn = columnList[idx];
+			Write(ParameterDefinition(selectByColumn));
+			Write ( " = NULL");
+			if (idx < (columnList.Count-1))
+			{
+				Write(",");
+			}
+			WriteLine("");
+		}
+		Unindent();
+	}
+	
+	private void WriteEntityToSite()
+	{
+EntityKeyInfo myE2SiteInfo = MyTable.EntityToSiteMap;
+		if (myE2SiteInfo == null)
+		{
+			Indent();
+			WriteLine("WHERE");
+			Unindent();
+		}
+		else
+		{
+#>		
+		INNER JOIN [<#= myE2SiteInfo.SchemaName #>].[<#= myE2SiteInfo.TableName #>] MAP WITH (NOLOCK)
+		ON MAIN.[<#= myE2SiteInfo.PrimaryKey #>] = MAP.[<#= myE2SiteInfo.PrimaryKey #>]
+		
+		/* The following are relevent only when Login and Current sites are different */
+		LEFT JOIN [<#= myE2SiteInfo.SchemaName #>].[<#= myE2SiteInfo.TableName #>] RMAPLOGIN WITH (NOLOCK)
+		ON MAIN.[<#= myE2SiteInfo.PrimaryKey #>]  = RMAPLOGIN.[<#= myE2SiteInfo.PrimaryKey #>] 		
+		AND @AreLoginCurrentSiteTheSame = 0
+		AND RMAPLOGIN.SiteGuid = @LoginSiteGuid
+	WHERE
+		/* the site is assigned to the current site */
+		MAP.SiteGuid = @SelectedSiteGuid
+		AND
+		( 
+			@AreLoginCurrentSiteTheSame = 1			
+			OR
+			/* The following are relevent only when Login and Current sites are different */
+			/* the site is owned by the current site*/
+			MAIN.SiteGuid = @SelectedSiteGuid		
+			OR RMAPLOGIN.[<#= myE2SiteInfo.PrimaryKey #>] IS NOT NULL
+		) AND 		
+<#+		
+		}		
+	}
+	
+	private void WriteWhereConditions(Table mySmoTable, List<Column> columnList)
+	{		
+		Indent();
+		Indent();
+		bool isFirstColumn = true;
+		foreach (Column selectByColumn in columnList)
+		{
+			if (isFirstColumn)
+			{
+				isFirstColumn = false;
+			}
+			else
+			{
+				Write ("AND ");
+			}
+			string columnName = selectByColumn.Name;
+#>
+((@<#= columnName #> IS NULL) OR (@<#= columnName #> = MAIN.<#= columnName #>))
+<#+		
+		}
+		Unindent();
+		Unindent();
+	}
+	
+	private void WriteOrderBy()
+	{		
+		if (!string.IsNullOrWhiteSpace(MyTable.OrderByFieldName))
+		{
+#>
+	ORDER BY
+		MAIN.<#= MyTable.OrderByFieldName #>
+<#+		
+			
+		}
+	}
+	
+	protected override void RenderStandardCore()
+    {
+		Table mySmoTable = GetSqlSmoTable();
+		Column primaryKeyColumn = FindPrimaryKeyColumn(mySmoTable);
+		if (mySmoTable == null || primaryKeyColumn==null)
+		{
+			// Running the script the first time
+			return;
+		}
+		List<Column> selectByColumnList = new List<Column>();
+		selectByColumnList.Add(primaryKeyColumn);
+		foreach (Column selectByColumn in mySmoTable.Columns)
+        {
+			if (FindInStringArray(MyTable.SelectByFieldNames, selectByColumn.Name))
+			{
+				selectByColumnList.Add(selectByColumn);
+			}
+		}
+		CreateComment();
+#>
+CREATE PROCEDURE <#= FullObjectName #> (
+	@SelectedSiteGuid UNIQUEIDENTIFIER,
+	@LoginSiteGuid UNIQUEIDENTIFIER,
+<#+		
+		WriteSelectParameters(mySmoTable, selectByColumnList);
+		
+#>
+) AS
+BEGIN
+	DECLARE @AreLoginCurrentSiteTheSame BIT
+	SET @AreLoginCurrentSiteTheSame = CASE WHEN @SelectedSiteGuid = @LoginSiteGuid THEN 1 ELSE 0 END
+	SELECT 
+<#+		
+		Indent();
+		Indent();
+		string[] allFieldNames = GetAllFieldNames(mySmoTable);
+		string[] excludedFields = new string[0];
+		string fieldList = CreateList(allFieldNames, excludedFields, "MAIN.{0}");
+		WriteLine(fieldList);
+		Unindent();
+		Unindent();
+#>
+	FROM 
+		<#= FullTableName #> MAIN WITH (NOLOCK)
+<#+			
+		WriteEntityToSite();
+		WriteWhereConditions(mySmoTable, selectByColumnList);
+		WriteOrderBy();
+#>
+
+END
+GO
+
+<#+		
+
+	}
+}
+#>

@@ -1,0 +1,504 @@
+﻿@using System.Web.Configuration
+@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.AssetTrackingArea.ViewModels.AssetIconConfigurationModel
+@{
+	ViewBag.Title = "IconConfiguration";
+}
+
+<header>
+	<style>
+		.divTable {
+			width: 85%;
+			height: 50%;
+			display: table;
+			padding: 3px;
+		}
+
+		.divTableRow {
+			width: 100%;
+			height: 100%;
+			display: table-row;
+			padding: 3px;
+		}
+
+		.divTableCell {
+			width: 25%;
+			height: 100%;
+			display: table-cell;
+			padding: 3px;
+			vertical-align: top;
+		}
+
+		.divTableCell2 {
+			width: 25%;
+			height: 100%;
+			display: table-cell;
+			padding: 3px;
+			vertical-align: top;
+			position: absolute;
+			right: 40%;
+		}
+
+		.headline {
+			font-family: Arial, Helvetica, sans-serif;
+			font-size: 18px;
+			font-style: italic;
+			font-weight: bold;
+			color: #0d246a;
+			line-height: normal;
+			white-space: nowrap;
+		}
+
+		.formfieldtitle {
+			font-family: Arial, Helvetica, sans-serif;
+			font-size: 12px;
+			font-style: normal;
+			line-height: normal;
+			font-weight: bold;
+			font-variant: normal;
+			text-transform: none;
+			white-space: nowrap;
+		}
+
+		.formfield input {
+			font-family: Arial, Helvetica, sans-serif;
+			font-size: 12px;
+			font-style: normal;
+			line-height: normal;
+			font-weight: normal;
+			font-variant: normal;
+			text-transform: none;
+			color: #000000;
+		}
+
+		.errorField {
+			font-family: Arial, Helvetica, sans-serif;
+			font-size: 16px;
+			font-style: normal;
+			line-height: normal;
+			font-weight: bold;
+			font-variant: normal;
+			text-transform: none;
+			color: #FF0000;
+		}
+	</style>
+</header>
+@if (ViewBag.Message != null && ViewBag.Message != "")
+{
+	<script>
+	    $(function ()
+	    {
+	        var msg = '@FMBaseController.TranslateText(ViewBag.Message)';
+	        alert(msg);
+	    });
+	</script>
+}
+<script>
+    window.onload = function (e) {
+        window.parent.CurrentHelpKey = "MenuBar/FMMenuBar.aspx?target=../AssetTrackingArea/AssetIconConfiguration/IconConfiguration";
+    }
+
+    //==========================================================================
+    // This function will display the icon selection popup dialog.
+    //==========================================================================
+    ShowIconModalPopUp = function (popupType)
+    {
+        var features = "dialogWidth: 11.81in; dialogHeight: 8in; overflow:auto; scrollbars:no";
+        var result = window.showModalDialog("IconConfiguration?isIconPopup=True", "WindowPopup", features);
+
+        var postFromPopupCheckbox = document.getElementById("PostFromPopup");
+        postFromPopupCheckbox.value = false;
+
+        if (result != null)
+        {
+            var path = '@Url.Content(@Model.IconPath)';
+            var protocol = window.location.protocol;
+            var host = window.location.host;
+
+            postFromPopupCheckbox = document.getElementById("PostFromPopup");
+            postFromPopupCheckbox.value = true;
+
+            if (popupType === "Equipment")
+            {
+                var equipmentIconTextbox = document.getElementById("EquipmentIconName");
+                equipmentIconTextbox.value = result.FileName;
+
+                var equipmentIconImgTag = document.getElementById("EquipmentIconImg");
+
+                // Should look like: "http://localhost/FuelsManagerITV/Areas/images/AssetMapImages/MapIcons/EquipmentIcon.png"
+                equipmentIconImgTag.src = protocol + "//" + host + "/" + path + result.FileName;
+            }
+
+            if (popupType === "EquipmentVariance")
+            {
+                var equipmentVarianceIconTextbox = document.getElementById("EquipmentVarianceIconName");
+                equipmentVarianceIconTextbox.value = result.FileName;
+
+                var equipmentVarianceIconImgTag = document.getElementById("EquipmentVarianceIconImg");
+
+                // Should look like: "http://localhost/FuelsManagerITV/Areas/images/AssetMapImages/MapIcons/EquipmentVarianceIcon.png"
+                equipmentVarianceIconImgTag.src = protocol + "//" + host + "/" + path + result.FileName;
+            }
+
+            if (popupType === "EquipmentInvestigation")
+            {
+                var equipmentInvestigationIconTextbox = document.getElementById("EquipmentInvestigationIconName");
+                equipmentInvestigationIconTextbox.value = result.FileName;
+
+                var equipmentInvestigationIconImgTag = document.getElementById("EquipmentInvestigationIconImg");
+
+                // Should look like: "http://localhost/FuelsManagerITV/Areas/images/AssetMapImages/MapIcons/EquipmentInvestigationIcon.png"
+                equipmentInvestigationIconImgTag.src = protocol + "//" + host + "/" + path + result.FileName;
+            }
+
+            if (popupType === "EquipmentCompleteInvestigationFailed")
+            {
+                var equipmentCompleteInvestigationFailedIconTextbox = document.getElementById("EquipmentCompleteInvestigationFailedIconName");
+                equipmentCompleteInvestigationFailedIconTextbox.value = result.FileName;
+
+                var equipmentCompleteInvestigationFailedIconImgTag = document.getElementById("EquipmentCompleteInvestigationFailedIconImg");
+
+                // Should look like: "http://localhost/FuelsManagerITV/Areas/images/AssetMapImages/MapIcons/EquipmentCompleteInvestigationFailedIcon.png"
+                equipmentCompleteInvestigationFailedIconImgTag.src = protocol + "//" + host + "/" + path + result.FileName;
+            }
+
+            if (popupType === "EquipmentCompleteInvestigationPassed")
+            {
+                var equipmentCompleteInvestigationPassedIconTextbox = document.getElementById("EquipmentCompleteInvestigationPassedIconName");
+                equipmentCompleteInvestigationPassedIconTextbox.value = result.FileName;
+
+                var equipmentCompleteInvestigationPassedIconImgTag = document.getElementById("EquipmentCompleteInvestigationPassedIconImg");
+
+                // Should look like: "http://localhost/FuelsManagerITV/Areas/images/AssetMapImages/MapIcons/EquipmentCompleteInvestigationPassedIcon.png"
+                equipmentCompleteInvestigationPassedIconImgTag.src = protocol + "//" + host + "/" + path + result.FileName;
+            }
+
+            if (popupType === "Breadcrumb")
+            {
+                var breadcrumbIconTextbox = document.getElementById("BreadcrumbIconName");
+                breadcrumbIconTextbox.value = result.FileName;
+
+                var breadcrumbIconImgTag = document.getElementById("BreadcrumbIconImg");
+
+                // Should look like: "http://localhost/FuelsManagerITV/Areas/images/AssetMapImages/MapIcons/BreadcrumbIcon.png"
+                breadcrumbIconImgTag.src = protocol + "//" + host + "/" + path + result.FileName;
+            }
+
+            if (popupType === "BreadcrumbVariance")
+            {
+                var breadcrumbVarianceIconTextbox = document.getElementById("BreadcrumbVarianceIconName");
+                breadcrumbVarianceIconTextbox.value = result.FileName;
+
+                var breadcrumbVarianceIconImgTag = document.getElementById("BreadcrumbVarianceIconImg");
+
+                // Should look like: "http://localhost/FuelsManagerITV/Areas/images/AssetMapImages/MapIcons/BreadcrumbVarianceIcon.png"
+                breadcrumbVarianceIconImgTag.src = protocol + "//" + host + "/" + path + result.FileName;
+            }
+
+            if (popupType === "BreadcrumbInvestigation")
+            {
+                var breadcrumbInvestigationIconTextbox = document.getElementById("BreadcrumbInvestigationIconName");
+                breadcrumbInvestigationIconTextbox.value = result.FileName;
+
+                var breadcrumbInvestigationIconImgTag = document.getElementById("BreadcrumbInvestigationIconImg");
+
+                // Should look like: "http://localhost/FuelsManagerITV/Areas/images/AssetMapImages/MapIcons/BreadcrumbInvestigationIcon.png"
+                breadcrumbInvestigationIconImgTag.src = protocol + "//" + host + "/" + path + result.FileName;
+            }
+
+            if (popupType === "BreadcrumbCompleteInvestigationFailed")
+            {
+                var breadcrumbCompleteInvestigationFailedIconTextbox = document.getElementById("BreadcrumbCompleteInvestigationFailedIconName");
+                breadcrumbCompleteInvestigationFailedIconTextbox.value = result.FileName;
+
+                var breadcrumbCompleteInvestigationFailedIconImgTag = document.getElementById("BreadcrumbCompleteInvestigationFailedIconImg");
+
+                // Should look like: "http://localhost/FuelsManagerITV/Areas/images/AssetMapImages/MapIcons/BreadcrumbCompleteInvestigationFailedIcon.png"
+                breadcrumbCompleteInvestigationFailedIconImgTag.src = protocol + "//" + host + "/" + path + result.FileName;
+            }
+
+            if (popupType === "BreadcrumbCompleteInvestigationPassed")
+            {
+                var breadcrumbCompleteInvestigationPassedIconTextbox = document.getElementById("BreadcrumbCompleteInvestigationPassedIconName");
+                breadcrumbCompleteInvestigationPassedIconTextbox.value = result.FileName;
+
+                var breadcrumbCompleteInvestigationPassedIconImgTag = document.getElementById("BreadcrumbCompleteInvestigationPassedIconImg");
+
+                // Should look like: "http://localhost/FuelsManagerITV/Areas/images/AssetMapImages/MapIcons/BreadcrumbCompleteInvestigationPassedIcon.png"
+                breadcrumbCompleteInvestigationPassedIconImgTag.src = protocol + "//" + host + "/" + path + result.FileName;
+            }
+
+            if (popupType === "Facility")
+            {
+                var facilityIconTextbox = document.getElementById("FacilityIconName");
+                facilityIconTextbox.value = result.FileName;
+
+                var facilityIconImgTag = document.getElementById("FacilityIconImg");
+
+                // Should look like: "http://localhost/FuelsManagerITV/Areas/images/AssetMapImages/MapIcons/FacilityIcon.png"
+                facilityIconImgTag.src = protocol + "//" + host + "/" + path + result.FileName;
+            }
+
+            if (popupType === "Tank")
+            {
+                var tankIconTextbox = document.getElementById("TankIconName");
+                tankIconTextbox.value = result.FileName;
+
+                var tankIconImgTag = document.getElementById("TankIconImg");
+
+                // Should look like: "http://localhost/FuelsManagerITV/Areas/images/AssetMapImages/MapIcons/TankerIcon.png"
+                tankIconImgTag.src = protocol + "//" + host + "/" + path + result.FileName;
+            }
+
+            if (popupType === "DeliveryLocation")
+            {
+                var deliveryLocationIconTextbox = document.getElementById("DeliveryLocationIconName");
+                deliveryLocationIconTextbox.value = result.FileName;
+
+                var deliveryLocationIconImgTag = document.getElementById("DeliveryLocationIconImg");
+
+                // Should look like: "http://localhost/FuelsManagerITV/Areas/images/AssetMapImages/MapIcons/DeliveryLocationIcon.png"
+                deliveryLocationIconImgTag.src = protocol + "//" + host + "/" + path + result.FileName;
+            }
+
+            if (popupType === "MapPin")
+            {
+                var mapPinIconTextbox = document.getElementById("MapPinIconName");
+                mapPinIconTextbox.value = result.FileName;
+
+                var mapPinIconImgTag = document.getElementById("MapPinIconImg");
+
+                // Should look like: "http://localhost/FuelsManagerITV/Areas/images/AssetMapImages/MapIcons/MapPinIcon.png"
+                mapPinIconImgTag.src = protocol + "//" + host + "/" + path + result.FileName;
+            }
+        }
+    }
+</script>
+
+<body style="overflow-x: hidden; overflow-y: hidden;">
+	<div>
+		<div id="result" style="display: none;"></div>
+		<section id="IconConfigurationForm">
+			@using (Html.BeginForm("IconConfiguration", "AssetIconConfiguration", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+			{
+				@Html.AntiForgeryToken()
+				@Html.ValidationSummary(true)
+
+				<div class="divTable">
+					<div class="divTableRow">
+						<div class="divTableCell">
+							@Html.Label(FMBaseController.TranslateText("Icon Configuration"), new { @Class = "headline" })
+						</div>
+					</div>
+				</div>
+				<p></p>
+				<div style="position: absolute; left: 32px;">
+					<div class="divTable">
+						<div class="divTableRow">
+							<div class="divTableCell">
+								@Html.ValidationMessage("Error", new { @Class = "errorField", style = "width:360px" })
+							</div>
+						</div>
+					</div>
+					<div class="divTable" style="width: 600px;">
+						<div class="divTableRow">
+							<div class="divTableCell">
+								@Html.LabelFor(model => model.IconConfigurationId, FMBaseController.TranslateText("Icon ID:"), new { @class = "formfieldtitle" })
+							</div>
+							<div class="divTableCell">
+								@Html.TextBoxFor(model => model.IconConfigurationId, new { @Class = "formfield", style = "width:260px", maxlength = "20" })
+							</div>
+						</div>
+						<div class="divTableRow">
+							@Html.HiddenFor(model => model.EquipmentIconName)
+							@Html.HiddenFor(model => model.EquipmentVarianceIconName)
+							@Html.HiddenFor(model => model.EquipmentInvestigationIconName)
+							@Html.HiddenFor(model => model.EquipmentCompleteInvestigationFailedIconName)
+							@Html.HiddenFor(model => model.EquipmentCompleteInvestigationPassedIconName)
+							@Html.HiddenFor(model => model.TankIconName)
+							@Html.HiddenFor(model => model.FacilityIconName)
+							@Html.HiddenFor(model => model.DeliveryLocationIconName)
+							@Html.HiddenFor(model => model.BreadcrumbIconName)
+							@Html.HiddenFor(model => model.BreadcrumbVarianceIconName)
+							@Html.HiddenFor(model => model.BreadcrumbInvestigationIconName)
+							@Html.HiddenFor(model => model.BreadcrumbCompleteInvestigationFailedIconName)
+							@Html.HiddenFor(model => model.BreadcrumbCompleteInvestigationPassedIconName)
+							@Html.HiddenFor(model => model.MapPinIconName)
+							@Html.HiddenFor(model => model.IconPath)
+							@Html.HiddenFor(model => model.PostFromPopup)
+						</div>
+						<div class="divTableRow">
+							<div class="divTableCell">
+								@Html.LabelFor(model => model.EquipmentIconName, FMBaseController.TranslateText("Equipment Icon:"), new { @class = "formfieldtitle" })
+							</div>
+							<div class="divTableCell">
+								<img id="EquipmentIconImg" src='@Url.Content(@Model.IconPath + @Model.EquipmentIconName)' style="position: relative; top: -1px; width: 25px; height: 25px"/>
+								<button id="EquipIconElipseBtn" name="EquipIconElipseLink" onclick=" ShowIconModalPopUp('Equipment'); " value="EquipIconElipseLink" class="formfieldtitle">
+									@FMBaseController.TranslateText("...")
+								</button>
+							</div>
+						</div>
+						<div class="divTableRow">
+							<div class="divTableCell">
+								@Html.LabelFor(model => model.EquipmentVarianceIconName, FMBaseController.TranslateText("Equipment Variance Icon:"), new { @class = "formfieldtitle" })
+							</div>
+							<div class="divTableCell">
+								<img id="EquipmentVarianceIconImg" src='@Url.Content(@Model.IconPath + @Model.EquipmentVarianceIconName)' style="position: relative; top: -1px; width: 25px; height: 25px"/>
+								<button id="EquipVarianceIconElipseBtn" name="EquipVarianceIconElipseLink" onclick=" ShowIconModalPopUp('EquipmentVariance'); " value="EquipVarianceIconElipseLink" class="formfieldtitle">
+									@FMBaseController.TranslateText("...")
+								</button>
+							</div>
+						</div>
+						<div class="divTableRow">
+							<div class="divTableCell">
+								@Html.LabelFor(model => model.EquipmentInvestigationIconName, FMBaseController.TranslateText("Equipment Investigation Icon:"), new { @class = "formfieldtitle" })
+							</div>
+							<div class="divTableCell">
+								<img id="EquipmentInvestigationIconImg" src='@Url.Content(@Model.IconPath + @Model.EquipmentInvestigationIconName)' style="position: relative; top: -1px; width: 25px; height: 25px"/>
+								<button id="EquipInvestigationIconElipseBtn" name="EquipVarianceIconElipseLink" onclick=" ShowIconModalPopUp('EquipmentInvestigation'); " value="EquipInvestigationIconElipseLink" class="formfieldtitle">
+									@FMBaseController.TranslateText("...")
+								</button>
+							</div>
+						</div>
+						<div class="divTableRow">
+							<div class="divTableCell">
+								@Html.LabelFor(model => model.EquipmentCompleteInvestigationFailedIconName, FMBaseController.TranslateText("Equipment Complete Investigation Failed Icon:"), new { @class = "formfieldtitle" })
+							</div>
+							<div class="divTableCell">
+								<img id="EquipmentCompleteInvestigationFailedIconImg" src='@Url.Content(@Model.IconPath + @Model.EquipmentCompleteInvestigationFailedIconName)' style="position: relative; top: -1px; width: 25px; height: 25px"/>
+								<button id="EquipCompleteInvestigationFailedIconElipseBtn" name="EquipCompleteInvestigationFailedIconElipseLink" onclick=" ShowIconModalPopUp('EquipmentCompleteInvestigationFailed'); " value="EquipCompleteInvestigationFailedIconElipseLink" class="formfieldtitle">
+									@FMBaseController.TranslateText("...")
+								</button>
+							</div>
+						</div>
+						<div class="divTableRow">
+							<div class="divTableCell">
+								@Html.LabelFor(model => model.EquipmentCompleteInvestigationPassedIconName, FMBaseController.TranslateText("Equipment Complete Investigation Passed Icon:"), new { @class = "formfieldtitle" })
+							</div>
+							<div class="divTableCell">
+								<img id="EquipmentCompleteInvestigationPassedIconImg" src='@Url.Content(@Model.IconPath + @Model.EquipmentCompleteInvestigationPassedIconName)' style="position: relative; top: -1px; width: 25px; height: 25px"/>
+								<button id="EquipCompleteInvestigationPassedIconElipseBtn" name="EquipCompleteInvestigationPassedIconElipseLink" onclick=" ShowIconModalPopUp('EquipmentCompleteInvestigationPassed'); " value="EquipCompleteInvestigationPassedIconElipseLink" class="formfieldtitle">
+									@FMBaseController.TranslateText("...")
+								</button>
+							</div>
+						</div>
+						<div class="divTableRow">
+							<div class="divTableCell">
+								@Html.LabelFor(model => model.TankIconName, FMBaseController.TranslateText("Tank Icon:"), new { @class = "formfieldtitle" })
+							</div>
+							<div class="divTableCell">
+								<img id="TankIconImg" src='@Url.Content(@Model.IconPath + @Model.TankIconName)' style="position: relative; top: -1px; width: 25px; height: 25px"/>
+								<button id="TankIconElipseBtn" name="TankIconElipseLink" onclick=" ShowIconModalPopUp('Tank'); " value="TankIconElipseLink" class="formfieldtitle">
+									@FMBaseController.TranslateText("...")
+								</button>
+							</div>
+						</div>
+						<div class="divTableRow">
+							<div class="divTableCell">
+								@Html.LabelFor(model => model.FacilityIconName, FMBaseController.TranslateText("Facility Icon:"), new { @class = "formfieldtitle" })
+							</div>
+							<div class="divTableCell">
+								<img id="FacilityIconImg" src='@Url.Content(@Model.IconPath + @Model.FacilityIconName)' style="position: relative; top: -1px; width: 25px; height: 25px"/>
+								<button id="FacilityIconElipseBtn" name="FacilityIconElipseLink" onclick=" ShowIconModalPopUp('Facility'); " value="FacilityIconElipseLink" class="formfieldtitle">
+									@FMBaseController.TranslateText("...")
+								</button>
+							</div>
+						</div>
+						<div class="divTableRow">
+							<div class="divTableCell">
+								@Html.LabelFor(model => model.DeliveryLocationIconName, FMBaseController.TranslateText("Delivery Location Icon:"), new { @class = "formfieldtitle" })
+							</div>
+							<div class="divTableCell">
+								<img id="DeliveryLocationIconImg" src='@Url.Content(@Model.IconPath + @Model.DeliveryLocationIconName)' style="position: relative; top: -1px; width: 25px; height: 25px"/>
+								<button id="DeliveryLocationIconElipseBtn" name="DeliveryLocationIconElipseLink" onclick=" ShowIconModalPopUp('DeliveryLocation'); " value="DeliveryLocationIconElipseLink" class="formfieldtitle">
+									@FMBaseController.TranslateText("...")
+								</button>
+							</div>
+						</div>
+						<div class="divTableRow">
+							<div class="divTableCell">
+								@Html.LabelFor(model => model.BreadcrumbIconName, FMBaseController.TranslateText("Breadcrumb Icon:"), new { @class = "formfieldtitle" })
+							</div>
+							<div class="divTableCell">
+								<img id="BreadcrumbIconImg" src='@Url.Content(@Model.IconPath + @Model.BreadcrumbIconName)' style="position: relative; top: -1px; width: 25px; height: 25px"/>
+								<button id="BreadcrumbIconElipseBtn" name="BreadcrumbIconElipseLink" onclick=" ShowIconModalPopUp('Breadcrumb'); " value="BreadcrumbIconElipseLink" class="formfieldtitle">
+									@FMBaseController.TranslateText("...")
+								</button>
+							</div>
+						</div>
+						<div class="divTableRow">
+							<div class="divTableCell">
+								@Html.LabelFor(model => model.BreadcrumbVarianceIconName, FMBaseController.TranslateText("Breadcrumb Variance Icon:"), new { @class = "formfieldtitle" })
+							</div>
+							<div class="divTableCell">
+								<img id="BreadcrumbVarianceIconImg" src='@Url.Content(@Model.IconPath + @Model.BreadcrumbVarianceIconName)' style="position: relative; top: -1px; width: 25px; height: 25px"/>
+								<button id="BreadcrumbVarianceIconElipseBtn" name="BreadcrumbVarianceIconElipseLink" onclick=" ShowIconModalPopUp('BreadcrumbVariance'); " value="BreadcrumbVarianceIconElipseLink" class="formfieldtitle">
+									@FMBaseController.TranslateText("...")
+								</button>
+							</div>
+						</div>
+						<div class="divTableRow">
+							<div class="divTableCell">
+								@Html.LabelFor(model => model.BreadcrumbInvestigationIconName, FMBaseController.TranslateText("Breadcrumb Investigation Icon:"), new { @class = "formfieldtitle" })
+							</div>
+							<div class="divTableCell">
+								<img id="BreadcrumbInvestigationIconImg" src='@Url.Content(@Model.IconPath + @Model.BreadcrumbInvestigationIconName)' style="position: relative; top: -1px; width: 25px; height: 25px"/>
+								<button id="BreadcrumbInvestigationIconElipseBtn" name="BreadcrumbVarianceIconElipseLink" onclick=" ShowIconModalPopUp('BreadcrumbInvestigation'); " value="BreadcrumbInvestigationIconElipseLink" class="formfieldtitle">
+									@FMBaseController.TranslateText("...")
+								</button>
+							</div>
+						</div>
+						<div class="divTableRow">
+							<div class="divTableCell">
+								@Html.LabelFor(model => model.BreadcrumbCompleteInvestigationFailedIconName, FMBaseController.TranslateText("Breadcrumb Complete Investigation Failed Icon:"), new { @class = "formfieldtitle" })
+							</div>
+							<div class="divTableCell">
+								<img id="BreadcrumbCompleteInvestigationFailedIconImg" src='@Url.Content(@Model.IconPath + @Model.BreadcrumbCompleteInvestigationFailedIconName)' style="position: relative; top: -1px; width: 25px; height: 25px"/>
+								<button id="BreadcrumbCompleteInvestigationFailedIconElipseBtn" name="BreadcrumbCompleteInvestigationFailedIconElipseLink" onclick=" ShowIconModalPopUp('BreadcrumbCompleteInvestigationFailed'); " value="BreadcrumbCompleteInvestigationFailedIconElipseLink" class="formfieldtitle">
+									@FMBaseController.TranslateText("...")
+								</button>
+							</div>
+						</div>
+						<div class="divTableRow">
+							<div class="divTableCell">
+								@Html.LabelFor(model => model.BreadcrumbCompleteInvestigationPassedIconName, FMBaseController.TranslateText("Breadcrumb Complete Investigation Passed Icon:"), new { @class = "formfieldtitle" })
+							</div>
+							<div class="divTableCell">
+								<img id="BreadcrumbCompleteInvestigationPassedIconImg" src='@Url.Content(@Model.IconPath + @Model.BreadcrumbCompleteInvestigationPassedIconName)' style="position: relative; top: -1px; width: 25px; height: 25px"/>
+								<button id="BreadcrumbCompleteInvestigationPassedIconElipseBtn" name="BreadcrumbCompleteInvestigationPassedIconElipseLink" onclick=" ShowIconModalPopUp('BreadcrumbCompleteInvestigationPassed'); " value="BreadcrumbCompleteInvestigationPassedIconElipseLink" class="formfieldtitle">
+									@FMBaseController.TranslateText("...")
+								</button>
+							</div>
+						</div>
+						<div class="divTableRow">
+							<div class="divTableCell">
+								@Html.LabelFor(model => model.MapPinIconName, FMBaseController.TranslateText("Map Pin Icon:"), new { @class = "formfieldtitle" })
+							</div>
+							<div class="divTableCell">
+								<img id="MapPinIconImg" src='@Url.Content(@Model.IconPath + @Model.MapPinIconName)' style="position: relative; top: -1px; width: 25px; height: 25px"/>
+								<button id="MapPinIconElipseBtn" name="MapPinIconElipseLink" onclick=" ShowIconModalPopUp('MapPin'); " value="MapPinIconElipseLink" class="formfieldtitle">
+									@FMBaseController.TranslateText("...")
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<p></p>
+				<div style="position: absolute; left: 375px; top: 580px;">
+								<button name="NewIconConfigBtn" style="display: none" type="submit" value="NewIconConfigBtn" class="formfieldtitle" disabled="disabled">@FMBaseController.TranslateText("New")</button>
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								<button name="OkIconConfigBtn" type="submit" value="OkIconConfigBtn" class="formfieldtitle" disabled="@(Model.IsEditable ? null : "disabled")">@FMBaseController.TranslateText("OK")</button>
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								<button name="CancelIconConfigBtn" style="display: none" type="submit" value="CancelIconConfigBtn" class="formfieldtitle" disabled="disabled">@FMBaseController.TranslateText("Cancel")</button>
+					<p></p>
+					<div class="divTable">
+					    <div class="divTableRow">
+					        @Html.HiddenFor(model => model.AssetTrackingIconConfigurationGuid)
+					        @Html.HiddenFor(model => model.SiteGuid)
+					    </div>
+					</div>
+				</div>
+			}
+		</section>
+	</div>
+</body>

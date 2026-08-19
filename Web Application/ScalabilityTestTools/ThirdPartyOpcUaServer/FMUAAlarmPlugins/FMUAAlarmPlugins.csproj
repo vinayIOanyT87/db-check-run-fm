@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EF7128B7-BBEE-44DC-9E81-884A8A93E781}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FMUAAlarmPlugins</RootNamespace>
+    <AssemblyName>FMUAAlarmPlugins</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FMBusinessObjects, Version=0.0.0.0, Culture=neutral, PublicKeyToken=e6190a5bf6c69d61, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\FMBusinessObjects\bin\FMBusinessObjects.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Softing.Opc.Ua.Sdk.Core">
+      <HintPath>..\..\..\Binaries\SoftingOriginal\Softing.Opc.Ua.Sdk.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Softing.Opc.Ua.Sdk.Server">
+      <HintPath>..\..\..\Binaries\SoftingOriginal\Softing.Opc.Ua.Sdk.Server.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ComplexPoint.cs" />
+    <Compile Include="ComplexPoint2.cs" />
+    <Compile Include="ComplexPoint2Factory.cs" />
+    <Compile Include="ComplexPointFactory.cs" />
+    <Compile Include="ConnectDoubleAndString.cs" />
+    <Compile Include="ConnectDoubleAndStringFactory.cs" />
+    <Compile Include="ConnectDoubleFactory.cs" />
+    <Compile Include="ConnectDoubles.cs" />
+    <Compile Include="ConnectedHighLimitAlarm.cs" />
+    <Compile Include="ConnectedHighLimitAlarmFactory.cs" />
+    <Compile Include="ConnectedLowLimitAlarm.cs" />
+    <Compile Include="ConnectedLowLimitAlarmFactory.cs" />
+    <Compile Include="ExclusiveLimitFactory.cs" />
+    <Compile Include="ExclusiveLimitMonitor.cs" />
+    <Compile Include="Folder.cs" />
+    <Compile Include="FolderFactory.cs" />
+    <Compile Include="HalfOfParentDouble.cs" />
+    <Compile Include="HalfOfParentDoubleFactory.cs" />
+    <Compile Include="HighLimitAlarmFactory.cs" />
+    <Compile Include="HighLimitAlarmState.cs" />
+    <Compile Include="HighLimitMonitor.cs" />
+    <Compile Include="HighPerformanceTimer.cs" />
+    <Compile Include="InputTypeDouble.cs" />
+    <Compile Include="InputTypeDoubleFactory.cs" />
+    <Compile Include="InputTypeFloat.cs" />
+    <Compile Include="InputTypeFloatFactory.cs" />
+    <Compile Include="InputTypeString.cs" />
+    <Compile Include="InputTypeStringFactory.cs" />
+    <Compile Include="LowLimitAlarmFactory.cs" />
+    <Compile Include="LowLimitAlarmMonitor.cs" />
+    <Compile Include="LowLimitAlarmState.cs" />
+    <Compile Include="MultipleInputTypeDoubles.cs" />
+    <Compile Include="MultipleInputTypeDoublesFactory.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RampThread.cs" />
+    <Compile Include="SignalSelector.cs" />
+    <Compile Include="SignalSelectorFactory.cs" />
+    <Compile Include="SrmThread.cs" />
+    <Compile Include="SystemCommandFactory.cs" />
+    <Compile Include="TagAlarmFactory.cs" />
+    <Compile Include="TagAlarmMonitor.cs" />
+    <Compile Include="TagAlarmState.cs" />
+    <Compile Include="TagToAlarm.cs" />
+    <Compile Include="TagToAlarmFactory.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FMUAAlarmPluginInterface\FMUAAlarmPluginInterface.csproj">
+      <Project>{05306eb0-f97b-4135-9131-07ccc192c1a0}</Project>
+      <Name>FMUAAlarmPluginInterface</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

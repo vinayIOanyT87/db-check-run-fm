@@ -1,0 +1,9 @@
+; OsdpOPCObjects.def : Declares the module parameters.
+
+LIBRARY      "OsdpOPCObjects.DLL"
+
+EXPORTS
+	DllCanUnloadNow		PRIVATE
+	DllGetClassObject	PRIVATE
+	DllRegisterServer	PRIVATE
+	DllUnregisterServer	PRIVATE

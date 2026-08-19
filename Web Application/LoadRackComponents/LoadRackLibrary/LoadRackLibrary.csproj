@@ -1,0 +1,354 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{624ED0FB-AFFC-4235-98E4-4508EA6BF86F}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>LoadRackLibrary</AssemblyName>
+    <AssemblyOriginatorKeyFile>FMStrongNameKey.snk</AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>LoadRackLibrary</RootNamespace>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <WebReference_EnableProperties>true</WebReference_EnableProperties>
+    <WebReference_EnableSQLTypes>false</WebReference_EnableSQLTypes>
+    <WebReference_EnableLegacyEventingModel>true</WebReference_EnableLegacyEventingModel>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <SignAssembly>true</SignAssembly>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+    <PublishUrl>http://localhost/LoadRackLibrary/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\FMCore\FMCore.csproj">
+      <Project>{dbef2ca1-1f4b-48cd-a4a5-5cb22006c6ce}</Project>
+      <Name>FMCore</Name>
+    </ProjectReference>
+    <Reference Include="BouncyCastle.Crypto, Version=1.9.0.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Portable.BouncyCastle.1.9.0\lib\net40\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="EthanolExcessFactor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e6190a5bf6c69d61, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Binaries\EthanolExcessFactor.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.ConvertEngUnits, Version=9.1.0.0, Culture=neutral, PublicKeyToken=e6190a5bf6c69d61, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\Binaries\Interop.ConvertEngUnits.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=3.1.27.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Extensions.Logging.Abstractions.3.1.27\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Opc.Ua.Core, Version=1.4.370.0, Culture=neutral, PublicKeyToken=bfa7a73c5cf4b6e8, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\OPCFoundation.NetStandard.Opc.Ua.Core.1.4.370.12\lib\net462\Opc.Ua.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Opc.Ua.Security.Certificates, Version=1.4.370.0, Culture=neutral, PublicKeyToken=bfa7a73c5cf4b6e8, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\OPCFoundation.NetStandard.Opc.Ua.Security.Certificates.1.4.370.12\lib\net462\Opc.Ua.Security.Certificates.dll</HintPath>
+    </Reference>
+    <Reference Include="OpcNetApi, Version=1.20.1.11, Culture=neutral, PublicKeyToken=9a40e993cbface53">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Binaries\OpcNetApi.dll</HintPath>
+    </Reference>
+    <Reference Include="OpcNetApi.Com, Version=1.20.1.11, Culture=neutral, PublicKeyToken=9a40e993cbface53">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Binaries\OpcNetApi.Com.dll</HintPath>
+    </Reference>
+    <Reference Include="SigPlusNET, Version=1.0.2057.23757, Culture=neutral, PublicKeyToken=6aef07010bb0624f">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Binaries\SigPlusNET.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.EnterpriseServices">
+      <Name>System.EnterpriseServices</Name>
+    </Reference>
+    <Reference Include="System.Formats.Asn1, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Formats.Asn1.6.0.0\lib\net461\System.Formats.Asn1.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceProcess">
+      <Name>System.ServiceProcess</Name>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web">
+      <Name>System.Web</Name>
+    </Reference>
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services">
+      <Name>System.Web.Services</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <ProjectReference Include="..\..\FMBusinessObjects\FMBusinessObjects.csproj">
+      <Project>{F3910E2B-3E67-4B25-874F-822EC69A6FEF}</Project>
+      <Name>FMBusinessObjects</Name>
+    </ProjectReference>
+    <Reference Include="Varec.CommonComponents.EngineeringUnitsLibrary">
+      <HintPath>..\..\Binaries\Varec.CommonComponents.EngineeringUnitsLibrary.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Varec.CommonComponents.VolumeCorrection">
+      <HintPath>..\..\Binaries\Varec.CommonComponents.VolumeCorrection.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AcculoadIIILoadArmManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AcculoadIIIStationManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AssemblyDictionary.cs" />
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Contrec1010LoadArmManager.cs" />
+    <Compile Include="Contrec1010RALoadArmManagerClass.cs" />
+    <Compile Include="Contrec1010RAStationManagerClass.cs" />
+    <Compile Include="Contrec1010StationManager.cs" />
+    <Compile Include="Danload6000LoadArmManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Danload6000StationManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DisplayMenuParameters.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="LoadArmManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LoadRackManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ManualLoadArmManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ManualStationManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MeterStationManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MicroloadNetLoadArmManagerClass.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MicroloadNetStationManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MultiloadIILoadArmManager.cs" />
+    <Compile Include="MultiloadIISMPLoadArmManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MultiloadIISMPStationManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MultiloadIIStationManager.cs" />
+    <Compile Include="OPCServerManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PASSControllerStationManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="OsdpStationManager.cs" />
+    <Compile Include="ProximityCardReaderStationManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RcuIIProtocolStationManager.cs" />
+    <Compile Include="SignatureCapture.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SignatureStationManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SiteManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="StationManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="VarecDETLoadArmManager.cs" />
+    <Compile Include="VarecDETStationManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="FMStrongNameKey.snk" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>IF NOT $(ConfigurationName)==Release exit
+IF EXIST "$(SolutionDir)LoadRackComponents\LoadRackLibrary\LoadRackLibrary.XmlSerializers.dll" del "$(SolutionDir)LoadRackComponents\LoadRackLibrary\LoadRackLibrary.XmlSerializers.dll"
+
+</PreBuildEvent>
+    <PostBuildEvent>IF "$(TeamBuild)" == "true" exit 0
+IF "$(TeamBuild)" == "" "$(SolutionDir)FMBuildUtils\GacUtil40\gacutil" /uf "$(TargetName)"
+IF "$(TeamBuild)" == "" "$(SolutionDir)FMBuildUtils\GacUtil40\gacutil" /i "$(TargetPath)"
+</PostBuildEvent>
+  </PropertyGroup>
+</Project>

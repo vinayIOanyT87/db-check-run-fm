@@ -1,0 +1,1 @@
+﻿<%@ WebService Language="C#" CodeBehind="FuelsManagerUpload.asmx.cs" Class="FuelsManagerUploadService.Service1" %>

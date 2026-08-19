@@ -1,0 +1,249 @@
+#availablemodules {
+    width: 240px;
+    height: calc( 100vh - 170px);
+    display: inline-block;
+    padding-top: 40px !important;
+}
+
+#availablemoduleslist {
+    width: 100%;
+    vertical-align: top;
+    height: calc( 100vh + 10px) !important;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border: 1px solid #E0E0E0;
+    background-color: white;
+}
+
+.chassis-section-header {
+    width: 100%;
+    background-color: #006CB3;
+    color: white;
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid whitesmoke;
+}
+
+.center-view {
+    width: 550px;
+    display: inline-block;
+    vertical-align: top;
+    height: calc( 100vh - 170px);
+    padding-left: 20px;
+    padding-top: 40px;
+}
+
+#chassisview {
+    display: block;
+    width: 100%;
+    height: 370px;
+    border: 1px solid #E0E0E0;
+    background-color: white;
+}
+
+app-moduledetail {
+    display: block;
+    width: 100%;
+    height: calc( 100vh - 540px);
+    border: none;
+    background-color: whitesmoke;
+}
+
+#availablemoduleslist img {
+    width: 80px;
+    height: 350px;
+    background-color: black;
+}
+
+#availablemoduleslist img:hover {
+    border-color:#006CB3;
+    box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(86, 126, 185, 0.6);
+}
+
+#availablemoduleslist .availablemodule {
+    display: inline-block;
+}
+
+#availablemoduleslist i {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: .6em;
+    font-weight: bold;
+    font-style: normal;
+    padding-bottom: 10px;
+}
+
+#availablemoduleslist div:nth-child(even) {
+    padding-left: 20px;
+}
+
+.cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.custom-preview {
+    width: 64px;
+    height: 315px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+}
+
+.custom-placeholder {
+	border: dotted 3px #999;
+    min-height: 60px;
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+    width: 64px;
+    height: 315px;
+    overflow: hidden;
+	background-color: darkgray;
+}
+
+.cdk-drop-list-dragging {
+    width: 64px;
+    height: 315px;
+}
+
+div {
+    position: relative;
+}
+
+#chassisview #chassisImg {
+    width: 500px;
+    padding: 0px;
+    position: relative;
+    top:22px;
+    left:22px;
+}
+
+#chassisview #interfacemoduleslist {
+    top: 5px;
+    position: absolute;
+}
+
+.interface-card {
+    position: absolute;
+    width: 64px;
+    height: 315px;
+    background-size: cover;
+}
+
+.interface-card.active {
+    border: 2px#006CB3 solid;
+    border-radius: 5px;
+    opacity: .8;
+    background-color: #00A5FF;
+}
+
+.interface-card:hover {
+	border: 1px ridge #006CB3;
+	border-radius: 5px;
+    cursor: pointer;
+}
+
+.cpu-card {
+    position: absolute;
+    width: 64px;
+    height: 315px;
+    background-size: cover;
+    background-color: transparent;
+}
+
+.cpu-card.active {
+    border: 2px#006CB3 solid;
+    border-radius: 5px;
+    opacity: .8;
+    background-color: #00A5FF;
+}
+
+.cpu-card:hover {
+	border-width: 1px;
+	border-style: solid;
+	border-radius: 5px;
+    cursor: pointer;
+}
+
+.interface-module0 {
+    top: 24px;
+    left: 45px;
+}
+
+.interface-module1 {
+    top: 20px;
+    left: 110px;
+}
+
+.interface-module2 {
+    top: 20px;
+    left: 175px;
+}
+
+.interface-module3 {
+    top: 20px;
+    left: 239px;
+}
+
+.interface-module4 {
+    top: 20px;
+    left: 304px;
+}
+
+.interface-module5 {
+    top: 20px;
+    left: 369px;
+}
+
+.interface-module6 {
+    top: 20px;
+    left: 434px;
+}
+
+.channelselector {
+    position: absolute;
+}
+
+.cpu-card:hover .channelselector,
+.interface-card:hover .channelselector {
+    border: 2px solid #f8e71c;
+    background-color: #f8e71c;
+    opacity: .4;
+    position: absolute;
+}
+
+.cpu-card.active:hover .channelselector {
+    border: 2px solid #f8e71c;
+    position: absolute;
+    background-color: #f8e71c;
+    opacity: .4;
+}
+
+.interface-card.active:hover .channelselector {
+    border: 2px solid #f8e71c;
+    background-color: #f8e71c;
+    opacity: .4;
+    position: absolute;
+}
+
+.channelselector.active {
+    background-color: #f8e71c;
+    border-radius: 0px;
+    opacity: .4;
+}
+
+/* Only available with encapsulation: ViewEncapsulation.None since the object is created at runtime */
+
+/*#availablemoduleslist .ps__rail-y {
+    top: 20px !important;
+    right: 10px !important;
+}
+*/
+/* this places the scroll bar on the left side*/
+#availablemoduleslist .ps__rail-y {
+    top: 20px !important;
+    left: 0px !important;
+    right: auto !important;
+  }

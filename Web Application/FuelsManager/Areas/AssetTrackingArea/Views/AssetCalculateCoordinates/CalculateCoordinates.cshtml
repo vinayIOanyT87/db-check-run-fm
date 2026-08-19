@@ -1,0 +1,603 @@
+﻿@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.AssetTrackingArea.ViewModels.AssetCalculateCoordinatesModel
+@{
+    ViewBag.Title = "CalculateCoordinates";
+}
+@Styles.Render("~/Areas/Content/css")
+
+<header>
+    <style>
+        .divTable {
+            width: 85%;
+            height: 50%;
+            display: table;
+            padding: 3px;
+        }
+
+        .divTableRow {
+            width: 100%;
+            height: 100%;
+            display: table-row;
+            padding: 3px;
+        }
+
+        .divTableCell {
+            width: 25%;
+            height: 100%;
+            display: table-cell;
+            padding: 3px;
+            vertical-align: top;
+        }
+
+        .divTableCell2 {
+            width: 25%;
+            height: 100%;
+            display: table-cell;
+            padding: 3px;
+            vertical-align: top;
+            position: absolute;
+            right: 40%;
+        }
+
+        .headline {
+            font-family: Roboto, Arial, Helvetica, sans-serif;
+            font-size: 18px;
+            font-style: italic;
+            font-weight: bold;
+            color: #486899;
+            line-height: normal;
+            white-space: nowrap;
+        }
+
+        .formfieldtitle {
+            font-family: Roboto, Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            font-style: normal;
+            line-height: normal;
+            font-weight: bold;
+            font-variant: normal;
+            text-transform: none;
+            white-space: nowrap;
+        }
+
+        .formfield input {
+            font-family: Roboto, Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            font-style: normal;
+            line-height: normal;
+            font-weight: normal;
+            font-variant: normal;
+            text-transform: none;
+            color: #000000;
+        }
+
+        .errorField {
+            font-family: Roboto, Arial, Helvetica, sans-serif;
+            font-size: 16px;
+            font-style: normal;
+            line-height: normal;
+            font-weight: bold;
+            font-variant: normal;
+            text-transform: none;
+            color: #FF0000;
+        }
+
+        .olControlScaleLine {
+            top: 5px;
+            left: 780px;
+            padding: 5px
+        }
+    </style>
+</header>
+<link href="~/Javascripts/jquery-ui-1.10.3.custom/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css" />
+<script src="~/Areas/Lib/ol2/OpenLayers.js"></script>
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyCHJQXbg-0_jcxhFTaZE-LXi4Ck0cx-ORk&sensor=false&callback=Function.prototype"></script>
+@*<script type="text/javascript" src="https://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=6.2&mkt=en-us"></script>*@
+<script type="text/javascript" language="javascript" src="~/Areas/Lib/jquery-ui-1.10.3.custom.js"></script>
+<script type="text/javascript" language="javascript" src="~/Areas/scripts/modalpopup.js"></script>
+<script>
+	function init()
+	{
+		var mapLat	= @Model.Latitude;
+		var mapLong = @Model.Longitude;
+		var zoom	= @Model.Zoom;
+
+		var wgs1984Projection			= new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
+		var sphericalMecatorProjection	= new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+		var position					= new OpenLayers.LonLat(mapLong, mapLat).transform(wgs1984Projection, sphericalMecatorProjection);
+		var mapnik						= null;
+		var map							= null;
+
+		// Set default map to Open Street Maps
+		if (@Model.MapSourceIndex === 0)
+		{
+			map		= new OpenLayers.Map("MapHost", {zoomDuration: 1, controls: []});
+			mapnik	= new OpenLayers.Layer.OSM();
+		}
+
+		// Set map to MapServer map
+		if (@Model.MapSourceIndex === 1)
+		{
+			var options =
+						{
+							projection: sphericalMecatorProjection,
+							numZoomLevels: 24,
+							zoomDuration: 1,
+							controls: []
+						}
+
+			map = new OpenLayers.Map("MapHost", options);
+			mapnik = new OpenLayers.Layer.MapServer(
+													"Georgia",
+													"https://149.8.161.116/MapServer/mapserv.exe",
+													{
+														map: 'Apps/osm/basemaps/osm-google.map', layers: 'all', srs: 'EPSG:900913',
+														mode: 'map'
+													});
+		}
+
+		// Set map to Google map
+		if (@Model.MapSourceIndex === 2)
+		{
+			map		= new OpenLayers.Map("MapHost", {zoomDuration: 1, controls: []});
+			mapnik	= new OpenLayers.Layer.Google("Google Streets", { type : google.maps.MapTypeId.ROADMAP, sphericalMercator : true });
+		}
+
+		// Set map to Bing map
+		if (@Model.MapSourceIndex === 3)
+		{
+			map		= new OpenLayers.Map("MapHost", {zoomDuration: 1, controls: []});
+			mapnik	= new OpenLayers.Layer.Bing({ name: "Bing", key: "AgdSyKfgwxktthiefb80kRKbqMBUUYsxNNAiI6bFibmIHUqLLzH94g7UIkLTGevR", type: "Road" });
+		}
+
+		if (map == null)
+		{
+			map		= new OpenLayers.Map("MapHost", {zoomDuration: 1, controls: []});
+			mapnik	= new OpenLayers.Layer.OSM();
+		}
+
+		// Add the controls back in. This was due to removing all controls in order
+		// to remove the default zoom buttons.
+		map.addControl(new OpenLayers.Control.Navigation());
+		map.addControl(new OpenLayers.Control.ArgParser());
+		map.addControl(new OpenLayers.Control.Attribution());
+
+		// Add the new zoom and pan buttons in.
+		var panZoomCntl = new OpenLayers.Control.PanZoom({ 'position': new OpenLayers.Pixel(430,0) });
+		map.addControl(panZoomCntl);
+
+		map.addLayer(mapnik);
+		map.setCenter(position, zoom);
+
+		SetCurrentPinLocation(map, position);
+		PanEventHandler(map);
+
+		// Register the mouse click map event. It will get the latitude and
+		// longitude position of where the mouse was clicked.
+		map.events.register('click', map,
+			function(evt)
+			{
+				var lonLat = map.getLonLatFromViewPortPx(evt.xy);
+				var position = lonLat.transform(sphericalMecatorProjection, wgs1984Projection);
+
+				var latTextBox = document.getElementById("LatitudeStr");
+				var longTextBox = document.getElementById("LongitudeStr");
+
+				latTextBox.value = position.lat.toString();
+				longTextBox.value = position.lon.toString();
+
+				// Marker section.
+				var markersLayer = map.getLayer("Markers");
+				if (markersLayer != null)
+				{
+					markersLayer.destroy();
+				}
+
+				EnableCaptureButton();
+
+				var markers = new OpenLayers.Layer.Markers( "Markers" );
+				markers.id = "Markers";
+				map.addLayer(markers);
+
+				var markerUrl = '@Url.Content(@Model.MapPinIcon)';
+
+				var size	= new OpenLayers.Size(21, 25);
+				var offset	= new OpenLayers.Pixel(-(size.w / 2), -size.h);
+				var icon	= new OpenLayers.Icon(markerUrl, size, offset);
+
+				var markerPosition = lonLat.transform(wgs1984Projection, sphericalMecatorProjection);
+				markers.addMarker(new OpenLayers.Marker(markerPosition, icon));
+				//var bounds = markers.getDataExtent();
+				//map.zoomToExtent(bounds);
+			});
+
+		// Set the zoom change event and capture the most
+		// current zoom level.  This is used when the map
+		// is refreshed.
+		map.events.register('zoomend', map,
+			function()
+			{
+				var zoomInfo = map.getZoom();
+
+				var zoomTextBox = document.getElementById("ZoomStr");
+				zoomTextBox.value = zoomInfo.toString();
+			});
+
+		// Register the Pan event. This event will determine if
+		// Pin is within the extent (view). If not it will disable
+		// the Capture button.
+		map.events.register('moveend', map, function() {
+			PanEventHandler(map);
+		});
+
+		// Add reference items markers.
+		AddReferenceItems(map, wgs1984Projection, sphericalMecatorProjection);
+
+		// Add a scale to the map.
+		var scaleLine = new OpenLayers.Control.ScaleLine();
+		map.addControl(scaleLine);
+	}
+
+	//================================================================================
+	// This method will handle the panning event. It will determine if the pin
+	// "marker" is in view. If so, then it will enable the Capture button.
+	//================================================================================
+	function PanEventHandler(map)
+	{
+		var markersLayer = map.getLayer('Markers');
+
+		if (markersLayer != null)
+		{
+			var marker = markersLayer.markers[0];
+			var lonlat = marker.lonlat;
+
+			var mapExtent = map.getExtent();
+			var isWithinTheExtent = mapExtent.containsLonLat(lonlat);
+
+			DisableCaptureButton();
+
+			if (isWithinTheExtent)
+			{
+				EnableCaptureButton();
+			}
+		}
+	}
+
+	//=====================================================================
+	// This function will set the current location of the pin on the map.
+	//=====================================================================
+	function SetCurrentPinLocation(map, markerPosition)
+	{
+		var markersLayer = map.getLayer("Markers");
+		if (markersLayer != null)
+		{
+			markersLayer.destroy();
+		}
+
+		var markers = new OpenLayers.Layer.Markers( "Markers" );
+		markers.id = "Markers";
+		map.addLayer(markers);
+
+		var markerUrl = '@Url.Content(@Model.MapPinIcon)';
+
+		var size	= new OpenLayers.Size(21, 25);
+		var offset	= new OpenLayers.Pixel(-(size.w / 2), -size.h);
+		var icon	= new OpenLayers.Icon(markerUrl, size, offset);
+
+		markers.addMarker(new OpenLayers.Marker(markerPosition, icon));
+	}
+
+	//===========================================================
+	// This method will enable the Capture button.
+	//===========================================================
+	function EnableCaptureButton()
+	{
+		$("#CaptureTankCoordinateBtnId").attr("disabled", false);
+	}
+
+	//===========================================================
+	// This method will disable the Capture button.
+	//===========================================================
+	function DisableCaptureButton()
+	{
+		$("#CaptureTankCoordinateBtnId").attr("disabled", true);
+	}
+
+	//===============================================================
+	// This function handles the capture button event. It will return
+	// the captured coordinates.
+	//===============================================================
+	function CaptureCloseWindow()
+	{
+		var result = new Array();
+		result[0] = document.getElementById("LatitudeStr").value;
+		result[1] = document.getElementById("LongitudeStr").value;
+		result[2] = document.getElementById("ZoomStr").value;
+
+
+		setWindowReturnValue(result);
+		closeDialogWindow();
+	}
+
+	//===============================================================
+	// This function handles the cancel button event. It will return
+	// the -9999 indicating it was a cancel.
+	//===============================================================
+	function CancelCloseWindow()
+	{
+		var result = new Array();
+		result[0] = "-9999";
+		result[1] = "-9999";
+		result[2] = "-9999";
+
+		setWindowReturnValue(result);
+		closeDialogWindow();
+	}
+
+	//=============================================================================
+	// This function will add the Facility, Delivery Location, and Tank markers
+	// to the map for reference.
+	//=============================================================================
+	function AddReferenceItems(map, wgs1984Projection, sphericalMecatorProjection)
+	{
+		var coordinateInfo;
+		var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
+
+		if (@Model.DeliveryLocationModel.HasCoordinates === 1)
+		{
+			coordinateInfo								= new Object();
+			coordinateInfo.latArray						= [];
+			coordinateInfo.longArray					= [];
+			coordinateInfo.descriptionArray				= [];
+			coordinateInfo.markerType					= "DeliveryLocation";
+			coordinateInfo.wgs1984Projection			= wgs1984Projection;
+			coordinateInfo.sphericalMecatorProjection	= sphericalMecatorProjection;
+
+			@foreach (var coordinate in Model.DeliveryLocationModel.LatitudeList)
+			{
+				@:coordinateInfo.latArray.push("@coordinate");
+			}
+
+			@foreach (var coordinate in Model.DeliveryLocationModel.LongitudeList)
+			{
+				@:coordinateInfo.longArray.push("@coordinate");
+			}
+
+			@foreach (var description in Model.DeliveryLocationModel.HoverDescriptionList)
+			{
+				@:coordinateInfo.descriptionArray.push("@description");
+			}
+
+			AddMarkers(map, vectorLayer, coordinateInfo);
+		}
+
+		if (@Model.FacilityModel.HasCoordinates === 1)
+		{
+			coordinateInfo								= new Object();
+			coordinateInfo.latArray						= [];
+			coordinateInfo.longArray					= [];
+			coordinateInfo.descriptionArray				= [];
+			coordinateInfo.markerType					= "FacilityLocation";
+			coordinateInfo.wgs1984Projection			= wgs1984Projection;
+			coordinateInfo.sphericalMecatorProjection	= sphericalMecatorProjection;
+
+			@foreach (var coordinate in Model.FacilityModel.LatitudeList)
+			{
+				@:coordinateInfo.latArray.push("@coordinate");
+			}
+
+			@foreach (var coordinate in Model.FacilityModel.LongitudeList)
+			{
+				@:coordinateInfo.longArray.push("@coordinate");
+			}
+
+			@foreach (var description in Model.FacilityModel.HoverDescriptionList)
+			{
+				@:coordinateInfo.descriptionArray.push("@description");
+			}
+
+			AddMarkers(map, vectorLayer, coordinateInfo);
+		}
+
+		if (@Model.TankModel.HasCoordinates === 1)
+		{
+			coordinateInfo								= new Object();
+			coordinateInfo.latArray						= [];
+			coordinateInfo.longArray					= [];
+			coordinateInfo.descriptionArray				= [];
+			coordinateInfo.markerType					= "TankLocation";
+			coordinateInfo.wgs1984Projection			= wgs1984Projection;
+			coordinateInfo.sphericalMecatorProjection	= sphericalMecatorProjection;
+
+			@foreach (var coordinate in Model.TankModel.LatitudeList)
+			{
+				@:coordinateInfo.latArray.push("@coordinate");
+			}
+
+			@foreach (var coordinate in Model.TankModel.LongitudeList)
+			{
+				@:coordinateInfo.longArray.push("@coordinate");
+			}
+
+			@foreach (var description in Model.TankModel.HoverDescriptionList)
+			{
+				@:coordinateInfo.descriptionArray.push("@description");
+			}
+
+			AddMarkers(map, vectorLayer, coordinateInfo);
+		}
+
+		// Imbedded function to display the marker popup information.
+		function createPopup(feature) {
+			var descSplit = feature.attributes.description.split("|");
+			var description = '<div>';
+			var maxChar = 0;
+
+			for (var nextStr = 0; nextStr < descSplit.length; nextStr++)
+			{
+				if (nextStr === 0)
+				{
+					description = description + descSplit[nextStr];
+				}
+				else
+				{
+					description = description + '<br/>' + descSplit[nextStr];
+				}
+
+				if (descSplit[nextStr].length > maxChar)
+				{
+					maxChar = descSplit[nextStr].length;
+				}
+			}
+
+			description = description + '</div>';
+			var width = maxChar * 8;
+			var height = descSplit.length * 22;
+
+			var anchor = {'size': new OpenLayers.Size(0,0), 'offset': new OpenLayers.Pixel(-50, -50)};
+
+			feature.popup = new OpenLayers.Popup.FramedCloud("pop",
+									feature.geometry.getBounds().getCenterLonLat(),
+									new OpenLayers.Size(width, height),
+									description,
+									anchor,
+									true,
+									function() { controls['selector'].unselectAll(); }
+			);
+
+			feature.popup.autoSize = false;
+			map.addPopup(feature.popup);
+		}
+
+		// Imbedded function to remove the marker popup.
+		function destroyPopup(feature)
+		{
+			if (feature == null || feature.popup == null)
+			{
+				return;
+			}
+
+			feature.popup.destroy();
+			feature.popup = null;
+		}
+
+		// Add a selector control to the vectorLayer that contains the popup functions.
+		var controls = {
+			selector: new OpenLayers.Control.SelectFeature(vectorLayer, { hover: true, onSelect: createPopup, onUnselect: destroyPopup })
+		};
+
+		map.addControl(controls['selector']);
+		controls['selector'].activate();
+	}
+
+	//=====================================================================================
+	// This function will add markers for delivery locations, tanks, or facilities.
+	//=====================================================================================
+	function AddMarkers(map, vectorLayer, coordinateInfo)
+	{
+		var markerUrl = '@Url.Content(@Model.FacilityIcon)';
+
+		if (coordinateInfo.markerType === "DeliveryLocation")
+		{
+			markerUrl = '@Url.Content(@Model.DeliveryLocationIcon)';
+		}
+
+		if (coordinateInfo.markerType === "TankLocation")
+		{
+			markerUrl = '@Url.Content(@Model.TankIcon)';
+		}
+
+		for (var nextCoordinate = 0; nextCoordinate < coordinateInfo.latArray.length; nextCoordinate++)
+		{
+			var markerLat	= coordinateInfo.latArray[nextCoordinate];
+			var markerLong	= coordinateInfo.longArray[nextCoordinate];
+			var description = coordinateInfo.descriptionArray[nextCoordinate];
+
+			var point = new OpenLayers.Geometry.Point(markerLong, markerLat).transform(coordinateInfo.wgs1984Projection, coordinateInfo.sphericalMecatorProjection);
+			var feature = new OpenLayers.Feature.Vector(point,
+				{ description: description },
+				{ externalGraphic: markerUrl, graphicHeight: 25, graphicWidth: 21, graphicXOffset: -12, graphicYOffset: -25 });
+
+			vectorLayer.addFeatures(feature);
+		}
+
+		map.addLayer(vectorLayer);
+	}
+</script>
+<body onload="init();" style="overflow-x: hidden; overflow-y: hidden;">
+    <div>
+        <div class="divTable">
+            <div class="divTableRow">
+                <div class="divTableCell">
+                    @Html.Label(FMBaseController.TranslateText("Calculate Coordinates"), new { @Class = "headline" })
+                </div>
+            </div>
+        </div>
+        <p></p>
+        <div class="divTable">
+            <div class="divTableRow">
+                <div class="divTableCell">
+                    <div class="divTable">
+                        @using (Html.BeginForm("CalculateCoordinates", "AssetCalculateCoordinates", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true)
+
+                            <div class="divTableRow">
+                                <div class="divTableCell">
+                                    @Html.LabelFor(model => model.LatitudeStr, FMBaseController.TranslateText("Latitude:"), new { @class = "formfieldtitle" })
+                                </div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell">
+                                    @Html.TextBoxFor(model => model.LatitudeStr, new { @Class = "formfield", style = "width:100px", maxlength = "20", @readonly = true })
+                                </div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell">
+                                    @Html.LabelFor(model => model.LongitudeStr, FMBaseController.TranslateText("Longitude:"), new { @class = "formfieldtitle" })
+                                </div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell">
+                                    @Html.TextBoxFor(model => model.LongitudeStr, new { @Class = "formfield", style = "width:100px", maxlength = "20", @readonly = true })
+                                </div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell">
+                                    @Html.LabelFor(model => model.ZoomStr, FMBaseController.TranslateText("Zoom:"), new { @class = "formfieldtitle" })
+                                </div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell">
+                                    @Html.TextBoxFor(model => model.ZoomStr, new { @Class = "formfield", style = "width:50px", maxlength = "2", @readonly = true })
+                                </div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell">&nbsp;</div>
+                            </div>
+                            <div class="divTableRow">
+                                @Html.HiddenFor(model => model.MapSourceIndex)
+                            </div>
+                        }
+                        <div class="divTableRow">
+                            <div class="divTableCell">
+                                <button id="CaptureTankCoordinateBtnId" name="CaptureTankCoordinateBtn" onclick="CaptureCloseWindow()" value="CaptureTankCoordinateBtn" style="width: 100px" class="btn">@FMBaseController.TranslateText("Capture")</button>
+                            </div>
+                        </div>
+                        <div class="divTableRow">
+                            <div class="divTableCell">
+                                <button name="CancelTankCoordinateBtn" onclick="CancelCloseWindow()" value="CancelTankCoordinateBtn" style="width: 100px" class="btn">@FMBaseController.TranslateText("Cancel")</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="divTableCell">
+                    <div id="MapHost" style="width:900px;height:650px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+

@@ -1,0 +1,14 @@
+.csproj
+.scc
+.vspscc
+.resx
+.user
+.webinfo
+.datasource
+ExcludeList.txt
+.tlb
+.exe
+.bat
+\bin\
+\ModelSupport\
+\obj\

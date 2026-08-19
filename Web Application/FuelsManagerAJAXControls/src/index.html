@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>FuelsManagerAJAXControls</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <script>
+    window.serverUrl = 'http://localhost/FMWebAPI/api';
+    window.transactionAliasName = 'Issue';
+    // existing transaction
+    // window.existingTransactionGuid = 'c48d4b8c-b063-4737-843a-3c1b5f86c103';
+    // window.modifyTransaction = 'true';
+    // new transaction
+    window.existingTransactionGuid = '';
+    window.modifyTransaction = 'false';
+    window.pingTimeout = 10;
+    document.addEventListener('DOMContentLoaded', function (event) {
+      setTimeout(function(){
+        siteService.login('your user name', 'your password', 'some random site').subscribe();
+      },100);
+    });
+  </script>
+  <!-- <app-root></app-root> -->
+  <!-- <app-transaction-layout-modification></app-transaction-layout-modification> -->
+  <app-insert-transaction></app-insert-transaction>
+  <!-- <app-view-submitted-transactions></app-view-submitted-transactions> -->
+</body>
+</html>

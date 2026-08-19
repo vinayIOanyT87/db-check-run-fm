@@ -1,0 +1,127 @@
+<div class='tagviewer-section-header'></div>
+<div class='tableHeader'><span style='float:left'>{{currentView.id}}</span> 
+<span class='deleteButton' [ngClass]="{'deleteButtonDisable' : this.tableSelected.length == 0, 'deleteButtonEnabled' : this.tableSelected.length > 0}"  style="float:right" (click)="deleteChecked()">- Remove</span>
+<span class= 'addButton' [ngClass]="{'addButtonDisable' : this.currentView.id == 'No view selected' , 'addButtonEnabled': this.currentView.id != 'No view selected' }" (click)="addTagButton()" style='float:right'>{{this.addText}}</span>
+<!-- <i [ngClass]="filterMode ?  'fa fa-search search-iconEnabled' : 'fa fa-search search-icon'" (click)="toggleFilter()"></i>  -->
+<i [ngClass]="this.currentView.id == 'No view selected' ? 'fa fa-search search-iconDisabled' : (filterMode ?  'fa fa-search search-iconEnabled' : 'fa fa-search search-icon')" (click)="toggleFilter()"></i> 
+<!-- <span id="searchClear" class="clearFilter" (click)="clearFilterText()" *ngIf="filterMode == true">X</span> -->
+<input #filterEntryText
+class="filterEntry"
+[hidden]="filterMode != true"
+type='text'
+placeholder='Enter search parameter '
+(ngModelChange)='updateFilter( $event )'
+[(ngModel)]="filterText"
+/>
+
+</div>
+
+<ngx-datatable #table class="material"
+[columns]="columns"
+[rows]='rows'
+[rowHeight] = 50
+[messages]="{emptyMessage: 'No data selected for viewing'}"
+[selectionType]="'multi'"
+[scrollbarV] = true
+[scrollbarH] = true
+[columnMode] = flex
+(select)="onSelect($event)">
+</ngx-datatable>
+<button id="saveButton" type="button" class="btn btn-primary" style="background-color: #006cb3; border-radius: 3px;" (click)="saveRtuConfigToDisk();">Save RTU Config</button>
+<ng-template #modalAddTag>
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">Add Tag</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+                <select [(ngModel)]="pickerType" (change)="populateTypeahead()">
+                        <option *ngFor="let type of availableTypes" value="{{type.value}}">{{type.name}}</option>
+                </select>
+                <select *ngIf="pickerType == 'module'"[(ngModel)]="pickerModule" (change)="populateTypeahead()">
+                        <option value="none" selected='selected'>Select...</option>
+                        <option value="module0">Module 0 {{rtuconfiguration.module0.name}}</option>
+                        <option *ngIf="rtuconfiguration.module1.id !='0'" value="module1">Module 1 {{rtuconfiguration.module1.name}}</option>
+                        <option *ngIf="rtuconfiguration.module2.id !='0'" value="module2">Module 2 {{rtuconfiguration.module2.name}}</option>
+                        <option *ngIf="rtuconfiguration.module3.id !='0'" value="module3">Module 3 {{rtuconfiguration.module3.name}}</option>
+                        <option *ngIf="rtuconfiguration.module4.id !='0'" value="module4">Module 4 {{rtuconfiguration.module4.name}}</option>
+                        <option *ngIf="rtuconfiguration.module5.id !='0'" value="module5">Module 5 {{rtuconfiguration.module5.name}}</option>
+                        <option *ngIf="rtuconfiguration.module6.id !='0'" value="module6">Module 6 {{rtuconfiguration.module6.name}}</option>
+
+                </select>
+                <select *ngIf="(pickerModule != 'none') && (pickerType =='module')"[(ngModel)]="pickerChannel" (change)="populateTypeahead()">
+                        <option value="none" selected='selected'>Select...</option>    
+                        <option value="moduleConfiguration">ch-</option>
+                        <option value="channel1">ch1</option>
+                        <option value="channel2">ch2</option>
+                        <option value="channel3">ch3</option>
+                        <option value="channel4">ch4</option>
+                        <option value="channel5">ch5</option>
+                        <option value="channel6">ch6</option>
+                        <option value="channel7">ch7</option>
+                        <option value="channel8">ch8</option>
+                </select>
+                <input *ngIf="pickerChannel !='none'" 
+                [(ngModel)]="selected"
+                [typeahead]="tagsToPick"
+                typeaheadOptionField="parameter"
+                [typeaheadOptionsInScrollableView] = 10
+                [typeaheadMinLength]='0'
+                [typeaheadScrollable] = true
+                (typeaheadNoResults)="typeaheadNoResults($event)"
+                (typeaheadOnBlur)=typeaheadOnBlur($event)
+                typeaheadOptionsLimit=999
+                container="body"
+                
+                class="form-control">
+        </div>
+        <div class="modal-footer">
+                <button id="cancelButton" type="button" class="btn btn-secondary" (click)="modalRef.hide();">Cancel</button>
+                <button id="AddButton" type="button" class="btn btn-primary" (click)="add(pickerType,pickerModule,pickerChannel,selected);" [disabled]="this.noResult" >Add</button>
+        </div>
+
+    </ng-template>
+
+    <ng-template #modalAddFilter>
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">Add Filter</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+        <div *ngFor="let filter of this.currentView.filterCollection.filters; let index = index">
+                <span id="deleteCriteria" (click)="deleteCriteria(filter)">X</span>
+                <!-- <select [(ngModel)]="filter.operatorType" style="width: 56px;"> operator treated as implicit AND
+                                <option *ngIf="index != 0" value="AND">AND</option>
+                                <option value="OR">OR</option>
+                </select> -->
+                <select [(ngModel)]="filter.comparator" style="margin-top:6px; margin-bottom:6px;">
+                                <option value="GREATERTHAN" *ngIf="this.currentView.filterCollection.dataType == 1 || this.currentView.filterCollection.dataType == 2">></option>
+                                <option value="GREATERTHANOREQUALTO" *ngIf="this.currentView.filterCollection.dataType == 1 || this.currentView.filterCollection.dataType == 2">>=</option>
+                                <option value="EQUALTO" *ngIf="this.currentView.filterCollection.dataType == 1 || this.currentView.filterCollection.dataType == 2">==</option>
+                                <option value="LESSTHANOREQUALTO" *ngIf="this.currentView.filterCollection.dataType == 1 || this.currentView.filterCollection.dataType == 2"><=</option>
+                                <option value="LESSTHAN" *ngIf="this.currentView.filterCollection.dataType == 1 || this.currentView.filterCollection.dataType == 2"><</option>
+                                <option value="NOT" *ngIf="this.currentView.filterCollection.dataType == 1 || this.currentView.filterCollection.dataType == 2">!=</option>
+                                <option value="CONTAINS" *ngIf="this.currentView.filterCollection.dataType == 3">CONTAINS</option>          
+                                <option value="IS" *ngIf="this.currentView.filterCollection.dataType == 3">IS</option>                                          
+                </select>
+                <input *ngIf="this.currentView.filterCollection.dataType == 2"
+                type="text"
+                class="form-control"
+                #dp="bsDatepicker"
+                [bsConfig]="dpConfig"
+                bsDatepicker
+                [bsValue]="bsValue" style='z-index: 3000; width: 110px; float:right; margin-left: 10px' [(ngModel)]="filter.date">
+                <ngb-timepicker [(ngModel)]="filter.time" *ngIf="this.currentView.filterCollection.dataType == 2" [size]="small" [meridian]="false" [spinners]="false" style="float:right; padding-left:10px;"></ngb-timepicker>
+                <input [(ngModel)]="filter.value" type=number *ngIf="this.currentView.filterCollection.dataType == 1">   
+                <input [(ngModel)]="filter.value" *ngIf="this.currentView.filterCollection.dataType == 3">   
+        </div>
+        <button *ngIf="this.currentView.filterCollection.filters.length < 2" id="addCriteria" type="button" class="btn btn-primary" (click)="addCriteria();">Add Criteria</button>
+        </div>
+        <div class="modal-footer">
+                <button id="AddButton" type="button" class="btn btn-primary" (click)="dynamicFilterModalClose();">Ok</button>
+        </div>
+
+    </ng-template>

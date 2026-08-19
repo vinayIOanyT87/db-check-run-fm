@@ -1,0 +1,15 @@
+.header {
+    font-size: 20px;
+    color: #006CB3;
+}
+
+.icon {
+	padding: 20px 0px;
+    display: block;
+	color: #006CB3;
+}
+
+.description {
+    padding-top: 40px;
+    color: #808080;
+}

@@ -1,0 +1,27 @@
+HKCR
+{
+	OsdpOPCObjects.Port.1 = s 'Port Class'
+	{
+		CLSID = s '{4aa2073d-930b-49ee-a8d7-6faff32483e2}'
+	}
+	OsdpOPCObjects.Port = s 'Port Class'
+	{
+		CLSID = s '{4aa2073d-930b-49ee-a8d7-6faff32483e2}'
+		CurVer = s 'OsdpOPCObjects.Port.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {4aa2073d-930b-49ee-a8d7-6faff32483e2} = s 'Port Class'
+		{
+			ProgID = s 'OsdpOPCObjects.Port.1'
+			VersionIndependentProgID = s 'OsdpOPCObjects.Port'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{9676f116-2caf-49c6-96d4-cd41765a8469}'
+		}
+	}
+}

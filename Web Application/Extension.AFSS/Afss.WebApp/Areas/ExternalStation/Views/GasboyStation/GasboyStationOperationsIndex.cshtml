@@ -1,0 +1,224 @@
+﻿@using FuelsManager.Afss.Module.Gasboy.BusinessObjects.DataObjects
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Afss.Module.Gasboy.WebApp
+
+@model FuelsManager.Afss.WebApp.Areas.ExternalStation.Models.GasboyStationOperationsModel
+@{
+    ViewBag.Title = "ExternalStationOperationsIndex";
+    Layout = "~/Areas/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .chkSelect {
+    }
+
+    .centeredTableData {
+        text-align:center; 
+        vertical-align:middle;
+    }
+
+    .row {
+        max-width: 1000px;
+    }
+</style>
+<script>
+    FMLayout.dateFormat = '@Html.ConvertDateFormat(Model.ShortDatePattern)';
+    FMLayout.calendarLocation = '@Url.Content("~/DispatchWebApp/images")';
+
+    $(document).ready(function () {
+        $('#gasboyStationOperationsTable')
+            .DataTable(
+            {
+                // We do not allow searching through the results via the datatable search control
+                "searching": false,
+                // Show First, Previous, Next, and Last buttons for paging
+                "pagingType": "full",
+                // Embed a div in the datatables controls so we can color the bottom of the grid 
+                // like a footer
+                "dom": 'lrt<"#DataTablesFooter"ip>',
+                // Apply no initial sort
+                "order": [],
+                // Save the sort order so that if users navigate away from the page and return their sort is retained
+                "stateSave": true,
+                // Tell datatables that we don't care about highlighting the columns that have been sorted. According to the documentation, this improves performance.
+                "orderClasses": false,
+                "columnDefs": [
+                    // Disallow sorting of the select column
+                    { "targets": 0, "orderable": false },
+                    // in order to support our various date formats, we have a hidden column with the date in a parseable format that the sort is done on when the user 
+                    // sorts on the Receive Date
+                    { "targets": 4, "orderData": 5 },
+                    { "targets": 6, "orderData": 7 },
+                    { "targets": [5, 7], "visible": false }
+                ]
+            });
+    });
+
+    $(document).ready(function () {
+        $(".chkSelect").click(function () {
+            if ($(".chkSelect:checked").length == 1) {
+                $("#transactionRangeDiv, #transactionRangeHeaderDiv").show();
+            }
+            else {
+                $("#transactionRangeDiv, #transactionRangeHeaderDiv").hide();
+            }
+        }
+        );
+    });
+
+    $(document).ready(function () {
+        if ($(".chkSelect:checked").length == 1) {
+            $("#transactionRangeDiv, #transactionRangeHeaderDiv").show();
+        }
+        else {
+            $("#transactionRangeDiv, #transactionRangeHeaderDiv").hide();
+        }
+    });
+
+</script>
+<div>
+    <div class="container-fluid">
+        <div class="row headline" style="padding-bottom:10px">@FMBaseController.TranslateText("Gasboy Fuel Service Station Operations")</div>
+
+        @if (ViewBag.DownloadRequestResult != null)
+        {
+            <script>
+                setTimeout(function () {
+                    alert('@ViewBag.DownloadRequestResult');
+                }, 100); 
+            </script>
+        }
+
+        @using (Html.BeginForm("GasboyStationOperationsIndex", "GasboyStation", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.ShortDatePattern)
+            @Html.HiddenFor(m => m.TimePattern)
+            
+            var selectText = FMBaseController.TranslateText("Select");
+            var externalStationText = FMBaseController.TranslateText("External Station");
+            var billingIdText = FMBaseController.TranslateText("BillingID");
+            var statusText = FMBaseController.TranslateText("Status");
+            var lastSuccessfulConnectionText = FMBaseController.TranslateText("Last Successful Connection");
+            var lastConnectionAttemptText = FMBaseController.TranslateText("Last Connection Attempt");
+            var lastTransactionIDText = FMBaseController.TranslateText("Last Transaction ID");
+
+            <div class="row">
+                <div class="col-md-3">
+                    <input type="submit" name="submitButton" value='@FMBaseController.TranslateText("Refresh")' class="formfieldtitle pushButton maxWidth100" />
+                </div>
+            </div>
+            <div class="row" style="margin-top: 5px;">
+                <section>
+                    <div>
+                        <table id="gasboyStationOperationsTable" class="hover stripe row-border cell-border">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @selectText
+                                    </th>
+                                    <th>
+                                        @externalStationText
+                                    </th>
+                                    <th>
+                                        @billingIdText
+                                    </th>
+                                    <th>
+                                        @statusText
+                                    </th>
+                                    <th>
+                                        @lastSuccessfulConnectionText
+                                    </th>
+                                    <th style="display:none">
+                                        @lastSuccessfulConnectionText
+                                    </th>
+                                    <th>
+                                        @lastConnectionAttemptText
+                                    </th>
+                                    <th style="display:none">
+                                        @lastConnectionAttemptText
+                                    </th>
+                                    <th>
+                                        @lastTransactionIDText
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (GasboyStation externalStation in @Model.ExternalStations)
+                                {
+                                    var lastConnectionAttempt = (externalStation.LastConnectionAttempt.HasValue ? externalStation.LastConnectionAttempt.GetValueOrDefault().ToString(Model.ShortDatePattern + " " + Model.TimePattern) : string.Empty);
+                                    var lastConnectionAttemptDataText = (externalStation.LastConnectionAttempt.HasValue ? externalStation.LastConnectionAttempt.GetValueOrDefault().ToString("MM-dd-yyyy HH:mm:ss") : string.Empty);
+                                    var lastSuccessfulConnection = (externalStation.LastSuccessfulConnection.HasValue ? externalStation.LastSuccessfulConnection.GetValueOrDefault().ToString(Model.ShortDatePattern + " " + Model.TimePattern) : string.Empty);
+                                    var lastSuccessfulConnectionDataText = (externalStation.LastSuccessfulConnection.HasValue ? externalStation.LastSuccessfulConnection.GetValueOrDefault().ToString("MM-dd-yyyy HH:mm:ss") : string.Empty);
+                                    var identifier = Guid.NewGuid();
+
+                                    <tr>
+                                        @Html.Hidden("Index", identifier, new { Name = "ExternalStations.Index" })
+                                        @Html.HiddenFor(m => externalStation.IdentityGuid, new { Name = "ExternalStations[" + identifier + "].IdentityGuid" })
+                                        @Html.HiddenFor(m => externalStation.ID, new { Name = "ExternalStations[" + identifier + "].ID" })
+                                        @Html.HiddenFor(m => externalStation.DoDAAC, new { Name = "ExternalStations[" + identifier + "].BillingID" })
+                                        @Html.HiddenFor(m => externalStation.Status, new { Name = "ExternalStations[" + identifier + "].Status" })
+                                        @Html.HiddenFor(m => externalStation.LastSuccessfulConnection, new { Name = "ExternalStations[" + identifier + "].LastSuccessfulConnection" })
+                                        @Html.HiddenFor(m => externalStation.LastConnectionAttempt, new { Name = "ExternalStations[" + identifier + "].LastConnectionAttempt" })
+                                        @Html.HiddenFor(m => externalStation.LastTransactionID, new { Name = "ExternalStations[" + identifier + "].LastTransactionID" })
+
+                                        <td class="centeredTableData">
+                                            @Html.CheckBoxFor(m => externalStation.IsSelected, new { @class = "chkSelect", Name = "ExternalStations[" + identifier + "].IsSelected" })
+                                        </td>
+                                        <td>
+                                            @externalStation.ID
+                                        </td>
+                                        <td>
+                                            @externalStation.BillingID
+                                        </td>
+                                        <td>
+                                            @externalStation.Status.EnumDisplayName()
+                                        </td>
+                                        <td>
+                                            @lastSuccessfulConnection
+                                        </td>
+                                        <td style="display:none">
+                                            @lastSuccessfulConnectionDataText
+                                        </td>
+                                        <td>
+                                            @lastConnectionAttempt
+                                        </td>
+                                        <td style="display:none">
+                                            @lastConnectionAttemptDataText
+                                        </td>
+                                        <td>
+                                            @externalStation.LastTransactionID
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+            <div class="row parasubheadline" style="margin-top:20px">
+                <div class="col-md-6" id="transactionRangeHeaderDiv">
+                    @FMBaseController.TranslateText("Specify Transaction ID Range")
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6" id="transactionRangeDiv">
+                    @Html.Label(FMBaseController.TranslateText("Transaction IDs"), new { @class = "formfieldtitle" })
+                    @Html.TextBoxFor(m => m.TransactionIDRangeStart, new { @class = "formfield", id = "transactionIDRangeStart" })
+                    @Html.Label(FMBaseController.TranslateText("to"), new { @class = "formfieldtitle" })
+                    @Html.TextBoxFor(m => m.TransactionIDRangeEnd, new { @class = "formfield", id = "transactionIDRangeEnd" })
+                </div>
+                <div class="col-md-3 formfieldtitle">
+                    <button name="submitButton" value="DownloadTransactions" disabled="@(!Model.IsEditable)">
+                        @FMBaseController.TranslateText("Download Transactions")
+                    </button>
+                </div>
+                <div class="col-md-3 formfieldtitle">
+                    <button name="submitButton" value="DownloadEvents" disabled="@(!Model.IsEditable)">
+                        @FMBaseController.TranslateText("Download Events")
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>

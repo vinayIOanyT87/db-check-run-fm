@@ -1,0 +1,1199 @@
+﻿@using System.Activities.Expressions
+@using System.Globalization
+@using System.Net.Mime
+@using System.Runtime.InteropServices
+@using FMBusinessObjects.DataObjects
+@using FMPointCommon
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.AccountingArea.Controllers
+@using Microsoft.Ajax.Utilities
+@using FuelsManager.Areas.AccountingArea.ViewModels
+@model FuelsManager.Areas.AccountingArea.ViewModels.TransactionAliasDetailModel
+
+@{
+    Layout = "~/Areas/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Areas/Content/TransactionAlias.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Content/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Content/bootstrap-modal.css" rel="stylesheet" type="text/css" />
+
+<link href="~/Areas/Lib/DataTables/DataTables-1.10.15/css/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Lib/DataTables/Select-1.2.2/css/select.dataTables.min.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Content/jquery-ui-timepicker-addon.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Lib/DataTables/RowReorder-1.2.0/css/rowReorder.bootstrap.css" rel="stylesheet" type="text/css" />
+
+<link href="~/Areas/Content/select2.min.css" rel="stylesheet" type="text/css" />
+<script src="~/Areas/Lib/jquery.nicescroll.min.js"></script>
+<script src="~/Areas/lib/jquery-ui-timepicker-addon.js"></script>
+
+<script src="~/Areas/Lib/bootstrap-modal.js"></script>
+<script src="~/Areas/Lib/bootstrap-modalmanager.js"></script>
+<script src="~/Areas/Lib/jquery.mask.js"></script>
+<script src="~/Areas/Lib/jquery.numeric.js"></script>
+<script src="~/Areas/Lib/math.js"></script>
+<script src="~/Areas/Lib/NumberFormat.js"></script>
+<script src="~/Areas/Lib/moment.js"></script>
+
+<script src="~/Areas/Scripts/FMCommon.js"></script>
+<script src="~/Areas/Scripts/fmconvertengunits.js"></script>
+<script src="~/Areas/Scripts/fmformatvalues.js"></script>
+<script src="~/Areas/Scripts/FMErrorAndExceptionHandling.js"></script>
+<script src="~/Areas/Lib/select2.js"></script>
+<script src="~/Areas/Scripts/TransactionAlias.js"></script>
+<script src="~/Areas/Lib/jquery.columnizer.js"></script>
+
+
+<!DOCTYPE html>
+<style>
+    input[type="checkbox"][disabled="disabled"] + span::before, .setting-radio-control[disabled] {
+        background-color: transparent;
+        cursor: not-allowed;
+    }
+
+    button[disabled] img:hover {
+        cursor: not-allowed !important;
+    }
+
+    .product-delete[disabled], .status-delete[disabled], .usergroup-delete[disabled]:hover {
+        cursor: not-allowed !important;
+        pointer-events: none;
+    }
+    .alwaysselected {
+        opacity: .65;
+    }
+</style>
+<script>
+</script>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Transaction Alias</title>
+
+</head>
+<body style="overflow-y: hidden">
+
+    @{
+        var numberFormatInfo = new NumberFormatInfo { NumberGroupSizes = Model.Site.GetNumberGroupSizes(), NumberGroupSeparator = Model.Site.NumberGroupSeparator, NumberDecimalSeparator = Model.Site.NumberDecimalSeparator };
+
+        //Generate FormatInfo JavaScript object in JSON format
+        var numberFormatInfoString = String.Format("{{{0}" + "\"NegativeSign\":\"{1}\",{0}" + "\"NumberDecimalDigits\":{2},{0}" + "\"NumberDecimalSeparator\":\"{3}\",{0}" + "\"NumberGroupSeparator\":\"{4}\",{0}" + "\"NumberGroupSizes\":{5},{0}" + "\"NumberNegativePattern\":{6},{0}" + "\"ShortDatePattern\":\"{7}\"{0},{0}" + "\"TimePattern\":\"{8}\"{0}}}", Environment.NewLine, "-", numberFormatInfo.NumberDecimalDigits, Model.Site.NumberDecimalSeparator, Model.Site.NumberGroupSeparator, Model.Site.GetNumberGroupSizes()[0], 1, Model.Site.ShortDatePattern, Model.Site.TimePattern);
+        var ApplyButtonDisable = (Model.ModifyEnabled) ? "" : "disabled = 'disabled'";
+        var ApplyButtonCursor = (Model.ModifyEnabled) ? "" : "cursor: not-allowed !important;";
+        var ModifyDisable = (Model.ModifyEnabled) ? "" : "disabled = disabled";
+        var buttonClass = (Model.ModifyEnabled) ? "btn-setting" : "btn-setting disabled";
+        var applyButton = @FMBaseController.TranslateText("&Apply");
+        var cancelButton = @FMBaseController.TranslateText("&Cancel");
+        var okButton = @FMBaseController.TranslateText("&Ok");
+        var selectAllButton = @FMBaseController.TranslateText("&Select All");
+    }
+    @Html.Hidden("urlGetAllEquipmentTypesURL", @Url.Action("GetAllEquipmentTypes", "TransactionAlias"))
+    @Html.Hidden("urlGetAllReportsURL", @Url.Action("GetAllReports", "TransactionAlias"))
+    @Html.Hidden("EditRightMessage", @FMBaseController.TranslateText("Can Edit Transactions"))
+    @Html.Hidden("NoEditRightMessage", @FMBaseController.TranslateText("CANNOT edit transactions"))
+
+    <div class="container-fluid">
+        <div id="TransactionAliasMenu" class="row">
+            <div id="TransactionAliasTitle" class="col-lg-4 col-md-4">
+                <div id="TransactionAliasImageContainer">
+                    <img id="TransactionAliasImage" src="~/fmwebapp/images/transaction alias.png" />
+                </div>
+                <h2 id="TransactionAliasTitleLabel" class="title">@Model.Name</h2>
+            </div>
+            <ul id="TAMenuItems" class="list-inline col-lg-6 col-md-6">
+                <li id="TAGeneral" class="TransactionAliasMenuItem selected"><span><img /></span>@FMBaseController.TranslateText("General")</li>
+                <li id="TAFields" class="TransactionAliasMenuItem"><span><img /></span>@FMBaseController.TranslateText("Fields")</li>
+                <li id="TALayout" class="TransactionAliasMenuItem"><span><img /></span>@FMBaseController.TranslateText("Layout")</li>
+            </ul>
+
+            <div style="position: absolute; right: 55px; padding-top: 5px; padding-bottom: 5px">
+                <button id="CancelButtonId" type="submit" onclick="CancelButtonOnClick() " class="pushButton"
+                        style="width: 140px; @ApplyButtonCursor" @ApplyButtonDisable>
+                    @FMBaseController.TranslateText("Cancel")
+                </button>
+                <button id="ApplyButtonId" type="submit" onclick="ApplyButtonOnClick() " class="pushButton"
+                        style="width: 140px; @ApplyButtonCursor" @ApplyButtonDisable>
+                    @FMBaseController.TranslateText("Apply")
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            @using (Html.BeginForm("TransactionAliasEdit", "TransactionAlias", FormMethod.Post, new { @class = "", @id = "transactionAliasForm" }))
+            {
+                @Html.HiddenFor(model => model.IdentityGuid)
+                @Html.HiddenFor(model => model.SiteGuid)
+                @Html.Hidden("ModifyEnabled", (Model.ModifyEnabled))
+
+                @Html.AntiForgeryToken()
+
+                <section id="TADetailHolder" class="PESection">
+                    <div id="SettingDivScroll" class="table" style="height: calc(100vh - 80px)">
+                        <div id="TALeftPanelSettings" class="col-sm-9 col-md-9">
+                            <span class="separator-label">@FMBaseController.TranslateText("DETAILS")</span>
+                            <div class="row">
+                                <div class="form-group col-sm-6 col-md-6">
+                                    @Html.LabelFor(m => m.Name, @FMBaseController.TranslateText("Name"), new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.Name, (Model.ModifyEnabled) ? (object)new { id = "AliasID", @class = "form-control input-md", maxlength = 30 } : new { id = "AliasID", @class = "form-control input-md", maxlength = 30, @readonly = "readonly" })
+                                </div>
+                                <div id="UseTransactionDetailWithLayout" class="form-group col-sm-6 col-md-6" data-display="boolean">
+                                    <label class="control-label" for="UseTransactionDetailWithLayout">Transaction Detail Form</label>
+                                    <div class="control-group transaction-detail-selection">
+                                        <label class="setting-radio-control setting-radio-control--radio pull-left" @ModifyDisable>
+                                            @FMBaseController.TranslateText("Use Old Transaction Detail")
+                                            <input type="radio" name="UseTransactionDetailWithLayout" value="false" @ModifyDisable @{if (!@Model.UseTransactionDetailWithLayout) { <text> checked="checked" </text>  } } />
+                                            <div class="setting-radio-control__indicator" ></div>
+                                        </label>
+                                        <label class="setting-radio-control setting-radio-control--radio pull-right" @ModifyDisable>
+                                            @FMBaseController.TranslateText("Use New Transaction Detail")
+                                            <input type="radio" name="UseTransactionDetailWithLayout" value="true" @ModifyDisable @{if (@Model.UseTransactionDetailWithLayout) { <text> checked="checked" </text>  } } />
+                                            <div class="setting-radio-control__indicator" ></div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-sm-6 col-md-6" id="transactionTypediv">
+                                    @Html.LabelFor(m => m.TransTypeID, @FMBaseController.TranslateText("Transaction Type"), new { @class = "control-label" })
+                                    <select class="form-control" id="TransTypeID" name="TransTypeID" value="@Model.TransTypeID" @ModifyDisable>
+                                        @foreach (var transactionTypes in Model.transactionTypeList.OrderBy(x => x.Name))
+                                        {
+                                            <option value="@transactionTypes.ID" selected=@(Model.TransTypeID == @transactionTypes.ID ? true : false)>
+                                                @transactionTypes.Name
+                                            </option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-6" id="showcompanynamediv">
+                                    @Html.LabelFor(m => m.ShowCompanyName, @FMBaseController.TranslateText("Show Company Name"), new { @class = "control-label" })
+                                    <select class="form-control" id="ShowCompanyName" name="ShowCompanyName" value="@Model.ShowCompanyName" @ModifyDisable>
+                                        @foreach (var showCompanyOption in Model.showCompanyOptions.OrderBy(x => x.Name))
+                                        {
+                                            <option value="@showCompanyOption.ID" selected=@(Model.ShowCompanyName == showCompanyOption.ID ? true : false)>
+                                                @showCompanyOption.Name
+                                            </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-sm-6 col-md-6" id="associatedtransactiondiv">
+                                    @Html.LabelFor(m => m.AssociatedAlias, @FMBaseController.TranslateText("Associated Transaction"), new { @class = "control-label" })
+                                    <select class="form-control" id="AssociatedAlias" name="AssociatedAlias" value="@Model.AssociatedAlias" @ModifyDisable>
+                                        @foreach (var associatedAlias in Model.AssociatedAliases)
+                                        {
+                                            <option value="@associatedAlias.value" data-type="@associatedAlias.type">
+                                                @associatedAlias.key
+                                            </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="TAReportsHeader" class="row settingsection">
+                                <a href="#TAReports" data-toggle="collapse" class="col-sm-12 col-md-12 col-lg-12" aria-expanded="true">
+                                    <span class="pull-left separator-label">@FMBaseController.TranslateText("REPORTS")</span><span id="expandReports" class="pull-right">
+                                        <div class="expand-icon"></div>
+                                    </span>
+                                </a>
+                                <div class="settingsectionhorizontalline"></div>
+                            </div>
+                            <div id="TAReports" class="row collapse in" aria-expanded="true">
+                                <div class="form-group col-sm-6 col-md-6">
+                                    @Html.LabelFor(m => m.AssociatedReport, @FMBaseController.TranslateText("Report"), new { @class = "control-label" })
+                                    <select class="form-control loading" id="AssociatedReport" name="AssociatedReport " value="@Model.AssociatedReport" @ModifyDisable>
+                                        @((Model.AssociatedReport != "")? Html.Raw("<option>" + Model.AssociatedReport + "</option>") : Html.Raw(""))
+                                    </select>
+                                </div>
+                                <div class="form-group col-sm-6 col-md-6">
+                                    @Html.LabelFor(m => m.AssociatedPreloadReport, @FMBaseController.TranslateText("Preload Report"), new { @class = "control-label" })
+                                    <select class="form-control" id="AssociatedPreloadReport" name="AssociatedPreloadReport " value="@Model.AssociatedPreloadReport" @ModifyDisable>
+                                        @((Model.AssociatedPreloadReport != "")? Html.Raw("<option>" + Model.AssociatedPreloadReport + "</option>") : Html.Raw(""))
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div id="TAOptionsHeader" class="row settingsection">
+                                <a href="#TAOptions" data-toggle="collapse" class="col-sm-12 col-md-12 col-lg-12" aria-expanded="true">
+                                    <span class="pull-left separator-label">@FMBaseController.TranslateText("OPTIONS")</span><span id="expandOptions" class="pull-right">
+                                        <div class="expand-icon"></div>
+                                    </span>
+                                </a>
+                                <div class="settingsectionhorizontalline"></div>
+                            </div>
+                            <div id="TAOptions" class="row collapse in" aria-expanded="true">
+                                <div id="MeterCloseoutOption" class="form-group col-sm-4 col-md-4">
+                                    <div class="list-group-item2">
+                                        <span class="TransactionAliasCheckboxName" title="@FMBaseController.TranslateText("Meter Closeout")">@FMBaseController.TranslateText("Meter Closeout")</span>
+                                        <span class="TransactionAliasCheckboxes">
+                                            <label class="ignore-click ta-checkbox-group">
+                                                <input class="ignore-click" id="MeterCloseout" name="MeterCloseout" type="checkbox" value="@Model.MeterCloseout.ToString()" @(Model.MeterCloseout ? "checked" : "") hidden="hidden" @ModifyDisable />
+                                                <span id="ck-p-access-display_MeterCloseout" class="ignore-click"></span>
+                                            </label>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div id="LimitSelectionsBasedOnHierarchyOption" class="form-group col-sm-4 col-md-4">
+                                    <div class="list-group-item2">
+                                        <span class="TransactionAliasCheckboxName" title="@FMBaseController.TranslateText("Limit Selections Based On Hierarchy")">@FMBaseController.TranslateText("Limit Selections Based On Hierarchy")</span>
+                                        <span class="TransactionAliasCheckboxes">
+                                            <label class="ignore-click ta-checkbox-group">
+                                                <input class="ignore-click" id="LimitSelectionsBasedOnHierarchy" name="LimitSelectionsBasedOnHierarchy" type="checkbox" value="@Model.LimitSelectionsBasedOnHierarchy.ToString()" @(Model.LimitSelectionsBasedOnHierarchy ? "checked" : "") hidden="hidden" @ModifyDisable />
+                                                <span id="ck-p-access-display_LimitSelectionsBasedOnHierarchy" class="ignore-click"></span>
+                                            </label>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div id="PermitNonReferenceDataOption" class="form-group col-sm-4 col-md-4">
+                                    <div class="list-group-item2">
+                                        <span class="TransactionAliasCheckboxName" title="@FMBaseController.TranslateText("Permit Non Reference Data")">@FMBaseController.TranslateText("Permit Non Reference Data")</span>
+                                        <span class="TransactionAliasCheckboxes">
+                                            <label class="ignore-click ta-checkbox-group">
+                                                <input class="ignore-click" id="PermitNonReferenceData" name="PermitNonReferenceData" type="checkbox" value="@Model.PermitNonReferenceData.ToString()" @(Model.PermitNonReferenceData ? "checked" : "") hidden="hidden" @ModifyDisable />
+                                                <span id="ck-p-access-display_PermitNonReferenceData" class="ignore-click"></span>
+                                            </label>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div id="DistributedImpactOption" class="form-group col-sm-4 col-md-4">
+                                    <div class="list-group-item2">
+                                        <span class="TransactionAliasCheckboxName" title="@FMBaseController.TranslateText("Distributed Impact")">@FMBaseController.TranslateText("Distributed Impact")</span>
+                                        <span class="TransactionAliasCheckboxes">
+                                            <label class="ignore-click ta-checkbox-group">
+                                                <input class="ignore-click" id="DistributedImpact" name="DistributedImpact" type="checkbox" value="@Model.DistributedImpact.ToString()" @(Model.DistributedImpact ? "checked" : "") hidden="hidden" @ModifyDisable />
+                                                <span id="ck-p-access-display_DistributedImpact" class="ignore-click"></span>
+                                            </label>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div id="BulkShipmentOption" class="form-group col-sm-4 col-md-4">
+                                    <div class="list-group-item2">
+                                        <span class="TransactionAliasCheckboxName" title="@FMBaseController.TranslateText("Bulk Shipment")">@FMBaseController.TranslateText("Bulk Shipment")</span>
+                                        <span class="TransactionAliasCheckboxes">
+                                            <label class="ignore-click ta-checkbox-group">
+                                                <input class="ignore-click" id="BulkShipment" name="BulkShipment" type="checkbox" value="@Model.BulkShipment.ToString()" @(Model.BulkShipment ? "checked" : "") hidden="hidden" @ModifyDisable />
+                                                <span id="ck-p-access-display_BulkShipment" class="ignore-click"></span>
+                                            </label>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div id="UseComboxControlsOption" class="form-group col-sm-4 col-md-4">
+                                    <div class="list-group-item2">
+                                        <span class="TransactionAliasCheckboxName" title="@FMBaseController.TranslateText("Use Combo Box Controls")">@FMBaseController.TranslateText("Use Combo Box Controls")</span>
+                                        <span class="TransactionAliasCheckboxes">
+                                            <label class="ignore-click ta-checkbox-group">
+                                                <input class="ignore-click" id="UseComboxControls" name="UseComboxControls" type="checkbox" value="@Model.UseComboxControls.ToString()" @(Model.UseComboxControls ? "checked" : "") hidden="hidden" @ModifyDisable />
+                                                <span id="ck-p-access-display_UseComboxControls" class="ignore-click"></span>
+                                            </label>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div id="MultipleWeightReadingsOption" class="form-group col-sm-4 col-md-4">
+                                    <div class="list-group-item2">
+                                        <span class="TransactionAliasCheckboxName" title="@FMBaseController.TranslateText("Multiple Weight Readings")">@FMBaseController.TranslateText("Multiple Weight Readings")</span>
+                                        <span class="TransactionAliasCheckboxes">
+                                            <label class="ignore-click ta-checkbox-group">
+                                                <input class="ignore-click" id="MultipleWeightReadings" name="MultipleWeightReadings" type="checkbox" value="@Model.MultipleWeightReadings.ToString()" @(Model.MultipleWeightReadings ? "checked" : "") hidden="hidden" @ModifyDisable />
+                                                <span id="ck-p-access-display_MultipleWeightReadings" class="ignore-click"></span>
+                                            </label>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div id="MultipleLineItemsOption" class="form-group col-sm-4 col-md-4">
+                                    <div class="list-group-item2">
+                                        <span class="TransactionAliasCheckboxName" title="@FMBaseController.TranslateText("Multiple Line Items")">@FMBaseController.TranslateText("Multiple Line Items")</span>
+                                        <span class="TransactionAliasCheckboxes">
+                                            <label class="ignore-click ta-checkbox-group">
+                                                <input class="ignore-click" id="MultipleLineItems" name="MultipleLineItems" type="checkbox" value="@Model.MultipleLineItems.ToString()" @(Model.MultipleLineItems ? "checked" : "") hidden="hidden" @ModifyDisable />
+                                                <span id="ck-p-access-display_MultipleLineItems" class="ignore-click"></span>
+                                            </label>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div id="EnableAutoCompleteControlsOption" class="form-group col-sm-4 col-md-4">
+                                    <div class="list-group-item2">
+                                        <span class="TransactionAliasCheckboxName" title="@FMBaseController.TranslateText("Use Auto Complete Controls")">@FMBaseController.TranslateText("Use Auto Complete Controls")</span>
+                                        <span class="TransactionAliasCheckboxes">
+                                            <label class="ignore-click ta-checkbox-group">
+                                                <input class="ignore-click" id="EnableAutoCompleteControls" name="EnableAutoCompleteControls" type="checkbox" value="@Model.EnableAutoCompleteControls.ToString()" @(Model.EnableAutoCompleteControls ? "checked" : "") hidden="hidden" @ModifyDisable />
+                                                <span id="ck-p-access-display_EnableAutoCompleteControls" class="ignore-click"></span>
+                                            </label>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div id="MultipleTransportLineItemsOption" class="form-group col-sm-4 col-md-4">
+                                    <div class="list-group-item2 ta-checkbox-group">
+                                        <span class="TransactionAliasCheckboxName" title="@FMBaseController.TranslateText("Multiple Transport Line Items")">@FMBaseController.TranslateText("Multiple Transport Line Items")</span>
+                                        <span class="TransactionAliasCheckboxes">
+                                            <label class="ignore-click ta-checkbox-group">
+                                                <input class="ignore-click" id="MultipleTransportLineItems" name="MultipleTransportLineItems" type="checkbox" value="@Model.MultipleTransportLineItems.ToString()" @(Model.MultipleTransportLineItems ? "checked" : "") hidden="hidden" @ModifyDisable />
+                                                <span id="ck-p-access-display_MultipleTransportLineItems" class="ignore-click"></span>
+                                            </label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="TARapidDataEntryHeader" class="row settingsection">
+                                <a href="#TARapidDataEntry" data-toggle="collapse" class="col-sm-12 col-md-12 col-lg-12" aria-expanded="false">
+                                    <span class="pull-left separator-label">@FMBaseController.TranslateText("RAPID DATA ENTRY HELPERS")</span><span id="expandSecurity" class="pull-right">
+                                        <div class="expand-icon"></div>
+                                    </span>
+                                </a>
+                                <div class="settingsectionhorizontallinewide"></div>
+                            </div>
+                            <div id="TARapidDataEntry" class="row collapse in" aria-expanded="false">
+                                <div class="form-group col-sm-4 col-md-4">
+                                    <div class="list-group-item2">
+                                        <span class="TransactionAliasCheckboxName" title="@FMBaseController.TranslateText("Set MeterID to SourceEquipmentID")">@FMBaseController.TranslateText("Set MeterID to SourceEquipmentID")</span>
+                                        <span class="TransactionAliasCheckboxes">
+                                            <label class="ignore-click ta-checkbox-group">
+                                                <input class="ignore-click" id="DefaultMeterToEquipmentID" name="DefaultMeterToEquipmentID" type="checkbox" value="@Model.DefaultMeterToEquipmentID.ToString()" @(Model.DefaultMeterToEquipmentID ? "checked" : "") hidden="hidden" @ModifyDisable />
+                                                <span id="ck-p-access-display_HelperMeterIDFromEquipmentID" class="ignore-click"></span>
+                                            </label>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-4 col-md-4">
+                                    <div class="list-group-item2">
+                                        <span class="TransactionAliasCheckboxName" title="@FMBaseController.TranslateText("Use Last Meter End as Meter Start")">@FMBaseController.TranslateText("Use Last Meter End as Meter Start")</span>
+                                        <span class="TransactionAliasCheckboxes">
+                                            <label class="ignore-click ta-checkbox-group">
+                                                <input class="ignore-click" id="RememberMeterEndForMeterID" name="RememberMeterEndForMeterID" type="checkbox" value="@Model.RememberMeterEndForMeterID.ToString()" @(Model.RememberMeterEndForMeterID ? "checked" : "") hidden="hidden" @ModifyDisable />
+                                                <span id="ck-p-access-display_HelperLastMeterEndasMeterStart" class="ignore-click"></span>
+                                            </label>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-4 col-md-4">
+                                    <div class="list-group-item2">
+                                        <span class="TransactionAliasCheckboxName" title="@FMBaseController.TranslateText("Populate Manager/Owner/Vendor/Consumer by EquipmentID")">@FMBaseController.TranslateText("Populate Manager/Owner/Vendor/Consumer by EquipmentID")</span>
+                                        <span class="TransactionAliasCheckboxes">
+                                            <label class="ignore-click ta-checkbox-group">
+                                                <input class="ignore-click" id="PopulateCompaniesFromEquipment" name="PopulateCompaniesFromEquipment" type="checkbox" hidden="hidden" value="@Model.PopulateCompaniesFromEquipment.ToString()" @(Model.PopulateCompaniesFromEquipment ? "checked" : "") @ModifyDisable />
+                                                <span id="ck-p-access-display_HelperPopulateCompaniesByEquipmentID" class="ignore-click"></span>
+                                            </label>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-4 col-md-4">
+                                    <div class="list-group-item2">
+                                        <span class="TransactionAliasCheckboxName" title="@FMBaseController.TranslateText("Set Gross Volume from Meter Reading")">@FMBaseController.TranslateText("Set Gross Volume from Meter Reading")</span>
+                                        <span class="TransactionAliasCheckboxes">
+                                            <label class="ignore-click ta-checkbox-group">
+                                                <input class="ignore-click" id="PopulateGrossVolumeFromMeterValues" name="PopulateGrossVolumeFromMeterValues" type="checkbox" hidden="hidden" value="@Model.PopulateGrossVolumeFromMeterValues.ToString()" @(Model.PopulateGrossVolumeFromMeterValues ? "checked" : "") @ModifyDisable />
+                                                <span id="ck-p-access-display_HelperSetGrossVolumefromMeterReading" class="ignore-click"></span>
+                                            </label>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-4 col-md-4">
+                                    <div class="list-group-item2">
+                                        <span class="TransactionAliasCheckboxName" title="@FMBaseController.TranslateText("Use Meter and Compression Factor From Meter")">@FMBaseController.TranslateText("Use Meter and Compression Factor From Meter")</span>
+                                        <span class="TransactionAliasCheckboxes">
+                                            <label class="ignore-click ta-checkbox-group">
+                                                <input class="ignore-click" id="UseMeterAndCompressionFactorFromMeter" name="UseMeterAndCompressionFactorFromMeter" type="checkbox" hidden="hidden" value="@Model.UseMeterAndCompressionFactorFromMeter.ToString()" @(Model.UseMeterAndCompressionFactorFromMeter ? "checked" : "") @ModifyDisable />
+                                                <span id="ck-p-access-display_HelperDefaultMeterToEquipmentID" class="ignore-click"></span>
+                                            </label>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-4 col-md-4">
+                                    <div class="list-group-item2">
+                                        <span class="TransactionAliasCheckboxName" title="@FMBaseController.TranslateText("Limit Equipment By Product")">@FMBaseController.TranslateText("Limit Equipment By Product")</span>
+                                        <span class="TransactionAliasCheckboxes">
+                                            <label class="ignore-click ta-checkbox-group">
+                                                <input class="ignore-click" id="LimitSourceEquipmentByProduct" name="LimitSourceEquipmentByProduct" type="checkbox" hidden="hidden" value="@Model.LimitSourceEquipmentByProduct.ToString()" @(Model.LimitSourceEquipmentByProduct ? "checked" : "") @ModifyDisable />
+                                                <span id="ck-p-access-display_HelperLimitEquipmentByProduct" class="ignore-click"></span>
+                                            </label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="TARightPanelSettings" class="col-sm-3 col-md-3">
+                            <!-- Security section -->
+                            <div class="row settingsection">
+                                <a href="#TASecurity" data-toggle="collapse" class="col-sm-12 col-md-12 col-lg-12" aria-expanded="true">
+                                    <span class="pull-left separator-label">@FMBaseController.TranslateText("SECURITY")</span><span id="expandSecurity" class="pull-right">
+                                        <div class="expand-icon"></div>
+                                    </span>
+                                </a>
+                                <div class="settingsectionhorizontalline"></div>
+                            </div>
+                            <div id="TASecurity" class="row collapse in" aria-expanded="true">
+                                <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 no-side-padding" id="usergroupheaderdiv">
+                                        <div class="form-group col-sm-7 col-md-7 col-lg-7">
+                                            @Html.Label(FMBaseController.TranslateText("User Groups"), new { @class = "control-label" })
+                                        </div>
+                                        <div class="form-group col-sm-4 col-md-4 col-lg-4 text-center">
+                                            @Html.Label(FMBaseController.TranslateText("Access"), new { @class = "control-label" })
+                                        </div>
+                                    </div>
+                                    <div id="userGroupList" class="col-sm-12 col-md-12 col-lg-12 no-side-padding">
+                                        @foreach (var userGroup in Model.GroupTransactionAliasMapCollection.OrderBy(x => x.ID))
+                                        {
+                                            <div class="col-sm-12 col-md-12 col-lg-12 TASettingList TAUserGroupSelected no-side-padding" id="usergroup-@userGroup.Guid" data-name="@userGroup.ID" data-guid="@userGroup.Guid">
+                                                <div class="form-group col-sm-7">
+                                                    @Html.Label(userGroup.ID, new { @class = "control-label" })
+                                                </div>
+                                                <div class="form-group col-sm-4 text-center  no-side-padding">
+                                                    <div class="btn-group access-btn-group" role="group" aria-label="First group">
+                                                        <button type="button" title="@(userGroup.Right.ToString() == "1" ? @FMBaseController.TranslateText("Can Edit Transactions"): @FMBaseController.TranslateText("CANNOT edit transactions"))" class='btn edit-right @(userGroup.Right.ToString() == "1" ? "active": "")' @ModifyDisable>
+                                                            <img class="deleteImg" src="~/fmwebapp/images/Right-Edit.png">
+                                                        </button>
+                                                        <button type="button" title="@FMBaseController.TranslateText("Can View Transactions")" class="btn read-right active alwaysselected" @ModifyDisable>
+                                                            <img class="deleteImg" src="~/fmwebapp/images/Right-View.png">
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="usergroup-delete form-group col-sm-1 no-side-padding"  @ModifyDisable>
+                                                    <img class="deleteImg" src="~/fmwebapp/images/Delete-column.png" @ModifyDisable>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                    <label id="TAUserGroupWarning" class='label label-danger col-sm-12 col-md-12 col-lg-12  @(Model.GroupTransactionAliasMapCollection.Count() > 0 ? "hidden":"")'>No User Group assigned.  Transactions cannot be created.</label>
+                                    <div class="col-sm-12 col-md-12 col-lg-12 no-side-padding" id="usergroupbuttondiv" >
+                                        <button type="button" id="addUserGroupButton" class="pull-right addUserGroupButton tabPushButton" title="Assign User Group" style="width: 120px;" @ModifyDisable>@FMBaseController.TranslateText("Add User Group")</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Units section -->
+                            <div class="row settingsection">
+                                <a href="#TAUnits" data-toggle="collapse" class="col-sm-12 col-md-12 col-lg-12 collapsed" aria-expanded="false">
+                                    <span class="pull-left separator-label">@FMBaseController.TranslateText("UNITS")</span><span id="expandUnits" class="pull-right"><div class="expand-icon"></div></span>
+                                </a>
+                                <div class="settingsectionhorizontalline"></div>
+                            </div>
+                            <div id="TAUnits" class="row collapse" aria-expanded="false">
+                                <div class="col-sm-12 col-md-12 col-lg-12 ">
+                                    <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                    </div>
+                                    <div class="form-group col-sm-5 col-md-5 col-lg-5">
+                                        @Html.Label(FMBaseController.TranslateText("Units:"), new { @class = "control-label" })
+                                    </div>
+                                    <div class="form-group col-sm-3 col-md-3 col-lg-3">
+                                        @Html.Label(FMBaseController.TranslateText("Decimal Places:"), new { @class = "control-label" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                        @Html.Label(FMBaseController.TranslateText("Level:"), new { @class = "control-label" })
+                                    </div>
+                                    <div class="form-group col-sm-5 col-md-5 col-lg-5">
+                                        <select class="form-control" id="LevelUnitsInt" name="LevelUnitsInt" @ModifyDisable>
+                                            @foreach (var unit in Model.LevelUnits)
+                                            {
+                                                <option value="@unit.Item2" @(Model.LevelUnitsInt == Int32.Parse(unit.Item2) ? "selected" : "")>
+                                                    @unit.Item1
+                                                </option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-sm-3 col-md-3 col-lg-3">
+                                        @Html.TextBoxFor(m => m.LevelDecimalPlaces, (Model.ModifyEnabled) ? (object)new { id = "levelDecimalPlaces", @class = "form-control input-md", maxlength = 1 } : new { id = "levelDecimalPlaces", @class = "form-control input-md", maxlength = 1, @readonly = "readonly" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                        @Html.Label(FMBaseController.TranslateText("Volume:"), new { @class = "control-label" })
+                                    </div>
+                                    <div class="form-group col-sm-5 col-md-5 col-lg-5">
+                                        <select class="form-control" id="VolumeUnitsInt" name="VolumeUnitsInt" @ModifyDisable>
+                                            @foreach (var unit in Model.VolumeUnits)
+                                            {
+                                                <option value="@unit.Item2" @(Model.VolumeUnitsInt == Int32.Parse(unit.Item2) ? "selected" : "")>
+                                                    @unit.Item1
+                                                </option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-sm-3 col-md-3 col-lg-3">
+                                        @Html.TextBoxFor(m => m.VolumeDecimalPlaces, (Model.ModifyEnabled) ? (object)new { id = "VolumeDecimalPlaces", @class = "form-control input-md", maxlength = 1 } : new { id = "VolumeDecimalPlaces", @class = "form-control input-md", maxlength = 1, @readonly = "readonly" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                        @Html.Label(FMBaseController.TranslateText("Additive Volume:"), new { @class = "control-label" })
+                                    </div>
+                                    <div class="form-group col-sm-5 col-md-5 col-lg-5">
+                                        <select class="form-control" id="AdditiveVolumeUnitsInt" name="AdditiveVolumeUnitsInt" @ModifyDisable>
+                                            @foreach (var unit in Model.AdditiveVolumeUnits)
+                                            {
+                                                <option value="@unit.Item2" @(Model.AdditiveVolumeUnitsInt == Int32.Parse(unit.Item2) ? "selected" : "")>
+                                                    @unit.Item1
+                                                </option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-sm-3 col-md-3 col-lg-3">
+                                        @Html.TextBoxFor(m => m.AdditiveVolumeDecimalPlaces, (Model.ModifyEnabled) ? (object)new { id = "AdditiveVolumeDecimalPlaces", @class = "form-control input-md", maxlength = 1 } : new { id = "AdditiveVolumeDecimalPlaces", @class = "form-control input-md", maxlength = 1, @readonly = "readonly" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                        @Html.Label(FMBaseController.TranslateText("Temperature:"), new { @class = "control-label" })
+                                    </div>
+                                    <div class="form-group col-sm-5 col-md-5 col-lg-5">
+                                        <select class="form-control" id="TemperatureUnitsInt" name="TemperatureUnitsInt" @ModifyDisable>
+                                            @foreach (var unit in Model.TemperatureUnits)
+                                            {
+                                                <option value="@unit.Item2" @(Model.TemperatureUnitsInt == Int32.Parse(unit.Item2) ? "selected" : "")>
+                                                    @unit.Item1
+                                                </option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-sm-3 col-md-3 col-lg-3">
+                                        @Html.TextBoxFor(m => m.TemperatureDecimalPlaces, (Model.ModifyEnabled) ? (object)new { id = "TemperatureDecimalPlaces", @class = "form-control input-md", maxlength = 1 } : new { id = "TemperatureDecimalPlaces", @class = "form-control input-md", maxlength = 1, @readonly = "readonly" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                        @Html.Label(FMBaseController.TranslateText("Density:"), new { @class = "control-label" })
+                                    </div>
+                                    <div class="form-group col-sm-5 col-md-5 col-lg-5">
+                                        <select class="form-control" id="DensityUnitsInt" name="DensityUnitsInt" @ModifyDisable>
+                                            @foreach (var unit in Model.DensityUnits)
+                                            {
+                                                <option value="@unit.Item2" @(Model.DensityUnitsInt == Int32.Parse(unit.Item2) ? "selected" : "")>
+                                                    @unit.Item1
+                                                </option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-sm-3 col-md-3 col-lg-3">
+                                        @Html.TextBoxFor(m => m.DensityDecimalPlaces, (Model.ModifyEnabled) ? (object)new { id = "DensityDecimalPlaces", @class = "form-control input-md", maxlength = 1 } : new { id = "DensityDecimalPlaces", @class = "form-control input-md", maxlength = 1, @readonly = "readonly" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                        @Html.Label(FMBaseController.TranslateText("Mass:"), new { @class = "control-label" })
+                                    </div>
+                                    <div class="form-group col-sm-5 col-md-5 col-lg-5">
+                                        <select class="form-control" id="MassUnitsInt" name="MassUnitsInt" @ModifyDisable>
+                                            @foreach (var unit in Model.MassUnits)
+                                            {
+                                                <option value="@unit.Item2" @(Model.MassUnitsInt == Int32.Parse(unit.Item2) ? "selected" : "")>
+                                                    @unit.Item1
+                                                </option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-sm-3 col-md-3 col-lg-3">
+                                        @Html.TextBoxFor(m => m.MassDecimalPlaces, (Model.ModifyEnabled) ? (object)new { id = "MassDecimalPlaces", @class = "form-control input-md", maxlength = 1 } : new { id = "MassDecimalPlaces", @class = "form-control input-md", maxlength = 1, @readonly = "readonly" })
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                        @Html.Label(FMBaseController.TranslateText("Flow:"), new { @class = "control-label" })
+                                    </div>
+                                    <div class="form-group col-sm-5 col-md-5 col-lg-5">
+                                        <select class="form-control" id="FlowUnitsInt" name="FlowUnitsInt" @ModifyDisable>
+                                            @foreach (var unit in Model.FlowUnits)
+                                            {
+                                                <option value="@unit.Item2" @(Model.FlowUnitsInt == Int32.Parse(unit.Item2) ? "selected" : "")>
+                                                    @unit.Item1
+                                                </option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-sm-3 col-md-3 col-lg-3">
+                                        @Html.TextBoxFor(m => m.FlowDecimalPlaces, (Model.ModifyEnabled) ? (object)new { id = "FlowDecimalPlaces", @class = "form-control input-md", maxlength = 1 } : new { id = "FlowDecimalPlaces", @class = "form-control input-md", maxlength = 1, @readonly = "readonly" })
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                        @Html.Label(FMBaseController.TranslateText("Pressure:"), new { @class = "control-label" })
+                                    </div>
+                                    <div class="form-group col-sm-5 col-md-5 col-lg-5">
+                                        <select class="form-control" id="PressureUnitsInt" name="PressureUnitsInt" @ModifyDisable>
+                                            @foreach (var unit in Model.PressureUnits)
+                                            {
+                                                <option value="@unit.Item2" @(Model.PressureUnitsInt == Int32.Parse(unit.Item2) ? "selected" : "")>
+                                                    @unit.Item1
+                                                </option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-sm-3 col-md-3 col-lg-3">
+                                        @Html.TextBoxFor(m => m.PressureDecimalPlaces, (Model.ModifyEnabled) ? (object)new { id = "PressureDecimalPlaces", @class = "form-control input-md", maxlength = 1 } : new { id = "PressureDecimalPlaces", @class = "form-control input-md", maxlength = 1, @readonly = "readonly" })
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Status section -->
+                            <div class="row settingsection">
+                                <a href="#TAStatus" data-toggle="collapse" class="col-sm-12 col-md-12 col-lg-12 collapsed" aria-expanded="false">
+                                    <span class="pull-left separator-label">@FMBaseController.TranslateText("STATUS")</span><span id="expandStatus" class="pull-right"><div class="expand-icon"></div></span>
+                                </a>
+                                <div class="settingsectionhorizontalline"></div>
+                            </div>
+                            <div id="TAStatus" class="row collapse" aria-expanded="false">
+                                <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group col-sm-12 col-md-12 col-lg-12 no-side-padding">
+                                        @Html.Label(FMBaseController.TranslateText("List of Statuses"), new { @class = "control-label" })
+                                    </div>
+                                    <div id="statusList" class="col-sm-12 col-md-12 col-lg-12 no-side-padding">
+                                        @foreach (var status in Model.AssignedStatuses.OrderBy(x => x))
+                                        {
+                                            <div class="col-sm-12 col-md-12 col-lg-12 TASettingList TAStatusSelected no-side-padding" id="usergroup-@status" data-value="@status">
+                                                <div class="form-group col-sm-11">
+                                                    <span class="status-default @(Model.DefaultStatus == status ? "active" : "")"></span>
+                                                    @Html.Label(status, new { @class = "control-label" })
+                                                </div>
+                                                <div class="status-delete form-group col-sm-1 no-side-padding"  @ModifyDisable>
+                                                    <img class="deleteImg" src="~/fmwebapp/images/Delete-column.png">
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                    <div class="col-sm-12 col-md-12 col-lg-12 no-side-padding" id="statusbuttondiv">
+                                        <button type="button" id="addStatusButton" class="pull-right addStatusButton tabPushButton" title="Add Status" style="width: 120px;" @ModifyDisable>@FMBaseController.TranslateText("Add Status")</button>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Products section -->
+                            <div class="row settingsection">
+                                <a href="#TAProducts" data-toggle="collapse" class="col-sm-12 col-md-12 col-lg-12 collapsed" aria-expanded="false">
+                                    <span class="pull-left separator-label">@FMBaseController.TranslateText("PRODUCTS")</span><span id="expandProducts" class="pull-right"><div class="expand-icon"></div></span>
+                                </a>
+                                <div class="settingsectionhorizontalline"></div>
+                            </div>
+                            <div id="TAProducts" class="row collapse" aria-expanded="false">
+                                <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                                        @Html.Label(FMBaseController.TranslateText("Excluded Products"), new { @class = "control-label" })
+                                    </div>
+                                    <div id="excludedProductList" class="col-sm-12 col-md-12 col-lg-12 no-side-padding">
+                                        @foreach (var product in Model.ExcludedProductCollection.OrderBy(x => x.ID))
+                                        {
+                                            <div class="col-sm-12 col-md-12 col-lg-12 TASettingList TAProductSelected no-side-padding" id="product-@product.Guid" data-name="@product.ID" data-guid="@product.Guid">
+                                                <div class="product-name form-group col-sm-11">
+                                                    @Html.Label(product.ID, new { @class = "control-label" })
+                                                </div>
+                                                <div class="product-delete form-group col-sm-1 no-side-padding"  @ModifyDisable>
+                                                    <img class="deleteImg" src="~/fmwebapp/images/Delete-column.png">
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                    <label id="TAExcludedProductWarning" class='label label-success col-sm-12 col-md-12 col-lg-12 @(Model.ExcludedProductList.Count() > 0 ? "hidden":"")'>All products are available</label>
+                                    <div class="col-sm-12 col-md-12 col-lg-12 no-side-padding" id="productbuttondiv">
+                                        <button type="button" id="addProductButton" class="pull-right addProductButton tabPushButton" title="Exclude Product" style="width: 120px;" @ModifyDisable>@FMBaseController.TranslateText("Exclude Product")</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+                <section id="TAFieldsHolder" class="PESection">
+                    @{Html.RenderPartial("TransactionAliasFields");}
+                </section>
+                <section id="TALayoutHolder" class="PESection">
+                    @{Html.RenderPartial("TransactionAliasLayout");}
+                </section>
+            }
+        </div>
+    </div>
+</body>
+</html>
+
+
+<!-- Modals -->
+<div class="row">
+    <div id="AddUserGroupModal" class="modal fade modal-md" data-backdrop="static" data-focus-on="input:first" role="dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="TransactionUserGroupSelectScreen_CloseButton" type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 id="TransactionUserGroupSelectionScreen" class="modal-title">@FMBaseController.TranslateText("User Groups")</h4>
+            </div>
+            <div class="modal-body">
+                <section id="AddUserGroupScreen" class="">
+                    <ul class="list-group userGroupSelectionList" id="userGroupSelectionList"></ul>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-toolbar">
+                    <div class="pull-left">
+                        <button id="TASecuritySelectAllButton" type="button" class="pushButton" accessKey="@FMControls.GetAccessKey(selectAllButton)">
+                            @Html.Raw(FMControls.FormatButtonText(selectAllButton))
+                        </button>
+                    </div>
+                    <div class="pull-right">
+                        <button id="TASecurityApplyButton" type="button" class="pushButton" accessKey="@FMControls.GetAccessKey(applyButton)">
+                            @Html.Raw(FMControls.FormatButtonText(applyButton))
+                        </button>
+                        <button id="TASecurityCancelButton" type="button" class="pushButton" data-dismiss="modal" accessKey="@FMControls.GetAccessKey(cancelButton)">
+                            @Html.Raw(FMControls.FormatButtonText(cancelButton))
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div id="AddStatusModal" class="modal fade modal-md" data-backdrop="static" data-focus-on="input:first" role="dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="TransactionStatusSelectScreen_CloseButton" type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 id="TransactionStatusSelectionScreen" class="modal-title">@FMBaseController.TranslateText("Statuses")</h4>
+            </div>
+            <div class="modal-body">
+                <section id="AddStatusesScreen" class="">
+                    <ul class="list-group statusSelectionList" id="statusSelectionList"></ul>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-toolbar">
+                    <div class="pull-left">
+                        <button id="TAStatusSelectAllButton" type="button" class="pushButton" accessKey="@FMControls.GetAccessKey(selectAllButton)">
+                            @Html.Raw(FMControls.FormatButtonText(selectAllButton))
+                        </button>
+                    </div>
+                    <div class="pull-right">
+                        <button id="TAStatusApplyButton" type="button" class="pushButton" accessKey="@FMControls.GetAccessKey(applyButton)">
+                            @Html.Raw(FMControls.FormatButtonText(applyButton))
+                        </button>
+                        <button id="TAStatusCancelButton" type="button" class="pushButton" data-dismiss="modal" accessKey="@FMControls.GetAccessKey(cancelButton)">
+                            @Html.Raw(FMControls.FormatButtonText(cancelButton))
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div id="AddProductModal" class="modal fade modal-md" data-backdrop="static" data-focus-on="input:first" role="dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="TransactionProductSelectScreen_CloseButton" type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 id="TransactionProductSelectionScreen" class="modal-title">@FMBaseController.TranslateText("Exclude Products")</h4>
+            </div>
+            <div class="modal-body">
+                <section id="AddProductScreen" class="">
+                    <ul class="list-group productsSelectionList" id="productsSelectionList"></ul>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-toolbar">
+                    <div class="pull-left">
+                        <button id="TAProductSelectAllButton" type="button" class="pushButton" accessKey="@FMControls.GetAccessKey(selectAllButton)">
+                            @Html.Raw(FMControls.FormatButtonText(selectAllButton))
+                        </button>
+                    </div>
+                    <div class="pull-right">
+                        <button id="TAProductApplyButton" type="button" class="pushButton" accessKey="@FMControls.GetAccessKey(applyButton)">
+                            @Html.Raw(FMControls.FormatButtonText(applyButton))
+                        </button>
+                        <button id="TAProductCancelButton" type="button" class="pushButton" data-dismiss="modal" accessKey="@FMControls.GetAccessKey(cancelButton)">
+                            @Html.Raw(FMControls.FormatButtonText(cancelButton))
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Templates-->
+<div id="excludedProductTemplate" class="hidden">
+    <div class="col-sm-12 col-md-12 col-lg-12 TASettingList TAProductSelected no-side-padding" id="product-<Item1>" data-name="<Item2>" data-guid="<Item1>">
+        <div class="product-name form-group col-sm-11">
+            @Html.Label("<Item2>", new { @class = "control-label" })
+        </div>
+        <div class="product-delete form-group col-sm-1 no-side-padding" @ModifyDisable>
+            <img class="deleteImg" src="~/fmwebapp/images/Delete-column.png" >
+        </div>
+    </div>
+</div>
+<div id="statusListTemplate" class="hidden">
+    <div class="col-sm-12 col-md-12 col-lg-12 TASettingList TAStatusSelected no-side-padding" id="usergroup-<Item1>" data-value="<Item1>">
+        <div class="form-group col-sm-11">
+            <span class="status-default"></span>
+            @Html.Label("<Item1>", new { @class = "control-label" })
+        </div>
+        <div class="status-delete form-group col-sm-1 no-side-padding"  @ModifyDisable>
+            <img class="deleteImg" src="~/fmwebapp/images/Delete-column.png" @ModifyDisable>
+        </div>
+    </div>
+</div>
+
+<div id="userGroupListTemplate" class="hidden">
+    <div class="col-sm-12 col-md-12 col-lg-12 TASettingList TAUserGroupSelected no-side-padding" id="usergroup-<Item1>" data-name="<Item2>" data-guid="<Item1>">
+        <div class="form-group col-sm-7">
+            @Html.Label("<Item2>", new { @class = "control-label" })
+        </div>
+        <div class="form-group col-sm-4 text-center  no-side-padding">
+            <div class="btn-group access-btn-group" role="group" aria-label="First group">
+                <button type="button" title="@FMBaseController.TranslateText("Can Edit Transactions")" class='btn edit-right active' @ModifyDisable>
+                    <img class="deleteImg" src="~/fmwebapp/images/Right-Edit.png">
+                </button>
+                <button type="button" title="@FMBaseController.TranslateText("Can View Transactions")" class="btn read-right active alwaysselected" @ModifyDisable>
+                    <img class="deleteImg" src="~/fmwebapp/images/Right-View.png">
+                </button>
+            </div>
+        </div>
+        <div class="usergroup-delete form-group col-sm-1 no-side-padding" @ModifyDisable>
+            <img class="deleteImg" src="~/fmwebapp/images/Delete-column.png" @ModifyDisable>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    //=================================================================
+    // This function handles the Apply Button on click event.
+    //=================================================================
+    function ApplyButtonOnClick() {
+        $('#transactionAliasForm').submit();
+    }
+
+    function CancelButtonOnClick() {
+        history.back();
+    }
+
+    $(document).ready(function () {
+
+        $('#TALeftPanelSettings').niceScroll({
+            cursorwidth: '10px'
+            , autohidemode: false
+            , cursorcolor: "#486899"
+            , background: "#f9f9f9"
+            , railoffset: true
+            , railpadding: { top: 0, right: 0, left: 5, bottom: 0 }
+            , smoothscroll: true
+        });
+        $('#TARightPanelSettings').niceScroll({
+            cursorwidth: '10px'
+            , autohidemode: false
+            , cursorcolor: "#486899"
+            , background: "#f9f9f9"
+            , railoffset: true
+            , railpadding: { top: 0, right: 0, left: -5, bottom: 0 }
+            , smoothscroll: true
+        });
+
+        FMTransactionAlias.setAssociatedAliasDropdown();
+    });
+
+
+    $("#addUserGroupButton").on('click', function () {
+        $('body').modalmanager('loading');
+
+        $.ajax({
+            type: 'Get',
+            url: '@Url.Action("GetAllUserGroups", "TransactionAlias")',
+            dataType: "json",
+            success: function (results) {
+                $("#userGroupSelectionList").html('');
+
+                // remove already selected groups
+                if (results.Data && results.Data.length > 0) {
+                    $(".TAUserGroupSelected").each(function (i, obj) {
+                        var selectedGuid = obj.getAttribute("data-guid");
+                        results.Data = results.Data.filter(function (obj) {
+                            return obj.Item1 !== selectedGuid;
+                        });
+                    });
+
+                    function SortByFieldName(a, b) {
+                        var aName = a.Item2.toLowerCase();
+                        var bName = b.Item2.toLowerCase();
+                        return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
+                    }
+
+                    $.each(results.Data.sort(SortByFieldName), function (index, value) {
+                        var userGroupEntry = $("<li class='TransactionAliasUserGroupSelectionElement list-group-item' data-name='" + value.Item2 + "' data-guid='" + value.Item1 + "'>" + value.Item2 + "</li>");
+                        $("#userGroupSelectionList").append(userGroupEntry);
+                    });
+
+                    $(".userGroupSelectionList").niceScroll({ cursorwidth: '10px', horizrailenabled: false, autohidemode: false, cursorcolor: "#486899", background: "white" });
+                }
+                $('#AddUserGroupModal').modal('show');
+                $('body').modalmanager('removeLoading');
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            }
+        });
+    });
+
+    $("#addStatusButton").on('click', function () {
+        $('body').modalmanager('loading');
+
+        $.ajax({
+            type: 'Get',
+            url: '@Url.Action("GetAllStatuses", "TransactionAlias")',
+            dataType: "json",
+            success: function (results) {
+                $("#statusSelectionList").html('');
+
+                // remove already selected statuses
+                if (results.Data && results.Data.length > 0) {
+                    $(".TAStatusSelected").each(function (i, obj) {
+                        var selectedStatus = obj.getAttribute("data-value");
+                        results.Data = results.Data.filter(function (obj) {
+                            return obj.Item2 !== selectedStatus;
+                        });
+                    });
+
+                    function SortByFieldName(a, b) {
+                        var aName = a.Item2.toLowerCase();
+                        var bName = b.Item2.toLowerCase();
+                        return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
+                    }
+
+                    $.each(results.Data.sort(SortByFieldName), function (index, value) {
+                        var userGroupEntry = $("<li class='TransactionAliasStatusSelectionElement list-group-item' data-name='" + value.Item2 + "' data-guid='" + value.Item1 + "'>" + value.Item2 + "</li>");
+                        $("#statusSelectionList").append(userGroupEntry);
+                    });
+
+                    $(".statusSelectionList").niceScroll({ cursorwidth: '10px', horizrailenabled: false, autohidemode: false, cursorcolor: "#486899", background: "white" });
+                }
+                $('#AddStatusModal').modal('show');
+                $('body').modalmanager('removeLoading');
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            }
+        });
+    });
+
+    $("#addProductButton").on('click', function () {
+        $('body').modalmanager('loading');
+
+        $.ajax({
+            type: 'Get',
+            url: '@Url.Action("GetAllProducts", "TransactionAlias")',
+            dataType: "json",
+            success: function (results) {
+                $("#productsSelectionList").html('');
+                // remove already selected products
+                if (results.Data && results.Data.length > 0) {
+
+                    $(".TAProductSelected").each(function (i, obj) {
+                        var selectedProduct = obj.getAttribute("data-guid");
+                        results.Data = results.Data.filter(function (obj) {
+                            return obj.Item1 !== selectedProduct;
+                        });
+                    });
+                    function SortByFieldName(a, b) {
+                        var aName = a.Item2.toLowerCase();
+                        var bName = b.Item2.toLowerCase();
+                        return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
+                    }
+
+                    $.each(results.Data.sort(SortByFieldName), function (index, value) {
+                        var userGroupEntry = $("<li class='TransactionAliasProductSelectionElement list-group-item' data-name='" + value.Item2 + "' data-guid='" + value.Item1 + "'>" + value.Item2 + "</li>");
+                        $("#productsSelectionList").append(userGroupEntry);
+                    });
+
+                    $(".productsSelectionList").niceScroll({ cursorwidth: '10px', horizrailenabled: false, autohidemode: false, cursorcolor: "#486899", background: "white" });
+                }
+                $('#AddProductModal').modal('show');
+                $('body').modalmanager('removeLoading');
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            }
+        });
+    });
+
+    $("#TAProductSelectAllButton").on('click', function () {
+        $("#productsSelectionList .TransactionAliasProductSelectionElement").removeClass("selected").addClass("selected");
+    });
+
+    $("#TAProductApplyButton").on('click', function () {
+        var selectedProducts = $("#productsSelectionList .TransactionAliasProductSelectionElement.selected");
+
+        if (selectedProducts.length > 0) {
+            selectedProducts.each(function (i, obj) {
+                var newProduct = $("#excludedProductTemplate > div").clone();
+                var data_guid = $(obj).attr("data-guid");
+                var data_name = $(obj).attr("data-name");
+
+                $(newProduct).attr("data-name", data_name);
+                $(newProduct).attr("id", $(newProduct).attr("id").replace("<Item1>", data_guid));
+                $(newProduct).attr("data-guid", data_guid);
+                $(newProduct).find("label").text(data_name);
+
+                $("#excludedProductList").append(newProduct);
+            });
+
+            $("#TAExcludedProductWarning").removeClass("hidden").addClass("hidden");
+        }
+
+        if ($("#excludedProductList > div").length == 0) {
+            $("#TAExcludedProductWarning").removeClass("hidden");
+        }
+
+        var sortedListofProducts = $("#excludedProductList > div").sort(function (lhs, rhs) {
+            return $(lhs).find('label').text().localeCompare($(rhs).find('label').text(), undefined, { sensitivity: 'base' });
+        })
+
+        $("#excludedProductList").html(sortedListofProducts);
+
+        $('#AddProductModal').modal('hide');
+        $("#productsSelectionList").html("");
+    });
+
+    $("#TAProductCancelButton, #TransactionProductSelectScreen_CloseButton").on('click', function () {
+        $("#productsSelectionList").html("");
+    });
+
+    $("#productsSelectionList").on('click', '.TransactionAliasProductSelectionElement', function () {
+        $(this).toggleClass('selected');
+    });
+
+    // deleting product
+    $("#excludedProductList").on("click", ".product-delete", function () {
+        $(this).parent().remove();
+        if ($("#excludedProductList > div").length == 0) {
+            $("#TAExcludedProductWarning").removeClass("hidden");
+        }
+    });
+
+
+    $("#TAStatusSelectAllButton").on('click', function () {
+        $("#statusSelectionList .TransactionAliasStatusSelectionElement").removeClass("selected").addClass("selected");
+    });
+
+
+    $("#TAStatusApplyButton").on('click', function () {
+        var selectedStatuses = $("#statusSelectionList .TransactionAliasStatusSelectionElement.selected");
+
+        if (selectedStatuses.length > 0) {
+            selectedStatuses.each(function (i, obj) {
+                var newStatus = $("#statusListTemplate > div").clone();
+                var data_name = $(obj).attr("data-name");
+
+                $(newStatus).attr("data-value", data_name);
+                $(newStatus).attr("id", $(newStatus).attr("id").replace("<Item1>", data_name));
+                $(newStatus).find("label").text(data_name);
+
+                $("#statusList").append(newStatus);
+            });
+
+        }
+
+        var sortedListofProducts = $("#statusList > div").sort(function (lhs, rhs) {
+            return $(lhs).find('label').text().localeCompare($(rhs).find('label').text(), undefined, { sensitivity: 'base' });
+        })
+
+        $("#statusList").html(sortedListofProducts);
+
+        if ($("#statusList > div").length == 0) {
+            $("#TAUserGroupWarning").removeClass("hidden");
+        }
+
+        $('#AddStatusModal').modal('hide');
+        $("#statusSelectionList").html("");
+    });
+
+    $("#TAStatusCancelButton, #TransactionStatusSelectScreen_CloseButton").on('click', function () {
+        $("#statusSelectionList").html("");
+    });
+
+    $("#statusSelectionList").on('click', '.TransactionAliasStatusSelectionElement', function () {
+        $(this).toggleClass('selected');
+    });
+
+    // deleting status
+    $("#statusList").on("click", ".status-delete", function () {
+        $(this).parent().remove();
+    });
+
+    $("#userGroupList").on("click", ".access-btn-group .edit-right", function () {
+        $(this).toggleClass("active");
+        if ($(this).hasClass("active")) {
+            $(this).attr("title", $("#EditRightMessage").val());
+        } else {
+            $(this).attr("title", $("#NoEditRightMessage").val());
+        }
+    });
+
+    $("#TASecuritySelectAllButton").on('click', function () {
+        $("#userGroupSelectionList .TransactionAliasUserGroupSelectionElement").removeClass("selected").addClass("selected");
+    });
+
+    $("#TASecurityApplyButton").on('click', function () {
+
+        var selectedUserGroups = $("#userGroupSelectionList .TransactionAliasUserGroupSelectionElement.selected");
+
+        if (selectedUserGroups.length > 0) {
+            selectedUserGroups.each(function (i, obj) {
+                var newUserGroup = $("#userGroupListTemplate > div").clone();
+                var data_guid = $(obj).attr("data-guid");
+                var data_name = $(obj).attr("data-name");
+
+                $(newUserGroup).attr("data-name", data_name);
+                $(newUserGroup).attr("id", $(newUserGroup).attr("id").replace("<Item1>", data_guid));
+                $(newUserGroup).attr("data-guid", data_guid);
+                $(newUserGroup).find("label").text(data_name);
+
+                $("#userGroupList").append(newUserGroup);
+            });
+
+        }
+
+        var sortedListofUserGroups = $("#userGroupList > div").sort(function (lhs, rhs) {
+            return $(lhs).find('label').text().localeCompare($(rhs).find('label').text(), undefined, { sensitivity: 'base' });
+        })
+
+        $("#userGroupList").html(sortedListofUserGroups);
+
+        if ($("#userGroupList > div").length > 0) {
+            $("#TAUserGroupWarning").removeClass("hidden").addClass("hidden");
+        }
+
+        $('#AddUserGroupModal').modal('hide');
+        $("#userGroupSelectionList").html("");
+    });
+
+    $("#TASecurityCancelButton, #TransactionUserGroupSelectScreen_CloseButton").on('click', function () {
+        $("#userGroupSelectionList").html("");
+    });
+
+    $("#userGroupSelectionList").on('click', '.TransactionAliasUserGroupSelectionElement', function () {
+        $(this).toggleClass('selected');
+    });
+
+    // deleting user group
+    $("#userGroupList").on("click", ".usergroup-delete", function () {
+        $(this).parent().remove();
+        if ($("#userGroupList > div").length == 0) {
+            $("#TAUserGroupWarning").removeClass("hidden");
+        }
+    });
+
+    // set status as default
+    $("#statusList").on("click", ".status-default", function () {
+        $("#statusList .status-default").removeClass("active");
+        $("#statusList .status-default").attr("title", "Click to set default");
+        $(this).addClass("active").attr("title", "");
+    });
+
+    // change the title when modifying the name
+    $("#AliasID").on("keyup", function (e) {
+        $("#TransactionAliasTitleLabel").text(e.currentTarget.value);
+    });
+
+</script>

@@ -1,0 +1,398 @@
+#certificates {
+    width: 30%;
+    height: calc( 100vh - 140px);
+    float: left;
+    position: relative;
+}
+
+.certificate-section-header {
+    width: 100%;
+    background-color: #006CB3;
+    color: white;
+    text-align: center;
+    height: 30px;
+    padding-left: 2%;
+    padding-right: 8%;
+    line-height: 30px;
+    position: relative;
+}
+
+.search-certificate-icon {
+    position: absolute;
+    top: 8px;
+    right: 50px;
+    background-color: transparent;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.search-certificate-entry:focus {
+    outline: none;
+}
+
+.search-certificate-entry {
+    width: 80%;
+    margin-top: 20px;
+    margin-left: 10%;
+    border: none;
+    border-bottom: 1px #edeeef solid;
+}
+
+.certificate-activation-menu {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    background-color: #006CB3;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.activationoption {
+    line-height: 25px;
+    padding: 0px 10px;
+    width: 190px;
+}
+
+.activationoption:hover {
+    background-color: #006CB3;
+    color: white;
+    cursor: pointer;
+}
+
+.activation-dropdown {
+    top: 20px !important;
+}
+
+#configurationfilterinput {
+    font-size: 16px;
+}
+
+#certificateconfiguration {
+    width: 70%;
+    height: calc( 100vh - 170px);
+    float: left;
+    position: relative;
+}
+
+  #certificateconfiguration .configuration-header {
+    height: 45px;
+    position: relative;
+    border: 1px solid #dee2e6;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 3px 6px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+dts-select-container {
+    background-color: #FFFFFF;
+}
+
+#activecertificatelist {
+    width: 100%;
+    background-color: #FFFFFF;
+    vertical-align: top;
+    height: calc( 100vh - 170px);
+    padding: 20px;
+    padding-left: 30px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border: 1px solid #E0E0E0;
+}
+
+#activecertificatelist .certificate {
+    width: 24%;
+    height: 10%;
+    display: inline-block;
+    padding-top: 15px;
+}
+
+#activecertificatelist img {
+    max-width: 70%;
+    height: 60px;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+}
+
+  #activecertificatelist span {
+    display: block;
+    width: 100%;
+    font-size: 9pt;
+    text-align: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding: 0px 3px;
+    cursor: default;
+  }
+
+.horizontalDivider {
+    width: 100%;
+    display: inline-table;
+}
+
+.certificateContainer {
+    width: 45%;
+    float: left;
+    min-height: 470px;
+    padding-right: 3px;
+    margin-bottom: 20px;
+    display: inline-table;
+}
+
+.certificateConfigContainer {
+    width: 45%;
+    float: left;
+    height: 150px;
+    padding-right: 3px;
+    margin-bottom: 20px;
+}
+
+#certificateconfiguration .configuration-certificate-cell {
+    width: 100%;
+    height: 35px;
+    position: relative;
+    border: 1px solid #dee2e6;
+    font-size: 14px;
+    display: inline-block;
+    margin-left: 0%;
+    margin-right: 0%;
+    margin-bottom: 0px;
+}
+
+#certificateconfiguration .certificate-cell {
+    height: 45px;
+    position: relative;
+    margin-left: 1%;
+    margin-right: 1%;
+    margin-bottom: -1px;
+    border: 1px solid #dee2e6;
+    font-size: 14px;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 3px 6px;
+}
+
+#selectedcertificatesPanel {
+    width: 220px;
+    float: left;
+    padding-left: 15px;
+}
+
+#certificateconfiguration .configuration-heading {
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    background-color: #006CB3;
+    color: white;
+    padding-left: 20px;
+}
+
+@media screen and (-ms-high-contrast: active),
+(-ms-high-contrast: none) {
+    #certificateconfiguration .configuration-heading {
+        padding-top: 5px;
+    }
+}
+
+#certificateconfiguration .configuration-parametername {
+    display: inline-block;
+    width: 50%;
+    cursor: default;
+    padding-left: 20px;
+    padding-top: 7px;
+    color: #006CB3;
+}
+
+#certificateconfiguration .configuration-parameterdescription {
+    display: inline-block;
+    position: absolute;
+    top: 20px;
+    left: 0px;
+    font-size: 12px;
+    padding: 0px 20px;
+    cursor: default;
+}
+
+#certificateconfiguration .configuration-parametervalue {
+    display: inline-block;
+    width: 50%;
+    vertical-align: top;
+    text-align: right;
+    color: #006CB3;
+    line-height: 22px;
+    height: 35px;
+    text-overflow: ellipsis;
+}
+
+#certificateconfiguration .separator {
+    display: block;
+    width: calc( 100% - 20px);
+    margin: auto;
+    height: 0px;
+    border-bottom: 1px solid;
+    top: 55px;
+    position: absolute;
+}
+
+#certificateconfiguration .iconbar {
+    height: 40px;
+    margin-left: 10px;
+    margin-right: 10px;
+    background-color: white;
+}
+
+#certificateconfiguration .iconbar i {
+    position: absolute;
+    left: 60%;
+    top: inherit !important;
+    float: right !important;
+    padding-right: 15px;
+    padding-top: 3px;
+    cursor: pointer;
+    color: #006CB3;
+    line-height: 30px;
+    padding-left: 240px;
+}
+
+#certificateconfiguration .iconbar input {
+    position: absolute;
+    left: 60%;
+    top: inherit;
+    float: right;
+    color: #006CB3;
+    background-color: transparent;
+    line-height: 25px;
+    border: none;
+    border-bottom: 1px #cdcecf solid;
+    width: 235px;
+    padding: 0px 10px;
+    margin-right: 10px;
+}
+
+#certificateconfiguration .iconbar input:focus {
+    outline: none;
+}
+
+div {
+    position: relative;
+}
+
+#certificateconfiguration .configuration-body {
+    background-color: #FFF;
+    height: calc( 100vh - 250px);
+}
+
+#certificateconfiguration .configuration-list {
+    width: calc(100% - 5px);
+    height: 630px;
+    padding-left: 230px;
+    position: absolute;
+    top: 40px;
+}
+
+#certificateconfiguration .configuration-footer {
+    background-color: #FFF;
+    height: 72px;
+}
+
+.configuration-footer .btn-primary {
+    margin-left: 5px;
+    margin-right: 20px;
+    float: right;
+    border-radius: 4px !important;
+}
+
+.configuration-footer .btn-cancel-changes {
+    width: 155px;
+    margin-left: 5px;
+    margin-right: 200px;
+    float: right;
+    border-color: #006CB3 !important;
+    color: #006CB3;
+    border-radius: 4px !important;
+}
+
+#certificateconfiguration .nav-tabs {
+    height: 36px;
+    border-bottom: 6px solid #FFFFFF !important;
+}
+
+#certificateconfiguration .nav-tabs .nav-link.active {
+    border-radius: 0 0 0 0;
+    margin: 0 0 0 4px;
+    height: 36px;
+    padding: 2px 0 0 0;
+    text-align: center;
+    width: 200px;
+    color: #006CB3;
+    background-color: #FFFFFF;
+    border-bottom: 6px solid #006CB3;
+}
+
+#certificateconfiguration .nav-tabs .nav-link {
+    border-radius: 0 0 0 0;
+    margin: 0 0 0 4px;
+    height: 30px;
+    padding: 2px 0 0 0;
+    text-align: center;
+    width: 200px;
+    color: #FFFFFF;
+    background-color: #006CB3;
+}
+
+.alarm-activation-footer {
+    height: 73px;
+    background-color: #FFFFFF;
+    bottom: 40px;
+    position: relative;
+}
+
+.alarm-activation-footer .btn-primary {
+    margin-left: 5px;
+    margin-right: 20px;
+    float: right;
+    border-color: #006CB3 !important;
+    border-radius: 4px !important;
+}
+
+.alarm-activation-footer .btn-cancel {
+    margin-left: 5px;
+    margin-right: 20px;
+    float: right;
+    color: #006CB3;
+    border-color: #006CB3 !important;
+    border-radius: 4px !important;
+}
+
+#certificateconfiguration .activation-body {
+    background-color: #FFFFFF;
+    position: relative;
+}
+
+.typeahead {
+    width: 50%;
+    border: none;
+    text-align: right;
+    padding-right: 5px;
+    color: #006CB3;
+}
+
+.ps__rail-y {
+    width: 0px !important;
+}
+
+hr {
+    width: 50%;
+}
+
+
+.certificateSelectSpan {
+  height: 36px;
+}
+
+#activationDropdown.dropdown-toggle::after {
+  display: none;
+}

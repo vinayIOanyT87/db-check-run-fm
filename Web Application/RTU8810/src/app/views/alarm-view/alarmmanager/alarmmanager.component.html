@@ -1,0 +1,273 @@
+<div id="alarms">
+    <div class='alarmmanager-section-header' style="font-family: Roboto; font-size: 18px;">Alarm Manager</div>
+    <i class="fa fa-search search-alarm-icon" (click)="toggleAlarmSearch()"></i>
+    <div class="btn-group alarmmanager-activation-menu" dropdown>
+        <a id="activationDropdown" class="dropdown-toggle" dropdownToggle data-toggle="dropdown"
+            aria-controls="activation-dropdown">
+            <i class="fa fa-ellipsis-h "></i>
+        </a>
+        <ul id=" activation-dropdown" *dropdownMenu class="dropdown-menu activation-dropdown" aria-labelledby="button-basic">
+                <li class="activationoption" *ngIf='!showPointIndexes' (click)="togglePointIdx()">Show Point Indexes</li>
+                <li class="activationoption" *ngIf='showPointIndexes' (click)="togglePointIdx()">Hide Point Indexes</li>
+                </ul>
+    </div>
+    <dts-select-container #container="dts-select-container" [(selectedItems)]="selectedDocuments" [custom]="true" (click)="onAlarmPanelClick($event)"
+        [selectWithShortcut]="true" [disabled]="true" (selectionEnded)="dragSelect($event)">
+        <ng-container *ngIf="ready">
+
+            <cdk-virtual-scroll-viewport id="activealarmlist" itemSize="99" minBufferPx="200" maxBufferPx="400"
+                class="ps" [perfectScrollbar] #scrollable>
+                <input id="alarmsfilterinput" type="text" class='search-alarm-entry' placeholder="Enter search parameter"
+                [ngModel]='searchalarmString' (ngModelChange)='searchalarmChanged( $event )'
+                [ngClass]="{'d-none': !searchalarmToggle}" (click)="$event.stopPropagation()" />
+                <div *cdkVirtualFor="let alarmSet of alarmPanelAlarmSets trackBy:trackByAlarmId; let i = index;">
+
+                    <div *ngIf='alarmSet[0]' class="alarm">
+                        <img [dtsSelectItem]="alarmSet[0]" class="alarmimg" [src]=alarmSet[0].alarmlistimg
+                            (click)="onalarmImgClick($event, alarmSet[0].pointId, alarmSet[0].alarmId); $event.stopPropagation()" />
+                        <span class = "alarmSelectSpan">{{alarmSet[0].labelLine1}}<br> {{alarmSet[0].labelLine2}}</span>
+                    </div>
+                    <div *ngIf='alarmSet[1]' class="alarm">
+
+                        <img [dtsSelectItem]="alarmSet[1]" class="alarmimg" [src]=alarmSet[1].alarmlistimg
+                            (click)="onalarmImgClick($event, alarmSet[1].pointId, alarmSet[1].alarmId); $event.stopPropagation()" />
+                        <span class = "alarmSelectSpan">{{alarmSet[1].labelLine1}}<br> {{alarmSet[1].labelLine2}}</span>
+                    </div>
+
+                    <div *ngIf='alarmSet[2]' class="alarm">
+
+                        <img [dtsSelectItem]="alarmSet[2]" class="alarmimg" [src]=alarmSet[2].alarmlistimg
+                            (click)="onalarmImgClick($event, alarmSet[2].pointId, alarmSet[2].alarmId); $event.stopPropagation()" />
+                        <span class = "alarmSelectSpan">{{alarmSet[2].labelLine1}}<br> {{alarmSet[2].labelLine2}}</span>
+                    </div>
+
+                    <div *ngIf='alarmSet[3]' class="alarm">
+                        <img [dtsSelectItem]="alarmSet[3]" class="alarmimg" [src]=alarmSet[3].alarmlistimg
+                            (click)="onalarmImgClick($event, alarmSet[3].pointId, alarmSet[3].alarmId); $event.stopPropagation()" />
+                        <span class = "alarmSelectSpan">{{alarmSet[3].labelLine1}}<br> {{alarmSet[3].labelLine2}}</span>
+                    </div>
+                    <hr class="horizontalDivider" *ngIf="(i+1) % 2 == 0">
+                </div>
+
+            </cdk-virtual-scroll-viewport>
+        </ng-container>
+        <ng-container *ngIf="!ready">
+            <cdk-virtual-scroll-viewport id="activealarmlist" itemSize="99" minBufferPx="200" maxBufferPx="400"
+                class="ps" [perfectScrollbar] #scrollable>
+                <div *cdkVirtualFor="let alarmSet of alarmPanelAlarmSets | slice:0:7 ; let i = index;">
+
+                    <div *ngIf='alarmSet[0]' class="alarm">
+                        <img [dtsSelectItem]="alarmSet[0]" class="alarmimg" [src]=alarmSet[0].alarmlistimg
+                            (click)="onalarmImgClick($event, alarmSet[0].pointId, alarmSet[0].alarmId); $event.stopPropagation()" />
+                        <span>{{alarmSet[0].labelLine1}}<br>{{alarmSet[0].labelLine2}}</span>
+                    </div>
+                    <div *ngIf='alarmSet[1]' class="alarm">
+
+                        <img [dtsSelectItem]="alarmSet[1]" class="alarmimg" [src]=alarmSet[1].alarmlistimg
+                            (click)="onalarmImgClick($event, alarmSet[1].pointId, alarmSet[1].alarmId); $event.stopPropagation()" />
+                        <span>{{alarmSet[1].labelLine1}}<br>{{alarmSet[1].labelLine2}}</span>
+                    </div>
+
+                    <div *ngIf='alarmSet[2]' class="alarm">
+
+                        <img [dtsSelectItem]="alarmSet[2]" class="alarmimg" [src]=alarmSet[2].alarmlistimg
+                            (click)="onalarmImgClick($event, alarmSet[2].pointId, alarmSet[2].alarmId); $event.stopPropagation()" />
+                        <span>{{alarmSet[2].labelLine1}}<br>{{alarmSet[2].labelLine2}}</span>
+                    </div>
+
+                    <div *ngIf='alarmSet[3]' class="alarm">
+                        <img [dtsSelectItem]="alarmSet[3]" class="alarmimg" [src]=alarmSet[3].alarmlistimg
+                            (click)="onalarmImgClick($event, alarmSet[3].pointId, alarmSet[3].alarmId); $event.stopPropagation()" />
+                        <span>{{alarmSet[3].labelLine1}}<br>{{alarmSet[3].labelLine2}}</span>
+                    </div>
+                    <hr class="horizontalDivider" *ngIf="(i+1) % 2 == 0">
+                </div>
+
+            </cdk-virtual-scroll-viewport>
+        </ng-container>
+    </dts-select-container>
+</div>
+
+<div id="alarmconfiguration">
+    <ngb-tabset style="font-family: Roboto; font-size: 18px;">
+        <ng-container>
+            <ngb-tab *ngFor="let tab of alarmViewTabs;" title="{{tab.tabName}}">
+                <ng-template ngbTabContent>
+                    <div class="configuration-body">
+                        <div class="iconbar">
+                            <i class="fa fa-search search-icon pull-right" title="Filter"
+                                (click)="toggleConfigurationSearch()"></i>
+                            <input id="configurationfilterinput" type="text" class='search-entry pull-right'
+                                placeholder="Enter search parameter" [ngModel]='searchConfigurationString'
+                                (ngModelChange)='searchConfigurationChanged( $event )'
+                                [ngClass]="{'d-none': !searchConfigurationToggle}" />
+                        </div>
+                        <div id="selectedAlarmsPanel">
+                            <div *ngFor="let alarm of selectedalarms; let i = index;" class="alarm-cell">
+                                {{alarm.labelLine1}}<br>{{alarm.labelLine2}}</div>
+                        </div>
+                        <perfect-scrollbar #scrollable class="configuration-list">
+                            <ng-container *ngFor="let alarm of selectedalarms; let alarmIndex = index;">
+                                <div
+                                [ngClass]="(tab.tabName == 'Config') ? 'alarmContainer' : 'alarmConfigContainer'">
+                                <div class="configuration-header">
+                                    {{alarm.labelLine1}}<br>{{alarm.labelLine2}}
+                                </div>
+                                <ng-container
+                                    *ngFor="let cell of alarm.point.pointConfiguration | keyvalue; let i = index;">
+                                    <div *ngIf="isParameterCell(cell) && ((tab.tabName == 'Config' && cell.value.configClass == 64) || (tab.tabName == 'Command' && (cell.value.configClass == 160 || cell.value.configClass == 32 ))) && cell.value.parameter != 'OutChannels'"
+                                        [ngClass]="(cell.value.parameter != 'OutModules') ? 'configuration-alarm-cell' : 'configuration-outmodule-cell'">
+                                        <div>
+                                            <div *ngIf="cell.value.parameter != 'OutModules' && cell.value.parameter != 'OutChannels'" class="configuration-parametername">{{cell.value.parameter}}</div>
+                                            <div *ngIf="cell.value.parameter == 'OutModules'" class="configuration-parametername">OutMod/Chan</div>
+                                            <app-inlineconfigurationeditor
+                                                *ngIf="cell.value.parameter != 'PntIndex' && cell.value.parameter != 'PntParameter' && cell.value.parameter != 'OutModules' && cell.value.parameter != 'OutChannels'"
+                                                [tabIndex]="cell.tabIndex" [configurationItem]="cell.value"
+                                                [disableOverride]="cell.value.disableOverride"
+                                                class="configuration-parametervalue"
+                                                (parameterChange)="onParameterChange($event, alarm) ">
+                                            </app-inlineconfigurationeditor>
+                                            <input 
+                                                *ngIf="cell.value.parameter == 'PntIndex' || cell.value.parameter == 'PntParameter'"
+                                                (focus)="populateTypeaheadOptions($event, alarm, cell.value)"
+                                                onfocus="this.select(); this.selAll=1;"
+                                                placeholder="{{cell.value.translatedPendingValue}}" id={{cell.key}}
+                                                type="search" class="typeahead" [(ngModel)]="cell.value.temppendingValue"
+                                                [attr.disabled]="isFieldDisabled(cell)"
+                                                [ngbTypeahead]="typeaheadSearch" [inputFormatter]="inputFormatter" 
+                                                [resultFormatter]="resultFormatter" [ngStyle]="setInputBoxStyle(cell)"
+                                                (selectItem)="updatePendingValue($event, alarm, cell.value)" />
+
+                                            <div id="outModChanDropdown" [insideClick]="true" (onShown)="setActiveDropdown(dropdown)" #dropdown="bs-dropdown" [isDisabled]="outputModChanOptions.length == 0" class="btn-group" dropdown *ngIf="cell.value.parameter == 'OutModules'">
+                                                    <button id="outModChanDropdownButton" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+                                                            aria-controls="dropdown-basic">
+                                                      Add/Remove <span class="caret"></span>
+                                                    </button>
+                                                    <ul  id="dropdown-outMod" *dropdownMenu class="dropdown-menu"
+                                                        role="menu" aria-labelledby="button-basic">
+                                                    <label class='outputDropdownTitle'>Select to add/remove Mod/Chan</label>
+                                                    <ng-container *ngFor="let option of outputModChanOptions | keyvalue : valueAscOrder; let i = index;">
+                                                    <label [ngClass]="(alarm.outputs[option.value.value] == true) ? 'outputSelected' : 'outputUnselected'" (click)="updateOutputParameters(alarm)" [(ngModel)]="alarm.outputs[option.value.value]" 
+                                                    [disabled]="(alarm.outputPairs.length>15 && alarm.outputs[option.value.value] == false)"
+                                                    btnCheckbox tabindex="0" role="button">{{option.value.text}}</label>
+                                                      <!-- <li role="menuitem"><a class="dropdown-item" >{{option.value.text}}</a></li> -->
+                                                    </ng-container>
+                                                    </ul>
+
+                                                  </div>
+                                        </div>
+                                        <ng-container *ngIf="cell.value.parameter == 'OutModules'">
+                                                <div class="noChannelsConfiguredHint" *ngIf="(outputModChanOptions.length == 0)">No channels configured for digital output</div>
+                                                <ng-container  *ngFor="let pair of alarm.outputPairs;let i = index;">
+                                                        <button type="button" (click)="onRemoveOuputPair(pair ,alarm)" class="btn selectedOut">
+                                                                M{{pair.charAt(0)}}/Ch{{pair.charAt(1)}} <div class="outPairX">X</div>
+                                                              </button>
+            
+                                                    </ng-container> 
+                                                </ng-container>
+                                    </div>
+
+                                </ng-container>
+                                </div>
+                                <div class="horizontalDivider" *ngIf="(alarmIndex % 3 == 2)"></div>
+                            </ng-container>
+
+                        </perfect-scrollbar>
+                    </div>
+                    <div class="configuration-footer">
+                        <button type="button" class="btn btn-primary" [disabled]="isRTUConnectedandChangesExist()"
+                            style="font-family: Roboto; font-size: 14px;background-color: #006cb3; border-radius: 3px;"
+                            (click)="VerifyApplytoRTUPrompt();">Apply To RTU</button>
+                        <button type="button" class="btn btn-primary"
+                            style="font-family: Roboto; font-size: 14px; background-color: #006cb3; border-radius: 3px;"
+                            (click)="saveRtuConfigToDisk();">Save RTU Config</button>
+                        <button type="button" class="btn btn-cancel-changes" [disabled]="areThereNoChangesMade()"
+                            style="font-family: Roboto; font-size: 14px; border-radius: 3px;"
+                            (click)="VerifyCancelChangesPrompt();">Cancel</button>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+        </ng-container>
+    </ngb-tabset>
+
+</div>
+
+<ng-template #modalVerifyApplytoRTUAction>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Apply current settings to RTU?</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            Any RTU settings that were changed will be overwritten and cannot be undone.
+        </div>
+        <div class="form-group">
+            Click <b>OK</b> to continue or <b>Cancel</b> to retain current settings.
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="cancelButton" type="button" class="btn btn-secondary" (click)="modalRef.hide();">Cancel</button>
+        <button id="copyButton" type="button" class="btn btn-primary" (click)="applyToRTU();">OK</button>
+    </div>
+</ng-template>
+
+<ng-template #modalVerifyCancelAction>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Are you sure you want to cancel?</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            You will lose any changes not saved or applied.
+        </div>
+        <div class="form-group">
+            Click <b>OK</b> to continue or <b>Cancel</b> to go back.
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="cancelButton" type="button" class="btn btn-secondary" (click)="modalRef.hide();">Cancel</button>
+        <button id="copyButton" type="button" class="btn btn-primary" (click)="cancelChanges();">OK</button>
+    </div>
+</ng-template>
+
+<ng-template #modalVerifyCancelActivation>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Are you sure you want to cancel?</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            You will lose any changes not saved or applied.
+        </div>
+        <div class="form-group">
+            Click <b>OK</b> to continue or <b>Cancel</b> to go back.
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="cancelButton" type="button" class="btn btn-secondary" (click)="modalRef.hide();">Cancel</button>
+        <button id="copyButton" type="button" class="btn btn-primary" (click)="cancelActivation();">OK</button>
+    </div>
+</ng-template>
+
+<ng-template #modalNothingtowritetoRTUAction>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Nothing To Do</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            No changed data to apply to the RTU.
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="cancelButton" type="button" class="btn btn-secondary" (click)="modalRef.hide();">OK</button>
+    </div>
+</ng-template>

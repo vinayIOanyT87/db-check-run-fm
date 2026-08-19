@@ -1,0 +1,11 @@
+obj\
+Properties\
+BsmeServiceClasses\
+.cs\
+.Designer.cs\
+.aspx.cs\
+.aspx.Designer.cs\
+.pdb\
+.csproj\
+.csproj.user\
+.csproj.vspscc\

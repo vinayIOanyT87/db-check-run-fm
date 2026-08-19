@@ -1,0 +1,193 @@
+/******************************************************************************
+
+	FILE NAME:		ScullyOPCObjects.idl
+
+
+	PURPOSE:			IDL source for ScullyOPCObjects.dll
+
+
+	COMMENTS:
+
+		Copyright (C) E+H Systems & Gauging, Inc. Norcross, GA, USA, 2000
+
+		This file shall not be copied or reproduced in any form without
+				the express written consent of Endress+Hauser.
+
+
+	AUTHOR(S):	S. Jiang
+
+
+	VERSION:		9.0.0.0  Current version
+
+
+
+	MODIFICATION HISTORY:
+		Date:			By:			Reason:
+		---------	----------  -------------------------------------------
+*******************************************************************************/
+
+// This file will be processed by the MIDL tool to
+// produce the type library (ScullyOPCObjects.tlb) and marshalling code.
+
+#include "mtxattr.h"
+#include "IComCollection.idl"
+import "oaidl.idl";
+import "ocidl.idl";
+
+typedef enum SCULLY_BAUD
+{
+	SCULLY_BAUD_1200 = 0,
+	SCULLY_BAUD_2400 = 1,
+	SCULLY_BAUD_4800 = 2,
+	SCULLY_BAUD_9600 = 3,
+	SCULLY_BAUD_19200 = 4,
+	SCULLY_BAUD_38400 = 5,
+	MAX_SCULLY_BAUD = 6
+} SCULLY_BAUD;
+
+typedef enum SCULLY_PARITY
+{
+	SCULLY_PARITY_NONE = 0,
+	SCULLY_PARITY_EVEN = 1,
+	SCULLY_PARITY_ODD = 2,
+	MAX_SCULLY_PARITY = 3
+} SCULLY_PARITY;
+
+typedef enum SCULLY_DATA_BITS
+{
+	DATA_BITS_7 = 0,
+	DATA_BITS_8 = 1,
+	MAX_SCULLY_DATA_BITS = 2
+} SCULLY_DATA_BITS;
+
+typedef enum SCULLY_STOP_BITS
+{
+	STOP_BITS_1 = 0,
+	STOP_BITS_2 = 1,
+	MAX_SCULLY_STOP_BITS = 2
+} SCULLY_STOP_BITS;
+
+
+[
+	object,
+	uuid(36992C1C-5543-4574-B9FD-426EC2AFA132), //{36992C1C-5543-4574-B9FD-426EC2AFA132}
+	dual,
+	nonextensible,
+	helpstring("IPort Interface"),
+	pointer_default(unique)
+]
+interface IPort : IDispatch{
+	[propget, id(1), helpstring("property Index")] HRESULT Index([out, retval] LONG* pVal);
+	[propput, id(1), helpstring("property Index")] HRESULT Index([in] LONG newVal);
+	[propget, id(2), helpstring("property ID")] HRESULT ID([out, retval] BSTR* pVal);
+	[propput, id(2), helpstring("property ID")] HRESULT ID([in] BSTR newVal);
+	[propget, id(3), helpstring("property Baud")] HRESULT Baud([out, retval] SCULLY_BAUD* pVal);
+	[propput, id(3), helpstring("property Baud")] HRESULT Baud([in] SCULLY_BAUD newVal);
+	[propget, id(4), helpstring("property DataBits")] HRESULT DataBits([out, retval] SCULLY_DATA_BITS* pVal);
+	[propput, id(4), helpstring("property DataBits")] HRESULT DataBits([in] SCULLY_DATA_BITS newVal);
+	[propget, id(5), helpstring("property Parity")] HRESULT Parity([out, retval] SCULLY_PARITY* pVal);
+	[propput, id(5), helpstring("property Parity")] HRESULT Parity([in] SCULLY_PARITY newVal);
+	[propget, id(6), helpstring("property StopBits")] HRESULT StopBits([out, retval] SCULLY_STOP_BITS* pVal);
+	[propput, id(6), helpstring("property StopBits")] HRESULT StopBits([in] SCULLY_STOP_BITS newVal);
+	[id(7), helpstring("method BaudID")] HRESULT BaudID([in] SCULLY_BAUD Baud,[out,retval] BSTR* pVal);
+	[id(8), helpstring("method DataBitsID")] HRESULT DataBitsID([in] SCULLY_DATA_BITS DataBits,[out,retval] BSTR* pVal);
+	[id(9), helpstring("method ParityID")] HRESULT ParityID([in] SCULLY_PARITY Parity,[out,retval] BSTR* pVal);
+	[id(10), helpstring("method StopBitsID")] HRESULT StopBitsID([in] SCULLY_STOP_BITS StopBits,[out,retval] BSTR* pVal);
+	[id(11), helpstring("method Load")] HRESULT Load([in] IDispatch* pDispatch);
+	[id(12), helpstring("method Reset")] HRESULT Reset(void);
+	[propget, id(13), helpstring("property InsertSQL")] HRESULT InsertSQL([out, retval] BSTR* pVal);
+	[propget, id(14), helpstring("property UpdateSQL")] HRESULT UpdateSQL([out, retval] BSTR* pVal);
+	[propget, id(15), helpstring("property PurgeSQL")] HRESULT PurgeSQL([out, retval] BSTR* pVal);
+	[propget, id(16), helpstring("property SelectSQL")] HRESULT SelectSQL([out, retval] BSTR* pVal);
+	[propget, id(17), helpstring("property SelectByIDSQL")] HRESULT SelectByIDSQL([out, retval] BSTR* pVal);
+	[propget, id(18), helpstring("property EnumerateSQL")] HRESULT EnumerateSQL([out, retval] BSTR* pVal);
+};
+[
+	object,
+	uuid(D3A59F43-E032-4bd9-A529-8169ACE6F64B), //{D3A59F43-E032-4bd9-A529-8169ACE6F64B}
+	dual,
+	nonextensible,
+	helpstring("IScully Interface"),
+	pointer_default(unique)
+]
+interface IScully : IDispatch{
+	[propget, id(1), helpstring("property Index")] HRESULT Index([out, retval] LONG* pVal);
+	[propput, id(1), helpstring("property Index")] HRESULT Index([in] LONG newVal);
+	[propget, id(2), helpstring("property ID")] HRESULT ID([out, retval] BSTR* pVal);
+	[propput, id(2), helpstring("property ID")] HRESULT ID([in] BSTR newVal);
+	[propget, id(4), helpstring("property PortIndex")] HRESULT PortIndex([out, retval] LONG* pVal);
+	[propput, id(4), helpstring("property PortIndex")] HRESULT PortIndex([in] LONG newVal);
+	[propget, id(5), helpstring("property DeviceID")] HRESULT DeviceID([out, retval] LONG* pVal);
+	[propput, id(5), helpstring("property DeviceID")] HRESULT DeviceID([in] LONG newVal);
+	[id(7), helpstring("method Load")] HRESULT Load([in] IDispatch* pDispatch);
+	[id(8), helpstring("method Reset")] HRESULT Reset(void);
+	[propget, id(9), helpstring("property InsertSQL")] HRESULT InsertSQL([out, retval] BSTR* pVal);
+	[propget, id(10), helpstring("property UpdateSQL")] HRESULT UpdateSQL([out, retval] BSTR* pVal);
+	[propget, id(11), helpstring("property PurgeSQL")] HRESULT PurgeSQL([out, retval] BSTR* pVal);
+	[propget, id(12), helpstring("property SelectSQL")] HRESULT SelectSQL([out, retval] BSTR* pVal);
+	[propget, id(13), helpstring("property SelectByIDSQL")] HRESULT SelectByIDSQL([out, retval] BSTR* pVal);
+	[propget, id(14), helpstring("property EnumerateSQL")] HRESULT EnumerateSQL([out, retval] BSTR* pVal);
+};
+[
+	object,
+	uuid(1F6D57D0-075C-4de2-B7A6-1245FC1616C1),//{1F6D57D0-075C-4de2-B7A6-1245FC1616C1}
+	dual,
+	nonextensible,
+	helpstring("IPortCollection Interface"),
+	pointer_default(unique)
+]
+interface IPortCollection : IDispatch{
+	DECLARE_COM_COLLECTION(IPort)
+};
+[
+	object,
+	uuid(5746EEC1-7306-420a-9305-209F39C2A9D8), //{5746EEC1-7306-420a-9305-209F39C2A9D8}
+	dual,
+	nonextensible,
+	helpstring("IScullyCollection Interface"),
+	pointer_default(unique)
+]
+interface IScullyCollection : IDispatch{
+	DECLARE_COM_COLLECTION(IScully)
+};
+[
+	uuid(1EE60832-5723-4c9d-8D2A-0CD88A62815B), //{1EE60832-5723-4c9d-8D2A-0CD88A62815B}
+	version(1.0),
+	helpstring("ScullyOPCObjects 1.0 Type Library")
+]
+library ScullyOPCObjectsLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(465A30A8-5978-4948-A5DB-31EB09AACCD1), //{465A30A8-5978-4948-A5DB-31EB09AACCD1}
+		helpstring("Port Class")
+	]
+	coclass Port
+	{
+		[default] interface IPort;
+	};
+	[
+		uuid(33772EBA-F1EF-49f5-BD16-A0AE9E60A4DB),// {33772EBA-F1EF-49f5-BD16-A0AE9E60A4DB}
+		helpstring("Scully Class")
+	]
+	coclass Scully
+	{
+		[default] interface IScully;
+	};
+	[
+		uuid(9C08C25E-50C2-451a-9EA3-E84C589B8074),// {9C08C25E-50C2-451a-9EA3-E84C589B8074}
+		helpstring("PortCollection Class")
+	]
+	coclass PortCollection
+	{
+		[default] interface IPortCollection;
+	};
+	[
+		uuid(C48047CC-EA3B-464a-9306-89785873394F),//{C48047CC-EA3B-464a-9306-89785873394F}
+		helpstring("ScullyCollection Class")
+	]
+	coclass ScullyCollection
+	{
+		[default] interface IScullyCollection;
+	};
+};

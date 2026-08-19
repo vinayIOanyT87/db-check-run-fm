@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="FMEnterpriseManagementProxyServices.ServiceClasses.ClientEnterpriseManagementService" CodeBehind="IClientEnterpriseManagementService.svc.cs" %>

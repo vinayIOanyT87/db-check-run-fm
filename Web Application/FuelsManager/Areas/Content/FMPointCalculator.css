@@ -1,0 +1,231 @@
+﻿.rowsDivNoBorder {
+	height: 100%;
+	font-size: 14px;
+	font-weight: normal;
+	color: black;
+	background-color: white;
+}
+
+.rowsTypeDivNoBorder {
+	height: 100%;
+	font-size: 14px;
+	font-weight: normal;
+	color: black;
+	background-color: white;
+}
+
+#rowsInputArea {
+	float: right;
+	height: 100%;
+	border: thin solid rgb(86,126,185);
+	font-size: 14px;
+	font-weight: normal;
+	color: #666666;
+	height: 34px;
+	line-height: 25px;
+	cursor: pointer;
+	position: relative;
+	display: flex;
+	align-items: center;
+	padding-right: 24px;
+}
+
+#rowsInputArea.disabled {
+	background-color: #f5f5f5;
+	border-color: #ddd;
+	color: #999;
+	cursor: not-allowed;
+	opacity: 0.6;
+}
+
+#rowsTypeInputArea {
+	float: right;
+	height: 100%;
+	border: thin solid rgb(86,126,185);
+	padding-right: 5px;
+	font-size: 14px;
+	font-weight: normal;
+	color: #666666;
+	height: 34px;
+	line-height: 25px;
+	margin-left: 10px;
+}
+
+#rowsLabel {
+	padding-top: 5px;
+	padding-right: 10px;
+	font-size: 14px;
+	font-weight: normal;
+	color: #666666;
+	text-align: left !important;
+	vertical-align: middle;
+}
+
+#RowFilterDropDownArrow {
+	position: absolute;
+	right: 8px;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+#rowsTypeLabel {
+	padding-top: 5px;
+	padding-right: 10px;
+	font-size: 14px;
+	font-weight: normal;
+	color: #666666;
+	text-align: left !important;
+	vertical-align: middle;
+}
+
+#rowsDivOuter {
+	position: relative;
+}
+
+#rowsDiv {
+	position: relative;
+}
+
+.customCheckbox input {
+	display: none;
+}
+
+.customCheckbox span {
+	height: 15px;
+	width: 15px;
+	padding-left: 20px;
+	padding-right: 0px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	background: url("../images/Check-box---Inactive.png") no-repeat;
+}
+
+.customCheckbox input:checked + span {
+	background: url("../images/Check-box-Active.png") no-repeat;
+}
+
+.customCheckboxDisabled input {
+	display: none;
+}
+
+.customCheckboxDisabled span {
+	height: 15px;
+	width: 15px;
+	padding-left: 20px;
+	padding-right: 0px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	background: url("../images/Check-box---Inactive.png") no-repeat;
+}
+
+.customCheckboxDisabled input:checked + span {
+	background: url("../images/Check-box-active-disabled.png") no-repeat;
+}
+
+/*#rowsDivOuter,
+#rowsDiv {
+	overflow: visible !important;
+}*/
+
+#RowFilterDiv {
+	position: absolute;
+	top: 34px;
+	left: 0;
+	border: 1px solid rgb(86,126,185);
+	border-top-width: 0px;
+	background-color: white;
+	border-color: rgb(86,126,185);
+	width: 260px;
+	box-sizing: border-box;
+	z-index: 10000;
+}
+
+/*#RowTypeFilterDiv {
+	position: absolute;
+	top: 30px;
+	border: 1px;
+	border-top-width: 0px;
+	border-style: solid;
+	background-color: white;
+	border-color: rgb(86,126,185);
+	width: 180px;
+	z-index: 1;
+	margin-left: 10px;
+}*/
+
+#RowFilterUl {
+	display: block;
+	margin: 0;
+	padding: 5px 0 5px 5px;
+	width: 250px;
+	box-sizing: border-box;
+	text-align: left;
+	overflow-y: auto;
+	overflow-x: hidden;
+	max-height: 600px;
+	scrollbar-color: #486899 white;
+}
+
+/*#RowTypeFilterUl {
+	padding-left: 5px;
+	width: 135px;
+}*/
+
+.RowFilterLiClass {
+	list-style: none;
+	width: 250px;
+}
+
+.RowTypeFilterLiClass {
+	list-style: none;
+	width: 170px;
+}
+
+.RowFilterCheckboxLabelClass {
+	color: #aaa;
+	font-size: 12px;
+}
+
+select::-ms-expand {
+	display: none;
+}
+
+#RowDataFilterSection .select2-container {
+	z-index: 1060 !important;
+	/*	border: 1px solid #ccc; */
+}
+
+#RowDataFilterSection .select2-container--default.select2-container--focus .select2-selection--multiple {
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
+
+.select2-container--open {
+	z-index: 1060 !important;
+}
+
+.select2-dropdown {
+	border-radius: 0px !important;
+}
+
+#RowDataFilterSection .ui-datepicker {
+	z-index: 1160 !important;
+}
+
+#showHideRowsLabel {
+	padding-left: 7px;
+	padding-top: 4px;
+	color: #666;
+	font-size: 14px;
+}
+
+#showHideRowsTypeLabel {
+	padding-left: 7px;
+	color: #666;
+	font-size: 14px;
+	margin-bottom: 0px;
+	vertical-align: middle;
+}
+
+#pointCalculatorModal {
+	min-height: 600px;
+}

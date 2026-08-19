@@ -1,0 +1,8 @@
+<Project>
+  <ItemGroup>
+    <TestingPlatformBuilderHook Include="6519B476-256A-4ABD-8523-DAC8C67A02BB" Condition=" $(GenerateTestingPlatformEntryPoint) == 'True' " >
+      <DisplayName>Microsoft Fakes</DisplayName>
+      <TypeFullName>Microsoft.Testing.Extensions.Fakes.TestingPlatformBuilderHook</TypeFullName>
+    </TestingPlatformBuilderHook>
+  </ItemGroup>
+</Project>

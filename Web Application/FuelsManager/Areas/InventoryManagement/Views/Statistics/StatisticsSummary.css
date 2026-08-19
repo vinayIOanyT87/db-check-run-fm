@@ -1,0 +1,23 @@
+﻿table.statisticsTable td {
+    font-family: Courrier New;
+    font-size: 12pt;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-right: 5px;
+    padding-left: 5px;
+    border: 1px solid black;
+}
+
+table.statisticsTable th {
+    font-family: Courrier New;
+    font-size: 12pt;
+    background-color: #DDDDDD;
+    font-weight: bold;
+    border: 1px solid black;
+    padding: 3px 5px 3px 5px;
+    text-align: right;
+}
+
+.viewNumber {
+    text-align: right;
+}

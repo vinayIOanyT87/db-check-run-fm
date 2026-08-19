@@ -1,0 +1,177 @@
+﻿@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.TrendSummaryModel
+@{
+	var CreateTrendsDisplay = (@Model.ModifyTrendsRight) ? "" : "display: none;";
+	var ModifyTrendsDisplay = (@Model.ModifyTrendsRight) ? "" : "display: none;";
+}
+<script src="~/Areas/Lib/jquery.columnizer.js"></script>
+
+<div class="operateSubMenuFilter">
+	<div class="row">
+		<div class="col-sm-12 col-md-12 col-lg-12 OperateSelectionMenuTitle">
+			<label class="pull-left">@FMBaseController.TranslateText("TRENDS")</label>
+			<span id="TrendSelectionViewMode" class="glyphicon glyphicon-th-list pull-right icon-container listViewSwitch" title="Switch to Detail View"></span>
+			<div class="Selectionhorizontalline"></div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12 col-md-12 col-lg-12">
+			<div class="filter-settings operate-list-filter-addon">
+				<input id="filter_trends" type="text" class="operate-List-form-control" placeholder="@FMBaseController.TranslateText("Search for Trend Name")" />
+				<img alt="Filter Tags" title="@FMBaseController.TranslateText("Search")" src="~/fmwebapp/images/Search Icon.png" />
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="operateSubMenuList" id="trendSubMenuList">
+	@foreach (var name in Model.Names)
+	{
+	<div class="operateTrendSubMenuElement trends-dontsplit row" data-guid="@name.TrendGuid" onclick="FMOperateIndex.openTrend( '@name.ID',{pointTrend: false, guid: '@name.TrendGuid'},true);">
+		<div class="operateTrendSubmenuTitle" title="@name.ID">@name.ID<span onclick="FMOperateIndex.deleteTrend('@name.ID','@name.TrendGuid');" class="delete-icon pull-right glyphicon glyphicon-trash" title="@FMBaseController.TranslateText("Delete Trend")" style ="@ModifyTrendsDisplay"></span>
+		</div>
+		<textarea readonly class="operateTrendSubmenuTitleDescription detail-view" title="@name.Description">@name.Description</textarea>
+	</div>
+	}
+
+</div>
+
+<div class="operateSubMenuButtonGroup" id="TrendSubMenuButtonGroup" style="@CreateTrendsDisplay">
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="SubMenubutton" onclick="FMTrendIndex.addTrend();" title='@FMBaseController.TranslateText("Add Trend")'><span class="glyphicon glyphicon-plus-sign" style="margin-right: 7px"></span>@FMBaseController.TranslateText("Add Trend")</div>
+		</div>
+	</div>
+</div>
+
+
+
+<script>
+
+	if (!FMOperateIndex.hasOwnProperty("selectedTrendName")) {
+		FMOperateIndex.selectedTrendName = "";
+	}
+
+	/* Based on the current view selection in the point rolldown menu, set the view to display */
+	function resetTrendInputViewMode() {
+		if ($("#TrendSelectionViewMode").hasClass("listViewSwitch")) {
+			$("#TrendSelectionViewMode").removeClass("glyphicon-align-justify").addClass("glyphicon-th-list");
+			$('.list-view').css('display', 'inherit');
+			$('.detail-view').css('display', 'none');
+			$('.operateTrendSubMenuElement').css('height', '30px');
+		} else {
+			$("#TrendSelectionViewMode").removeClass("glyphicon-th-list").addClass("glyphicon-align-justify");
+			$('.list-view').css('display', 'none');
+			$('.detail-view').css('display', 'inherit');
+			$('.operateTrendSubMenuElement').css('height', '70px');
+		}
+	}
+
+	//====================================================================
+	// This function will handle the Trends list rollout menu filtering
+	// for the Trend Name filter.
+	//====================================================================
+	$("#filter_trends").on('input', function ()
+	{
+		FMOperateIndex.selectedTrendName = $(this).val();
+		FMOperateIndex.TrendsListRolloutMenuFiltering();
+	});
+
+	//====================================================================
+	// This function will handle the trends list menu filtering
+	// for the Trends Name filter.
+	//====================================================================
+	FMOperateIndex.TrendsListRolloutMenuFiltering = function ()
+	{
+		var filterTxt = FMOperateIndex.selectedTrendName;
+		// No trends to be found, just return.
+		if ($('.operateTrendSubMenuElement').length === 0)
+			return;
+
+		$('.operateSubMenuList').uncolumnize();
+		resetTrendInputViewMode();
+
+		if (filterTxt === "") {
+			$('.operateTrendSubMenuElement').removeClass("hidden");
+		}
+		else {
+			$('.operateTrendSubMenuElement').each(function () {
+				if ($(this).find('.operateTrendSubmenuTitle').text().toLowerCase().indexOf(filterTxt.toLowerCase()) >= 0) {
+					$(this).removeClass("hidden");
+				}
+				else {
+					$(this).removeClass("hidden").addClass("hidden");
+				}
+			});
+		}
+		$('.operateSubMenuList').columnize({
+			columns: 2,
+			buildOnce: true,
+			cssClassPrefix: "trends",
+			lastNeverTallest: true
+		});
+
+		// need to destroy and rebuild nicescroll since the refresh does not seem to be working on this case
+		$(".operateSubMenuList").getNiceScroll().remove();
+		$(".operateSubMenuList").niceScroll({ cursorwidth: '10px', autohidemode: false, cursorcolor: "#486899", background: "white" });
+
+		$("#filter_trends").val(filterTxt);  // we need the focus at the end of the last character in the input
+		$("#filter_trends").focus(); // have to reset the focus since it loses focus when running columnize
+	}
+
+
+	$(document).ready(function() {
+
+		$('#TrendSelectionViewMode').on('click', function (e) {
+			if ($("#TrendSelectionViewMode").hasClass("listViewSwitch")) {
+				$("#TrendSelectionViewMode").removeClass("listViewSwitch").addClass("detailViewSwitch");
+				$("#TrendSelectionViewMode").removeClass("glyphicon-th-list").addClass("glyphicon-align-justify");
+				$("#TrendSelectionViewMode").attr("title", "Switch to Compact View");
+				$('.list-view').css('display', 'none');
+				$('.detail-view').css('display', 'inherit');
+				$('.operateTrendSubMenuElement').css('height', '70px');
+				FMOperateIndex.PersistUpdateFilterView("trendsViewSelection", 'detailView');
+			} else {
+				$("#TrendSelectionViewMode").removeClass("detailViewSwitch").addClass("listViewSwitch");
+				$("#TrendSelectionViewMode").removeClass("glyphicon-align-justify").addClass("glyphicon-th-list");
+				$("#TrendSelectionViewMode").attr("title", "Switch to Detail View");
+				$('.list-view').css('display', 'inherit');
+				$('.detail-view').css('display', 'none');
+				$('.operateTrendSubMenuElement').css('height', '30px');
+				FMOperateIndex.PersistUpdateFilterView("trendsViewSelection", 'compactView');
+			}
+			$(".operateSubMenuList").getNiceScroll().resize();
+		});
+
+		// check the selected view that was used previously
+		var viewMode = FMOperateIndex.GetSelectedFilterView("trendsViewSelection");
+		if (viewMode != null) {
+			if (viewMode === 'detailView') {
+				$("#TrendSelectionViewMode").removeClass("listViewSwitch").addClass("detailViewSwitch");
+				$("#TrendSelectionViewMode").attr("title", "Switch to Compact View");
+			}
+			else {
+				$("#TrendSelectionViewMode").removeClass("detailViewSwitch").addClass("listViewSwitch");
+				$("#TrendSelectionViewMode").attr("title", "Switch to Detail View");
+			}
+			resetTrendInputViewMode();
+		}
+
+		// In IE when setting the focus, the cursor is placed in the first position and we need to have it
+		// in the last character to continue typing the filter
+		// Based on http://stackoverflow.com/questions/511088/use-javascript-to-place-cursor-at-end-of-text-in-text-input-element
+		$("#filter_trends").focus(function(){
+			var that = this;
+			setTimeout(function(){ that.selectionStart = that.selectionEnd = 10000; }, 0);
+		});
+
+		// if we have values from a previous selection then reset the content and call to filter
+		if (FMOperateIndex.selectedTrendName !== "") {
+			$("#filter_trends").val(FMOperateIndex.selectedTrendName);
+		}
+		if (FMOperateIndex.selectedTrendName !== "") {
+			FMOperateIndex.TrendsListRolloutMenuFiltering();
+		}
+
+	});
+</script>

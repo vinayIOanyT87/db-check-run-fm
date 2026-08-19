@@ -1,0 +1,163 @@
+﻿@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.DrawingSummaryModel
+<script src="~/Areas/Lib/jquery.columnizer.js"></script>
+
+<div class="operateSubMenuFilter">
+	<div class="row">
+		<div class="col-sm-12 col-md-12 col-lg-12 OperateSelectionMenuTitle">
+			<label class="pull-left">@FMBaseController.TranslateText("GRAPHICS")</label>
+			<span id="GraphicSelectionViewMode" class="glyphicon glyphicon-th-list pull-right icon-container listViewSwitch" title="Switch to Detail View"></span>
+			<div class="Selectionhorizontalline"></div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12 col-md-12 col-lg-12">
+			<div class="filter-settings operate-list-filter-addon">
+				<input id="filter_graphics" type="text" class="operate-List-form-control" placeholder="Search for Graphic Name" />
+				<img alt="Filter Tags" title="Search" src="~/fmwebapp/images/Search Icon.png" />
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="operateSubMenuList" id="graphicSubMenuList">
+    @foreach (var name in Model.Names)
+    {
+        <div class="operateGraphicSubMenuElement graphics-dontsplit row" data-guid="@name.DrawingGuid" onclick="FMOperateIndex.openDraw( '@name.ID',{drawingGuid: '@name.DrawingGuid'});">
+            <div class="operateGraphicSubmenuTitle" title="@name.ID">@name.ID</div>
+            <textarea readonly class="operateGraphicSubmenuTitleDescription detail-view" title="@name.Description">@name.Description</textarea>
+        </div>
+    }
+    
+</div>
+
+
+<script>
+
+	if (!FMOperateIndex.hasOwnProperty("selectedGraphicName")) {
+		FMOperateIndex.selectedGraphicName = "";
+	}
+
+	/* Based on the current view selection in the point rolldown menu, set the view to display */
+	function resetPointInputViewMode() {
+		if ($("#GraphicSelectionViewMode").hasClass("listViewSwitch")) {
+			$("#GraphicSelectionViewMode").removeClass("glyphicon-align-justify").addClass("glyphicon-th-list");
+			$('.list-view').css('display', 'inherit');
+			$('.detail-view').css('display', 'none');
+			$('.operateGraphicSubMenuElement').css('height', '30px');
+		} else {
+			$("#GraphicSelectionViewMode").removeClass("glyphicon-th-list").addClass("glyphicon-align-justify");
+			$('.list-view').css('display', 'none');
+			$('.detail-view').css('display', 'inherit');
+			$('.operateGraphicSubMenuElement').css('height', '70px');
+		}
+	}
+
+	//====================================================================
+	// This function will handle the Graphics list rollout menu filtering
+	// for the Graphic Name filter.
+	//====================================================================
+	$("#filter_graphics").on('input', function ()
+	{
+		FMOperateIndex.selectedGraphicName = $(this).val();
+		FMOperateIndex.GraphicsListRolloutMenuFiltering();
+	});
+
+	//====================================================================
+	// This function will handle the graphics list menu filtering
+	// for the Graphics Name filter.
+	//====================================================================
+	FMOperateIndex.GraphicsListRolloutMenuFiltering = function ()
+	{
+		var filterTxt = FMOperateIndex.selectedGraphicName;
+		// No points to be found, just return.
+		if ($('.operateGraphicSubMenuElement').length === 0)
+			return;
+
+		$('.operateSubMenuList').uncolumnize();
+		resetPointInputViewMode();
+
+		if (filterTxt === "") {
+			$('.operateGraphicSubMenuElement').removeClass("hidden");
+		}
+		else {
+			$('.operateGraphicSubMenuElement').each(function () {
+				if ($(this).find('.operateGraphicSubmenuTitle').text().toLowerCase().indexOf(filterTxt.toLowerCase()) >= 0) {
+					$(this).removeClass("hidden");
+				}
+				else {
+					$(this).removeClass("hidden").addClass("hidden");
+				}
+			});
+		}
+		$('.operateSubMenuList').columnize({
+			columns: 2,
+			buildOnce: true,
+			cssClassPrefix: "graphics",
+			lastNeverTallest: true
+		});
+
+		// need to destroy and rebuild nicescroll since the refresh does not seem to be working on this case
+		$(".operateSubMenuList").getNiceScroll().remove();
+		$(".operateSubMenuList").niceScroll({ cursorwidth: '10px', autohidemode: false, cursorcolor: "#486899", background: "white" });
+
+		$("#filter_graphics").val(filterTxt);  // we need the focus at the end of the last character in the input
+		$("#filter_graphics").focus(); // have to reset the focus since it loses focus when running columnize
+	}
+
+
+	$(document).ready(function() {
+
+		$('#GraphicSelectionViewMode').on('click', function (e) {
+			if ($("#GraphicSelectionViewMode").hasClass("listViewSwitch")) {
+				$("#GraphicSelectionViewMode").removeClass("listViewSwitch").addClass("detailViewSwitch");
+				$("#GraphicSelectionViewMode").removeClass("glyphicon-th-list").addClass("glyphicon-align-justify");
+				$("#GraphicSelectionViewMode").attr("title", "Switch to Compact View");
+				$('.list-view').css('display', 'none');
+				$('.detail-view').css('display', 'inherit');
+				$('.operateGraphicSubMenuElement').css('height', '70px');
+				FMOperateIndex.PersistUpdateFilterView("graphicsViewSelection", 'detailView');
+			} else {
+				$("#GraphicSelectionViewMode").removeClass("detailViewSwitch").addClass("listViewSwitch");
+				$("#GraphicSelectionViewMode").removeClass("glyphicon-align-justify").addClass("glyphicon-th-list");
+				$("#GraphicSelectionViewMode").attr("title", "Switch to Detail View");
+				$('.list-view').css('display', 'inherit');
+				$('.detail-view').css('display', 'none');
+				$('.operateGraphicSubMenuElement').css('height', '30px');
+				FMOperateIndex.PersistUpdateFilterView("graphicsViewSelection", 'compactView');
+			}
+			$(".operateSubMenuList").getNiceScroll().resize();
+		});
+
+		// check the selected view that was used previously
+		var viewMode = FMOperateIndex.GetSelectedFilterView("graphicsViewSelection");
+		if (viewMode != null) {
+			if (viewMode === 'detailView') {
+				$("#GraphicSelectionViewMode").removeClass("listViewSwitch").addClass("detailViewSwitch");
+				$("#GraphicSelectionViewMode").attr("title", "Switch to Compact View");
+			}
+			else {
+				$("#GraphicSelectionViewMode").removeClass("detailViewSwitch").addClass("listViewSwitch");
+				$("#GraphicSelectionViewMode").attr("title", "Switch to Detail View");
+			}
+			resetPointInputViewMode();
+		}
+
+		// In IE when setting the focus, the cursor is placed in the first position and we need to have it
+		// in the last character to continue typing the filter
+		// Based on http://stackoverflow.com/questions/511088/use-javascript-to-place-cursor-at-end-of-text-in-text-input-element
+		$("#filter_graphics").focus(function(){
+			var that = this;
+			setTimeout(function(){ that.selectionStart = that.selectionEnd = 10000; }, 0);
+		});
+
+		// if we have values from a previous selection then reset the content and call to filter
+		if (FMOperateIndex.selectedGraphicName !== "") {
+			$("#filter_graphics").val(FMOperateIndex.selectedGraphicName);
+		}
+		if (FMOperateIndex.selectedGraphicName !== "") {
+			FMOperateIndex.GraphicsListRolloutMenuFiltering();
+		}
+
+	});
+</script>

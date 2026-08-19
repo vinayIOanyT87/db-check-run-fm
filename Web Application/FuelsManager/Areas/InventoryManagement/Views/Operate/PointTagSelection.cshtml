@@ -1,0 +1,118 @@
+﻿@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.PointTagSelectionModel
+<script src="~/Areas/Lib/jquery.columnizer.js"></script>
+
+<style>
+	#PointTagsSubMenuList {
+		height: calc(100% - 75px) !important;
+	}
+</style>
+
+<div class="operateSubMenuFilter">
+	<div class="row">
+		<div id="OperateSelectionMenuTitle" class="col-sm-12 col-md-12 col-lg-12">
+			<label class="pull-left">@FMBaseController.TranslateText("Point Tags")</label>
+			<div class="Selectionhorizontalline"></div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12 col-md-12 col-lg-12">
+			<div class="filter-settings operate-list-filter-addon">
+				<input id="filter_PointTags" type="text" class="operate-List-form-control" placeholder="Search for Tag Name" />
+				<img alt="Filter PointTags" title="Search" src="~/fmwebapp/images/Search Icon.png" />
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="operateSubMenuList" id="PointTagsSubMenuList">
+	@foreach (var pointTag in Model.PointTags.Values)
+	{
+	<div class="operatePointTagsSubMenuElement PointTags-dontsplit row" data-name="@pointTag.ID" data-guid="@pointTag.PointTagGuid">
+		<div class="operatePointTagsSubmenuTitle" title="@pointTag.ID">@pointTag.ID</div>
+	</div>
+	}
+
+</div>
+
+<script>
+
+	// add event to only allow to check one row at a time
+	$("#PointTagsSubMenuList").on('click', '.operatePointTagsSubMenuElement', function () {
+		$(".operatePointTagsSubMenuElement").removeClass('selected');
+		$(this).addClass('selected');
+	});
+
+	$("#filter_PointTags").on('focus', function()
+	{
+			$(this).data('placeholder', $(this).attr('placeholder'));
+			$( this ).attr( 'placeholder', null );
+	});
+	$("#filter_PointTags").on('blur', function()
+	{
+		$(this).attr('placeholder', $(this).data('placeholder'));
+	});
+
+	$( "#filter_PointTags" ).on( 'input', function()
+	{
+		var filterTxt = $(this).val();
+
+		if ( filterTxt === $( this ).data( 'oldvalue' ) )
+		{
+			return;
+		}
+		else
+		{
+			$( this ).data( 'oldvalue', filterTxt );
+		}
+
+		// No points to be found, just return.
+		if ( $( '.operatePointTagsSubMenuElement' ).length === 0 )
+			return;
+
+		$( '#PointTagsSubMenuList' ).uncolumnize();
+
+		if ( filterTxt === "" )
+		{
+			$( '.operatePointTagsSubMenuElement' ).removeClass( "hidden" );
+		}
+		else
+		{
+			$( '.operatePointTagsSubMenuElement' ).each( function()
+			{
+				if ($(this).find('.operatePointTagsSubmenuTitle').text().toLowerCase().indexOf(filterTxt.toLowerCase()) >= 0)
+				{
+					$( this ).removeClass( "hidden" );
+				}
+				else
+				{
+					$( this ).removeClass( "hidden" ).addClass( "hidden" );
+				}
+			} );
+		}
+		$( '#PointTagsSubMenuList' ).columnize( {
+			columns: 2,
+			buildOnce: true,
+			cssClassPrefix: "PointTags",
+			lastNeverTallest: true
+		} );
+
+		// if selected row is not visible then remove the selection
+		$('.operatePointTagsSubMenuElement.selected.hidden').removeClass("selected");
+
+
+		// need to destroy and rebuild nicescroll since the refresh does not seem to be working on this case
+		$( "#PointTagsSubMenuList" ).getNiceScroll().remove();
+		$( "#PointTagsSubMenuList" ).niceScroll( { cursorwidth: '10px', horizrailenabled:false, autohidemode: false, cursorcolor: "#486899", background: "white" } );
+
+		$( "#filter_PointTags" ).val( filterTxt ); // we need the focus at the end of the last character in the input
+		$( "#filter_PointTags" ).focus(); // have to reset the focus since it loses focus when running columnize
+	} );
+
+	$( document ).ready( function()
+	{
+		$('.operatePointTagsSubMenuElement').css('height', '30px');
+		$(".operateSubMenuList").getNiceScroll().resize();
+	});
+
+</script>

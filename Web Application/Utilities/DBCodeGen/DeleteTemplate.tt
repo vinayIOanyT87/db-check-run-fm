@@ -1,0 +1,163 @@
+﻿<#@ template language="C#" hostspecific="True" debug="True" #>
+<#@ output extension="sql" #>
+<#@ assembly name="Microsoft.SqlServer.ConnectionInfo" #>
+<#@ assembly name="Microsoft.SqlServer.Management.Sdk.Sfc" #>
+<#@ assembly name="Microsoft.SqlServer.Smo" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="T4Toolbox.10.0" #>
+<#@ import namespace="Microsoft.SqlServer.Management.Smo" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="T4Toolbox" #>
+<#+
+public class DeleteTemplate : FMStoredProcTemplateBase
+{
+	public DeleteTemplate(string dbName, TableInfo newInfo) :base(dbName)
+	{
+		this.MyTable = newInfo;
+	}	
+	
+	public override string Description 
+	{
+		get
+		{
+			return "Delete a (group of) record(s) from the " + FullTableName;
+		}
+	}
+	
+	protected Column CurrentColumn { get; set;}
+	protected string CurrentColumnName 
+	{ 
+		get
+		{
+			string retValue = string.Empty;
+			if (CurrentColumn != null)
+			{
+				retValue = CurrentColumn.Name;			
+			}
+			return retValue;
+		}
+	}
+	protected bool IsCurrentColumnPrimaryKey
+	{ 
+		get
+		{
+			bool retValue = false;
+			if (CurrentColumn != null)
+			{
+				retValue = CurrentColumn.InPrimaryKey;			
+			}
+			return retValue;
+		}
+	}
+	
+	private string TrimGuidText(string src)
+	{
+		string retValue = src;
+		if (src.Length > 4)
+		{
+			int newLength = src.Length - 4;
+			if (src.Substring(newLength).ToUpper().Equals("GUID"))
+			{
+				retValue = src.Substring(0, newLength);
+			}
+		}
+		return retValue;
+	}
+	
+	/// <summary>
+	/// Unless other fields, if Current column is the primary key, we don't use field name as suffix.
+	/// </summary>
+	/// <returns></returns>
+	public override string ObjectSuffix
+	{
+		get
+		{
+			string suffix = string.Empty;
+			if ( IsCurrentColumnPrimaryKey)
+			{
+				suffix = "RowGuid";
+			}
+			else
+			{
+				suffix = CurrentColumnName;
+			}
+			suffix = "DeleteBy" + suffix;
+			return suffix;
+		}
+	}
+	
+	
+	protected override void RenderDropCore()
+    {
+		Table mySmoTable = GetSqlSmoTable();
+		if (mySmoTable == null)
+		{
+			return;
+		}
+		
+		foreach (Column theColumn in mySmoTable.Columns)
+		{
+			if (theColumn.InPrimaryKey || theColumn.IsForeignKey)
+			{
+				CurrentColumn = theColumn;
+				base.RenderDropCore();
+			}
+		}
+	}
+	
+	protected override void RenderStandardCore()
+    {
+		Table mySmoTable = GetSqlSmoTable();
+		if (mySmoTable == null)
+		{
+			return;
+		}
+		foreach (Column theColumn in mySmoTable.Columns)
+		{
+			if (theColumn.InPrimaryKey || theColumn.IsForeignKey)
+			{
+				CurrentColumn = theColumn;
+				CreateDeleteSPForOneColumn( mySmoTable);
+			}
+		}
+	}
+	public void CreateDeleteSPForOneColumn(Table mySmoTable)
+    {
+		this.ObjectSuffix = "DeleteBy" + CurrentColumnName;
+		CreateComment();
+#>
+CREATE PROCEDURE <#= FullObjectName #>
+<#+		
+	Indent();
+	Write(ParameterDefinition(CurrentColumn));
+	if (RowVersionColumn != null)
+	{
+		WriteLine(",");
+		Write(ParameterDefinition(RowVersionColumn));
+		WriteLine(" = NULL");
+	}
+	Unindent();
+
+#>
+AS
+BEGIN
+	SET NOCOUNT ON; 
+	IF @<#= RowVersionFieldName #> IS NOT NULL 
+	BEGIN 
+		 IF NOT EXISTS(SELECT 1 FROM <#= FullTableName #>
+			WHERE [<#= CurrentColumnName #>] = @<#= CurrentColumnName #> AND [<#= RowVersionFieldName #>]=@<#= RowVersionFieldName #>) 
+		 BEGIN 
+			 RAISERROR('Attempted to delete a stale version of <#= MyTable.BaseTableName #>.',16,1); 
+			 RETURN; 
+		END 
+	END 
+	DELETE <#= FullTableName #> 
+	WHERE [<#= CurrentColumnName #>] = @<#= CurrentColumnName #>; 
+END
+GO
+
+<#+		
+
+	}
+}
+#>

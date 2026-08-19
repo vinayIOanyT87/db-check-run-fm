@@ -1,0 +1,294 @@
+﻿@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.UserAdministrationArea.Controllers
+@model FuelsManager.Areas.UserAdministrationArea.ViewModels.UserAdministrationModel
+@{
+    ViewBag.Title = "UserConfigurationView";
+}
+
+<head>
+    <meta charset="utf-8"/>
+    <link href="~/Areas/Content/select2.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/CSS/FuelsManager.css" rel="stylesheet" type="text/css" />
+    <link href="~/Areas/Content/UserAdministrationPageStyles.css" rel="stylesheet" type="text/css"/>
+    <link href="~/Areas/Content/jquery-ui-timepicker-addon.css" rel="stylesheet" type="text/css"/>
+    <link href="~/Areas/Content/jquery.dataTables.css" rel="stylesheet" type="text/css"/>
+    <script src="~/Areas/Lib/select2.js"></script>
+    <script src="~/Areas/Scripts/UserAdministration.js"></script>
+    <script src="~/Areas/Scripts/UserAdminPermissionGroup.js"></script>
+    <script src="~/Areas/Scripts/UserAdminAudit.js"></script>
+    <script src="~/Areas/Lib/jquery.dataTables.js"></script>
+    <script src="~/Areas/lib/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Areas/Scripts/FMCommon.js"></script>
+    <script src="~/Areas/lib/moment.js" type="text/javascript"></script>
+</head>
+
+<script type="text/javascript">
+    $(document).ready(function ()
+    {
+        FMUserAdministration.imageRootPath = '@Url.Content("~/Areas/images/")';
+        FMUserAdminPermissionGroup.imageRootPath = '@Url.Content("~/Areas/images/")';
+        FMUserAdminAudit.imageRootPath = '@Url.Content("~/Areas/images/")';
+
+        FMUserAdministration.PopulateUserInfo();
+        FMUserAdministration.ShowUserInfoSection();
+        FMUserAdminPermissionGroup.CreatePermissionTree();
+
+        FMUserAdminAudit.Initialize();
+    });
+</script>
+
+@Html.Hidden("UserAdministrationModel", UserConfigurationController.SerializeModel(Model))
+@Html.Hidden("AuditControllerGetAuditDataUrl", @Url.Action("GetAuditData", "UserConfigurationAdminAudit"))
+@Html.Hidden("GetAuditFilterDataForIdUrl", @Url.Action("GetAuditFilterDataForId", "UserConfigurationAdminAudit"))
+@Html.Hidden("GetAuditFilterDataUrl", @Url.Action("GetAuditFilterData", "UserConfigurationAdminAudit"))
+@Html.Hidden("UserAdmin_DD_Show", FMBaseController.TranslateText("Show"))
+@Html.Hidden("UserAdmin_DD_Processing", FMBaseController.TranslateText("Processing"))
+@Html.Hidden("UserAdmin_DD_Showing", FMBaseController.TranslateText("Showing"))
+@Html.Hidden("UserAdmin_DD_to", FMBaseController.TranslateText("to"))
+@Html.Hidden("UserAdmin_DD_of", FMBaseController.TranslateText("of"))
+@Html.Hidden("UserAdmin_DD_entries", FMBaseController.TranslateText("entries"))
+@Html.Hidden("UserAdmin_DD_NoMatchingRecords", FMBaseController.TranslateText("No matching records found"))
+@Html.Hidden("UserAdmin_DD_FirstRecord", FMBaseController.TranslateText("First"))
+@Html.Hidden("UserAdmin_DD_PreviousRecord", FMBaseController.TranslateText("Previous"))
+@Html.Hidden("UserAdmin_DD_NextRecord", FMBaseController.TranslateText("Next"))
+@Html.Hidden("UserAdmin_DD_LastRecord", FMBaseController.TranslateText("Last"))
+
+<div style="overflow-x: hidden; overflow-y: hidden;">
+    @using (Html.BeginForm("UserConfigurationView", "UserConfiguration", FormMethod.Post, new {id = "UserConfigurationViewForm", role = "form"}))
+    {
+        @Html.AntiForgeryToken()
+
+        var dateTime = FMBaseController.TranslateText("Date & Time");
+        var actionId = FMBaseController.TranslateText("Action ID");
+        var typeId = FMBaseController.TranslateText("Type ID");
+        var idGeneral = FMBaseController.TranslateText("ID");
+        var propertyId = FMBaseController.TranslateText("Property ID");
+        var newValue = FMBaseController.TranslateText("New Value");
+        var oldValue = FMBaseController.TranslateText("Old Value");
+        var siteId = FMBaseController.TranslateText("Site ID");
+        var source = FMBaseController.TranslateText("Source");
+
+        var numberFormatInfoString = String.Format("{{{0}"
+            + "\"NegativeSign\":\"{1}\",{0}"
+            + "\"NumberDecimalDigits\":{2},{0}"
+            + "\"NumberDecimalSeparator\":\"{3}\",{0}"
+            + "\"NumberGroupSeparator\":\"{4}\",{0}"
+            + "\"NumberGroupSizes\":{5},{0}"
+            + "\"NumberNegativePattern\":{6},{0}"
+            + "\"ShortDatePattern\":\"{7}\",{0}"
+            + "\"TimePattern\":\"{8}\"{0}}}"
+            , Environment.NewLine
+            , "-"
+            , 0
+            , Model.Format.NumberDecimalSeparator
+            , Model.Format.NumberGroupSeparator
+            , Model.Format.NumberGroupSizes[0]
+            , 1
+            , Model.ShortDatePattern
+            , Model.TimePattern);
+
+        <input id="NumberFormatInfoString" type="hidden" value='@numberFormatInfoString'/>
+
+        <div id="UserConfigDiv">
+            <table id="UserConfigTable" style="width: 45%; margin-left: 8px;">
+                <tr>
+                    <td>
+                        <label class="formfieldtitle">@FMBaseController.TranslateText("User Configuration")</label>
+                    </td>
+                    <td>
+                        <select class="formfield" style="width: 300px" disabled="disabled">
+                            @for (int nextItem = 0; nextItem < @Model.UserList.Count(); nextItem++)
+                            {
+                                var userGuidStr = @Model.UserList[nextItem].UserGuidStr;
+                                var userId = @Model.UserList[nextItem].UserId;
+
+                                <option value="@userGuidStr">@userId</option>
+                            }
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <br/>
+        <div id="UserConfigDetailMenu">
+            <ul id="UserConfigMenuItems" class="list-inline col-lg-6 col-md-6">
+                <li class="UserConfigDetailMenuItem selected" id="UserInfoItem" onclick="FMUserAdministration.ShowUserInfoSection(); return false;">
+                    <b id="UserInfoItemBtag">@FMBaseController.TranslateText("User Info")</b>
+                </li>
+                <li class="UserConfigDetailMenuItem" id="PermissionGroupItem" onclick="FMUserAdministration.ShowPermissionGroupSection(); return false;">
+                    <b id="PermissionGroupItemBtag">@FMBaseController.TranslateText("Permissions & Groups")</b>
+                </li>
+                <li class="UserConfigDetailMenuItem" id="AdminAuditItem" onclick="FMUserAdministration.ShowAdminAuditSection(); return false;">
+                    <b id="AdminAuditItemBtag">@FMBaseController.TranslateText("Administration & Audit")</b>
+                </li>
+            </ul>
+        </div>
+
+        <div id="SectionsDiv" style="top: 110px; margin-left: 12px; position: absolute">
+            <!--
+                This is the Permissions and Groups section of the page.
+            -->
+            <section id="UserInfoSection">
+                <table>
+                    <tr>
+                        <td>
+                            <label class="formfieldtitle">@FMBaseController.TranslateText("User ID")</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input id="UserInfo_UserID" class="UserInfoInputField formfield" placeholder="User Entry ID Value" readonly="readonly" disabled="disabled"/>
+                        </td>
+                    </tr>
+                    <tr><td><label>&nbsp;</label></td></tr>
+                    <tr>
+                        <td>
+                            <label class="formfieldtitle">@FMBaseController.TranslateText("Name")</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input id="UserInfo_UserName" class="UserInfoInputField formfield" placeholder="User Entry Name Value" readonly="readonly" disabled="disabled"/>
+                        </td>
+                    </tr>
+                    <tr><td><label>&nbsp;</label></td></tr>
+                    <tr>
+                        <td>
+                            <label class="formfieldtitle">@FMBaseController.TranslateText("Email Address")</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input id="UserInfo_EmailAddress" class="UserInfoInputField formfield" placeholder="Email Address Value" readonly="readonly" disabled="disabled"/>
+                        </td>
+                    </tr>
+                </table>
+            </section>
+
+            <!--
+            This is the Permissions and Groups section of the page.
+            -->
+            <section id="PermissionGroupSection" class="hidden">
+                <label class="formfieldtitle">@FMBaseController.TranslateText("Member of Groups")</label>
+                <img id="ExpandAllImg" src='~/Areas/images/Add-icon.png' onclick="FMUserAdminPermissionGroup.ExpandCollapseAll('EXPAND')"/>
+                <img id="CollapseAllImg" src='~/Areas/images/Minus-icon.png' onclick="FMUserAdminPermissionGroup.ExpandCollapseAll('COLLAPSE')"/>
+                <div class="panel-body" style="border: 1px solid gray; width: 600px; background: white; overflow-y: auto; max-height: 350px">
+                    <table id="TableSites">
+                        <!-- Table is build dynamically-->
+                    </table>
+                </div>
+                <br/>
+                <div>
+                    <label class="formfieldtitle">@FMBaseController.TranslateText("Permission Description")</label>
+                </div>
+                <div>
+                    <textarea id="RightDescriptionTB" rows="5" cols="109" readonly="readonly" class="formfield"></textarea>
+                </div>
+            </section>
+
+            <!--
+            This is the Administration and Audit section of the page.
+            -->
+            <section id="AdminAuditSection" class="hidden">
+                <div id="ViewFilterCollapseDiv" class="panel-body" style="border: 1px solid gray; width: 900px; background: white; height: 35px">
+                    <table id="ViewFilterTable" style="width: 100%; height: 30px; margin-top: -10px">
+                        <tr>
+                            <td>
+                                <label class="formfieldtitle">@FMBaseController.TranslateText("View Filters")</label>
+                            </td>
+                            <td>
+                                <img id="ViewFilterImg" style="width: 20px; height: 20px; margin-left: -20px; margin-top: -5px" onclick="FMUserAdminAudit.ToggleViewFilters();"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="ViewFiltersExpandDiv" class="panel-body" style="border: 1px solid gray; width: 900px; background: white; overflow-y: auto; max-height: 400px">
+                    <table>
+                        <tr>
+                            <td style="padding-bottom: 10px">
+                                <select id="SiteSelect" class="select2-hidden-accessible formfield" style="width: 200px" onchange="FMUserAdminAudit.RetrieveIdFilterData()">
+                                </select>
+                            </td>
+                            <td style="padding-left: 5px; padding-bottom: 10px">
+                                <select id="ActionIdSelect" class="select2-hidden-accessible formfield" style="width: 200px" onchange="FMUserAdminAudit.RetrieveIdFilterData()">
+                                </select>
+                            </td>
+                            <td style="padding-left: 20px;">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <label class="formfieldtitle">@FMBaseController.TranslateText("Date Range")</label>
+                                        </td>
+                                        <td style="padding-left: 5px;">
+                                            <div id="ThirtyDaysDiv" class="DaysPastNotSelected" onclick="FMUserAdminAudit.SetClearDaysPast(1);">30 Days</div>
+                                        </td>
+                                        <td style="padding-left: 1px;">
+                                            <div id="SixtyDaysDiv" class="DaysPastSelected" onclick="FMUserAdminAudit.SetClearDaysPast(2);">60 Days</div>
+                                        </td>
+                                        <td style="padding-left: 1px;">
+                                            <div id="NinetyDaysDiv" class="DaysPastNotSelected" onclick="FMUserAdminAudit.SetClearDaysPast(3);">90 Days</div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <select id="TypeIdSelect" class="select2-hidden-accessible formfield" style="width: 200px" onchange="FMUserAdminAudit.RetrieveIdFilterData()">
+                                </select>
+                            </td>
+                            <td style="padding-left: 5px">
+                                <select id="IdSelect" class="select2-hidden-accessible formfield" style="width: 200px">
+                                </select>
+                            </td>
+                            <td style="padding-left: 20px">
+                                <input id="CustomDateCb" type="checkbox" onchange="FMUserAdminAudit.HandleCustomDateCheckboxEvent();"/>
+                                <label class="formfieldtitle">@FMBaseController.TranslateText("or Custom")</label>
+                                <input id="BeginDateTb" type="text" class="formfield" placeholder="Begin Date" onblur="FMUserAdminAudit.SetRefreshBtnState();"/>
+                                <input id="EndDateTb" type="text" class="formfield" placeholder="End Date" onblur="FMUserAdminAudit.SetRefreshBtnState();"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="padding-top: 10px; padding-left: 550px">
+                                <button id="FilterResetBtn" class="formfieldtitle pushButton" onclick="FMUserAdminAudit.HandleResetBtnEvent(); return false;">@FMBaseController.TranslateText("Reset")</button>
+                                <button id="FilterRefreshBtn" class="formfieldtitle pushButton" onclick="FMUserAdminAudit.HandleRefreshBtnEvent(); return false;">@FMBaseController.TranslateText("Apply")</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <br/>
+                <div id="DataGridDiv" style="width: 1100px">
+                    <div class="row">
+                        <div id="TableLoadPleaseWaitDiv">
+                            <table>
+                                <tbody>
+                                    <tr style="text-align: center;">
+                                        <td id="PleaseWaitTd" style="border: 1px solid black">Please Wait...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <table id="AuditLogTable" class="table table-striped" >
+                        <thead>
+                        <tr style="background-color: rgb(13,36,106); color: white;">
+                            <th class="col-sm-2 col-md-2 text-center">@dateTime</th>
+                            <th class="col-sm-2 col-md-2 text-center">@actionId</th>
+                            <th class="col-sm-2 col-md-2 text-center">@typeId</th>
+                            <th class="col-sm-2 col-md-2 text-center">@idGeneral</th>
+                            <th class="col-sm-2 col-md-2 text-center">@propertyId</th>
+                            <th class="col-sm-2 col-md-2 text-center">@newValue</th>
+                            <th class="col-sm-2 col-md-2 text-center">@oldValue</th>
+                            <th class="col-sm-2 col-md-2 text-center">@siteId</th>
+                            <th class="col-sm-2 col-md-2 text-center">@source</th>
+                        </tr>
+                        </thead>
+                        <tbody id="AuditLogTableBody">
+
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    }
+</div>

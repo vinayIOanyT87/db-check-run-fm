@@ -1,0 +1,207 @@
+
+.tagviewer-section-header {
+    width: 100%;
+    background-color: #FFF;
+    color: white;
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+}
+
+.search-icon
+{
+    position: initial;
+    top:inherit !important;
+    float:right !important; 
+    padding-right:15px;
+    padding-top: 3px;
+    cursor: pointer;
+    color: #006CB3;
+    -webkit-transition: color .3s;
+    -moz-transition: color .3s;
+    -o-transition: color .3s;
+    transition: color .3s;
+    padding-left:250px; 
+}
+
+.search-icon:hover
+{
+    cursor: pointer;
+    color:#00A5FF;
+    -webkit-transition: color .3s;
+    -moz-transition: color .3s;
+    -o-transition: color .3s;
+    transition: color .3s;
+}
+
+.search-iconEnabled
+{
+    cursor: pointer;
+    position: initial;
+    top:inherit !important;
+    float:right !important; 
+    padding-right:15px;
+    padding-top: 3px;
+    color:#006cb3;
+    -webkit-transition: color .3s;
+    -moz-transition: color .3s;
+    -o-transition: color .3s;
+    transition: color .3s;
+}
+
+.clearFilter
+{
+    cursor: pointer;
+    position: initial;
+    top:inherit !important;
+    float:right !important; 
+    padding-right:15px;
+}
+
+.search-iconDisabled
+    {
+        position: initial;
+        top:inherit !important;
+        float:right !important; 
+        padding-right:15px;
+        padding-top: 3px;
+        color: #c7c7cc;
+        -webkit-transition: color .3s;
+        -moz-transition: color .3s;
+        -o-transition: color .3s;
+        transition: color .3s;
+    }
+
+
+.filterEntry{
+    width: 230px;
+    border: none;
+    border-bottom: 1px #edeeef solid;
+    margin-right: 10px;
+    position:inherit;
+    top:inherit;
+    float:right; 
+}
+
+::ng-deep .datatable-header  {
+    background-color: #006CB3;
+    color:white;
+ }
+
+ ::ng-deep .datatable-header-cell{
+     padding-top: 5px !important;
+ }
+
+ ::ng-deep .datatable-header-cell-label{
+    color:white;
+    font-style:italic;
+    font-size:14px;
+}
+
+:host /deep/ .datatable-body-row.active .datatable-row-group {
+	background-color: #5ac8fa;
+	opacity: 0.35;
+}
+
+.tableHeader{
+    height:40px;
+    padding-top:7px;
+    padding-left:10px;
+    background-color:white;
+}
+
+.deleteButton
+{
+    padding-right:15px;
+    font-size: 16px;
+    font-weight: 1000;
+}
+
+.deleteButtonDisable
+{
+    color:rgba(172, 172, 172, 0.342);
+    -webkit-transition: color .3s;
+    -moz-transition: color .3s;
+    -o-transition: color .3s;
+    transition: color .3s;
+}
+
+.deleteButtonEnabled
+{
+    cursor: pointer;
+    -webkit-transition: color .3s;
+    -moz-transition: color .3s;
+    -o-transition: color .3s;
+    transition: color .3s;
+}
+
+.deleteButtonEnabled:hover
+{
+    color:#00A5FF;
+}
+
+.addButton{
+    padding-right:15px;
+    font-size: 16px;
+    font-weight: 1000;
+}
+
+.addButtonEnabled
+{
+    cursor: pointer;
+    -webkit-transition: color .3s;
+    -moz-transition: color .3s;
+    -o-transition: color .3s;
+    transition: color .3s;
+}
+.addButtonEnabled:hover
+{
+    color:#00A5FF;
+}
+
+.addButtonDisable
+{
+    color:rgba(172, 172, 172, 0.342);
+    -webkit-transition: color .3s;
+    -moz-transition: color .3s;
+    -o-transition: color .3s;
+    transition: color .3s;
+}
+
+select
+{  
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+ngx-datatable
+{
+    height: 637px;
+}
+
+#saveButton{
+    float:right;
+    height: 38px;
+    width: 148px;
+    position:fixed;
+    right:46px;
+    bottom:33px;
+    z-index: 50;
+}
+
+#addCriteria{
+    margin-top: 10px;
+}
+/* .filterEntry::-ms-clear {
+    width : 0;
+    height: 0;
+  } */
+
+  #deleteCriteria
+  {
+      margin-right: 10px;
+      font-weight: 900;
+      cursor: pointer;
+  }
+
+  /*Date picker container*/ bs-datepicker-container { z-index: 3000; }

@@ -1,0 +1,67 @@
+<div class="detail-section-body">
+  <div class="message" *ngIf="selectedCommand.name === 'Reset Module'">
+    <p>Reset CPU Module power cycles the CPU Module.</p>
+    <p>When Reset CPU Module is selected, devices connected to the 8810 RTU lose communication, including the device that initiated the reset. Communication is restored once the firmware re-initializes the RTU which should take approximately 1 minute.</p>
+    <p>NOTE: An external USB flash drive cannot be inserted when performing this option.</p>
+  </div>
+  <div class="message" *ngIf="selectedCommand.name === 'Copy FW to RTU'">
+    <p>Apply New Firmware allows the user to upgrade the CPU Module’s firmware through the use of an external USB flash drive.</p>
+    <p>The user must copy the desired firmware files onto a USB flash drive and then plug it into one of the two USB slots on the CPU Module’s front panel. A 3 second message will display on the LCD explaining the CPU has detected an external USB flash drive is connected.</p>
+    <p>Once the USB flash drive is connected, click Apply Firmware to start the process. It will take approximately 60 seconds to copy the firmware to the CPU.</p>
+    <p>Command Status : {{getCommandStatusMsg()}}</p>
+  </div>
+  <div class="message" *ngIf="selectedCommand.name === 'Copy DB to RTU'">
+    <p>Apply New Database to RTU allows the user to restore an RTU’s database from an external USB flash drive.</p>
+    <p>NOTE: The user must perform the “Backup Database to USB Drive” system command before performing this command.</p>
+    <p>The user must plug in an external USB flash drive containing a database into one of the two USB slots on the front plate of the CPU Module.</p>
+    <p>Once the USB flash drive is connected, click Apply New DB to start the process. This process can take up to 60 seconds to complete.</p>
+    <p>To complete the process, the USB flash drive will need to be removed for the RTU to power cycle and start using the new database.</p>
+    <p>Command Status : {{getCommandStatusMsg()}}</p>
+  </div>
+  <div class="message" *ngIf="selectedCommand.name === 'Copy DB to USB'">
+    <p>Backup Database to USB Drive allows the user to create a backup copy of the current 8810 RTU database.</p>
+    <p>The user must plug in an external USB flash drive into one of the two USB slots on the front plate of the CPU Module to begin the backing up process.</p>
+    <p>Once the USB flash drive is connected, click Backup DB to start the process. This process can take approximately 3 minutes to complete.</p>
+    <p>Command Status : {{getCommandStatusMsg()}}</p>
+  </div>
+  <div class="message" *ngIf="selectedCommand.name === 'Factory Reset'">
+    <p>Factory Reset allows the user to restore the RTU’s entire configuration database to its factory default settings. This resets every setting except for SystemTime since that information is stored on the battery backed-up Real-Time Clock.</p>
+    <p>CAUTION: All settings as stated above will be lost except SystemTime. This includes the IpAddress being defaulted and the TCP/IP device will be unable to communicate with the RTU once the process completes.</p>
+    <p>Command Status : {{getCommandStatusMsg()}}</p>
+  </div>
+  <div class="message" *ngIf="selectedCommand.name === 'Lim Fac Reset'">
+    <p>Factory Reset Limited allows the user to restore the RTU’s configuration to factory default settings with the exception of IpAddress, SubnetMask, Gateway, and SystemTime. This allows the RTU to remain connected to the TCP/IP device after the reset completes.</p>
+    <p>Command Status : {{getCommandStatusMsg()}}</p>
+  </div>
+  <div class="message" *ngIf="selectedCommand.name === 'Password Reset'">
+    <p>Password Reset restores through the use of an external USB drive the admin and user1 usernames and passwords to their default values. This process also restores all the security settings on the 8810 RTU to their default values where Security Mode is set to None, Security Policy is set to None, and the User Identity is set to Username.</p>
+  </div>
+</div>
+
+  
+
+<div class="detail-section-footer" *ngIf="selectedCommand">
+    <div class="btn-toolbar">
+        <button class="btn btn-secondary" type="button" >Cancel</button>
+        <button class="btn btn-primary" type="button" [hidden]="!canCreateFile()" (click)="generateFile()">Create File</button>
+        <button *ngIf="selectedCommand.button != ''" class="btn btn-primary" type="button" [disabled]="!isSystemOnline()" (click)="executeCommand()">{{selectedCommand.button}}</button>
+    </div>
+</div>
+
+<ng-template #modalVerifyissuanceofCommand>
+      <div class="modal-header">
+          <h4 class="modal-title pull-left">Confirm Action</h4>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+              <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <div class="modal-body">
+          <div class="form-group">
+              Are you sure you want to issue the selected command?
+          </div>
+      </div>
+      <div class="modal-footer">
+          <button id="cancelButton" type="button" class="btn btn-secondary" (click)="modalRef.hide();">No</button>
+          <button id="copyButton" type="button" class="btn btn-primary" (click)="doexecuteCommand();">Yes</button>
+      </div>
+  </ng-template>

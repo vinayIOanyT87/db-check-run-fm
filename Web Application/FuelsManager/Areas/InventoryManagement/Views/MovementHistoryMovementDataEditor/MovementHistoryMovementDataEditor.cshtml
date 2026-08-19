@@ -1,0 +1,80 @@
+﻿@using System.Web.Mvc.Html
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.MovementHistoryMovementDataEditorModel
+
+<link href="~/Areas/Content/MovementHistoryMovementDataEditor.css" rel="stylesheet" type="text/css" />
+<script src="~/Areas/Scripts/MovementHistoryMovementDataEditor.js"></script>
+
+@using (Html.BeginForm("MovementHistoryMovementDataEditor", "MovementHistoryMovementDataEditor", FormMethod.Post, new { @id = "MovementHistoryMovementDataEditorForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("MovementHistoryMovementDataSaveUrl", @Url.Action("SaveMovementHistoryMovementData", "MovementHistoryMovementDataEditor"))
+    @Html.Hidden("MovementHistoryMovementDataEditorModelStr", MovementHistoryMovementDataEditorController.SerializeModel(Model))
+
+
+    var startDateTimeLbl = FMBaseController.TranslateText("Movement|Start Date Time");
+    var closeoutDateTimeLbl = FMBaseController.TranslateText("Movement|Closeout Date Time");
+
+    var numberFormatInfoString = String.Format("{{{0}"
+                                + "\"NegativeSign\":\"{1}\",{0}"
+                                + "\"NumberDecimalDigits\":{2},{0}"
+                                + "\"NumberDecimalSeparator\":\"{3}\",{0}"
+                                + "\"NumberGroupSeparator\":\"{4}\",{0}"
+                                + "\"NumberGroupSizes\":{5},{0}"
+                                + "\"NumberNegativePattern\":{6},{0}"
+                                + "\"ShortDatePattern\":\"{7}\",{0}"
+                                + "\"TimePattern\":\"{8}\"{0}}}"
+                                , Environment.NewLine
+                                , "-"
+                                , 0
+                                , Model.NumberDecimalSeparator
+                                , Model.NumberGroupSeparator
+                                , Model.NumberGroupSizes[0]
+                                , 1
+                                , Model.ShortDatePattern
+                                , Model.TimePattern);
+
+    <input id="CalendarLocationUrl" type="hidden" value='@Url.Content("~/DispatchWebApp/images")' />
+    <input id="NumberFormatInfoString" type="hidden" value='@numberFormatInfoString' />
+
+
+    var title = Model.PointId;
+
+    <section id="MovementHistoryMovementDataEditorTableSection">
+        <div class="MovementHistoryMovementDataEditorHeader row">
+            <button type="button" class="close" data-dismiss="modal" onclick="$('#MovementHistoryNodeEditorClosePropertyScreen').click();">&times;</button>
+        </div>
+        <div class="row">
+            <div class="col-xs-10 col-sm-10 col-md-8 col-lg-6">
+                <h4 id="MovementHistoryMovementDataEditorTitle" style="width: 500px !important">@title</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-8 col-sm-8 col-md-6 col-lg-6">
+                <h5>@FMBaseController.TranslateText("Movement|Edit Movement Data")</h5>
+            </div>
+        </div>
+        <br />
+        <div id="MovementHistoryMovementDataEditorTopDiv" style="padding-top: 5px; padding-bottom: 5px;">
+            <table id="MovementHistoryNodeEditorTable">
+                <tr>
+                    <td class="MovementHistoryMovementDataTdPadding1">
+                        <label id="StartDateTimeLbl">@startDateTimeLbl</label>
+                    </td>
+                    <td class="MovementHistoryMovementDataTdPadding2">
+                        <input id="StartDateTimePicker" type="text" class="form-control text-center datepicker" style="width: 180px" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="MovementHistoryMovementDataTdPadding1">
+                        <label id="CloseoutDateTimeLbl">@closeoutDateTimeLbl</label>
+                    </td>
+                    <td class="MovementHistoryMovementDataTdPadding2">
+                        <input id="CloseoutDateTimePicker" type="text" class="form-control text-center datepicker" style="width: 180px" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </section>
+}

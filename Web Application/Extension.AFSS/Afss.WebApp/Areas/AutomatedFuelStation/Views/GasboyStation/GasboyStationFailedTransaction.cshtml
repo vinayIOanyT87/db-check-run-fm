@@ -1,0 +1,347 @@
+﻿@using FuelsManager.Afss.Module.Gasboy.BusinessObjects.DataObjects
+@using FuelsManager.Areas.Controllers
+@model FuelsManager.Afss.WebApp.Areas.AutomatedFuelStation.Models.GasboyStationFailedTransactionModel
+@{
+	ViewBag.Title = "GasboyStationFailedTransaction";
+}
+<style>
+	.row {
+		max-width: 1100px;
+	}
+
+	form input[type=text] {
+		width: 200px;
+	}
+</style>
+<script>
+	$(document).ready(function () {
+		$('#gasboyStationFailedTransactionErrorTable')
+			.DataTable(
+			{
+				// We do not allow searching through the results via the datatable search control
+				"searching": false,
+				// Show First, Previous, Next, and Last buttons for paging
+				"pagingType": "full",
+				// Embed a div in the datatables controls so we can color the bottom of the grid
+				// like a footer
+				"dom": 'lrt<"#DataTablesFooter"ip>',
+				// Apply no initial sort
+				"order": [],
+				// Tell datatables that we don't care about highlighting the columns that have been sorted. According to the documentation, this improves performance.
+				"orderClasses": false
+			});
+	});
+</script>
+<div>
+	<div class="container-fluid">
+		<div class="row headline" style="padding-bottom:10px">@FMBaseController.TranslateText("Gasboy Fuel Service Station Failed Transaction")</div>
+
+		@using (Html.BeginForm("GasboyStationFailedTransaction", "GasboyStation", FormMethod.Post))
+		{
+			@Html.AntiForgeryToken()
+			@Html.HiddenFor(m => m.FailedTransaction.IdentityGuid)
+			@Html.HiddenFor(m => m.FailedTransaction.ExternalStationGuid)
+			@Html.HiddenFor(m => m.FailedTransaction.ExternalStationID)
+			@Html.HiddenFor(m => m.FailedTransaction.ID)
+			@Html.HiddenFor(m => m.FailedTransaction.SiteGuid)
+
+			if (ViewBag.SaveTransactionErrors != null)
+			{
+				// Display any errors encountered when attempting to reprocess the failed transaction
+				<script>
+					setTimeout(function () {
+						alert('@ViewBag.SaveTransactionErrors');
+					}, 100);
+				</script>
+			}
+
+			<div class="row">
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.ExternalStationID, FMBaseController.TranslateText("Gasboy Station") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.ExternalStationID, new { disabled = "disabled", maxlength = "50" })
+				</div>
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.ID, FMBaseController.TranslateText("Gasboy Transaction ID") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.ID, new { disabled = "disabled", maxlength = "100" })
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.FleetID, FMBaseController.TranslateText("Fleet ID") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.FleetID, new { maxlength = "20" })
+				</div>
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.FleetName, FMBaseController.TranslateText("Fleet Name") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.FleetName, new { maxlength = "100" })
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.FleetCode, FMBaseController.TranslateText("Fleet Code") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.FleetCode, new { maxlength = "10" })
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.ProductName, FMBaseController.TranslateText("Product Name") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.ProductName, new { maxlength = "30" })
+				</div>
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.ProductCode, FMBaseController.TranslateText("Product Code") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.ProductCode, new { maxlength = "15" })
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.MeanID, FMBaseController.TranslateText("Mean ID") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.MeanID, new { maxlength = "20" })
+				</div>
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.MeanName, FMBaseController.TranslateText("Mean Name") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.MeanName, new { maxlength = "50" })
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.FuelingVehiclePlate, FMBaseController.TranslateText("Fueling Vehicle Plate") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.FuelingVehiclePlate, new { maxlength = "20" })
+				</div>
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.DriverMeanID, FMBaseController.TranslateText("Driver Mean ID") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.DriverMeanID, new { maxlength = "20" })
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.DriverPlate, FMBaseController.TranslateText("Driver Plate") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.DriverPlate, new { maxlength = "20" })
+				</div>
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.DriverTag, FMBaseController.TranslateText("Driver Tag") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.DriverTag, new { maxlength = "50" })
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.ExternalAuthorizationNumber, FMBaseController.TranslateText("External Authorization #") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.ExternalAuthorizationNumber, new { maxlength = "30" })
+				</div>
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.Density, FMBaseController.TranslateText("Density") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.Density, new { maxlength = "20" })
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.Temperature, FMBaseController.TranslateText("Temperature") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.Temperature, new { maxlength = "20" })
+				</div>
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.EngineHours, FMBaseController.TranslateText("Engine Hours") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.EngineHours, new { maxlength = "20" })
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.PumpID, FMBaseController.TranslateText("Pump ID") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.PumpID, new { maxlength = "20" })
+				</div>
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.Pump, FMBaseController.TranslateText("Pump") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.Pump, new { maxlength = "20" })
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.NozzleID, FMBaseController.TranslateText("Nozzle ID") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.NozzleID, new { maxlength = "20" })
+				</div>
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.Nozzle, FMBaseController.TranslateText("Nozzle") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.Nozzle, new { maxlength = "20" })
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.HoseNumber, FMBaseController.TranslateText("Hose Number") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.HoseNumber, new { maxlength = "20" })
+				</div>
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.TankName, FMBaseController.TranslateText("Tank Name") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.TankName, new { maxlength = "50" })
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.ShiftID, FMBaseController.TranslateText("Shift ID") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.ShiftID, new { maxlength = "20" })
+				</div>
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.Odometer, FMBaseController.TranslateText("Odometer") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.Odometer, new { maxlength = "20" })
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.Quantity, FMBaseController.TranslateText("Quantity") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.Quantity, new { maxlength = "20" })
+				</div>
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.PricePerVolume, FMBaseController.TranslateText("Price Per Volume") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.PricePerVolume, new { maxlength = "20" })
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.TotalPrice, FMBaseController.TranslateText("Total Price") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.TotalPrice, new { maxlength = "20" })
+				</div>
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.ProxyDeviceID, FMBaseController.TranslateText("Proxy Device ID") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.ProxyDeviceID, new { maxlength = "20" })
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.TransactionTimeStamp, FMBaseController.TranslateText("Transaction Timestamp") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.TransactionTimeStamp, new { maxlength = "20" })
+				</div>
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.TransactionType, FMBaseController.TranslateText("Transaction Type") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.TransactionType, new { maxlength = "10" })
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.TrackData1, FMBaseController.TranslateText("Track Data 1") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.TrackData1, new { maxlength = "1000" })
+				</div>
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.TrackData2, FMBaseController.TranslateText("Track Data 2") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.TrackData2, new { maxlength = "1000" })
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.Tag, FMBaseController.TranslateText("Tag") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.Tag, new { maxlength = "50" })
+				</div>
+				<div class="col-md-2">
+					@Html.LabelFor(m => m.FailedTransaction.CashCustomerID, FMBaseController.TranslateText("Cash Customer ID") + ":", new { @class = "formfieldtitle" })
+				</div>
+				<div class="col-md-4 formfield">
+					@Html.TextBoxFor(m => m.FailedTransaction.TrackData2, new { maxlength = "20" })
+				</div>
+			</div>
+
+			var errorMessageText = FMBaseController.TranslateText("Error");
+			<div class="row parasubheadline" style="margin-top:7px">
+				<div class="col-md-6">
+					@FMBaseController.TranslateText("Error Messages")
+				</div>
+			</div>
+			<div class="row" style="margin-top:5px">
+				<section class="FMGridSection">
+					<div class="FMGridContainer">
+						<table id="gasboyStationFailedTransactionErrorTable" class="hover stripe row-border cell-border">
+							<thead>
+								<tr>
+									<th>
+										@errorMessageText
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								@foreach (GasboyStationTransactionError failedTransactionError in @Model.FailedTransaction.TransactionErrors)
+								{
+									var identifier = Guid.NewGuid();
+									@Html.Hidden("Index", identifier, new { Name = "FailedTransaction.TransactionErrors.Index" })
+									@Html.HiddenFor(m => failedTransactionError.IdentityGuid, new { Name = "FailedTransaction.TransactionErrors[" + identifier + "].IdentityGuid" })
+									@Html.HiddenFor(m => failedTransactionError.ErrorMessage, new { Name = "FailedTransaction.TransactionErrors[" + identifier + "].ErrorMessage" })
+									<tr>
+										<td>@failedTransactionError.ErrorMessage</td>
+									</tr>
+								}
+							</tbody>
+						</table>
+					</div>
+				</section>
+			</div>
+			<div class="row" style="margin-top: 15px">
+				<div class="col-md-8"></div>
+				<div class="col-md-4">
+					<input type='submit' value='@FMBaseController.TranslateText("OK")' id="btnOK" name="submitButton" class="formfieldtitle pushButton" disabled="@(!Model.IsEditable)" />
+					<input type='button' value='@FMBaseController.TranslateText("Cancel")' class="formfieldtitle" onclick="window.location.href('@Url.Action("GasboyStationFailedTransactionSummaryIndex", "GasboyStation")')" />
+				</div>
+			</div>
+		}
+	</div>
+</div>

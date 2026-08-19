@@ -1,0 +1,299 @@
+﻿@using System
+@using System.Web.Mvc.Html
+@using FMBusinessObjects.DataObjects
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.TagSelectionModel
+<link href="~/Areas/Content/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Content/bootstrap-modal.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Content/select2.min.css" rel="stylesheet" type="text/css" />
+
+<script src="~/Areas/Lib/bootstrap-modal.js"></script>
+<script src="~/Areas/Lib/bootstrap-modalmanager.js"></script>
+<script src="~/Areas/Lib/select2.min.js"></script>
+
+<style>
+	.select2-close-mask {
+		z-index: 3099;
+	}
+
+	.select2-dropdown {
+		z-index: 4051;
+	}
+
+
+	.select2-container--default .select2-selection--multiple,
+	.select2-container--default .select2-selection--single {
+		border-radius: 0px !important;
+		border: 1px solid #ccc;
+		height: 34px;
+	}
+
+	.select2-results__option[aria-selected=true] {
+		background-color: rgb(221,221,221) !important;
+		color: rgb(199,200,199) !important;
+	}
+
+	.select2-container--default.select2-container--focus .select2-selection--single,
+	.select2-container--default.select2-container--focus .select2-selection--multiple {
+		border: 1px solid #ccc;
+		outline: 0;
+		box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+	}
+
+	.tagselectionmodal {
+		position: fixed;
+		top: 50%;
+		left: 45%;
+		margin-left: -150px;
+		margin-top: -10px;
+		z-index: 1050;
+		display: none;
+		overflow: hidden;
+		-webkit-overflow-scrolling: touch;
+		outline: 0;
+	}
+
+	.select2-selection--multiple {
+      overflow: hidden !important;
+      height: auto !important;
+	}
+</style>
+
+<script>
+    //# sourceURL=_TagSelectionView.cshtml
+    $( document ).ready( TagSelection.Init() );
+</script>
+
+@using (Html.BeginForm("ButtonSubmit", "TagSelection", FormMethod.Post, new { id = "AddPointTagsForm" }))
+{
+	@Html.AntiForgeryToken();
+	@Html.Hidden("urlPointTemplateTypeSelectionChanged", @Url.Action("PointTemplateTypeSelectionChanged", "TagSelection"));
+	@Html.Hidden("urlPointTemplateSelectionChanged", @Url.Action("PointTemplateSelectionChanged", "TagSelection"));
+	@Html.Hidden("urlPointCategorySelectionChanged", @Url.Action("PointCategorySelectionChanged", "TagSelection"));
+	@Html.Hidden("urlPointOrValueTypeSelectionChanged", @Url.Action("PointOrValueTypeSelectionChanged", "TagSelection"));
+    @Html.Hidden("urlPointTemplateCheckBoxOrValueTypeSelectionChanged", @Url.Action("PointTemplateCheckBoxOrValueTypeSelectionChanged", "TagSelection"));
+	@Html.Hidden("urlOkButtonPress", @Url.Action("OkButtonPress", "TagSelection"));
+	@Html.Hidden("TagSelectionModel", Json.Encode(Model));
+	@Html.Hidden("AllowPointSelect", (Model.AllowPointSelect) ? "true" : "false");
+    @Html.Hidden("PanelType", Model.PanelType.ToString());
+    @Html.Hidden("TSPointDetailObject",(Model.PointTemplateTagSelectionIndicator) ? "true" : "false")
+    //@Html.Hidden("TSPointTemplateGuid", Model.PointTemplateGuid);
+    @Html.Hidden("DialogTitleForPointSelect", @FMBaseController.TranslateText("Point Value Selection"));
+    @Html.Hidden("DialogTitleForPointTemplateSelect", @FMBaseController.TranslateText("Point Template Value Selection"));
+	@Html.Hidden("EnableTagSelection", Model.EnableTagSelection);
+    @Html.Hidden("PointTrendButton", Model.PointTrendButton);
+    
+    var valueTypeSelectionDivClass = Model.EnableValueTypeSelection ? "form-group" : "hidden";
+    var fieldSelectionDivClass = Model.EnableFieldSelection ? "form-group" : "hidden";
+    var tagSelectionDivClass = Model.EnableTagSelection ? "form-group" : "hidden";
+    var pointTemplateCheckboxDivClass = (Model.PanelType == PANELTYPE.Detail) ? "form-group" : "hidden";
+    var firstTimeThrough = true;
+
+  <style>
+    .tag-selection-scroll {
+      overflow: auto;
+      max-height: 418px;
+    }
+  </style>
+    <section id="AddPointTagsPartial" class="">
+      <div id="TagSelectionScrollDiv" class="">
+        <div class="@pointTemplateCheckboxDivClass" style="display: table; float:right">
+          <div style="display: table-row">
+            <div>
+              <div style="display: table-cell">
+                @Html.LabelFor(m => m.PointTemplateTagSelectionIndicator, @FMBaseController.TranslateText("Select from template"), new { @class = "control-label" })
+              </div>
+              <div style="display: table-cell; padding-left: 15px">
+                @Html.CheckBoxFor(m => m.PointTemplateTagSelectionIndicator, new { id = "TSPointTemplateCheckBox", @class = "checkbox" })
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">@Html.Label(@FMBaseController.TranslateText("Point Type:"), new { id = "TSPointTypeLabel", @class = "control-label" })</div>
+        <div id="PointTemplateTypeDropDownListDiv" class="form-group">
+          <select id="PointTemplateTypeDropDownList" name="PointTemplateTypeDropDownList" multiple="@false" value="Undefined" style="Width: 100%">
+            @foreach (var keyValuePair3 in Model.PointTemplateTypeList)
+            {
+              if (@keyValuePair3.Key == Model.PointTemplateTypeGuid)
+              {
+                <option value="@keyValuePair3.Key" selected="true">@keyValuePair3.Value</option>
+              }
+              else
+              {
+                <option value="@keyValuePair3.Key">@keyValuePair3.Value</option>
+              }
+            }
+          </select>
+        </div>
+        <div class="form-group">@Html.Label(@FMBaseController.TranslateText("Point Template:"), new { id = "TSPointTemplateLabel", @class = "control-label" })</div>
+        <div id="PointTemplateDropDownListDiv" class="form-group">
+          <select id="PointTemplateDropDownList" name="PointTemplateDropDownList" multiple="@false" value="Undefined" style="Width: 100%">
+            @foreach (var keyValuePair4 in Model.PointTemplateList)
+            {
+              if (@keyValuePair4.Key == Model.PointTemplateGuid)
+              {
+                <option value="@keyValuePair4.Key" selected="true">@keyValuePair4.Value</option>
+              }
+              else
+              {
+                <option value="@keyValuePair4.Key">@keyValuePair4.Value</option>
+              }
+            }
+          </select>
+        </div>
+        <div class="form-group">@Html.Label(@FMBaseController.TranslateText("Point Category:"), new { id = "TSPointCategoryLabel", @class = "control-label" })</div>
+        <div id="PointCategoryDropDownListDiv" class="form-group">
+          <select id="PointCategoryDropDownList" name="PointCategoryDropDownList" multiple="@false" value="Undefined" style="Width: 100%">
+            @foreach (var keyValuePair5 in Model.PointCategoryList)
+            {
+              if (@keyValuePair5.Key == Model.PointCategoryGuid)
+              {
+                <option value="@keyValuePair5.Key" selected="true">@keyValuePair5.Value</option>
+              }
+              else
+              {
+                <option value="@keyValuePair5.Key">@keyValuePair5.Value</option>
+              }
+            }
+          </select>
+        </div>
+        <div class="form-group">@Html.Label(@FMBaseController.TranslateText("Point:"), new { id = "TSPointLabel", @class = "control-label" })</div>
+        <div id="PointDropDownListDiv" class="form-group">
+          <select id="PointDropDownList" name="PointDropDownList" multiple="@false" value="Undefined" style="Width: 100%">
+            @foreach (var keyValuePair6 in Model.PointList)
+            {
+              if (@keyValuePair6.Key == Model.PointGuid.ToString())
+              {
+                <option value="@keyValuePair6.Key" selected="true">@keyValuePair6.Value</option>
+              }
+              else
+              {
+                <option value="@keyValuePair6.Key">@keyValuePair6.Value</option>
+              }
+            }
+          </select>
+        </div>
+        <div class="@tagSelectionDivClass">
+          <div class="@valueTypeSelectionDivClass">
+            <div class="form-group">@Html.Label(@FMBaseController.TranslateText("Value Type:"), new { id = "TSValueTypeLabel", @class = "control-label" })</div>
+            <div id="ValueTypeDropDownListDiv" class="form-group">
+              <select id="ValueTypeDropDownList" name="ValueTypeDropDownList" multiple="@false" value="Undefined" style="Width: 100%">
+                @foreach (var keyValuePair2 in Model.GetValueTypeList())
+                {
+                  if (@keyValuePair2.Key == Model.ValueType.ToString())
+                  {
+                    <option value="@keyValuePair2.Key" selected="true">@keyValuePair2.Value</option>
+                  }
+                  else
+                  {
+                    <option value="@keyValuePair2.Key">@keyValuePair2.Value</option>
+                  }
+                }
+              </select>
+            </div>
+          </div>
+          <div class="form-group">@Html.Label(@FMBaseController.TranslateText("Value:"), new { id = "TSValueLabel", @class = "control-label" })</div>
+          <div id="ValueDropDownListDiv" class="form-group">
+            <select id="ValueDropDownList" name="ValueDropDownList" multiple="@Model.AllowMultipleSelect" value="Undefined" style="Width: 100%">
+              @foreach (var keyValuePair in Model.ValueList)
+              {
+                var selected = false;
+                if (Model.SelectedValues == null || Model.SelectedValues.Count <= 0)
+                {
+                  if (firstTimeThrough)
+                  {
+                    selected = true;
+                  }
+                }
+                else
+                {
+                  foreach (var selectedPointTagGuid in Model.SelectedValues)
+                  {
+                    if (selectedPointTagGuid.Key == keyValuePair.Key)
+                    {
+                      selected = true;
+                    }
+                  }
+                }
+                if (selected)
+                {
+                  <option value="@keyValuePair.Key" selected="true">@keyValuePair.Value</option>
+                }
+                else
+                {
+                  <option value="@keyValuePair.Key">@keyValuePair.Value</option>
+                }
+                firstTimeThrough = false;
+              }
+            </select>
+          </div>
+          <div class="@fieldSelectionDivClass">
+            <div class="form-group">@Html.Label(@FMBaseController.TranslateText("Field:"), new { @class = "control-label" })</div>
+            <div id="ValueFieldDropDownListDiv" class="form-group">
+              <select id="ValueFieldDropDownList" name="ValueFieldDropDownList" multiple="true" value="Undefined" style="Width: 100%">
+                @for (var i = 0; i < 5; i++)
+                {
+                  var fieldName = "VALUE";
+                  switch (i)
+                  {
+                    case 0:
+                      fieldName = "VALUE";
+                      break;
+                    case 1:
+                      fieldName = "ID";
+                      break;
+                    case 2:
+                      fieldName = "TIMESTAMP";
+                      break;
+                    case 3:
+                      fieldName = "UNITS";
+                      break;
+                    case 4:
+                      fieldName = "ALARM STATUS";
+                      break;
+                    default:
+                      fieldName = "UNKNOWN";
+                      break;
+                  }
+                  var selected = false;
+                  if (Model.Fields == null || Model.Fields.Count <= 0)
+                  {
+                    if (i == 0)
+                    {
+                      selected = true;
+                    }
+                  }
+                  else
+                  {
+                    foreach (var f in Model.Fields)
+                    {
+                      if (f == (PointValueFieldType)i)
+                      {
+                        selected = true;
+                      }
+                    }
+                  }
+                  if (selected)
+                  {
+                    <option value="@i" selected="true">@fieldName</option>
+
+                  }
+                  else
+                  {
+                    <option value="@i">@fieldName</option>
+                  }
+                }
+
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+	<section id="addPointTagsErrors">
+		<div id="addPointTagsError"></div>
+	</section>
+}
+

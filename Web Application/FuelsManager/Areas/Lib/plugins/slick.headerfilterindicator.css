@@ -1,0 +1,12 @@
+﻿.slick-header-filterindicator {
+	position: absolute;
+	font-size: 12px;
+	display: none;
+	width: 20px;
+	right: 0px;
+	line-height: 35px;
+}
+
+.popover-title {
+    display: none !important;
+}

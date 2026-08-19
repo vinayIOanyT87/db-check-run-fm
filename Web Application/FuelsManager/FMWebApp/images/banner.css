@@ -1,0 +1,41 @@
+
+/* ------------------------------------------------------------------------- */
+/* Stylesheet for default.htm                                                */
+/* ------------------------------------------------------------------------- */
+
+/* Tiled DLA logo. */
+.background
+{
+	background-image:url(bg.gif);
+}
+
+/* BSME-E bar across top */
+.content-title
+{
+	background-color:white;
+	color:black;
+	font-family:verdana,arial,helvetica;
+	font-weight:bold;
+	font-size:10pt;
+}
+
+/* Warning Warning Warning */
+.content-warning
+{
+	background-color:white;
+	color:#bb0000;
+	font-family:verdana,arial,helvetica;
+	font-weight:bold;
+	font-size:11pt;
+}
+
+/* Long warning text */
+.content
+{
+	background-color:white;
+	color:black;
+	font-family:verdana,arial,helvetica;
+	font-weight:normal;
+	font-size:8pt;
+	text-align:justify;
+}

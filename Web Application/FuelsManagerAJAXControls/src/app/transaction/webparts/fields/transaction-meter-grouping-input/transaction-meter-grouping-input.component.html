@@ -1,0 +1,25 @@
+<style>
+  .hideNumberArrows::-webkit-outer-spin-button,
+  .hideNumberArrows::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+  }
+</style>
+<div class="transactionFreeFormInputParent">
+  <div>
+      <label [for]="fieldName">{{label}}:</label>
+  </div>
+  <div class="transactionFreeFormInput">
+      <input [id]="fieldName"
+             class="hideNumberArrows"
+             [(ngModel)]="fieldContents"
+             [appFocusDirective]="currentFocusLabel == fieldName"
+             [disabled]="isDisabled || !canEdit"
+             [ngModelOptions]="{ updateOn: 'blur' }"
+             type="text"
+             appTriggerChangeDetectionOnKeyUp/>
+      <!-- [ngClass]="{ 'inputLoading': showLoading }" -->
+      <!--(blur)="blurry()"-->
+      <span [hidden]="!required" style="color:red">*</span>
+  </div>
+</div>

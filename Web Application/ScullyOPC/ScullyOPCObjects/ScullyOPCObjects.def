@@ -1,0 +1,9 @@
+; ScullyOPCObjects.def : Declares the module parameters.
+
+LIBRARY      "ScullyOPCObjects.DLL"
+
+EXPORTS
+	DllCanUnloadNow		PRIVATE
+	DllGetClassObject	PRIVATE
+	DllRegisterServer	PRIVATE
+	DllUnregisterServer	PRIVATE

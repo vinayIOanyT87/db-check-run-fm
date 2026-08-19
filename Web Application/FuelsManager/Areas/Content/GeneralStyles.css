@@ -1,0 +1,791 @@
+﻿/* fonts */
+@font-face {
+    font-family: "Helvetica Neue";
+    src: url('../../fonts/OpenSans-Regular-webfont.eot');
+    src: url('../../fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../../fonts/OpenSans-Regular-webfont.woff') format('woff'),
+         url('../../fonts/OpenSans-Regular-webfont.ttf') format('truetype'),
+         url('../../fonts/OpenSans-Regular-webfont.svg#open_sansregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('../../Content/Roboto-Regular-webfont.eot');
+    src: url('../../Content/Roboto-Bold-webfont.eot');
+    src: url('../../Content/Roboto-Regular-webfont.eot?iefix') format('eot'), url('../../Content/Roboto-Bold-webfont.eot?iefix') format('eot'), url('../../Content/Roboto-Regular-webfont.woff') format('woff'), url('../../Content/Roboto-Bold-webfont.woff') format('woff');
+}
+
+.selectControls
+{
+    -moz-min-width: 200px;
+    -ms-min-width: 200px;
+    -o-min-width: 200px;
+    -webkit-min-width: 200px;
+    min-width: 200px;
+    height: 20px;
+}
+
+.headlineView
+{
+    position: relative;
+    top: 20px;
+    left: 0;
+}
+
+.minWidth100
+{
+    -moz-min-width: 100px;
+    -ms-min-width: 100px;
+    -o-min-width: 100px;
+    -webkit-min-width: 100px;
+    min-width: 100px;
+}
+
+.minWidth225
+{
+    -moz-min-width: 225px;
+    -ms-min-width: 225px;
+    -o-min-width: 225px;
+    -webkit-min-width: 225px;
+    min-width: 225px;
+}
+
+.minWidth250
+{
+    -moz-min-width: 250px;
+    -ms-min-width: 250px;
+    -o-min-width: 250px;
+    -webkit-min-width: 250px;
+    min-width: 250px;
+}
+
+.minWidth300
+{
+    -moz-min-width: 300px;
+    -ms-min-width: 300px;
+    -o-min-width: 300px;
+    -webkit-min-width: 300px;
+    min-width: 300px;
+}
+
+.minWidth500
+{
+    -moz-min-width: 500px;
+    -ms-min-width: 500px;
+    -o-min-width: 500px;
+    -webkit-min-width: 500px;
+    min-width: 500px;
+}
+
+.pushButton
+{
+    -moz-min-width: 75px;
+    -ms-min-width: 75px;
+    -o-min-width: 75px;
+    -webkit-min-width: 75px;
+    min-width: 75px;
+}
+
+.tabPushButton
+{
+    -moz-min-width: 75px;
+    -ms-min-width: 75px;
+    -o-min-width: 75px;
+    -webkit-min-width: 75px;
+    min-width: 75px;
+}
+
+.maxWidth100 {
+    max-width: 100px;
+}
+
+.headlineView
+{
+    position: relative;
+    top: 20px;
+    left: 0;
+}
+
+.controlTable
+{
+    position: relative;
+    top: 28px;
+}
+
+.pushButton, .btn {
+    -moz-min-width: 90px;
+    -ms-min-width: 90px;
+    -o-min-width: 90px;
+    -webkit-min-width: 90px;
+    min-width: 100px;
+    background-color: #486899 !important;
+    color: white !important;
+    height: 30px;
+    border-style: none;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-image: none;
+    border: 1px solid transparent;
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 16px;
+    border-radius: 0;
+}
+
+.tabPushButton
+{
+    -moz-min-width: 90px;
+    -ms-min-width: 90px;
+    -o-min-width: 90px;
+    -webkit-min-width: 90px;
+    min-width: 90px;
+    background-color: white !important;
+    color: rgb( 86,126,185) !important;
+    height: 30px;
+    border-style: none;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-image: none;
+    border: 1px solid transparent;
+	 border-color: rgb( 86,126,185);
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 16px;
+    border-radius: 0;
+}
+
+
+.pushButtonWithTrashCan, .btnWithTrashCan
+{
+    -moz-min-width: 90px;
+    -ms-min-width: 90px;
+    -o-min-width: 90px;
+    -webkit-min-width: 90px;
+    min-width: 90px;
+    background-color: rgb( 86,126,185);
+    color: white;
+    height: 30px;
+    border-style: none;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-image: url(../../FMWebApp/Images/whitetrashcan.png) ;
+    background-repeat: no-repeat;
+    border: 1px solid transparent;
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 16px;
+    border-radius: 0;
+}
+
+.pushButtonRounded
+{
+    -moz-min-width: 75px;
+    -ms-min-width: 75px;
+    -o-min-width: 75px;
+    -webkit-min-width: 75px;
+    min-width: 75px;
+
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px #888;
+}
+
+.deleteButton 
+{
+    background: url(../../FMWebApp/Images/delete.gif) no-repeat top center;
+    vertical-align: top;
+    display: table-cell;
+    height: 20px;
+    width: 36px;
+    border: none;
+}
+
+.ackButton 
+{
+    background: url(../../FMWebApp/Images/update.gif) no-repeat top center;
+    vertical-align: top;
+    display: table-cell;
+    height: 20px;
+    width: 36px;
+    border: none;
+}
+
+.shelveButton 
+{
+    background: url(../../FMWebApp/Images/update.gif) no-repeat top center;
+    vertical-align: top;
+    display: table-cell;
+    height: 20px;
+    width: 36px;
+    border: none;
+}
+
+.mainPage {
+    padding-top: 10px;
+    padding-left: 32px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.FMGridFoot th {
+    background-color: #486899;
+    border-left: 1pt solid #EEEEEE;
+    color: white;
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    -webkit-font-variant: normal;
+    -moz-font-variant: normal;
+    -ms-font-variant: normal;
+    -o-font-variant: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: normal;
+    padding: 3px;
+    text-align: left;
+    text-decoration: none;
+    text-transform: none;
+    vertical-align: middle;
+}
+
+a.deleteLinkClass {
+    background: url(../../FMWebApp/Images/delete.gif) no-repeat top center;
+    display: block;
+    vertical-align: top;
+    width: 40px;
+    height: 20px;
+	 margin: auto;
+    text-indent: -9999px; /* hides the link text */
+}
+
+a.deleteLinkClassDisabled {
+    background: url(../../FMWebApp/Images/delete_un.gif) no-repeat top center;
+    display: block;
+    vertical-align: top;
+    text-align: center;
+    width: 20px;
+    height: 20px;
+    margin: auto;
+    text-indent: -9999px; /* hides the link text */
+    cursor: not-allowed;
+}
+
+a.editLinkClass {
+    background: url(../../FMWebApp/Images/edit.gif) no-repeat top center;
+    display: block;
+    vertical-align: top;
+    width: 36px;
+    height: 20px;
+    text-indent: -9999px; /* hides the link text */
+}
+
+a.editDeletedLinkClass {
+    background: url(../../FMWebApp/Images/edit_deleted.GIF) no-repeat top;
+    display: block;
+    vertical-align: top;
+    width: 36px;
+    height: 20px;
+    text-indent: -9999px; /* hides the link text */
+}
+
+a.selectLinkClass {
+    background: url(../../FMWebApp/Images/Select.gif) no-repeat top center;
+    display: block;
+    vertical-align: top;
+    width: 36px;
+    height: 20px;
+    text-indent: -9999px; /* hides the link text */
+}
+
+.detailTable tr {
+    padding: 10px 0 10px 0;
+}
+
+.detailTable td {
+    padding: 10px 5px 10px 5px;
+}
+
+.FMGridSection {
+    position: relative;
+    padding-top: 20px;
+    background: #486899;
+}
+
+.FMGridContainer {
+    overflow-y: auto;
+    max-height: 700px;
+    height: auto;
+}
+
+.FMGridContainer table {
+    border-spacing: 0;
+    width: 100%;
+}
+
+.FMGridContainer td + td {
+    border-left: 1px solid #eee;
+}
+
+    .FMGridContainer td, .FMGridContainer th {
+        border-bottom: 1px solid #eee;
+        color: #000;
+        padding: 3px;
+        font-family: Roboto, Arial, Helvetica, sans-serif;
+        font-size: 12px;
+        font-style: normal;
+        -webkit-font-variant: normal;
+        -moz-font-variant: normal;
+        -ms-font-variant: normal;
+        -o-font-variant: normal;
+        font-variant: normal;
+        line-height: normal;
+    }
+
+.FMGridContainer th {
+    height: 0;
+    line-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 3px;
+    color: transparent;
+    border: none;
+    white-space: nowrap;
+    font-weight: normal;
+}
+
+    .FMGridContainer th div {
+        position: absolute;
+        background: transparent;
+        color: #fff;
+        padding: 3px 25px;
+        top: 0;
+        margin-left: -25px;
+        line-height: normal;
+        border-left: 1px solid transparent;
+    }
+
+.FMGridContainer th:first-child div {
+    border: none;
+}
+
+.FMGridContainer table tbody tr:nth-child(2n+0) {
+    background-color: #eee;
+}
+
+.FMGridContainer table tbody tr:nth-child(2n+1) {
+    background-color: gainsboro;
+}
+
+.watermark {
+    color: gray;
+}
+
+.datepicker {
+    color: black;
+}
+
+.headline {
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    font-style: italic;
+    font-weight: bold;
+    color: #486899;
+    line-height: normal;
+    white-space: nowrap;
+}
+
+#cshtmlPleaseWaitDiv {
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+    visibility: hidden;
+    background-color: lightsteelblue;
+    color: black;
+    box-shadow: 5px 5px 5px #888;
+    position: absolute;
+    left: 100px;
+    top: 200px;
+}
+
+#PleaseWaitTd {
+    width: 200px;
+    height: 75px;
+}
+
+body {
+    background-color: rgb(240, 240, 240);
+}
+
+
+.filter-addon{
+    height: 25px;
+    line-height: 25px;
+    width: 60%;
+    background-color: rgb(240, 240, 240);
+    border-radius: 20px;
+    position: relative;
+}
+
+    .filter-addon .form-control {
+        border-style: none;
+        background-color: transparent;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+        padding-top: 0px;
+        font-weight: normal !important;
+        color: rgb( 86, 126, 185);
+        padding-left: 10px;
+        padding-right: 25px;
+        padding-top: 0px;
+    }
+
+    .filter-addon img {
+    position: absolute;
+    padding-top: 4px;
+    padding-right: 7px;
+    pointer-events: none;
+    top: 0px;
+    right: 0px;
+}
+
+
+/* add padding  */
+.filter-left-addon input {
+    padding-left: 30px;
+}
+
+.filter-right-addon input {
+    padding-right: 30px;
+}
+
+@media (min-width: 768px) {
+	.modal-sm {
+		width: 300px !important;
+	}
+	.modal-md {
+		width: 400px !important;
+	}
+}
+
+.modal, .modal-content {
+    border-radius: 0px !important;
+    background-color: white !important;
+	 border: none;
+}
+
+.modal-header, .modal-footer {
+    border: none;
+}
+
+.modal-header {
+	padding-bottom: 0px !important;
+}
+
+.modal-header, .modal-footer, .modal-body {
+    padding-left: 25px !important;
+	padding-right: 25px !important;
+}
+
+.modal-title {
+	font-weight: bold;
+}
+
+.form-control {
+    border-radius: 0px !important;
+}
+
+.modal .form-group {
+    margin-bottom: 5px;
+}
+
+.modal .form-group.extra-bottom-margin {
+    margin-bottom: 15px;
+}
+
+.modal label, .modal-header {
+    color: rgb(102,102,102);
+    font-weight: normal;
+}
+
+.modal .label-horizontal-bar label {
+    font-weight: bold;
+}
+
+.modal .label-horizontal-bar {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    font-weight: bold;
+}
+
+.modal .label-horizontal-bar .control-label:after {
+  content: "";
+  position: absolute;
+  height: 5px;
+  border-top: 1px solid rgb(178,178,178);
+  top: 10px;
+  width: 100%;
+  margin-left: 5px;
+}
+
+.modal-header h4 {
+	font-size: 14px; 
+}
+
+.modal-backdrop, .modal-backdrop.fade.in {
+    opacity: 0.5 !important;
+    filter: alpha(opacity=50) !important;
+    background: black !important;
+}
+
+.modal-backdrop.fade {
+  filter: alpha(opacity=0)  !important;
+  opacity: 0  !important;
+}
+.modal-backdrop.in {
+  filter: alpha(opacity=50)  !important;
+  opacity: .5  !important;
+}
+
+
+/* Jquery UI Dialog custom look for Fuelsmanager*/
+
+.ui-dialog {
+    min-width: 500px;
+    padding: 0px !important;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
+
+.ui-widget select {
+    color: black;
+}
+
+.ui-dialog .ui-icon{
+    background-image: url(../../Areas/Content/redmond/images/ui-icons_ffffff_256x240.png) !important;
+}
+
+.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br {
+     -moz-border-radius: 0px !important;
+    -webkit-border-radius: 0px !important;
+    -khtml-border-radius: 0px !important;
+    border-radius: 0px !important;
+}
+
+.ui-dialog .ui-dialog-buttonpane {
+    border-width: 0 !important;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0 !important;
+}
+
+.ui-dialog.ui-widget-content {
+    border: none;
+    color: white !important;
+    background: #6086BD url(../../FMWebApp/images/dialog-big-icon.png) left bottom no-repeat !important;
+}
+
+.ui-dialog.ui-widget-content.no-background-image {
+    border: none;
+    color: white !important;
+    background: #6086BD !important;
+}
+
+
+.ui-dialog .ui-dialog-content {
+    color: white !important;
+    height: auto !important;
+    padding: 1em 2em 0em 2em !important;
+}
+
+.ui-dialog-titlebar.ui-widget-header {
+    border: none;
+    background: #476899;
+    color: white;
+    font-weight: normal;    
+    text-align: center !important;
+}
+
+.ui-dialog .ui-dialog-title {
+    float: none !important;
+    font-weight: bold;
+}
+
+.ui-dialog.dialog-title-icon-info .ui-dialog-title {
+    background: url(../../FMWebApp/images/dialog-small-icon.png) no-repeat scroll -2px -2px;
+    padding-left:35px;    
+}
+
+
+.ui-dialog-titlebar-close {
+    border: none !important;
+    background: transparent !important;
+}
+
+.ui-dialog-titlebar-close.ui-state-focus {
+    background: #3b5780 !important;
+}
+
+.ui-dialog-buttonpane {
+    background: transparent !important;
+}
+
+.ui-dialog  .ui-button-text {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
+
+.ui-dialog .ui-dialog-buttonpane button {
+    min-width: 100px;
+	 background-color: #476899;
+    color: white;
+    border: none;
+	 height: 30px;
+}
+
+.ui-dialog .ui-state-default, .ui-dialog .ui-widget-content .ui-state-default,
+.ui-dialog .ui-state-default:hover, .ui-dialog .ui-widget-content .ui-state-default:hover {
+    border: 1px solid #476899 !important;
+    background: transparent;
+    font-weight: normal;
+    color: white;
+    outline-color: transparent;
+}
+
+.ui-dialog .ui-state-default.ui-state-focus, .ui-dialog .ui-widget-content .ui-state-default.ui-state-focus {
+    border: none;
+    background: #3b5780 ;
+    font-weight: normal;
+    color: white;
+}
+
+.no-close .ui-dialog-titlebar-close {
+    display: none
+}
+
+.ui-dialog .ui-dialog-titlebar .ui-button .ui-icon-closethick {
+	left: 0px !important;
+	top: 0px !important; 
+}
+
+/* Notifications */
+.ui-pnotify.stack-bar-top {
+	right: 0;
+	top: 0;
+}
+.ui-pnotify.stack-bar-bottom {
+	right: auto;
+	bottom: 0;
+	top: auto;
+	left: auto;
+}
+
+.ui-pnotify-translucent .ui-pnotify-container{
+	opacity: .8;
+    -webkit-transition: opacity .5s ease-in-out;
+    -moz-transition: opacity .5s ease-in-out;
+    transition: opacity .5s ease-in-out;
+}
+
+.ui-pnotify-translucent .ui-pnotify-container:hover{
+	opacity: 1;
+}
+
+.ui-pnotify-text {
+	overflow-y: hidden;
+   overflow-wrap: break-word;
+}
+
+.slick-header .ui-state-default, .slick-header.ui-state-default, .slick-viewport .ui-state-default{
+    border: 1px solid rgb( 220, 220, 220 ) !important;
+    background: rgb( 250, 250, 250 ) !important;
+    font-weight: bold;
+    color: rgb( 102, 102, 102 ) !important;
+}
+
+.formfield
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	color: #000000;
+}
+
+/* Used by screens that use Datatables for grid sorting, like the Transaction Summary Screen */
+#DataTablesFooter {
+	bottom: 1px;
+	background-color: #486899;
+	min-height: 25px;
+    font-size: 12px;
+    line-height: 20px;
+}
+
+    #DataTablesFooter .dataTables_info, #DataTablesFooter .dataTables_paginate, #DataTablesFooter .dataTables_paginate a {
+        padding-top: 0px;
+    }
+
+    #DataTablesFooter .dataTables_info {
+        padding-left: 10px;
+    }
+    /* Used to keep the faux- DataTables footer which contains the paging buttons the same size as the table 
+    Without this, when the page is shrunk, the faux-footer will be smaller than the table 
+*/
+    #DataTablesWrapper {
+        min-width: 720px;
+    }
+
+.dataTable thead tr {
+    background-color: #486899 !important;
+}
+
+.dataTable thead th {
+    text-align: center;
+    font-weight: normal !important;
+/*    padding: 3px 18px !important;*/
+    border-bottom: 1px solid white !important;
+    font-size: 14px !important;
+    color: white;
+}
+
+.formfieldtitle {
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    line-height: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    white-space: nowrap;
+    max-width: none !important;
+    color: #486899;
+}
+
+.dataTables_length label,
+.dataTables_filter label {
+    color: #486899;
+    font-weight: normal;
+    font-size: 12px;
+}
+
+.dataTables_filter input[type=search] {
+    border-width: 1px;
+}
+

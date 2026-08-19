@@ -1,0 +1,398 @@
+﻿@using System.Web.Mvc.Html
+@using System.Globalization
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@using FuelsManager.Areas.InventoryManagement.ViewModels
+@using Microsoft.Ajax.Utilities
+@using FMBusinessObjects.DataObjects
+@using FMBusinessObjects.DataObjects.CodedVariables
+@model FuelsManager.Areas.InventoryManagement.ViewModels.VesselSettingsEditorModel
+
+<link href="~/Areas/Content/VesselSettingsEditor.css" rel="stylesheet" type="text/css" />
+<script src="~/Areas/Scripts/FMCommon.js"></script>
+<script src="~/Areas/Scripts/VesselSettingsEditor.js"></script>
+
+@using (Html.BeginForm("ButtonSubmit", "VesselSettingsEditor", FormMethod.Post, new { id = "VesselSettingsEditorForm" }))
+{
+	@Html.AntiForgeryToken()
+
+	@Html.Hidden("urlSaveVesselSettings", @Url.Action("SaveVesselSettings", "VesselSettingsEditor"));
+
+	@Html.HiddenFor(m => m.PointGuid);
+	@Html.HiddenFor(m => m.PointPropertyGuid);
+	@Html.HiddenFor(m => m.IsTemplatePoint);
+	@Html.HiddenFor(m => m.TemperatureUnit);
+
+	var title = Model.PointId + " - " + Model.PointPropertyId;
+	var tankVolumeStr = @FMBaseController.TranslateText("Tank Volume") + " (" + @FMBaseController.GetEngineeringUnitsString(Model.VolumeUnit) + ")";
+	var tankHeightStr = @FMBaseController.TranslateText("Tank Height") + " (" + FMBaseController.GetEngineeringUnitsString(Model.LevelUnit) + ")";
+	var tankRadiusStr = @FMBaseController.TranslateText("Tank Radius") + " (" + FMBaseController.GetEngineeringUnitsString(Model.LevelUnit) + ")";
+	var tankShellThicknessStr = @FMBaseController.TranslateText("Tank Shell Thickness") + " (" + FMBaseController.GetEngineeringUnitsString(Model.LevelUnit) + ")";
+	var tankInstTempStr = @FMBaseController.TranslateText("Tank Installation Temperature") + " (" + FMBaseController.GetEngineeringUnitsString(Model.TemperatureUnit) + ")";
+	var vesselSetupLbl = @FMBaseController.TranslateText("Vessel Editor|Setup");
+	var vesselMfrLocLbl = @FMBaseController.TranslateText("Vessel Editor|Tank Information");
+	var CSTVolumeStr = @FMBaseController.TranslateText("Vessel Editor|Capacity") + " (" + @FMBaseController.GetEngineeringUnitsString(Model.VolumeUnit) + ")";
+
+<section id="vesselSettingsEditorPartial" class="">
+	<div class="VesselSettingsEditorHeader row">
+		<button type="button" class="close" data-dismiss="modal" onclick="$('#PEMPEClosePropertyScreen').click();">&times;</button>
+	</div>
+	<div class="row">
+		<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+			<h4>@title</h4>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+			<h5>@FMBaseController.TranslateText("Vessel Editor")</h5>
+		</div>
+	</div>
+	<br />
+	<table id="VesselEditorFormatTable">
+		<tr>
+			<td>
+				<div id="VesselModuleSetupDetailMenu" class="VesselModuleSetupDetailMenuDiv">
+					<ul id="VesselSetupTabs" class="list-inline col-lg-6 col-md-6">
+						<li class="VesselSetupTabItem selected" id="VesselSetupTab" onclick="FMVesselSettingsEditor.DisplayVesselSetupSection(); return false;">
+							<b id="VesselSetupItemBtag" class="selected">@vesselSetupLbl</b>
+						</li>
+						<li class="VesselSetupTabItem" id="VesselMfrLocTab" onclick="FMVesselSettingsEditor.DisplayMfrLocSection(); return false;">
+							<b id="VesselMfrLocItemBtag">@vesselMfrLocLbl</b>
+						</li>
+					</ul>
+				</div>
+			</td>
+		</tr>
+		<tr><td><label>&nbsp;</label></td></tr>
+		<tr>
+			<td class="VesselModuleSetupSectionsTd">
+				<div id="SectionsDiv" style="margin-left: 12px; height: 390px">
+					<!-- This is the Vessel Setup section of the page. -->
+					<section id="VesselSetupSection">
+						<div id="VesselSettingsPropertyList" class="row">
+							<div id="VesselSettingsLeftList" class="col-sm-4 col-md-4 col-lg-4">
+								<div class="form-group" data-display="calendar">
+									<label class="control-label" for="TankInstallationDate">@FMBaseController.TranslateText("Tank Installation Date")</label>
+									<div class="form-group">
+										<div class='input-group date' id='datepickerTankInstallationDate'>
+											<input type='text' class="form-control text-center datepicker" id="VETankInstallationDate" name="TankInstallationDate" value=""/>
+										</div>
+									</div>
+									<script type="text/javascript">
+										$(function () {
+											var numFormatInfoString = $('#NumberFormatInfoString').val();
+											var numFormatInfo = JSON.parse(numFormatInfoString);
+											FMLayout.dateFormat = ConvertToJQueryUIDateFormat(numFormatInfo.ShortDatePattern);
+											FMLayout.calendarLocation = '@Url.Content("~/DispatchWebApp/images")';
+											$('#VETankInstallationDate').datepicker({
+												buttonImage: FMLayout.calendarLocation + '/calendar.gif',
+												buttonImageOnly: true,
+												showOn: "button",
+												dateFormat: FMLayout.dateFormat,
+												beforeShow: function () {
+													setTimeout(function () {
+														$('.ui-datepicker').css('z-index', 1100);
+													}, 0);
+												}
+											});
+
+											$('#VETankInstallationDate').blur(function () {
+												val = $(this).val();
+												var isValid = moment(val, numFormatInfo.ShortDatePattern.toUpperCase(), true).isValid();
+
+												if (!isValid) {
+													$('#VETankInstallationDate').select();
+												}
+											});
+
+											$('#VETankInstallationDate').datepicker("setDate", moment('@Model.TankInstallationDate').format(numFormatInfo.ShortDatePattern.toUpperCase()));
+										});
+									</script>
+								</div>
+
+								<div class="form-group" data-display="dropdown">
+									<label class="control-label" for="VesselSettings.TankGeometry">@FMBaseController.TranslateText("Tank Geometry")</label>
+									<select class="form-control" id="TankGeometry" name="VesselSettings.TankGeometry">
+										@foreach (var enumVal in PointsController.GetEnumSelectList<TankGeometryEnum>())
+										{
+											<option value=@enumVal.Value @{if (Convert.ToInt32(@Model.VesselSettings.TankGeometry).ToString() == @enumVal.Value) { <text> selected</text> }}>@enumVal.Text</option>
+										}
+									</select>
+								</div>
+								<div class="form-group" data-display="input">
+									<label class="control-label" for="VesselSettings.TankVolume.Value">@tankVolumeStr</label>
+									<input class="form-control input-md text-right" id="VesselSettings.TankVolume.Value" name="VesselSettings.TankVolume.Value" type="text" data-raw-value="@Model.VesselSettings.TankVolume.Value" data-unit="@PointProperty.GetFieldUnitType(@Model.VesselSettings.TankVolume)" data-format="@PointProperty.GetFieldUnitDecimalPlaces(@Model.VesselSettings.TankVolume)" value="@Model.VesselSettings.TankVolume.Value">
+								</div>
+								<div class="form-group" data-display="input">
+									<label class="control-label" for="VesselSettings.TankHeight.Value">@tankHeightStr</label>
+									<input class="form-control input-md text-right" id="VesselSettings.TankHeight.Value" name="VesselSettings.TankHeight.Value" type="text" data-raw-value="@Model.VesselSettings.TankHeight.Value" data-unit="@PointProperty.GetFieldUnitType(@Model.VesselSettings.TankHeight)" data-format="@PointProperty.GetFieldUnitDecimalPlaces(@Model.VesselSettings.TankHeight)" value="@Model.VesselSettings.TankHeight.Value">
+								</div>
+								<div class="form-group" data-display="input">
+									<label class="control-label" for="VesselSettings.TankRadius.Value">@tankRadiusStr</label>
+									<input class="form-control input-md text-right" id="VesselSettings.TankRadius.Value" name="VesselSettings.TankRadius.Value" type="text" data-raw-value="@Model.VesselSettings.TankRadius.Value" data-unit="@PointProperty.GetFieldUnitType(@Model.VesselSettings.TankRadius)" data-format="@PointProperty.GetFieldUnitDecimalPlaces(@Model.VesselSettings.TankRadius)" value="@Model.VesselSettings.TankRadius.Value">
+								</div>
+								<div class="form-group" data-display="input">
+									<label class="control-label" for="VesselSettings.TankShellThickness.Value">@tankShellThicknessStr</label>
+									<input class="form-control input-md text-right" id="VesselSettings.TankShellThickness.Value" name="VesselSettings.TankShellThickness.Value" type="text" data-raw-value="@Model.VesselSettings.TankShellThickness.Value" data-unit="@PointProperty.GetFieldUnitType(@Model.VesselSettings.TankShellThickness)" data-format="@PointProperty.GetFieldUnitDecimalPlaces(@Model.VesselSettings.TankShellThickness)" value="@Model.VesselSettings.TankShellThickness.Value">
+								</div>
+							</div>
+							<div id="VesselSettingsCenterList" class="col-sm-4 col-md-4 col-lg-4">
+								<div class="form-group" data-display="input">
+									<label class="control-label" for="VesselSettings.TankLiningMaterial">@FMBaseController.TranslateText("Tank Lining Material")</label>
+									<input class="form-control input-md text-left" id="VesselSettings.TankLiningMaterial" name="VesselSettings.TankLiningMaterial" type="text" value="@Model.VesselSettings.TankLiningMaterial">
+								</div>
+								<div class="form-group" data-display="dropdown">
+									<label class="control-label" for="VesselSettings.TankMaterial">@FMBaseController.TranslateText("Tank Material")</label>
+									<select class="form-control" id="TankMaterialDropDownList" name="VesselSettings.TankMaterial">
+										@foreach (var enumVal in PointsController.GetEnumSelectList<TankMaterialEnum>())
+										{
+											if(enumVal.Text == "Stainless 304")
+											{
+												enumVal.Text = "304 Stainless";
+											}
+											else if(enumVal.Text == "Stainless 316")
+											{
+												enumVal.Text = "316 Stainless";
+											}
+											else if(enumVal.Text == "Stainless 174 PH")
+											{
+												enumVal.Text = "17-4PH Stainless";
+											}
+											<option value=@enumVal.Value @{if (Convert.ToInt32(@Model.VesselSettings.TankMaterial).ToString() == @enumVal.Value) { <text> selected</text> } }>@enumVal.Text</option>
+										}
+									</select>
+								</div>
+								<div class="form-group" data-display="input">
+									<label class="control-label" for="VesselSettings.TankExpansionCoefficient.Value">@FMBaseController.TranslateText("Tank Expansion Coefficient")</label>
+									<input class="form-control input-md text-right" id="TankExpansionCoefficient" name="VesselSettings.TankExpansionCoefficient.Value" type="text" data-raw-value="@Model.VesselSettings.TankExpansionCoefficient.Value" data-unit="@PointProperty.GetFieldUnitType(@Model.VesselSettings.TankExpansionCoefficient)" data-format="@PointProperty.GetFieldUnitDecimalPlaces(@Model.VesselSettings.TankExpansionCoefficient)" value="@Model.VesselSettings.TankExpansionCoefficient.Value">
+								</div>
+								<div class="form-group" data-display="input">
+									<label class="control-label" for="VesselSettings.TankInstallationTemperature.Value">@tankInstTempStr</label>
+									<input class="form-control input-md text-right" id="TankInstallationTemperature" name="VesselSettings.TankInstallationTemperature.Value" type="text" data-raw-value="@Model.VesselSettings.TankInstallationTemperature.Value" data-unit="@PointProperty.GetFieldUnitType(@Model.VesselSettings.TankInstallationTemperature)" data-format="@PointProperty.GetFieldUnitDecimalPlaces(@Model.VesselSettings.TankInstallationTemperature)" value="@Model.VesselSettings.TankInstallationTemperature.Value">
+								</div>
+								<div class="form-group" data-display="input">
+									<label class="control-label" for="VesselSettings.AreaCoefficient.Value">@FMBaseController.TranslateText("Area Coefficient")</label>
+									<input class="form-control input-md text-right" id="AreaCoefficient" name="VesselSettings.AreaCoefficient.Value" type="text" data-raw-value="@Model.VesselSettings.AreaCoefficient.Value" data-unit="@PointProperty.GetFieldUnitType(@Model.VesselSettings.AreaCoefficient)" data-format="@PointProperty.GetFieldUnitDecimalPlaces(@Model.VesselSettings.AreaCoefficient)" value="@Model.VesselSettings.AreaCoefficient.Value">
+								</div>
+							</div>
+							<div id="VesselSettingsRightList" class="col-sm-4 col-md-4 col-lg-4">
+								<div class="form-group" data-display="boolean">
+									<label class="control-label" for="VesselSettings.CathodicProtectionSupported">@FMBaseController.TranslateText("Cathodic Protection Supported")</label>
+									<div class="control-group">
+										<label class="setting-radio-control setting-radio-control--radio pull-left">
+											@FMBaseController.TranslateText("YES")
+											<input type="radio" name="VesselSettings.CathodicProtectionSupported" value="true" @{if (@Model.VesselSettings.CathodicProtectionSupported) { <text> checked="checked" </text>  } } />
+											<div class="setting-radio-control__indicator"></div>
+										</label>
+										<label class="setting-radio-control setting-radio-control--radio pull-right">
+											@FMBaseController.TranslateText("NO")
+											<input type="radio" name="VesselSettings.CathodicProtectionSupported" value="false" @{if (!@Model.VesselSettings.CathodicProtectionSupported) { <text> checked="checked" </text>  }} />
+											<div class="setting-radio-control__indicator"></div>
+										</label>
+									</div>
+								</div>
+								<div class="form-group" data-display="boolean">
+									<label class="control-label" for="VesselSettings.OverfillProtectionSupported">@FMBaseController.TranslateText("Overfill Protection Supported")</label>
+									<div class="control-group">
+										<label class="setting-radio-control setting-radio-control--radio pull-left">
+											@FMBaseController.TranslateText("YES")
+											<input type="radio" name="VesselSettings.OverfillProtectionSupported" value="true" @{if (@Model.VesselSettings.OverfillProtectionSupported) { <text> checked="checked" </text>  } } />
+											<div class="setting-radio-control__indicator"></div>
+										</label>
+										<label class="setting-radio-control setting-radio-control--radio pull-right">
+											@FMBaseController.TranslateText("NO")
+											<input type="radio" name="VesselSettings.OverfillProtectionSupported" value="false" @{if (!@Model.VesselSettings.OverfillProtectionSupported) { <text> checked="checked" </text>  }} />
+											<div class="setting-radio-control__indicator"></div>
+										</label>
+									</div>
+								</div>
+								<div class="form-group" data-display="boolean">
+									<label class="control-label" for="VesselSettings.SpillProtectionSupported">@FMBaseController.TranslateText("Spill Protection Supported")</label>
+									<div class="control-group">
+										<label class="setting-radio-control setting-radio-control--radio pull-left">
+											@FMBaseController.TranslateText("YES")
+											<input type="radio" name="VesselSettings.SpillProtectionSupported" value="true" @{if (@Model.VesselSettings.SpillProtectionSupported) { <text> checked="checked" </text>  } } />
+											<div class="setting-radio-control__indicator"></div>
+										</label>
+										<label class="setting-radio-control setting-radio-control--radio pull-right">
+											@FMBaseController.TranslateText("NO")
+											<input type="radio" name="VesselSettings.SpillProtectionSupported" value="false" @{if (!@Model.VesselSettings.SpillProtectionSupported) { <text> checked="checked" </text>  }} />
+											<div class="setting-radio-control__indicator"></div>
+										</label>
+									</div>
+								</div>
+								<div class="form-group" data-display="boolean">
+									<label class="control-label" for="VesselSettings.TankShellCorrectionEnabled">@FMBaseController.TranslateText("Tank Shell Correction Enabled")</label>
+									<div class="control-group">
+										<label class="setting-radio-control setting-radio-control--radio pull-left">
+											@FMBaseController.TranslateText("YES")
+											<input type="radio" name="VesselSettings.TankShellCorrectionEnabled" value="true" @{if (@Model.VesselSettings.TankShellCorrectionEnabled) { <text> checked="checked" </text>  } } />
+											<div class="setting-radio-control__indicator"></div>
+										</label>
+										<label class="setting-radio-control setting-radio-control--radio pull-right">
+											@FMBaseController.TranslateText("NO")
+											<input type="radio" name="VesselSettings.TankShellCorrectionEnabled" value="false" @{if (!@Model.VesselSettings.TankShellCorrectionEnabled) { <text> checked="checked" </text>  }} />
+											<div class="setting-radio-control__indicator"></div>
+										</label>
+									</div>
+								</div>
+								<div class="form-group" data-display="boolean">
+									<label class="control-label" for="VesselSettings.TankShellInsulated">@FMBaseController.TranslateText("Tank Shell Insulated")</label>
+									<div class="control-group">
+										<label class="setting-radio-control setting-radio-control--radio pull-left">
+											@FMBaseController.TranslateText("YES")
+											<input type="radio" name="VesselSettings.TankShellInsulated" value="true" @{if (@Model.VesselSettings.TankShellInsulated) { <text> checked="checked" </text>  } } />
+											<div class="setting-radio-control__indicator"></div>
+										</label>
+										<label class="setting-radio-control setting-radio-control--radio pull-right">
+											@FMBaseController.TranslateText("NO")
+											<input type="radio" name="VesselSettings.TankShellInsulated" value="false" @{if (!@Model.VesselSettings.TankShellInsulated) { <text> checked="checked" </text>  }} />
+											<div class="setting-radio-control__indicator"></div>
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+
+					<!-- This is the Vessel Mfr/Loc section of the page. -->
+					<section id="VesselMfrLocSection" class="hidden">
+						<fieldset>
+							<legend>@FMBaseController.TranslateText("Vessel Editor|Manufacturer Info")</legend>
+							<table style="table-layout:fixed; width: 100%">
+								<tr>
+									<td>
+										<div class="form-group" data-display="input">
+											<label class="control-label" for="VesselSettings.CSTManufacturerName">@FMBaseController.TranslateText("Vessel Editor|Name")</label>
+											<input class="form-control input-md text-left" id="VesselSettings.MfrName" name="VesselSettings.CSTManufacturerName" type="text" value="@Model.VesselSettings.CSTManufacturerName">
+										</div>
+										</td>
+									<td>
+										<div class="form-group" data-display="calendar">
+											<label class="control-label" for="CSTManufactureDate">@FMBaseController.TranslateText("Vessel Editor|Date")</label>
+											<div class="form-group">
+													<input type='text' class="form-control text-center datepicker" id="VesselSettingsMfrDate" name="VesselSettings.CSTManufactureDate" value="" />
+											</div>
+											<script type="text/javascript">
+												$(function () {
+													var numFormatInfoString = $('#NumberFormatInfoString').val();
+													var numFormatInfo = JSON.parse(numFormatInfoString);
+													FMLayout.dateFormat = ConvertToJQueryUIDateFormat(numFormatInfo.ShortDatePattern);
+													FMLayout.calendarLocation = '@Url.Content("~/DispatchWebApp/images")';
+													$('#VesselSettingsMfrDate').datepicker({
+														buttonImage: FMLayout.calendarLocation + '/calendar.gif',
+														buttonImageOnly: true,
+														showOn: "button",
+														dateFormat: FMLayout.dateFormat,
+														beforeShow: function () {
+															setTimeout(function () {
+																$('.ui-datepicker').css('z-index', 1100);
+															}, 0);
+														}
+													});
+
+													$('#VesselSettingsMfrDate').blur(function () {
+														val = $(this).val();
+														var isValid = moment(val, numFormatInfo.ShortDatePattern.toUpperCase(), true).isValid();
+
+														if (!isValid) {
+															$('#VesselSettingsMfrDate').select();
+														}
+													});
+
+													$('#VesselSettingsMfrDate').datepicker("setDate", moment('@Model.VesselSettings.CSTManufactureDate').format(numFormatInfo.ShortDatePattern.toUpperCase()));
+												});
+											</script>
+										</div>
+									</td>
+									</tr>
+								<tr>
+									<td>
+										<div class="form-group" data-display="input">
+											<label class="control-label" for="VesselSettings.CSTCapacity.Value">@CSTVolumeStr</label>
+											<input class="form-control input-md text-right" id="VesselSettings.CSTCapacity.Value" name="VesselSettings.CSTCapacity.Value" type="text" data-raw-value="@Model.VesselSettings.CSTCapacity.Value" data-unit="@PointProperty.GetFieldUnitType(@Model.VesselSettings.CSTCapacity)" data-format="@PointProperty.GetFieldUnitDecimalPlaces(@Model.VesselSettings.CSTCapacity)" value="@Model.VesselSettings.CSTCapacity.Value">
+										</div>
+									</td>
+									<td>
+										<div class="form-group" data-display="input">
+											<label class="control-label" for="VesselSettings.CSTSerialNumber">@FMBaseController.TranslateText("Vessel Editor|Serial Number")</label>
+											<input class="form-control input-md text-left" id="VesselSettings.MfrSerialNumber" name="VesselSettings.CSTSerialNumber" type="text" value="@Model.VesselSettings.CSTSerialNumber">
+										</div>
+									</td>
+								</tr>
+							</table>
+						</fieldset>
+
+						<fieldset>
+							<legend>@FMBaseController.TranslateText("Vessel Editor|Location Info")</legend>
+							<table style="table-layout:fixed; width: 100%">
+								<tr>
+									<td>
+										<div class="form-group" data-display="input">
+											<label class="control-label" for="VesselSettings.CSTLocationName">@FMBaseController.TranslateText("Vessel Editor|Name")</label>
+											<input class="form-control input-md text-left" id="VesselSettings.MfrLocation" name="VesselSettings.CSTLocationName" type="text" value="@Model.VesselSettings.CSTLocationName">
+										</div>
+									</td>
+									<td>
+										<div class="form-group" data-display="calendar">
+											<label class="control-label" for="CSTCommissionDate">@FMBaseController.TranslateText("Vessel Editor|Commission Date")</label>
+											<div class="form-group">
+													<input type='text' class="form-control text-center datepicker" id="VesselSettingsCommissionDate" name="VesselSettings.CSTCommissionDate" value="" />
+											</div>
+											<script type="text/javascript">
+												$(function () {
+													var numFormatInfoString = $('#NumberFormatInfoString').val();
+													var numFormatInfo = JSON.parse(numFormatInfoString);
+													FMLayout.dateFormat = ConvertToJQueryUIDateFormat(numFormatInfo.ShortDatePattern);
+													FMLayout.calendarLocation = '@Url.Content("~/DispatchWebApp/images")';
+													$('#VesselSettingsCommissionDate').datepicker({
+														buttonImage: FMLayout.calendarLocation + '/calendar.gif',
+														buttonImageOnly: true,
+														showOn: "button",
+														dateFormat: FMLayout.dateFormat,
+														beforeShow: function () {
+															setTimeout(function () {
+																$('.ui-datepicker').css('z-index', 1100);
+															}, 0);
+														}
+													});
+
+													$('#VesselSettingsCommissionDate').blur(function () {
+														val = $(this).val();
+														var isValid = moment(val, numFormatInfo.ShortDatePattern.toUpperCase(), true).isValid();
+
+														if (!isValid) {
+															$('#VesselSettingsCommissionDate').select();
+														}
+													});
+
+													$('#VesselSettingsCommissionDate').datepicker("setDate", moment('@Model.VesselSettings.CSTCommissionDate').format(numFormatInfo.ShortDatePattern.toUpperCase()));
+												});
+											</script>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="form-group" data-display="input">
+											<label class="control-label" for="VesselSettings.CSTLatitude">@FMBaseController.TranslateText("Vessel Editor|Latitude")</label>
+											<input class="form-control input-md text-right" id="VesselSettings.CSTLatitude" name="VesselSettings.CSTLatitude" type="text" value="@Model.VesselSettings.CSTLatitude">
+										</div>
+									</td>
+									<td>
+										<div class="form-group" data-display="input">
+											<label class="control-label" for="VesselSettings.CSTLongitude">@FMBaseController.TranslateText("Vessel Editor|Longitude")</label>
+											<input class="form-control input-md text-right" id="VesselSettings.CSTLongitude" name="VesselSettings.CSTLongitude" type="text" value="@Model.VesselSettings.CSTLongitude">
+										</div>
+									</td>
+								</tr>
+							</table>
+						</fieldset>
+
+					</section>
+				</div>
+			</td>
+		</tr>
+	</table>
+</section>
+}

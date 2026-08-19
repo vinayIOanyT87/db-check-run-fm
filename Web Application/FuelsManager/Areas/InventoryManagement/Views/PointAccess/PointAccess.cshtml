@@ -1,0 +1,213 @@
+﻿@using FMBusinessObjects.DataObjects
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.ViewModels
+@using Microsoft.Ajax.Utilities
+@model FuelsManager.Areas.InventoryManagement.ViewModels.PointAccessModel
+
+
+@{
+	//	ViewBag.Title = "PointAccessGroupDetail";
+	Layout = "~/Areas/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Areas/Content/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Content/bootstrap-modal.css" rel="stylesheet" type="text/css" />
+
+<link href="~/Areas/Lib/DataTables/DataTables-1.10.15/css/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Lib/DataTables/Select-1.2.2/css/select.dataTables.min.css" rel="stylesheet" type="text/css" />
+
+<link href="~/Areas/Content/PointAccess.css" rel="stylesheet" type="text/css" />
+
+<script src="~/Areas/Lib/DataTables/DataTables-1.10.15/js/jquery.dataTables.js"></script>
+<script src="~/Areas/Lib/DataTables/Select-1.2.2/js/dataTables.select.min.js"></script>
+<script src="~/Areas/Lib/DataTables/DataTables-1.10.15/js/dataTables.bootstrap.js"></script>
+
+<script src="~/Areas/Lib/jquery.nicescroll.min.js"></script>
+
+<script src="~/Areas/Lib/bootstrap-modal.js"></script>
+<script src="~/Areas/Lib/bootstrap-modalmanager.js"></script>
+<script src="~/Areas/Scripts/FMErrorAndExceptionHandling.js"></script>
+<script src="~/Areas/Scripts/PointAccess.js"></script>
+
+<body style="overflow-y: hidden">
+<div class="container-fluid">
+	@Html.AntiForgeryToken()
+	@Html.Hidden("CSRFToken", @Session["CSRFToken"])
+	@Html.Hidden("AddPointAccessGroupURL", @Url.Action("AddPointAccessGroup", "PointAccess"))
+	@Html.Hidden("DeletePointAccessGroupURL", @Url.Action("DeletePointAccessGroup", "PointAccess"))
+	@Html.Hidden("PointAccessModifyRight", @Model.HasPointAccessModifyRight)
+
+@{
+	var ModifyPADisplay = (Model.HasPointAccessModifyRight) ? "" : "display: none;";
+	var ModifyPACursor = (Model.HasPointAccessModifyRight) ? "" : "cursor: not-allowed !important;";
+}
+
+	<div class="row" id="PACmenu">
+		<div id="PointAccessTitle" class="col-sm-4">
+			<div><img src="~/FMWebApp/images/PointAccessGray.png">@FMBaseController.TranslateText("PointAccess|Point Access")</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top: 20px">
+		<div id="PointControlSection" class="col-xs-4">
+			<div class="panel1 @(Model.InitialView == PointAccessModel.PointDetailViewMode.PointGroupView ? "selected": "")">
+				<div class="panel-container">
+					<div class="col-sm-3 icon-container">
+						<img src="~/FMWebApp/images/PointAccessGroupsWhite.png">
+					</div>
+					<div class="col-sm-9 message-container">
+						<div class="panel-name">@FMBaseController.TranslateText("PointAccess|POINT ACCESS GROUPS")</div>
+						<div class="panel-description">@FMBaseController.TranslateText("PointAccess|Manage Point Access Groups")</div>
+						<div class="panel-selector"></div>
+					</div>
+				</div>
+			</div>
+			<div class="panel2 @(Model.InitialView == PointAccessModel.PointDetailViewMode.UserGroupView ? "selected": "")">
+				<div class="panel-container">
+					<div class="col-sm-3 icon-container">
+						<img src="~/FMWebApp/images/UserGroupWhite.png">
+					</div>
+					<div class="col-sm-9 message-container">
+						<div class="panel-name">@FMBaseController.TranslateText("PointAccess|USER GROUPS")</div>
+						<div class="panel-description">@FMBaseController.TranslateText("PointAccess|Manage access for a user group")</div>
+						<div class="panel-selector"></div>
+					</div>
+				</div>
+			</div>
+			<div class="panel3 @(Model.InitialView == PointAccessModel.PointDetailViewMode.UserView ? "selected": "")">
+				<div class="panel-container">
+					<div class="col-sm-3 icon-container">
+						<img src="~/FMWebApp/images/UserWhite.png">
+					</div>
+					<div class="col-sm-9 message-container">
+						<div class="panel-name">@FMBaseController.TranslateText("PointAccess|USERS")</div>
+						<div class="panel-description">@FMBaseController.TranslateText("PointAccess|View access for a user")</div>
+						<div class="panel-selector"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="PointControlDetail" class="col-xs-8">
+
+            <section id="pointaccessgroup" class="@(Model.InitialView == PointAccessModel.PointDetailViewMode.PointGroupView ? "": "hidden")">
+                <div class="section-header-name row">
+                    <div class="col-sm-4">
+                        <img src="~/FMWebApp/images/PointAccessGroupsGray.png">
+                        <span class="section-name-label">@FMBaseController.TranslateText("PointAccess|POINT ACCESS GROUPS")</span>
+                    </div>
+                </div>
+                    <table id="pointAccessGroupTable" class="table table-striped table-bordered hover">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="width: 25px" class="text-center"></th>
+                                <th scope="col" class="text-center">@FMBaseController.TranslateText("PointAccess|Name")</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var pointAccessGroup in @Model.PointAccessGroupList.OrderBy(x => x.ID))
+                            {
+                                <tr data-guid="@pointAccessGroup.IdentityGuid" data-url='?target=../InventoryManagement/PointAccess/PointAccessGroupDetail/@(pointAccessGroup.IdentityGuid)&CSRFToken=@(this.Session["CSRFToken"])'>
+                                    <td style ="@ModifyPACursor" title=">@FMBaseController.TranslateText("PointAccess|Delete Point Access Group")">
+                                        <img id="PAG_@(pointAccessGroup.IdentityGuid)__DeleteTag" class="deleteImg" src=" ~/fmwebapp/images/Delete-column.png">
+                                    </td>
+                                    <td>@pointAccessGroup.ID</td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                <div id="pointAccessButtons" class="col-xs-8" style="position: fixed; bottom: 1px;">
+                    <button id="addPointAccessGroup" type="submit" class="formfieldtitle btn" style="width: 200px; float: left; @ModifyPADisplay">
+                        @FMBaseController.TranslateText("PointAccess|Add Point Access Group")
+                    </button>
+                    <div id="pointAccessButtonsPage" style="float:right; margin-right: 60px;"></div>
+                </div>
+            </section>
+			<section id="usergroup" class="@(Model.InitialView == PointAccessModel.PointDetailViewMode.UserGroupView ? "": "hidden")">
+				<div class="section-header-name row">
+					<div class="col-sm-4">
+						<img src="~/FMWebApp/images/UserGroupsGray.png">
+						<span class="section-name-label">@FMBaseController.TranslateText("PointAccess|USER GROUPS")</span>
+					</div>
+				</div>
+				<table id="userGroupTable" class="table table-striped table-bordered" style="width: 100%">
+					<thead>
+					<tr>
+						<th scope="col" class="text-center">@FMBaseController.TranslateText("PointAccess|Name")</th>
+						<th scope="col" class="text-center">@FMBaseController.TranslateText("PointAccess|Description")</th>
+					</tr>
+					</thead>
+					<tbody>
+					@foreach (var userGroup in @Model.UserGroupList.OrderBy(x => x.ID))
+					{
+						<tr data-guid="@userGroup.IdentityGuid" data-url='?target=../InventoryManagement/PointAccess/PointAccessUserGroupDetail/@(userGroup.IdentityGuid)&CSRFToken=@(this.Session["CSRFToken"])'>
+							<td>@userGroup.ID</td>
+							<td>@userGroup.Description</td>
+						</tr>
+					}
+					</tbody>
+				</table>
+			</section>
+			<section id="user" class="@(Model.InitialView == PointAccessModel.PointDetailViewMode.UserView ? "": "hidden")">
+				<div class="section-header-name row">
+					<div class="col-sm-4">
+						<img src="~/FMWebApp/images/UserGray.png">
+						<span class="section-name-label">@FMBaseController.TranslateText("PointAccess|USERS")</span>
+					</div>
+				</div>
+				<table id="userTable" class="table table-striped table-bordered">
+					<thead>
+					<tr>
+						<th scope="col" class="text-center">@FMBaseController.TranslateText("PointAccess|ID")</th>
+						<th scope="col" class="text-center">@FMBaseController.TranslateText("PointAccess|Name")</th>
+						<th scope="col" class="text-center">@FMBaseController.TranslateText("PointAccess|Email Address")</th>
+					</tr>
+					</thead>
+					<tbody>
+					@foreach (var user in @Model.UserList.AsReadOnly().OrderBy(x => x.ID))
+					{
+						<tr data-guid="@user.IdentityGuid" data-url='?target=../InventoryManagement/PointAccess/PointAccessUserDetail/@(user.IdentityGuid)&CSRFToken=@(this.Session["CSRFToken"])'>
+							<td>@user.ID</td>
+							<td>@user.Name</td>
+							<td>@user.EmailAddress</td>
+						</tr>
+					}
+					</tbody>
+				</table>
+			</section>
+
+		</div>
+
+	</div>
+</div>
+</body>
+
+<!-- Modal -->
+<div class="row">
+	<div id="PointAccessGroupNewScreen" class="modal fade" data-backdrop="static" data-focus-on="input:first" role="dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-body">
+				<form class="form" id="AddPointAccessGroupForm">
+					<div class="form-group">
+						<label for="PointAccessGroupNewName" class="control-label">@FMBaseController.TranslateText("PointAccess|New Point Access Group Name:")</label>
+					</div>
+					<div class="form-group extra-bottom-margin">
+						<input type="text" maxlength="30" name="PointAccessGroupNewName" id="PointAccessGroupNewName" class="form-control" placeholder="Enter Name" />
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-toolbar">
+					<div class="pull-right">
+						<button id="PointAccessGroupAddButton" type="button" class="formfieldtitle btn" accesskey="A" style="width: 100px;">
+							<u>A</u>dd
+						</button>
+						<button id="PointAccessGroupCloseButton" type="button" class="formfieldtitle btn" accesskey="C" data-dismiss="modal" style="width: 100px;">
+							<u>C</u>ancel
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

@@ -1,0 +1,80 @@
+﻿@using System.Web.Mvc.Html
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.MovementStartDataEditorModel
+
+<link href="~/Areas/Content/MovementStartDataEditor.css" rel="stylesheet" type="text/css" />
+<script src="~/Areas/Scripts/MovementStartDataEditor.js"></script>
+
+@using (Html.BeginForm("MovementStartDataEditor", "MovementStartDataEditor", FormMethod.Post, new { @id = "MovementStartDataEditorForm" }))
+{
+	@Html.AntiForgeryToken()
+	@Html.Hidden("MovementStartDataSaveUrl", @Url.Action("SaveMovementStartData", "MovementStartDataEditor"))
+	@Html.Hidden("MovementStartDataEditorModelStr", MovementStartDataEditorController.SerializeModel(Model))
+
+	var transferStartTimeLbl = FMBaseController.TranslateText("Movement|Transfer Start Time");
+	var applyToNodesLbl = FMBaseController.TranslateText("Movement|Apply To Nodes");
+
+
+	var numberFormatInfoString = String.Format("{{{0}"
+		 + "\"NegativeSign\":\"{1}\",{0}"
+		 + "\"NumberDecimalDigits\":{2},{0}"
+		 + "\"NumberDecimalSeparator\":\"{3}\",{0}"
+		 + "\"NumberGroupSeparator\":\"{4}\",{0}"
+		 + "\"NumberGroupSizes\":{5},{0}"
+		 + "\"NumberNegativePattern\":{6},{0}"
+		 + "\"ShortDatePattern\":\"{7}\",{0}"
+		 + "\"TimePattern\":\"{8}\"{0}}}"
+		 , Environment.NewLine
+		 , "-"
+		 , 0
+		 , Model.NumberDecimalSeparator
+		 , Model.NumberGroupSeparator
+		 , Model.NumberGroupSizes[0]
+		 , 1
+		 , Model.ShortDatePattern
+		 , Model.TimePattern);
+
+	<input id="CalendarLocationUrl" type="hidden" value='@Url.Content("~/DispatchWebApp/images")' />
+	<input id="NumberFormatInfoString" type="hidden" value='@numberFormatInfoString' />
+
+
+	var title = Model.PointId;
+
+	<section id="MovementUserDataTableSection">
+		<div class="MovementSettingsEditorHeader row">
+			<button type="button" class="close" data-dismiss="modal" onclick="$('#MovementStartDataEditorClosePropertyScreen').click();">&times;</button>
+		</div>
+		<div class="row">
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<h4 id="MovementModuleSettingEditorTitle">@title</h4>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<h5>@FMBaseController.TranslateText("Movement|Movement Start Data Editor")</h5>
+			</div>
+		</div>
+		<br />
+		<div id="MovementUserDataTopDiv" style="padding-top: 5px; padding-bottom: 5px;">
+			<table id="MovementStartDataTable">
+				<tr>
+					<td class="MovementStartDataTdPadding1">
+						<label id="TransferStartTimeLbl">@transferStartTimeLbl</label>
+					</td>
+					<td class="MovementStartDataTdPadding2">
+						<input id="TransferStartTimePicker" type="text" class="form-control text-center datepicker TransferStartTime" />
+					</td>
+				</tr>
+				<tr>
+					<td class="MovementStartDataTdPadding1">
+						<input type="checkbox" id="ApplyToNodesCb" name="ApplyToNodesCb" onchange="FMMovementStartDataEditor.ApplyToNodesCbOnChange();" />
+						<label for="ApplyToNodesCb">@applyToNodesLbl</label>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</section>
+}
+
+

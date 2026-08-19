@@ -1,0 +1,117 @@
+﻿.shelveDataEntryLabel {
+	font-family: "Helvetica Neue";
+	font-size: 12px;
+	font-style: normal;
+	font-variant: normal;
+	color: #b3b3b3;
+	width: inherit;
+	background-color: white;
+	text-align: left;
+	vertical-align: bottom;
+	border: none;
+	margin: 5px 0px 6px 5px;
+}
+
+.shelveDataEntryTimeHeader {
+	font-family: "Helvetica Neue";
+	font-size: 12px;
+	font-style: normal;
+	font-variant: normal;
+	color: #999999 !important;
+	width: inherit;
+	background-color: white;
+	text-align: left;
+	vertical-align: bottom;
+	border: none;
+	margin: 0px 0px 0px 5px;
+}
+
+.shelveDataEntryTimeFrom {
+	font-family: "Helvetica Neue";
+	font-size: 12px;
+	font-style: normal;
+	font-variant: normal;
+	color: #808080 !important;
+	width: inherit;
+	background-color: white;
+	vertical-align: bottom;
+	border: none;
+	margin: 5px 0px 6px 5px;
+	text-align: right;
+	padding-right: 5px;
+}
+
+.shelveDataEntryTimeBody {
+	font-family: "Helvetica Neue";
+	font-size: 12px;
+	font-style: normal;
+	font-variant: normal;
+	color: #999999 !important;
+	width: inherit;
+	background-color: white;
+	text-align: left;
+	vertical-align: bottom;
+	border: solid thin #808080;
+	margin: 5px 0px 6px 5px;
+	padding: 5px 0px 5px 5px;
+}
+
+
+.shelveDataEntryIds {
+	font-family: "Helvetica Neue";
+	font-size: 12px;
+	font-style: normal;
+	font-variant: normal;
+	color: #4d4d4d !important;
+	width: inherit;
+	background-color: white;
+	text-align: left;
+	vertical-align: bottom;
+	border: none;
+	margin: 5px 0px 6px 5px;
+}
+
+.shelveDataEntryTable {
+	width: 100%;
+	max-width: 100%;
+	border: none;
+	font-family: "Helvetica Neue";
+	font-size: 12px;
+	font-style: normal;
+	font-variant: normal;
+	color: #b3b3b3;
+	background-color: white;
+	text-align: left;
+	vertical-align: middle;
+}
+
+.shelveDataEntryTd {
+	padding: 5px 5px 5px 5px;
+}
+
+.shelveDataEntryDivOutline {
+	border: solid thin #b3b3b3;
+	width: 100%;
+}
+
+.shelveDataEntryRadioLabelUnchecked {
+	font-family: "Helvetica Neue";
+	font-size: 12px;
+	font-style: normal;
+	font-variant: normal;
+	color: #999999 !important;
+	width: inherit;
+	background-color: white;
+	text-align: left;
+	vertical-align: middle;
+	padding-left: 10px;
+	border: none;
+}
+
+.shelveDataEntryRadioLabelChecked {
+	color: #4d4d4d !important;
+}
+
+input[type="radio"]:focus {
+    outline: none;
+}

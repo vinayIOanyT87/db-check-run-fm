@@ -1,0 +1,40 @@
+﻿#vcfSettingsEditorPartial label {
+    color: rgb(153,153,153) !important;
+}
+
+body .modal {
+	width: 750px !important;
+	margin-left: -375px  !important;
+}
+
+.VcfSettingsEditorHeader {
+	padding: 0px;
+	width: 100%;
+}
+
+.VcfSettingsEditorHeader .close {
+	padding: 5px !important;
+	margin-top: -2px !important;
+}
+
+
+.h4, .h5, .h6, h4, h5, h6 {
+	margin-top: 0px !important;
+	margin-bottom: 0px !important;
+}
+
+.form-control{
+	border-radius: 0px !important;
+}
+
+.form-group{
+	height: 60px !important;
+}
+
+#ModulePropertyEditorPropertyScreen .modal, #ModulePropertyEditorPropertyScreen .modal-content{
+    background-color: white !important;
+}
+
+#ModulePropertyEditorPropertyScreen .ui-pnotify {
+	  z-index: 1051; /* make sure the notification are above the scroll bars and not hidden by them*/
+}

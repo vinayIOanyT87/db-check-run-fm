@@ -1,0 +1,27 @@
+HKCR
+{
+	OptomuxOPCServer.Ports.1 = s 'Ports Class'
+	{
+		CLSID = s '{D1CAA238-8AB9-4E70-A628-49AB61EC5BD1}'
+	}
+	OptomuxOPCServer.Ports = s 'Ports Class'
+	{
+		CLSID = s '{D1CAA238-8AB9-4E70-A628-49AB61EC5BD1}'
+		CurVer = s 'OptomuxOPCServer.Ports.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {D1CAA238-8AB9-4E70-A628-49AB61EC5BD1} = s 'Ports Class'
+		{
+			ProgID = s 'OptomuxOPCServer.Ports.1'
+			VersionIndependentProgID = s 'OptomuxOPCServer.Ports'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{1EBA63BD-E098-42BF-B166-F98DA4BC99E6}'
+		}
+	}
+}

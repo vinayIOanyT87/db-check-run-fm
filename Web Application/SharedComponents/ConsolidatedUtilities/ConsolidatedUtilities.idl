@@ -1,0 +1,37 @@
+// ConsolidatedUtilities.idl : IDL source for ConsolidatedUtilities
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (ConsolidatedUtilities.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(9AED4842-EDDB-4A3B-84C5-6C520B07DCF0),
+	dual,
+	nonextensible,
+	helpstring("ISecureHash Interface"),
+	pointer_default(unique)
+]
+interface ISecureHash : IDispatch{
+	[id(1), helpstring("method HashPassword")] HRESULT HashPassword([in] BSTR bstrUserID, [in] BSTR bstrPassword, [out,retval] BSTR* pVal);
+};
+[
+	uuid(7FBD0D6A-BBAB-4A76-AEAE-C24D64187E05),
+	version(1.0),
+	helpstring("ConsolidatedUtilities 1.0 Type Library")
+]
+library ConsolidatedUtilitiesLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(F738B889-CA5B-4CF7-B811-FB943533BEF1),
+		helpstring("SecureHash Class")
+	]
+	coclass SecureHash
+	{
+		[default] interface ISecureHash;
+	};
+};

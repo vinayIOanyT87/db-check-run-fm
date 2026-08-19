@@ -1,0 +1,112 @@
+﻿@using FuelsManager.Areas.Controllers;
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <title></title>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/bootstrap")
+    @Scripts.Render("~/bundles/bootstrap")
+
+
+    @Styles.Render("~/Areas/Content/css")
+    @Styles.Render("~/Areas/Content/redmond/css")
+    @Scripts.Render("~/bundles/fmlayout")
+
+    @Styles.Render("~/Content/tablesorterThemes")
+    @Styles.Render("~/Content/tablesorterPager")
+    @Styles.Render("~/Content/tablesorterCustom")
+    @Scripts.Render("~/bundles/tablesorter")
+
+    <link rel="stylesheet" href="~/Areas/Content/redmond/jquery-ui-1.8.22.custom.css" />
+
+    @Html.Raw(Global.LinkAccessibilityCssUrl(this.Context.Session))
+
+
+    @*<link rel="stylesheet" href="~/Areas/Content/redmond/jquery.ui.theme.css" />*@
+    <script type="text/javascript">
+        let _pathArray = location.pathname.split('/');
+        var ApplicationBaseUrl = '/' + _pathArray[1] + '/';
+        if (_pathArray.length > 2 && _pathArray[2].toUpperCase().indexOf('(S(') == 0 && _pathArray[2].indexOf('))') == _pathArray[2].length - 2) 
+        {
+            ApplicationBaseUrl += _pathArray[2] + '/';
+        }
+        //console.log('ApplicationBaseUrl=' + ApplicationBaseUrl);
+    </script>
+
+    @if (IsSectionDefined("AddToHead"))
+    {
+        @RenderSection("AddToHead", required: false)
+    }
+
+
+</head>
+    <body>
+		<div class="container-fluid">
+        <div id="cshtmlPleaseWaitDiv">
+            <table>
+                <tbody>
+                    <tr style="text-align: center;">
+                        <td id="PleaseWaitTd" style="border: 1px solid black">Please Wait...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="mainPage">
+            <div class="row">
+                <div id="SuccessMessages" class="alert alert-success hidden">
+                    <a href="#" class="close" onclick="$('#SuccessMessages').removeClass('hidden').addClass('hidden'); return false;" aria-label="close">&times;</a>
+                </div>
+            </div>
+            <div class="row">
+                <div id="ErrorMessages" class="alert alert-danger hidden">
+                    <a href="#" class="close" onclick="$('#ErrorMessages').removeClass('hidden').addClass('hidden'); return false;" aria-label="close">&times;</a>
+                </div>
+            </div>
+            @RenderBody()
+        </div>
+
+        @if (string.IsNullOrEmpty(ViewBag.FMErrorMessage) == false)
+        {
+            <script>
+                $(document).ready(function () {
+                    setTimeout(function () {
+                        FMLayout.Alert('@ViewBag.FMErrorMessage', 'Error');
+                    }, 100);
+                });
+            </script>
+        }
+
+        <script>
+            $(function() {
+                FMLayout.InitializeLayout();
+            });
+        </script>
+		</div>
+    </body>
+</html>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        @{
+                var FMErrorAndExceptionHandlingJson = FMBaseModel.GetResults(Model);
+        }
+        if(@Html.Raw(FMErrorAndExceptionHandlingJson) != null) {
+            var results = @Html.Raw(FMErrorAndExceptionHandlingJson);
+            FMErrorAndExceptionHandling.HandleMessages(results);
+        }
+
+    	// change the default spinner of the Modal Manager (image that display when opening modal forms)
+    	if ( $.fn.modalmanager ) {
+			$.fn.modal.defaults.spinner = $.fn.modalmanager.defaults.spinner =
+				'<div class="loading-spinner" style="width: 200px; margin-left: -100px;">' +
+				'<div class="progress progress-striped active">' +
+				'<div class="progress-bar" style="width: 100%;"></div>' +
+				'</div>' + '</div>';
+    	}
+    }); 
+</script>

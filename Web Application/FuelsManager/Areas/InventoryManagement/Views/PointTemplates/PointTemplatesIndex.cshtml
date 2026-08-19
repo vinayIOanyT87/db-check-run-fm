@@ -1,0 +1,317 @@
+﻿@using System.Web.Mvc.Html
+@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.PointTemplatesModel
+
+@{
+    ViewBag.Title = "PointTemplatesIndex";
+    Layout = "~/Areas/Views/Shared/_Layout.cshtml";
+}
+
+
+<link href="~/Areas/Content/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Content/bootstrap-modal.css" rel="stylesheet" type="text/css" />
+
+<script src="~/Areas/Lib/bootstrap-modal.js"></script>
+<script src="~/Areas/Lib/bootstrap-modalmanager.js"></script>
+<script src="~/Areas/Scripts/FMErrorAndExceptionHandling.js"></script>
+
+<style>
+	.ui-widget-overlay {
+		 z-index: 1069;
+	}
+	.ui-dialog {
+		z-index: 1070;
+	}
+	.LoadingAnimation {
+    position: absolute;
+    margin: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.3);
+	 z-index: 1070;
+	}
+
+    .LoadingAnimation img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -60px 0px 0px -60px;
+    }
+
+	.LoadingAnimation.transparent {
+		 background: transparent;
+	}
+</style>
+
+
+@using (Html.BeginForm("ButtonSubmit", "PointTemplates", FormMethod.Post, new { id = "submitForm" }))
+{
+	var count = 0;
+	if (Model != null && Model.Templates != null)
+	{
+		count = Model.Templates.Count;
+	}
+	var readOnlyDisplay = (@Model.DeleteEnabled) ? "" : "display: none;";
+	var displayCount = Math.Min(count, 500);
+
+    <div class="row headline" style="width: 5in; padding-bottom: 10px">@FMBaseController.TranslateText("Point Templates")</div>
+
+	if (displayCount > 0)
+	{
+	<div style="padding-top: 5px; padding-bottom: 5px">
+		<button id="addButton1" name="addButton1" type="button" value="addButton" accesskey="A" style ="@readOnlyDisplay" class="formfieldtitle pushButton" title='@FMBaseController.TranslateText("Add New Custom Point Template")' onclick="onAddPointTemplateClick()">@FMBaseController.TranslateText("&Add")</button>
+	</div>
+	}
+
+}
+@using (Html.BeginForm("Delete", "PointTemplates", FormMethod.Post, new { id = "Delete" }))
+{
+    @Html.AntiForgeryToken()
+
+	var editText = FMBaseController.TranslateText("Edit");
+	var deleteText = FMBaseController.TranslateText("Delete");
+	var templateID = FMBaseController.TranslateText("Template ID");
+
+
+	var count = 0;
+	if ( Model != null && Model.Templates != null )
+	{
+		count = Model.Templates.Count;
+	}
+
+	var displayCount = Math.Min( count, 500 );
+
+    <section class="FMGridSection" style="max-width: 550px">
+        <div class="FMGridContainer">
+            <table>
+                <thead>
+						 <tr>
+						 	<th>
+						 		@editText<div>@editText</div>
+						 </th>
+						 <th>
+						 	@templateID<div>@templateID</div>
+						 </th>
+						 <th>
+						 	@deleteText<div>@deleteText</div>
+						 </th>
+						 </tr>
+                </thead>
+                <tbody>
+                    @for (var index = 0; index < count; ++index)
+                    {
+                        var template = Model.Templates[index];
+
+                        var editThisItem = FMBaseController.TranslateText("Edit this item");
+
+						 <tr>
+							<td style="width: 36px; text-align: center">
+								<a class="editLinkClass" title="@editThisItem" onclick="@Html.Raw("window.top.location.search = '?target=../InventoryManagement/PointCustomTemplateDetail/PointTemplateDetail/" + @template.IdentityGuid + "&CSRFToken="+ this.Session["CSRFToken"] +"';")">@editText</a>
+							</td>
+							<td>@template.ID</td>
+							<td style="width: 36px; vertical-align: top; text-align: center">
+							@Html.FMDeleteSubmitButton("pointToDeleteId", template.IdentityGuid, Model.DeleteEnabled && template.SiteGuid == Model.Security.SiteGuid && !template.Standard)
+							</td>
+						 </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <table class="FMGridFoot" style="width: 100%; max-height: 35px; max-width: 550px">
+        <tfoot>
+            @if (displayCount < count)
+            {
+                <tr><th>@string.Format(FMBaseController.TranslateText("Limiting display to {0} of {1} total records.  Use filters to reduce record count."), displayCount, count)</th></tr>
+            }
+            else if (displayCount > 0)
+            {
+                <tr>
+                    <th>
+                        @string.Format(FMBaseController.TranslateText("Showing {0} record(s)."), count)
+                    </th>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td class="formfieldtitle" style="padding-top: 5px;">
+                        @FMBaseController.TranslateText("No records found.")
+                    </td>
+                </tr>
+            }
+        </tfoot>
+    </table>
+}
+
+
+@using (Html.BeginForm("ButtonSubmit", "PointTemplates", FormMethod.Post, new { id = "submitForm" }))
+{
+	var readOnlyDisplay = (@Model.DeleteEnabled) ? "" : "display: none;";
+    <div style="padding-top: 5px; padding-bottom: 5px">
+	 	<button id="addButton2" name="addButton2" type="button" value="addButton" accesskey="A" style ="@readOnlyDisplay" class="formfieldtitle pushButton" title='@FMBaseController.TranslateText("Add New Custom Point Template")' onclick="onAddPointTemplateClick()">@FMBaseController.TranslateText("&Add")</button>
+    </div>
+}
+
+
+<!-- Modal -->
+<div class="row">
+	<div id="pointTemplateNewScreen" class="modal fade" data-backdrop="static" data-focus-on="input:first" role="dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-body">
+				<form class="form" id="AddPointTemplate">
+					<div class="form-group extra-bottom-margin">
+						<label for="pointTemplateNewType" class="control-label">@FMBaseController.TranslateText("PointTemplateEditor|Point Template Type:")</label>
+						<select class="form-control" id="pointTemplateNewType" onmousedown="$(this).focus()">
+							@foreach (var pointType in Model.PointTypeList)
+							{
+								if(pointType.Value == "Movement"
+								|| pointType.Value == "Movement Node")
+								{
+									continue;
+								}
+								<option value="@pointType.Key">@pointType.Value</option>
+							}
+						</select>
+					</div>
+
+					<div class="form-group extra-bottom-margin">
+						<label for="pointTemplateNewName" class="control-label">@FMBaseController.TranslateText("PointTemplateEditor|Point Template Name:")</label>
+						<input type="text" maxlength="30" name="pointTemplateNewName" id="pointTemplateNewName" class="form-control" placeholder="Enter Name"/>
+					</div>
+					<div class="form-group extra-bottom-margin">
+						<label for="pointTemplateNewDesc" class="control-label">@FMBaseController.TranslateText("PointTemplateEditor|Point Template Description:")</label>
+						<textarea type="text" maxlength="100" rows="4" style="overflow: auto; resize: none" name="pointTemplateNewDesc" id="pointTemplateNewDesc" class="form-control" placeholder="Enter Description"></textarea>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-toolbar">
+					<div class="pull-right">
+						<button id="pointTemplateAddButton" type="button" class="formfieldtitle pushButton" accesskey="A" style="width: 100px;">
+							@FMBaseController.TranslateText("&Add")
+						</button>
+						<button id="pointTemplateCloseButton" type="button" class="formfieldtitle pushButton" accesskey="C" data-dismiss="modal" style="width: 100px;">
+							@FMBaseController.TranslateText("&Close")
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script>
+	var stack_bottomright_operator = { "dir1": 'up', "dir2": 'left', "firstpos1": 25, "firstpos2": 25 };
+
+	function onAddPointTemplateClick()
+	{
+
+		$("#pointTemplateNewScreen #pointTemplateNewName").val('');
+		$("#pointTemplateNewScreen #pointTemplateNewDesc").val('');
+
+		$('body').modalmanager('loading');
+		$("#pointTemplateNewScreen").modal("show");
+		$("#pointTemplateNewScreen #pointTemplateAddButton").off('click');
+
+		$("#pointTemplateNewScreen #pointTemplateAddButton").on('click', function () {
+			// Try to save the point group
+			var pointTemplateName = $("#pointTemplateNewScreen #pointTemplateNewName").val();
+			var pointTemplateDescription = $("#pointTemplateNewScreen #pointTemplateNewDesc").val();
+			var pointTemplateType = $("#pointTemplateNewScreen #pointTemplateNewType").val();
+
+			// make sure we have a name
+			if (pointTemplateName === "") {
+				$("#pointTemplateNewScreen #pointTemplateNewName").parent().addClass('has-error');
+				return false;
+			}
+
+			var messageAttributes = { addclass: 'stack-bottomright', stack: stack_bottomright_operator };
+
+			// remove previous notifications
+			PNotify.removeStack(stack_bottomright_operator);
+			$('<div id="loaderpointgroupmain" class="LoadingAnimation"> <img src="@(Url.Content("~/fmwebapp/images/loader_squares_120.gif"))"></div>').appendTo('body');
+
+			var token = $('input[name =__RequestVerificationToken]').val();
+			var headers = {};
+			headers['__RequestVerificationToken'] = token;
+
+			$.ajax( {
+				url: '@Url.Action("AddPointTemplate", "PointTemplates")',
+				type: 'Post',
+				dataType: 'json',
+				contentType: "application/json",
+				headers: headers,
+				cache: false,
+				traditional: true,
+				data: JSON.stringify({ "id": pointTemplateName, "description": pointTemplateDescription, "type": pointTemplateType }),
+				success: function (response) {
+					$("#loaderpointgroupmain").remove();
+					FMErrorAndExceptionHandling.HandleMessages(response, function (data, inError) {
+						if (!inError) {
+							// if there is a duplicate show an error and go to the first page
+							if (data.duplicateFound) {
+								FMLayout.Alert("There is already a Point Template with the same Name.", "Duplicate", null);
+							}
+							else {
+								$("#pointTemplateNewScreen").modal("hide");
+								var newUrl = "?target=../InventoryManagement/PointCustomTemplateDetail/PointTemplateDetail/" + data.pointTemplateGuid + "&CSRFToken=@Session["CSRFToken"]";
+								window.top.location.search = newUrl;
+							}
+						}
+					}, messageAttributes);
+				},
+				error: function (request, status, error) {
+					$("#loaderpointgroupmain").remove();
+					FMErrorAndExceptionHandling.ShowException(request, status, error, function () {
+					}, messageAttributes);
+				}
+			});
+		});
+
+	}
+
+	$(document).ready(function ()
+	{
+		var hotKey;
+		var buttonObj = $('#addButton1');  
+		var ampersandIndex = buttonObj.text().indexOf('&');
+		if (ampersandIndex !== -1)
+		{
+			hotKey = buttonObj.text().charAt(ampersandIndex + 1);
+			buttonObj.html(buttonObj.text().replace('&' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+			buttonObj.attr('accesskey', hotKey);
+		}
+
+		buttonObj = $('#addButton2');
+		ampersandIndex = buttonObj.text().indexOf('&');
+		if (ampersandIndex !== -1)
+		{
+			hotKey = buttonObj.text().charAt(ampersandIndex + 1);
+			buttonObj.html(buttonObj.text().replace('&' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+			buttonObj.attr('accesskey', hotKey);
+		}
+
+		buttonObj = $('#pointTemplateAddButton');
+		ampersandIndex = buttonObj.text().indexOf('&');
+		if (ampersandIndex !== -1)
+		{
+			hotKey = buttonObj.text().charAt(ampersandIndex + 1);
+			buttonObj.html(buttonObj.text().replace('&' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+			buttonObj.attr('accesskey', hotKey);
+		}
+
+		buttonObj = $('#pointTemplateCloseButton');
+		ampersandIndex = buttonObj.text().indexOf('&');
+		if (ampersandIndex !== -1)
+		{
+			hotKey = buttonObj.text().charAt(ampersandIndex + 1);
+			buttonObj.html(buttonObj.text().replace('&' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+			buttonObj.attr('accesskey', hotKey);
+		}
+	});
+</script>

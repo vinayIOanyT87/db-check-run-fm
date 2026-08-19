@@ -1,0 +1,45 @@
+﻿@using System.Web.Mvc.Html
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.MovementDisabledByModel
+
+<link href="~/Areas/Content/MovementDisabledBy.css" rel="stylesheet" type="text/css" />
+<script src="~/Areas/Scripts/MovementDisabledBy.js"></script>
+
+
+@using (Html.BeginForm("MovementDisabledBy", "MovementDisabledBy", FormMethod.Post, new { @id = "MovementDisabledByForm" }))
+{
+	@Html.AntiForgeryToken()
+
+	var title = Model.MovementPointId;
+
+	<section id="MovementDisabledBySection">
+		<div class="MovementSettingsEditorHeader row">
+			<button type="button" class="close" data-dismiss="modal" onclick="$('#MovementDisabledByCloseScreen').click();">&times;</button>
+		</div>
+		<div class="row">
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<h4 id="MovementModuleSettingEditorTitle">@title</h4>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+				<h5>@FMBaseController.TranslateText("Movement|Movement Disabled By")</h5>
+			</div>
+		</div>
+		<br />
+		<div id="MovementDisabledByTopDiv" style="padding-top: 5px; padding-bottom: 5px;">
+			<table id="MovementUserDataTable">
+				@foreach (var movementId in Model.InterlockedActiveMovementList)
+				{
+					<tr>
+						<td class="MovementDisabledByPadding1">
+							<label>@movementId</label>
+						</td>
+					</tr>
+				}
+			</table>
+		</div>
+	</section>
+}
+

@@ -1,0 +1,31 @@
+HKCR
+{
+	Varec.OsdpOPCServer.1 = s 'Varec OsdpController OPCServer Class'
+	{
+		CLSID = s '{c3d67438-1065-4ebc-abcb-9b08bfcedc5a}'
+	}
+	Varec.OsdpOPCServer = s 'Varec OsdpController OPCServer Class'
+	{
+		CLSID = s '{c3d67438-1065-4ebc-abcb-9b08bfcedc5a}'
+		CurVer = s 'Varec.OsdpOPCServer.1'
+        OPC
+        {
+            Vendor = s 'Varec'
+        }
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {c3d67438-1065-4ebc-abcb-9b08bfcedc5a} = s 'Varec OsdpController OPCServer Class'
+		{
+			ProgID = s 'Varec.OsdpOPCServer.1'
+			VersionIndependentProgID = s 'Varec.OsdpOPCServer'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{c3d67438-1065-4ebc-abcb-9b08bfcedc5a}'
+		}
+	}
+}

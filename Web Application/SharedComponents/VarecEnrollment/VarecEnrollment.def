@@ -1,0 +1,9 @@
+; VarecEnrollment.def : Declares the module parameters.
+
+LIBRARY      "VarecEnrollment.OCX"
+
+EXPORTS
+	DllCanUnloadNow     PRIVATE
+	DllGetClassObject   PRIVATE
+	DllRegisterServer   PRIVATE
+	DllUnregisterServer PRIVATE

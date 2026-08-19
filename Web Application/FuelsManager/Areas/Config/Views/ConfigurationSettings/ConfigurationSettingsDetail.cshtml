@@ -1,0 +1,83 @@
+﻿@using System.Configuration
+@using FuelsManager.Areas.Config.Controllers
+@using FuelsManager.Areas.Controllers
+@model FMBusinessObjects.DataObjects.ConfigurationSettingDOClass
+@{
+    ViewBag.Title = "ConfigurationSettingsDetail";
+}
+
+<script src="~/Areas/scripts/ConfigurationSettingsDetail.js" type="text/javascript"></script>
+
+<div class="headline">@FMBaseController.TranslateText( "System Setting" )</div>
+
+@Html.Hidden("ConfigSettingDetailModel", ConfigurationSettingsController.SerializeModel(Model))
+@Html.Hidden("ConfigSettingDetailUrl", @Url.Action("UpdateConfigurationSettingsDetail", "ConfigurationSettings"))
+@Html.Hidden("ConfigSettingSummaryUrl", @Url.Action("ConfigurationSettingsIndex", "ConfigurationSettings"))
+
+@using ( Html.BeginForm( "ConfigurationSettingsDetail" ) )
+{
+    @Html.HiddenFor(model => model.KeyType)
+    @Html.HiddenFor(model => model.SettingKey)
+    @Html.HiddenFor(model => model.ConfigurationSettingGuid)
+    
+    @Html.AntiForgeryToken()
+    
+    <div style="position: relative; top: 10px">
+        <table class="detailTable">
+            <tr>
+                <td>
+                    <div class="formfieldtitle">@FMBaseController.TranslateText("Setting Key:")</div>
+                </td>
+                <td>
+                    <div class="formfieldtitle">@Model.SettingKey</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="formfieldtitle">@FMBaseController.TranslateText( "Setting Type:" )</div>
+                </td>
+                <td>
+                    <div class="formfieldtitle">@Model.KeyType</div>
+                </td>
+            </tr>
+            <tr>
+                @if ( Model.KeyType == "MULTI_SZ" )
+                {
+                    <td style="vertical-align:top">
+                        <div class="formfieldtitle">@FMBaseController.TranslateText( "Setting Value:" )</div>
+                    </td>
+                    <td style="vertical-align:top">
+                        <div class="formfield">@Html.TextAreaFor( model => model.SettingValue,
+									 new { autofocus="autofocus", @class = "formField minWidth500",
+										 @style = "height: 250px; vertical-align: top",
+										 onkeydown = "return event.keyCode!=13"
+									 } )</div>
+                    </td>
+                }
+                else if ( Model.KeyType == "PWD" )
+                {
+                    <td style="vertical-align:top">
+                        <div class="formfieldtitle">@FMBaseController.TranslateText( "Setting Value:" )</div>
+                    </td>
+                    <td style="vertical-align:top">
+                        <div class="formfield">@Html.PasswordFor(model => model.SettingValue,
+                                new { value = Model.SettingValue, autofocus = "autofocus", @class = "formField minWidth500", onkeydown = "return event.keyCode!=13" })</div>
+                    </td>
+                }
+                else
+                {
+                    <td style="vertical-align:middle">
+                        <div class="formfieldtitle">@FMBaseController.TranslateText( "Setting Value:" )</div>
+                    </td>
+                    <td style="vertical-align:middle">
+                        <div class="formfield">@Html.TextBoxFor( model => model.SettingValue, new { autofocus="autofocus", @class = "formField minWidth500", onkeydown = "return event.keyCode!=13" } )</div>
+                    </td>
+                }
+            </tr>
+        </table>
+        <br/>
+        <input type="button" id="save" value='@FMBaseController.TranslateText("Apply")' class="formfieldtitle pushButton" onclick="FMConfigurationSettingsDetail.HandleOkBtnEvent();"/>
+        <input type="button" id="cancel" value='@FMBaseController.TranslateText("Cancel")' class="formfieldtitle pushButton" 
+            onclick="location.href='ConfigurationSettingsIndex'" style="position:relative; left: 10px"/>
+    </div>
+}

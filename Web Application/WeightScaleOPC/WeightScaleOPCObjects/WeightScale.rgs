@@ -1,0 +1,27 @@
+HKCR
+{
+	WeightScaleOPCObjects.WeightScale.1 = s 'WeightScale Class'
+	{
+		CLSID = s '{C20933A0-BBE4-42D9-9AAC-0532B2FD8807}'
+	}
+	WeightScaleOPCObjects.WeightScale = s 'WeightScale Class'
+	{
+		CLSID = s '{C20933A0-BBE4-42D9-9AAC-0532B2FD8807}'
+		CurVer = s 'WeightScaleOPCObjects.WeightScale.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {C20933A0-BBE4-42D9-9AAC-0532B2FD8807} = s 'WeightScale Class'
+		{
+			ProgID = s 'WeightScaleOPCObjects.WeightScale.1'
+			VersionIndependentProgID = s 'WeightScaleOPCObjects.WeightScale'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Free'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{C65A4132-E6B2-46B4-8EA3-E6BBCCB10B58}'
+		}
+	}
+}

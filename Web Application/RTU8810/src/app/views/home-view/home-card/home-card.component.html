@@ -1,0 +1,25 @@
+<div class="homecard" [ngStyle]="setHomeCardStyle(disabledCard)">
+    <div class="description">{{description}}</div>
+    <div class="middle-homecard">
+        <div class="detailinfo">{{info}}</div>
+        <img *ngIf="detailimg!=''" class="detailimage" src="./assets/{{detailimg}}">
+    </div>
+    <div class="bottom-homecard">
+      <i class="fa fa-2x {{icon}}"></i>
+      <div class="name">{{name}}</div>
+
+      <ng-container *ngIf="routerLinkPath != ''; else externalFile">
+        <a routerLink={{routerLinkPath}}>
+          <div [ngStyle]="setHomeCardStyle(disabledCard)" class="action btn btn-primary cardbottomclass">{{action}}</div>
+        </a>
+      </ng-container>
+
+      <ng-template #externalFile>
+        <a target="_blank" href={{externalLink}}>
+          <div [ngStyle]="setHomeCardStyle(disabledCard)" class="action btn btn-primary cardbottomclass">{{action}}</div>
+        </a>
+      </ng-template>
+
+    </div>
+
+</div>

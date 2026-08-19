@@ -1,0 +1,1102 @@
+@font-face {
+    font-family: 'Roboto';
+    src: url('../Content/Roboto-Regular-webfont.eot');
+    src: url('../Content/Roboto-Bold-webfont.eot');
+    src: url('../Content/Roboto-Regular-webfont.eot?iefix') format('eot'), url('../Content/Roboto-Bold-webfont.eot?iefix') format('eot'), url('../Content/Roboto-Regular-webfont.woff') format('woff'), url('../Content/Roboto-Bold-webfont.woff') format('woff');
+}
+
+.headline {
+	font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 18px;
+	font-style: italic;
+	font-weight: bold;
+	color: #486899;
+	line-height: normal;
+	white-space: nowrap;
+}
+.paraheadline
+{
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: bold;
+	color: #000000;
+	line-height: normal;
+}
+.paratext
+{
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	color: #000000;
+	text-align: left;
+}
+.parasubheadline
+{
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+    color: #006CB3;
+	text-decoration: none;
+}
+.paratextbold
+{
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: bold;
+	font-variant: normal;
+	text-transform: none;
+	color: #000000;
+	text-decoration: none;
+}
+.parabullets
+{
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	color: #000000;
+	list-style-position: inside;
+	list-style-type: square;
+	list-style-image: url(../FMWebApp/images/bullet.gif);
+	text-decoration: none;
+}
+
+.popupHeader {
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    line-height: normal;
+    font-weight: bold;
+    font-variant: normal;
+    text-transform: none;
+    color: white;
+    background-color: #006CB3;
+    text-align: center;
+}
+
+.popupText {
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    line-height: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    color: #000000;
+    text-align: left;
+}
+
+.notesHeader
+{
+	text-decoration: none;
+    color: #006CB3;
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-style: normal;
+	line-height: normal;
+	font-weight: bold;
+	font-variant: normal;
+	text-transform: capitalize;
+}
+.notestext
+{
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	color: #000000;
+	text-decoration: none;
+	list-style-image: none;
+}
+.noteslink
+{
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+    color: #006CB3;
+	text-decoration: none;
+    cursor: pointer;
+}
+.note
+{
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	color: #999999;
+	list-style-type: square;
+	text-indent: 0pt;
+	text-align: left;
+	text-decoration: none;
+}
+.menu3
+{
+	font-weight: normal;
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #000000;
+	text-decoration: none;
+    cursor: pointer;
+	letter-spacing: normal;
+	vertical-align: baseline;
+	word-spacing: normal;
+	text-align: left;
+	white-space: normal;
+}
+.menu2
+{
+	font-weight: normal;
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #000000;
+	text-decoration: none;
+    cursor: pointer;
+	letter-spacing: normal;
+	vertical-align: baseline;
+	word-spacing: normal;
+	text-align: left;
+	white-space: normal;
+}
+.menu1
+{
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: bold;
+	font-variant: normal;
+	text-transform: none;
+	color: #000000;
+	text-decoration: none;
+}
+.tablecolhead {
+	font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: bold;
+	font-variant: normal;
+	text-transform: none;
+	color: #FFFFFF;
+	text-align: left;
+	vertical-align: middle;
+	text-decoration: none;
+	background-color: #486899 !important;
+}
+.tablerowhead
+{
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: bold;
+	font-variant: normal;
+	text-transform: none;
+	color: #333333;
+	text-decoration: none;
+}
+.tablerowhead_Alt
+{
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: bold;
+	font-variant: normal;
+	text-transform: none;
+	color: #333333;
+	text-decoration: none;
+}
+.tabletext
+{
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	text-decoration: none;
+	list-style-image: none;
+}
+
+.tabletext.disabled {
+    color: #CCCCCC;
+}
+
+.tablelink
+{
+	font-weight: normal;
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-variant: normal;
+    color: #006CB3;
+	text-decoration: none;
+	text-align: left;
+    cursor: pointer;
+}
+.tablepager {
+	font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: bold;
+	font-variant: normal;
+	text-transform: none;
+	color: #FFFFFF;
+	text-align: center;
+	vertical-align: middle;
+	text-decoration: none;
+	background-color: #486899 !important;
+}
+.paralink {
+	font-weight: normal;
+	font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	line-height: normal;
+	font-variant: normal;
+	color: #0d246a;
+	text-decoration: none;
+	text-align: left;
+	cursor: pointer;
+}
+
+.formfield .ajax__combobox_inputcontainer
+{
+}
+.formfield .ajax__combobox_textboxcontainer
+{
+}
+	.formfield .ajax__combobox_textboxcontainer input {
+		font-family: Roboto, Arial, Helvetica, sans-serif;
+		font-size: 12px;
+		font-style: normal;
+		line-height: normal;
+		font-weight: normal;
+		font-variant: normal;
+		text-transform: none;
+		color: #000000;
+	}
+.formfield .ajax__combobox_buttoncontainer
+{
+}
+	.formfield .ajax__combobox_buttoncontainer button {
+		/*background-image: url(<%=WebResource("AjaxControlToolkit.ComboBox.arrow-down.gif")%>);*/
+		background-position: center;
+		background-repeat: no-repeat;
+		border-color: ButtonFace;
+		height: 15px;
+		width: 15px;
+	}
+.formfield .ajax__combobox_itemlist
+{
+	margin: 0px;
+	padding: 0px;
+	cursor: default;
+	list-style-type: none;
+	text-align: left;
+	border: solid 1px ButtonShadow;
+	background-color: Window;
+	color: WindowText;
+	max-height: 200px;
+	overflow-y: auto !important; 
+}
+.formfield .ajax__combobox_itemlist li
+{
+	white-space: nowrap;
+	width: 100%;
+	padding: 0 3px 0 2px;
+}
+
+
+.txFieldComboBox
+{
+    position:relative;
+}
+.txFieldComboBox .ajax__combobox_itemlist
+{
+    position: absolute !important; 
+    left: 1px !important; 
+    top: 20px !important; 
+	max-height: 126px;
+	overflow-y: auto !important; 
+}
+
+.formfieldNoWrap {
+	font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	color: #000000;
+	white-space: nowrap;
+}
+
+.ClosedOut
+{
+	color: #777777;
+}
+.OutOfTolerance
+{
+	color: #FF0000;
+}
+.PhysicalInventory
+{
+	color: #006600;
+}
+.Error
+{
+	color: #FF0000;
+}
+.DefaultLink
+{
+	color: #0033CC;
+}
+.ClosedOutLink
+{
+	color: #777777;
+}
+.OutOfToleranceLink
+{
+	color: #FF0000;
+}
+.PhysicalInventoryLink
+{
+	color: #006600;
+}
+.ErrorLink
+{
+	color: #FF0000;
+}
+.TransError
+{
+	color: #FF0000;
+	background-color: #FFCCCC;
+}
+.TransErrorLink
+{
+	color: #FF0000;
+	background-color: #FFCCCC;
+}
+body
+{
+	background-color: White;
+}
+TEXTAREA
+{
+	behavior: url(../maxlength.htc);
+}
+
+.tablecolheadcentered {
+	font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	color: #FFFFFF;
+	text-align: center;
+	vertical-align: middle;
+	text-decoration: none;
+}
+
+	.tablecolheadcentered th {
+		text-align: center;
+		font-weight: normal;
+	}
+
+.paralink {
+    font-weight: normal;
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    font-style: normal;
+    line-height: normal;
+    font-variant: normal;
+    color: #006CB3;
+    text-decoration: none;
+    text-align: left;
+    cursor: pointer;
+}
+
+.formfield {
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    line-height: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    color: #000000;
+	border-width: 1px;
+}
+
+.formfield[readonly] {
+    background-color: #eee;
+    opacity: 1;
+}
+
+.formfield .ajax__combobox_inputcontainer {
+    
+}
+
+.formfield .ajax__combobox_textboxcontainer {
+    
+}
+
+.formfield .ajax__combobox_textboxcontainer input {
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    line-height: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    color: #000000;
+}
+
+.formfield .ajax__combobox_buttoncontainer {
+    
+}
+
+.formfield .ajax__combobox_buttoncontainer button {
+/*    background-image: url(<%=WebResource("AjaxControlToolkit.ComboBox.arrow-down.gif")%>);*/
+    background-position: center;
+    background-repeat: no-repeat;
+    border-color: ButtonFace;
+    height: 15px;
+    width: 15px;
+}
+
+.formfield .ajax__combobox_itemlist {
+    margin: 0px;
+    padding: 0px;
+    cursor: default;
+    list-style-type: none;
+    text-align: left;
+    border: solid 1px ButtonShadow;
+    background-color: Window;
+    color: WindowText;
+    max-height: 200px;
+    overflow-y: auto !important;
+}
+
+.formfield .ajax__combobox_itemlist li {
+    white-space: nowrap;
+    width: 100%;
+    padding: 0 3px 0 2px;
+}
+
+.txFieldComboBox {
+    position: relative;
+}
+
+.txFieldComboBox .ajax__combobox_itemlist {
+    position: absolute !important;
+    left: 1px !important;
+    top: 20px !important;
+    max-height: 200px;
+    overflow-y: auto !important;
+}
+
+.formfieldNoWrap {
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    line-height: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    color: #000000;
+    white-space: nowrap;
+}
+
+.formfieldtitle {
+	font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	white-space: nowrap;
+	max-width: none !important;
+	color: #486899;
+}
+
+.formfieldtitle label {
+	font-weight: normal !important;
+}
+
+.formfieldtitle:disabled {
+    color: gray;
+}
+
+.formfieldtitleWrap {
+	white-space: normal;
+	font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	color: #486899;
+}
+
+.ClosedOut {
+    color: #777777;
+}
+
+.OutOfTolerance {
+    color: #FF0000;
+}
+
+.PhysicalInventory {
+    color: #006600;
+}
+
+.Error {
+    color: #FF0000;
+}
+
+.DefaultLink {
+    color: #006CB3;
+}
+
+.ClosedOutLink {
+    color: #777777;
+}
+
+.OutOfToleranceLink {
+    color: #FF0000;
+}
+
+.PhysicalInventoryLink {
+    color: #006600;
+}
+
+.ErrorLink {
+    color: #FF0000;
+}
+
+.TransError {
+    color: #FF0000;
+    background-color: #FFCCCC;
+}
+
+.TransErrorLink {
+    color: #FF0000;
+    background-color: #FFCCCC;
+}
+
+body {
+    background-color: White;
+    color: #000000;
+    margin-top: 0;
+    margin-right: 0;
+    margin-left: 0;
+    line-height: 1.0 !important;
+}
+
+TEXTAREA {
+    behavior: url(../maxlength.htc);
+}
+
+.tablecolheadcentered {
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    line-height: normal;
+    font-weight: bold;
+    font-variant: normal;
+    text-transform: none;
+    color: #FFFFFF;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+}
+
+.FMStaticMenuItemStyle
+{
+	background-color: #CCCCCC;
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-weight: normal;
+	font-size: 8pt;
+	color: #000000;
+	width: 79px;
+	height: 28px;
+	text-align: center;
+	display: block;
+}
+
+.FMStaticHoverStyle {
+	font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-weight: normal;
+	font-size: 8pt;
+	color: white;
+	width: 79px;
+	height: 28px;
+	text-align: center;
+}
+
+.FMStaticSelectedStyle {
+	background-color: #486899;
+	font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-weight: normal;
+	font-size: 8pt;
+	color: white;
+	width: 79px;
+	height: 28px;
+	text-align: center;
+}
+
+	.FMStaticSelectedStyle.FMStaticHoverStyle {
+		background-color: white;
+		color: #486899;
+	}
+
+.GVFixedHeader {
+	font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal !important;
+	font-variant: normal;
+	text-transform: none;
+	color: #FFFFFF;
+	text-align: center;
+	vertical-align: middle;
+	text-decoration: none;
+	position: relative;
+	top: expression(document.getElementById("pnlContainer").scrollTop-2);
+}
+
+.GVFixedHeader th {
+	font-weight: normal !important;
+	text-align: center;
+}
+
+.tablecolhead, .tablecolhead th {
+	font-weight: normal !important;
+	text-align: center;
+}
+
+.GVFixedFooter {
+	font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	color: #FFFFFF;
+	text-align: center;
+	vertical-align: middle;
+	text-decoration: none;
+	border-left: none 0px white;
+	border-right: none 0px white;
+	border-top: none 0px white;
+	border-bottom: none 0px white;
+	position: relative;
+	bottom: expression(this.parentNode.parentNode.parentNode.scrollHeight - this.parentNode.parentNode.parentNode.scrollTop - this.parentNode.parentNode.parentNode.clientHeight);
+}
+
+.GVFixedFooter2
+{
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: bold;
+	font-variant: normal;
+	text-transform: none;
+	color: #FFFFFF;
+	text-align: center;
+	vertical-align: middle;
+	text-decoration: none;
+	border-left: none 0px white;
+	border-right: none 0px white;
+	border-top: none 0px white;
+	border-bottom: none 0px white;
+	position: relative;
+	bottom: expression(this.parentNode.parentNode.parentNode.parentNode.scrollHeight  		- this.parentNode.parentNode.parentNode.parentNode.scrollTop  		- this.parentNode.parentNode.parentNode.parentNode.clientHeight);
+}
+
+.GVSelectedRow select, .GVSelectedRow input[type=text] {
+	background-color:transparent ;
+	font-weight: normal;
+	border-width:1px;
+	border-style:solid;
+}
+.GVSelectedRow option {
+	color: black;
+}
+
+.tabletext .pgr {
+	background-color: #006CB3;
+}
+
+.tabletext .pgr table {
+    margin: 0px 0;
+}
+
+.tabletext .pgr td
+{
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	line-height: 10px;
+	font-weight: bold;
+	font-variant: normal;
+	text-transform: none;
+	color: #FFFFFF; /*    text-align: center;   */
+	vertical-align: middle;
+	text-decoration: none;
+}
+
+.tabletext .pgr a
+{
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	color: #FFFFFF;
+	font-weight: bold;
+}
+
+.modalBackground
+{
+	background-color: Gray;
+	filter: opacity(70%);
+	opacity: 0.7;
+}
+
+.watermarked
+{
+	color: #AAAAAA;
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+}
+
+.ehsubhead
+{
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+    color: #006CB3;
+	text-decoration: none;
+	font-style: normal;
+	line-height: normal;
+}
+
+.QueryResultsLinkStyle
+{
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	font-variant: normal;
+	text-decoration: none;
+    color: #006CB3;
+}
+
+.PrinterFriendlyGrid
+{
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: Black;
+	margin-bottom: 0px;
+	margin-top: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+	padding-bottom: 0px;
+	padding-top: 0px;
+	padding-left: 0px;
+	padding-right: 0px;
+	border-collapse: collapse;
+	border: solid thin Black;
+}
+
+.DefaultLoginPageLink
+{
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+}
+
+a.DefaultLoginPageLink:link {
+    color: #666666;
+}
+
+a.DefaultLoginPageLink:visited {
+    color: #666666;
+}
+
+a.DefaultLoginPageLink:hover {
+    color: #00A5FF;
+    text-decoration: underline;
+}
+
+a.DefaultLoginPageLink:active {
+    color: #006CB3;
+}
+
+a.DefaultLoginPageLink:hover {
+    color: #00A5FF;
+    text-decoration: underline;
+}
+
+/* These styles are useb by the FMTabContainer control */
+.tabbedPages .ajax__tab_header {
+	font-family: Roboto, Arial, Helvetica, sans-serif !important;
+	font-size: 12px !important;
+} 
+
+.tabbedPages .ajax__tab_outer {
+    
+}
+
+.tabbedPages .ajax__tab_inner {
+	/* Width is rendered dynamically in FMTabContainer.cs */
+	height: 30px !important;
+	text-align: center !important;
+	background-color: #CCCCCC !important;
+	margin-right: 4px !important;
+	display: table !important;
+}
+
+.tabbedPages .ajax__tab_tab {
+	display: table-cell !important;
+	vertical-align: middle !important;
+	white-space: normal !important;
+	color: #000000 !important;
+} 
+
+.tabbedPages .ajax__tab_hover .ajax__tab_outer {
+    
+}
+
+.tabbedPages .ajax__tab_hover .ajax__tab_inner {
+    
+}
+
+.tabbedPages .ajax__tab_hover .ajax__tab_tab {
+	background-color: #777777 !important;
+}
+
+.tabbedPages .ajax__tab_active .ajax__tab_outer {
+    
+}
+
+.tabbedPages .ajax__tab_active .ajax__tab_inner {
+    
+}
+
+.tabbedPages .ajax__tab_active .ajax__tab_tab {
+	color: #FFFFFF !important;
+	/* Background color for this is rendered dynamically in FMTabContainer.cs */
+}
+
+.tabbedPages .ajax__tab_panel {
+	position: absolute !important;
+	margin-top: 7px !important;
+} 
+
+/* These styles are custom for FMTabContainer making tabs appear grayed out */
+.tabbedPages .grayedFMTab { 
+	float:left;
+}
+
+.tabbedPages .grayedFMTab .ajax__tab_tab {
+	color: #A0A0A0 !important;
+	background-color: #CCCCCC !important;
+	visibility: visible !important;
+}
+
+.minWidth70 {
+/*    -moz-min-width: 70px;
+    -ms-min-width: 70px;
+    -o-min-width: 70px;
+    -webkit-min-width: 70px;
+*/
+    min-width: 70px;
+}
+
+.gsfFeedback {
+    border-color: #7699da;
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+    font-size: 12;
+    margin-bottom: 15;
+}
+
+td, th {
+    padding: 2px !important;
+}
+
+input[type='radio'], input[type='checkbox'] {
+    margin: 3px 3px 3px 4px !important;
+}
+
+* {
+    -webkit-box-sizing: content-box !important;
+    -moz-box-sizing: content-box !important;
+    box-sizing: content-box !important;
+}
+
+*:before, *:after {
+    -webkit-box-sizing: content-box !important;
+    -moz-box-sizing: content-box !important;
+    box-sizing: content-box !important;
+}
+
+#pnlGrayedOutTabs td, #pnlGrayedOutTabs th {
+    padding: 0px !important;
+    border-color: rgb(240, 240, 240) !important;
+}
+
+/*UserForm.aspx styling*/
+
+.ui-tooltip, .arrow:after {
+    background: #ffffff;
+    border: 2px solid transparent;
+}
+
+.ui-tooltip {
+    padding: 10px 20px;
+    box-shadow: 0 0 7px black;
+}
+
+.ui-tooltip-content {
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+}
+
+.arrow {
+    width: 70px;
+    height: 16px;
+    overflow: hidden;
+    position: absolute;
+    left: 50%;
+    margin-left: -35px;
+    bottom: -16px;
+}
+
+.arrow.top {
+    top: -16px;
+    bottom: auto;
+}
+
+.arrow.left {
+    left: 20%;
+}
+
+.arrow:after {
+    content: "";
+    position: absolute;
+    left: 20px;
+    top: -20px;
+    width: 25px;
+    height: 25px;
+    box-shadow: 6px 5px 9px -9px black;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.arrow.top:after {
+    bottom: -20px;
+    top: auto;
+}
+
+div.ui-widget-overlay.ui-front {
+	position: fixed;
+}
+
+input[type=button], input[type=submit], button, button.formfieldtitle {
+	height: 30px;
+	background-color: #486899;
+	color: white !important;
+	font-weight: normal !important;
+	border: none;
+	font-size: 12px !important;
+	font-family: Roboto, Arial, Helvetica, sans-serif;
+	padding: 2px 10px;
+	font-size: 13px;
+	font-weight: normal;
+	line-height: 14px;
+	border-radius: 0;
+}
+
+	input[type=button]:disabled,
+	input[type=submit]:disabled,
+	button:disabled,
+	button[cssclass=formfieldtitle]:disabled
+	button.formfieldtitle:disabled {
+		height: 30px;
+		background-color: rgb(193,193,193);
+		color: black !important;
+		font-weight: normal !important;
+		border: none;
+		font-size: 12px !important;
+		font-family: Roboto, Arial, Helvetica, sans-serif;
+		cursor: not-allowed;
+	}
+
+.FieldLabel, label {
+	font-weight: normal !important;
+	color: #486899;
+}
+
+.formfield input {
+	border-width: 1px;
+}
+
+
+a[disabled] {
+	cursor: not-allowed;
+}
+
+input[type=checkbox], input[type=radio] {
+	accent-color: #486899;
+}
+
+form {
+	font-size: 12px;
+}
+
+table.tabletext {
+	border-color: white !important;
+}
+
+tr.tabletext.tableHeader th, tr.tabletext.tableHeader th span {
+	background-color: #486899 !important;
+	font-weight: normal !important;
+}
+
+.ui-dialog .ui-dialog-title {
+	font-weight: normal !important;
+	font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+}

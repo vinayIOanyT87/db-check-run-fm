@@ -1,0 +1,102 @@
+// OptomuxOPCServer.idl : IDL source for OptomuxOPCServer
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (OptomuxOPCServer.tlb) and marshalling code.
+
+#include "mtxattr.h"
+import "oaidl.idl";
+import "ocidl.idl";
+import "opcda.idl";
+
+
+[
+	object,
+	uuid(4ECBB0F4-FFAF-4B3A-8566-439D4C236CF0),
+	dual,
+	nonextensible,
+	helpstring("IDataAccess Interface"),
+	pointer_default(unique)
+]
+interface IDataAccess : IDispatch{
+	[id(1), helpstring("method GetRecordSet")] HRESULT GetRecordSet(BSTR bstrSQL, [out,retval] IDispatch** ppRecordSet);
+	[id(2), helpstring("method ExecuteQuery")] HRESULT ExecuteQuery(BSTR bstrSQL);
+};
+[
+	object,
+	uuid(BFB066AF-2312-4C35-9251-580B45AACB95),
+	dual,
+	nonextensible,
+	helpstring("IOptomuxControllers Interface"),
+	pointer_default(unique)
+]
+interface IOptomuxControllers : IDispatch{
+	[id(1), helpstring("method Enumerate")] HRESULT Enumerate([out,retval] IDispatch** ppOptomuxControllerCollection);
+	[id(2), helpstring("method Add")] HRESULT Add([in] IDispatch* pOptomuxController,[out,retval] LONG* pIndex);
+	[id(3), helpstring("method Modify")] HRESULT Modify([in] IDispatch* pOptomuxController);
+	[id(4), helpstring("method Purge")] HRESULT Purge([in] LONG lIndex);
+	[id(5), helpstring("method GetIndex")] HRESULT GetIndex([in] BSTR bstrID, [out,retval] LONG* pIndex);
+	[id(6), helpstring("method Get")] HRESULT Get([in] LONG lIndex, [out,retval] IDispatch** ppOptomuxController);
+};
+[
+	object,
+	uuid(F0FDD2C4-A437-41F2-B113-E4B2EFF9B5E8),
+	dual,
+	nonextensible,
+	helpstring("IPorts Interface"),
+	pointer_default(unique)
+]
+interface IPorts : IDispatch{
+	[id(1), helpstring("method Enumerate")] HRESULT Enumerate([out,retval] IDispatch** ppCardReaderCollection);
+	[id(2), helpstring("method Add")] HRESULT Add([in] IDispatch* pCardReader,[out,retval] LONG* pIndex);
+	[id(3), helpstring("method Modify")] HRESULT Modify([in] IDispatch* pCardReader);
+	[id(4), helpstring("method Purge")] HRESULT Purge([in] LONG lIndex);
+	[id(5), helpstring("method GetIndex")] HRESULT GetIndex([in] BSTR bstrID, [out,retval] LONG* pIndex);
+	[id(6), helpstring("method Get")] HRESULT Get([in] LONG lIndex, [out,retval] IDispatch** ppCardReader);
+	[id(7), helpstring("method EnumeratePortIDs")] HRESULT EnumeratePortIDs([out,retval] VARIANT* pIDs);
+};
+[
+	uuid(1EBA63BD-E098-42BF-B166-F98DA4BC99E6),
+	version(1.0),
+	helpstring("OptomuxOPCServer 1.0 Type Library")
+]
+library OptomuxOPCServerLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(6CAE3271-EFA1-4CB6-AFE9-2417144D2E8B),
+		custom(TLBATTR_TRANS_SUPPORTED,0),
+		helpstring("DataAccess Class")
+	]
+	coclass DataAccess
+	{
+		[default] interface IDataAccess;
+	};
+	[
+		uuid(DD940B4F-C212-4361-8FDE-D4061584E4D0),
+		custom(TLBATTR_TRANS_REQUIRED,0),
+		helpstring("OptomuxControllers Class")
+	]
+	coclass OptomuxControllers
+	{
+		[default] interface IOptomuxControllers;
+	};
+	[
+		uuid(DC07462E-EDCD-4186-9FD0-B8B7F990B490),
+		helpstring("OPCServer Class")
+	]
+	coclass OPCServer
+	{
+		[default] interface IOPCServer;
+		interface IOPCBrowseServerAddressSpace;
+	};
+
+	[
+		uuid(D1CAA238-8AB9-4E70-A628-49AB61EC5BD1),
+		helpstring("Ports Class")
+	]
+	coclass Ports
+	{
+		[default] interface IPorts;
+	};
+};

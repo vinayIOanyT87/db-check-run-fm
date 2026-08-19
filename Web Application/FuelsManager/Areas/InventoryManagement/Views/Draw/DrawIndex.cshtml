@@ -1,0 +1,5226 @@
+@using System.Web.Mvc.Html
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@using FuelsManager.Areas.InventoryManagement.ViewModels
+@model FuelsManager.Areas.InventoryManagement.ViewModels.DrawModel
+
+@{
+	ViewBag.Title = "DrawIndex";
+	Layout = "~/Areas/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Areas/Content/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Content/bootstrap-modal.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Content/select2.min.css" rel="stylesheet" type="text/css" />
+<!--
+<link href="~/Areas/Content/dataTables.bootstrap.css" rel="stylesheet" type="text/css"/>
+-->
+<link href="~/Areas/Lib/DataTables/DataTables-1.10.15/css/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Content/redmond/jquery.ui.base.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Content/redmond/jquery.ui.theme.css" rel="stylesheet" type="text/css" />
+
+<link href="~/Areas/Content/jquery.contextmenu2.css" rel="stylesheet" type="text/css">
+<link href="~/Areas/Content/jquery.contextmenu.css" rel="stylesheet" type="text/css">
+<!--
+<script src="~/Areas/lib/jquery.dataTables.js"></script>
+<script src="~/Areas/lib/dataTables.bootstrap.js"></script>
+-->
+<script src="~/Areas/Lib/DataTables/DataTables-1.10.15/js/jquery.dataTables.js"></script>
+<script src="~/Areas/Lib/DataTables/DataTables-1.10.15/js/dataTables.bootstrap.js"></script>
+
+<script src="~/Areas/lib/jquery.nicescroll.min.js"></script>
+<script src="~/Areas/lib/jquery.simulate.js"></script>
+<script src="~/Areas/lib/bootstrap-modal.js"></script>
+<script src="~/Areas/lib/bootstrap-modalmanager.js"></script>
+<script src="~/Areas/lib/jquery.mask.js"></script>
+<script src="~/Areas/lib/jquery.numeric.js"></script>
+<script src="~/Areas/lib/jquery.contextmenu2.js" type="text/javascript"></script>
+<script src="~/Areas/lib/jquery.contextmenu.js" type="text/javascript"></script>
+<script src="~/Areas/lib/moment.js" type="text/javascript"></script>
+<script src="~/Areas/Lib/math.js" type="text/javascript"></script>
+<script src="~/Areas/Lib/NumberFormat.js" type="text/javascript"></script>
+<script src="~/Areas/Lib/sha1.js" type="text/javascript"></script>
+<script src="~/Areas/Lib/select2.js"></script>
+
+<!--  START (INITIALIZE GoJS Libraries) -->
+<script src="~/Areas/lib/GoJS/go-debug.js" type="text/javascript"></script>
+<script src="~/Areas/scripts/goInit.js" type="text/javascript"></script>
+<script src="~/Areas/lib/GoJS/extensions/DisconnectedLinkingTool.js" type="text/javascript"></script>
+<script src="~/Areas/lib/GoJS/extensions/SnappingRelinkingTool.js" type="text/javascript"></script>
+<script src="~/Areas/lib/GoJS/extensions/GeometryReshapingTool.js" type="text/javascript"></script>
+<script src="~/Areas/lib/GoJS/extensions/PolygonDrawingTool.js" type="text/javascript"></script>
+<script src="~/Areas/lib/GoJS/extensions/DragCreatingLineTool.js" type="text/javascript"></script>
+<script src="~/Areas/lib/GoJS/extensions/DragCreatingTool.js" type="text/javascript"></script>
+<script src="~/Areas/lib/GoJS/extensions/DrawCommandHandler.js" type="text/javascript"></script>
+<script src="~/Areas/lib/GoJS/extensions/RotateMultipleTool.js" type="text/javascript"></script>
+<script src="~/Areas/lib/GoJS/extensions/CustomTextEditor.js" type="text/javascript"></script>
+<script src="~/Areas/lib/GoJS/extensions/SnapLinkReshapingTool.js" type="text/javascript"></script>
+<!-- <script src="~/Areas/lib/GoJS/extensions/ResizeMultipleTool.js" type="text/javascript"></script> -->
+<!--  END (INITIALIZE GoJS Libraries) -->
+<!-- START (INITIALIZE DRAW OBJECTS and METHODS) -->
+<script src="~/Areas/scripts/fmformatvalues.js" type="text/javascript"></script>
+<script src="~/Areas/scripts/drawindexConstants.js" type="text/javascript"></script>
+<script src="~/Areas/scripts/drawindexInit.js" type="text/javascript"></script>
+<script src="~/Areas/scripts/drawindexLayerObjects.js" type="text/javascript"></script>
+<script src="~/Areas/scripts/drawindexCanvasCollectionObject.js" type="text/javascript"></script>
+<script src="~/Areas/scripts/drawindex.js" type="text/javascript"></script>
+<script src="~/Areas/scripts/DrawPropertyMenu.js" type="text/javascript"></script>
+<script src="~/Areas/scripts/DrawPatternPalette.js" type="text/javascript"></script>
+<script src="~/Areas/scripts/TagSelection.js" type="text/javascript"></script>
+<script src="~/Areas/scripts/AnimationManager.js" type="text/javascript"></script>
+<script src="~/Areas/scripts/DrawAnimation.js" type="text/javascript"></script>
+<script src="~/Areas/scripts/layout.js" type="text/javascript"></script>
+<!-- END (INITIALIZE DRAW OBJECTS and METHODS) -->
+
+<script src="~/Areas/lib/spectrum.js"></script>
+<link rel='stylesheet' href="~/Areas/Content/spectrum.css" />
+
+<!--
+
+	 There is a conflict between bootstrap and jQuery dialog
+	 This code below resolves that issue.
+
+	 https://stackoverflow.com/questions/8681707/jqueryui-modal-dialog-does-not-show-close-button-x
+-->
+<script>
+	$.fn.bootstrapBtn = $.fn.button.noConflict();
+</script>
+
+
+
+
+<style type="text/css">
+
+    .gsfBackground {
+        border-color: #99ed69;
+        font-size: 15;
+        margin-bottom: 17;
+    }
+
+	 input[type=range] {
+		 -webkit-appearance: none;
+		 width: 100%;
+		 margin: 1px 7px 0;
+	 }
+
+	input[type=range]:focus {
+		outline: none;
+	}
+
+	input[type=range]::-webkit-slider-runnable-track {
+		width: 100%;
+		height: 2px;
+		cursor: pointer;
+		box-shadow: 1px 1px 1px #808080, 0px 0px 1px #8d8d8d;
+		background: #dddddd;
+		border-radius: 1.3px;
+		border: 0px solid #010101;
+	}
+
+	input[type=range]::-webkit-slider-thumb {
+		box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+		border: 0px solid #000000;
+		height: 16px;
+		width: 8px;
+		border-radius: 4px;
+		background: white;
+		cursor: pointer;
+		-webkit-appearance: none;
+		margin-top: -8px;
+	}
+
+	input[type=range]:focus::-webkit-slider-runnable-track {
+		background: #eaeaea;
+	}
+
+	input[type=range]::-moz-range-track {
+		width: 100%;
+		height: 2px;
+		cursor: pointer;
+		box-shadow: 1px 1px 1px #808080, 0px 0px 1px #8d8d8d;
+		background: #dddddd;
+		border-radius: 1.3px;
+		border: 0px solid #010101;
+	}
+
+	input[type=range]::-moz-range-thumb {
+		box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+		border: 0px solid #000000;
+		height: 20px;
+		width: 8px;
+		border-radius: 4px;
+		background: white;
+		cursor: pointer;
+	}
+
+	input[type=range]::-ms-track {
+		width: 100%;
+		height: 2px;
+		cursor: pointer;
+		background: transparent;
+		border-color: transparent;
+		color: transparent;
+	}
+
+	input[type=range]::-ms-fill-lower {
+		background: #d0d0d0;
+		border: 0px solid #010101;
+		border-radius: 2.6px;
+		box-shadow: 1px 1px 1px #808080, 0px 0px 1px #8d8d8d;
+	}
+
+	input[type=range]::-ms-fill-upper {
+		background: #dddddd;
+		border: 0px solid #010101;
+		border-radius: 2.6px;
+		box-shadow: 1px 1px 1px #808080, 0px 0px 1px #8d8d8d;
+	}
+
+	input[type=range]::-ms-tooltip {
+		display: none;
+	}
+
+	input[type=range]::-ms-thumb {
+		box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+		border: 0px solid #000000;
+		height: 20px;
+		width: 8px;
+		border-radius: 4px;
+		background: white;
+		cursor: pointer;
+	}
+
+	input[type=range]:focus::-ms-fill-lower {
+		background: #dddddd;
+	}
+
+	input[type=range]:focus::-ms-fill-upper {
+		background: #eaeaea;
+	}
+
+
+
+	body {
+		background-color: #eef;
+	}
+
+	.mainPage {
+		padding-left: 0px;
+		padding-top: 0px;
+	}
+
+	.content-menu-item li {
+		font-family: sans-serif !important;
+	}
+
+    .ui-widget-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+	.receivingLayer {
+		background-color: yellow;
+	}
+
+	/* Add this to every dialog DIV to ensure that the DIV contents does not pre-render before
+				$(document).ready() function is called.
+
+				http://stackoverflow.com/questions/2604309/jquery-dialog-momentairly-displayed-on-page-load
+				*/
+	.dialogDiv {
+		display: none;
+	}
+
+
+	/* Ensures that the x shows up in the right hand corner
+		of the dialog
+	*/
+	.ui-dialog .ui-dialog-titlebar-close span {
+		margin: 0;
+	}
+
+	.ui-button-icon-only .ui-icon {
+		bottom: 0px;
+		top: 0px;
+		left: 0px;
+		right: 0px;
+		padding: 0;
+	}
+
+	.ui-front {
+		z-index: 1080;
+	}
+
+	.ui-dialog.load-dialog .ui-dialog-buttonpane button,
+	.ui-dialog[aria-describedby=save-dialog] .ui-dialog-buttonpane button {
+		 background-color: #476899 !important;
+		 color: #fff;
+		 height: 34px !important;
+	}
+
+	.ui-dialog.load-dialog .ui-dialog-content {
+		overflow-x: hidden;
+	}
+
+	#tabs {
+		font-size: 85%;
+		border-style: none;
+	}
+
+	.ui-state-disabled {
+		opacity: 1 !important;
+		filter: none !important;
+		background-image: inherit;
+	}
+
+
+	.ui-tabs-nav li a:link {
+		color: white;
+	}
+
+	.ui-tabs-nav a {
+		background-color: #567EB9;
+		font-weight: bold;
+		color: white;
+		border-top-left-radius: 7px;
+		border-top-right-radius: 7px;
+	}
+
+	.ui-tabs .ui-tabs-nav {
+		padding-left: 26px;
+	}
+
+	.ui-tabs .ui-tabs-nav li {
+		display: inline-block;
+		border-top-left-radius: 8px;
+		border-top-right-radius: 8px;
+	}
+
+	.ui-tabs .ui-tabs-panel {
+		padding-top: 36px;
+		padding-right: 40px;
+		padding-bottom: 0px;
+		padding-left: 25px;
+	}
+
+	#sidebar {
+		position: absolute;
+		top: 0;
+		height: 480px;
+		width: 41px;
+		background: #567EB9;
+		border-color: #567EB9;
+		border-radius: 3px;
+		margin-top: 76px;
+		z-index: 998;
+		overflow: hidden;
+	}
+
+	#toolbar2 {
+		position: absolute;
+		top: 480px;
+		height: 200px;
+		width: 41px;
+		background: #567EB9;
+		border-color: #567EB9;
+		border-radius: 3px;
+		margin-top: 76px;
+		z-index: 997;
+		overflow: hidden;
+	}
+
+	#toolbar3 {
+		position: absolute;
+		top: 0px;
+		height: 354px;
+		width: 41px;
+		background: #567EB9;
+		border-color: #567EB9;
+		border-radius: 3px;
+		margin-top: 76px;
+		z-index: 996;
+		overflow: hidden;
+	}
+
+	#sidebar-backpanel {
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		width: 42px;
+		background: #567EB9;
+		border: thin;
+		border-style: outset;
+		border-color: #567EB9;
+		border-radius: 5px;
+		margin-top: 4px;
+		z-index: 995;
+	}
+
+	#docking-left {
+		position: absolute;
+		top: 71px;
+		left: 0;
+		bottom: 0;
+		width: 40px;
+		margin-bottom: 45px;
+	}
+
+	#docking-right {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		width: 41px;
+		margin-bottom: 5px;
+		margin-top: 29px;
+		z-index: 999;
+	}
+
+	.highlighted {
+		background-color: #819eca !important;
+	}
+
+	.rotateicons {
+		transform: rotate( 90deg );
+		-moz-transform: rotate( 90deg );
+		-ms-transform: rotate( 90deg );
+		-o-transform: rotate( 90deg );
+		-webkit-transform: rotate( 90deg );
+	}
+
+	#header {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 41px;
+		background: #567EB9;
+		border: thin;
+		border-style: outset;
+		border-color: #819eca;
+		border-radius: 2px;
+		margin-top: 35px;
+		box-shadow: 1px 1px 2px #000000;
+	}
+
+	.hamburger-menu {
+		min-width: 1px;
+	}
+
+	#rightsidebar {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		width: 42px;
+		background: #567EB9;
+		border: thin;
+		border-style: outset;
+		border-color: #567EB9;
+		border-radius: 0px;
+		margin-bottom: 41px;
+		margin-top: 46px;
+		z-index: 995;
+	}
+
+	#rightSideBarDrag {
+		position: absolute;
+		left: -4px;
+		top: 0;
+		bottom: 0;
+		width: 8px;
+		cursor: w-resize;
+		z-index: 2000;
+	}
+
+	#footer {
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		height: 41px;
+		background: #567EB9;
+		border: thin;
+		border-style: outset;
+		border-color: #567EB9;
+		border-radius: 2px;
+		margin-left: 1px;
+	}
+
+	#content {
+		position: relative;
+		width: 100%;
+	}
+
+	#tabs {
+		position: relative;
+		margin-left: 15px;
+	}
+
+	.ui-tabs-active a {
+		background-color: #FFFFFF !important;
+		color: #567EB9 !important;
+		font-weight: bold;
+	}
+
+	#hamburger {
+		background: url(@(Url.Content("~/fmwebapp/images/hamburger.jpg")));
+		background-repeat: no-repeat;
+		height: 24px;
+		margin-top: 5px;
+		margin-left: 7px;
+	}
+
+	#toolsdivider {
+		background: url(@(Url.Content("~/fmwebapp/images/divider.jpg")));
+		background-repeat: no-repeat;
+		height: 4px;
+		padding-left: 3px;
+		border: none !important;
+		width: 32px;
+		padding-bottom: 15px !important;
+		padding-left: 9px !important;
+		margin-left: 5px !important;
+		margin-top: 8px !important;
+		margin-right: 3px !important;
+	}
+
+	#toolsdivider2 {
+		background: url(@(Url.Content("~/fmwebapp/images/divider.jpg")));
+		background-repeat: no-repeat;
+		height: 4px;
+		padding-left: 3px;
+		border: none !important;
+		width: 32px;
+		padding-bottom: 15px !important;
+		padding-left: 9px !important;
+		margin-left: 5px !important;
+		margin-top: 8px !important;
+		margin-right: 3px !important;
+		border-radius: 4px;
+	}
+
+	#toolsdivider3 {
+		background: url(@(Url.Content("~/fmwebapp/images/divider.jpg")));
+		background-repeat: no-repeat;
+		height: 4px;
+		padding-left: 3px;
+		border: none !important;
+		width: 32px;
+		padding-bottom: 15px !important;
+		padding-left: 9px !important;
+		margin-left: 5px !important;
+		margin-top: 8px !important;
+		margin-right: 3px !important;
+		border-radius: 4px;
+	}
+
+
+	#line {
+		background: url(@(Url.Content("~/fmwebapp/images/line.png")));
+		margin-top: 5px;
+		height: 24px;
+		width: 34px;
+	}
+
+	#polyline {
+		background: url(@(Url.Content("~/fmwebapp/images/Polyline.png")));
+		margin-top: 5px;
+		height: 24px;
+		width: 34px;
+	}
+
+	#polygon {
+		background: url(@(Url.Content("~/fmwebapp/images/Polygon.png")));
+		margin-top: 5px;
+		height: 24px;
+		width: 34px;
+	}
+
+	#quadrangle {
+		background: url(@(Url.Content("~/fmwebapp/images/Square.png")));
+		margin-top: 5px;
+		height: 24px;
+		width: 34px;
+	}
+
+	#circle {
+		background: url(@(Url.Content("~/fmwebapp/images/circle.png")));
+		margin-top: 5px;
+		height: 24px;
+		width: 34px;
+	}
+
+	#triangle {
+		background: url(@(Url.Content("~/fmwebapp/images/triangle.png")));
+		margin-top: 5px;
+		height: 24px;
+		width: 34px;
+	}
+
+	#ellipse {
+		background: url(@(Url.Content("~/fmwebapp/images/Elipse.png")));
+		margin-top: 5px;
+		height: 24px;
+		width: 34px;
+	}
+
+	#pipe {
+		background: url(@(Url.Content("~/fmwebapp/images/pipe.png")));
+		margin-top: 5px;
+		height: 24px;
+		width: 34px;
+	}
+
+	#text {
+		background: url(@(Url.Content("~/fmwebapp/images/text.png")));
+		margin-top: 5px;
+		height: 24px;
+		width: 34px;
+	}
+
+	#graph {
+		background: url(@(Url.Content("~/fmwebapp/images/Bar.png")));
+		margin-top: 5px;
+		height: 24px;
+		width: 34px;
+	}
+
+	#bar {
+		background: url(@(Url.Content("~/fmwebapp/images/Bar.png")));
+		margin-top: 5px;
+		height: 24px;
+		width: 34px;
+	}
+
+	#tag {
+		background: url(@(Url.Content("~/fmwebapp/images/value.png")));
+		margin-top: 5px;
+		height: 24px;
+		width: 34px;
+	}
+
+	#picture {
+		background: url(@(Url.Content("~/fmwebapp/images/Insert%20obj.png")));
+		margin-top: 5px;
+		height: 24px;
+		width: 34px;
+	}
+
+	#button {
+		background: url(@(Url.Content("~/fmwebapp/images/Button.png")));
+		margin-top: 5px;
+		height: 24px;
+		width: 34px;
+	}
+
+	#select {
+		background: url(@(Url.Content("~/fmwebapp/images/Select-icon.png")));
+		margin-top: 5px;
+		height: 24px;
+		width: 34px;
+	}
+
+	#open {
+		list-style-image: url(@(Url.Content("~/fmwebapp/images/open.png")));
+		margin-top: 5px;
+		height: 24px;
+	}
+
+	#save {
+		list-style-image: url(@(Url.Content("~/fmwebapp/images/Save.png")));
+		margin-top: 5px;
+		height: 24px;
+	}
+
+	.headertool {
+		border: 1px solid #4469a2;
+		border-radius: 4px;
+		z-index: 999;
+		margin-top: 2px;
+		margin-left: 4px;
+	}
+
+	.publishedCheckBoxClass {
+		z-index: 999;
+		position: relative;
+		width: 13px;
+		height: 13px;
+		top: 2px;
+		*overflow: hidden;
+	}
+
+	.publishedCheckBoxLabelClass {
+		z-index: 999;
+		color: #ffffff;
+		padding-left: 5px;
+		padding-right: 1px;
+		margin-right: 1px;
+		height: 25px;
+		width: 100px;
+		text-align: right;
+	}
+
+
+	.modeIndicatorGraphicLabelClass
+	{
+		border: 2px solid #000000;
+		border-radius: 4px;
+		z-index: 999;
+		background-color: #dddddd;
+		color: #000000;
+		padding-left: 5px;
+		padding-right: 5px;
+		margin-right: 30px;
+		height: 25px;
+		width: 100px;
+		text-align: center;
+	}
+
+	.modeIndicatorPointDetailLabelClass
+	{
+		border: 2px solid #dddddd;
+		border-radius: 4px;
+		z-index: 999;
+		background-color: #000000;
+		color: #dddddd;
+		padding-left: 5px;
+		padding-right: 5px;
+		margin-right: 30px;
+		height: 25px;
+		width: 100px;
+		text-align: center;
+	}
+
+	ul {
+		list-style-position: inside;
+	}
+
+	#tools {
+		margin-top: 0px;
+	}
+
+	#tools img {
+		border: 1px solid #4469a2;
+		border-radius: 4px;
+		padding-bottom: 26px;
+		z-index: 999;
+		margin-left: 3px;
+		margin-top: 4px;
+		margin-right: 4px;
+	}
+
+	#toolbar2 img {
+		border: 1px solid #4469a2;
+		border-radius: 4px;
+		padding-bottom: 26px;
+		z-index: 999;
+		margin-left: 3px;
+		margin-top: 4px;
+		margin-right: 4px;
+	}
+
+	#toolbar3 img {
+		border: 1px solid #4469a2;
+		border-radius: 4px;
+		padding-bottom: 26px;
+		z-index: 999;
+		margin-left: 3px;
+		margin-top: 4px;
+		margin-right: 4px;
+	}
+
+	.ui-widget-header {
+		background: #567EB9;
+		border: solid;
+		color: #fff;
+		font-weight: normal;
+	}
+
+	.ui-tabs-nav {
+		background: white;
+	}
+
+	.ui-dialog {
+		z-index: 1080 !important;
+	}
+
+	.buttonclass {
+		background: #567EB9;
+		color: #fff;
+	}
+
+	#propertiespopupmenu {
+		position: absolute;
+		width: 325px;
+		height: 500px;
+		top: 80px;
+		z-index: 1000;
+		border: 0;
+		padding: 0;
+		margin: 0;
+		display: none;
+		background: #567eb9;
+	}
+
+	.property-menu-textbox {
+		width: 80px;
+		height: 17px;
+		float: right;
+		font-size: xx-small;
+		vertical-align: text-bottom;
+	}
+
+	.property-menu-actionbutton {
+		float: right;
+		height: 17px;
+		width: 10px;
+		line-height: 10px;
+	}
+
+	.property-menu-label {
+		color: #ffffff;
+		font-weight: normal;
+		font-size: x-small;
+		height: 15px;
+		vertical-align: text-top;
+	}
+
+	.property-menu-select {
+		width: 50px;
+		height: 17px;
+		float: right;
+		font-weight: normal;
+		font-size: x-small;
+	}
+
+	.property-menu-input-recent-colors {
+		width: 10px;
+		height: 15px;
+		margin: 0;
+		border: 1px;
+		border-style: solid;
+		border-color: #567eb9;
+		padding: 0;
+	}
+
+	/***** END Custom Style Overrides for JQuery Tabs *****/
+
+	.tagselectionmodal {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		margin-left: -150px;
+		margin-top: -10px;
+		z-index: 1050;
+		display: none;
+		overflow: hidden;
+		-webkit-overflow-scrolling: touch;
+		outline: 0;
+	}
+
+	.animationmanagermodal {
+		width: 1000px !important;
+		position: fixed;
+		top: 50%;
+		left: 25%;
+		margin-left: -150px;
+		margin-top: -10px;
+		z-index: 1049;
+		display: none;
+		overflow: hidden;
+		-webkit-overflow-scrolling: touch;
+		outline: 0;
+	}
+
+	.grid-dialog {
+		min-width: 340px;
+		min-height: 410px;
+	}
+
+	/*.grid-dialog select option, .grid-dialog select {
+			background-color: #78a0db;
+			color: white !important;
+			border: solid;
+			border-width: 1px;
+		}
+
+		.grid-dialog input[type="text"], .grid-dialog textarea {
+			background-color: #78a0db;
+			color: white;
+			border: solid;
+			border-width: 1px;
+		}
+			*/
+	.grid-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
+		padding-left: 65px;
+		float: none !important;
+	}
+
+	.ui-widget-content.ui-dialog.grid-dialog {
+		background: #6086BD !important;
+	}
+
+	.zoom-dialog {
+		min-width: 285px;
+		min-height: 370px;
+	}
+
+	.ui-widget-content.ui-dialog.zoom-dialog {
+		background: #6086BD !important;
+	}
+
+	.zoom-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
+		padding-left: 55px;
+		float: none !important;
+	}
+
+	#layersDialogBox.ui-dialog {
+		padding-left: 5px !important;
+		padding-right: 5px !important;
+		min-width: 300px;
+	}
+
+	#layersDialogBox.ui-dialog-titlebar {
+		padding-left: 5px !important;
+		padding-right: 5px !important;
+	}
+
+	#layersDialogBox.ui-widget-content.ui-dialog {
+		background-image: none !important;
+	}
+
+	#layersDialogBox.ui-dialog-buttonset {
+		display: block;
+	}
+
+	#btnAddLayer.ui-button, #btnRemoveLayer.ui-button {
+		background: transparent !important;
+		border: 0px !important;
+	}
+
+	.input-md {
+		width: 80%;
+		margin-left: 5px;
+	}
+
+
+	#Layers {
+		height: 400px;
+		overflow: auto;
+		width: 100%;
+		display: block;
+	}
+
+	.layer-cell {
+		display: inline-block;
+		list-style: none;
+		padding: 2px;
+		font-family: Myriad Pro Regular;
+	}
+
+	#layers-dialog {
+		padding-left: 5px !important;
+		padding-right: 5px !important;
+		overflow: hidden;
+	}
+
+	.layer-block {
+		padding-left: 0px;
+		padding-right: 0px;
+	}
+
+	.primaryLayerIndicator {
+		background-color: #ffff00 !important;
+		color: #567eb9;
+	}
+
+	.li-wrap:nth-child(even) {
+		background-color: #3b5780;
+	}
+
+	.li-wrap:hover, .li-wrap:nth-child(even):hover {
+		background-color: white;
+		color: black;
+		transition: 0.25s all;
+	}
+
+	.layerRow {
+		margin-right: 0px;
+		margin-left: -10px;
+	}
+
+	.layerConfigButtons {
+		float: right;
+	}
+
+	.layerAddRemove {
+		display: inline-block;
+		width: 30px;
+		height: 30px;
+	}
+
+	.layerAddRemove:hover {
+		display: inline-block;
+		width: 30px;
+		height: 30px;
+		background-color: #4e71a6;
+	}
+
+	.layerNameLabel {
+		font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-size: small;
+		padding-left: 8px;
+	}
+	.graphicselectionpanel {
+		width: 200px;
+		display: block;
+		float: left;
+		height: 354px;
+		overflow: hidden;
+	}
+	.graphicPanelTypeFilterpanel {
+		width: 200px;
+		display: table;
+		float: left;
+		height: 60px;
+		overflow: hidden;
+	}
+
+	.graphicSelectionDetails {
+		width: 250px;
+		display: block;
+		float: left;
+		padding-top: 4px;
+		margin-left: 30px;
+	}
+
+	.draw-search {
+		border-style: none;
+		background-color: transparent;
+		-webkit-box-shadow: none;
+		-moz-box-shadow: none;
+		box-shadow: none;
+		display: block;
+		width: 100%;
+		height: 30px;
+		padding-top: 0px;
+		font-size: 12px !important;
+		font-weight: normal !important;
+		padding-right: 25px;
+		padding-top: 0px;
+		color: white;
+		outline: none;
+	}
+
+	#load-dialog {
+		min-height: 250px !important;
+	}
+
+	.graphicselectionFilter .draw-list-filter-addon {
+		background: transparent !important;
+		border-bottom-style: solid;
+		border-radius: 0px;
+		border-bottom-width: 1px;
+		border-bottom-color: white;
+	}
+
+	.graphicselectionFilter .draw-list-filter-addon img {
+		position: absolute;
+		padding-top: 3px;
+		padding-right: 17px;
+		pointer-events: none;
+		top: 0px;
+		right: 0px;
+	}
+
+	.draw-search::-webkit-input-placeholder {
+		font-style: italic;
+		color: white;
+	}
+
+	.draw-search::-moz-placeholder {
+		font-style: italic;
+		color: white;
+	}
+
+	.draw-search:-ms-input-placeholder {
+		font-style: italic;
+		color: white;
+	}
+
+	.drawGraphicSelectionListItem {
+		font-size: 14px;
+		font-weight: normal;
+	}
+
+	.drawGraphicPanelTypeCheckBoxLabel {
+		font-size: 14px;
+		font-weight: normal;
+	}
+
+
+	#DrawingSelection .drawGraphicSelectionListItem:nth-child(odd) {
+		background: rgb(122, 155, 204);
+	}
+
+	.DrawingSelection {
+		height: 170px;
+		width: 300px;
+		overflow: hidden;
+		white-space: nowrap;
+	}
+
+	.drawGraphicSelectionListItem {
+		height: 25px;
+		line-height: 25px;
+		padding-left: 5px;
+	}
+
+	.selection-label {
+		width: 100%;
+		height: 25px;
+	}
+
+	.selection-value {
+		width: 100%;
+		height: 25px;
+		font-size: 12px;
+		overflow: hidden;
+	}
+
+	#load-date {
+		font-size: 8px;
+		margin-top: 40px;
+	}
+
+	#load-desc {
+		height: 50px;
+		margin-bottom: 10px;
+	}
+
+	.drawGraphicSelectionSubmenuTitle, .selection-value {
+		cursor: default;
+	}
+
+	.drawGraphicSelectionListItem.selected {
+		color: #567EB9;
+		background-color: white !important;
+	}
+
+	.divTable {
+		width: 98%;
+		height: 20%;
+		display: table;
+	}
+
+	.divTableRow {
+		width: 100%;
+		height: 20%;
+		display: table-row;
+		padding: 3px;
+	}
+
+	.divTableCell1 {
+		width: 95%;
+		height: 20%;
+		display: table-cell;
+		padding: 3px;
+		vertical-align: top;
+	}
+
+	.divTableCell2 {
+		width: 5%;
+		height: 20%;
+		display: table-cell;
+		padding: 3px;
+		vertical-align: top;
+	}
+
+	.divTableCell3 {
+		width: 30%;
+		height: 20%;
+		display: table-cell;
+		padding: 3px;
+		vertical-align: top;
+	}
+
+	.importexporticons {
+		padding: 3px;
+		width: 26px;
+	}
+
+#ImportPointDetailWizard .select2 {
+    width: 100% !important;
+}
+
+#ImportPointDetailWizard .select2-container--default .select2-selection--single {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 0px;
+    height: 34px;
+}
+
+.select2-container--open {
+	z-index: 1060;
+}
+
+.select2-container {
+   z-index: 1070;
+}
+
+.select2-results__option {
+    height: 32px;
+}
+#ImportPointDetailWizard input::-webkit-input-placeholder {
+	font-style: italic;
+}
+
+#ImportPointDetailWizard input:-moz-placeholder {
+	font-style: italic;
+}
+
+#ImportPointDetailWizard input:-ms-input-placeholder {
+	font-style: italic;
+}
+
+#ImportPointDetailWizard {
+	overflow: hidden;
+}
+
+#ImportPointDetailWizard .select2-container--default.has-error .select2-selection--single {
+    border-color: #a94442;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
+
+#ImportPointDetailWizardPage2 table td, #ImportPointDetailWizardPage2 table th,
+#ImportPointDetailWizardPage3 table td, #ImportPointDetailWizardPage3 table th {
+	width: 50%;
+}
+
+#wzPointDataValueListHeader, #wzAnimationHeader  {
+	margin-bottom: 0px;
+}
+
+#wzPointDataValueListWrapper {
+	max-height: calc( 100vh - 300px);
+	overflow: hidden;
+}
+
+#wzAnimationWrapper {
+	max-height: calc( 100vh - 400px);
+}
+
+
+#ImportPointDetailWizardPage2 table label, #ImportPointDetailWizardPage3 table label {
+	line-height: 28px;
+}
+
+#importwizardwarningheader {
+	font-size: 20px;
+	text-align: center;
+}
+#importwizardwarningheader .glyphicon{
+	padding-right: 15px;
+}
+.select2-container .select2-results__option {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.modal-content {
+    max-width: 75vw;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+</style>
+
+
+@{
+	var importButton = @FMBaseController.TranslateText("&Import");
+	var cancelButton = @FMBaseController.TranslateText("&Cancel");
+	var nextButton = @FMBaseController.TranslateText("&Next");
+	var previousButton = @FMBaseController.TranslateText("&Previous");
+}
+
+@using (Html.BeginForm("SaveDrawing", "drawindex", FormMethod.Post))
+{
+	@Html.AntiForgeryToken()
+	@Html.Hidden("SiteNumFormatInfo", Json.Encode(Model.SiteNumFormatInfo));
+	@Html.Hidden("DateTimeFormatInfo", Json.Encode(Model.DateTimeFormatInfo));
+	@Html.Hidden("TagUnitToUnitTypeList", Json.Encode(Model.TagUnitToUnitTypeList));
+	@Html.Hidden("urlTagSelectionGetPointList", @Url.Action("GetPointList", "TagSelection"))
+	@Html.Hidden("urlTagSelectionGetPointListEx", @Url.Action("GetPointListEx", "TagSelection"))
+	@Html.Hidden("urlTagSelectionGetPointListWithPanelTemplateContext", @Url.Action("GetPointListWithPanelTypeContext", "TagSelection"))
+	@Html.Hidden("urlTagSelectionGetPointListWithPanelTemplateContextEx", @Url.Action("GetPointListWithPanelTypeContextEx", "TagSelection"))
+	@Html.Hidden("urlTagSelectionGetPointListByDataType", @Url.Action("GetPointListFilterByDataType", "TagSelection"))
+	@Html.Hidden("urlTagSelectionGetPointListWithPanelTemplateContextByDataType", @Url.Action("GetPointListWithPanelTypeContextFilterByDataType", "TagSelection"))
+	@Html.Hidden("urlAnimationManagerView", @Url.Action("AnimationManagerView", "AnimationManager"))
+	@Html.Hidden("applicationName", System.Web.Hosting.HostingEnvironment.ApplicationVirtualPath)
+
+	<div id="content">
+		<div id="header" style="z-index: 996">
+			<a href="#1" id="newGraphic" title="New Graphic" style="margin-left: 3px"><img src="~/fmwebapp/images/graphicF.png" class="headertool" /></a>
+			<a href="#2" id="newPointDetail" title="New Point Detail"><img src="~/fmwebapp/images/detailsF.png" class="headertool" /></a>
+			<a href="#3" id="open" title="Open/Delete..."><img src="~/fmwebapp/images/open.png" class="headertool" /></a>
+			<a href="#4" id="save" title="Save"><img src="~/fmwebapp/images/Save.png" class="headertool" /></a>
+			<a href="#5" id="saveas" title="Save As..."><img src="~/fmwebapp/images/SaveAs.png" class="headertool" /></a>
+			<a href="#6" id="close" title="Close"><img src="~/fmwebapp/images/close.png" class="headertool" /></a>
+			<a href="#14" id="export" title="Export Point Detail"><img id="exportButtonImage" src="~/fmwebapp/images/Data-Export-24-inactive.png" class="headertool importexporticons" /></a>
+			<a href="#15" id="import" title="Import Point Detail"><img src="~/fmwebapp/images/Data-Import-24.png" class="headertool importexporticons" /></a>
+			<a href="#7" id="undo" title="Undo"><img id="undobutton" src="~/fmwebapp/images/Undoinactive.png" class="headertool" /></a>
+			<a href="#8" id="redo" title="Redo"><img id="redobutton" src="~/fmwebapp/images/Redoinactive.png" class="headertool" /></a>
+			<a href="#9" id="propertyMenuOpen" title="Properties"><img id="propertyMenuOpenButton" src="~/fmwebapp/images/Icon-propertyMenu-Gray.png" class="headertool" /></a>
+			<a href="#10" id="gridConfigOpen" title="Grid"><img id="gridbutton" src="~/fmwebapp/images/gridconfig.png" class="headertool" /></a>
+			<a href="#11" id="fliphorizontal" title="Flip Horizontally"><img id="fliphorizontalbutton" src="~/fmwebapp/images/Flip-Horizontal-Inactive.png" class="headertool" /></a>
+			<a href="#12" id="flipvertical" title="Flip Vertically"><img id="flipverticalbutton" src="~/fmwebapp/images/Flip-Vertical-Inactive.png" class="headertool" /></a>
+			<a href="#13" id="animationDefinitions" title="Animation Manager"><img src="~/fmwebapp/images/AnimationsToolbarWithoutBorder.png" class="headertool" /></a>
+			<input id="importPointDetail" type="file" accept=".fmg" class="hidden" data-url="@Url.Action("Import", "Draw")" />
+			@Html.ActionLink("Export", "Export", "Draw", new { }, new { @class = "hidden", id = "exportLink" })
+		</div>
+		<div id="sidebar-backpanel" style="z-index: 995">
+			<span class="hamburger-menu">
+				<ul id="hamburger"></ul>
+			</span>
+			<div id="docking-left" style="z-index: 999">
+			</div>
+		</div>
+		<div id="sidebar" style="z-index: 996">
+
+
+
+			<div id="tools">
+				<img id="toolsdivider">
+				<a href="#" title="Select Mode"><img id="select" class="drawcontroltool"></a>
+				<a href="#" title="Line"><img id="line" class="drawcontroltool"></a>
+				<a href="#" title="Polyline"><img id="polyline" class="drawcontroltool"> </a>
+				<a href="#" title="Polygon"><img id="polygon" class="drawcontroltool"> </a>
+				<a href="#" title="Rectangle"><img id="quadrangle" class="drawcontroltool"> </a>
+				<a href="#" title="Triangle"><img id="triangle" class="drawcontroltool"> </a>
+				<a href="#" title="Circle"><img id="circle" class="drawcontroltool"> </a>
+				<a href="#" title="Ellipse"><img id="ellipse" class="drawcontroltool"> </a>
+				<a href="#" title="Pipe"><img id="pipe" class="drawcontroltool"> </a>
+				<a href="#" title="Text"><img id="text" class="drawcontroltool"> </a>
+				<a href="#" title="Bar"><img id="bar" class="drawcontroltool"> </a>
+				<a href="#" title="Image"><img id="picture" class="drawcontroltool"> </a>
+				<a href="#" title="Value"><img id="tag" class="drawcontroltool"></a>
+				<a href="#" title="Button"><img id="button" class="drawcontroltool"></a>
+			</div>
+		</div>
+
+		<div id="tabs">
+			<ul>
+				<li class='drawingTab' drawingGuid='@Guid.NewGuid().ToString()' id='tabs0'>
+					<a href="#tab0">Drawing 1</a><a id='close' onClick='return FMDraw.close( 0 );' style='margin-left: -10px; font-weight: 900;'>X</a>
+				</li>
+			</ul>
+			<div id="tab0">
+				<div id="diagram0">
+					Your browser does not support the HTML5 canvas.
+				</div>
+			</div>
+		</div>
+		<div id="footer" style="z-index: 995">
+			<table id="xyCoords" style="float: left; display: none">
+				<tbody>
+					<tr>
+						<td width="20" height="20" style="height: 20px !important; max-height: 20px; text-align: left; padding-left: 50px">
+							<label id="xLabel" style="font: 12px/40px Arial; font-weight: bold; margin: 0px; height: 40px; text-align: center; color: white; font-size-adjust: none; font-stretch: normal;">X: </label>
+						</td>
+						<td width="20" height="20" style="height: 20px !important; max-height: 20px; text-align: left; padding-left: 10px">
+							<label id="xValue" style="font: 12px/22px Arial; margin: 0px; height: 22px; width: 48px; text-align: center; vertical-align: middle; color: white; font-size-adjust: none; font-stretch: normal; background-color: #4469a2; border-radius: 4px;">100 </label>
+						</td>
+						<td width="20" height="20" style="height: 20px !important; max-height: 20px; text-align: left; padding-left: 20px">
+							<label id="yLabel" style="font: 12px/40px Arial; font-weight: bold; margin: 0px; height: 40px; text-align: center; color: white; font-size-adjust: none; font-stretch: normal;">Y: </label>
+						</td>
+						<td width="20" height="20" style="height: 20px !important; max-height: 20px; text-align: left; padding-left: 10px">
+							<label id="yValue" style="font: 12px/22px Arial; margin: 0px; height: 22px; width: 48px; text-align: center; vertical-align: middle; color: white; font-size-adjust: none; font-stretch: normal; background-color: #4469a2; border-radius: 4px;">100 </label>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<table id="tableZoom" style="float: right;">
+				<tbody>
+					<tr>
+						<td width="150" height="30" style="height: 30px !important; max-height: 30px; text-align: right">
+							<label id="publishedLabel" for="publishedCheckBox" title="Published" class="publishedCheckBoxLabelClass">Published:</label>
+							<input id="publishedCheckBox" title="Published" class="publishedCheckBoxClass" type="checkbox" />
+						</td>
+						<td width="150" height="30" style="height: 30px !important; max-height: 30px; text-align: right">
+							<label id="modeIndicatorLabel" title="Graphic" class="modeIndicatorGraphicLabelClass">Graphic</label>
+						</td>
+						<td width="30" height="30" style="height: 30px !important; max-height: 30px; text-align: right">
+							<div id="CommonPropertyPreview" style="height: 35px !important; width: 35px !important; margin-bottom: 5px; outline: 0"></div>
+						</td>
+						<td width="90" height="20" style="height: 20px !important; max-height: 20px; text-align: right">
+							<label id="ZoomValue" style="font: 12px/40px Arial; margin: 0px; height: 40px; text-align: center; color: white; font-size-adjust: none; font-stretch: normal; cursor: pointer;">100%</label>
+						</td>
+						<td style="vertical-align: middle">
+							<a href="#" id="DecreaseZoom" title="Decrease Zoom">
+								<img id="DecreaseZoomButton" src="~/fmwebapp/images/CircleMinus2.png" />
+							</a>
+						</td>
+						<td style="max-height: 20px;">
+							<input id="ZoomSlider" style="padding: 0; height: 40px; width: 150px; line-height: 20px !important; vertical-align: middle; background: transparent; margin: 0px" onchange="FMDrawIndex.ZoomSliderUpdate()"
+									 oninput="FMDrawIndex.ZoomSliderUpdate()" type="range" min="12.5" max="800" step="0.5" value="100">
+						</td>
+						<td style="vertical-align: middle; padding-right: 50px">
+							<a href="#" id="IncreaseZoom" title="Increase Zoom">
+								<img id="IncreaseZoomButton" src="~/fmwebapp/images/CirclePlus2.png" />
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div id="rightsidebar">
+			<div id="docking-right" style="z-index: 999">
+				<div id="rightSideBarDrag"></div>
+			</div>
+		</div>
+	</div>
+	<div class="dialogDiv" id="chooseImageFile" title="Load Image">
+		<p>Choose an image file:</p>
+		<form>
+			<input type="file" id="file-input" />
+		</form>
+	</div>
+	<div class="dialogDiv" id="selectPointTemplate" title="Point Template">
+		<form>
+			<div class="row">
+				<select id="PointTemplateDropdownList" style="width:470px">
+				</select>
+			</div>
+		</form>
+	</div>
+	<div class="dialogDiv" id="load-dialog" title="Select Drawing" style="width: 700px !important;">
+		<form>
+			<input type="hidden" id="graphicselctionIsForButton" value="false" />
+			<div class="graphicselectionpanel">
+				<div id="graphicPanelTypeFilterpanelID" class="graphicPanelTypeFilterpanel">
+					<div style="display: table-row; height: 20px">
+						<div style="display: table-cell">
+							<label for="standardrawingcheckbox" class="drawGraphicPanelTypeCheckBoxLabel">Graphic</label>
+						</div>
+						<div style="display: table-cell; padding-left: 30px; text-align: right">
+							<input type="checkbox" name="standarDrawingCheckbox" id="standarDrawingCheckbox" class="formfield" />
+						</div>
+					</div>
+					<div style="display: table-row; height: 20px">
+						<div style="display: table-cell">
+							<label for="pointdetailcheckbox" class="drawGraphicPanelTypeCheckBoxLabel">Point Detail</label>
+						</div>
+						<div style="display: table-cell; padding-left: 30px; text-align: right">
+							<input type="checkbox" name="pointDetailCheckbox" id="pointDetailCheckbox" class="formfield" />
+						</div>
+					</div>
+				</div>
+				<div class="graphicselectionFilter">
+					<div class="row">
+						<div id="OperateSelectionMenuTitle" class="col-sm-12 col-md-12 col-lg-12 hidden">
+							<label class="pull-left">@FMBaseController.TranslateText("GRAPHICS")</label>
+							<span id="GraphicSelectionViewMode" class="glyphicon glyphicon-th-list pull-right icon-container listViewSwitch" title="Switch to Detail View"></span>
+							<div class="Selectionhorizontalline"></div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12 col-md-12 col-lg-12">
+							<div class="filter-drawings draw-list-filter-addon">
+								<input id="filter_graphics" type="text" class="draw-search" placeholder="Search for Drawing Name" />
+								<img alt="Filter Drawings" title="Search" src="~/fmwebapp/images/Search Icon - White.png" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="DrawingSelection" id="DrawingSelection">
+				</div>
+			</div>
+			<div class="graphicSelectionDetails" id="graphicSelectionDetails">
+				<div id="load-name" class="selection-label" style="width: 300px !important"></div>
+				<div class="selection-label">@FMBaseController.TranslateText("Description")</div>
+				<div id="load-desc" class="selection-value"></div>
+				<div id="label-pointDetailTitle" class="selection-label">@FMBaseController.TranslateText("Point Detail Template")</div>
+				<div id="label-pointTemplateName" class="selection-label">Name</div>
+				<div id="load-pointTemplateName" class="selection-value"></div>
+				<div id="label-pointType" class="selection-label">@FMBaseController.TranslateText("Type")</div>
+				<div id="load-pointType" class="selection-value"></div>
+				<div class="selection-label">@FMBaseController.TranslateText("Modified by")</div>
+				<div id="load-modified" class="selection-value"></div>
+				<div id="load-date" class="selection-value"></div>
+			</div>
+		</form>
+	</div>
+	<div id="grid-dialog" class="griddialog dialogDiv" title="Grid Options">
+		<form>
+			<fieldset>
+				<div style="display: table">
+					<div style="display: table-row; height: 35px">
+						<div style="display: table-cell">
+							<label for="gridcheckbox" class="formfieldtitle">Enable Grid</label>
+						</div>
+						<div style="display: table-cell; padding-left: 30px; text-align:right">
+							<input type="checkbox" name="gridcheckbox" id="gridcheckbox" class="formfield" />
+						</div>
+					</div>
+					<div style="display: table-row; height: 35px">
+						<div style="display: table-cell">
+							<label for="snapcheckbox" class="formfieldtitle">Snap to Grid</label>
+						</div>
+						<div style="display: table-cell; padding-left: 30px; text-align: right">
+							<input type="checkbox" name="snapcheckbox" id="snapcheckbox" class="formfield" />
+						</div>
+					</div>
+					<div style="display: table-row; height: 35px">
+						<div style="display: table-cell">
+							<label for="coordinatescheckbox" class="formfieldtitle">Show X and Y Coordinates</label>
+						</div>
+						<div style="display: table-cell; padding-left: 30px; text-align:right">
+							<input type="checkbox" name="coordinatescheckbox" id="coordinatescheckbox" class="formfield" />
+						</div>
+					</div>
+					<div style="display: table-row; height: 35px">
+						<div style="display: table-cell">
+							<label for="Xspacingtextbox" class="formfieldtitle">Grid X Spacing (px)</label>
+						</div>
+						<div style="display: table-cell; padding-left: 30px">
+							<input type="text" name="Xspacingtextbox" value="10" id="Xspacingtextbox" class="formfield" onblur=" FMDrawIndex.gridValidate('#Xspacingtextbox',1,100);" style="width: 100px" />
+						</div>
+					</div>
+					<div style="display: table-row; height: 35px">
+						<div style="display: table-cell">
+							<label for="Yspacingtextbox" class="formfieldtitle">Grid Y Spacing (px)</label>
+						</div>
+						<div style="display: table-cell; padding-left: 30px">
+							<input type="text" name="Yspacingtextbox" value="10" id="Yspacingtextbox" class="formfield" onblur=" FMDrawIndex.gridValidate('#Yspacingtextbox',1,100);" style="width: 100px" />
+						</div>
+					</div>
+					<div style="display: table-row; height: 35px">
+						<div style="display: table-cell">
+							<label for="GridlineInterval" class="formfieldtitle">Major Gridline Interval</label>
+						</div>
+						<div style="display: table-cell; padding-left: 30px">
+							<input type="text" name="GridlineInterval" value="5" id="GridlineInterval" class="formfield" onblur=" FMDrawIndex.gridValidate('#GridlineInterval',1,50);" style="width: 100px" />
+						</div>
+					</div>
+					<div style="display: table-row; height: 35px">
+						<div style="display: table-cell">
+							<label for="snapXspacingtextbox" class="formfieldtitle">Snap X Spacing (px)</label>
+						</div>
+						<div style="display: table-cell; padding-left: 30px">
+							<input type="text" name="snapXspacingtextbox" value="10" id="snapXspacingtextbox" class="formfield" onblur=" FMDrawIndex.gridValidate('#snapXspacingtextbox',1, 100);" style="width: 100px" />
+						</div>
+					</div>
+					<div style="display: table-row; height: 35px">
+						<div style="display: table-cell">
+							<label for="snapYspacingtextbox" class="formfieldtitle">Snap Y Spacing (px)</label>
+						</div>
+						<div style="display: table-cell; padding-left: 30px">
+							<input type="text" name="snapYspacingtextbox" value="10" id="snapYspacingtextbox" class="formfield" onblur=" FMDrawIndex.gridValidate( '#snapYspacingtextbox', 1, 100 );" style="width: 100px" />
+						</div>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+	<div id="zoom-dialog" class="dialogDiv" title="Zoom">
+		<div style="display: table">
+			<div style="display: table-row; height: 50px">
+				<div style="display: table-cell">
+					<label for="resettoorigin" class="formfieldtitle">Reset Origin to Top-Left Corner</label>
+				</div>
+				<div style="display: table-cell; padding-left: 2px; text-align: right">
+					<input type="checkbox" name="viewportzoom" id="resettoorigin" value="reset" class="formfield" />
+				</div>
+			</div>
+			<div style="display: table-row; height: 30px">
+				<div style="display: table-cell">
+					<label for="zoom400" class="formfieldtitle">400%</label>
+				</div>
+				<div style="display: table-cell; padding-left: 2px; text-align: right">
+					<input type="radio" name="zoomradio" id="zoom400" value="400" class="formfield" />
+				</div>
+			</div>
+			<div style="display: table-row; height: 30px">
+				<div style="display: table-cell">
+					<label for="zoom200" class="formfieldtitle">200%</label>
+				</div>
+				<div style="display: table-cell; padding-left: 2px; text-align: right">
+					<input type="radio" name="zoomradio" id="zoom200" value="200" class="formfield" />
+				</div>
+			</div>
+			<div style="display: table-row; height: 30px">
+				<div style="display: table-cell">
+					<label for="zoom100" class="formfieldtitle">100%</label>
+				</div>
+				<div style="display: table-cell; padding-left: 2px; text-align: right">
+					<input type="radio" name="zoomradio" id="zoom100" value="100" class="formfield" />
+				</div>
+			</div>
+			<div style="display: table-row; height: 30px">
+				<div style="display: table-cell">
+					<label for="zoom75" class="formfieldtitle">75%</label>
+				</div>
+				<div style="display: table-cell; padding-left: 2px; text-align: right">
+					<input type="radio" name="zoomradio" id="zoom75" value="75" class="formfield" />
+				</div>
+			</div>
+			<div style="display: table-row; height: 40px">
+				<div style="display: table-cell">
+					<label for="fittoviewport" class="formfieldtitle">Fit to Window</label>
+				</div>
+				<div style="display: table-cell; padding-left: 2px; text-align:right">
+					<input type="radio" name="zoomradio" id="fittoviewport" value="" class="formfield" />
+				</div>
+			</div>
+			<div style="display: table-row; height: 30px">
+				<div style="display: table-cell">
+					<label for="customzoom" class="formfieldtitle">Percent</label>
+				</div>
+				<div style="display: table-cell; text-align: right">
+					<input type="number" name="customzoom" id="customzoom" class="formfield" maxlength="5" step="0.1" style="width: 60px" /> %
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="dialogDiv" id="save-dialog" title="Save As">
+		<p>Save the SCADA drawing for use in operations.</p>
+		<form>
+			<fieldset>
+				<div style="display: table">
+					<div style="display: table-row">
+						<div style="display: table-cell">
+							<label for="name" class="formfieldtitle">Name</label>
+						</div>
+						<div style="display: table-cell; padding-left: 10px">
+							<input type="text" maxlength="30" name="name" id="name" class="formfield" style="width: 370px" />
+						</div>
+					</div>
+					<div style="display: table-row">
+						<div style="display: table-cell">
+							<label for="desc" class="formfieldtitle">Description</label>
+						</div>
+						<div style="display: table-cell; padding-left: 10px">
+							<input type="text" name="desc" id="desc" class="formfield" style="width: 370px" />
+						</div>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+	<div class="dialogDiv" id="confirm-unpublish-dialog" title="Confirm Unpublish?">
+		<p>Unpublish the SCADA drawing?</p>
+		<form></form>
+	</div>
+	<div class="dialogDiv" id="confirm-clear-clipboard-dialog" title="Confirm clearing image data from clipboard?">
+		<p>This drawing has objects on the clipboard.  Closing it will clear the clipboard.  Are you sure you want to close this drawing?</p>
+		<form></form>
+	</div>
+	<div class="dialogDiv" id="confirm-save-dialog" title="Confirm close of unsaved drawing?">
+		<p>This drawing has not been saved. Would you like to save it first?</p>
+		<form></form>
+	</div>
+	<div class="dialogDiv" id="alreadyopen-dialog" title="Drawing Already Open">
+		<p></p>
+		<form></form>
+	</div>
+	<div class="dialogDiv" id="overwrite-dialog" title="Confirm Overwrite">
+		<p></p>
+		<form></form>
+	</div>
+	<div class="dialogDiv" id="saved-drawing-dialog" title="Saved Drawing Success">
+		<p></p>
+		<form></form>
+	</div>
+	<div class="dialogDiv" id="alert-dialog" title="Alert">
+		<p></p>
+		<form></form>
+	</div>
+	<div class="dialogDiv" id="layers-dialog" title="Layers">
+		<form>
+			<ul id="Layers"></ul>
+		</form>
+	</div>
+	<div class="dialogDiv" id="export-save-dialog" title="Layers">
+		<form>
+			<p>This drawing has been modified and must be saved before it can be exported. Save and export?</p>
+		</form>
+	</div>
+	<div class="dialogDiv" id="saving-drawing-dialog" title="Saving Drawing">
+		<p>Saving the Drawing.  Please Wait...</p>
+		<form></form>
+	</div>
+	<div class="dialogDiv ui-widget-content" id="propertiespopupmenu" style="background: #567eb9;">
+		<div id="propertiesPopupMenu-div-title" style="background: #3b5780;">
+			<div style="padding-left: 5px">
+				<label style="color: #ffffff; font-weight: normal; font-size: x-small">PROPERTIES</label>
+				<span style="float: right">
+					<a href="javascript:void(0)" onclick=" FMDraw.ClosePropertyMenuWindow() ">
+						<img id="PropertyMenuCancel" alt="Cancel" src="~/fmwebapp/images/Small-Close-Icon.png" style="float: right; height: 23px" />
+					</a>
+				</span>
+			</div>
+		</div>
+		<div id="propertiesPopupMenu-table" style="background: #567eb9; width: 100%; height: 100%; overflow: scroll; padding-top: 5px;">
+			@foreach (DrawPropertyMenuRecord propertyRecord in Model.CommonPropertyList)
+			{
+				<div id='@propertyRecord.TableRowId' @propertyRecord.SectionNameWithAttr style="display: block;">
+
+					@if (propertyRecord.ControlType == DrawPropertyMenuRecord.PropertyControlTypes.Textbox)
+					{
+						<div style="padding-left: 5px; padding-right: 20px;">
+							<label id="@propertyRecord.LabelId" originalLabelName="@propertyRecord.PropertyLabelName" alternateLabelName="@propertyRecord.AlternateLabelName" class="property-menu-label">@propertyRecord.PropertyLabelName</label>
+							<input id="@propertyRecord.TextBoxId" type="text" style="width: @propertyRecord.TextboxWidth" @propertyRecord.TextboxReadonly @propertyRecord.TextboxDisabled onfocus=" this.select() "
+									 onblur=" FMDrawPropertyMenu.SetPropertyOnObject( '@propertyRecord.PropertyName', '@propertyRecord.TextBoxId' ); " placeholder="######" class="property-menu-textbox" />
+						</div>
+					}
+
+					@if (propertyRecord.ControlType == DrawPropertyMenuRecord.PropertyControlTypes.TextboxWithButton)
+					{
+						<div style="padding-left: 5px; padding-right: 20px;">
+							<label id="@propertyRecord.LabelId" originalLabelName="@propertyRecord.PropertyLabelName" alternateLabelName="@propertyRecord.AlternateLabelName" class="property-menu-label">@propertyRecord.PropertyLabelName</label>
+							<button id="@propertyRecord.ButtonId" onclick="@propertyRecord.ButtonActionValue" class="property-menu-actionbutton">...</button>
+							<input id="@propertyRecord.TextBoxId" type="text" style="width: @propertyRecord.TextboxWidth" @propertyRecord.TextboxReadonly @propertyRecord.TextboxDisabled onfocus=" this.select() "
+									 onblur=" FMDrawPropertyMenu.SetPropertyOnObject( '@propertyRecord.PropertyName', '@propertyRecord.TextBoxId' ); " placeholder="######" class="property-menu-textbox" />
+
+						</div>
+					}
+
+					@if (propertyRecord.ControlType == DrawPropertyMenuRecord.PropertyControlTypes.ButtonOnly)
+					{
+						<div style="padding-left: 5px; padding-right: 20px;">
+							<label id="@propertyRecord.LabelId" originalLabelName="@propertyRecord.PropertyLabelName" alternateLabelName="@propertyRecord.AlternateLabelName" class="property-menu-label">@propertyRecord.PropertyLabelName</label>
+							<button id="@propertyRecord.ButtonId" onclick="@propertyRecord.ButtonActionValue" style="width: @propertyRecord.ButtonWidth; font-size: x-small;" class="property-menu-actionbutton">@propertyRecord.ButtonText</button>
+						</div>
+					}
+
+					@if (propertyRecord.ControlType == DrawPropertyMenuRecord.PropertyControlTypes.Dropdown)
+					{
+						<div style="padding-left: 5px; padding-right: 20px;">
+							<label id="@propertyRecord.LabelId" originalLabelName="@propertyRecord.PropertyLabelName" alternateLabelName="@propertyRecord.AlternateLabelName" class="property-menu-label">@propertyRecord.PropertyLabelName</label>
+							<select id="@propertyRecord.DropdownId" class="property-menu-select" style="width: @propertyRecord.DropdownWidth" onchange=" FMDrawPropertyMenu.SetPropertyOnObject( '@propertyRecord.PropertyName', '@propertyRecord.DropdownId' ); ">
+								@foreach (DrawPropertyMenuDropdown dropdownItem in propertyRecord.DropdownItems)
+								{
+									if (dropdownItem.Selected)
+									{
+										<option value="@dropdownItem.ValueAttribute" data-value="@dropdownItem.DataValueAttribute" selected>@dropdownItem.Text</option>
+									}
+									else
+									{
+										<option value="@dropdownItem.ValueAttribute" data-value="@dropdownItem.DataValueAttribute">@dropdownItem.Text</option>
+									}
+								}
+							</select>
+						</div>
+					}
+
+					@if (propertyRecord.ControlType == DrawPropertyMenuRecord.PropertyControlTypes.Divider)
+					{
+						<div id="@propertyRecord.DividerId" style="display: @propertyRecord.HideStr">
+							<div class="divTable">
+								<div class="divTableRow">
+									<div class="divTableCell3">
+										<label id="@propertyRecord.LabelId" originalLabelName="@propertyRecord.PropertyLabelName" alternateLabelName="@propertyRecord.AlternateLabelName" class="property-menu-label">@propertyRecord.SectionLabelName</label>
+									</div>
+									<div class="divTableCell1">
+										<img src="~/fmwebapp/images/divider.jpg" style="width: 100%; height: 1px;" />
+									</div>
+									<div class="divTableCell2">
+										<img id="@propertyRecord.SectionCollapseImageId" src="~/Areas/images/PropertyMenuSection-Arrow-down.png" style="width: 15px; height: 15px; float: right; padding-top: 5px" onclick=" FMDrawPropertyMenu.SectionExpandCollapseEvent( '@propertyRecord.SectionName' ) " />
+									</div>
+								</div>
+							</div>
+						</div>
+					}
+
+					@if (propertyRecord.ControlType == DrawPropertyMenuRecord.PropertyControlTypes.FillColor)
+					{
+						<div style="padding-left: 5px; padding-right: 20px;">
+							<label id="@propertyRecord.LabelId" originalLabelName="@propertyRecord.PropertyLabelName" alternateLabelName="@propertyRecord.AlternateLabelName" class="property-menu-label">@propertyRecord.PropertyLabelName</label>
+							<span style="float: right">
+								<img id="@propertyRecord.FillColorImageId" onclick=" FMDrawPropertyMenu.ExpandColorSpectrum( '@propertyRecord.FillColorSpectrumColumnId' ) " src="~/fmwebapp/images/SmallArrowDown.png" style="width: 10px; height: 15px; vertical-align: top; margin: 0; border: 0; padding: 0" />
+								<input id="@propertyRecord.TextBoxId" type="text" readonly="readonly" style="width: 50px; height: 15px; background: @propertyRecord.FillColorHex; border: 0; margin: 0; padding: 0" />
+							</span>
+						</div>
+					}
+
+					@if (propertyRecord.ControlType == DrawPropertyMenuRecord.PropertyControlTypes.FillColorSpectrum)
+					{
+						<div id="@propertyRecord.FillColorSpectrumColumnId" colspan="2" style="width: 100%; padding-left: 5px; padding-right: 20px; padding-bottom: 5px; display: @propertyRecord.HideTableColumnStr">
+							<table id="tableSpectrum" style="background: #ffffff; width: 290px">
+								<tr>
+									<td style="padding-left: 5px">
+										<label id="@propertyRecord.LabelId" originalLabelName="@propertyRecord.PropertyLabelName" alternateLabelName="@propertyRecord.AlternateLabelName" class="property-menu-label" style="color: #567eb9">Recent Colors</label>
+									</td>
+									<td style="padding-right: 5px">
+										<span style="float: right; padding-top: 2px">
+											@foreach (string recentColorId in propertyRecord.RecentColorTextBoxIds)
+											{
+												<input id="@recentColorId" type="text" readonly="readonly" class="property-menu-input-recent-colors" onclick=" FMDrawPropertyMenu.RecentColorSelection( '@recentColorId', '@propertyRecord.PropertyName' ) " />
+											}
+										</span>
+									</td>
+								</tr>
+								<tr>
+									<td style="padding-left: 5px; vertical-align: top">
+										<label id="@propertyRecord.LabelId" originalLabelName="@propertyRecord.PropertyLabelName" alternateLabelName="@propertyRecord.AlternateLabelName" class="property-menu-label" style="color: #567eb9">Pick a Color</label>
+									</td>
+									<td style="padding-right: 5px; float: right">
+										<input id="@propertyRecord.SpectrumTextBoxId" type="text" style="float: right" />
+									</td>
+								</tr>
+								<tr>
+									<td style="padding-left: 5px;">
+										<label id="@propertyRecord.LabelId" originalLabelName="@propertyRecord.PropertyLabelName" alternateLabelName="@propertyRecord.AlternateLabelName" class="property-menu-label" style="color: #567eb9">Color HEX Value</label>
+									</td>
+									<td style="padding-right: 5px; float: right">
+										<span>
+											<input id="@propertyRecord.ManualColorTextBoxId" type="text" placeholder="#" style="font-size: 9px; width: 100px; height: 15px; border: 1px solid rgb(86, 126, 185);" oninput="FMDrawPropertyMenu.ManualColorChange('@propertyRecord.PropertyName');" onfocus=" FMDrawPropertyMenu.ManualColorFocus( '@propertyRecord.PropertyName' ); " />
+											&nbsp;
+											<input id="@propertyRecord.ManualColorSamplerTextBoxId" type="text" style="font-size: 9px; width: 60px; height: 15px; border: 1px solid rgb(86, 126, 185);" readonly="readonly" />
+										</span>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2" style="width: 100%; text-align: center;">
+										<input type="image" src="~/fmwebapp/images/SmallArrowUp.png" style="width: 10px; height: 15px" onclick=" FMDrawPropertyMenu.CollapseColorSpectrum( '@propertyRecord.FillColorSpectrumColumnId', '@propertyRecord.PropertyName' ) " />
+									</td>
+								</tr>
+							</table>
+						</div>
+					}
+
+					@if (propertyRecord.ControlType == DrawPropertyMenuRecord.PropertyControlTypes.FillPattern)
+					{
+						<div style="padding-left: 5px; padding-right: 20px;">
+							<label id="@propertyRecord.LabelId" originalLabelName="@propertyRecord.PropertyLabelName" alternateLabelName="@propertyRecord.AlternateLabelName" class="property-menu-label">@propertyRecord.PropertyLabelName</label>
+							<span style="float: right">
+								<img id="@propertyRecord.FillPatternImageId" onclick=" FMDrawPropertyMenu.ExpandPatternPalette( '@propertyRecord.FillPatternPaletteColumnId' ) " src="~/fmwebapp/images/SmallArrowDown.png" style="width: 10px; height: 15px; vertical-align: top; margin: 0; border: 0; padding: 0" />
+								<canvas id="@propertyRecord.CanvasId" width="50" height="15" style="background: #ffffff"></canvas>
+							</span>
+						</div>
+					}
+
+					@if (propertyRecord.ControlType == DrawPropertyMenuRecord.PropertyControlTypes.FillPatternPalette)
+					{
+						<div id="@propertyRecord.FillPatternPaletteColumnId" style="width: 300px; padding-left: 5px; padding-right: 20px; padding-bottom: 5px; display: @propertyRecord.HideStr">
+							<div id="@propertyRecord.FillPatternPaletteScrollId" style="width: 300px; height: 105px; overflow: scroll">
+								@foreach (DrawPropertyMenuPattern pattern in propertyRecord.PatternList)
+								{
+									<div style="background: #ffffff; width: 300px; height: 20px; padding-right: 20px; padding-left: 20px; padding-top: 5px;">
+										@if (pattern.CanvasTagId == "canvasPalatte-propertiesMenu-FILLPATTERNPALETTE-1" || pattern.CanvasTagId == "canvasPalatte-propertiesMenu-LINESTYLEPALETTE-1" || pattern.CanvasTagId == "canvasPalatte-propertiesMenu-LINETOARROWPALETTE-1" || pattern.CanvasTagId == "canvasPalatte-propertiesMenu-LINEFROMARROWPALETTE-1")
+										{
+											<label id="@propertyRecord.LabelId" originalLabelName="@propertyRecord.PropertyLabelName" alternateLabelName="@propertyRecord.AlternateLabelName" class="property-menu-label" style="float: left; color: #567eb9">@propertyRecord.PropertyLabelName</label>
+										}
+										<span onclick=" FMDrawPropertyMenu.PatternOnClick( '@pattern.CanvasTagId', '@pattern.PatternNumber', '@propertyRecord.PropertyName' ) ">
+											<canvas id="@pattern.CanvasTagId" width="80" height="15" style="float: right; border: 1px solid #3b5780;"></canvas>
+										</span>
+									</div>
+								}
+								<div style="background: #ffffff; width: 300px; height: 20px; padding-right: 20px; padding-left: 20px; padding-top: 5px;">
+									<canvas id="dummyBecauseOfClipping" width="80" height="15" style="float: right; border: 0px;"></canvas>
+								</div>
+							</div>
+							<div style="background: #ffffff; width: 300px; text-align: center">
+								<input type="image" src="~/fmwebapp/images/SmallArrowUp.png" style="width: 10px; height: 15px" onclick=" FMDrawPropertyMenu.CollapsePatternPalette( '@propertyRecord.FillPatternPaletteColumnId' ) " />
+							</div>
+						</div>
+					}
+				</div>
+
+			}
+		</div>
+	</div>
+
+	<!-- Animation Main Dialog -->
+	<section id="AnimationManagerModals">
+		<div class="row">
+			<div id="AnimationManagerScreen" class="modal fade modal-md animationmanagermodal" data-keyboard="false" data-backdrop="static" data-focus-on="input:first" role="dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button id="AnimationManagerScreen_CloseButton" type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 id="AnimationManagingScreen" class="modal-title">@FMBaseController.TranslateText("Animation Manager")</h4>
+					</div>
+					<div class="modal-body">
+						<section id="AnimationManager" class=""></section>
+					</div>
+					<div class="modal-footer">
+						<div class="btn-toolbar">
+							<div class="pull-right">
+								<button id="AnimationManagerOpenCloseTests" type="submit" accesskey="T" class="btn" onclick="javascript: return FMDrawAnimation.OpenCloseTests();">@FMBaseController.TranslateText("Open/Close Tests")</button>
+								<button id="AnimationManagerOkButton" type="submit" accesskey="O" class="btn" onclick="javascript: return FMDrawAnimation.OkButtonPress();"><u>O</u>k</button>
+								<button id="AnimationManagerCancelButton" type="button" accesskey="C" class="btn btn-default" data-dismiss="modal"><u>C</u>ancel</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Modal -->
+	<section id="tagSelectionModals">
+		<div class="row">
+			<div id="PointTagSelectScreen" class="modal fade modal-md tagselectionmodal" data-backdrop="static" data-focus-on="input:first" role="dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button id="PointTagSelectScreen_CloseButton" type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 id="PointTagSelectionScreen" class="modal-title">@FMBaseController.TranslateText("Point Value Selection")</h4>
+					</div>
+					<div class="modal-body">
+						<section id="PointSelection" class=""></section>
+					</div>
+					<div class="modal-footer">
+						<div class="btn-toolbar">
+							<div class="pull-right">
+								<button id="PointTagSelectOkButton" type="submit" accesskey="O" class="btn">@FMBaseController.TranslateText("&Ok")</button>
+								<button id="PointTagSelectionCancelButton" type="button" accesskey="C" class="btn btn-default" data-dismiss="modal">@FMBaseController.TranslateText("&Cancel")</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<div class="row">
+		<div id="ImportPointDetailWizard" class="modal fade modal-lg" data-width="500" data-backdrop="static" data-focus-on="input:first" role="dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 id="ImportPointDetailWizardTitle" class="modal-title text-center">@FMBaseController.TranslateText("Draw|Import Point Detail") (<span id="wzTitleFileName"></span>)</h4>
+				</div>
+				<div class="modal-body">
+					<section id="ImportPointDetailWizardPage1" class="">
+						<div class="form-group">
+							<label for="wsPointDetailName">@FMBaseController.TranslateText("Draw|New Point Detail Name")</label>
+							<input id="wsPointDetailName" type="text" class="form-control" maxlength="30" placeholder="@FMBaseController.TranslateText("Draw|New Point Detail Name")" required />
+						</div>
+						<div class="form-group">
+							<label for="wsPointDetailPointTemplate">@FMBaseController.TranslateText("Draw|Point Template")</label>
+							<select class="form-control" id="wsPointDetailPointTemplate"></select>
+						</div>
+					</section>
+					<section id="ImportPointDetailWizardPage2" class="">
+						<div id="wzPage2Tags">
+							<table id="wzPointDataValueListHeader" class="table table-bordered table-striped">
+								<thead>
+									<tr>
+										<th scope="col">@FMBaseController.TranslateText("Draw|Source Tag")</th>
+										<th scope="col">@FMBaseController.TranslateText("Draw|Map to Tag")</th>
+									</tr>
+								</thead>
+							</table>
+							<div id="wzPointDataValueListWrapper">
+								<table id="wzPointDataValueList" class="table table-bordered table-striped">
+									<tbody></tbody>
+								</table>
+							</div>
+						</div>
+						<div id="wzPage2NoTags" class="hidden">
+							<p>The Point Detail being imported does not use any Tags or Settings that can be mapped to the selected Point Template.</p>
+						</div>
+					</section>
+					<section id="ImportPointDetailWizardPage3" class="">
+						<div class="form-group">
+							<div id="wzPage3Animations" class="hidden">
+								<table id="wzAnimationHeader" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th scope="col">@FMBaseController.TranslateText("Draw|Animation")</th>
+											<th scope="col">@FMBaseController.TranslateText("Draw|Action")</th>
+										</tr>
+									</thead>
+								</table>
+								<div id="wzAnimationWrapper">
+									<table id="wzAnimationList" class="table table-bordered table-striped">
+										<tbody></tbody>
+									</table>
+								</div>
+								<p>NOTE: All references in the new point detail to tags/settings in the animation will be removed during the import process.</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<div id="wzPage3NoAnimations" class="hidden">
+								<p>The Point Detail being imported does not use any Animations.</p>
+							</div>
+						</div>
+					</section>
+					<section id="ImportPointDetailWizardPage4" class="">
+						<div class="form-group">
+							<div id="importwizardwarningheader" class="alert alert-warning"><span class="glyphicon glyphicon-warning-sign"></span>Warning!!!</div>
+							<p>The Point Detail contains one or more references to specific points in button, value or bar objects. These references will be removed during the import process if the point does not exist for the selected point template in this site.</p>
+						</div>
+					</section>
+				</div>
+				<div class="modal-footer">
+					<div class="">
+						<button id="ImportPointDetailWizardPreviousButton" type="button" class="formfieldtitle btn pull-left" accessKey="@FMControls.GetAccessKey(previousButton)" style="width: 100px;">
+							<span class="glyphicon glyphicon-menu-left" style="padding-right: 10px"></span>@Html.Raw(FMControls.FormatButtonText(previousButton))
+						</button>
+						<button id="ImportPointDetailWizardNextButton" type="button" class="formfieldtitle btn" accessKey="@FMControls.GetAccessKey(nextButton)" style="width: 100px;">
+							@Html.Raw(FMControls.FormatButtonText(nextButton))<span class="glyphicon glyphicon-menu-right" style="padding-left: 10px"></span>
+						</button>
+						<button id="ImportPointDetailWizardSaveButton" type="button" class="formfieldtitle btn" accessKey="@FMControls.GetAccessKey(importButton)" style="width: 100px;" onclick="javascript: return saveImportFile();">
+							@Html.Raw(FMControls.FormatButtonText(importButton))
+						</button>
+						<button id="ImportPointDetailWizardCloseButton" type="button" class="formfieldtitle btn" accessKey="@FMControls.GetAccessKey(cancelButton)" data-dismiss="modal" style="width: 100px;" onclick="javascript: return false;">
+							@Html.Raw(FMControls.FormatButtonText(cancelButton))
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+
+
+<script type="text/javascript">
+
+	var FMDraw = {};
+	FMDraw.drawing = '@Html.Raw(Model.Drawing.Image)';
+	FMDraw.num_tabs = 1;
+	FMDraw.closeTarget = 0;
+	FMDraw.closeAfterSaving = false;
+	FMDraw.topDropAreaActive = false;
+	FMDraw.wizardProperties = {};
+	FMDraw.wizardProperties.startPage = 1;
+	FMDraw.wizardProperties.activePage = 1;
+	FMDraw.wizardProperties.fileContent = {};
+   FMDraw.exportAfterSaving = false;
+
+	FMDraw.headerToolsRight = function()
+	{
+		var ret = 0;
+		var headerToolArr = $( "#header a" ).toArray();
+		for ( var i = 0; i < headerToolArr.length; i++)
+		{
+			var headerTool = headerToolArr[i];
+			var id = headerTool.id;
+			var headerToolObj = $( "#" + id );
+			var headerToolRight = headerToolObj.position().left + headerToolObj.width();
+			if ( ret < headerToolRight )
+			{
+				ret = headerToolRight;
+			}
+		}
+		ret = ret + 5;
+		return ret;
+	}
+
+	FMDraw.close = function (tab)
+	{
+
+		FMDraw.closeTarget = tab;
+		if ($("div#tabs >ul >li").size() == 1) {
+			FMLayout.Alert("One tab must remain active!", 'Alert', null);
+			return;
+		}
+
+		if (FMDrawIndex.TabDiagramModified(tab))
+		{
+			$("#confirm-save-dialog").html(FMDrawIndex.GetTabName(tab) + " has not been saved. Would you like to save it first?");
+			var tabname = "#tab" + tab;
+			var index = $("#tabs a[href='" + tabname + "']").parent().index();
+			$('div#tabs').tabs("option", "active", index);
+			$("#confirm-save-dialog").dialog("open");
+		}
+		else
+		{
+			FMDraw.closetab(false);
+		}
+	}
+
+	FMDraw.closetab = function (forceClose)
+	{
+		var tab = FMDraw.closeTarget;
+		var tabname;
+		var index;
+
+		if (!forceClose && tab !== undefined && FMDrawIndex.ConfirmClearClipboard(tab))
+		{
+			$("#confirm-clear-clipboard-dialog").html(FMDrawIndex.GetTabName(tab) + " has unsaved image data saved to the clipboard. Are you sure you want to close this drawing?  (Doing so will clear the image data from the clipboard).");
+			tabname = "#tab" + tab;
+			index = $("#tabs a[href='" + tabname + "']").parent().index();
+			$('div#tabs').tabs("option", "active", index);
+			$("#confirm-clear-clipboard-dialog").dialog("open");
+		}
+		else
+		{
+			tabname = "#tab" + FMDraw.closeTarget;
+			if($("#tabs a[href='" + tabname + "']").length == 0){
+				return;
+			}
+			index = $("#tabs a[href='" + tabname + "']").parent().index(); //$('div#tabs').tabs("option", "active", index);
+			//var tabindex = $("div#tabs").tabs('option', 'active');
+			$("div#tabs").find(".ui-tabs-nav li:eq(" + index + ")").remove();
+			$(tabname).remove();
+
+			var collectionIndex = parseInt(tabname.substring(tabname.indexOf("b") + 1));
+			FMDrawIndex.ClearTabMemory(collectionIndex);
+
+			$("div#tabs").tabs("refresh");
+		}
+	}
+
+	//FMDraw.baseUrl = '@Url.Content("~")';
+
+    FMDraw.baseUrl = ApplicationBaseUrl;
+    //console.log('FMDraw.baseUrl=' + FMDraw.baseUrl);
+
+	//==================================================================
+	// In order for the property menu window to dock on the right side,
+	// the following must occur:  1) The property menu window must be
+	// shown; 2) It must be dragged over the right side droppable area.
+	//==================================================================
+	FMDraw.InitiallyDockThePropertyMenu = function()
+	{
+		FMDraw.propertiespopupmenu.div.show();
+		var draggable = FMDraw.propertiespopupmenu.div.draggable();
+		var droppable = FMDraw.rightsidebar.div.droppable();
+
+		var draggableOffset = draggable.offset();
+		var droppableOffset = droppable.offset();
+		var dx = droppableOffset.left - draggableOffset.left;
+		var dy = droppableOffset.top - draggableOffset.top;
+
+		FMDraw.propertiespopupmenu.div.simulate( "drag", { dx: dx, dy: dy } );
+	}
+
+	FMDraw.RotateToolBarMenu = function()
+	{
+		// set the initial position of the tools menu only worry about the top left position
+		var rect = document.getElementById(FMDraw.sidebar.handle).getBoundingClientRect();
+
+		var rotateToolbar = FMDrawIndex.ReadDrawPersistentData(rect);
+
+		if(rotateToolbar === 0)
+		{
+			return;
+		}
+
+		var dropPositionleft = 15;
+		var dropPositiontop = 35;
+		var dropped = "sidebar";
+
+		if (FMDraw[dropped] == undefined)
+		{
+			return;
+		}
+
+		if ( dropped === "propertiespopupmenu" )
+		{
+			return;
+		}
+
+		FMDraw.header.dockarray.push(FMDraw[dropped]);
+
+		for (var i in FMDraw.header.dockarray)
+		{
+			FMDraw.header.dockarray[i].div.stop();
+			FMDraw.header.dockarray[i].docked = FMDraw.header;
+			FMDraw.header.dockarray[i].div.resizable("disable");
+			FMDraw.header.dockarray[i].div.css({ height: FMDraw.header.dockarray[i].xheight });
+			FMDraw.header.dockarray[i].div.css({ width: FMDraw.header.dockarray[i].xwidth });
+			FMDraw.header.dockarray[i].div.css({ zIndex: 998 });
+			var dragPosition = FMDraw.header.dockarray[i].div.offset();
+
+			if ((dropPositionleft + FMDraw.header.dockarray[i].xwidth) > FMDraw.header.div.width())
+			{
+				dropPositiontop = dropPositiontop + 42;
+				dropPositionleft = -233;
+			}
+
+			var leftEnd = dropPositionleft - dragPosition.left + FMDraw.headerToolsRight();
+			var topEnd = dropPositiontop - dragPosition.top;
+
+			FMDraw.header.dockarray[i].div.animate({
+				top: '+=' + topEnd,
+				left: '+=' + leftEnd
+			}, 200);
+			document.getElementById(FMDraw.header.dockarray[i].handle).style.transform = "rotate(90deg)";
+			dropPositionleft = dropPositionleft + FMDraw.header.dockarray[i].xwidth;
+		}
+
+	}
+
+	//==============================================================
+	// This function will close the property window and if it is
+	// docked, reset the right side dockable area back to its
+	// original size.
+	//==============================================================
+	FMDraw.ClosePropertyMenuWindow = function()
+	{
+		FMDraw.propertiespopupmenu.div.hide();
+
+		if ( FMDraw.propertiespopupmenu.docked != null )
+		{
+			if(FMDraw.propertiespopupmenu.dockedLocation === "RIGHT")
+			{
+				$("#rightsidebar").css({ 'width': "41px" });
+				$("#docking-right").css({ 'width': "41px" });
+			}
+		}
+
+		if (FMDraw.propertiespopupmenu.dockedLocation === "LEFT")
+		{
+			// This if for another iteration when the left side docking is resizable.
+		}
+	}
+
+	//============================================================================
+	// This function will handle the resizing of the right side docking area. It
+	// works with the docking of the property menu winodw.
+	//============================================================================
+	FMDraw.isRightSideDockResizing = false;
+	FMDraw.didRightSideDockResizeOccur = false;
+	$(function () {
+
+		var container	= $('#content'),
+		    left		= $('#docking-left'),
+		    right		= $('#rightsidebar'),
+		    innerRight	= $("#docking-right"),
+		    propRight	= $("#propertiespopupmenu"),
+		    handle		= $('#rightSideBarDrag');
+
+		handle.on('mousedown', function (e)
+		{
+			FMDraw.isRightSideDockResizing = true;
+		});
+
+		$(document).on('mousemove', function (e)
+		{
+			// Do not do anything if not resizing and the property menu is not docked.
+			if ( FMDraw.isRightSideDockResizing === false || FMDraw.propertiespopupmenu.docked == null ||  FMDraw.propertiespopupmenu.dockedLocation !== "RIGHT")
+			{
+				return;
+			}
+
+			// Do not allow resizing of the right side docking area if the property menu window
+			// is not displayed in the dockable area. The property menu window can be docked
+			// and not displayed. This only occurs when the page is initially created.
+			var propertyMenuDisplayState = FMDraw.propertiespopupmenu.div.css( 'display' );
+			if ( propertyMenuDisplayState !== "block" )
+			{
+				return;
+			}
+
+			var offsetRight = container.width() - (e.clientX - container.offset().left);
+
+			// For the property window the minimum width is 276.
+			if ( offsetRight < 276 )
+			{
+				offsetRight = 276;
+			}
+
+			left.css('right', offsetRight);
+			right.css('width', offsetRight);
+			innerRight.css('width', offsetRight);
+			propRight.css('width', offsetRight);
+			FMDraw.didRightSideDockResizeOccur = true;
+		}).on('mouseup', function (e)
+		{
+			// Stop resizing
+			FMDraw.isRightSideDockResizing = false;
+			var propertyMenuDisplayState = FMDraw.propertiespopupmenu.div.css( 'display' );
+
+			// In order for the property window scrollbar to reposition after resizing the docking
+			// area, it must be hiden and then reopened.  This is only done if it is docked
+			// and being displayed.
+			if ( FMDraw.propertiespopupmenu.docked != null && propertyMenuDisplayState === 'block' && FMDraw.didRightSideDockResizeOccur === true )
+			{
+				FMDraw.propertiespopupmenu.div.hide();
+				FMDrawPropertyMenu.OpenPropertiesPopupMenu();
+				FMDraw.didRightSideDockResizeOccur = false;
+			}
+		});
+	});
+
+
+	$(document).ready(function ()
+	{
+
+	    var okButton = $('#PointTagSelectOkButton');   //bds
+	    ampersandIndex = okButton.text().indexOf('&');
+	    if (ampersandIndex !== -1) {
+	        var hotKey = okButton.text().charAt(ampersandIndex + 1);
+	        okButton.html(okButton.text().replace('&' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+	        okButton.attr('accesskey', hotKey);
+	    }
+
+	    var cancelButton = $('#PointTagSelectionCancelButton');   //bds
+	    ampersandIndex = cancelButton.text().indexOf('&');
+	    if (ampersandIndex !== -1) {
+	        var hotKey = cancelButton.text().charAt(ampersandIndex + 1);
+	        cancelButton.html(cancelButton.text().replace('&' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+	        cancelButton.attr('accesskey', hotKey);
+	    }
+
+	    FMErrorAndExceptionHandling.OnlyOneNotification = true;
+		var topOffset = 77;
+		var leftOffset = 16;
+		$( '#PointTagSelectScreen_CloseButton' ).click( function()
+		{
+		    $("#PointSelection").html('');
+			FMDrawIndex.TagSelectionCancel();
+		} );
+
+		$("#PointTagSelectionCancelButton").click(function ()
+		{
+		    TagSelection.PointTagSelectionCancelButtonPressAction();
+		    $('#PointTagSelectScreen').modal('hide');
+		});
+		$("#PointTagSelectOkButton").click(function ()
+		{
+		    TagSelection.PointTagSelectionOkButtonPressAction();
+			$('#PointTagSelectScreen').modal('hide');
+		});
+
+		//Ensure that Engineereing Units are grouped by type for easy reference
+		//uses combination of go.Map and go.Set lists.
+		FMDrawIndex.ConvertTagUnitToUnitTypeListToMap();
+
+		$("#PointTagSelectionCancelButton").click(function ()
+		{
+			$("#PointSelection").html('');
+			FMDrawIndex.TagSelectionCancel();
+		});
+
+		//Ensure that Engineereing Units are grouped by type for easy reference
+		//uses combination of go.Map and go.Set lists.
+		FMDrawIndex.ConvertTagUnitToUnitTypeListToMap();
+
+		xCordText = document.getElementById( 'xValue' );
+		yCordText = document.getElementById( 'yValue' );
+
+		undobutton = document.getElementById("undobutton");
+		redobutton = document.getElementById("redobutton");
+		flipverticalbutton = document.getElementById("flipverticalbutton");
+		fliphorizontalbutton = document.getElementById("fliphorizontalbutton");
+        exportbutton = document.getElementById("exportButtonImage");
+
+		$("#tabs").tabs({
+			beforeActivate: function( event, ui )
+			{
+				FMDrawIndex.SaveDefaultstoModelData();
+			},
+			activate: function (event, ui)
+			{
+				var href = $("div#tabs .ui-state-active > a").attr("href");
+				href = href.substring(href.indexOf("b") + 1);
+				FMDrawIndex.OnTabSwitch(ui.newTab.index(), parseInt(href));
+				FMDrawIndex.UpdateUndoButtons();
+				FMDrawIndex.UpdateFlipButtons();
+				FMDrawIndex.LoadDefaultsFromModelData();
+				FMDrawIndex.RefreshPreview();
+                FMDrawIndex.UpdateExportButton();
+			}
+		});
+
+
+		$(window).resize(FMDrawIndex.ResizeDrawingWorkSpace);
+
+		// The following was formerly in FMdrawindex.js, moved so that FMdrawindex.js is purely a library
+
+		// set up canvas collection object
+		var canvasContainerClassName = canvasContainerString + '0';
+		FMDrawIndex.tabCanvasContainerCollection.push(new FMDrawIndex._CanvasCollectionObject());
+		FMDrawIndex.activeTabCanvasContainerIndex = 0;
+		FMDrawIndex.SetDiagramModelDataValue("PanelType","Standard");
+		FMDrawIndex.SetDiagramModelDataValue("Published", "false");
+
+		if (document.getElementsByClassName(canvasContainerString).length === 1)
+		{
+			document.getElementsByClassName(canvasContainerString)[0].setAttribute('class', canvasContainerClassName); //renames canvas container to the # of its canvas
+		}
+
+		FMDrawIndex.InitSaveDialog();
+		FMDrawIndex.InitLayersForDiagram();
+		FMDrawIndex.InitLayersDialog();
+		FMDrawIndex.ClearUndoTransactions();
+
+		function confirmExit()
+		{
+			if (FMDrawIndex.AnyTabDiagramModified())
+			{
+				event.returnValue = 'You have unsaved drawings.\n\nAre you sure you want to leave the page?';
+			}
+			var index = 0;
+			if(FMDrawIndex.tabCanvasContainerCollection[index] != null){
+				var rawmetadata = FMDrawIndex.tabCanvasContainerCollection[index].metaData;
+
+				var rect = document.getElementById(FMDraw.sidebar.handle).getBoundingClientRect();
+
+				FMDrawIndex.SaveDrawPersistentData(rect);
+			}
+		};
+		window.onbeforeunload = confirmExit;
+
+		var canvas = $("#diagram0 > canvas");
+		FMDrawIndex.InitContextMenu($("#diagram0 > canvas"));
+
+		canvas.addClass("upper-canvas");
+
+		FMDraw.sidebarbackpanel = { div: $("#docking-left"), dockarray: [] };
+		FMDraw.header = { div: $("#header"), dockarray: [] };
+		FMDraw.footer = { div: $("#footer"), dockarray: [] };
+		FMDraw.rightsidebar = { div: $("#docking-right"), dockarray: [] };
+
+		FMDraw.propertiespopupmenu = { div: $( "#propertiespopupmenu" ), docked: FMDraw.rightsidebar, dockedLocation: "RIGHT", ywidth: 325, yheight: 570 };
+		FMDrawPropertyMenu.FMDrawPropertiesMenuDockSetting = FMDraw.propertiespopupmenu;
+		FMDraw.sidebar = { div: $("#sidebar"), handle: "toolsdivider", docked: FMDraw.sidebarbackpanel, xwidth: 670, xheight: 39, ywidth: 40, yheight: 480 };
+
+		FMDraw.sidebar.div.resizable({
+			minWidth: 41,
+			minHeight: 41,
+			maxHeight: 480,
+			maxWidth: 535,
+			distance: 30
+		});
+		FMDraw.sidebar.div.resizable("option", "disabled", true);
+
+		FMDraw.sidebar.div.draggable({
+			handle: "#toolsdivider",
+			scroll: false,
+			refreshPositions: true,
+			start: function (event, ui)
+			{
+				ui.helper.css({ zIndex: 999 });
+
+				if (FMDraw.sidebar.docked !== null)
+				{
+					ui.helper.css({ height: FMDraw.sidebar.yheight });
+					ui.helper.css({ width: FMDraw.sidebar.ywidth });
+
+					for (var i = 0; i < FMDraw.sidebar.docked.dockarray.length; i++)
+					{
+						if (FMDraw.sidebar.docked.dockarray[i] === FMDraw.sidebar)
+						{
+							FMDraw.sidebar.docked.div.droppable({accept:$("#sidebar,#toolbar2,#toolbar3,#propertiespopupmenu")});
+							delete FMDraw.sidebar.docked.dockarray[i];
+						}
+					}
+				}
+
+				document.getElementById(FMDraw.sidebar.handle).style.transform = "rotate(0deg)";
+				FMDraw.sidebar.docked = null;
+				FMDraw.sidebar.div.resizable("enable");
+			 },
+			 // interactively prevent user from dragging the toolbar offscreen
+          drag: function (event, ui) {
+              var newTop = ui.position.top;
+				  var newLeft = ui.position.left;
+				  // upper limit
+              if (ui.position.top < (0 - $("#header").height())) {
+                  newTop = 0 - $("#header").height();
+				  }
+				  // lower limit
+              if (ui.position.top > ($("#footer").offset().top - $("#footer").height())) {
+						newTop = $("#footer").offset().top - $("#footer").height();
+				  }
+				  // leftmost limit
+              if (ui.position.left < 0) {
+                  newLeft = 0;
+				  }
+				  // rightmost limit
+              if (ui.position.left > $("#rightsidebar").offset().left) {
+                  newLeft = $("#rightsidebar").offset().left;
+              }
+              ui.position.top = newTop;
+              ui.position.left = newLeft;
+          },
+			stop: function (event, ui)
+			{
+				 if (FMDraw.sidebar.docked !== null)
+					  ui.helper.css({ zIndex: 997 });
+				 else 
+					  ui.helper.css({ zIndex: 998 });
+				 }
+		});
+
+		$("#toolsdivider").hover(function ()
+		{
+			$(this).css('cursor', 'move');
+		});
+		$("#toolsdivider2").hover(function ()
+		{
+			$(this).css('cursor', 'move');
+		});
+
+		FMDraw.sidebarbackpanel.dockarray.push(FMDraw.sidebar);
+
+		$("#toolsdivider").hover(function ()
+		{
+			$(this).css('cursor', 'move');
+		});
+		$("#toolsdivider2").hover(function ()
+		{
+			$(this).css('cursor', 'move');
+		});
+		$("#toolsdivider3").hover(function ()
+		{
+			$(this).css('cursor', 'move');
+		});
+
+		//=================================================================================
+		// This registration handles setting up the droppable area for the left side.
+		//=================================================================================
+		FMDraw.sidebarbackpanel.div.droppable({
+			hoverClass: 'highlighted',
+			tolerance: 'touch',
+			accept: $("#sidebar,#toolbar2,#toolbar3"),
+			drop: function (event, ui)
+			{
+				if(FMDraw.topDropAreaActive === false)
+	{
+				var dropPosition = $(this).offset();
+				var dropped = ui.draggable.attr("id");
+
+				if (FMDraw[dropped] == undefined)
+				{
+					return;
+				}
+
+				FMDraw.sidebarbackpanel.dockarray.push(FMDraw[dropped]);
+
+				for (var i in FMDraw.sidebarbackpanel.dockarray)
+				{
+					FMDraw.sidebarbackpanel.dockarray[i].div.stop();
+					FMDraw.sidebarbackpanel.dockarray[i].docked = FMDraw.sidebarbackpanel;
+					FMDraw.sidebarbackpanel.dockarray[i].div.resizable("disable");
+
+					if (dropped === "propertiespopupmenu")
+					{
+						FMDraw.sidebarbackpanel.dockarray[i].div.css({ height: FMDraw.sidebarbackpanel.div.height()-17});
+						FMDraw.sidebarbackpanel.div.droppable({accept:$()});
+					}
+					else
+					{
+						FMDraw.sidebarbackpanel.dockarray[i].div.css({ height: FMDraw.sidebarbackpanel.dockarray[i].yheight });
+						FMDraw.sidebarbackpanel.div.droppable({accept:$()});
+					}
+
+					FMDraw.sidebarbackpanel.dockarray[i].div.css({ width: FMDraw.sidebarbackpanel.dockarray[i].ywidth });
+					FMDraw.sidebarbackpanel.dockarray[i].div.css({ zIndex: 997 });
+					var dragPosition = FMDraw.sidebarbackpanel.dockarray[i].div.offset();
+
+					if ((dropPosition.top + FMDraw.sidebarbackpanel.dockarray[i].yheight) > (FMDraw.sidebarbackpanel.div.height()) && dropped !== "propertiespopupmenu")
+					{
+						dropPosition.top = topOffset;
+						dropPosition.left = leftOffset;
+					}
+
+					var leftEnd = dropPosition.left - dragPosition.left;
+					var topEnd = dropPosition.top - dragPosition.top;
+
+					FMDraw.sidebarbackpanel.dockarray[i].div.animate({
+						top: '+=' + topEnd,
+						left: '+=' + leftEnd
+					}, 100);
+					dropPosition.top = dropPosition.top + FMDraw.sidebarbackpanel.dockarray[i].yheight;
+				}
+				$("#header").droppable("enable");
+				$("#footer").droppable("enable");
+}
+			},
+
+			over: function (event, ui)
+			{
+				if(FMDraw.topDropAreaActive === false)
+	{
+				var dropPosition = $(this).offset();
+
+				for (var i in FMDraw.sidebarbackpanel.dockarray)
+				{
+					FMDraw.sidebarbackpanel.dockarray[i].div.stop();
+					FMDraw.sidebarbackpanel.dockarray[i].docked = FMDraw.sidebarbackpanel;
+					FMDraw.sidebarbackpanel.dockarray[i].div.css({ height: FMDraw.sidebarbackpanel.dockarray[i].yheight });
+					FMDraw.sidebarbackpanel.dockarray[i].div.css({ width: FMDraw.sidebarbackpanel.dockarray[i].ywidth });
+					var dragPosition = FMDraw.sidebarbackpanel.dockarray[i].div.offset();
+
+					if ((dropPosition.top + FMDraw.sidebarbackpanel.dockarray[i].yheight) > (FMDraw.sidebarbackpanel.div.height()))
+					{
+						dropPosition.top = topOffset;
+						dropPosition.left = leftOffset;
+					}
+
+					var leftEnd = dropPosition.left - dragPosition.left;
+					var topEnd = dropPosition.top - dragPosition.top;
+
+					FMDraw.sidebarbackpanel.dockarray[i].div.animate({
+						top: '+=' + topEnd,
+						left: '+=' + leftEnd
+					}, 200);
+					dropPosition.top = dropPosition.top + FMDraw.sidebarbackpanel.dockarray[i].yheight;
+				}
+}
+			},
+			out: function (event, ui)
+			{
+			}
+		});
+
+		//=================================================================================
+		// This registration handles setting up the droppable area for the right side.
+		//=================================================================================
+		FMDraw.rightsidebar.div.droppable({
+			hoverClass: 'highlighted',
+			tolerance: 'touch',
+			accept: $("#sidebar,#toolbar2,#toolbar3,#propertiespopupmenu"),
+			drop: function (event, ui)
+			{
+
+				var dropPosition = $(this).offset();
+				var dropped = ui.draggable.attr("id");
+
+				if (FMDraw[dropped] == undefined)
+				{
+					return;
+				}
+
+				FMDraw.rightsidebar.dockarray.push(FMDraw[dropped]);
+
+				for (var i in FMDraw.rightsidebar.dockarray)
+				{
+					FMDraw.rightsidebar.dockarray[i].div.stop();
+					var position = FMDraw.rightsidebar.dockarray[i].div.position();
+					FMDraw.rightsidebar.dockarray[i].div.css({ 'left': position.left });
+					FMDraw.rightsidebar.dockarray[i].docked = FMDraw.rightsidebar;
+					FMDraw.rightsidebar.dockarray[i].div.resizable("disable");
+					FMDraw.rightsidebar.dockarray[i].div.css({ right: "0px" });
+
+					if (dropped === "propertiespopupmenu")
+					{
+						FMDraw.propertiespopupmenu.dockedLocation = "RIGHT";
+						FMDraw.rightsidebar.dockarray[i].div.css({ height: FMDraw.rightsidebar.div.height()-17});
+						FMDraw.rightsidebar.div.droppable({accept:$()});
+
+						if ( FMDraw.HasPropertyMenuInitiallyDocked === true )
+						{
+							// Property menu original width plus one pixel for the right side drag handle.
+							var propertyMenuWidth = 326;
+
+							$( "#docking-right" ).css( { 'width': propertyMenuWidth + "px" } );
+						}
+						else
+						{
+							$( "#rightsidebar" ).css( { 'width': "41px" } );
+							$( "#docking-right" ).css( { 'width': "41px" } );
+						}
+					}
+					else
+					{
+						FMDraw.rightsidebar.dockarray[i].div.css({ height: FMDraw.rightsidebar.dockarray[i].yheight });
+						FMDraw.rightsidebar.div.droppable({accept:$()});
+					}
+
+					FMDraw.rightsidebar.dockarray[i].div.css({ width: FMDraw.rightsidebar.dockarray[i].ywidth });
+					FMDraw.rightsidebar.dockarray[i].div.css({ zIndex: 998 });
+					var dragPosition = FMDraw.rightsidebar.dockarray[i].div.offset();
+
+					if ((dropPosition.top + FMDraw.rightsidebar.dockarray[i].yheight) > FMDraw.rightsidebar.div.height() + 15 && dropped !== "propertiespopupmenu")
+					{
+						dropPosition.top = topOffset;
+						dropPosition.left = dropPosition.left - 41;
+					}
+
+					var leftEnd = dropPosition.left - dragPosition.left;
+					var topEnd = dropPosition.top - dragPosition.top;
+					dropPosition.top = dropPosition.top + FMDraw.rightsidebar.dockarray[i].yheight;
+					FMDraw.rightsidebar.dockarray[i].div.animate({
+						top: '+=' + topEnd,
+						left: '+=' + leftEnd
+					}, {
+						duration: FMDraw.HasPropertyMenuInitiallyDocked ===false ? 0: 100,
+						done: function ()
+						{
+							// When the draw is initialized the property is programmatically docked.
+							// It has to be shown in order to do that.  Therefore, it needs to be hidden
+							// after that docking.
+							if ( FMDraw.HasPropertyMenuInitiallyDocked === false )
+							{
+								FMDraw.propertiespopupmenu.div.hide();
+								FMDraw.HasPropertyMenuInitiallyDocked = true;
+							}
+
+							setTimeout(function ()
+							{
+								var ylocation = 0;
+								var rightedge = 0;
+
+								for (var i in FMDraw.rightsidebar.dockarray)
+								{
+									FMDraw.rightsidebar.dockarray[i].div.css({ 'left': '' });
+									ylocation = ylocation + FMDraw.rightsidebar.dockarray[i].yheight;
+
+									if (ylocation > FMDraw.rightsidebar.div.height() + 15)
+									{
+										rightedge = rightedge + 41;
+										ylocation = 46;
+									}
+
+									if ( FMDraw.rightsidebar.dockarray[i].div.selector === "#propertiespopupmenu" )
+									{
+										rightedge = +15;
+									}
+
+									FMDraw.rightsidebar.dockarray[i].div.css({ 'right': rightedge + "px" });
+								}
+							});
+						}
+					});
+				}
+			},
+
+			over: function (event, ui)
+			{
+				var dropPosition = $(this).offset();
+
+				for (var i in FMDraw.rightsidebar.dockarray)
+				{
+					FMDraw.rightsidebar.dockarray[i].div.stop();
+					var position = FMDraw.rightsidebar.dockarray[i].div.position();
+					FMDraw.rightsidebar.dockarray[i].div.css({ 'left': position.left });
+					FMDraw.rightsidebar.dockarray[i].docked = FMDraw.rightsidebar;
+					FMDraw.rightsidebar.dockarray[i].div.css({ height: FMDraw.rightsidebar.dockarray[i].yheight });
+					FMDraw.rightsidebar.dockarray[i].div.css({ width: FMDraw.rightsidebar.dockarray[i].ywidth });
+					var dragPosition = FMDraw.rightsidebar.dockarray[i].div.offset();
+
+					if ((dropPosition.top + FMDraw.rightsidebar.dockarray[i].yheight) > FMDraw.rightsidebar.div.height() + 15)
+					{
+						dropPosition.top = 46;
+						dropPosition.left = dropPosition.left - 41;
+					}
+
+					var leftEnd = dropPosition.left - dragPosition.left;
+					var topEnd = dropPosition.top - dragPosition.top + 31;
+
+					dropPosition.top = dropPosition.top + FMDraw.rightsidebar.dockarray[i].yheight;
+					FMDraw.rightsidebar.dockarray[i].div.animate({
+						top: '+=' + topEnd,
+						left: '+=' + leftEnd
+					}, 100);
+
+				}
+			},
+			out: function (event, ui)
+			{
+				FMDraw.propertiespopupmenu.div.resizable({disabled: false});
+				$("#rightsidebar").css({ 'width': 41 + "px" });
+				$("#docking-right").css({ 'width': 41 + "px" });
+
+				// Set the docked location to nothing.
+				FMDraw.propertiespopupmenu.dockedLocation = "";
+			}
+		});
+
+
+		FMDraw.footer.div.droppable({
+			hoverClass: 'highlighted',
+			tolerance: 'pointer',
+			accept: "", //$("#sidebar,#toolbar2, #toolbar3"), bottom drop zone disabled per Jeff email
+			drop: function (event, ui)
+			{
+				var dropPosition = $(this).offset();
+				var dropped = ui.draggable.attr("id");
+
+				if (FMDraw[dropped] == undefined)
+				{
+					return;
+				}
+
+				FMDraw.footer.dockarray.push(FMDraw[dropped]);
+
+				for (var i in FMDraw.footer.dockarray)
+				{
+					FMDraw.footer.dockarray[i].div.stop();
+					FMDraw.footer.dockarray[i].docked = FMDraw.footer;
+					FMDraw.footer.dockarray[i].div.resizable("disable");
+					FMDraw.footer.dockarray[i].div.css({ height: FMDraw.footer.dockarray[i].xheight });
+					FMDraw.footer.dockarray[i].div.css({ width: FMDraw.footer.dockarray[i].xwidth });
+					FMDraw.footer.dockarray[i].div.css({ zIndex: 998 });
+					var dragPosition = FMDraw.footer.dockarray[i].div.offset();
+
+					if ((dropPosition.left + FMDraw.footer.dockarray[i].xwidth) > FMDraw.footer.div.width())
+					{
+						dropPosition.top = dropPosition.top - 40;
+						dropPosition.left = 27;
+					}
+
+					var leftEnd = dropPosition.left - dragPosition.left + 30;
+					var topEnd = dropPosition.top - dragPosition.top + 1;
+
+					FMDraw.footer.dockarray[i].div.animate({
+						top: '+=' + topEnd,
+						left: '+=' + leftEnd
+					}, 200);
+
+					document.getElementById(FMDraw.footer.dockarray[i].handle).style.transform = "rotate(90deg)";
+					dropPosition.left = dropPosition.left + FMDraw.footer.dockarray[i].xwidth;
+				}
+			},
+			over: function (event, ui)
+			{
+				var dropPosition = $(this).offset();
+
+				for (var i in FMDraw.footer.dockarray)
+				{
+					FMDraw.footer.dockarray[i].div.stop();
+					FMDraw.footer.dockarray[i].docked = FMDraw.footer;
+					FMDraw.footer.dockarray[i].div.css({ height: FMDraw.footer.dockarray[i].xheight });
+					FMDraw.footer.dockarray[i].div.css({ width: FMDraw.footer.dockarray[i].xwidth });
+					var dragPosition = FMDraw.footer.dockarray[i].div.offset();
+
+					if ((dropPosition.left + FMDraw.footer.dockarray[i].xwidth) > FMDraw.footer.div.width())
+					{
+						dropPosition.top = dropPosition.top - 40;
+						dropPosition.left = 27;
+					}
+
+					var leftEnd = dropPosition.left - dragPosition.left + 30;
+					var topEnd = dropPosition.top - dragPosition.top + 1;
+
+					FMDraw.footer.dockarray[i].div.animate({
+						top: '+=' + topEnd,
+						left: '+=' + leftEnd
+					}, 200);
+					document.getElementById(FMDraw.footer.dockarray[i].handle).style.transform = "rotate(90deg)";
+					dropPosition.left = dropPosition.left + FMDraw.footer.dockarray[i].xwidth;
+				}
+			},
+			out: function (event, ui)
+			{
+			}
+
+		});
+
+		FMDraw.header.div.droppable({
+			hoverClass: 'highlighted',
+			tolerance: 'pointer',
+			accept: "#sidebar",
+			drop: function (event, ui)
+			{
+				var dropPosition = $(this).offset();
+				var dropped = ui.draggable.attr("id");
+
+				if (FMDraw[dropped] == undefined)
+				{
+					return;
+				}
+
+				if ( dropped === "propertiespopupmenu" )
+				{
+					return;
+				}
+				FMDraw.topDropAreaActive = true;
+				FMDraw.header.dockarray.push(FMDraw[dropped]);
+
+				for (var i in FMDraw.header.dockarray)
+				{
+					FMDraw.header.dockarray[i].div.stop();
+					FMDraw.header.dockarray[i].docked = FMDraw.header;
+					FMDraw.header.dockarray[i].div.resizable("disable");
+					FMDraw.header.dockarray[i].div.css({ height: FMDraw.header.dockarray[i].xheight });
+					FMDraw.header.dockarray[i].div.css({ width: FMDraw.header.dockarray[i].xwidth });
+					FMDraw.header.dockarray[i].div.css({ zIndex: 998 });
+					var dragPosition = FMDraw.header.dockarray[i].div.offset();
+
+					if ((dropPosition.left + FMDraw.header.dockarray[i].xwidth) > FMDraw.header.div.width())
+					{
+						dropPosition.top = dropPosition.top + 42;
+						dropPosition.left = -233;
+					}
+
+					var leftEnd = dropPosition.left - dragPosition.left + FMDraw.headerToolsRight();
+					var topEnd = dropPosition.top - dragPosition.top;
+
+					FMDraw.header.dockarray[i].div.animate({
+						top: '+=' + topEnd,
+						left: '+=' + leftEnd
+					}, 200);
+					document.getElementById(FMDraw.header.dockarray[i].handle).style.transform = "rotate(90deg)";
+					dropPosition.left = dropPosition.left + FMDraw.header.dockarray[i].xwidth;
+				}
+				FMDraw.topDropAreaActive = false;
+			},
+			over: function (event, ui)
+			{
+				FMDraw.topDropAreaActive = true;
+				var dropPosition = $(this).offset();
+
+				for (var i in FMDraw.header.dockarray)
+				{
+					FMDraw.header.dockarray[i].div.stop();
+					FMDraw.header.dockarray[i].docked = FMDraw.header;
+					FMDraw.header.dockarray[i].div.css({ height: FMDraw.header.dockarray[i].xheight });
+					FMDraw.header.dockarray[i].div.css({ width: FMDraw.header.dockarray[i].xwidth });
+					var dragPosition = FMDraw.header.dockarray[i].div.offset();
+
+					if ((dropPosition.left + FMDraw.header.dockarray[i].xwidth) > FMDraw.header.div.width())
+					{
+						dropPosition.top = dropPosition.top + 42;
+						dropPosition.left = -233;
+					}
+
+					var leftEnd = dropPosition.left - dragPosition.left + 329;
+					var topEnd = dropPosition.top - dragPosition.top;
+					FMDraw.header.dockarray[i].div.animate({
+						top: '+=' + topEnd,
+						left: '+=' + leftEnd
+					}, 200);
+					document.getElementById(FMDraw.header.dockarray[i].handle).style.transform = "rotate(90deg)";
+					dropPosition.left = dropPosition.left + FMDraw.header.dockarray[i].xwidth;
+				}
+			},
+			out: function (event, ui)
+			{
+				FMDraw.topDropAreaActive = false;
+			}
+		});
+
+		$("#DecreaseZoom").click(FMDrawIndex.DecreaseZoom);
+		$("#IncreaseZoom").click(FMDrawIndex.IncreaseZoom);
+
+		$( "#ZoomValue" ).hover(
+			function() { $( this ).addClass( "highlighted" ); },
+			function() { $( this ).removeClass( "highlighted" ); }
+		);
+
+		$("#ZoomValue").click(function( e )
+			{
+				e.preventDefault();
+				$("#zoom-dialog").dialog("open");
+				$( '#customzoom' ).val(FMDrawIndex.GetZoomLevel().toFixed(1));
+			}
+		);
+		$("#resettoorigin").change(function() {
+			if(this.checked)
+			{
+				$("#fittoviewport").attr('checked', false);
+			}
+		});
+
+		$("#fittoviewport").change(function() {
+			if(this.checked)
+			{
+				$( '#customzoom' ).val( '' );
+				$("#resettoorigin").prop('checked', false);
+			}
+		});
+
+		$('input:radio[name="zoomradio"]').change(
+			function()
+			{
+				$( '#customzoom' ).val( $(this).val() );
+			});
+
+		$('#customzoom').on('input',function(e){
+			$('input[name=zoomradio]').attr('checked', false);
+		});
+
+		$("#open").click(FMDrawIndex.OpenDrawing);
+
+		$("#close").click(function (e)
+		{
+			var href = $("div#tabs .ui-state-active > a").attr("href");
+			href = href.substring(href.indexOf("b") + 1);
+			FMDraw.close(href);
+		});
+
+		$("#export").click( function() {
+
+			if (FMDrawIndex.CanExport())
+         {
+
+				var href = $("div#tabs .ui-state-active > a").attr("href");
+				href = href.substring(href.indexOf("b") + 1);
+             FMDrawIndex.activeTabCanvasContainerIndex = [href];
+				var rawmetadata = FMDrawIndex.tabCanvasContainerCollection[href].metaData;
+
+             if (typeof rawmetadata != "string" || FMDrawIndex.TabDiagramModified(FMDrawIndex.activeTabCanvasContainerIndex)) {
+                 $("#export-save-dialog").dialog("open");
+                 return;
+				}
+				else {
+                var metadata = rawmetadata.split(",");
+                var name = metadata[0];
+                var desc = metadata[1];
+				}
+
+				FMDrawIndex.SaveDrawing(name, desc, function (drawingGuid) {
+					var href = $('#exportLink').attr('href');
+					if (href.indexOf('?') != -1) {
+						href = href.substring(0, href.indexOf('?'));
+					}
+					$('#exportLink').attr('href', href + '?id=' + drawingGuid);
+					$('#exportLink')[0].click(); // click on a hidden link to trigger the export (we cannot use AJAX for security reasons)
+				});
+			}
+			else
+			{
+				return;
+            }
+
+		});
+
+		$("#import").click( function() {
+			$( '#importPointDetail' ).val( '' );
+			$( '#importPointDetail' ).click();
+			event.preventDefault();
+		});
+
+		$( "#gridConfigOpen" ).click( function( e )
+			{
+				e.preventDefault();
+				$("#grid-dialog").dialog("open");
+			}
+		);
+
+		$("#saveas").click(function (e)
+		{
+			e.preventDefault();
+
+
+			var href = $("div#tabs .ui-state-active > a").attr("href");
+			href = href.substring(href.indexOf("b") + 1);
+			var rawmetadata = FMDrawIndex.tabCanvasContainerCollection[href].metaData;
+			FMDrawIndex.activeTabCanvasContainerIndex = [href];
+
+			if (typeof rawmetadata === "string")
+			{
+				var metadata = rawmetadata.split(",");
+				var name = metadata[0];
+				var desc = metadata[1];
+				if (name != undefined && name !== '')
+				{
+					$("#name").val(name);
+					$("#desc").val(desc);
+				}
+			}
+			else
+			{
+				var currenttabname = $("div#tabs .ui-state-active > a").html();
+
+				currenttabname = currenttabname.trim();
+				$("#name").val(currenttabname);
+			}
+
+			var publishedCheckBox = document.getElementById("publishedCheckBox");
+			FMDrawIndex.SetDiagramModelDataValue('Published', ((publishedCheckBox.checked) ? 'true' : 'false'));
+
+
+			$("#save-dialog").dialog("open");
+		});
+
+		$("#save").click(function (e)
+		{
+			e.preventDefault();
+			var href = $("div#tabs .ui-state-active > a").attr("href");
+			href = href.substring(href.indexOf("b") + 1);
+			FMDrawIndex.activeTabCanvasContainerIndex = [href];
+			var rawmetadata = FMDrawIndex.tabCanvasContainerCollection[href].metaData;
+
+			if (typeof rawmetadata === "string")
+			{
+				var metadata = rawmetadata.split(",");
+				var name = metadata[0];
+				var desc = metadata[1];
+
+				var publishedCheckBox = document.getElementById("publishedCheckBox");
+				var published = FMDrawIndex.GetDiagramModelDataValue('Published');
+
+				if (published == 'true' && 'false' == ((publishedCheckBox.checked) ? 'true' : 'false')) {
+					var href = $("div#tabs .ui-state-active > a").attr("href");
+					href = href.substring(href.indexOf("b") + 1);
+					$("#confirm-unpublish-dialog").html(FMDrawIndex.GetTabName(href) + " has been published and may be in use. Are you sure you would like to unpublish?");
+					var tabname = "#tab" + href;
+					var index = $("#tabs a[href='" + tabname + "']").parent().index();
+					$('div#tabs').tabs("option", "active", index);
+					$("#confirm-unpublish-dialog").dialog("open");
+					return;
+				}
+
+				FMDrawIndex.SetDiagramModelDataValue('Published', ((publishedCheckBox.checked) ? 'true' : 'false'));
+			}
+			else
+			{
+				var currenttabname = $("div#tabs .ui-state-active > a").html();
+
+				currenttabname = currenttabname.trim();
+				$("#name").val(currenttabname);
+				$("#save-dialog").dialog("open");
+				return;
+			}
+
+			FMDrawIndex.SaveDrawing(name, desc);
+
+		});
+
+		$("#newGraphic").click(function (e)
+		{
+			FMDrawIndex.NewCanvas(e,FMDraw, null, false);
+		});
+
+		$("#newPointDetail").click(function (e)
+		{
+			FMDrawIndex.NewPointDetail(e,FMDraw);
+		});
+
+		$("#animationDefinitions").click(function (e)
+		{
+		    FMDrawAnimation.OpenAnimationDialog(false);
+		});
+
+		$("#undo").click(function (e)
+		{
+			FMDrawIndex.UndoAction();
+		});
+
+		$("#redo").click(function (e)
+		{
+			FMDrawIndex.RedoAction();
+		});
+
+		$("#flipvertical").click(function(e){
+
+			var diagram = FMDrawIndex.GetActiveTabGoJSDiagramObject();
+			if(!diagram){
+				return;
+			}
+
+			diagram.startTransaction("flip");
+			diagram.selection.each(function(object){
+				if(typeof object.data.isGroup === 'boolean' && object.data.isGroup === true){
+					object.memberParts.each(function(node){
+						var angle = 0;
+						if(node.data.angle){
+							angle = node.data.angle;
+						}
+						diagram.model.setDataProperty(node.data, 'angle', -angle);
+						var shape = node.findObject('SHAPE');
+						if(shape){
+							if(shape instanceof go.Shape){
+								var geo = shape.geometry.copy();
+								geo.scale(-1, 1);
+								geo.normalize();
+								shape.geometry = geo;
+							}
+
+							else if(shape instanceof go.Picture){
+							}
+						}
+
+						var bgshape = node.findObject('BGSHAPE');
+						if(bgshape){
+							if(bgshape instanceof go.Shape){
+								var geo = bgshape.geometry.copy();
+								geo.scale(-1, 1);
+								geo.normalize();
+								bgshape.geometry = geo;
+							}
+						}
+
+
+						// horizontally flip the text
+						var valuetable = node.findObject('VALUETABLE');
+						if(valuetable && valuetable instanceof go.Panel){
+							if(valuetable.angle == 0){
+								diagram.model.setDataProperty(object.data, 'valuetableangle', 180);
+							}
+							else {
+								diagram.model.setDataProperty(object.data, 'valuetableangle', 0);
+							}
+						}
+						else{
+							var textblock = node.findObject('TEXTBLOCK');
+							if(textblock && textblock instanceof go.TextBlock)
+							{
+								if(textblock.angle == 0){
+									diagram.model.setDataProperty(object.data, 'textangle', 180);
+								}
+								else {
+									diagram.model.setDataProperty(object.data, 'textangle', 0);
+								}
+							}
+						}
+					});
+				}
+				else
+				{
+					// rotate the object through 180 - angle
+					var angle = 0;
+
+					if(object.data.angle)
+					{
+						angle = object.data.angle;
+					}
+					diagram.model.setDataProperty(object.data, 'angle', 180 - angle);
+
+					// horizontally flip the shape
+					var shape = object.findObject('SHAPE');
+					var geo;
+
+					if(shape)
+					{
+						if(shape instanceof go.Shape)
+						{
+							geo = shape.geometry.copy();
+							geo.scale(-1, 1);
+							geo.normalize();
+							shape.geometry = geo;
+						}
+						else if(shape instanceof go.Picture)
+						{
+						}
+					}
+
+					var bgshape = object.findObject('BGSHAPE');
+					if(bgshape && bgshape instanceof go.Shape)
+					{
+						geo = bgshape.geometry.copy();
+						geo.scale(-1, 1);
+						geo.normalize();
+						bgshape.geometry = geo;
+					}
+
+					// horizontally flip the text
+					var valuetable = object.findObject('VALUETABLE');
+					if(valuetable && valuetable instanceof go.Panel){
+						if(valuetable.angle === 0)
+						{
+							diagram.model.setDataProperty(object.data, 'valuetableangle', 180);
+						}
+						else
+						{
+							diagram.model.setDataProperty(object.data, 'valuetableangle', 0);
+						}
+					}
+					else
+					{
+						var textblock = object.findObject('TEXTBLOCK');
+						if(textblock  && textblock instanceof go.TextBlock)
+						{
+							if(textblock.angle === 0)
+							{
+								diagram.model.setDataProperty(object.data, 'textangle', 180);
+							}
+							else
+							{
+								diagram.model.setDataProperty(object.data, 'textangle', 0);
+							}
+						}
+					}
+				}
+			});
+			diagram.commitTransaction("flip");
+			diagram.focus();
+		});
+
+		$("#fliphorizontal").click(function(e){
+			var diagram = FMDrawIndex.GetActiveTabGoJSDiagramObject();
+			if(!diagram){
+				return;
+			}
+
+			diagram.startTransaction("flip");
+			diagram.selection.each(function(object){
+				if(typeof object.data.isGroup === 'boolean' && object.data.isGroup === true){
+					object.memberParts.each(function(node){
+						var angle = 0;
+						if(object.data.angle){
+							angle = node.data.angle;
+						}
+						diagram.model.setDataProperty(node.data, 'angle', -angle);
+
+						var shape = node.findObject('SHAPE');
+						if(shape){
+							if(shape instanceof go.Shape){
+								var geo = shape.geometry.copy();
+								geo.scale(-1, 1);
+								geo.normalize();
+								shape.geometry = geo;
+							}
+
+							else if(shape instanceof go.Picture){
+							}
+						}
+
+						var bgshape = node.findObject('BGSHAPE');
+						if(bgshape && bgshape instanceof go.Shape){
+							var geo = bgshape.geometry.copy();
+							geo.scale(-1, 1);
+							geo.normalize();
+							bgshape.geometry = geo;
+						}
+					});
+				}
+				else{
+					var angle = 0;
+					if(object.data.angle){
+						angle = object.data.angle;
+					}
+					diagram.model.setDataProperty(object.data, 'angle', -angle);
+
+					var shape = object.findObject('SHAPE');
+					if(shape){
+						if(shape instanceof go.Shape){
+							var geo = shape.geometry.copy();
+							geo.scale(-1, 1);
+							geo.normalize();
+							shape.geometry = geo;
+						}
+
+						else if(shape instanceof go.Picture){
+						}
+					}
+
+					var bgshape = object.findObject('BGSHAPE');
+					if(bgshape && bgshape instanceof go.Shape){
+						var geo = bgshape.geometry.copy();
+						geo.scale(-1, 1);
+						geo.normalize();
+						bgshape.geometry = geo;
+					}
+				}
+			});
+			diagram.commitTransaction("flip");
+		});
+
+		$("#confirm-save-dialog").dialog({
+			autoOpen: false,
+			height: 300,
+			width: 550,
+			modal: true,
+			open: FMDrawIndex.DeactivateTextEditingTool, //Ensures that GoJS Text Controls don't retain focus and cause broswer to lockup
+			resizable: false,
+			create: function (event, ui) {
+				// add the keyboard shortcut since jquery ui dialog does not support it out of the box
+				$(this).parent().find('button').each(function () {
+					if ($(this).find('.ui-button-text').text() === 'Yes') {
+						$(this).find('.ui-button-text').html('<u>Y</u>es');
+						$(this).attr("accesskey", 'y');
+					}
+					if ($(this).find('.ui-button-text').text() === 'No') {
+						$(this).find('.ui-button-text').html('<u>N</u>o');
+						$(this).attr("accesskey", 'n');
+					}
+					if ($(this).find('.ui-button-text').text() === 'Cancel') {
+						$(this).find('.ui-button-text').html('<u>C</u>ancel');
+						$(this).attr("accesskey", 'c');
+					}
+				});
+			},
+
+			buttons: [
+				{
+					text: "Yes",
+					click: function ()
+					{
+						var href = $("div#tabs .ui-state-active > a").attr("href");
+						href = href.substring(href.indexOf("b") + 1);
+						FMDrawIndex.activeTabCanvasContainerIndex = [href];
+						var rawmetadata = FMDrawIndex.tabCanvasContainerCollection[href].metaData;
+						if (typeof rawmetadata === "string")
+						{
+							var metadata = rawmetadata.split(",");
+							var name = metadata[0];
+							var desc = metadata[1];
+						}
+
+						else
+						{
+							var currenttabname = $("div#tabs .ui-state-active > a").html();
+
+							currenttabname = currenttabname.trim();
+							$("#name").val(currenttabname);
+							$("#save-dialog").dialog("open");
+							$("#confirm-save-dialog").dialog("close");
+							FMDraw.closeAfterSaving = true;
+							return;
+						}
+
+
+						FMDrawIndex.SaveDrawing(name, desc);
+						$("#confirm-save-dialog").dialog("close");
+						FMDraw.closetab();
+					}
+				},
+				{ text: "No", click: function () { $(this).dialog("close"); FMDraw.closetab(); } },
+				{ text: "Cancel", click: function () { $(this).dialog("close"); } }
+			]
+		});
+
+		$("#confirm-unpublish-dialog").dialog({
+			autoOpen: false,
+			height: 300,
+			width: 550,
+			modal: true,
+			open: FMDrawIndex.DeactivateTextEditingTool, //Ensures that GoJS Text Controls don't retain focus and cause broswer to lockup
+			resizable: false,
+			create: function (event, ui) {
+				// add the keyboard shortcut since jquery ui dialog does not support it out of the box
+				$(this).parent().find('button').each(function () {
+					if ($(this).find('.ui-button-text').text() === 'Yes') {
+						$(this).find('.ui-button-text').html('<u>Y</u>es');
+						$(this).attr("accesskey", 'y');
+					}
+					if ($(this).find('.ui-button-text').text() === 'No') {
+						$(this).find('.ui-button-text').html('<u>N</u>o');
+						$(this).attr("accesskey", 'n');
+					}
+					if ($(this).find('.ui-button-text').text() === 'Cancel') {
+						$(this).find('.ui-button-text').html('<u>C</u>ancel');
+						$(this).attr("accesskey", 'c');
+					}
+				});
+			},
+			buttons: [
+				{
+					text: "Yes",
+					click: function () {
+						FMDrawIndex.clipboardDiagram = null;
+						$(this).dialog("close");
+						var href = $("div#tabs .ui-state-active > a").attr("href");
+						href = href.substring(href.indexOf("b") + 1);
+						FMDrawIndex.activeTabCanvasContainerIndex = [href];
+						var rawmetadata = FMDrawIndex.tabCanvasContainerCollection[href].metaData;
+						var metadata = rawmetadata.split(",");
+						var name = metadata[0];
+						var desc = metadata[1];
+						FMDrawIndex.SetDiagramModelDataValue('Published', 'false');
+						FMDrawIndex.SaveDrawing(name, desc);
+					}
+				},
+				{
+					text: "No", click: function () {
+						$(this).dialog("close");
+						var href = $("div#tabs .ui-state-active > a").attr("href");
+						var publishedCheckBox = document.getElementById("publishedCheckBox");
+						publishedCheckBox.checked = 1;
+						FMDrawIndex.SetDiagramModelDataValue('Published', 'true');
+						href = href.substring(href.indexOf("b") + 1);
+						FMDrawIndex.activeTabCanvasContainerIndex = [href];
+						var rawmetadata = FMDrawIndex.tabCanvasContainerCollection[href].metaData;
+						var metadata = rawmetadata.split(",");
+						var name = metadata[0];
+						var desc = metadata[1];
+						FMDrawIndex.SaveDrawing(name, desc);
+					}
+				},
+				{ text: "Cancel", click: function () { $(this).dialog("close"); } }
+			]
+		});
+
+
+		$("#confirm-clear-clipboard-dialog").dialog({
+			autoOpen: false,
+			height: 300,
+			width: 550,
+			modal: true,
+			open: FMDrawIndex.DeactivateTextEditingTool, //Ensures that GoJS Text Controls don't retain focus and cause broswer to lockup
+			resizable: false,
+			create: function (event, ui) {
+				// add the keyboard shortcut since jquery ui dialog does not support it out of the box
+				$(this).parent().find('button').each(function () {
+					if ($(this).find('.ui-button-text').text() === 'Yes') {
+						$(this).find('.ui-button-text').html('<u>Y</u>es');
+						$(this).attr("accesskey", 'y');
+					}
+					if ($(this).find('.ui-button-text').text() === 'No') {
+						$(this).find('.ui-button-text').html('<u>N</u>o');
+						$(this).attr("accesskey", 'n');
+					}
+					if ($(this).find('.ui-button-text').text() === 'Cancel') {
+						$(this).find('.ui-button-text').html('<u>C</u>ancel');
+						$(this).attr("accesskey", 'c');
+					}
+				});
+			},
+			buttons: [
+				{
+					text: "Yes",
+					click: function () {
+						FMDrawIndex.clipboardDiagram = null;
+						FMDraw.closetab(true);
+						$(this).dialog("close");
+					}
+				},
+				{ text: "No", click: function () { $(this).dialog("close"); } },
+				{ text: "Cancel", click: function () { $(this).dialog("close"); } }
+			]
+		});
+
+		$("#chooseImageFile").dialog({
+			autoOpen: false,
+			height: 200,
+			width: 550,
+			modal: true,
+			open: FMDrawIndex.DeactivateTextEditingTool,  //Ensures that GoJS Text Controls don't retain focus and cause broswer to lockup
+			resizable: false,
+			dialogClass: 'no-close load-dialog',
+			create: function (event, ui) {
+				// add the keyboard shortcut since jquery ui dialog does not support it out of the box
+				$(this).parent().find('button').each(function () {
+					if ($(this).find('.ui-button-text').text() === 'Ok') {
+						$(this).find('.ui-button-text').html('<u>O</u>k');
+						$(this).attr("accesskey", 'o');
+					}
+					if ($(this).find('.ui-button-text').text() === 'Close') {
+						$(this).find('.ui-button-text').html('<u>C</u>lose');
+						$(this).attr("accesskey", 'c');
+					}
+				});
+			},
+
+			buttons: [
+				{
+					text: "OK",
+					click: function () {
+						FMDrawIndex.LoadImageFile(document.getElementById("file-input"));
+						$("#file-input").val("");
+						$(this).dialog("close");
+					}
+				},
+				{
+					text: "Close",
+					click: function () {
+						$("#file-input").val("");
+						$(this).dialog("close");
+					}
+				}
+			]
+		});
+		$("#selectPointTemplate").dialog({
+			autoOpen: false,
+			height: 150,
+			width: 350,
+			modal: true,
+			open: FMDrawIndex.DeactivateTextEditingTool,  //Ensures that GoJS Text Controls don't retain focus and cause broswer to lockup
+			resizable: false,
+			dialogClass: 'load-dialog no-background-image',
+			create: function (event, ui) {
+				// add the keyboard shortcut since jquery ui dialog does not support it out of the box
+				$(this).parent().find('button').each(function () {
+					if ($(this).find('.ui-button-text').text() === 'Save') {
+						$(this).find('.ui-button-text').html('<u>S</u>ave');
+						$(this).attr("accesskey", 's');
+					}
+					if ($(this).find('.ui-button-text').text() === 'Cancel') {
+						$(this).find('.ui-button-text').html('<u>C</u>ancel');
+						$(this).attr("accesskey", 'c');
+					}
+				});
+			},
+			buttons: [
+				{
+					text: "Select",
+					click: function ()
+					{
+						var pointTemplateGuid = $('#PointTemplateDropdownList').val();
+						$(this).dialog("close");
+						FMDrawIndex.NewPointDetailWorker( pointTemplateGuid );
+					}
+				},
+				{
+					text: "Cancel",
+					click: function()
+					{
+						$(this).dialog("close");
+					}
+				}
+			]
+       });
+
+       $("#export-save-dialog").dialog({
+           autoOpen: false,
+           height: 300,
+           width: 550,
+           modal: true,
+           open: FMDrawIndex.DeactivateTextEditingTool, //Ensures that GoJS Text Controls don't retain focus and cause broswer to lockup
+           resizable: false,
+           create: function (event, ui) {
+               // add the keyboard shortcut since jquery ui dialog does not support it out of the box
+               $(this).parent().find('button').each(function () {
+                   if ($(this).find('.ui-button-text').text() === 'Yes') {
+                       $(this).find('.ui-button-text').html('<u>Y</u>es');
+                       $(this).attr("accesskey", 'y');
+                   }
+                   if ($(this).find('.ui-button-text').text() === 'No') {
+                       $(this).find('.ui-button-text').html('<u>N</u>o');
+                       $(this).attr("accesskey", 'n');
+                   }
+               });
+           },
+
+           buttons: [
+               {
+                   text: "Yes",
+                   click: function () {
+                       var href = $("div#tabs .ui-state-active > a").attr("href");
+                       href = href.substring(href.indexOf("b") + 1);
+                       FMDrawIndex.activeTabCanvasContainerIndex = [href];
+                       var rawmetadata = FMDrawIndex.tabCanvasContainerCollection[href].metaData;
+                       if (typeof rawmetadata === "string") { //we have a name, just save it
+                           var metadata = rawmetadata.split(",");
+                           var name = metadata[0];
+                           var desc = metadata[1];
+                       }
+
+                       else { //name hasn't been set yet. Show the save dialog
+                           FMDraw.exportAfterSaving = true;
+                           var currenttabname = $("div#tabs .ui-state-active > a").html();
+
+                           currenttabname = currenttabname.trim();
+                           $("#name").val(currenttabname);
+                           $("#save-dialog").dialog("open");
+                           $("#export-save-dialog").dialog("close");
+                           return;
+                       }
+
+
+                       FMDrawIndex.SaveDrawing(name, desc, function (drawingGuid) {
+                           var href = $('#exportLink').attr('href');
+                           if (href.indexOf('?') != -1) {
+                               href = href.substring(0, href.indexOf('?'));
+                           }
+                           $('#exportLink').attr('href', href + '?id=' + drawingGuid);
+                           $('#exportLink')[0].click(); // click on a hidden link to trigger the export (we cannot use AJAX for security reasons)
+                       });
+                       $("#export-save-dialog").dialog("close");
+                   }
+               },
+               { text: "No", click: function () { $(this).dialog("close"); } }
+           ]
+		});
+
+		$("#load-dialog").dialog({
+			autoOpen: false,
+			height: 500,
+			width: 550,
+			modal: true,
+			resizable: false,
+			dialogClass: 'load-dialog no-background-image',
+			open: function( event, ui )
+			{
+				FMDrawIndex.DeactivateTextEditingTool(); //Ensures that GoJS Text Controls don't retain focus and cause broswer to lockup
+				FMDrawIndex.OpenDrawing();
+			},
+			create: function (event, ui) {
+
+				// add the keyboard shortcut since jquery ui dialog does not support it out of the box
+				$(this).parent().find('button').each(function () {
+					if ($(this).find('.ui-button-text').text() === 'Open Drawing') {
+						$(this).find('.ui-button-text').html('<u>O</u>pen Drawing');
+						$(this).attr("accesskey", 'o');
+					}
+					if ($(this).find('.ui-button-text').text() === 'Delete Drawing') {
+						$(this).find('.ui-button-text').html('<u>D</u>elete Drawing');
+						$(this).attr("accesskey", 'd');
+					}
+					if ($(this).find('.ui-button-text').text() === 'Cancel') {
+						$(this).find('.ui-button-text').html('<u>C</u>ancel');
+						$(this).attr("accesskey", 'c');
+					}
+				});
+
+				$('#standarDrawingCheckbox').attr('checked', true);
+				$('#pointDetailCheckbox').attr('checked', true);
+
+                //Setup Event to handle change to standard check box change
+				$('#standarDrawingCheckbox').change(function() {
+				    FMDrawIndex.OpenDrawing();
+				});
+
+			    //Setup Event to handle change to point detail check box change
+				$('#pointDetailCheckbox').change(function() {
+				    FMDrawIndex.OpenDrawing();
+				});
+
+
+
+				$("#DrawingSelection").on('mouseenter', '.drawGraphicSelectionListItem', function() {
+					var highligtedRow = $( this );
+					$( '#load-name' ).text(highligtedRow.find('.drawGraphicSelectionSubmenuTitle').text().toUpperCase());
+					$( '#load-desc' ).text(highligtedRow.attr( 'data-description'));
+					$( '#load-modified' ).text(highligtedRow.attr( 'data-updatedby'));
+					var ms = highligtedRow.attr( 'data-updateddate').slice(6, 19);
+					var date = new Date(parseInt(ms));
+					$( '#load-date' ).text(date);
+					FMDrawIndex.DisplayPointTemplateDetailOnSelectDrawingDialog(highligtedRow);
+
+				});
+				$("#DrawingSelection").on('mouseleave', '.drawGraphicSelectionListItem', function()
+				{
+					//restore the details to the selected row
+					var selectedRow = $( ".drawGraphicSelectionListItem.selected" );
+
+					if ( selectedRow.length > 0 )
+					{
+						$( '#load-name' ).text( $( selectedRow[0] ).find( '.drawGraphicSelectionSubmenuTitle' ).text().toUpperCase() );
+						$( '#load-desc' ).text( $( selectedRow[0] ).attr( 'data-description' ) );
+						$( '#load-modified' ).text( $( selectedRow[0] ).attr( 'data-updatedby' ) );
+						var ms = $( selectedRow[0] ).attr( 'data-updateddate' ).slice( 6, 19 );
+						var date = new Date( parseInt( ms ) );
+						$( '#load-date' ).text( date );
+						FMDrawIndex.DisplayPointTemplateDetailOnSelectDrawingDialog(selectedRow[0]);
+					}
+					else
+					{
+						$( '#load-name' ).text( '' );
+						$( '#load-desc' ).text('' );
+						$( '#load-modified' ).text( '' );
+						$( '#load-date' ).text( '' );
+						FMDrawIndex.DisplayPointTemplateDetailOnSelectDrawingDialog();
+					}
+				});
+				$("#DrawingSelection").on('click', '.drawGraphicSelectionListItem', function()
+				{
+					$( ".drawGraphicSelectionListItem" ).removeClass( 'selected' );
+					$( this ).addClass( 'selected' );
+				});
+
+				$("#filter_graphics").on('input', function ()
+				{
+					var filterTxt = $(this).val();
+					// No points to be found, just return.
+					if ($('.drawGraphicSelectionListItem').length === 0)
+						return;
+
+					if (filterTxt === "") {
+						$('.drawGraphicSelectionListItem').removeClass("hidden");
+					}
+					else {
+						$('.drawGraphicSelectionListItem').each(function () {
+							if ($(this).find('.drawGraphicSelectionSubmenuTitle').text().toLowerCase().indexOf(filterTxt.toLowerCase()) >= 0) {
+								$(this).removeClass("hidden");
+							}
+							else {
+								$(this).removeClass("hidden").addClass("hidden");
+							}
+						});
+					}
+
+					// need to destroy and rebuild nicescroll since the refresh does not seem to be working on this case
+					$("#DrawingSelection").getNiceScroll().resize();
+
+					// if selected row is not visible then remove the selection
+					if ($('.drawGraphicSelectionListItem.selected.hidden').length > 0) {
+						$('.drawGraphicSelectionListItem.selected.hidden').removeClass("selected");
+						$( '#load-name' ).text('');
+						$( '#load-desc' ).text('');
+						$( '#load-modified' ).text('');
+						$( '#load-date' ).text('');
+						FMDrawIndex.DisplayPointTemplateDetailOnSelectDrawingDialog();
+					}
+
+					$("#filter_graphics").val(filterTxt);  // we need the focus at the end of the last character in the input
+					$("#filter_graphics").focus(); // have to reset the focus since it loses focus when running columnize
+				});
+			},
+			buttons: [
+				{
+					text: "Open Drawing",
+					click: function ()
+					{
+						// checl if there is a graphic selected
+						if ( $( '.drawGraphicSelectionListItem.selected' ).length === 0 )
+						{
+							FMLayout.Alert( 'Please select a drawing.' );
+						}
+						else
+						{
+							$(this).dialog("close");
+							var drawingInfo = $( '.drawGraphicSelectionListItem.selected' ).attr( 'data-guid' ) + ',' + $( '.drawGraphicSelectionListItem.selected' ).find( '.drawGraphicSelectionSubmenuTitle' ).text() + ',' + $( '.drawGraphicSelectionListItem.selected' ).attr( 'data-description' );
+							FMDrawIndex.LoadDrawing(drawingInfo);
+						}
+
+					}
+				},
+				{
+					text: "Delete Drawing",
+					click: function ()
+					{
+						// checl if there is a graphic selected
+						if ( $( '.drawGraphicSelectionListItem.selected' ).length === 0 )
+						{
+							FMLayout.Alert( 'Please select a drawing.' );
+						}
+						else
+						{
+							$(this).dialog("close");
+							var drawingInfo = $( '.drawGraphicSelectionListItem.selected' ).attr( 'data-guid' ) + ',' + $( '.drawGraphicSelectionListItem.selected' ).find( '.drawGraphicSelectionSubmenuTitle' ).text() + ',' + $( '.drawGraphicSelectionListItem.selected' ).attr( 'data-description' );
+							FMDrawIndex.DeleteDrawing(drawingInfo);
+						}
+
+					}
+				},
+
+				{
+					text: "Cancel",
+					click: function()
+					{
+						$(this).dialog("close");
+					}
+				}
+			]
+		});
+
+		$("#alreadyopen-dialog").dialog({
+			autoOpen: false,
+			height: 200,
+			width: 550,
+			modal: true,
+			open: FMDrawIndex.DeactivateTextEditingTool,  //Ensures that GoJS Text Controls don't retain focus and cause broswer to lockup
+			resizable: false,
+			dialogClass: 'no-close load-dialog dialog-title-icon-info',
+			create: function (event, ui) {
+				// add the keyboard shortcut since jquery ui dialog does not support it out of the box
+				$(this).parent().find('button').each(function () {
+					if ($(this).find('.ui-button-text').text() === 'Ok') {
+						$(this).find('.ui-button-text').html('<u>O</u>k');
+						$(this).attr("accesskey", 'o');
+					}
+				});
+			},
+			buttons: [
+				{ text: "Ok", click: function () { $(this).dialog("close"); } }
+			]
+		});
+
+		//Tie click event function for drawing rectangles on active layer
+				$("#pipe").click(FMDrawIndex.DrawPipe);
+		$("#saved-drawing-dialog").dialog({
+			autoOpen: false,
+			height: 200,
+			width: 550,
+			modal: true,
+			open: FMDrawIndex.DeactivateTextEditingTool, //Ensures that GoJS Text Controls don't retain focus and cause broswer to lockup
+			resizable: false,
+			dialogClass: 'no-close load-dialog',
+			create: function (event, ui) {
+				// add the keyboard shortcut since jquery ui dialog does not support it out of the box
+				$(this).parent().find('button').each(function () {
+					if ($(this).find('.ui-button-text').text() === 'Ok') {
+						$(this).find('.ui-button-text').html('<u>O</u>k');
+						$(this).attr("accesskey", 'o');
+					}
+
+				});
+			},
+			buttons: [
+				{ text: "Ok", click: function () { $(this).dialog("close"); } }
+			]
+		});
+		$("#alert-dialog").dialog({
+			autoOpen: false,
+			height: 200,
+			width: 550,
+			modal: true,
+			open: FMDrawIndex.DeactivateTextEditingTool, //Ensures that GoJS Text Controls don't retain focus and cause broswer to lockup
+			resizable: false,
+			dialogClass: 'no-close load-dialog dialog-title-icon-info',
+			create: function (event, ui) {
+				// add the keyboard shortcut since jquery ui dialog does not support it out of the box
+				$(this).parent().find('button').each(function () {
+					if ($(this).find('.ui-button-text').text() === 'Ok') {
+						$(this).find('.ui-button-text').html('<u>O</u>k');
+						$(this).attr("accesskey", 'o');
+					}
+				});
+			},
+			buttons: [
+				{ text: "Ok", click: function () { $(this).dialog("close"); } }
+			]
+		});
+
+		$("#saving-drawing-dialog").dialog({
+			autoOpen: false,
+			height: 200,
+			width: 550,
+			modal: true,
+			open: FMDrawIndex.DeactivateTextEditingTool, //Ensures that GoJS Text Controls don't retain focus and cause broswer to lockup
+			resizable: false,
+			dialogClass: 'no-close load-dialog'
+		});
+
+		$("#grid-dialog").dialog({
+			autoOpen: false,
+			height: 500,
+			width: 300,
+			modal: true,
+			open: FMDrawIndex.DeactivateTextEditingTool, //Ensures that GoJS Text Controls don't retain focus and cause broswer to lockup
+			resizable: false,
+			minWidth:200,
+			dialogClass: 'grid-dialog',
+			create: function (event, ui) {
+				// add the keyboard shortcut since jquery ui dialog does not support it out of the box
+				$(this).parent().find('button').each(function () {
+					if ($(this).find('.ui-button-text').text() === 'Ok') {
+						$(this).find('.ui-button-text').html('<u>O</u>k');
+						$(this).attr("accesskey", 'o');
+					}
+					if ($(this).find('.ui-button-text').text() === 'Cancel') {
+						$(this).find('.ui-button-text').html('<u>C</u>ancel');
+						$(this).attr("accesskey", 'c');
+					}
+				});
+			},
+			close: function()
+			{
+				FMDrawIndex.UpdateGridDialog();
+			},
+			buttons: [
+				{
+					text: "Ok",
+					click: function ()
+					{
+						FMDrawIndex.ApplyGridConfiguration();
+						$(this).dialog("close");
+					}
+				},
+				{
+					text: "Cancel",
+					click: function ()
+					{
+						$(this).dialog("close");
+					}
+				}
+			]
+		});
+
+		$("#zoom-dialog").dialog({
+			autoOpen: false,
+			height: 500,
+			width: 320,
+			modal: true,
+			open: FMDrawIndex.DeactivateTextEditingTool, //Ensures that GoJS Text Controls don't retain focus and cause broswer to lockup
+			resizable: false,
+			minWidth:250,
+			dialogClass: 'zoom-dialog',
+			create: function (event, ui) {
+				// add the keyboard shortcut since jquery ui dialog does not support it out of the box
+				$(this).parent().find('button').each(function () {
+					if ($(this).find('.ui-button-text').text() === 'Ok') {
+						$(this).find('.ui-button-text').html('<u>O</u>k');
+						$(this).attr("accesskey", 'o');
+					}
+					if ($(this).find('.ui-button-text').text() === 'Cancel') {
+						$(this).find('.ui-button-text').html('<u>C</u>ancel');
+						$(this).attr("accesskey", 'c');
+					}
+				});
+			},
+			close: function()
+			{
+				FMDrawIndex.ClearZoomDialog();
+			},
+			buttons: [
+				{
+					text: "Ok",
+					click: function ()
+					{
+						FMDrawIndex.ApplyZoomConfiguration();
+					}
+				},
+				{
+					text: "Cancel",
+					click: function ()
+					{
+						$(this).dialog("close");
+					}
+				}
+			]
+		});
+
+		$("#polyline").click(FMDrawIndex.DrawPolyLine);
+
+		$("#polygon").click(FMDrawIndex.DrawPolygon);
+
+		//Tie click event function for drawing rectangles on active layer
+		$("#quadrangle").click(FMDrawIndex.DrawRectangle);
+
+		//Tie Drag and Drop Event Function Into Rectangle Icon Button
+		$("#quadrangle").draggable({
+			revert: true,
+			revertDuration: 100,
+			startPos: {},
+			start: function (event, ui)
+			{
+				startPos = ui.position;
+			},
+			drag: function () { FMDrawIndex.SetShapeDragged(true); },
+			stop: function (event, ui)
+			{
+				FMDrawIndex.AddRectangleFromDragAndDrop(startPos, event, ui);
+				FMDrawIndex.SetShapeDragged(false);
+			}
+		});
+
+		//Tie click event function for drawing rectangles on active layer
+		$("#text").click(FMDrawIndex.DrawText);
+
+		//Tie Drag and Drop Event Function Into Rectangle Icon Button
+		$("#text").draggable({
+			revert: true,
+			revertDuration: 100,
+			startPos: {},
+			start: function (event, ui)
+			{
+				startPos = ui.position;
+			},
+			drag: function () { FMDrawIndex.SetShapeDragged(true); },
+			stop: function (event, ui)
+			{
+				FMDrawIndex.AddTextFromDragAndDrop(startPos, event, ui);
+				FMDrawIndex.SetShapeDragged(false);
+			}
+		});
+
+		//Tie click event function for drawing rectangles on active layer
+		$("#ellipse").click(FMDrawIndex.DrawEllipse);
+
+		//Tie Drag and Drop Event Function Into Rectangle Icon Button
+		$("#ellipse").draggable({
+			revert: true,
+			revertDuration: 100,
+			startPos: {},
+			start: function (event, ui)
+			{
+				startPos = ui.position;
+			},
+			drag: function () { FMDrawIndex.SetShapeDragged(true); },
+			stop: function (event, ui)
+			{
+				FMDrawIndex.AddEllipseFromDragAndDrop(startPos, event, ui);
+				FMDrawIndex.SetShapeDragged(false);
+			}
+		});
+
+
+		//Tie click event function for drawing rectangles on active layer
+		$("#circle").click(FMDrawIndex.DrawCircle);
+
+		//Tie Drag and Drop Event Function Into Rectangle Icon Button
+		$("#circle").draggable({
+			revert: true,
+			revertDuration: 100,
+			startPos: {},
+			start: function (event, ui)
+			{
+				startPos = ui.position;
+			},
+			drag: function () { FMDrawIndex.SetShapeDragged(true); },
+			stop: function (event, ui)
+			{
+				FMDrawIndex.AddCircleFromDragAndDrop(startPos, event, ui);
+				FMDrawIndex.SetShapeDragged(false);
+			}
+		});
+
+
+
+		//Tie click event function for drawing rectangles on active layer
+		$("#line").click(FMDrawIndex.DrawLine);
+
+		//Tie click event function for drawing rectangles on active layer
+		$("#triangle").click(FMDrawIndex.DrawTriangle);
+
+		//Tie Drag and Drop Event Function Into Rectangle Icon Button
+		$("#triangle").draggable({
+			revert: true,
+			revertDuration: 100,
+			startPos: {},
+			start: function (event, ui)
+			{
+				startPos = ui.position;
+			},
+			drag: function () { FMDrawIndex.SetShapeDragged(true); },
+			stop: function (event, ui)
+			{
+				FMDrawIndex.AddTriangleFromDragAndDrop(startPos, event, ui);
+				FMDrawIndex.SetShapeDragged(false);
+			}
+		});
+
+
+		$("#select").click(FMDrawIndex.SelectionClick);
+
+		$("#bar").click(FMDrawIndex.DrawBar);
+
+		$("#bar").draggable({
+			revert: true,
+			revertDuration: 100,
+			startPos: {},
+			start: function (event, ui)
+			{
+				startPos = ui.position;
+			},
+			drag: function () { FMDrawIndex.SetShapeDragged(true); },
+			stop: function (event, ui)
+			{
+				FMDrawIndex.AddBarFromDragAndDrop(startPos, event, ui);
+				FMDrawIndex.SetShapeDragged(false);
+			}
+		});
+
+
+		//Tie click event function for drawing rectangles on active layer
+		$("#picture").click(FMDrawIndex.OpenImageSelectionDialog);
+
+
+		//Tie Drag and Drop Event Function Into Rectangle Icon Button - Commented out for now.
+		//(Eric Simmons - 2016-10-13 4:20 PM) As per Lync call with Jon Ussery the ability to drag and drop an image onto canvas is no longer needed based on the new flow.  But we need to revisit with Stakeholders later.
+		//$("#picture").draggable({
+		//	revert: true,
+		//	revertDuration: 100,
+		//	startPos: {},
+		//	start: function (event, ui)
+		//	{
+		//		startPos = ui.position;
+		//	},
+		//	drag: function () { FMdrawindex.SetShapeDragged(true); },
+		//	stop: function (event, ui)
+		//	{
+		//		FMdrawindex.AddPictureFromDragAndDrop(startPos, event, ui);
+		//		FMdrawindex.SetShapeDragged(false);
+		//	}
+		//});
+		$("#tag").click(FMDrawIndex.DrawTag);
+		$("#tag").draggable({
+			revert: true,
+			revertDuration: 100,
+			startPos: {},
+			start: function (event, ui)
+			{
+				startPos = ui.position;
+			},
+			drag: function () { FMDrawIndex.SetShapeDragged(true); },
+			stop: function (event, ui)
+			{
+				FMDrawIndex.AddTagFromDragAndDrop(startPos, event, ui);
+				FMDrawIndex.SetShapeDragged(false);
+			}
+		});
+		$("#button").click(FMDrawIndex.DrawButton);
+		$("#button").draggable({
+			revert: true,
+			revertDuration: 100,
+			startPos: {},
+			start: function (event, ui)
+			{
+				startPos = ui.position;
+			},
+			drag: function () { FMDrawIndex.SetShapeDragged(true); },
+			stop: function (event, ui)
+			{
+				FMDrawIndex.AddButtonFromDragAndDrop(startPos, event, ui);
+				FMDrawIndex.SetShapeDragged(false);
+			}
+		});
+
+		//////////////////////////////////////////////////
+		// Start properties menu area
+		//////////////////////////////////////////////////
+		$("#propertyMenuOpen").click(function (e)
+		{
+			FMDrawPropertyMenu.OpenPropertiesPopupMenu();
+		});
+
+		FMDraw.propertiespopupmenu.div.draggable(
+			{
+				scroll: false,
+				start: function (event, ui)
+				{
+					ui.helper.css({ zIndex: 999 });
+
+					if (FMDraw.propertiespopupmenu.docked !== null)
+					{
+						ui.helper.css({ height: FMDraw.propertiespopupmenu.yheight });
+						ui.helper.css({ width: FMDraw.propertiespopupmenu.ywidth });
+
+						for (var i = 0; i < FMDraw.propertiespopupmenu.docked.dockarray.length; i++)
+						{
+							if (FMDraw.propertiespopupmenu.docked.dockarray[i] === FMDraw.propertiespopupmenu)
+							{
+								FMDraw.propertiespopupmenu.docked.div.droppable( {
+									accept: $( "#sidebar,#toolbar2,#toolbar3,#propertiespopupmenu" )
+								} );
+								delete FMDraw.propertiespopupmenu.docked.dockarray[i];
+
+							}
+						}
+					}
+
+					FMDraw.propertiespopupmenu.docked = null;
+					FMDraw.propertiespopupmenu.div.resizable("enable");
+
+
+				},
+				stop: function (event, ui)
+				{
+					if ( FMDraw.propertiespopupmenu.docked !== null )
+					{
+						ui.helper.css( { zIndex: 997 } );
+					}
+					else
+					{
+						ui.helper.css({ zIndex: 998 });
+					}
+				}
+			}).resizable({minWidth: 185, minHeight: 100});
+
+		// This sets the nice scrolling on the Property Window.
+		$('#propertiesPopupMenu-table').niceScroll({
+			cursorwidth: '5px'
+			, autohidemode: false
+			, cursorcolor: "#486899"
+			, background: "rgb(240, 240, 240)"
+			, railoffset: true
+			, enablemousewheel: true
+			, railpadding: { top: 0, right: 1, left: 1, bottom: 4 }
+			, smoothscroll: true
+			, mousescrollstep: 5
+			, horizrailenabled: false
+		});
+
+		// This sets the nice scrolling on the Fill Pattern Palette area.
+		$('#FillPatternPalette-scroll-FILLPATTERNPALETTE').niceScroll({
+			cursorwidth: '5px'
+			, autohidemode: false
+			, cursorcolor: "#486899"
+			, background: "rgb(240, 240, 240)"
+			, railoffset: true
+			, enablemousewheel: true
+			, railpadding: { top: 0, right: 1, left: 1, bottom: 4 }
+			, smoothscroll: true
+			, mousescrollstep: 5
+			, horizrailenabled: false
+		});
+
+		// This sets the nice scrolling on the Line Style Pattern Palette area.
+		$('#FillPatternPalette-scroll-LINESTYLEPALETTE').niceScroll({
+			cursorwidth: '5px'
+			, autohidemode: false
+			, cursorcolor: "#486899"
+			, background: "rgb(240, 240, 240)"
+			, railoffset: true
+			, enablemousewheel: true
+			, railpadding: { top: 0, right: 1, left: 1, bottom: 4 }
+			, smoothscroll: true
+			, mousescrollstep: 5
+			, horizrailenabled: false
+		});
+
+		// This sets the nice scrolling on the Line To Arrow Pattern Palette area.
+		$('#FillPatternPalette-scroll-LINETOARROWPALETTE').niceScroll({
+			cursorwidth: '5px'
+			, autohidemode: false
+			, cursorcolor: "#486899"
+			, background: "rgb(240, 240, 240)"
+			, railoffset: true
+			, enablemousewheel: true
+			, railpadding: { top: 0, right: 1, left: 1, bottom: 4 }
+			, smoothscroll: true
+			, mousescrollstep: 5
+			, horizrailenabled: false
+		});
+
+		// This sets the nice scrolling on the Line FROM Arrow Pattern Palette area.
+		$('#FillPatternPalette-scroll-LINEFROMARROWPALETTE').niceScroll({
+			cursorwidth: '5px'
+			, autohidemode: false
+			, cursorcolor: "#486899"
+			, background: "rgb(240, 240, 240)"
+			, railoffset: true
+			, enablemousewheel: true
+			, railpadding: { top: 0, right: 1, left: 1, bottom: 4 }
+			, smoothscroll: true
+			, mousescrollstep: 5
+			, horizrailenabled: false
+		});
+
+		// Set the Property Menu events
+		var currentCanvas = FMDrawIndex.GetActiveTabGoJSDiagramObject();
+		FMDrawPropertyMenu.SetPropertyMenuEvents(currentCanvas);
+
+		var spectrumIds = [];
+
+		@foreach (DrawPropertyMenuRecord propertyMenu in Model.CommonPropertyList)
+		{
+			if (propertyMenu.ControlType == DrawPropertyMenuRecord.PropertyControlTypes.FillColorSpectrum)
+			{
+				@: spectrumIds.push("@propertyMenu.SpectrumTextBoxId");
+											}
+
+			if (propertyMenu.ControlType == DrawPropertyMenuRecord.PropertyControlTypes.FillPatternPalette)
+			{
+				if (propertyMenu.ControlSubType == DrawPropertyMenuRecord.PropertyControlSubTypes.FillPatternType)
+				{
+					@: FMDrawPropertyMenu.FillPatternCount = @propertyMenu.PatternList.Count;
+												}
+
+				if (propertyMenu.ControlSubType == DrawPropertyMenuRecord.PropertyControlSubTypes.LineStyleType)
+				{
+					@: FMDrawPropertyMenu.LineStylePatternCount = @propertyMenu.PatternList.Count;
+												}
+
+				if (propertyMenu.ControlSubType == DrawPropertyMenuRecord.PropertyControlSubTypes.LineArrowType)
+				{
+					@: FMDrawPropertyMenu.LineArrowPatternCount = @propertyMenu.PatternList.Count;
+												}
+			}
+		}
+
+		for (var nextItem = 0; nextItem < spectrumIds.length; nextItem++)
+		{
+			var id = "#" + spectrumIds[nextItem];
+			$(id).spectrum({
+				flat: true,
+				showInput: false,
+				showButtons: false,
+				move: function (color) { FMDrawPropertyMenu.SetColorHexValue(color, this); }
+			});
+		}
+
+		FMDrawIndex.ResizeDrawingWorkSpace();
+		FMDrawPropertyMenu.InitializePropertyPreview();
+
+		FMDrawPropertyMenu.imageRootPath = '@Url.Content("~/Areas/images/")';;
+		FMDrawPropertyMenu.InitSectionExpandCollapseState();
+		//////////////////////////////////////////////////
+		// End properties menu area
+		//////////////////////////////////////////////////
+
+
+		//http://stackoverflow.com/questions/726816/how-to-access-iframe-parent-page-using-jquery
+		//Neat trick that allows the iframe to set focus to itself to guarentee that the events in the iframe will fire.
+		//this resolves an issue where if we load the draw page the first time, drag an object onto the canvas and then
+		//attempt to delete, it will work.
+		$('#iframeContent', window.parent.document).focus();
+
+		// On initial document startup, the property menu window should be docked
+		// on the right side droppable area.
+		FMDraw.HasPropertyMenuInitiallyDocked = false;
+
+		FMDraw.RotateToolBarMenu();
+	});
+
+
+
+	FMDraw.GetDrawingNamesSuccess = function (result)
+	{
+		var drawingList = '';
+		$.each( result, function( index, item )
+		{
+		    var pointTemplateName = ( item.PointTemplateName !== null ) ? item.PointTemplateName : '';
+		    var pointTemplateType = ( item.PointTemplateType !== null ) ? item.PointTemplateType : '';
+		    drawingList += '<div class="drawGraphicSelectionListItem" ' +
+                'data-guid="' + item.DrawingGuid +'" ' +
+                'data-description="' + item.Description + '" ' +
+                'data-updatedby="' + item.UpdatedBy + '" ' +
+                'data-updateddate="' + item.UpdatedDate + '" ' +
+                'data-pointTemplateName="' + pointTemplateName + '" ' +
+                'data-pointTemplateType="' + pointTemplateType + '" ' +
+                '>';
+		    drawingList += '<div class="drawGraphicSelectionSubmenuTitle" title="' + item.ID + '">' + item.ID + '</div>';
+		    drawingList += '</div>';
+		} );
+		var options = $('#DrawingSelection');
+		options.html(drawingList);
+		options.niceScroll( {
+			cursorwidth: '10px',
+			autohidemode: false,
+			cursorcolor: "#486899",
+			background: "rgb(122, 155, 204)",
+			railoffset: {top: 0, left: -100},
+			railpadding: { top: 0, right: 0, left: -15, bottom: 0 },
+			smoothscroll: true});
+
+		$( '#filter_graphics').val('');
+		$( '#load-name' ).text('');
+		$( '#load-desc' ).text('');
+		$( '#load-modified' ).text('');
+		$( '#load-date' ).text('');
+		FMDrawIndex.DisplayPointTemplateDetailOnSelectDrawingDialog();
+	}
+
+	// when file in selection box has changed we want to call the import
+	$( '#importPointDetail' ).on('change', function() {
+		// if we have files
+		if ( $( this )[0].files.length > 0 )
+		{
+			var reader = new FileReader();
+			var fileName = $( this )[0].files[0].name;
+			// Closure to capture the file information.
+			reader.onload = function(readEvt) {
+				var fileContents = readEvt.target.result;
+				try {
+					var importedDrawing = JSON.parse(fileContents);
+					if ( importedDrawing.hasOwnProperty( 'version' ) && importedDrawing.hasOwnProperty( 'name' ) ) {
+						if ( importedDrawing.version === "1.0" && importedDrawing.name === "FuelsManager Graphic Export") {
+							importProcessing(fileName, importedDrawing);
+							return;
+						}
+					}
+					FMErrorAndExceptionHandling.ShowError( "Invalid File Format: This file was not generated by FuelsManager." );
+				} catch (e) {
+					FMErrorAndExceptionHandling.ShowError( "Invalid File Format: " + e );
+					return;
+				}
+
+			};
+
+			reader.readAsText($( this )[0].files[0]);
+
+		}
+		return false;
+	} );
+
+
+	function importProcessing(fileName, importObj) {
+		// we need a wizard to resolve some questions before we import
+
+		// create the backdrop and wait for next modal to be triggered
+		var modalManager = $('body').modalmanager('loading');
+
+		FMDraw.wizardProperties.fileContent = importObj;
+		FMDraw.wizardProperties.DataValues = [];
+		FMDraw.wizardProperties.AnimationDataValues = [];
+		FMDraw.wizardProperties.SpecificPointUsed = false;
+		FMDraw.wizardProperties.SpecificGraphicUsed = false;
+		FMDraw.wizardProperties.TemplateDataValues = [];
+		FMDraw.wizardProperties.PointList = [];
+		FMDraw.wizardProperties.GraphicsList = [];
+		FMDraw.wizardProperties.AnimationList = [];
+
+		// get the list of tags in the graphic
+		importProcessingGetTags(importObj.graphic.model.nodeDataArray);
+
+		var token = $( 'input[name=__RequestVerificationToken]' ).val();
+		var headers = {};
+		headers['__RequestVerificationToken'] = token;
+
+		$.ajax( {
+			type: 'GET',
+			cache: false,
+			headers: headers,
+			url: "GetListPointTemplates",
+			dataType: 'json',
+			contentType: 'application/json; charset=utf-8',
+			success: function( response )
+			{
+				FMErrorAndExceptionHandling.HandleMessages( response, function( data, inError )
+				{
+					if ( !inError || ( data != null ) )
+					{
+						$('#wsPointDetailPointTemplate').find('option').remove();
+
+						var option = '<option></option>';
+						var defaultPointTemplateGuid = FMDraw.wizardProperties.fileContent.pointTemplateGuid;
+
+						for (var i = 0; i < data.length; i++) {
+							option += '<option value="' + data[i].PointTemplateGuid + '"' + (data[i].PointTemplateGuid == defaultPointTemplateGuid  ? "selected='true'" : "") + '>' + data[i].ID + '</option>';
+						}
+						$('#wsPointDetailPointTemplate').append(option);
+
+						// initialize the drop down and set a default value
+						$('#wsPointDetailPointTemplate').select2({
+							placeholder: "Select a Point Template",
+							allowClear: true
+						});
+
+						// reset/initialiaze the fields
+
+						$("#ImportPointDetailWizardPage1").removeClass("hidden");
+						$("#ImportPointDetailWizardPage2").removeClass("hidden").addClass("hidden");
+						$("#ImportPointDetailWizardPage3").removeClass("hidden").addClass("hidden");
+						$("#ImportPointDetailWizardPage4").removeClass("hidden").addClass("hidden");
+
+						$("#wzTitleFileName").text(fileName);
+						$("#wsPointDetailName").val(fileName.replace(/\.[^/.]+$/, ""));
+
+						// reset buttons
+						$("#ImportPointDetailWizardNextButton").removeClass("hidden");
+						$("#ImportPointDetailWizardPreviousButton").removeClass("hidden").addClass("hidden");
+						$("#ImportPointDetailWizardSaveButton").removeClass("hidden").addClass("hidden");
+						FMDraw.wizardProperties.startPage = 1;
+						FMDraw.wizardProperties.activePage = 1;
+
+						// create the list of tags in the drawing
+						$("#wzPointDataValueList tbody").html('');
+
+						//remove duplicates from the list of data values
+						var uniqueDataValues = [];
+
+						$.each(FMDraw.wizardProperties.DataValues, function( index, value ) {
+							var valueFoundIdx =  uniqueDataValues.findIndex(function(t){return (t.TagTagID === value.TagTagID)})
+							if ( valueFoundIdx < 0) {
+								uniqueDataValues.push( value )
+							} else {
+								if (value.hasOwnProperty("TagDataType") && value.TagDataType != "") {
+									uniqueDataValues[ valueFoundIdx ].TagDataType = value.TagDataType
+
+								}
+							}
+
+						});
+						FMDraw.wizardProperties.DataValues = uniqueDataValues;
+
+						// sort the list of data values by tagid
+						FMDraw.wizardProperties.DataValues.sort(function(a, b){
+							var x = a.TagTagID.toLowerCase();
+							var y = b.TagTagID.toLowerCase();
+							if (x < y) {return -1;}
+							if (x > y) {return 1;}
+							return 0;});
+
+						for (var i = 0; i < FMDraw.wizardProperties.DataValues.length; i++) {
+							var sourceTag = "<td data-idx='" + i + "' data-datatype='" + FMDraw.wizardProperties.DataValues[i].TagDataType + "'><label>" + FMDraw.wizardProperties.DataValues[i].TagTagID + "</label></td>";
+							var targetTag = "<td><select class='form-control'></select></td>";
+							var newRowContent = "<tr>"+ sourceTag + targetTag + "</tr>"
+							$("#wzPointDataValueList tbody").append(newRowContent);
+						}
+
+						$('#ImportPointDetailWizard').modal('show');
+					}
+					else {
+						$('body').modalmanager('loading'); // remove the loading background
+					}
+				} );
+			},
+			error: function( xhr, textStatus, error )
+			{
+				FMErrorAndExceptionHandling.ShowException( xhr, textStatus, error, function()
+				{
+					$('body').modalmanager('loading'); // remove the loading background
+					FMDraw.wizardProperties.fileContent = {};
+					FMDraw.wizardProperties.DataValues = [];
+					FMDraw.wizardProperties.AnimationDataValues = [];
+					FMDraw.wizardProperties.SpecificPointUsed = false;
+					FMDraw.wizardProperties.SpecificGraphicUsed = false;
+					FMDraw.wizardProperties.TemplateDataValues = [];
+				} );
+			}
+		} );
+	}
+
+	function importProcessingGetTags(obj){
+		// traverse the json object getting all the pointvalues
+		for (var i = 0; i < obj.length; i++) {
+//			if (Array.isArray(obj[i]) ) {
+//				importProcessingGetTags(obj[i]);
+//			} else {
+			if (typeof obj[i] === 'object' && obj[i].hasOwnProperty("TagGUID")) {
+					// if the pointguid in the node is the same as the template we are importing then we want it in the list
+					// but we want to exclude trend and point detail buttons because they always use the first tag in the template
+					if ( obj[i].PointGUID.toLowerCase() == FMDraw.wizardProperties.fileContent.pointTemplateGuid.toLowerCase()
+						&& !(obj[i].hasOwnProperty("buttonActionType") && ( obj[i].buttonActionType == "BUTTON_POINT_TREND" || obj[i].buttonActionType == "BUTTON_ACTION_DETAIL"))) {
+						FMDraw.wizardProperties.DataValues.push( {"TagGUID": obj[i].TagGUID, "TagPointValueType": obj[i].TagPointValueType, "TagPropertyID": obj[i].TagPropertyID, "TagTagID": obj[i].TagTagID, "TagDataType": (obj[i].hasOwnProperty("TagDataType") ? obj[i].TagDataType: "")} );
+					} else {  // else we are using a specific point (unless is a trend or detail button)
+
+						if ( obj[i].PointGUID.toLowerCase() == FMDraw.wizardProperties.fileContent.pointTemplateGuid.toLowerCase()
+							&& (obj[i].hasOwnProperty("buttonActionType") && ( obj[i].buttonActionType == "BUTTON_POINT_TREND" || obj[i].buttonActionType == "BUTTON_ACTION_DETAIL"))) {
+						} else {
+							FMDraw.wizardProperties.SpecificPointUsed  = true;
+						}
+
+					}
+				}
+			// check to see if it has animations
+				if ( typeof obj[i] === 'object'
+							&& obj[i].hasOwnProperty("AnimationPointValueAssignments")
+							&& obj[i].AnimationPointValueAssignments != null
+							&& obj[i].AnimationPointValueAssignments.hasOwnProperty("TestGroupPointValueInfoList")
+					&& Array.isArray(obj[i].AnimationPointValueAssignments.TestGroupPointValueInfoList)) {
+					for (var j = 0; j < obj[i].AnimationPointValueAssignments.TestGroupPointValueInfoList.length; j++) {
+						if ( obj[i].AnimationPointValueAssignments.TestGroupPointValueInfoList[j].PointGuid.toLowerCase() == FMDraw.wizardProperties.fileContent.pointTemplateGuid.toLowerCase() ) {
+							FMDraw.wizardProperties.AnimationDataValues.push( {"TagGUID": obj[i].AnimationPointValueAssignments.TestGroupPointValueInfoList[j].PointValueGuid,
+								"TagPointValueType": obj[i].AnimationPointValueAssignments.TestGroupPointValueInfoList[j].ValueType,
+								"TagPropertyID": obj[i].AnimationPointValueAssignments.TestGroupPointValueInfoList[j].PointValueID,
+								"TagTagID": obj[i].AnimationPointValueAssignments.TestGroupPointValueInfoList[j].PointValueID,
+								"TagDataType": (obj[i].AnimationPointValueAssignments.TestGroupPointValueInfoList[j].hasOwnProperty("DataType") ? obj[i].AnimationPointValueAssignments.TestGroupPointValueInfoList[j].DataType: "")} );
+					} else {  // else we are using a specific point (unless is a trend or detail button)
+						if (obj[i].PointGUID !== undefined && obj[i].PointGUID.toLowerCase() == FMDraw.wizardProperties.fileContent.pointTemplateGuid.toLowerCase()) {
+						} else {
+							FMDraw.wizardProperties.SpecificPointUsed  = true;
+						}
+
+					}
+				}
+			}
+		}
+	}
+
+	$('#ImportPointDetailWizardNextButton').on('click', function () {
+		switch (FMDraw.wizardProperties.activePage) {
+			case 1:
+				// verify that we pass validation
+				var inError = false;
+
+				var controlErrors = $('#ImportPointDetailWizardPage1 .has-error');
+				controlErrors.removeClass('has-error');
+
+				$('#ImportPointDetailWizardPage1 input[required]:visible').each(function () {
+					if ($(this).val() === "") {
+						inError = true;
+						$(this).parent().removeClass('has-error').addClass('has-error');
+					}
+				});
+
+				// check if the point template has been selected
+				var selectedPointTemplate = $("#wsPointDetailPointTemplate").select2('data');
+				if (selectedPointTemplate[0].id == "") {
+					inError = true;
+					$('#ImportPointDetailWizardPage1 .select2').addClass('has-error');
+				}
+
+				var errorMessage = "";
+
+				if (inError === true && errorMessage !==""){
+					FMErrorAndExceptionHandling.CloseNotifications();
+					FMErrorAndExceptionHandling.ShowError(errorMessage, function(){});
+					return;
+				}
+
+				if (inError === true) return;
+				//get and populate the list of point data value for the selected template
+				importRetrievePointDataValues( selectedPointTemplate[0].id );
+
+
+				break;
+			case 2:
+				FMErrorAndExceptionHandling.CloseNotifications();
+				// set width of the modal to be 500
+				$('body').data().modalmanager.stack[0].options.width = 500
+
+				var inError = false;
+
+				var controlErrors = $('#ImportPointDetailWizardPage2 .has-error');
+				controlErrors.removeClass('has-error');
+
+				controlErrors = $('#ImportPointDetailWizardPage3 .has-error');
+				controlErrors.removeClass('has-error');
+
+				controlErrors = $('#ImportPointDetailWizardPage4 .has-error');
+				controlErrors.removeClass('has-error');
+
+				$('#ImportPointDetailWizardPage2 input[required]:visible').each(function () {
+					if ($(this).val() === "") {
+						inError = true;
+						$(this).parent().removeClass('has-error').addClass('has-error');
+					}
+				});
+
+				var errorMessage = "";
+
+				if (inError === true && errorMessage !==""){
+					FMErrorAndExceptionHandling.CloseNotifications();
+					FMErrorAndExceptionHandling.ShowError(errorMessage, function(){});
+					return;
+				}
+
+				if (inError === true) return;
+
+				// reset/initialiaze the fields
+				$("#ImportPointDetailWizardPage1").removeClass("hidden").addClass("hidden");
+				$("#ImportPointDetailWizardPage2").removeClass("hidden").addClass("hidden");
+				$("#ImportPointDetailWizardPage3").removeClass("hidden");
+				$("#ImportPointDetailWizardPage4").removeClass("hidden").addClass("hidden");
+
+				// reset buttons (if there are buttons or bars using specific points then remove show a fourth page.
+				if ( FMDraw.wizardProperties.SpecificPointUsed === true ||
+						FMDraw.wizardProperties.SpecificGraphicUsed === true ) {
+					$("#ImportPointDetailWizardNextButton").removeClass("hidden");
+					$("#ImportPointDetailWizardPreviousButton").removeClass("hidden");
+					$("#ImportPointDetailWizardSaveButton").removeClass("hidden").addClass("hidden");
+				} else {
+					$("#ImportPointDetailWizardNextButton").removeClass("hidden").addClass("hidden");
+					$("#ImportPointDetailWizardPreviousButton").removeClass("hidden");
+					$("#ImportPointDetailWizardSaveButton").removeClass("hidden");
+				}
+
+				// reset buttons
+				FMDraw.wizardProperties.activePage = 3;
+
+				$(window).resize(); // force the modal to center
+
+				break;
+			case 3:
+				FMErrorAndExceptionHandling.CloseNotifications();
+				// set width of the modal to be 500
+				$('body').data().modalmanager.stack[0].options.width = 500
+
+				var inError = false;
+				var controlErrors = $('#ImportPointDetailWizardPage3 .has-error');
+				controlErrors.removeClass('has-error');
+
+				$('#ImportPointDetailWizardPage3 input[required]:visible').each(function () {
+					if ($(this).val() === "") {
+						inError = true;
+						$(this).parent().removeClass('has-error').addClass('has-error');
+					}
+				});
+
+				var errorMessage = "";
+
+				if (inError === true && errorMessage !==""){
+					FMErrorAndExceptionHandling.CloseNotifications();
+					FMErrorAndExceptionHandling.ShowError(errorMessage, function(){});
+					return;
+				}
+				if (inError === true) return;
+
+				// reset/initialiaze the fields
+				$("#ImportPointDetailWizardPage1").removeClass("hidden").addClass("hidden");
+				$("#ImportPointDetailWizardPage2").removeClass("hidden").addClass("hidden");
+				$("#ImportPointDetailWizardPage3").removeClass("hidden").addClass("hidden");
+				$("#ImportPointDetailWizardPage4").removeClass("hidden");
+
+				// reset buttons
+				$("#ImportPointDetailWizardNextButton").removeClass("hidden").addClass("hidden");
+				$("#ImportPointDetailWizardPreviousButton").removeClass("hidden");
+				$("#ImportPointDetailWizardSaveButton").removeClass("hidden");
+
+				$('#ImportPointDetailWizardPage2 input[required]:visible').each(function () {
+					$(this).parent().removeClass('has-error');
+				});
+
+				$("#wsPointDetailPointTemplate").focus();
+
+				// set default values
+
+				$(window).resize(); // force the modal to center
+				FMDraw.wizardProperties.activePage = 4;
+
+				break;
+			default:
+				break;
+		}
+	});
+
+	$('#ImportPointDetailWizardPreviousButton').on('click', function () {
+
+		// set width of the modal to be 500
+		$('body').data().modalmanager.stack[0].options.width = 500
+
+		switch (FMDraw.wizardProperties.activePage) {
+			case 2:
+
+				// reset/initialiaze the fields
+				$("#ImportPointDetailWizardPage1").removeClass("hidden");
+				$("#ImportPointDetailWizardPage2").removeClass("hidden").addClass("hidden");
+				$("#ImportPointDetailWizardPage3").removeClass("hidden").addClass("hidden");
+				$("#ImportPointDetailWizardPage4").removeClass("hidden").addClass("hidden");
+
+				// reset buttons
+				$("#ImportPointDetailWizardNextButton").removeClass("hidden");
+				$("#ImportPointDetailWizardPreviousButton").removeClass("hidden").addClass("hidden");
+				$("#ImportPointDetailWizardSaveButton").removeClass("hidden").addClass("hidden");
+				FMDraw.wizardProperties.activePage = 1;
+
+				var controlErrors = $('#ImportPointDetailWizardPage2 .has-error');
+				controlErrors.removeClass('has-error');
+
+				$(window).resize(); // force the modal to center
+				break;
+			case 3:
+
+				// reset/initialiaze the fields
+				$("#ImportPointDetailWizardPage1").removeClass("hidden").addClass("hidden");
+				$("#ImportPointDetailWizardPage2").removeClass("hidden");
+				$("#ImportPointDetailWizardPage3").removeClass("hidden").addClass("hidden");
+				$("#ImportPointDetailWizardPage4").removeClass("hidden").addClass("hidden");
+
+				// reset buttons
+				$("#ImportPointDetailWizardNextButton").removeClass("hidden");
+				$("#ImportPointDetailWizardPreviousButton").removeClass("hidden");
+				$("#ImportPointDetailWizardSaveButton").removeClass("hidden").addClass("hidden");
+				FMDraw.wizardProperties.activePage = 2;
+
+				var controlErrors = $('#ImportPointDetailWizardPage3 .has-error');
+				controlErrors.removeClass('has-error');
+				controlErrors = $('#ImportPointDetailWizardPage2 .has-error');
+				controlErrors.removeClass('has-error');
+
+				// set width of the modal to be 700
+				$('body').data().modalmanager.stack[0].options.width = 700;
+				$(window).resize(); // force the modal to center
+				break;
+			case 4:
+				// reset/initialiaze the fields
+				$("#ImportPointDetailWizardPage1").removeClass("hidden").addClass("hidden");
+				$("#ImportPointDetailWizardPage2").removeClass("hidden").addClass("hidden");
+				$("#ImportPointDetailWizardPage3").removeClass("hidden");
+				$("#ImportPointDetailWizardPage4").removeClass("hidden").addClass("hidden");
+
+				// reset buttons
+				$("#ImportPointDetailWizardNextButton").removeClass("hidden");
+				$("#ImportPointDetailWizardPreviousButton").removeClass("hidden");
+				$("#ImportPointDetailWizardSaveButton").removeClass("hidden").addClass("hidden");
+				FMDraw.wizardProperties.activePage = 3;
+
+				var controlErrors = $('#ImportPointDetailWizardPage3 .has-error');
+				controlErrors.removeClass('has-error');
+
+				$(window).resize(); // force the modal to center
+
+				break;
+			default:
+				break;
+		}
+	});
+
+	function saveImportFile() {
+		var inError = false;
+
+		// Point Template selection
+		var selectedPointTemplate = $("#wsPointDetailPointTemplate").select2('data');
+		var pointTagTemplateGuid = selectedPointTemplate[0].id;
+		var pointTagTemplateName = selectedPointTemplate[0].text
+		var wsPointDetailName =  $("#wsPointDetailName").val();
+		var importFileContent = FMDraw.wizardProperties.fileContent;
+		var originalModel = JSON.stringify( FMDraw.wizardProperties.fileContent.graphic.model);
+
+		// change the nodes
+		if( FMDraw.wizardProperties.fileContent.graphic.model.modelData.hasOwnProperty( "PointTemplateGuid" )) {
+			FMDraw.wizardProperties.fileContent.graphic.model.modelData.PointTemplateGuid = pointTagTemplateGuid;
+		}
+		// for buttons that open graphics we need to reset them (remove the graphic they are going to open) because they may not exists
+		FMDraw.wizardProperties.fileContent.graphic.model.nodeDataArray = jQuery.map( FMDraw.wizardProperties.fileContent.graphic.model.nodeDataArray, function( obj ) {
+
+			// remove the animation references
+			if( obj.hasOwnProperty("AnimationPointValueAssignments")) {
+				delete obj.AnimationPointValueAssignments;
+			}
+
+			// remove graphic references
+			if( obj.hasOwnProperty("buttonActionType") && obj.buttonActionType == "BUTTON_ACTION_GRAPHIC") {
+				var removeGraphic = true;
+				if ( obj.hasOwnProperty("buttonActionObjectGuid") && obj.buttonActionObjectGuid.hasOwnProperty("drawingGuid")) {
+					// if the graphic referenced is in this site there is no need to remove it
+					if( FMDraw.wizardProperties.GraphicsList.findIndex(function(t){return (t.Key.toLowerCase() === obj.buttonActionObjectGuid.drawingGuid.toLowerCase())} ) >= 0) {
+						removeGraphic = false;
+					}
+				}
+
+				if (removeGraphic) {
+				// check if the graphic exists for this site, if not remove the entry
+					if (obj.hasOwnProperty("buttonActionObjectGuid"))  delete obj.buttonActionObjectGuid;
+					if (obj.hasOwnProperty("buttonActionObjectId"))  delete obj.buttonActionObjectId;
+				}
+			}
+
+			// remove button (detail or command) pointing to a specific point (not the template)
+			if( obj.hasOwnProperty("buttonActionType") &&
+				( obj.buttonActionType == "BUTTON_ACTION_COMMAND" || obj.buttonActionType == "BUTTON_ACTION_DETAIL")
+				&& obj.PointGUID != FMDraw.wizardProperties.fileContent.pointTemplateGuid) {
+				// if the point exists in the site leave the control alone, otherwise clear the point configuration
+				if( obj.PointGUID && FMDraw.wizardProperties.PointList.findIndex(function(t){return (t.Key.toLowerCase() === obj.PointGUID.toLowerCase())} ) >= 0) {
+
+				} else {
+					if (obj.hasOwnProperty("buttonActionObjectGuid"))  delete obj.buttonActionObjectGuid;
+					if (obj.hasOwnProperty("buttonActionObjectId"))  delete obj.buttonActionObjectId;
+					if (obj.hasOwnProperty("PointGUID"))  delete obj.PointGUID;
+					if (obj.hasOwnProperty("TagGUID"))  delete obj.TagGUID;
+					if (obj.hasOwnProperty("TagPointValueType"))  delete obj.TagPointValueType;
+					if (obj.hasOwnProperty("TagPropertyID"))  delete obj.TagPropertyID;
+					if (obj.hasOwnProperty("TagPointID"))  delete obj.TagPointID;
+					if (obj.hasOwnProperty("TagTagID"))  delete obj.TagTagID;
+					if (obj.hasOwnProperty("TagPointIDAndTagID"))  delete obj.TagPointIDAndTagID;
+					if (obj.hasOwnProperty("PointTemplateTagSelectionIndicator"))  delete obj.PointTemplateTagSelectionIndicator;
+				}
+			}
+			// remove TAGs and BARs that point to specific points
+			if( obj.hasOwnProperty("category") &&
+				( obj.category == "tag" || obj.category == "bar")
+				&& obj.PointGUID != FMDraw.wizardProperties.fileContent.pointTemplateGuid) {
+				// if the point exists in the site leave the control alone, otherwise clear the point configuration
+				if( obj.PointGUID && FMDraw.wizardProperties.PointList.findIndex(function(t){return (t.Key.toLowerCase() === obj.PointGUID.toLowerCase())} ) >= 0) {
+
+				} else {
+					if (obj.hasOwnProperty("PointGUID"))  delete obj.PointGUID;
+					if (obj.hasOwnProperty("TagGUID"))  delete obj.TagGUID;
+					if (obj.hasOwnProperty("TagPointValueType"))  delete obj.TagPointValueType;
+					if (obj.hasOwnProperty("TagPropertyID"))  delete obj.TagPropertyID;
+					if (obj.hasOwnProperty("TagPointID"))  delete obj.TagPointID;
+					if (obj.hasOwnProperty("TagTagID"))  delete obj.TagTagID;
+					if (obj.hasOwnProperty("TagPointIDAndTagID"))  delete obj.TagPointIDAndTagID;
+					if (obj.hasOwnProperty("PointTemplateTagSelectionIndicator"))  delete obj.PointTemplateTagSelectionIndicator;
+				}
+			}
+
+			if( obj.hasOwnProperty("senderDiagramGUID")) {
+				obj.senderDiagramGUID = pointTagTemplateGuid;
+			}
+
+			// trend and point detail buttons specify a tag that is always the first tag in the list, we need to update them
+			if ( obj.hasOwnProperty("buttonActionType") &&
+					( obj.buttonActionType == "BUTTON_POINT_TREND" || obj.buttonActionType == "BUTTON_ACTION_DETAIL")) {
+
+				if ( obj.PointGUID == FMDraw.wizardProperties.fileContent.pointTemplateGuid &&
+					FMDraw.wizardProperties.TemplateDataValues.length > 0 ) {
+					var destinationTag = FMDraw.wizardProperties.TemplateDataValues[0];
+					obj.TagGUID = destinationTag.pointValueIdentifier.IdentityGuid;
+					obj.TagPointValueType =  destinationTag.pointValueIdentifier.PointValueType;
+					obj.TagPropertyID =  destinationTag.pointValueIdentifier.PropertyID;
+					obj.PointGUID = pointTagTemplateGuid;
+					obj.TagPointID = pointTagTemplateName;
+					obj.TagTagID =  destinationTag.ID;
+					obj.TagPointIDAndTagID = pointTagTemplateName + ( obj.TagPointIDAndTagID.indexOf(" : ") >= 0 ? " : " +  destinationTag.ID : "");
+					if (obj.hasOwnProperty("buttonActionObjectId"))  {
+						obj.buttonActionObjectId = obj.TagPointIDAndTagID;
+					}
+					if (obj.hasOwnProperty("buttonActionObjectGuid") && obj.PointGUID === FMDraw.wizardProperties.fileContent.pointTemplateGuid)  {
+						obj.buttonActionObjectGuid = pointTagTemplateGuid;
+					}
+				} else {
+					delete obj.TagGUID;
+					delete obj.TagPointValueType;
+					delete obj.TagPropertyID;
+					delete obj.PointGUID;
+					delete obj.TagPointID;
+					delete obj.TagTagID;
+					delete obj.TagPointIDAndTagID;
+					if (obj.hasOwnProperty("buttonActionObjectGuid"))  delete obj.buttonActionObjectGuid
+					if (obj.hasOwnProperty("buttonActionObjectId"))  delete obj.buttonActionObjectId
+					if (obj.hasOwnProperty("PointTemplateTagSelectionIndicator"))  delete obj.PointTemplateTagSelectionIndicator;
+				}
+			}
+
+			return obj;
+		});
+
+		// create a temporary property for the TagGuid since we are changing it and we don't want to override it
+		FMDraw.wizardProperties.fileContent.graphic.model.nodeDataArray = jQuery.map( FMDraw.wizardProperties.fileContent.graphic.model.nodeDataArray, function( obj ) {
+			if( obj.hasOwnProperty("TagTagID")) {
+				obj.OriginalTagTagID = JSON.parse(JSON.stringify(obj.TagTagID)); // I need the actual value not the reference to the object
+			};
+			return obj;
+		});
+
+		// update the tags in the graphic with the selected values in the second page in the wizard
+		$( "#wzPointDataValueList tbody tr" ).each(function( index ) {
+			var sourceTagName = $( this ).find( "label" ).text();
+			var sourceTagIdx = $( this ).find( "td:first" ).attr('data-idx');
+			var destTagIdx = $( this ).find( "select" ).val();
+			var destTagName = $( this ).find( "select option:selected" ).text();
+
+			var sourceTag = FMDraw.wizardProperties.DataValues[sourceTagIdx];
+			var destinationTag = FMDraw.wizardProperties.TemplateDataValues[destTagIdx];
+
+
+			// process the graphic model with the changes from the wizard
+
+			// change the nodes
+			FMDraw.wizardProperties.fileContent.graphic.model.nodeDataArray = jQuery.map( FMDraw.wizardProperties.fileContent.graphic.model.nodeDataArray, function( obj ) {
+				if( obj.hasOwnProperty("TagGUID") && obj.OriginalTagTagID == sourceTagName) {
+
+					if( obj.hasOwnProperty("PointGUID") && obj.PointGUID != FMDraw.wizardProperties.fileContent.pointTemplateGuid) {
+						// if refering to specific point don't do anything here since we will deal with it somewhere else
+					} else if( destTagIdx == "" ) {
+						// if no mapping between point data values or we are using a specific point we need to remove the properties
+						delete obj.TagGUID;
+						delete obj.TagPointValueType;
+						delete obj.TagPropertyID;
+						delete obj.TagTagID;
+						delete obj.TagPointIDAndTagID;
+						if (obj.hasOwnProperty("buttonActionObjectGuid"))  delete obj.buttonActionObjectGuid
+						if (obj.hasOwnProperty("buttonActionObjectId"))  delete obj.buttonActionObjectId
+						if ( obj.hasOwnProperty("category") &&  ( obj.category == "tag" || obj.category == "bar") ) {
+							if (obj.hasOwnProperty("PointTemplateTagSelectionIndicator"))  obj.PointTemplateTagSelectionIndicator = true;
+							obj.PointGUID = pointTagTemplateGuid;
+							obj.TagPointID = pointTagTemplateName;
+						} else {
+							if (obj.hasOwnProperty("PointTemplateTagSelectionIndicator"))  delete obj.PointTemplateTagSelectionIndicator;
+							delete obj.PointGUID;
+							delete obj.TagPointID;
+						}
+
+					} else {
+						obj.TagGUID = destinationTag.pointValueIdentifier.IdentityGuid;
+						obj.TagPointValueType =  destinationTag.pointValueIdentifier.PointValueType;
+						obj.TagPropertyID =  destinationTag.pointValueIdentifier.PropertyID;
+						obj.PointGUID = pointTagTemplateGuid;
+						obj.TagPointID = pointTagTemplateName;
+						obj.TagTagID =  destTagName;
+						obj.TagPointIDAndTagID = pointTagTemplateName + ( obj.TagPointIDAndTagID.indexOf(" : ") >= 0 ? " : " +  destTagName : "");
+						if (obj.hasOwnProperty("buttonActionObjectId"))  {
+							obj.buttonActionObjectId = obj.TagPointIDAndTagID;
+						}
+						if (obj.hasOwnProperty("buttonActionObjectGuid") && obj.PointGUID === FMDraw.wizardProperties.fileContent.pointTemplateGuid)  {
+							obj.buttonActionObjectGuid = pointTagTemplateGuid;
+						}
+					}
+
+				}
+				return obj;
+			});
+
+		})
+
+		// delete the temporary property created in the process so we don't save it
+		FMDraw.wizardProperties.fileContent.graphic.model.nodeDataArray = jQuery.map( FMDraw.wizardProperties.fileContent.graphic.model.nodeDataArray, function( obj ) {
+			if( obj.hasOwnProperty("OriginalTagTagID")) {
+				delete obj.OriginalTagTagID;
+			};
+			return obj;
+		});
+
+		var animationstoUpdate = jQuery.grep( importFileContent.animations, function( obj, idx ) {
+			var include = false;
+			// only pass to the server new animations or the ones that need to be updated
+			if ( FMDraw.wizardProperties.AnimationList[idx].Value == 'NEW') {
+				obj.AnimationGuid = "00000000-0000-0000-0000-000000000000";
+				return true;
+			} else if ( FMDraw.wizardProperties.AnimationList[idx].Value == 'DIFFERENT' &&
+				$("#wzAnimationList tbody tr [data-guid='"+ obj.AnimationGuid +"']").next().find("input:checked").val() == 'update') {
+				// the animationGuid may have changed if tthere was an existing one at the site
+				var newAnimationGuid =  $("#wzAnimationList tbody tr [data-guid='"+ obj.AnimationGuid +"']").next().find("input:checked").attr( 'data-newguid' );
+				obj.AnimationGuid = newAnimationGuid;
+				return true;
+			}
+			return false;
+		});
+
+		var data = new FormData(); //FormData object
+		data.append( "pointTagTemplateGuid", pointTagTemplateGuid );
+		data.append( "pointDetailName", wsPointDetailName );
+		data.append("published", 'true');
+		data.append("pointDetailGraphic", JSON.stringify(importFileContent.graphic));
+		data.append( "pointDetailPictures", JSON.stringify(importFileContent.pictures) );
+		data.append( "pointDetailAnimations", JSON.stringify(animationstoUpdate) );
+
+		var token = $( 'input[name=__RequestVerificationToken]' ).val();
+		var headers = {};
+		headers['__RequestVerificationToken'] = token;
+
+		var url = $( '#importPointDetail' ).attr( 'data-url' );
+
+		// remove previous notifications
+		PNotify.removeStack( );
+
+		$.ajax( {
+			type: 'POST',
+			url: url,
+			dataType: 'json',
+			enctype: 'multipart/form-data',
+			headers: headers,
+			processData: false,
+			contentType: false,
+			data: data,
+			success: function( result )
+			{
+
+
+				if (typeof result != 'undefined' && result != null) {
+					var count = 0;
+					if (result && result.SuccessMessage) {
+						$.each(result.SuccessMessage, function (key, message) { count = count + 1; });
+					}
+					if (count > 0) { // if save was succesful
+						var messageList = [];
+						// add messages but avoid duplicates
+						var seen = {};
+						$.each(result.SuccessMessage, function (key, message) {
+							$.each(message, function (i, val) {
+								if (!seen[message[i]]) {
+									seen[message[i]] = true;
+									messageList.push(message[i]);
+								}
+							});
+						});
+						var messages = messageList.join('');
+						var res = messages.split("-");
+
+					}
+				}
+				var returnValue = true;
+				FMErrorAndExceptionHandling.HandleMessages(result,
+						function (data, inError) {
+							if (!inError) {
+								FMDraw.wizardProperties.fileContent = {};
+								FMDraw.wizardProperties.DataValues = [];
+								FMDraw.wizardProperties.AnimationDataValues = [];
+								FMDraw.wizardProperties.SpecificPointUsed = false;
+								FMDraw.wizardProperties.SpecificGraphicUsed = false;
+								FMDraw.wizardProperties.TemplateDataValues = [];
+								FMDraw.wizardProperties.PointList = [];
+								FMDraw.wizardProperties.GraphicsList = [];
+								FMDraw.wizardProperties.AnimationList = [];
+								if ($('#layers-dialog').dialog('isOpen')) {
+									$('#layers-dialog').dialog('close');}
+								// open the graphic that was just imported
+								FMDrawIndex.LoadDrawing( data + ',' + wsPointDetailName + ',' + 'Imported');
+
+								$('#ImportPointDetailWizard').modal('hide');
+							} else {
+								FMDraw.wizardProperties.fileContent.graphic.model = JSON.parse( originalModel );
+							}
+						});
+
+			},
+			error: function( request, status, error )
+			{
+				FMErrorAndExceptionHandling.ShowException( request, status, error, null );
+			}
+		} );
+	}
+
+
+	function importRetrievePointDataValues( pointTemplateGuid ) {
+		// sort the list of animations by ID
+		FMDraw.wizardProperties.fileContent.animations.sort(function(a, b){
+			var x = a.ID.toLowerCase();
+			var y = b.ID.toLowerCase();
+			if (x < y) {return -1;}
+			if (x > y) {return 1;}
+			return 0;});
+
+		var token = $( 'input[name=__RequestVerificationToken]' ).val();
+		var headers = {};
+		headers['__RequestVerificationToken'] = token;
+		var data = {"pointTemplateGuid": pointTemplateGuid, "pointDetailAnimations": JSON.stringify(FMDraw.wizardProperties.fileContent.animations) };
+
+		$.ajax( {
+			type: 'POST',
+			cache: false,
+			headers: headers,
+			url: "GetImportWizardMappingOptions",
+			dataType: 'json',
+			contentType: 'application/json; charset=utf-8',
+			data: JSON.stringify(data),
+			success: function( response )
+			{
+				FMErrorAndExceptionHandling.HandleMessages( response, function( data, inError )
+				{
+					if ( !inError || ( data != null ) )	{
+						FMDraw.wizardProperties.TemplateDataValues = data.pointValueIdentifiers;
+						FMDraw.wizardProperties.PointList =  data.pointNameList;
+						FMDraw.wizardProperties.GraphicsList =  data.drawingsList;
+						FMDraw.wizardProperties.AnimationList =  data.animationList;
+						// update the select in the tables with the options
+						$( "#wzPointDataValueList tbody tr" ).each(function( index ) {
+							var sourceName = $( this ).find( "label" ).text();
+							var sourceTagDataType = $( this ).find( "td:first" ).attr('data-datatype');
+
+							$( this ).find('option').remove();
+
+							FMDraw.wizardProperties.TemplateDataValues.sort(function(a, b){
+								var x = a.ID.toLowerCase();
+								var y = b.ID.toLowerCase();
+								if (x < y) {return -1;}
+								if (x > y) {return 1;}
+								return 0;});
+
+							var option = '<option></option>';
+							for (var i = 0; i < FMDraw.wizardProperties.TemplateDataValues.length; i++) {
+								if ( sourceTagDataType =="" || FMDraw.wizardProperties.TemplateDataValues[i].DataType == sourceTagDataType || FMDraw.wizardProperties.TemplateDataValues[i].pointValueIdentifier.PointValueType != 0 ) {
+									option += '<option value="' + i + '"' + (FMDraw.wizardProperties.TemplateDataValues[i].ID == sourceName  ? "selected" : "") + '>' + FMDraw.wizardProperties.TemplateDataValues[i].ID + '</option>';
+								}
+							}
+							$( this ).find('select').append(option);
+						})
+						$( "#wzPointDataValueList tbody tr" ).find('select').select2();
+
+						// create the animation screen
+						$("#wzAnimationList tbody").html('');
+
+						for (var i = 0; i < FMDraw.wizardProperties.fileContent.animations.length; i++) {
+							var sourceTag = "<td data-idx='" + i + "' data-guid='" + FMDraw.wizardProperties.fileContent.animations[i].AnimationGuid + "'><label>" + FMDraw.wizardProperties.fileContent.animations[i].ID + "</label></td>";
+
+							var targetTag = "";
+							switch(FMDraw.wizardProperties.AnimationList[i].Value) {
+								case 'SAME':
+									targetTag = "<td><label>Animation already exists</label></td>";
+									break;
+								case 'NEW':
+									targetTag = "<td><label>Animation will be added</label></td>";
+									break;
+								case 'DIFFERENT':
+									targetTag = "<td><label class='radio-inline'><input type='radio' name='optradio" + i + "' value='update' data-newguid='" + FMDraw.wizardProperties.AnimationList[i].Key + "'checked>Update</label><label class='radio-inline'><input type='radio' name='optradio" + i + "' value='leave'>Leave Existing</label></td>";
+									break;
+								default:
+									break;
+							}
+
+							var newRowContent = "<tr>"+ sourceTag + targetTag + "</tr>"
+							$("#wzAnimationList tbody").append(newRowContent);
+						}
+						// open the second page in the import wizard
+						// set width of the modal to be 700
+						$('body').data().modalmanager.stack[0].options.width = 700;
+
+						// if there are no point values show message, otherwise show list of point values
+						if ( $( "#wzPointDataValueList tbody tr" ).length > 0 )
+						{
+
+							$("#wzPage2Tags").removeClass("hidden");
+							$("#wzPage2NoTags").removeClass("hidden").addClass("hidden");
+						} else {
+							$("#wzPage2Tags").removeClass("hidden").addClass("hidden");
+							$("#wzPage2NoTags").removeClass("hidden");
+						}
+
+						// if there are no animations show message, otherwise show list of point values
+						if ( $( "#wzAnimationList tbody tr" ).length > 0 )
+						{
+							$("#wzPage3Animations").removeClass("hidden");
+							$("#wzPage3NoAnimations").removeClass("hidden").addClass("hidden");
+						} else {
+							$("#wzPage3Animations").removeClass("hidden").addClass("hidden");
+							$("#wzPage3NoAnimations").removeClass("hidden");
+						}
+						// reset/initialiaze the fields
+						$("#ImportPointDetailWizardPage1").removeClass("hidden").addClass("hidden");
+						$("#ImportPointDetailWizardPage2").removeClass("hidden");
+						$("#ImportPointDetailWizardPage3").removeClass("hidden").addClass("hidden");
+						$("#ImportPointDetailWizardPage4").removeClass("hidden").addClass("hidden");
+
+						$("#ImportPointDetailWizardNextButton").removeClass("hidden");
+						$("#ImportPointDetailWizardPreviousButton").removeClass("hidden");
+						$("#ImportPointDetailWizardSaveButton").removeClass("hidden").addClass("hidden");
+
+						FMDraw.wizardProperties.activePage = 2;
+
+						$('#ImportPointDetailWizardPage2 input[required]:visible').each(function () {
+							$(this).parent().removeClass('has-error');
+						});
+
+						// This sets the nice scrolling on the Property Window.
+						$('#wzPointDataValueListWrapper').niceScroll({
+							cursorwidth: '10px'
+							, autohidemode: false
+							, cursorcolor: "#486899"
+							, background: "rgb(240, 240, 240)"
+							, railoffset: true
+							, enablemousewheel: true
+							, smoothscroll: true
+							, mousescrollstep: 5
+							, horizrailenabled: false
+						});
+
+						$("#wsPointDetailPointTemplate").focus();
+
+						$(window).resize(); // force the modal to center
+					}
+				} );
+			},
+			error: function( xhr, textStatus, error )
+			{
+				FMErrorAndExceptionHandling.ShowException( xhr, textStatus, error, function()
+				{
+				} );
+			}
+		} );
+
+	}
+</script>
+

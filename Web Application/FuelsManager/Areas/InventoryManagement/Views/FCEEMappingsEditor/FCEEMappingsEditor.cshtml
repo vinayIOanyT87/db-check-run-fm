@@ -1,0 +1,135 @@
+﻿@using FMBusinessObjects.DataObjects
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.FCEEMappingsEditorModel
+
+<link href="~/Areas/Content/FCEEMappingsEditor.css" rel="stylesheet" type="text/css" />
+<script src="~/Areas/lib/jquery.scrolling-tabs-custom.js"></script>
+<script src="~/Areas/Scripts/FCEEMappingsEditor.js"></script>
+<style>
+   body .modal {
+      width: 825px !important;
+      margin-left: -417px !important;
+   }
+
+
+    input:invalid:focus, input:invalid, select:invalid:focus, select:invalid {
+        border: 2px solid red;
+    }
+</style>
+
+
+@using (Html.BeginForm("ButtonSubmit", "FCEEMappingsEditor", FormMethod.Post, new { id = "FCEEMappingsEditorForm" }))
+{
+   @Html.AntiForgeryToken();
+   @Html.Hidden("urlSaveFCEEMappings", @Url.Action("SaveFCEEMappings", "FCEEMappingsEditor"));
+   @Html.Hidden("urlAddFCEEMapping", @Url.Action("AddFCEEMapping", "FCEEMappingsEditor"));
+   @Html.Hidden("urlDeleteFCEEMapping", @Url.Action("DeleteFCEEMapping", "FCEEMappingsEditor"));
+   @Html.HiddenFor(m => m.PointGuid);
+   @Html.Hidden("FCEEMappingsReadOnly", Model.ReadOnly);
+
+
+   <script>
+      function hideDeviceField(row) {
+         if (document.getElementsByName('FCEEMappings[' + row + '].MsgType')[0].value <= 15 || document.getElementsByName('FCEEMappings[' + row + '].MsgType')[0].value >= 20) {
+            document.getElementsByName('FCEEMappings[' + row + '].Device')[0].disabled = true;
+            document.getElementsByName('FCEEMappings[' + row + '].Device')[0].value = '';
+         } else {
+            document.getElementsByName('FCEEMappings[' + row + '].Device')[0].disabled = false;
+         }
+       }
+
+       function hideTagSelectionField(row) {
+           if (document.getElementsByName('FCEEMappings[' + row + '].MsgType')[0].value != 7 ) {
+               document.getElementsByName('FCEEMappings[' + row + '].TagSelection')[0].disabled = true;
+               document.getElementsByName('FCEEMappings[' + row + '].TagSelection')[0].value = 0;
+           } else {
+               document.getElementsByName('FCEEMappings[' + row + '].TagSelection')[0].disabled = false;
+               var selectobject = document.getElementsByName('FCEEMappings[' + row + '].TagSelection')[0];
+               for (var i = 0; i < selectobject.length; i++) {
+                   if (selectobject.options[i].value == 'None' || selectobject.options[i].value == 0)
+                       selectobject.remove(i);
+               }
+               document.getElementsByName('FCEEMappings[' + row + '].TagSelection')[0].value = 1;
+           }
+       }
+   </script>
+
+   <table id="FCEEMappingsEditorTable" class="table table-striped table-bordered hover" style="width:100%">
+      <thead class="">
+          <tr>
+              <th style="width: 36px;" class="text-center">
+                  FCE Device
+              </th>
+              <th class="text-center">
+                  Index
+              </th>
+              <th class="text-center">
+                  Device
+              </th>
+              <th class="text-center">
+                  Message Type
+              </th>
+              <th class="text-center">
+                  Tag Selection
+              </th>
+          </tr>
+      </thead>
+      <div style="visibility: hidden; height: 0;">Html.TextBoxFor(m => m.FCEEMappings[i].PointGuid, new { ID = "PointGuidBox", class = "form-control" })</div>
+      <div style="visibility: hidden; height: 0;" data-val="Model.FCEEMappings[i].FCEEMappingGuid">Html.TextBoxFor(m => m.FCEEMappings[i].FCEEMappingGuid, new { ID = "FCEEMappingGuidTextBox", class = "form-control" })</div>
+      <tbody id="StrapTableEditorTableBody">
+
+         @for (var i = 0; i < Model.FCEEMappings.Count; i++)
+         {
+            <tr>
+                <td style="width: 600px">
+                    @Html.DropDownListFor(m => m.FCEEMappings[i].FCEDeviceGuid, new SelectList(Model.FCEDevicesSelectList, "Value", "Text", Model.FCEEMappings[i].FCEDeviceGuid.ToString()), new { @class = "form-control" }).Disable(Model.ReadOnly)
+                </td>
+                <td style="width: 100px">
+                    @Html.TextBoxFor(m => m.FCEEMappings[i].Index, new { ID = "IndexTextBox", @class = "form-control", type = "Number", min = "0", max = "255", step = "1" }).Disable(Model.ReadOnly)
+                </td>
+                <td style="width: 100px">
+                    @Html.TextBoxFor(m => m.FCEEMappings[i].Device, new { ID = "DeviceTextBox", @class = "form-control", type = "Number", min = "1", max = "9", step = "1" }).Disable(Model.ReadOnly || (int)Model.FCEEMappings[i].MsgType < 16 || (int)Model.FCEEMappings[i].MsgType > 19 || (int)Model.FCEEMappings[i].MsgType == 18)
+                </td>
+                <td style="width: 500px">@Html.DropDownListFor(m => m.FCEEMappings[i].MsgType, new SelectList(FCEEMappingsEditorController.GetMsgTypes(), "Value", "Text", (int)Model.FCEEMappings[i].MsgType), new { id = "MsgType", @class = "form-control", onchange = "hideDeviceField(" + i + "); hideTagSelectionField(" + i + ")" }).Disable(Model.ReadOnly)</td>
+                <td style="width: 350px">
+                    @Html.DropDownListFor(m => m.FCEEMappings[i].TagSelection, new SelectList(FCEEMappingsEditorController.TagSelectionTypes(), "Value", "Text", (int)Model.FCEEMappings[i].TagSelection), new { id = "TagSelection", @class = "form-control" }).Disable(Model.ReadOnly || (int)Model.FCEEMappings[i].MsgType != 7)
+                </td>
+                <td style="width: 40px">
+                    @Html.HiddenFor(m => m.FCEEMappings[i].PointGuid, new { ID = "PointGuidBox", @class = "form-control" })
+                    @Html.HiddenFor(m => m.FCEEMappings[i].FCEEMappingGuid, new { ID = "FCEEMappingGuidTextBox" })
+                    @if (!Model.ReadOnly)
+                    {
+                       <a class="deleteLinkClass" style="margin-top: 10px" title="Delete" onclick="if ( confirm( 'Are you sure you wish to delete this item?' ) ){FCEEMappingsEditor.DeleteFCEEMapping('@Model.FCEEMappings[i].FCEEMappingGuid')}else{return false;}"></a>
+                    }
+                    else
+                    {
+                       <a class="deleteLinkClassDisabled" style="margin-top: 10px" title="Delete"></a>
+                    }
+                </td>
+            </tr>
+         }
+
+
+      </tbody>
+
+   </table>
+   if (!Model.ReadOnly)
+   {
+      <button id="addRow" type="button" class="btn btn-info">Add Mapping</button>
+   }
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+   <meta name="viewport" content="width=device-width" />
+   <title></title>
+</head>
+<body>
+   <div>
+
+   </div>
+</body>
+</html>

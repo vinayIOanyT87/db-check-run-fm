@@ -1,0 +1,637 @@
+﻿@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@using FMBusinessObjects.DataObjects
+@using FuelsManager.Areas.AccountingArea.ViewModels
+@model FuelsManager.Areas.AccountingArea.ViewModels.TransactionAliasDetailModel
+
+<style>
+
+    #FieldEditTable .fieldColumnRequired.disabled .booleanImgSelect, #FieldEditTable .fieldColumnReadonly.disabled .booleanImgSelect {
+        cursor: not-allowed !important;
+    }
+    #FieldEditTable .fieldColumnRequired.disabled, #FieldEditTable .fieldColumnReadonly.disabled {
+        pointer-events: none;
+        opacity: .65;
+    }
+
+</style>
+
+@{
+    var fieldConfigurationText = FMBaseController.TranslateText("Transactionl Alias|Configuration");
+    var applyButton = @FMBaseController.TranslateText("&Apply");
+    var cancelButton = @FMBaseController.TranslateText("&Cancel");
+    var okButton = @FMBaseController.TranslateText("&Ok");
+    var editField = !Model.ModifyEnabled ? false : true;
+    var deleteFieldImg = Url.Content((!editField) ? "~/fmwebapp/images/Delete-column-inactive.png" : "~/fmwebapp/images/Delete-column.png");
+    var disabledDelete = (!editField) ? "disabled=\"disabled\"" : "";
+    var disabledField = (!editField) ? "disabled=\"disabled\"" : "";
+    bool DisableAll = !Model.ModifyEnabled;
+}
+<div class="row">
+    <div class="col-sm-12">
+        <table id="FieldEditTableHeader" class="table table-bordered table-responsive table-hover FuelsManager-table-header">
+            <thead>
+                <tr>
+                    <th class="col-sm-3 col-md-3 text-left">
+                        <label class="column-tag-header">@FMBaseController.TranslateText("Database Field")</label>
+                        <div class="filter-field filter-addon filter-right-addon pull-right">
+                            <input id="PEfilter_fields" type="text" class="form-control" />
+                            <img alt="Filter Fields" title="Search" src="~/fmwebapp/images/Search Icon.png" />
+                        </div>
+                    </th>
+                    <th class="col-sm-3 col-md-3 text-center">@FMBaseController.TranslateText("Display Name")</th>
+                    <th class="col-sm-1 col-md-1 text-center">@FMBaseController.TranslateText("Required")</th>
+                    <th class="col-sm-1 col-md-1 text-center">@FMBaseController.TranslateText("Read Only")</th>
+                    <th class="col-sm-1 col-md-1 text-center">@FMBaseController.TranslateText("Visibility")</th>
+                    <th class="col-sm-2 col-md-2 text-center">@FMBaseController.TranslateText("User Groups")</th>
+                    <th class="col-sm-1 col-md-1 text-center">@FMBaseController.TranslateText("Default Value")</th>
+                </tr>
+            </thead>
+        </table>
+        <div id="FieldEditTableWrap" class="panel">
+
+            <table id="FieldEditTable" class="table table-bordered table-responsive table-hover">
+                <tbody class="field-sortable">
+                    @{
+                        var FieldList = Model.FieldCollection.OrderBy(x => x.displayOrder).ToList();
+                        FieldList.Sort((x, y) =>
+                        {
+                            var multipleLineItems = Model.MultipleLineItems;
+                            var multipleTransportLineitems = Model.MultipleTransportLineItems;
+                            var multipleWeightReadings = Model.MultipleWeightReadings;
+
+                            if (multipleLineItems || multipleTransportLineitems || multipleWeightReadings)
+                            {
+                                //if we have multiple line items, transport or weight readings put them at the end when sorting
+                                if (multipleLineItems)
+                                {
+                                    if (x.type == 2)
+                                    {
+                                        x.type += 1000;
+                                    }
+                                    if (y.type == 2)
+                                    {
+                                        y.type += 1000;
+                                    }
+                                }
+                                if (multipleTransportLineitems)
+                                {
+                                    if (x.type == 4)
+                                    {
+                                        x.type += 2000;
+                                    }
+                                    if (y.type == 4)
+                                    {
+                                        y.type += 2000;
+                                    }
+                                }
+                                if (multipleWeightReadings)
+                                {
+                                    if (x.type == 5)
+                                    {
+                                        x.type += 3000;
+                                    }
+                                    if (y.type == 5)
+                                    {
+                                        y.type += 3000;
+                                    }
+                                }
+                                var result = x.type.CompareTo(y.type);
+                                return result != 0 ? result : x.displayOrder.CompareTo(y.displayOrder);
+                            }
+                            else
+                            {
+                                return x.displayOrder.CompareTo(y.displayOrder);
+                            }
+                        });
+
+                    }
+                    @for (int i = 0; i < FieldList.Count; i++)
+                    {
+                        <tr class="draggable-field" data-dbname="@FieldList[i].dbName" data-type="@FieldList[i].typeName">
+                            <td class="hidden fieldColumnGuid text-left">@FieldList[i].identityGuid</td>
+                            <td class="hidden fieldColumnDataType text-left">@FieldList[i].type</td>
+                            <td class="fieldColumnDBName col-sm-3 col-md-3 text-left">
+                                <img id="Field_@(i)__DeleteField" class="deleteImg" src="@deleteFieldImg" @disabledDelete />
+                                <div class="fieldColumnDBWrapper">
+                                    @Html.Label(FieldList[i].dbName, new { @id = "Field_" + i + "__DBName", @class = "form-control column-field-name" }).Disable(true)
+                                    <span id="@("fielConfiguration_" + i)" title="@fieldConfigurationText" class='@(FieldList[i].dbName.Contains("DestinationRegistrationID") || FieldList[i].dbName.Contains("SourceRegistrationID") ? "": "hidden") @(DisableAll ? "disabledIcon" : "")' style="display: inline-block; width: 20px; text-align: center;" onclick="onFieldConfigurationEdit('@FieldList[i].dbName');">
+                                        <i class="glyphicon glyphicon-cog"></i>
+                                    </span>
+                                    <span class="label label-@(FieldList[i].typeName.Replace(" ", "-")) fieldtype pull-right">@FieldList[i].typeName</span>
+                                </div>
+                            </td>
+                            <td class="fieldColumnDisplayName col-sm-3 col-md-3" style="overflow: auto; white-space: nowrap">
+                                @Html.TextBoxFor(m => FieldList[i].displayName, new { @class = "form-control input-md text-left ", maxlength = 20 }).Disable(DisableAll)
+                            </td>
+                            <td class="fieldColumnRequired col-sm-1 col-md-1 text-center mainview @(editField ? "": "disabled")">
+                                <img id="Field_@(i)__Required" class="booleanImgSelect" draggable="false" @(FieldList[i].fieldRequired ? Html.Raw(string.Format("data-value='true' title='Yes' alt='toggleOn' src='{0}'", Url.Content("~/fmwebapp/images/On.png"))) : Html.Raw(string.Format("data-value='false' title='No' alt='toggleOff' src='{0}'", Url.Content("~/fmwebapp/images/Off.png"))))>
+                            </td>
+                            <td class="fieldColumnReadonly col-sm-1 col-md-1 text-center mainview @(editField ? "": "disabled")">
+                                <img id="Field_@(i)__ReadOnly" class="booleanImgSelect" draggable="false" @(FieldList[i].readOnly ? Html.Raw(string.Format("data-value='true' title='Yes' alt='toggleOn' src='{0}'", Url.Content("~/fmwebapp/images/On.png"))) : Html.Raw(string.Format("data-value='false' title='No' alt='toggleOff' src='{0}'", Url.Content("~/fmwebapp/images/Off.png"))))>
+                            </td>
+                            <td class="fieldColumnVisibility col-sm-1 col-md-1 text-center mainview">
+                                <div class="visibility-btn-group btn-group" role="group" aria-label="Visibility">
+                                    <button type="button" title="@FMBaseController.TranslateText("Always Show")" class="btn visibility-always @(FieldList[i].visibility == 0 ? "active": "")" value="0" @disabledField>
+                                        <img class="singleselectimg" src="~/fmwebapp/images/Show-Units-Rollover.png">
+                                    </button>
+                                    <button type="button" title="@FMBaseController.TranslateText("Show for ground products")" class='btn visibility-ground @(FieldList[i].visibility == 1 ? "active": "")' value="1" @disabledField>
+                                        <img class="singleselectimg" src="~/fmwebapp/images/product ground.png">
+                                    </button>
+                                    <button type="button" title="@FMBaseController.TranslateText("Show if product is for aviation")" class="btn visibility-aviation @(FieldList[i].visibility == 2 ? "active": "")" value="2" @disabledField>
+                                        <img class="singleselectimg" src="~/fmwebapp/images/product aviation.png">
+                                    </button>
+                                </div>
+                            </td>
+                            <td class="fieldColumnUserGroup col-sm-2 col-md-2">
+                                <select class="form-control TAUserGroup" id="TAUserGroup_@(i)" value="@FieldList[i].userGroupGuid" @disabledField>
+                                    @foreach (var userGroup in Model.AllUserGroupTransactionAliasMapCollection)
+                                    {
+                                        <option value="@userGroup.Guid" @(FieldList[i].userGroupGuid == @userGroup.Guid ? "selected" : "")>
+                                            @userGroup.ID
+                                        </option>
+                                    }
+                                </select>
+                            </td>
+                            <td class="fieldColumnDefaultValue col-sm-1 col-md-1">
+                                @Html.TextBoxFor(m => FieldList[i].defaultValue, new { @class = "form-control input-md text-left ", maxlength = 10 }).Disable(DisableAll)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@{
+    var ApplyButtonDisable = (Model.ModifyEnabled) ? "" : "disabled = 'disabled'";
+    var ApplyButtonCursor = (Model.ModifyEnabled) ? "" : "cursor: not-allowed !important;";
+}
+
+<div id="TransactionAliasFieldButtons" class="row">
+    <div class="TransactionAliasFieldButtonGroup">
+        <button id="AddFieldButton" type="button" class="pushButton"
+                style="width: 140px; @ApplyButtonCursor" @ApplyButtonDisable>
+            @FMBaseController.TranslateText("Add Field")
+        </button>
+    </div>
+</div>
+
+
+<div class="row">
+    <div id="TransactionFieldSelectScreen" class="modal fade modal-lg transactionfieldselectionmodal" data-backdrop="static" data-focus-on="input:first" role="dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="TransactionFieldSelectScreen_CloseButton" type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 id="TransactionFieldSelectionScreen" class="modal-title">@FMBaseController.TranslateText("Transaction Field Selection")</h4>
+            </div>
+            <div class="modal-body">
+                <section id="TransactionFieldSelection" class="TransactionFieldSelection">
+                    <div class="transactionaliasFilter">
+                        <div class="row margin-bottom-15">
+                            <div class="col-sm-6">
+                                <div class="filter-settings transaction-alias-filter-addon">
+                                    <input id="filter_TransactionAliasFields" type="text" class="transaction-alias-field-List-form-control" placeholder="Search for Field Name" />
+                                    <img alt="Filter TransactionAliasFields" title="Search" src="~/fmwebapp/images/Search Icon.png" />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="filter-settings transaction-alias-type-filter">
+                                    <select id="filter_TransactionAliasType" class="form-control" multiple="multiple" value="Undefined" placeholder="Filter by Field Type">
+                                        @foreach (var fieldType in Model.AllFieldTypes.OrderBy(x => x.Item2))
+                                        {
+                                            <option key="@fieldType.Item1" value="@fieldType.Item2">
+                                                @fieldType.Item2
+                                            </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fieldSelectionList" id="fieldSelectionList">
+                    </div>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-toolbar">
+                    <div class="pull-right">
+                        <button id="TransactionFieldSelectOkButton" type="submit" accesskey="@FMControls.GetAccessKey(okButton)" class="btn">@Html.Raw(FMControls.FormatButtonText(okButton))</button>
+                        <button id="TransactionFieldSelectionCancelButton" type="button" accesskey="@FMControls.GetAccessKey(cancelButton)" class="btn btn-default" data-dismiss="modal">@Html.Raw(FMControls.FormatButtonText(cancelButton))</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FieldConfigurationEditor Modal -->
+<div class="row">
+    <div id="FieldConfigurationEditorModal" class="modal fade modal-md" data-backdrop="static" data-focus-on="input:first" role="dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="FieldConfigurationEditorScreen_CloseButton" type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 id="FieldConfigurationEditorTitle" class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <section id="FieldConfigurationEditorScreen" class="row">
+                    <select class="form-control col-sm-12" id="TAEquipmentTypes" multiple="multiple" value="Undefined">
+                    </select>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-toolbar">
+                    <div class="pull-left">
+
+                    </div>
+                    <div class="pull-right">
+                        <button id="PEMPESavePointValueConfigurationEditor" type="button" class="pushButton" accessKey="@FMControls.GetAccessKey(applyButton)">
+                            @Html.Raw(FMControls.FormatButtonText(applyButton))
+                        </button>
+                        <button id="PEMPEClosePointValueConfigurationEditor" type="button" class="pushButton" data-dismiss="modal" accessKey="@FMControls.GetAccessKey(cancelButton)">
+                            @Html.Raw(FMControls.FormatButtonText(cancelButton))
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="fieldListTemplate" class="hidden">
+    <table id="TagEditEmptyRowTable">
+        <tbody>
+            <tr class="draggable-field" data-dbname="{dbName}" data-type="{typeName}">
+                <td class="hidden fieldColumnGuid text-left"></td>
+                <td class="hidden fieldColumnDataType text-left">{typeName}</td>
+                <td class="fieldColumnDBName col-sm-3 col-md-3 text-left">
+                    <img id="Field_{id}__DeleteField" class="deleteImg" src="@deleteFieldImg" @disabledDelete />
+                    <div class="fieldColumnDBWrapper">
+                        <label class="form-control column-field-name" for="AliasName" id="Field_{id}__DBName" disabled="disabled">{dbName}</label>
+                        <span id="fielConfiguration_{id}" title="@fieldConfigurationText" class='hidden @(DisableAll ? "disabledIcon" : "")' style="display: inline-block; width: 20px; text-align: center;" onclick="onFieldConfigurationEdit('{dbName}');">
+                            <i class="glyphicon glyphicon-cog"></i>
+                        </span>
+                        <span class="label label-{typeName} fieldtype pull-right">{typeName}</span>
+                    </div>
+                </td>
+                <td class="fieldColumnDisplayName col-sm-3 col-md-3" style="overflow: auto; white-space: nowrap">
+                    <input class="form-control input-md text-left " id="FieldList_{id}__displayName" maxlength="20" name="FieldList[{id}].displayName" type="text" >
+                </td>
+                <td class="fieldColumnRequired col-sm-1 col-md-1 text-center mainview">
+                    <img id="Field_{id}__Required" class="booleanImgSelect" draggable="false" data-value='false' title='No' alt='toggleOff' src='~/fmwebapp/images/Off.png'>
+                </td>
+                <td class="fieldColumnReadonly col-sm-1 col-md-1 text-center mainview">
+                    <img id="Field_{id}__ReadOnly" class="booleanImgSelect" draggable="false" data-value='false' title='No' alt='toggleOff' src='~/fmwebapp/images/Off.png'>
+                </td>
+                <td class="fieldColumnVisibility col-sm-1 col-md-1 text-center mainview">
+                    <div class="visibility-btn-group btn-group" role="group" aria-label="Visibility">
+                        <button type="button" title="@FMBaseController.TranslateText("Always Show")" class="btn visibility-always active" value="0" @disabledField>
+                            <img class="singleselectimg" src="~/fmwebapp/images/Show-Units-Rollover.png">
+                        </button>
+                        <button type="button" title="@FMBaseController.TranslateText("Show for ground products")" class='btn visibility-ground' value="1" @disabledField>
+                            <img class="singleselectimg" src="~/fmwebapp/images/product ground.png">
+                        </button>
+                        <button type="button" title="@FMBaseController.TranslateText("Show if product is for aviation")" class="btn visibility-aviation" value="2" @disabledField>
+                            <img class="singleselectimg" src="~/fmwebapp/images/product aviation.png">
+                        </button>
+                    </div>
+                </td>
+                <td class="fieldColumnUserGroup col-sm-2 col-md-2">
+                    <select class="form-control TAUserGroup" id="TAUserGroup_{id}">
+                        @foreach (var userGroup in Model.AllUserGroupTransactionAliasMapCollection)
+                        {
+                            <option value="@userGroup.Guid">
+                                @userGroup.ID
+                            </option>
+                        }
+                    </select>
+                </td>
+                <td class="fieldColumnDefaultValue col-sm-1 col-md-1">
+                    <input class="form-control input-md text-left " id="FieldList_{id}__defaultValue" maxlength="20" name="FieldList[{id}].defaultValue" type="text">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        // custom scroll bars
+        $("#PTTModuleList").niceScroll({
+            cursorwidth: '10px',
+            autohidemode: false,
+            cursorcolor: '#486899',
+            background: 'rgb(240, 240, 240)',
+            horizrailenabled: false
+        });
+
+        $("#filter_TransactionAliasType").select2({
+            maximumSelectionSize: 3,
+            placeholder: 'Filter by Field Type'
+        });
+
+    });
+
+    $("#AddFieldButton").on('click', function () {
+
+        $('body').modalmanager('loading');
+
+			$.ajax({
+				type: 'Get',
+				url: '@Url.Action("GetAllFields", "TransactionAlias")',
+				dataType: "json",
+                data: { transactionType: $("#TransTypeID").find(":selected").val() },
+                success: function (results) {
+                    $("#fieldSelectionList").getNiceScroll().remove();
+                    $("#fieldSelectionList").html('');
+
+                    function SortByFieldName(a, b) {
+                        var aName = a.Item2.toLowerCase();
+                        var bName = b.Item2.toLowerCase();
+                        return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
+                    }
+
+                    $.each(results.Data.sort(SortByFieldName), function (index, value) {
+                        // filter fields that are already added
+                        if ($("#FieldEditTable tbody tr[data-dbname='" + value.Item2 + "'][data-type='" + value.Item1 + "']").length == 0) {
+                            var fieldEntry = $("<div class='TransactionAliasFieldSelectionElement TransactionAliasField-dontsplit' data-name='" + value.Item2 + "' data-type='" + value.Item1 + "'></div>");
+                            fieldEntry.append($("<div class='TransactionAliasFieldSelectionTitle' title='" + value.Item2 + "'>" + value.Item2 + "<span class=\"label label-" + value.Item1.replace(" ", "-") + ' fieldtype pull-right">' + value.Item1 + "</span></div>"));
+                            $("#fieldSelectionList").append(fieldEntry);
+                        }
+                    });
+
+
+                    $('.fieldSelectionList').css("height", $('.fieldSelectionList').parent().height());
+
+                    $('#TransactionFieldSelectScreen').modal('show');
+                    $('body').modalmanager('removeLoading');
+
+                    $('#fieldSelectionList').uncolumnize();
+                    $('#fieldSelectionList').columnize({
+                        columns: 3,
+                        buildOnce: true,
+                        cssClassPrefix: "TransactionAliasField",
+                        lastNeverTallest: true
+                    });
+                    $("#fieldSelectionList").niceScroll({ cursorwidth: '10px', horizrailenabled: false, autohidemode: false, cursorcolor: "#486899", background: "white" });
+
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					alert(xhr.status);
+					alert(thrownError);
+				}
+			});
+        });
+
+    $('#TransactionFieldSelectionCancelButton').click(function () {
+        $("#fieldSelectionList").html('');
+    });
+
+    $("#TransactionFieldSelectOkButton").click(function () {
+        // get list of selected fields
+        var selectedFields = $("#fieldSelectionList .TransactionAliasFieldSelectionElement.selected");
+
+        if (selectedFields.length > 0) {
+
+            var rowNum = 0;
+
+            // get the highest row id by looking at the column name
+            $('#FieldEditTable tr .column-field-name').each(function (index) {
+                var rowId = parseInt($(this).attr('id').replace('Field_', '').replace('__DBName', ''));
+                if (rowId >= rowNum) {
+                    rowNum = rowId + 1;
+                }
+            });
+
+            $(selectedFields).each(function (i, obj) {
+                var newField = $("#fieldListTemplate tr").clone();
+                var data_type = $(obj).attr("data-type");
+                var data_name = $(obj).attr("data-name");
+
+                $(newField).attr("data-dbname", data_name);
+                $(newField).attr("data-type", data_type);
+                $(newField).find(".fieldColumnDataType").text(data_type);
+                $(newField).find(".fieldColumnDBName .column-field-name").text(data_name);
+                $(newField).find(".fieldColumnDBName .label.fieldtype").text(data_type);
+                $(newField).find(".fieldColumnDBName .label.fieldtype").removeClass('label-{typeName}').addClass('label-' + data_type.replace(' ', '-'));
+                $(newField).find(".fieldColumnDisplayName input").val(data_name);
+
+                // change the id and name for all the columns to be unique
+                newField.find("[id]").each(function (index) {
+                    var id = $(this).attr('id');
+                    $(this).attr('id', id.replace("{id}", rowNum));
+                });
+                newField.find("[name]").each(function (index) {
+                    var name = $(this).attr('name');
+                    $(this).attr('name', name.replace("{id}", rowNum));
+                });
+
+                $("#FieldEditTable tbody").append(newField);
+                rowNum++;
+            });
+        }
+
+        $('#TransactionFieldSelectScreen').modal('hide');
+    });
+
+    $("#filter_TransactionAliasFields").on('focus', function () {
+        $(this).data('placeholder', $(this).attr('placeholder'));
+        $(this).attr('placeholder', null);
+    });
+
+    $("#filter_TransactionAliasFields").on('blur', function () {
+        $(this).attr('placeholder', $(this).data('placeholder'));
+    });
+
+    $("#filter_TransactionAliasFields").on('input', function () {
+        var filterTxt = $(this).val();
+
+        var aliastypes = [];
+        $("#filter_TransactionAliasType option:selected").each(function () {
+
+            aliastypes.push( $(this).val() );
+
+            });
+
+        if (filterTxt === $(this).data('oldvalue')) {
+            return;
+        }
+        else {
+            $(this).data('oldvalue', filterTxt);
+        }
+
+        // No fields to be found, just return.
+        if ($('.TransactionAliasFieldSelectionElement').length === 0)
+            return;
+
+        $('#fieldSelectionList').uncolumnize();
+        $('#fieldSelectionList').css("width", "");
+
+        if (filterTxt === "" && aliastypes.length === 0) {
+            $('.TransactionAliasFieldSelectionElement').removeClass("hidden");
+        }
+        else {
+            $('.TransactionAliasFieldSelectionElement').each(function () {
+                if ($(this).find('.TransactionAliasFieldSelectionTitle').contents().get(0).nodeValue.toLowerCase().indexOf(filterTxt.toLowerCase()) >= 0 &&
+                    (aliastypes.length == 0 || aliastypes.findIndex(x => x == $(this).find('.fieldtype').text()) >= 0) )
+                {
+                    $(this).removeClass("hidden");
+                }
+                else {
+                    $(this).removeClass("hidden").addClass("hidden");
+                }
+            });
+        }
+        $('#fieldSelectionList').columnize({
+            columns: 3,
+            buildOnce: true,
+            cssClassPrefix: "TransactionAliasField",
+            lastNeverTallest: true
+        });
+
+        // if selected row is not visible then remove the selection
+        $('.TransactionAliasFieldSelectionElement.selected.hidden').removeClass("selected");
+    });
+
+
+    $("#filter_TransactionAliasType").on('change', function () {
+
+        var filterTxt = $("#filter_TransactionAliasFields").val();
+
+        var aliastypes = [];
+        $("#filter_TransactionAliasType option:selected").each(function () {
+
+            aliastypes.push($(this).val());
+
+        });
+
+        // No fields to be found, just return.
+        if ($('.TransactionAliasFieldSelectionElement').length === 0)
+            return;
+
+        $('#fieldSelectionList').uncolumnize();
+        $('#fieldSelectionList').css("width", "");
+
+        if (filterTxt === "" && aliastypes.length === 0) {
+            $('.TransactionAliasFieldSelectionElement').removeClass("hidden");
+        }
+        else {
+            $('.TransactionAliasFieldSelectionElement').each(function () {
+                if ($(this).find('.TransactionAliasFieldSelectionTitle').contents().get(0).nodeValue.toLowerCase().indexOf(filterTxt.toLowerCase()) >= 0 &&
+                    (aliastypes.length == 0 || aliastypes.findIndex(x => x == $(this).find('.fieldtype').text()) >= 0)) {
+                    $(this).removeClass("hidden");
+                }
+                else {
+                    $(this).removeClass("hidden").addClass("hidden");
+                }
+            });
+        }
+        $('#fieldSelectionList').columnize({
+            columns: 3,
+            buildOnce: true,
+            cssClassPrefix: "TransactionAliasField",
+            lastNeverTallest: true
+        });
+
+        // if selected row is not visible then remove the selection
+        $('.TransactionAliasFieldSelectionElement.selected.hidden').removeClass("selected");
+    });
+
+
+    $("#PEfilter_fields").on('input', function () {
+        var filterTxt = $(this).val();
+
+
+        if (filterTxt === $(this).data('oldvalue')) {
+            return;
+        }
+        else {
+            $(this).data('oldvalue', filterTxt);
+        }
+
+        // No fields to be found, just return.
+        if ($('#FieldEditTable tbody tr').length === 0)
+            return;
+
+        if (filterTxt === "") {
+            $('#FieldEditTable tbody tr').removeClass("hidden");
+        }
+        else {
+            $('#FieldEditTable tbody tr').each(function () {
+                if ($(this).find('.column-field-name').text().toLowerCase().indexOf(filterTxt.toLowerCase()) >= 0) {
+                    $(this).removeClass("hidden");
+                }
+                else {
+                    $(this).removeClass("hidden").addClass("hidden");
+                }
+            });
+        }
+
+
+        // need to destroy and rebuild nicescroll since the refresh does not seem to be working on this case
+        $("#FieldEditTableWrap").getNiceScroll().remove();
+        $("#FieldEditTableWrap").niceScroll({
+            cursorwidth: '10px'
+            , autohidemode: false
+            , cursorcolor: "#486899"
+            , background: "rgb(240, 240, 240)"
+        });
+
+        $("#PEfilter_fields").val(filterTxt); // we need the focus at the end of the last character in the input
+        $("#PEfilter_fields").focus(); // have to reset the focus since it loses focus when running columnize
+    });
+
+
+    $("#FieldEditTable").on("click", ".visibility-btn-group .visibility-always", function () {
+        $(this).toggleClass("active");
+        $(this).parent().find(".visibility-ground").removeClass("active");
+        $(this).parent().find(".visibility-aviation").removeClass("active");
+    });
+    $("#FieldEditTable").on("click", ".visibility-btn-group .visibility-ground", function () {
+        $(this).toggleClass("active");
+        $(this).parent().find(".visibility-always").removeClass("active");
+        $(this).parent().find(".visibility-aviation").removeClass("active");
+    });
+    $("#FieldEditTable").on("click", ".visibility-btn-group .visibility-aviation", function () {
+        $(this).toggleClass("active");
+        $(this).parent().find(".visibility-ground").removeClass("active");
+        $(this).parent().find(".visibility-always").removeClass("active");
+    });
+
+    $("#fieldSelectionList").on('click', '.TransactionAliasFieldSelectionElement', function () {
+        $(this).toggleClass('selected');
+    });
+
+    $("#FieldEditTable").on('click', '.booleanImgSelect', function () {
+        // we need to update enable/disable the associated field
+        if ($(this).attr("data-value") === "true") {
+            $(this).attr("data-value", "false");
+            $(this).attr("alt", "toggleOff");
+            $(this).attr("title", "No");
+            $(this).attr("src", "@(Url.Content("~/fmwebapp/images/Off.png"))");
+
+        }
+        else {
+            $(this).attr("data-value", "true");
+            $(this).attr("alt", "toggleOn");
+            $(this).attr("title", "Yes");
+            $(this).attr("src", @(Url.Content("~/fmwebapp/images/On.png"))");
+        }
+    });
+
+    function makeEditable(div) {
+        div.style.border = "1px solid #000";
+        div.style.padding = "20px";
+        div.contentEditable = true;
+    }
+    function makeReadOnly(div) {
+        div.style.border = "none";
+        div.style.padding = "0px";
+        div.contentEditable = false;
+    }
+</script>

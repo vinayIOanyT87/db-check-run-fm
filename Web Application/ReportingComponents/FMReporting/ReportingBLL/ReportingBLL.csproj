@@ -1,0 +1,214 @@
+﻿<Project DefaultTargets="Build" ToolsVersion="3.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0894D292-271D-4489-98E0-88A7E2CDA833}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>ReportingBLL</AssemblyName>
+    <AssemblyOriginatorKeyFile>ReportingBLL.snk</AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>ReportingBLL</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>0.0</OldToolsVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <PublishUrl>http://localhost/ReportingBLL/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AccountingBLL">
+      <Name>AccountingBLL</Name>
+      <HintPath>..\..\..\AccountingComponents\AccountingBLL\bin\AccountingBLL.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AccountingServices">
+      <Name>AccountingServices</Name>
+      <HintPath>..\..\..\AccountingComponents\AccountingServices\bin\AccountingServices.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ConsolidatedBLL">
+      <Name>ConsolidatedBLL</Name>
+      <HintPath>..\..\..\SharedComponents\ConsolidatedBLL\bin\ConsolidatedBLL.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ConsolidatedDataObjects">
+      <Name>ConsolidatedDataObjects</Name>
+      <HintPath>..\..\..\SharedComponents\ConsolidatedDataObjects\bin\ConsolidatedDataObjects.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FMCommon">
+      <Name>FMCommon</Name>
+      <HintPath>..\..\..\SharedComponents\FMCommon\bin\FMCommon.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LogClient">
+      <Name>LogClient</Name>
+      <HintPath>..\..\..\FMLogger\LogClient\bin\LogClient.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ReportingDAL">
+      <Name>ReportingDAL</Name>
+      <HintPath>..\ReportingDAL\bin\ReportingDAL.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ReportingServices">
+      <Name>ReportingServices</Name>
+      <HintPath>..\ReportingServices\bin\ReportingServices.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.EnterpriseServices">
+      <Name>System.EnterpriseServices</Name>
+    </Reference>
+    <Reference Include="System.Runtime.Remoting">
+      <Name>System.Runtime.Remoting</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ReportClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ReportListProcessor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ReportRequestProcessor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ReportSecurity.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ReportService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ReportServiceImpl.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ReportUrlDirProcessor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <None Include="ModelSupport\default.txvpck" />
+    <None Include="ModelSupport\FM7Accounting\FM7Accounting.txvpck" />
+    <None Include="ModelSupport\ReportingBLL\ReportingBLL.txvpck" />
+    <None Include="ReportingBLL.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>"$(SolutionDir)FMBuildUtils\gacutil" /uf $(TargetName)
+"$(SolutionDir)FMBuildUtils\gacutil" /i "$(TargetPath)"
+</PostBuildEvent>
+  </PropertyGroup>
+</Project>

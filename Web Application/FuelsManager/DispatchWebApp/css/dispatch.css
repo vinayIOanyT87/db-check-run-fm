@@ -1,0 +1,282 @@
+﻿@import url('redmond/jquery.ui.theme.css');
+@import url('slick-default-theme.css');
+
+.output { font: 2em sans-serif; }
+
+.online { color: #FFFFFF; background:#00BB00; border-radius:5px; padding:2px;}
+.offline {color: #FFFFFF; background:#BB0000; border-radius:5px; padding:2px;}
+
+html
+{
+	/* background-color: #0D246A; */
+	background-color: #FFFFFF;
+	color: black;
+}
+
+#gradient {
+	background: #FFFFFF; /* old browsers */
+	background: -moz-linear-gradient(top, #FFFFFF 0%, #CCCCCC 100%); /* firefox */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFFFFF), color-stop(100%,#CCCCCC)); /* webkit */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFFFFF', endColorstr='#CCCCCC',GradientType=0 ); /* ie */
+}
+
+#logoImage
+{
+	margin-left: 3px;
+	margin-top: 5px;
+}
+
+#fuelsManager
+{
+	font-size: 20pt;
+	color: White;
+	font-weight: bold;
+	font-family: Arial Narrow;
+}
+
+#fuelsManager:hover { cursor:default; }
+
+#titleLabel
+{
+	font-size: 12pt;
+	color: Yellow;
+	font-weight: bold;
+	font-family:Arial Narrow;
+}
+
+#titleLabel:hover { cursor:default; }
+
+#titleBlock
+{
+	margin-top: 0px;
+	background-size: 100%;
+	height: 60px;
+	
+	background-color: #0D246A;
+}
+
+#copyrightSection
+{
+	margin-top:10px;
+	margin-left:15px;
+	margin-right:15px;
+	height: 75px;
+	font-size: x-small;
+}
+
+#new-nav
+{
+	margin: 0px;
+	padding: 0px;
+}
+
+.mainCanvasTransparent
+{
+	background-color: transparent;
+}
+
+#footerSection
+{
+	margin-top:5px;
+	margin-left:10px;
+	margin-right:10px;
+	padding: 5px;
+	font-size: small;
+	border-top-color: Black;
+	border-top-style: solid;
+	border-top-width: 1px;
+}
+
+#clock
+{
+	font-size: small;
+}
+
+#menuBar
+{
+	margin: 0px;
+	padding: 0px;
+	height: 24px;
+
+	background-color: #EEEEEE;
+
+	/* Safari 4-5, Chrome 1-9 */
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFFFF), to(#AAAAAA));
+
+	/* Safari 5.1, Chrome 10+ */
+	background: -webkit-linear-gradient(top, #FFFFFF, #AAAAAA);
+
+	/* Firefox 3.6+ */
+	background: -moz-linear-gradient(top, #FFFFFF, #AAAAAA);
+
+	/* IE 10 */
+	background: -ms-linear-gradient(top, #FFFFFF, #AAAAAA);
+
+	/* Opera 11.10+ */
+	background: -o-linear-gradient(top, #FFFFFF, #AAAAAA);
+}
+
+#gridTabular, #gridPersonnel, #gridEquipment, #gridServiceRequest, #gridRequests {
+	font-family: Helvetica, Arial, Sans-Serif;
+	font-size: 10pt;
+	font-weight: normal;
+}
+
+.grid-header {
+	border: 1px solid gray;
+	border-bottom: 0;
+	border-top: 0;
+	color: black;
+	height: 30px;
+	line-height: 24px;
+	background-color: #0D246A;
+}
+
+.grid-header label {
+	display: inline-block;
+	font-family: Helvetica, Arial, Sans-Serif;
+	font-size: 10pt;
+	font-weight: bold;
+	margin: auto auto auto 6px;
+	color: White;
+}
+
+.grid-header span {
+	display: inline-block;
+	font-family: Helvetica, Arial, Sans-Serif;
+	font-size: 10pt;
+	font-weight: bold;
+	margin: auto auto auto 6px;
+	color: White;
+}
+
+.grid-header input {
+	display: inline-block;
+	font-family: Helvetica, Arial, Sans-Serif;
+	font-size: 10pt;
+	font-weight: bold;
+	margin: auto auto auto 6px;
+	color: black;
+	background-color: #FEFEFE;
+}
+
+.generalText
+{
+	color: White;
+	font-size: 10pt;
+}
+.generalText:hover { cursor:default; }
+
+.smallLinkText
+{
+	color: black;
+	font-family: Helvetica, Arial, Sans-Serif;
+	font-size: 9pt;
+}
+.smallLinkText:hover { color:red; }
+
+.listToolBar
+{
+	overflow: auto;
+	list-style-type: none;
+	border-bottom: 1px solid black;
+	height: 30px;
+	margin: auto;
+	padding: 0px 0px 3px 0px;
+	text-align: center;
+}
+
+.listToolBar li
+{
+	padding: 4px 4px 0px 0px;
+	margin: 2px 0px 0px 0px;
+	white-space: nowrap;
+	display: inline-block;
+}
+
+.slick-header-column
+{
+	text-align: left;
+}
+
+.slick-header-column-right
+{
+	text-align: right;
+}
+
+.slick-column-center
+{
+	text-align: center;
+}
+
+.slick-column-rownum
+{
+	text-align: center;
+	background-color: #CDCDCD;
+}
+
+.slick-row[row$="1"], .slick-row[row$="3"], .slick-row[row$="5"], .slick-row[row$="7"], .slick-row[row$="9"] {
+	background: #dddddd;
+}
+
+#equipmentFilterSelect
+{
+	background-color: #0D246A;
+	color: White;
+}
+
+#personnelFilterSelect
+{
+	background-color: #0D246A;
+	color: White;
+}
+
+.centerTable
+{ 
+	margin-left: auto;
+	margin-right: auto;
+	text-align: left;
+}
+
+#contextMenu
+{
+	border: 1px solid gray; 
+	padding: 2px;
+	display: inline-block;
+	min-width: 125px;
+	-moz-box-shadow: 2px 2px 2px silver;
+	-webkit-box-shadow: 2px 2px 2px silver;
+	z-index: 99999;
+	color: #EEEEEE;
+	text-align: left;
+}
+		
+#contextMenu li
+{
+	padding: 4px 4px 4px 4px;	
+	list-style: none;
+	cursor: pointer;
+	/*background: #EEEEEE;*/
+	background: white;
+	color: black;
+	font-family: Helvetica, Arial, Sans-Serif;
+	font-size: 10pt;
+	text-align: left;
+} 
+
+#contextMenu hr
+{
+    margin: 0px;
+	padding: 0px;	
+	list-style: none;
+	background: #000;
+	height: 1px;
+} 
+
+		
+#contextMenu li:hover
+{
+	background-color: lightyellow;
+	font-family: Helvetica, Arial, Sans-Serif;
+	font-size: 10pt;
+}

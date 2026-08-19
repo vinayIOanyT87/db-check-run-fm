@@ -1,0 +1,266 @@
+.chassis-section-header {
+    width: 100%;
+    color: white;
+    text-align: center;
+    height: 35px;
+    line-height: 35px;
+    background-color: #006cb3;
+    font: Roboto;
+    font-size: 14px;
+}
+
+.chassis-section-detail {
+    border: 1px solid #E0E0E0;
+    height: calc( 100vh - 270px);
+    padding: 20px 20px 5px 20px;
+    overflow: hidden;
+    border-bottom: none !important;
+    background-color: white;
+}
+
+.chassis-section-detail perfect-scrollbar {
+    height: calc( 100% - 20px);
+    margin-top: 5px;
+}
+
+.chassis-section-detail .iconbar {
+    height: 30px;
+}
+
+.chassis-section-detail .iconbar i {
+    font-size: 16px;
+    line-height: 30px;
+    cursor: pointer;
+    position: initial;
+    color: #006cb3;
+}
+
+.chassis-section-detail .iconbar input {
+    background-color: transparent;
+    line-height: 25px;
+    border: none;
+    border-bottom: 1px #cdcecf solid;
+    width: 250px;
+    padding: 0px 10px;
+    color: #006cb3;
+}
+
+.chassis-section-detail .iconbar input:focus {
+    outline: none;
+    background-color: white;
+}
+
+.accordion-toggle button {
+    box-shadow: none !important;
+}
+
+.chassis-section-footer {
+    border: 1px solid #E0E0E0;
+    border-top: none !important;
+    height: 60px;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    background-color: white;
+}
+
+.chassis-section-footer button {
+    margin-left: 5px;
+}
+
+#modulechanneldetails {
+    height: calc( 100vh - 170px);
+    padding-top: 40px !important;
+    padding-left: 20px;
+}
+
+.configurationrow {
+    max-width: 400px;
+    position: relative;
+    height: 55px;
+    padding: 10px;
+    margin: auto;
+}
+
+@media (min-width: 1800px) {
+    .configurationrow {
+        display: inline-block !important;
+        width: 50% !important;
+        max-width: initial;
+    }
+}
+
+.configurationparametername {
+    display: inline-block;
+    width: 50%;
+    font: Roboto-Medium;
+    font-size: 14px;
+    font-weight: 500;
+    color: #006cb3;
+    cursor: default;
+}
+
+.configurationparameterdescription {
+    display: inline-block;
+    position: absolute;
+    top: 30px;
+    left: 0px;
+    font: Roboto;
+    font-size: 11px;
+    color: var(--brown-grey);
+    padding: 0px 30px;
+    cursor: default;
+}
+
+.configurationparametervalue {
+    display: inline-block;
+    width: 50%;
+    vertical-align: top;
+    text-align: right;
+    line-height: 35px;
+    text-overflow: ellipsis;
+    font: Roboto;
+    font-size: 14px;
+    color: #006cb3;
+}
+
+.separator {
+    display: block;
+    width: calc( 100% - 20px);
+    margin: auto;
+    height: 0px;
+    border-bottom: 1px solid;
+    top: 55px;
+    position: absolute;
+}
+
+div.card-header {
+    padding: .25rem .25rem;
+    background-blend-mode: saturation;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)), linear-gradient(to bottom, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.62)), linear-gradient(to bottom, rgba(0, 0, 0, 0.48), rgba(0, 0, 0, 0.48));
+}
+
+div.card-header .btn-link {
+    color: white;
+    text-decoration: none;
+    width: 100%;
+}
+
+div.card-header .btn-link:hover,
+div.card-header .btn-link:focus {
+    text-decoration: none;
+}
+
+div.card-header h5 {
+    text-align: center;
+}
+
+div.card-header:first-child {
+    border-radius: 0px
+}
+
+div.card-body {
+    padding: 0px 1.25rem;
+}
+
+.channelheader {
+    padding-left: 25px;
+    font: Roboto;
+    font-size: 14px;
+    color: white;
+}
+
+#dropdown-button {
+    background-color: transparent;
+    border: none;
+    height: 35px;
+    color: white;
+    padding: 0px 5px;
+    cursor: pointer;
+    position: relative;
+    outline: none;
+}
+
+.channeloption {
+    width: 120px;
+    line-height: 25px;
+    padding: 0px 10px;
+}
+
+.channeloption:hover {
+    background-color: rgb( 86, 126, 185);
+    color: white;
+    cursor: pointer;
+}
+
+#dropdown-basic {
+    min-width: 30px;
+}
+
+select::-ms-expand {
+    border: none;
+    background-color: transparent;
+    color: #808080;
+}
+
+.chassistank {
+    display: inline-block;
+    width: 100px;
+    text-align: center;
+}
+
+.chassistank.addTankMode .tankimg,
+.chassistank.addTankMode .tankname {
+    cursor: pointer;
+}
+
+.tankimg {
+    width: 80px;
+    height: 50px;
+}
+
+.tankname {
+    color: #808080;
+    font-size: 12px;
+    text-align: center;
+}
+
+.tanklistnotificationsection {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.tanklistnotificationsection.addTankMode button {
+    margin-left: 5px;
+}
+
+#rtuTankListBlock .panel-body {
+    padding: 20px 0px;
+}
+
+.configurationBarSettings {
+    font: Roboto;
+    font-size: 14px;
+    color: white;
+}
+.parameterWarning{
+    margin-right: 5px;
+    color: rgb(220, 53, 69);
+    font-weight: 1000;
+    cursor: pointer;
+    vertical-align: middle;
+    font-size: x-large;
+    line-height: 5px;
+}
+
+#configurationdivision .ps__rail-y {
+    top: 0px !important;
+    right: -2px !important;
+    bottom: 0px !important;
+}
+
+#configurationdivision .ps__thumb-y {
+    background-blend-mode: saturation;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.56)), linear-gradient(to bottom, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.62)), linear-gradient(to bottom, rgba(0, 0, 0, 0.48), rgba(0, 0, 0, 0.48));
+}

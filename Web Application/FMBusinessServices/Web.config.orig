@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+
+	<startup useLegacyV2RuntimeActivationPolicy="true" />
+	<!--
+    For a description of web.config changes see http://go.microsoft.com/fwlink/?LinkId=235367.
+
+    The following attributes can be set on the <httpRuntime> tag.
+      <system.Web>
+        <httpRuntime targetFramework="4.7.2" />
+      </system.Web>
+  -->
+	<system.web>
+	 <httpRuntime targetFramework="4.7.2" />
+		<compilation debug="true" targetFramework="4.7.2" />
+		<machineKey decryption="AES" decryptionKey="F7FA540B4DFD82E5BB196B95D15FF81F9209B83712CBAB714A1B593F97D2E75F" validation="SHA1" validationKey="9209B83712CBAB714A1B593F97D2E75FE85D03A19DE62168764FF0DCE537184F0535D5D9AD66DEDC9209B83712CBAB714A1B593F97D2E75FE85D03A197DC1ABF" />
+	</system.web>
+	<system.serviceModel>
+        <bindings>
+            <basicHttpBinding>
+                <binding name="BasicHttpBinding" maxReceivedMessageSize="2147483647" maxBufferPoolSize="2147483647" maxBufferSize="2147483647">
+                    <readerQuotas maxArrayLength="2147483647" maxDepth="32" maxStringContentLength="8192" maxBytesPerRead="4096" maxNameTableCharCount="16384" />
+                </binding>
+                <binding name="FMEnterpriseBusinessServices" maxReceivedMessageSize="2147483647" maxBufferPoolSize="2147483647" maxBufferSize="2147483647">
+                    <readerQuotas maxArrayLength="2147483647" maxDepth="32" maxStringContentLength="8192" maxBytesPerRead="4096" maxNameTableCharCount="16384" />
+                </binding>
+            </basicHttpBinding>
+            <webHttpBinding>
+                <binding name="WebHttpBinding" maxReceivedMessageSize="2147483647" maxBufferPoolSize="2147483647" maxBufferSize="2147483647">
+                    <readerQuotas maxArrayLength="2147483647" maxDepth="32" maxStringContentLength="2147483647" maxBytesPerRead="2147483647" maxNameTableCharCount="2147483647" />
+                    <security mode="None">
+                        <transport clientCredentialType="None" />
+                    </security>
+                </binding>
+            </webHttpBinding>
+            <wsHttpBinding>
+                <binding name="WsHttpsBinding" maxReceivedMessageSize="2147483647" maxBufferPoolSize="2147483647">
+                    <readerQuotas maxArrayLength="2147483647" maxDepth="32" maxStringContentLength="2147483647" maxBytesPerRead="4096" maxNameTableCharCount="2147483647" />
+                    <security mode="Transport">
+                        <transport clientCredentialType="None">
+                            <extendedProtectionPolicy policyEnforcement="Never" />
+                        </transport>
+                    </security>
+                </binding>
+                <binding name="WsHttpBinding" maxReceivedMessageSize="2147483647" maxBufferPoolSize="2147483647">
+                    <readerQuotas maxArrayLength="2147483647" maxDepth="32" maxStringContentLength="2147483647" maxBytesPerRead="4096" maxNameTableCharCount="2147483647" />
+                    <security>
+                        <transport>
+                            <extendedProtectionPolicy policyEnforcement="Never" />
+                        </transport>
+                    </security>
+                </binding>
+                <binding name="WsHttpsBindingForSync" maxReceivedMessageSize="2147483647" maxBufferPoolSize="2147483647" sendTimeout="01:00:00">
+                    <readerQuotas maxArrayLength="2147483647" maxDepth="32" maxStringContentLength="2147483647" maxBytesPerRead="4096" maxNameTableCharCount="2147483647" />
+                    <security mode="Transport">
+                        <transport clientCredentialType="Windows" />
+                    </security>
+                </binding>
+                <binding name="FMEnterpriseBusinessServices" maxReceivedMessageSize="2147483647" maxBufferPoolSize="2147483647">
+                    <readerQuotas maxArrayLength="2147483647" maxDepth="32" maxStringContentLength="2147483647" maxBytesPerRead="4096" maxNameTableCharCount="2147483647" />
+                    <security>
+                        <transport>
+                            <extendedProtectionPolicy policyEnforcement="Never" />
+                        </transport>
+                    </security>
+                </binding>
+            </wsHttpBinding>
+            <netTcpBinding>
+                <binding name="NetTcpBindingIIS" listenBacklog="2147483647" maxBufferPoolSize="2147483647" maxBufferSize="2147483647" maxConnections="100" maxReceivedMessageSize="2147483647" portSharingEnabled="true" receiveTimeout="01:00:00">
+						 <security mode="None">
+							 <message clientCredentialType="None"></message>
+							 <transport clientCredentialType="None"></transport>
+						 </security>
+						 <readerQuotas maxDepth="32" maxStringContentLength="1048576" maxArrayLength="2147483647" maxBytesPerRead="4096" maxNameTableCharCount="16384" />
+                </binding>
+                <binding name="FuelsManagerServiceBinding" maxReceivedMessageSize="10000" maxConnections="100" listenBacklog="100">
+                    <security mode="None">
+                        <message clientCredentialType="None" />
+                        <transport clientCredentialType="None" />
+                    </security>
+                </binding>
+                <binding name="NetTcpBindingFMPointService" maxReceivedMessageSize="2147483647" maxBufferPoolSize="2147483647">
+                    <security mode="None">
+                        <message clientCredentialType="None" />
+                        <transport clientCredentialType="None" />
+                    </security>
+                </binding>
+            </netTcpBinding>
+        </bindings>
+        <behaviors>
+			<serviceBehaviors>
+				<behavior name="FMBusinessServicesBehaviorReports">
+					<serviceMetadata httpGetEnabled="true" />
+				</behavior>
+				<behavior name="FMBusinessServicesBehavior">
+					<serviceThrottling maxConcurrentCalls="2147483647" maxConcurrentSessions="2147483647" maxConcurrentInstances="2147483647" />
+					<!-- To avoid disclosing metadata information, set the value below to false and remove the metadata endpoint above before deployment -->
+					<!-- NOTE: This must be set to false if using net.tcp [A.Hush 12/19/2011] -->
+					<serviceMetadata httpGetEnabled="true" httpsGetEnabled="true" />
+					<!-- To receive exception details in faults for debugging purposes, set the value below to true.  Set to false before deployment to avoid disclosing exception information -->
+					<serviceDebug includeExceptionDetailInFaults="true" />
+					<dataContractSerializer maxItemsInObjectGraph="2147483647" />
+					<serviceTimeouts transactionTimeout="00:45:00" />
+				</behavior>
+				<!-- name is left blank, so it applies to all services-->
+				<behavior name="">
+					<serviceThrottling maxConcurrentCalls="2147483647" maxConcurrentSessions="2147483647" maxConcurrentInstances="2147483647" />
+					<!-- To avoid disclosing metadata information, set the value below to false and remove the metadata endpoint above before deployment -->
+					<!-- NOTE: This must be set to false if using net.tcp [A.Hush 12/19/2011] -->
+					<serviceMetadata httpGetEnabled="true" httpsGetEnabled="true" />
+					<!-- To receive exception details in faults for debugging purposes, set the value below to true.  Set to false before deployment to avoid disclosing exception information -->
+					<serviceDebug includeExceptionDetailInFaults="true" />
+					<dataContractSerializer maxItemsInObjectGraph="2147483647" />
+					<serviceTimeouts transactionTimeout="00:45:00" />
+				</behavior>
+			</serviceBehaviors>
+		</behaviors>
+		<services>
+			<!-- Note: the service name must match the configuration name for the service implementation. -->
+			<service name="LedgerReportCalculator" behaviorConfiguration="FMBusinessServicesBehaviorReports">
+				<!-- Add the following endpoint.  -->
+				<!-- Note: your service must have an http base address to add this endpoint. -->
+				<endpoint contract="IMetadataExchange" binding="mexHttpBinding" address="mex" />
+				<endpoint address="" binding="basicHttpBinding" bindingConfiguration="" contract="FMBusinessServices.ServiceClasses.LedgerReportClasses.ILedgerReportCalculator" />
+			</service>
+		</services>
+		<serviceHostingEnvironment configSource="ServiceHostingEnvironment.config" />
+		<protocolMapping>
+			<add scheme="http" binding="wsHttpBinding" bindingConfiguration="WsHttpBinding" />
+			<add scheme="net.tcp" binding="netTcpBinding" bindingConfiguration="NetTcpBindingIIS" />
+			<add binding="wsHttpBinding" bindingConfiguration="WsHttpsBinding" scheme="https" />
+		</protocolMapping>
+	</system.serviceModel>
+	<system.webServer>
+		<modules runAllManagedModulesForAllRequests="true" />
+    <directoryBrowse enabled="false" />
+		<handlers accessPolicy="Read, Script">
+			<remove name="ExtensionlessUrlHandler-Integrated-4.0" />
+			<remove name="OPTIONSVerbHandler" />
+			<remove name="TRACEVerbHandler" />
+			<add name="ExtensionlessUrlHandler-Integrated-4.0" path="*." verb="*" type="System.Web.Handlers.TransferRequestHandler" preCondition="integratedMode,runtimeVersionv4.0" />
+		</handlers>
+		<defaultDocument>
+			<files>
+				<clear />
+				<add value="Default.asp" />
+			</files>
+		</defaultDocument>
+		<httpErrors>
+			<clear />
+		</httpErrors>
+	</system.webServer>
+	<system.diagnostics>
+		<switches>
+			<add name="SyncTracer" value="2" />
+		</switches>
+		<trace autoflush="true">
+			<listeners>
+				<add name="SyncListener" type="System.Diagnostics.TextWriterTraceListener" initializeData="c:\FuelsManagerSyncLogs\SyncTraces.log" />
+			</listeners>
+		</trace>
+		<sources>
+			<source name="System.ServiceModel" switchValue="Information, ActivityTracing" propagateActivity="true">
+				<listeners>
+					<add name="traceListener" type="System.Diagnostics.XmlWriterTraceListener" initializeData="c:\FuelsManagerLogs\FMBusinessServicesTraces.svclog" />
+				</listeners>
+			</source>
+		</sources>
+	</system.diagnostics>
+	<appSettings file="App_Data\App_FMBusinessService.config">
+        <add key="bindingName" value="NetTcpBindingIIS" />
+        <add key="endPointAddress" value="net.tcp://localhost:808/FMBusinessServices" />
+        <add key="syncEnterpriseBusinessBindingType" value="wsHttpBinding" />
+		<add key="syncEnterpriseBusinessBindingConfiguration" value="WsHttpsBindingForSync" />
+		<!-- This value governs all database connections -->
+<<<<<<< HEAD
+<<<<<<< HEAD
+    <add key="ConnectionString" value="Persist Security Info=False;Integrated Security=SSPI;database=FuelsManagerDB;server=.\gray_2019;Connect Timeout=60" />
+=======
+    <add key="ConnectionString" value="Persist Security Info=False;User ID=sa;Password=!Qaz2Wsx;database=FuelsManagerDB;server=10.249.128.224;Connect Timeout=60" />
+>>>>>>> 4b7eff23f (TFS-143446: Code refactor/cleanup prior)
+=======
+    <add key="ConnectionString" value="Persist Security Info=False;User ID=sa;Password=!Qaz2Wsx;database=FuelsManagerDB;server=10.249.128.224;Connect Timeout=60" />
+>>>>>>> 248b5bf07abf6b53da2e8cf31c194805d9266188
+		<add key="DataDictionaryFailsafeCheckForChangesIntervalMinutes" value="5" />
+		<add key="QueryWriterCommandTimeout" value="60" />
+		<add key="EnableChangeLogging" value="false" />
+		<add key="LoggerDebugFlag" value="false" />
+		<add key="LoggerInfoFlag" value="false" />
+		<add key="LoggerPerformanceFlag" value="false" />
+		<add key="LoggerWarnFlag" value="false" />
+		<add key="LoggerErrorFlag" value="false" />
+		<add key="LoggerCriticalFlag" value="false" />
+		<add key="LoggerLogDir" value="C:\FuelsManagerLogs" />
+		<add key="SiteCacheSize" value="5" />
+		<add key="LogTable_DaysOld" value="4" />
+		<add key="LogTable_DeleteOld" value="true" />
+		<add key="HardwareKeyOptionsCell" value="4294967295" />
+		<add key="HardwareKeySpecialKeyCodes" value="4294836191" />
+		<add key="HardwareKeyOPCAllowedFunctions" value="4294967295" />
+		<add key="HardwareKeyProgramVersion" value="9999" />
+		<add key="HardwareKeyIsADFKey" value="false" />
+		<add key="HardwareKeyIsMODKey" value="false" />
+		<add key="HardwareKeyIsTFMDKey" value="false" />
+    <add key="InteropFMUtilPath" value="C:\repos\fuelsmanager\Web Application\Binaries" />
+        <add key="FuelsManagerServiceAddress" value="net.tcp://localhost:53120/FuelsManagerServiceCommunication.svc/FuelsManagerService" />
+        <add key="TotalMovementCalculationName" value="" />
+		<add key="FMPointServiceBindingType" value="netTcpBinding" />
+		<add key="FMPointServiceBindingConfiguration" value="NetTcpBindingFMPointService" />
+		<add key="FMPointServiceBindingEndPointAddress" value="net.tcp://localhost:8524/FMPointService" />
+		<add key="NumberOfSamplesPerPen" value="2000" />
+	  <!-- the following is for the tank status colors on the group display this should of been part of the site object-->
+	  <!--text and background colors must be set together-->
+	  <add key="TankStatusColor_Enabled" value="1" />
+	  <add key="TankStatusColor_Emptying_TextColor" value="white" />
+	  <add key="TankStatusColor_Emptying_BackColor" value="brown" />
+	  <add key="TankStatusColor_Filling_TextColor" value="white" />
+	  <add key="TankStatusColor_Filling_BackColor" value="blue" />
+	  <add key="TankStatusColor_Running_TextColor" value="" />
+	  <add key="TankStatusColor_Running_BackColor" value="" />
+	  <add key="TankStatusColor_Stopped_TextColor" value="" />
+	  <add key="TankStatusColor_Stopped_BackColor" value="" />
+	  <add key="TankStatusColor_Testing_TextColor" value="" />
+	  <add key="TankStatusColor_Testing_BackColor" value="" />
+	  <add key="TankStatusColor_Bad_TextColor" value="" />
+	  <add key="TankStatusColor_Bad_BackColor" value="" />
+  <!-- the following controls the point grid base parameters-->
+	  <add key="PointGroup_Header_TextColor" value="" />
+	  <add key="PointGroup_Header_BackColor" value="" />
+	  <add key="Default_cell_TextColor" value="" />
+	  <add key="Default_cell_BackColor" value="" />
+	  <add key="Default_cell_Gridline_Color" value="" />
+	  <add key="Default_pointcell_BackColor" value="" />
+	  <add key="Default_pointcell_Color" value="" />
+	</appSettings>
+	<runtime>
+		<assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+			<dependentAssembly>
+				<assemblyIdentity name="Newtonsoft.Json" publicKeyToken="30ad4fe6b2a6aeed" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-12.0.0.0" newVersion="12.0.0.0" />
+			</dependentAssembly>
+			<dependentAssembly>
+				<assemblyIdentity name="Unity.Abstractions" publicKeyToken="6d32ff45e0ccc69f" culture="neutral" />
+				<bindingRedirect oldVersion="0.0.0.0-3.3.0.0" newVersion="3.3.0.0" />
+			</dependentAssembly>
+			<dependentAssembly>
+				<assemblyIdentity name="Microsoft.Extensions.DependencyInjection.Abstractions" publicKeyToken="adb9793829ddae60" culture="neutral" />
+				<bindingRedirect oldVersion="0.0.0.0-1.0.0.0" newVersion="1.0.0.0" />
+			</dependentAssembly>
+			<dependentAssembly>
+				<assemblyIdentity name="Microsoft.Extensions.Logging.Abstractions" publicKeyToken="adb9793829ddae60" culture="neutral" />
+				<bindingRedirect oldVersion="0.0.0.0-2.2.0.0" newVersion="2.2.0.0" />
+			</dependentAssembly>
+			<dependentAssembly>
+				<assemblyIdentity name="Microsoft.Extensions.Logging" publicKeyToken="adb9793829ddae60" culture="neutral" />
+				<bindingRedirect oldVersion="0.0.0.0-2.2.0.0" newVersion="2.2.0.0" />
+			</dependentAssembly>
+		</assemblyBinding>
+	</runtime>
+</configuration>

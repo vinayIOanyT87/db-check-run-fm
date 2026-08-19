@@ -1,0 +1,73 @@
+<div *ngIf="!(transactionAliasPlacementInfoDTO)"><br /></div>
+<div *ngIf="transactionAliasPlacementInfoDTO"
+     class="parent">
+    <div class="child1" style="white-space:nowrap; overflow: hidden;" *ngIf="!transactionAliasPlacementInfoDTO.isLine && !transactionAliasPlacementInfoDTO.isLabel">
+        {{transactionAliasPlacementInfoDTO?.displayName}}
+        <!-- https://metroui.org.ua/icons.html -->
+        <span class="mif-copy fg-green" *ngIf="transactionAliasPlacementInfoDTO.persistDataAfterSave"></span>
+    </div>
+    <div class="child1" style="white-space:nowrap; overflow: hidden; width:100%" *ngIf="transactionAliasPlacementInfoDTO.isLine">
+      <hr style="height: 2px; background-color: black; border: 2px; border-radius:2px; margin-top:12px;" />
+    </div>
+    <div class="child1" style="white-space:nowrap; overflow: hidden;" *ngIf="transactionAliasPlacementInfoDTO.isLabel">
+        <ng-container *ngIf="!isStringEmptyOrNull(transactionAliasPlacementInfoDTO.labelContents)">
+            {{transactionAliasPlacementInfoDTO?.labelContents}}
+        </ng-container>
+        <ng-container *ngIf="isStringEmptyOrNull(transactionAliasPlacementInfoDTO.labelContents)">
+            Label
+        </ng-container>
+    </div>
+    <div class="child3"
+         (keyup.escape)="hideOptions()"
+         (keyup.enter)="hideOptions()">
+        <button type="button" click-stop-propagation (click)="showOptions()">Options</button>
+        <div *ngIf="displayOptions"
+             draggable="true" ondragstart="event.preventDefault()"
+             (clickOutside)="hideOptions()"
+             [delayClickOutsideInit]="true"
+             class="field-options">
+            <h5>{{transactionAliasPlacementInfoDTO.displayName}} Config</h5>
+            <form (ngSubmit)="hideOptions()" appEnterStopPropogation>
+                <div class="fields">
+                    <label for="rowSpan">Row Span</label>
+                    <input id="rowSpan" type="number"
+                           (blur)="validate();"
+                           [(ngModel)]="row"
+                           name="rowSpan"
+                           [ngModelOptions]="{standalone:true}"
+                           [appFocusDirective]="true" />
+                </div>
+                <br class="clear" />
+                <div class="fields">
+                    <label for="columnSpan">Column Span</label>
+                    <input id="columnSpan" type="number"
+                           (blur)="validate();"
+                           name="columnSpan"
+                           [ngModelOptions]="{standalone:true}"
+                           [(ngModel)]="column" />
+                </div>
+                <br class="clear" *ngIf="transactionAliasPlacementInfoDTO.isLabel"/>
+                <div class="fields" *ngIf="transactionAliasPlacementInfoDTO.isLabel">
+                  <label for="labelText">Label Contents</label>
+                  <input id="labelText" type="text"
+                          name="labelContents"
+                          [ngModelOptions]="{standalone:true}"
+                          [(ngModel)]="transactionAliasPlacementInfoDTO.labelContents" />
+                </div>
+                <br class="clear" *ngIf="showOptionPersistDataOnSave"/>
+                <div class="fields" *ngIf="showOptionPersistDataOnSave">
+                  <label for="PersistDataOnSave">Persist data after save</label>
+                  <input id="PersistDataOnSave" type="checkbox"
+                          name="PersistDataOnSave"
+                          [ngModelOptions]="{standalone:true}"
+                          [(ngModel)]="transactionAliasPlacementInfoDTO.persistDataAfterSave" />
+                </div>
+                <br class="clear" />
+                <div class="fields">
+                    <button type="button" click-stop-propagation (click)="hideOptions()">Close</button>
+                    <br class="clear" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

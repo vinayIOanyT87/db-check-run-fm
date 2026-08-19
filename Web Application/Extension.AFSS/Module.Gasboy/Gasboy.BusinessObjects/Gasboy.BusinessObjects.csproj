@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{34ECC8BA-5505-4F1A-A2E5-4C37E5BDC276}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FuelsManager.Afss.Module.Gasboy.BusinessObjects</RootNamespace>
+    <AssemblyName>FuelsManager.Afss.Module.Gasboy.BusinessObjects</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>FMStrongNameKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AlarmAndEvents\GasboyCommunicationEvents.cs" />
+    <Compile Include="BusinessInterfaces\IGasboyDepartments.cs" />
+    <Compile Include="BusinessInterfaces\IBlacklistImportFileParser.cs" />
+    <Compile Include="BusinessInterfaces\IBlacklistImportRecordHandler.cs" />
+    <Compile Include="BusinessInterfaces\IGasboyDevices.cs" />
+    <Compile Include="BusinessInterfaces\IGasboyTransactionProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IGasboyStations.cs" />
+    <Compile Include="ChannelFactories\GasboyManagerChannelHelper.cs" />
+    <Compile Include="ChannelFactories\GasboyChannelHelper.cs" />
+    <Compile Include="Constants\GasboyTwoStageDriverValidationType.cs" />
+    <Compile Include="Constants\GasboyAuthorizationType.cs" />
+    <Compile Include="Constants\GasboyHardwareType.cs" />
+    <Compile Include="Constants\GasboyEmployeeType.cs" />
+    <Compile Include="Constants\GasboyDeviceType.cs" />
+    <Compile Include="Constants\GasboyVehiclePlateCheckType.cs" />
+    <Compile Include="Constants\GasboyRecordType.cs" />
+    <Compile Include="Constants\GasboyRecordStatus.cs" />
+    <Compile Include="Constants\GasboySpecialConstants.cs" />
+    <Compile Include="DataObjects\GasboyEvents.cs" />
+    <Compile Include="DataObjects\GasboyBlacklistImportRecord.cs" />
+    <Compile Include="DataObjects\GasboyDepartment.cs" />
+    <Compile Include="DataObjects\GasboyDevice.cs" />
+    <Compile Include="DataObjects\GasboyFleet.cs" />
+    <Compile Include="DataObjects\GasboyStationProductMapping.cs" />
+    <Compile Include="DataObjects\GasboyStationEvent.cs" />
+    <Compile Include="DataObjects\ProgressInfoClasses\GasboyGetProductListByStationProgressInfo.cs" />
+    <Compile Include="DataObjects\ProgressInfoClasses\GasboyTestConnectionProgressInfo.cs" />
+    <Compile Include="DataObjects\ProgressInfoClasses\GasboyGetNewTransactionsByStationProgressInfo.cs" />
+    <Compile Include="DataObjects\GasboyStationProduct.cs" />
+    <Compile Include="DataObjects\GasboyServiceState.cs" />
+    <Compile Include="DataObjects\GasboyStation.cs" />
+    <Compile Include="DataObjects\GasboyStationTransactionError.cs" />
+    <Compile Include="DataObjects\GasboyStationGeneralConfiguration.cs" />
+    <Compile Include="DataObjects\GasboyStationLog.cs" />
+    <Compile Include="DataObjects\GasboyStationStats.cs" />
+    <Compile Include="DataObjects\GasboyStationTransaction.cs" />
+    <Compile Include="DataObjects\GasboyStationSession.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceProcessInterfaces\IGasboyStationServices.cs" />
+    <Compile Include="SiteOmatObjects\AuthorizeRequest.cs" />
+    <Compile Include="SiteOmatObjects\GasboyWebServiceObjects.cs" />
+    <Compile Include="UtilityObjects\BlacklistImportFileReader.cs" />
+    <Compile Include="UtilityObjects\GenericBlacklistImportFileParser.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FMStrongNameKey.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="InternalClasses\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\FMBusinessObjects\FMBusinessObjects.csproj">
+      <Project>{f3910e2b-3e67-4b25-874f-822ec69a6fef}</Project>
+      <Name>FMBusinessObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Afss.BusinessObjects\Afss.BusinessObjects.csproj">
+      <Project>{9d203484-1f9c-4f01-9c92-cae8cbfde3c5}</Project>
+      <Name>Afss.BusinessObjects</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

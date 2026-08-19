@@ -1,0 +1,27 @@
+HKCR
+{
+	ScullyOPCObjects.ScullyColl.1 = s 'ScullyCollection Class'
+	{
+		CLSID = s '{C48047CC-EA3B-464a-9306-89785873394F}'
+	}
+	ScullyOPCObjects.ScullyCollec = s 'ScullyCollection Class'
+	{
+		CLSID = s '{C48047CC-EA3B-464a-9306-89785873394F}'
+		CurVer = s 'ScullyOPCObjects.ScullyColl.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {C48047CC-EA3B-464a-9306-89785873394F} = s 'ScullyCollection Class'
+		{
+			ProgID = s 'ScullyOPCObjects.ScullyColl.1'
+			VersionIndependentProgID = s 'ScullyOPCObjects.ScullyCollec'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{1EE60832-5723-4c9d-8D2A-0CD88A62815B}'
+		}
+	}
+}

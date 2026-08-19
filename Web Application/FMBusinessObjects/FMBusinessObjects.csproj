@@ -1,0 +1,1626 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F3910E2B-3E67-4B25-874F-822EC69A6FEF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FMBusinessObjects</RootNamespace>
+    <AssemblyName>FMBusinessObjects</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <NoWarn>1607</NoWarn>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>FMStrongNameKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Release\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.9.0.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\packages\Portable.BouncyCastle.1.9.0\lib\net40\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="Cassandra, Version=3.99.0.0, Culture=neutral, PublicKeyToken=10b231fbfc8c4b4d, processorArchitecture=MSIL">
+      <HintPath>..\packages\CassandraCSharpDriver.3.7.0\lib\net45\Cassandra.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.5.5631.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Binaries\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="EthanolExcessFactor">
+      <HintPath>..\Binaries\EthanolExcessFactor.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.CAPICOM">
+      <HintPath>..\Binaries\Interop.CAPICOM.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>..\Binaries\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LZ4, Version=1.0.10.93, Culture=neutral, PublicKeyToken=62e1b5ec1eec9bdd, processorArchitecture=MSIL">
+      <HintPath>..\packages\lz4net.1.0.10.93\lib\net4-client\LZ4.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Binder, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Binder.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.Binder.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=3.1.27.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.3.1.27\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Synchronization, Version=2.1.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\Binaries\SyncFramework\Microsoft.Synchronization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Synchronization.Data, Version=1.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Binaries\SyncFramework\Microsoft.Synchronization.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Synchronization.Data.Server, Version=1.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Binaries\SyncFramework\Microsoft.Synchronization.Data.Server.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Synchronization.Data.SqlServer, Version=3.1.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\Binaries\SyncFramework\Microsoft.Synchronization.Data.SqlServer.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Opc.Ua.Core, Version=1.4.370.0, Culture=neutral, PublicKeyToken=bfa7a73c5cf4b6e8, processorArchitecture=MSIL">
+      <HintPath>..\packages\OPCFoundation.NetStandard.Opc.Ua.Core.1.4.370.12\lib\net462\Opc.Ua.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Opc.Ua.Security.Certificates, Version=1.4.370.0, Culture=neutral, PublicKeyToken=bfa7a73c5cf4b6e8, processorArchitecture=MSIL">
+      <HintPath>..\packages\OPCFoundation.NetStandard.Opc.Ua.Security.Certificates.1.4.370.12\lib\net462\Opc.Ua.Security.Certificates.dll</HintPath>
+    </Reference>
+    <Reference Include="OpcNetApi, Version=2.1.0.0, Culture=neutral, PublicKeyToken=9a40e993cbface53, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Binaries\OpcNetApi.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.5.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Formats.Asn1, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Formats.Asn1.6.0.0\lib\net461\System.Formats.Asn1.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Linq, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.4.3.0\lib\net463\System.Linq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Linq.Expressions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Expressions.4.3.0\lib\net463\System.Linq.Expressions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Reflection, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reflection.4.3.0\lib\net462\System.Reflection.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Extensions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.Extensions.4.3.0\lib\net462\System.Runtime.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.4.3.0\lib\net463\System.Runtime.InteropServices.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Varec.CommonComponents.EngineeringUnitsLibrary">
+      <HintPath>..\Binaries\Varec.CommonComponents.EngineeringUnitsLibrary.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Varec.CommonComponents.VolumeCorrection">
+      <HintPath>..\Binaries\Varec.CommonComponents.VolumeCorrection.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyDictionary.cs" />
+    <Compile Include="Attributes\FMExposedSetting.cs" />
+    <Compile Include="Attributes\FMPersistedField.cs" />
+    <Compile Include="BusinessInterfaces\IAdminDashboard.cs" />
+    <Compile Include="BusinessInterfaces\IEmailTemplatesClass.cs" />
+    <Compile Include="BusinessInterfaces\IFCEEServiceManager.cs" />
+    <Compile Include="BusinessInterfaces\IGaugeType.cs" />
+    <Compile Include="BusinessInterfaces\IFCEDevices.cs" />
+    <Compile Include="BusinessInterfaces\IAandEArchive.cs" />
+    <Compile Include="BusinessInterfaces\IAccessibilities.cs" />
+    <Compile Include="BusinessInterfaces\IActiveDirectoryMappings.cs" />
+    <Compile Include="BusinessInterfaces\IActiveDirectoryService.cs" />
+    <Compile Include="BusinessInterfaces\IAlarms.cs" />
+    <Compile Include="BusinessInterfaces\IAlarmStatus.cs" />
+    <Compile Include="BusinessInterfaces\IAlarmTemplates.cs" />
+    <Compile Include="BusinessInterfaces\IAlarmTests.cs" />
+    <Compile Include="BusinessInterfaces\IAlarmTestTemplates.cs" />
+    <Compile Include="BusinessInterfaces\IAnimations.cs" />
+    <Compile Include="BusinessInterfaces\IAssetTrackingDetails.cs" />
+    <Compile Include="BusinessInterfaces\IAssetTrackingDevices.cs" />
+    <Compile Include="BusinessInterfaces\IAssetTrackingIconConfigurations.cs" />
+    <Compile Include="BusinessInterfaces\IAssetTrackingMapConfigurations.cs" />
+    <Compile Include="BusinessInterfaces\IAuditLogs.cs" />
+    <Compile Include="BusinessInterfaces\ICassandraAdministration.cs" />
+    <Compile Include="BusinessInterfaces\IDatabaseMaintenance.cs" />
+    <Compile Include="BusinessInterfaces\IDrawings.cs" />
+    <Compile Include="BusinessInterfaces\IEmailClient.cs" />
+    <Compile Include="BusinessInterfaces\IErrorTransactionSubmission.cs" />
+    <Compile Include="BusinessInterfaces\IExStarsBusiness.cs" />
+    <Compile Include="BusinessInterfaces\IExStarsSiteConfig.cs" />
+    <Compile Include="BusinessInterfaces\IFMFatalErrorHandler.cs" />
+    <Compile Include="BusinessInterfaces\IFuelCardLimits.cs" />
+    <Compile Include="BusinessInterfaces\IFuelsManagerService.cs" />
+    <Compile Include="BusinessInterfaces\IIntoPlaneImport.cs" />
+    <Compile Include="BusinessInterfaces\IModulePointTemplateMaps.cs" />
+    <Compile Include="BusinessInterfaces\IModules.cs" />
+    <Compile Include="BusinessInterfaces\IMovementHistories.cs" />
+    <Compile Include="BusinessInterfaces\IMovementService.cs" />
+    <Compile Include="BusinessInterfaces\IMovementSummaries.cs" />
+    <Compile Include="BusinessInterfaces\ILeakTests.cs" />
+    <Compile Include="BusinessInterfaces\IOpcUAServer.cs" />
+    <Compile Include="BusinessInterfaces\IPictures.cs" />
+    <Compile Include="BusinessInterfaces\IPointAccessGroups.cs" />
+    <Compile Include="BusinessInterfaces\IPointAccessGroupsToPointTemplateMaps.cs" />
+    <Compile Include="BusinessInterfaces\IPointAccessGroupToPointAlarmTestMaps.cs" />
+    <Compile Include="BusinessInterfaces\IPointAccessGroupToAlarmTestMaps.cs" />
+    <Compile Include="BusinessInterfaces\IPointAccessGroupToExposedSettingMap.cs" />
+    <Compile Include="BusinessInterfaces\IPointAccessGroupToPointMaps.cs" />
+    <Compile Include="BusinessInterfaces\IPointAccessGroupToPointTagMaps.cs" />
+    <Compile Include="BusinessInterfaces\IPointAccessGroupToTagMaps.cs" />
+    <Compile Include="BusinessInterfaces\IPointAccessGroupToUserGroupMaps.cs" />
+    <Compile Include="BusinessInterfaces\IPointGroupColumns.cs" />
+    <Compile Include="BusinessInterfaces\IPointGroupRows.cs" />
+    <Compile Include="BusinessInterfaces\IPointHistories.cs" />
+    <Compile Include="BusinessInterfaces\IPointGroups.cs" />
+    <Compile Include="BusinessInterfaces\IPointGroupSchedules.cs" />
+    <Compile Include="BusinessInterfaces\IPointProperties.cs" />
+    <Compile Include="BusinessInterfaces\IPoints.cs" />
+    <Compile Include="BusinessInterfaces\IPointServiceManager.cs" />
+    <Compile Include="BusinessInterfaces\IPointServices.cs" />
+    <Compile Include="BusinessInterfaces\IPointsToPointServices.cs" />
+    <Compile Include="BusinessInterfaces\IPointTagAlarmStatuses.cs" />
+    <Compile Include="BusinessInterfaces\IPointTagArchive.cs" />
+    <Compile Include="BusinessInterfaces\IPointTags.cs" />
+    <Compile Include="BusinessInterfaces\IPointTemplateProperties.cs" />
+    <Compile Include="BusinessInterfaces\IPointTemplates.cs" />
+    <Compile Include="BusinessInterfaces\IPointTemplateTagAlarmStatuses.cs" />
+    <Compile Include="BusinessInterfaces\IPointTemplateTags.cs" />
+    <Compile Include="BusinessInterfaces\IPostToEnterpriseProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IQueryWriterTopics.cs" />
+    <Compile Include="BusinessInterfaces\IOperateScreenConfigurations.cs" />
+    <Compile Include="BusinessInterfaces\IReportingRequest.cs" />
+    <Compile Include="BusinessInterfaces\IMigrationDataExportImport.cs" />
+    <Compile Include="BusinessInterfaces\IMigrationDataExportImportLog.cs" />
+    <Compile Include="BusinessInterfaces\IExportRequests.cs" />
+    <Compile Include="BusinessInterfaces\ISchemaChangeDetails.cs" />
+    <Compile Include="BusinessInterfaces\ISchemaChangeHistories.cs" />
+    <Compile Include="BusinessInterfaces\IServiceDataDictionaryKeys.cs" />
+    <Compile Include="BusinessInterfaces\ISiteCloseoutTimes.cs" />
+    <Compile Include="BusinessInterfaces\ISQLServerDataAccess.cs" />
+    <Compile Include="BusinessInterfaces\ITankStatusColors.cs" />
+    <Compile Include="BusinessInterfaces\ITransactionAliasFieldPlacementInformation.cs" />
+    <Compile Include="BusinessInterfaces\ITransactionSummary.cs" />
+    <Compile Include="BusinessInterfaces\ITrends.cs" />
+    <Compile Include="BusinessInterfaces\IUserViewStateSettings.cs" />
+    <Compile Include="BusinessInterfaces\IVersions.cs" />
+    <Compile Include="BusinessInterfaces\ISyncSessionScopeLogs.cs" />
+    <Compile Include="BusinessInterfaces\ISyncRecordConflicts.cs" />
+    <Compile Include="BusinessInterfaces\ISyncSessionLogs.cs" />
+    <Compile Include="BusinessInterfaces\ICompanyCrossReference.cs" />
+    <Compile Include="BusinessInterfaces\ISaveTransmitTranListProcessor.cs" />
+    <Compile Include="BusinessInterfaces\ISyncServerConfigurations.cs" />
+    <Compile Include="BusinessInterfaces\ISyncClientConfigurations.cs" />
+    <Compile Include="BusinessInterfaces\ICopyTransactionsProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IFMAETranslations.cs" />
+    <Compile Include="BusinessInterfaces\IFuelRequestProcessor.cs" />
+    <Compile Include="BusinessInterfaces\ISyncDependencyGroups.cs" />
+    <Compile Include="BusinessInterfaces\ISyncTableToScopeMapCommands.cs" />
+    <Compile Include="BusinessInterfaces\ISyncScopes.cs" />
+    <Compile Include="BusinessInterfaces\ISyncTableToScopeMappings.cs" />
+    <Compile Include="BusinessInterfaces\ISyncTableToScopeMapColumns.cs" />
+    <Compile Include="BusinessInterfaces\ISyncTables.cs" />
+    <Compile Include="BusinessInterfaces\ISyncProfiles.cs" />
+    <Compile Include="BusinessInterfaces\IControllerLogToTransactionMap.cs" />
+    <Compile Include="BusinessInterfaces\IMobileRequestsProcessor.cs" />
+    <Compile Include="BusinessInterfaces\ISyncControllerProcessor.cs" />
+    <Compile Include="BusinessInterfaces\ISyncServerProviderFM.cs" />
+    <Compile Include="BusinessInterfaces\IAccountingSites.cs" />
+    <Compile Include="BusinessInterfaces\IFieldLevelConfigMaps.cs" />
+    <Compile Include="BusinessInterfaces\IMobileDevices.cs" />
+    <Compile Include="BusinessInterfaces\IAdditiveProfiles.cs" />
+    <Compile Include="BusinessInterfaces\IAdjustmentDistributionProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IADOFMSReverseLookupProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IAlarmAndEventLogs.cs" />
+    <Compile Include="BusinessInterfaces\IAlarmAndEvents.cs" />
+    <Compile Include="BusinessInterfaces\IAlarmPriorities.cs" />
+    <Compile Include="BusinessInterfaces\IAlarmPriorityEmailGroupMaps.cs" />
+    <Compile Include="BusinessInterfaces\IAliasAssignmentProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IAllocationLineItems.cs" />
+    <Compile Include="BusinessInterfaces\IAllocations.cs" />
+    <Compile Include="BusinessInterfaces\IAllOwnerCloseoutsProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IApplicationStringMaps.cs" />
+    <Compile Include="BusinessInterfaces\IApplicationStrings.cs" />
+    <Compile Include="BusinessInterfaces\IAppointments.cs" />
+    <Compile Include="BusinessInterfaces\IArchiveDataProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IAssociatedPayments.cs" />
+    <Compile Include="BusinessInterfaces\IAssociatedTxProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IAssociationQuantityProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IAutoDistributionProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IAutoDistributionReasonCodes.cs" />
+    <Compile Include="BusinessInterfaces\IAutoDistributionRules.cs" />
+    <Compile Include="BusinessInterfaces\IBSMEVerifications.cs" />
+    <Compile Include="BusinessInterfaces\IBulkPaymentInvoiceMappings.cs" />
+    <Compile Include="BusinessInterfaces\IBulkPayments.cs" />
+    <Compile Include="BusinessInterfaces\IChangeQueueRecordsClass.cs" />
+    <Compile Include="BusinessInterfaces\ICloseoutListProcessor.cs" />
+    <Compile Include="BusinessInterfaces\ICloseoutProcessor.cs" />
+    <Compile Include="BusinessInterfaces\ICloseoutSiteProcessor.cs" />
+    <Compile Include="BusinessInterfaces\ICompanies.cs" />
+    <Compile Include="BusinessInterfaces\ICompanyGroups.cs" />
+    <Compile Include="BusinessInterfaces\ICompanyLists.cs" />
+    <Compile Include="BusinessInterfaces\ICompanyMaps.cs" />
+    <Compile Include="BusinessInterfaces\ICompanyRoleMaps.cs" />
+    <Compile Include="BusinessInterfaces\IControllerLogs.cs" />
+    <Compile Include="BusinessInterfaces\ICurrencies.cs" />
+    <Compile Include="BusinessInterfaces\ICustomToolbarCommands.cs" />
+    <Compile Include="BusinessInterfaces\ICustomToolbars.cs" />
+    <Compile Include="BusinessInterfaces\IDatabaseBackupProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IDataDictionariesClass.cs" />
+    <Compile Include="BusinessInterfaces\IDBAccess.cs" />
+    <Compile Include="BusinessInterfaces\IDemandAssociatedTxProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IDispatchConfigurations.cs" />
+    <Compile Include="BusinessInterfaces\IDispatchGridColumns.cs" />
+    <Compile Include="BusinessInterfaces\IDispatchGrids.cs" />
+    <Compile Include="BusinessInterfaces\IDispatchRequests.cs" />
+    <Compile Include="BusinessInterfaces\IDispatchTransactionsProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IDrawdownProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IEmailGroups.cs" />
+    <Compile Include="BusinessInterfaces\IEnterpriseExportImport.cs" />
+    <Compile Include="BusinessInterfaces\IEnterpriseImportExportSettings.cs" />
+    <Compile Include="BusinessInterfaces\IEnterpriseSynchronization.cs" />
+    <Compile Include="BusinessInterfaces\IEntityExcelExport.cs" />
+    <Compile Include="BusinessInterfaces\IEntityExcelImport.cs" />
+    <Compile Include="BusinessInterfaces\IEntityToSiteMaps.cs" />
+    <Compile Include="BusinessInterfaces\IEquipmentMaintenanceLogs.cs" />
+    <Compile Include="BusinessInterfaces\IEquipmentQualityTagLogs.cs" />
+    <Compile Include="BusinessInterfaces\IEquipments.cs" />
+    <Compile Include="BusinessInterfaces\IEquipmentTypes.cs" />
+    <Compile Include="BusinessInterfaces\IExcises.cs" />
+    <Compile Include="BusinessInterfaces\IExistTransactionAssetProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IExportResultDetails.cs" />
+    <Compile Include="BusinessInterfaces\IExportResults.cs" />
+    <Compile Include="BusinessInterfaces\IFilterViews.cs" />
+    <Compile Include="BusinessInterfaces\IFinanceProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IFMEventLog.cs" />
+    <Compile Include="BusinessInterfaces\IFootNotes.cs" />
+    <Compile Include="BusinessInterfaces\IFuelCards.cs" />
+    <Compile Include="BusinessInterfaces\IFuelOrderAssociatedTxProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IGates.cs" />
+    <Compile Include="BusinessInterfaces\IGeneralConfigProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IGetAssociatedParentTxProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IGetFuelOrderReceiptedLineItemsProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IGetTransactionProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IGetTransactionTypeProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IGoodsAndServices.cs" />
+    <Compile Include="BusinessInterfaces\IGroupLedgerViewMaps.cs" />
+    <Compile Include="BusinessInterfaces\IGroupRightMaps.cs" />
+    <Compile Include="BusinessInterfaces\IGroupsClass.cs" />
+    <Compile Include="BusinessInterfaces\IGroupTransactionAliasMaps.cs" />
+    <Compile Include="BusinessInterfaces\IHardwareKeyClass.cs" />
+    <Compile Include="BusinessInterfaces\IHelpMappings.cs" />
+    <Compile Include="BusinessInterfaces\IHouseCards.cs" />
+    <Compile Include="BusinessInterfaces\IIATACodes.cs" />
+    <Compile Include="BusinessInterfaces\IImportExportConfigProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IImportExportPluginProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IImportExportProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IImportProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IIncomingTruckGetTxProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IInventoryDateProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IInventoryReconciliationProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IInvoiceQueries.cs" />
+    <Compile Include="BusinessInterfaces\IInvoiceSummaryProcessor.cs" />
+    <Compile Include="BusinessInterfaces\ILedgerAggregateColumnMaps.cs" />
+    <Compile Include="BusinessInterfaces\ILedgerAggregateColumns.cs" />
+    <Compile Include="BusinessInterfaces\ILedgerPageProcessor.cs" />
+    <Compile Include="BusinessInterfaces\ILedgerProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IListViewFields.cs" />
+    <Compile Include="BusinessInterfaces\IListViewProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IListViews.cs" />
+    <Compile Include="BusinessInterfaces\ILoadArms.cs" />
+    <Compile Include="BusinessInterfaces\ILoggerService.cs" />
+    <Compile Include="BusinessInterfaces\IMaintenanceReasons.cs" />
+    <Compile Include="BusinessInterfaces\IMarkups.cs" />
+    <Compile Include="BusinessInterfaces\IMenuFavorites.cs" />
+    <Compile Include="BusinessInterfaces\IMessages.cs" />
+    <Compile Include="BusinessInterfaces\IMeterReconciliationProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IMeters.cs" />
+    <Compile Include="BusinessInterfaces\IMobileDeviceProfileAnalogInputs.cs" />
+    <Compile Include="BusinessInterfaces\IMobileDeviceProfilePrinters.cs" />
+    <Compile Include="BusinessInterfaces\IMobileDeviceProfiles.cs" />
+    <Compile Include="BusinessInterfaces\IMobileDeviceProfileToMobileDeviceMaps.cs" />
+    <Compile Include="BusinessInterfaces\IMonthYearProcessor.cs" />
+    <Compile Include="BusinessInterfaces\INotes.cs" />
+    <Compile Include="BusinessInterfaces\IConfigurationSettings.cs" />
+    <Compile Include="BusinessInterfaces\IOPCConnections.cs" />
+    <Compile Include="BusinessInterfaces\IOrderAssociatedTxProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IOrderListProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IOrderQtyListProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IPersonnel.cs" />
+    <Compile Include="BusinessInterfaces\IPersonRoleMaps.cs" />
+    <Compile Include="BusinessInterfaces\IPhysicalInventoryListProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IPIDXBOLProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IPIDXProfileCompanyMaps.cs" />
+    <Compile Include="BusinessInterfaces\IPIDXProfiles.cs" />
+    <Compile Include="BusinessInterfaces\IPriceCalculatorInvoker.cs" />
+    <Compile Include="BusinessInterfaces\IProcessVariables.cs" />
+    <Compile Include="BusinessInterfaces\IProductGroups.cs" />
+    <Compile Include="BusinessInterfaces\IProductMaps.cs" />
+    <Compile Include="BusinessInterfaces\IProducts.cs" />
+    <Compile Include="BusinessInterfaces\IQualificationMaps.cs" />
+    <Compile Include="BusinessInterfaces\IQualifications.cs" />
+    <Compile Include="BusinessInterfaces\IQualityTags.cs" />
+    <Compile Include="BusinessInterfaces\IQueries.cs" />
+    <Compile Include="BusinessInterfaces\IQueryDefaultFields.cs" />
+    <Compile Include="BusinessInterfaces\IQueryDefaults.cs" />
+    <Compile Include="BusinessInterfaces\IQueryGroupMaps.cs" />
+    <Compile Include="BusinessInterfaces\IReportConfigurationDetailProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IReportConfigurationGroupProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IReportUrlDirProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IReserveLevels.cs" />
+    <Compile Include="BusinessInterfaces\IRights.cs" />
+    <Compile Include="BusinessInterfaces\ISaveInvoiceQueryProcessor.cs" />
+    <Compile Include="BusinessInterfaces\ISaveTransactionsProcessor.cs" />
+    <Compile Include="BusinessInterfaces\ISaveWeightedAverageCostProcessor.cs" />
+    <Compile Include="BusinessInterfaces\ISchedules.cs" />
+    <Compile Include="BusinessInterfaces\ISequences.cs" />
+    <Compile Include="BusinessInterfaces\ISessions.cs" />
+    <Compile Include="BusinessInterfaces\ISharedWCFClients.cs" />
+    <Compile Include="BusinessInterfaces\ISitesInfo.cs" />
+    <Compile Include="BusinessInterfaces\ISites.cs" />
+    <Compile Include="BusinessInterfaces\ISiteToSiteMaps.cs" />
+    <Compile Include="BusinessInterfaces\IStandardXMLImportExportConfiguration.cs" />
+    <Compile Include="BusinessInterfaces\IStandingOffers.cs" />
+    <Compile Include="BusinessInterfaces\IStandingOffersProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IStations.cs" />
+    <Compile Include="BusinessInterfaces\ISupplyOrderAssociatedTxProcessor.cs" />
+    <Compile Include="BusinessInterfaces\ISupplyOrderListProcessor.cs" />
+    <Compile Include="BusinessInterfaces\ISyncClientProviderFM.cs" />
+    <Compile Include="BusinessInterfaces\ISystemSettings.cs" />
+    <Compile Include="BusinessInterfaces\ITankGroups.cs" />
+    <Compile Include="BusinessInterfaces\ITankListProcessor.cs" />
+    <Compile Include="BusinessInterfaces\ITankMaintenanceLogs.cs" />
+    <Compile Include="BusinessInterfaces\ITankMaps.cs" />
+    <Compile Include="BusinessInterfaces\ITankQualityTagLogs.cs" />
+    <Compile Include="BusinessInterfaces\ITanks.cs" />
+    <Compile Include="BusinessInterfaces\ITempPasswordGenerator.cs" />
+    <Compile Include="BusinessInterfaces\ITests.cs" />
+    <Compile Include="BusinessInterfaces\ITestEquipmentResults.cs" />
+    <Compile Include="BusinessInterfaces\ITestSetEquipmentResults.cs" />
+    <Compile Include="BusinessInterfaces\ITestSets.cs" />
+    <Compile Include="BusinessInterfaces\ITestSetTankResults.cs" />
+    <Compile Include="BusinessInterfaces\ITestTankResults.cs" />
+    <Compile Include="BusinessInterfaces\ITestToTestSetMaps.cs" />
+    <Compile Include="BusinessInterfaces\ITFMServices.cs" />
+    <Compile Include="BusinessInterfaces\ITransactionAliases.cs" />
+    <Compile Include="BusinessInterfaces\ITransactionAliasFields.cs" />
+    <Compile Include="BusinessInterfaces\ITransactionAliasListProcessor.cs" />
+    <Compile Include="BusinessInterfaces\ITransactionConfigDetailProcessor.cs" />
+    <Compile Include="BusinessInterfaces\ITransactionConfigProcessor.cs" />
+    <Compile Include="BusinessInterfaces\ITransactionFilterProcessor.cs" />
+    <Compile Include="BusinessInterfaces\ITransactionImportProcessor.cs" />
+    <Compile Include="BusinessInterfaces\ITransactionLinkProcessor.cs" />
+    <Compile Include="BusinessInterfaces\ITransactionListProcessor.cs" />
+    <Compile Include="BusinessInterfaces\ITransactionNoteProcessor.cs" />
+    <Compile Include="BusinessInterfaces\ITransactionPIDXProcessor.cs" />
+    <Compile Include="BusinessInterfaces\ITransactionProcessor.cs" />
+    <Compile Include="BusinessInterfaces\ITransactionValidator.cs" />
+    <Compile Include="BusinessInterfaces\ITxAggregationProcessor.cs" />
+    <Compile Include="BusinessInterfaces\IUserDataFields.cs" />
+    <Compile Include="BusinessInterfaces\IUserDataListValues.cs" />
+    <Compile Include="BusinessInterfaces\IUserGroupMaps.cs" />
+    <Compile Include="BusinessInterfaces\IUsersClass.cs" />
+    <Compile Include="BusinessInterfaces\IVruTrackings.cs" />
+    <Compile Include="BusinessInterfaces\IWcfService.cs" />
+    <Compile Include="BusinessInterfaces\IWebLinks.cs" />
+    <Compile Include="BusinessInterfaces\IWeightAverageCosts.cs" />
+    <Compile Include="BusinessInterfaces\IMessageLogs.cs" />
+    <Compile Include="BusinessInterfaces\IWWIntegrationClass.cs" />
+    <Compile Include="BusinessInterfaces\ReferencePreservingDataContractFormat.cs" />
+    <Compile Include="ChannelFactories\FMChannelFactory.cs" />
+    <Compile Include="ChannelFactories\FMChannelFactoryCache.cs" />
+    <Compile Include="ChannelFactories\FMChannelFactoryConfigInfo.cs" />
+    <Compile Include="ChannelFactories\FMChannelHelper.cs" />
+    <Compile Include="ChannelFactories\FMSyncChannelHelper.cs" />
+    <Compile Include="ChannelFactories\FMSyncServiceChannelHelper.cs" />
+    <Compile Include="ChannelFactories\HttpUserAgentBehaviorExtensionElement.cs" />
+    <Compile Include="Constants\AutoLoadMismatchBehavior.cs" />
+    <Compile Include="Constants\SynchronizationConstants.cs" />
+    <Compile Include="Constants\ConsortiumTypes.cs" />
+    <Compile Include="Constants\EdgeMessasgeType.cs" />
+    <Compile Include="Constants\FileSendMethodEnum.cs" />
+    <Compile Include="Constants\GeneralConstants.cs" />
+    <Compile Include="Constants\ErrorConstants.cs" />
+    <Compile Include="Constants\ErrorStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ErrorStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Constants\FMEventLogEntryTypes.cs" />
+    <Compile Include="Constants\Guids.cs" />
+    <Compile Include="Constants\DataImportExportOption.cs" />
+    <Compile Include="Constants\IntoPlaneImportFieldNames.cs" />
+    <Compile Include="Constants\PageSessionKeyConstants.cs" />
+    <Compile Include="Constants\PIDXConstants.cs" />
+    <Compile Include="Constants\PointPropertyConstants.cs" />
+    <Compile Include="Constants\ReportTypes.cs" />
+    <Compile Include="Constants\ServiceStatus.cs" />
+    <Compile Include="Constants\SystemDataPointVirtualPoint.cs" />
+    <Compile Include="DataObjects\AandEDataElement.cs" />
+    <Compile Include="DataObjects\AccessibilityClass.cs" />
+    <Compile Include="DataObjects\ActiveDirectorySecurityGroup.cs" />
+    <Compile Include="DataObjects\ActiveDirectorySiteGroup.cs" />
+    <Compile Include="DataObjects\ActiveDirectoryUserDTO.cs" />
+    <Compile Include="DataObjects\ActiveDirectoryUserGroup.cs" />
+    <Compile Include="DataObjects\Alarm.cs" />
+    <Compile Include="DataObjects\AlarmAndEventSynchronizationElement.cs" />
+    <Compile Include="DataObjects\AlarmDataElement.cs" />
+    <Compile Include="DataObjects\AlarmHistoryTabColumnFilterInfo.cs" />
+    <Compile Include="DataObjects\AlarmHistoryUserViewStateSettings.cs" />
+    <Compile Include="DataObjects\AlarmStatusClass.cs" />
+    <Compile Include="DataObjects\AlarmTemplate.cs" />
+    <Compile Include="DataObjects\AlarmTest.cs" />
+    <Compile Include="DataObjects\AlarmTestTemplate.cs" />
+    <Compile Include="DataObjects\AnimationClass.cs" />
+    <Compile Include="DataObjects\AnimationToDrawingMapClass.cs" />
+    <Compile Include="DataObjects\ArchiveDataElement.cs" />
+    <Compile Include="DataObjects\AssetTrackingDetailClass.cs" />
+    <Compile Include="DataObjects\AssetTrackingDeviceClass.cs" />
+    <Compile Include="DataObjects\AssetTrackingIconConfigurationClass.cs" />
+    <Compile Include="DataObjects\AssetTrackingMapConfigurationClass.cs" />
+    <Compile Include="DataObjects\AssetTrackingPayloadClass.cs" />
+    <Compile Include="DataObjects\AssetTrackingTankClass.cs" />
+    <Compile Include="DataObjects\AsyncMethodCallClass.cs" />
+    <Compile Include="DataObjects\AuditLogClass.cs" />
+    <Compile Include="DataObjects\BaseDTO.cs" />
+    <Compile Include="DataObjects\BasePoint.cs" />
+    <Compile Include="DataObjects\BaseSerializedDataObject.cs" />
+    <Compile Include="DataObjects\BatchModeKey.cs" />
+    <Compile Include="DataObjects\CodedVariables\MovementType.cs" />
+    <Compile Include="DataObjects\CodedVariables\NodeTransferStatus.cs" />
+    <Compile Include="DataObjects\CodedVariables\StrapTableSelect.cs" />
+    <Compile Include="DataObjects\CodedVariables\Reset.cs" />
+    <Compile Include="DataObjects\EmailTemplate.cs" />
+    <Compile Include="DataObjects\EmailTemplateToAlarmAndEventMapClass.cs" />
+    <Compile Include="DataObjects\ERVAlarmAndEventClass.cs" />
+    <Compile Include="DataObjects\ERVProcessSettingsClass.cs" />
+    <Compile Include="DataObjects\FCEEMapper.cs" />
+    <Compile Include="DataObjects\FCEEMappingWithDevice.cs" />
+    <Compile Include="DataObjects\FCEETupleMapping.cs" />
+    <Compile Include="DataObjects\FCEHeartbeatWithDevice.cs" />
+    <Compile Include="DataObjects\LeakAnalysisResult.cs" />
+    <Compile Include="DataObjects\CodedVariables\EnrafModel854GaugeCommands.cs" />
+    <Compile Include="DataObjects\CodedVariables\MassOrWeightCalculationType.cs" />
+    <Compile Include="DataObjects\CodedVariables\MovementCommand.cs" />
+    <Compile Include="DataObjects\CodedVariables\MovementStatus.cs" />
+    <Compile Include="DataObjects\CodedVariables\RoofTypeEnum.cs" />
+    <Compile Include="DataObjects\CodedVariables\SelectList.cs" />
+    <Compile Include="DataObjects\CodedVariables\TankCommands.cs" />
+    <Compile Include="DataObjects\CodedVariables\TankGeometryEnum.cs" />
+    <Compile Include="DataObjects\CodedVariables\TankMaterialEnum.cs" />
+    <Compile Include="DataObjects\CodedVariables\TankOperationalMode.cs" />
+    <Compile Include="DataObjects\CodedVariables\TankStatuses.cs" />
+    <Compile Include="DataObjects\CodedVariables\TransferModes.cs" />
+    <Compile Include="DataObjects\CodedVariables\TransferStatuses.cs" />
+    <Compile Include="DataObjects\CodedVariables\TransferDirection.cs" />
+    <Compile Include="DataObjects\CodedVariables\TrendModeEnum.cs" />
+    <Compile Include="DataObjects\CodedVariables\TrendPeriodType.cs" />
+    <Compile Include="DataObjects\CodedVariables\VcfCorrectionTypes.cs" />
+    <Compile Include="DataObjects\CodedVariables\VolumeCalculationType.cs" />
+    <Compile Include="DataObjects\CodedVariables\VolumeTransferModes.cs" />
+    <Compile Include="DataObjects\ComplexObj.cs" />
+    <Compile Include="DataObjects\DeviceAlarmMap.cs" />
+    <Compile Include="DataObjects\DeviceAlarmMapReference.cs" />
+    <Compile Include="DataObjects\Drawing.cs" />
+    <Compile Include="DataObjects\DrawingName.cs" />
+    <Compile Include="DataObjects\DrawUserViewStateSettings.cs" />
+    <Compile Include="DataObjects\EnterpriseVisibilityData.cs" />
+    <Compile Include="DataObjects\ErrorTransactionSubmissionClass.cs" />
+    <Compile Include="DataObjects\CompanyMapSupplierOwnerClass.cs" />
+    <Compile Include="DataObjects\CompanyMapOffloadIdSupplierClass.cs" />
+    <Compile Include="DataObjects\CompanyMapOffloadOwnerManagerClass.cs" />
+    <Compile Include="DataObjects\CompanyMapPersonAssignedCompanyClass.cs" />
+    <Compile Include="DataObjects\CompanyMapBillToShipperClass.cs" />
+    <Compile Include="DataObjects\CompanyMapShipToBillToClass.cs" />
+    <Compile Include="DataObjects\CompanyMapAuthorizedCarrierClass.cs" />
+    <Compile Include="DataObjects\CompanyMapUserGroupCompanyClass.cs" />
+    <Compile Include="DataObjects\CompanyMapLoadIdShipToClass.cs" />
+    <Compile Include="DataObjects\CompanyMapCompanyGroupCompanyClass.cs" />
+    <Compile Include="DataObjects\CompanyMapFootNoteShipToClass.cs" />
+    <Compile Include="DataObjects\CompanyMapFootNoteShipperClass.cs" />
+    <Compile Include="DataObjects\CompanyMapShipperOwnerClass.cs" />
+    <Compile Include="DataObjects\CompanyMapLoadOwnerManagerClass.cs" />
+    <Compile Include="DataObjects\DataTablesColumn.cs" />
+    <Compile Include="DataObjects\DataTablesSearch.cs" />
+    <Compile Include="DataObjects\ExStarsBaseTransactionClass.cs" />
+    <Compile Include="DataObjects\ExStarsBrokerTransferClass.cs" />
+    <Compile Include="DataObjects\ExStarsComment.cs" />
+    <Compile Include="DataObjects\ExStarsDataDictionary.cs" />
+    <Compile Include="DataObjects\ExStarsDateTimeSegment.cs" />
+    <Compile Include="DataObjects\ExStarsElement.cs" />
+    <Compile Include="DataObjects\ExStarsEnums.cs" />
+    <Compile Include="DataObjects\ExStarsFilingClass.cs" />
+    <Compile Include="DataObjects\ExStarsIrsErrorCodeClass.cs" />
+    <Compile Include="DataObjects\ExStarsProductInventoryClass.cs" />
+    <Compile Include="DataObjects\ExStarsReportedErrorClass.cs" />
+    <Compile Include="DataObjects\ExStarsReportHistoryRow.cs" />
+    <Compile Include="DataObjects\ExStarsTaxInfoBrokerTransferSumCollection.cs" />
+    <Compile Include="DataObjects\ExStarsTaxInfoTransactionSumCollection.cs" />
+    <Compile Include="DataObjects\ExStarsTerminalOperatorReportConfigClass.cs" />
+    <Compile Include="DataObjects\ExStarsTransactionClass.cs" />
+    <Compile Include="DataObjects\ExStarsReportFunctionalGroup.cs" />
+    <Compile Include="DataObjects\ExStarsSegment.cs" />
+    <Compile Include="DataObjects\ExStarsSiteConfigClass.cs" />
+    <Compile Include="DataObjects\ExStarsSegmentsOld.cs" />
+    <Compile Include="DataObjects\ExStarsAmountSegment.cs" />
+    <Compile Include="DataObjects\ExStarsTransportMode.cs" />
+    <Compile Include="DataObjects\Extensions.cs" />
+    <Compile Include="DataObjects\FCEDevice.cs" />
+    <Compile Include="DataObjects\FCEEEvents.cs" />
+    <Compile Include="DataObjects\FCEEMapping.cs" />
+    <Compile Include="DataObjects\FCEEMessage.cs" />
+    <Compile Include="DataObjects\FMFatalErrorHandlerClass.cs" />
+    <Compile Include="DataObjects\ForeignKeyDO.cs" />
+    <Compile Include="DataObjects\FuelCardLimit.cs" />
+    <Compile Include="DataObjects\FuelCardLimitLineItem.cs" />
+    <Compile Include="DataObjects\IntoPlaneImportFields.cs" />
+    <Compile Include="DataObjects\IntoPlaneImportParametersDO.cs" />
+    <Compile Include="DataObjects\IntoPlaneImportTempGravVCFParams.cs" />
+    <Compile Include="DataObjects\LeakDetectionSettings.cs" />
+    <Compile Include="DataObjects\LeakReportClass.cs" />
+    <Compile Include="DataObjects\GaugeTypeClass.cs" />
+    <Compile Include="DataObjects\LicenseExpirationAlarmAndEventDescriptors.cs" />
+    <Compile Include="DataObjects\Message\CommandStatusMsg.cs" />
+    <Compile Include="DataObjects\Message\DeviceStatusMsg.cs" />
+    <Compile Include="DataObjects\Message\EdgeData.cs" />
+    <Compile Include="DataObjects\Message\Enraf854TankGaugeDensityMsg.cs" />
+    <Compile Include="DataObjects\Message\Enraf854TankGaugeMsg.cs" />
+    <Compile Include="DataObjects\Message\GenericScalingPointMsg.cs" />
+    <Compile Include="DataObjects\Message\HearbeatMsg.cs" />
+    <Compile Include="DataObjects\Message\ITTBarton3500ATGMsg.cs" />
+    <Compile Include="DataObjects\Message\ModbusDensityAndAlarmMsg.cs" />
+    <Compile Include="DataObjects\Message\ModbusFacilityStatusMsg.cs" />
+    <Compile Include="DataObjects\Message\ModbusIntegerRegisterBlockMsg.cs" />
+    <Compile Include="DataObjects\Message\ModbusInventoryMsg.cs" />
+    <Compile Include="DataObjects\Message\ModbusStorageMsg.cs" />
+    <Compile Include="DataObjects\Message\SoftwareVersionMsg.cs" />
+    <Compile Include="DataObjects\Message\VeederRootInTankStatusReportMsg.cs" />
+    <Compile Include="DataObjects\Message\VeederRootInventoryReportMsg.cs" />
+    <Compile Include="DataObjects\Message\VeederRootLeakTestMsg.cs" />
+    <Compile Include="DataObjects\Message\VeederRootLiquidSensorStatusReportMsg.cs" />
+    <Compile Include="DataObjects\Message\VeederRootSystemAlarmsMsg.cs" />
+    <Compile Include="DataObjects\Message\VeederRootSystemStatusMsg.cs" />
+    <Compile Include="DataObjects\Message\VeederRootTLS350Msg.cs" />
+    <Compile Include="DataObjects\Message\WAGOPLCMsg.cs" />
+    <Compile Include="DataObjects\Module.cs" />
+    <Compile Include="DataObjects\ModuleData.cs" />
+    <Compile Include="DataObjects\ModuleInputOutput.cs" />
+    <Compile Include="DataObjects\ModuleToPointTemplateData.cs" />
+    <Compile Include="DataObjects\ModuleToPointTemplateMap.cs" />
+    <Compile Include="DataObjects\MovementData.cs" />
+    <Compile Include="DataObjects\MovementHistoryDO.cs" />
+    <Compile Include="DataObjects\MovementHistoryTabColumnFilterInfo.cs" />
+    <Compile Include="DataObjects\MovementHistoryUserViewStateSettings.cs" />
+    <Compile Include="DataObjects\MovementModuleSettings.cs" />
+    <Compile Include="DataObjects\NodeModuleType.cs" />
+    <Compile Include="DataObjects\OperateScreenConfiguration.cs" />
+    <Compile Include="DataObjects\OperateStatistics.cs" />
+    <Compile Include="DataObjects\PointAccessGroupToPointAlarmTestMap.cs" />
+    <Compile Include="DataObjects\PointAccessGroupToPointTagMap.cs" />
+    <Compile Include="DataObjects\PointCalculatorData.cs" />
+    <Compile Include="DataObjects\PointCalculatorResult.cs" />
+    <Compile Include="DataObjects\PointHistory.cs" />
+    <Compile Include="DataObjects\PointCalulatorTagValue.cs" />
+    <Compile Include="DataObjects\SimpleArchiveDataElement.cs" />
+    <Compile Include="DataObjects\SiteCloseoutTimeClass.cs" />
+    <Compile Include="DataObjects\VolumeTransferModuleSettings.cs" />
+    <Compile Include="DataObjects\MovementNodeData.cs" />
+    <Compile Include="DataObjects\MovementSummary.cs" />
+    <Compile Include="DataObjects\ObjCollection.cs" />
+    <Compile Include="DataObjects\OpcUAServerClass.cs" />
+    <Compile Include="DataObjects\ParameterCollection.cs" />
+    <Compile Include="DataObjects\ParamNameValue.cs" />
+    <Compile Include="DataObjects\Picture.cs" />
+    <Compile Include="DataObjects\Point.cs" />
+    <Compile Include="DataObjects\PointAccessGroup.cs" />
+    <Compile Include="DataObjects\PointAccessGroupToAlarmTestMap.cs" />
+    <Compile Include="DataObjects\PointAccessGroupToExposedSettingMap.cs" />
+    <Compile Include="DataObjects\PointAccessGroupToPointMap.cs" />
+    <Compile Include="DataObjects\PointAccessGroupToPointTemplateMap.cs" />
+    <Compile Include="DataObjects\PointAccessGroupToTagMap.cs" />
+    <Compile Include="DataObjects\PointAccessGroupToUserGroupMap.cs" />
+    <Compile Include="DataObjects\PointCommandStatus.cs" />
+    <Compile Include="DataObjects\PointCommandStatusList.cs" />
+    <Compile Include="DataObjects\PointCommandStatusListReference.cs" />
+    <Compile Include="DataObjects\PointGroup.cs" />
+    <Compile Include="DataObjects\PointGroupColumn.cs" />
+    <Compile Include="DataObjects\PointGroupFilterRules.cs" />
+    <Compile Include="DataObjects\PointGroupRow.cs" />
+    <Compile Include="DataObjects\PointGroupSchedule.cs" />
+    <Compile Include="DataObjects\PointManagerAlarmsAndEvents.cs" />
+    <Compile Include="DataObjects\PointProperty.cs" />
+    <Compile Include="DataObjects\PointPropertyField.cs" />
+    <Compile Include="DataObjects\PointPropertyUnitTypedDouble.cs" />
+    <Compile Include="DataObjects\PointService.cs" />
+    <Compile Include="DataObjects\PointTag.cs" />
+    <Compile Include="DataObjects\PointTagAlarmStatus.cs" />
+    <Compile Include="DataObjects\PointTemplate.cs" />
+    <Compile Include="DataObjects\PointTemplatePointServiceData.cs" />
+    <Compile Include="DataObjects\PointTemplateProperty.cs" />
+    <Compile Include="DataObjects\PointTemplateTag.cs" />
+    <Compile Include="DataObjects\PointTemplateTagAlarmStatus.cs" />
+    <Compile Include="DataObjects\PointValue.cs" />
+    <Compile Include="DataObjects\PointValueAccess.cs" />
+    <Compile Include="DataObjects\PointValueIdentifier.cs" />
+    <Compile Include="DataObjects\PointValueType.cs" />
+    <Compile Include="DataObjects\PostToEnterpriseDO.cs" />
+    <Compile Include="DataObjects\QuantityModuleSettings.cs" />
+    <Compile Include="DataObjects\RateModuleSettings.cs" />
+    <Compile Include="DataObjects\SchedulePointsResponse.cs" />
+    <Compile Include="DataObjects\SiteSelectList.cs" />
+    <Compile Include="DataObjects\Statistic.cs" />
+    <Compile Include="DataObjects\StrapTable.cs" />
+    <Compile Include="DataObjects\SynchronizationElement.cs" />
+    <Compile Include="DataObjects\SyncRecordConflictCountDO.cs" />
+    <Compile Include="DataObjects\SyncConflictResolutionStatus.cs" />
+    <Compile Include="DataObjects\SyncSelectedSiteDO.cs" />
+    <Compile Include="DataObjects\MigrationDataExportImportEvents.cs" />
+    <Compile Include="DataObjects\ExportRequestClass.cs" />
+    <Compile Include="DataObjects\MigrationDataExportImportLogDO.cs" />
+    <Compile Include="DataObjects\MigrationDataExportImportSettingDO.cs" />
+    <Compile Include="DataObjects\SchemaChangeDetailDO.cs" />
+    <Compile Include="DataObjects\SchemaChangeHistoryDO.cs" />
+    <Compile Include="DataObjects\TagViewerUserViewStateSettings.cs" />
+    <Compile Include="DataObjects\TankCommandModuleSettings.cs" />
+    <Compile Include="DataObjects\TankStatusColorsClass.cs" />
+    <Compile Include="DataObjects\TankTransferModuleSettings.cs" />
+    <Compile Include="DataObjects\TransactionAliasFieldExtendedAttributes.cs" />
+    <Compile Include="DataObjects\TransactionAliasFieldPlacementInformationClass.cs" />
+    <Compile Include="DataObjects\TransactionPreviousVersionInformation.cs" />
+    <Compile Include="DataObjects\TransactionSummaryClass.cs" />
+    <Compile Include="DataObjects\Trend.cs" />
+    <Compile Include="DataObjects\TrendArchiveDataElement.cs" />
+    <Compile Include="DataObjects\TrendName.cs" />
+    <Compile Include="DataObjects\TrendPen.cs" />
+    <Compile Include="DataObjects\UserAccessibilityDO.cs" />
+    <Compile Include="DataObjects\UserViewStateSetting.cs" />
+    <Compile Include="DataObjects\VcfModuleSettings.cs" />
+    <Compile Include="DataObjects\VersionDO.cs" />
+    <Compile Include="DataObjects\SyncRecordConflictToSyncSessionDetailMap.cs" />
+    <Compile Include="DataObjects\SyncRecordConflictDO.cs" />
+    <Compile Include="DataObjects\SyncSessionScopeLogDO.cs" />
+    <Compile Include="DataObjects\SyncSessionLogDO.cs" />
+    <Compile Include="DataObjects\SyncTypes.cs" />
+    <Compile Include="DataObjects\AccountingDataDictionary.cs" />
+    <Compile Include="DataObjects\AccountingSite.cs" />
+    <Compile Include="DataObjects\CompanyCrossReferenceDO.cs" />
+    <Compile Include="DataObjects\ControllerLogToTransactionMapClass.cs" />
+    <Compile Include="DataObjects\SaveTransmitTranListResultDO.cs" />
+    <Compile Include="DataObjects\SyncServiceStateDO.cs" />
+    <Compile Include="DataObjects\SyncServerConfigurationDO.cs" />
+    <Compile Include="DataObjects\SyncClientConfigurationDO.cs" />
+    <Compile Include="DataObjects\FMAETranslation.cs" />
+    <Compile Include="DataObjects\MobileTransactionDO.cs" />
+    <Compile Include="DataObjects\SyncTableToScopeMapCommandDO.cs" />
+    <Compile Include="DataObjects\SyncTableToScopeMapColumnDO.cs" />
+    <Compile Include="DataObjects\SyncDependencyGroupDO.cs" />
+    <Compile Include="DataObjects\SyncTableToScopeMapDO.cs" />
+    <Compile Include="DataObjects\SyncScopeDO.cs" />
+    <Compile Include="DataObjects\SyncProfileDO.cs" />
+    <Compile Include="DataObjects\FieldLevelConfigClass.cs" />
+    <Compile Include="DataObjects\FlightSelectionDO.cs" />
+    <Compile Include="DataObjects\MobileDeviceClass.cs" />
+    <Compile Include="DataObjects\AdditiveProfileClass.cs" />
+    <Compile Include="DataObjects\AdjustmentDistributionConfigurationDO.cs" />
+    <Compile Include="DataObjects\AdjustmentDistributionDO.cs" />
+    <Compile Include="DataObjects\AdjustmentOwnerRecordDO.cs" />
+    <Compile Include="DataObjects\AirplaneTankClass.cs" />
+    <Compile Include="DataObjects\AlarmAndEventClass.cs" />
+    <Compile Include="DataObjects\AlarmAndEventDescriptorClass.cs" />
+    <Compile Include="DataObjects\AlarmAndEventLogClass.cs" />
+    <Compile Include="DataObjects\AlarmPriorityClass.cs" />
+    <Compile Include="DataObjects\AlarmPriorityEmailGroupMap.cs" />
+    <Compile Include="DataObjects\AliasAssignmentDO.cs" />
+    <Compile Include="DataObjects\AllocationClass.cs" />
+    <Compile Include="DataObjects\AllocationLineItem.cs" />
+    <Compile Include="DataObjects\AllOwnerCloseoutsDO.cs" />
+    <Compile Include="DataObjects\ApplicationStringClass.cs" />
+    <Compile Include="DataObjects\ApplicationStringMapClass.cs" />
+    <Compile Include="DataObjects\AppointmentClass.cs" />
+    <Compile Include="DataObjects\AssociatedParentTxDO.cs" />
+    <Compile Include="DataObjects\AssociatedPayment.cs" />
+    <Compile Include="DataObjects\AssociatedTxContext.cs" />
+    <Compile Include="DataObjects\AssociatedTxDO.cs" />
+    <Compile Include="DataObjects\AssociatedTxListDO.cs" />
+    <Compile Include="DataObjects\AssociationQuantityDO.cs" />
+    <Compile Include="DataObjects\AutoDistributionOperationHelper.cs" />
+    <Compile Include="DataObjects\AutoDistributionProcessorDAC.cs" />
+    <Compile Include="DataObjects\AutoDistributionReasonCodeClass.cs" />
+    <Compile Include="DataObjects\AutoDistributionRuleDAC.cs" />
+    <Compile Include="DataObjects\AutoDistributionRuleDO.cs" />
+    <Compile Include="DataObjects\AutoDistributionRuleListViewDO.cs" />
+    <Compile Include="DataObjects\AutoDistributionRuleMapDO.cs" />
+    <Compile Include="DataObjects\AutoDistributionRuleMapDACs.cs" />
+    <Compile Include="DataObjects\AutoPhysicalInventoryDO.cs" />
+    <Compile Include="DataObjects\BaseAssociatedTxDO.cs" />
+    <Compile Include="DataObjects\BaseCollections.cs" />
+    <Compile Include="DataObjects\BaseDataObject.cs" />
+    <Compile Include="DataObjects\BaseLineItemDO.cs" />
+    <Compile Include="DataObjects\BaseMapDAC.cs" />
+    <Compile Include="DataObjects\BaseObject.cs" />
+    <Compile Include="DataObjects\BaseTransactionDO.cs" />
+    <Compile Include="DataObjects\BaseTransactionLineItemDO.cs" />
+    <Compile Include="DataObjects\BulkPaymentClass.cs" />
+    <Compile Include="DataObjects\BulkPaymentInvoiceMapping.cs" />
+    <Compile Include="DataObjects\ChangeQueueRecordClass.cs" />
+    <Compile Include="DataObjects\AliasAssignmentListDO.cs" />
+    <Compile Include="DataObjects\ConfigurationSettingDO.cs" />
+    <Compile Include="BusinessInterfaces\ISiteSyncList.cs" />
+    <Compile Include="DataObjects\SiteSyncList.cs" />
+    <Compile Include="DataObjects\SyncTableDO.cs" />
+    <Compile Include="DataObjects\SyncAnchorFM.cs" />
+    <Compile Include="DataObjects\CustomToolbarClass.cs" />
+    <Compile Include="DataObjects\CustomToolbarCommandClass.cs" />
+    <Compile Include="DataObjects\DataTransmission.cs" />
+    <Compile Include="DataObjects\DispatchConfigurationClass.cs" />
+    <Compile Include="DataObjects\DispatchGridClass.cs" />
+    <Compile Include="DataObjects\DispatchGridColumnClass.cs" />
+    <Compile Include="DataObjects\DispatchEquipmentDisplayDO.cs" />
+    <Compile Include="DataObjects\DispatchEquipmentDO.cs" />
+    <Compile Include="DataObjects\DispatchPersonnelDisplayDO.cs" />
+    <Compile Include="DataObjects\DispatchPersonnelDO.cs" />
+    <Compile Include="DataObjects\DispatchTransaction.cs" />
+    <Compile Include="DataObjects\DispatchTransactionDO.cs" />
+    <Compile Include="DataObjects\EmailGroup.cs" />
+    <Compile Include="DataObjects\EnterpriseExportImportDO.cs" />
+    <Compile Include="DataObjects\EnterpriseSynchronizationEvents.cs" />
+    <Compile Include="DataObjects\EntityExportDO.cs" />
+    <Compile Include="DataObjects\EntityImportDO.cs" />
+    <Compile Include="DataObjects\ExportResult.cs" />
+    <Compile Include="DataObjects\ExportResultDetail.cs" />
+    <Compile Include="DataObjects\FilterViewClass.cs" />
+    <Compile Include="DataObjects\FMMenuItemType.cs" />
+    <Compile Include="DataObjects\HelpMappingClass.cs" />
+    <Compile Include="DataObjects\HouseCardClass.cs" />
+    <Compile Include="DataObjects\ImportFilter.cs" />
+    <Compile Include="BusinessInterfaces\ISynchronizationContext.cs" />
+    <Compile Include="DataObjects\MapDBInfoClass.cs" />
+    <Compile Include="DataObjects\BaseMapDO.cs" />
+    <Compile Include="DataObjects\MenuFavoriteClass.cs" />
+    <Compile Include="DataObjects\MessageClass.cs" />
+    <Compile Include="DataObjects\MessageLogClass.cs" />
+    <Compile Include="DataObjects\MeterAssetClass.cs" />
+    <Compile Include="DataObjects\MeterClass.cs" />
+    <Compile Include="DataObjects\MeterReconciliationDetailData.cs" />
+    <Compile Include="DataObjects\MobileDeviceProfile.cs" />
+    <Compile Include="DataObjects\MobileDeviceProfileAnalogInput.cs" />
+    <Compile Include="DataObjects\MobileDeviceProfilePrinter.cs" />
+    <Compile Include="DataObjects\MobileDeviceProfileToMobileDeviceMapClass.cs" />
+    <Compile Include="DataObjects\QueryDefault.cs" />
+    <Compile Include="DataObjects\ReserveLevel.cs" />
+    <Compile Include="DataObjects\SequenceClass.cs" />
+    <Compile Include="DataObjects\SiteInfoDO.cs" />
+    <Compile Include="DataObjects\SyncCompletedEventArgsFM.cs" />
+    <Compile Include="DataObjects\SyncConflictFM.cs" />
+    <Compile Include="DataObjects\SyncContextFM.cs" />
+    <Compile Include="DataObjects\SyncGroupMetadataFM.cs" />
+    <Compile Include="DataObjects\SyncGroupProgressFM.cs" />
+    <Compile Include="DataObjects\SyncProgressEventArgsFM.cs" />
+    <Compile Include="DataObjects\SyncStatsFM.cs" />
+    <Compile Include="DataObjects\SyncTableMetadataFM.cs" />
+    <Compile Include="DataObjects\SyncTableProgressFM.cs" />
+    <Compile Include="DataObjects\TankMaintenanceLogClass.cs" />
+    <Compile Include="DataObjects\TankQualityTagLogClass.cs" />
+    <Compile Include="DataObjects\TempPasswordDO.cs" />
+    <Compile Include="DataObjects\TestClass.cs" />
+    <Compile Include="DataObjects\FootNoteClass.cs" />
+    <Compile Include="DataObjects\CloseoutSiteDO.cs" />
+    <Compile Include="DataObjects\CompartmentDO.cs" />
+    <Compile Include="DataObjects\CustomResultDO.cs" />
+    <Compile Include="DataObjects\DataTransmissionRecord.cs" />
+    <Compile Include="DataObjects\DemandAssociatedTxDO.cs" />
+    <Compile Include="DataObjects\DemandAssociatedTxListDO.cs" />
+    <Compile Include="DataObjects\DocumentTop.cs" />
+    <Compile Include="DataObjects\DrawdownDO.cs" />
+    <Compile Include="DataObjects\DropdownItem.cs" />
+    <Compile Include="DataObjects\EntityDataImportResponseDO.cs" />
+    <Compile Include="DataObjects\EquipmentMeterMap.cs" />
+    <Compile Include="DataObjects\EquipmentTransactionLineItemDO.cs" />
+    <Compile Include="DataObjects\ErrorObject.cs" />
+    <Compile Include="DataObjects\FinanceDO.cs" />
+    <Compile Include="DataObjects\FuelOrderAssociatedTxDO.cs" />
+    <Compile Include="DataObjects\FuelOrderAssociatedTxListDO.cs" />
+    <Compile Include="DataObjects\Gate.cs" />
+    <Compile Include="DataObjects\GetFuelOrderReceiptedLineItemsDO.cs" />
+    <Compile Include="DataObjects\GetTransactionTypeDO.cs" />
+    <Compile Include="DataObjects\GroupLedgerViewMap.cs" />
+    <Compile Include="DataObjects\IATACode.cs" />
+    <Compile Include="DataObjects\ImportExportConfigurationDO.cs" />
+    <Compile Include="DataObjects\ImportExportFiltersDO.cs" />
+    <Compile Include="DataObjects\ImportExportListDO.cs" />
+    <Compile Include="DataObjects\ImportExportPluginDO.cs" />
+    <Compile Include="DataObjects\ImportListDO.cs" />
+    <Compile Include="DataObjects\ImportResultsDO.cs" />
+    <Compile Include="DataObjects\ImportTypeDO.cs" />
+    <Compile Include="DataObjects\IncomingTruckGetTxDO.cs" />
+    <Compile Include="DataObjects\IntegerDO.cs" />
+    <Compile Include="DataObjects\InventoryLineItemDO.cs" />
+    <Compile Include="DataObjects\InventoryReconciliationDO.cs" />
+    <Compile Include="DataObjects\InventoryReconciliationLineItemDO.cs" />
+    <Compile Include="DataObjects\InvoiceAssociatedTxDO.cs" />
+    <Compile Include="DataObjects\InvoiceListDO.cs" />
+    <Compile Include="DataObjects\InvoiceListLineItemDO.cs" />
+    <Compile Include="DataObjects\InvoiceQuery.cs" />
+    <Compile Include="DataObjects\InvoiceQueryDO.cs" />
+    <Compile Include="DataObjects\InvoiceSummaryContext.cs" />
+    <Compile Include="DataObjects\LedgerAggregateColumn.cs" />
+    <Compile Include="DataObjects\LedgerAggregateColumnMap.cs" />
+    <Compile Include="DataObjects\LedgerDO.cs" />
+    <Compile Include="DataObjects\LedgerLineItemCollection.cs" />
+    <Compile Include="DataObjects\LedgerLineItemDO.cs" />
+    <Compile Include="DataObjects\LedgerPageDO.cs" />
+    <Compile Include="DataObjects\ListView.cs" />
+    <Compile Include="DataObjects\ListViewColumnDO.cs" />
+    <Compile Include="DataObjects\ListViewDO.cs" />
+    <Compile Include="DataObjects\ListViewField.cs" />
+    <Compile Include="DataObjects\MeterReconciliationSummaryData.cs" />
+    <Compile Include="DataObjects\MonthYearDO.cs" />
+    <Compile Include="DataObjects\OrderAssociatedTxContext.cs" />
+    <Compile Include="DataObjects\OrderAssociatedTxDO.cs" />
+    <Compile Include="DataObjects\OrderAssociatedTxLineItemDO.cs" />
+    <Compile Include="DataObjects\OrderListDO.cs" />
+    <Compile Include="DataObjects\OrderListLineItemDO.cs" />
+    <Compile Include="DataObjects\OrderSummaryContext.cs" />
+    <Compile Include="DataObjects\PhysicalInventoryDO.cs" />
+    <Compile Include="DataObjects\PhysicalInventoryLineItemDO.cs" />
+    <Compile Include="DataObjects\PhysicalInventoryListDO.cs" />
+    <Compile Include="DataObjects\PIDXProfile.cs" />
+    <Compile Include="DataObjects\PIDXProfileCompanyMap.cs" />
+    <Compile Include="DataObjects\PrimaryAdjustmentDO.cs" />
+    <Compile Include="DataObjects\PrimaryAdjustmentLineItemDO.cs" />
+    <Compile Include="DataObjects\PrimaryDefuelDO.cs" />
+    <Compile Include="DataObjects\PrimaryDefuelLineItemDO.cs" />
+    <Compile Include="DataObjects\PrimaryDisbursementDO.cs" />
+    <Compile Include="DataObjects\PrimaryDisbursementLineItemDO.cs" />
+    <Compile Include="DataObjects\ReportConfigurationDetailDO.cs" />
+    <Compile Include="DataObjects\ReportConfigurationDetailListDO.cs" />
+    <Compile Include="DataObjects\ReportConfigurationGroupDO.cs" />
+    <Compile Include="DataObjects\ReportConfigurationGroupListDO.cs" />
+    <Compile Include="DataObjects\ReportDetailUserGroupMapDO.cs" />
+    <Compile Include="DataObjects\ReportUrlDirDO.cs" />
+    <Compile Include="DataObjects\SecondaryAdjustmentDO.cs" />
+    <Compile Include="DataObjects\SecondaryAdjustmentLineItemDO.cs" />
+    <Compile Include="DataObjects\SecondaryDefuelDO.cs" />
+    <Compile Include="DataObjects\SecondaryDefuelLineItemDO.cs" />
+    <Compile Include="DataObjects\StandingOffer.cs" />
+    <Compile Include="DataObjects\StringDO.cs" />
+    <Compile Include="DataObjects\SupplyOrderAssociatedTxContext.cs" />
+    <Compile Include="DataObjects\SupplyOrderAssociatedTxDO.cs" />
+    <Compile Include="DataObjects\SupplyOrderAssociatedTxLineItemDO.cs" />
+    <Compile Include="DataObjects\SupplyOrderListDO.cs" />
+    <Compile Include="DataObjects\SupplyOrderListLineItemDO.cs" />
+    <Compile Include="DataObjects\SupplyOrderSummaryContext.cs" />
+    <Compile Include="DataObjects\SystemSetting.cs" />
+    <Compile Include="DataObjects\TankListDO.cs" />
+    <Compile Include="DataObjects\TestEquipmentResultClass.cs" />
+    <Compile Include="DataObjects\TestSetClass.cs" />
+    <Compile Include="DataObjects\TestSetEquipmentResultClass.cs" />
+    <Compile Include="DataObjects\TestSetTankResultClass.cs" />
+    <Compile Include="DataObjects\TestTankResultClass.cs" />
+    <Compile Include="DataObjects\TestToTestSetMapClass.cs" />
+    <Compile Include="DataObjects\TrainingQueryClass.cs" />
+    <Compile Include="DataObjects\TransactionAliasesDO.cs" />
+    <Compile Include="DataObjects\TransactionDetailList.cs" />
+    <Compile Include="DataObjects\CloseoutDO.cs" />
+    <Compile Include="DataObjects\CloseoutListDO.cs" />
+    <Compile Include="DataObjects\CompanyClass.cs" />
+    <Compile Include="DataObjects\CompanyGroupClass.cs" />
+    <Compile Include="DataObjects\CompanyMapClass.cs" />
+    <Compile Include="DataObjects\CompanyRoleMapClass.cs" />
+    <Compile Include="DataObjects\ConsumerTransferDO.cs" />
+    <Compile Include="DataObjects\ControllerLogClass.cs" />
+    <Compile Include="DataObjects\CorrectionFactorClass.cs" />
+    <Compile Include="DataObjects\CurrencyDO.cs" />
+    <Compile Include="DataObjects\CurrencyLineItemDO.cs" />
+    <Compile Include="DataObjects\CurrencyUnitDO.cs" />
+    <Compile Include="DataObjects\CustomAttributes.cs" />
+    <Compile Include="DataObjects\DataDictionary.cs" />
+    <Compile Include="DataObjects\DataObject.cs" />
+    <Compile Include="DataObjects\Date.cs" />
+    <Compile Include="DataObjects\DateAndTime.cs" />
+    <Compile Include="DataObjects\DropdownValuePairDO.cs" />
+    <Compile Include="DataObjects\EquipmentMaintenanceLogClass.cs" />
+    <Compile Include="DataObjects\EquipmentQualityTagLogClass.cs" />
+    <Compile Include="DataObjects\ExciseTaxDO.cs" />
+    <Compile Include="DataObjects\GeneralConfigAlias.cs" />
+    <Compile Include="DataObjects\GeneralConfigDO.cs" />
+    <Compile Include="DataObjects\GetTransactionDO.cs" />
+    <Compile Include="DataObjects\GoodsAndServicesTaxDO.cs" />
+    <Compile Include="DataObjects\GroupRightMapClass.cs" />
+    <Compile Include="DataObjects\InventoryDateDO.cs" />
+    <Compile Include="DataObjects\LoadArmClass.cs" />
+    <Compile Include="DataObjects\MaintenanceReasonClass.cs" />
+    <Compile Include="DataObjects\MarkupDO.cs" />
+    <Compile Include="DataObjects\OPCConnectionClass.cs" />
+    <Compile Include="DataObjects\OwnerCloseoutDO.cs" />
+    <Compile Include="DataObjects\PersonInfoClass.cs" />
+    <Compile Include="DataObjects\ProductGroupClass.cs" />
+    <Compile Include="DataObjects\QualificationClass.cs" />
+    <Compile Include="DataObjects\QueryDefaultFieldClass.cs" />
+    <Compile Include="DataObjects\QueryGroupMapClass.cs" />
+    <Compile Include="DataObjects\ServiceTypes.cs" />
+    <Compile Include="DataObjects\SiteToSiteMapClass.cs" />
+    <Compile Include="DataObjects\StationClass.cs" />
+    <Compile Include="DataObjects\TankClass.cs" />
+    <Compile Include="DataObjects\TankGroupClass.cs" />
+    <Compile Include="DataObjects\TankMapClass.cs" />
+    <Compile Include="DataObjects\TaxCompanyMapDO.cs" />
+    <Compile Include="DataObjects\TFMSDO.cs" />
+    <Compile Include="DataObjects\Time.cs" />
+    <Compile Include="DataObjects\TransactionErrorDO.cs" />
+    <Compile Include="DataObjects\TransactionFlagsAndStatusDO.cs" />
+    <Compile Include="DataObjects\TransactionLineItemSelectionDO.cs" />
+    <Compile Include="DataObjects\TransactionLinkResultDO.cs" />
+    <Compile Include="DataObjects\TransactionListDO.cs" />
+    <Compile Include="DataObjects\TransactionListLineItemDO.cs" />
+    <Compile Include="DataObjects\TransactionOrigin.cs" />
+    <Compile Include="DataObjects\TransactionReferenceDataDO.cs" />
+    <Compile Include="DataObjects\TransactionSelectionDO.cs" />
+    <Compile Include="DataObjects\TransactionTypesDO.cs" />
+    <Compile Include="DataObjects\TxAggregationDO.cs" />
+    <Compile Include="DataObjects\UserDataDefinitionDO.cs" />
+    <Compile Include="DataObjects\Vessel.cs" />
+    <Compile Include="DataObjects\VruTracking.cs" />
+    <Compile Include="DataObjects\WebLink.cs" />
+    <Compile Include="DataObjects\WWIntegrationDO.cs" />
+    <Compile Include="Exceptions\ConfigurationErrorException.cs" />
+    <Compile Include="Exceptions\ConsolidatedDAException.cs" />
+    <Compile Include="Exceptions\ExStarsBusinessException.cs" />
+    <Compile Include="Exceptions\ExStarsDataValidationException.cs" />
+    <Compile Include="Exceptions\ExStarsElementsException.cs" />
+    <Compile Include="Exceptions\ExStarsFilingExeption.cs" />
+    <Compile Include="Exceptions\ExStarsInterchangeControltException.cs" />
+    <Compile Include="Exceptions\ExStarsOverwriteException.cs" />
+    <Compile Include="Exceptions\ExStarsProductInventoryException.cs" />
+    <Compile Include="Exceptions\ExStarsReceiptTransactionException.cs" />
+    <Compile Include="Exceptions\ExStarsSegmentException.cs" />
+    <Compile Include="Exceptions\ExStarsSiteConfigException.cs" />
+    <Compile Include="Exceptions\ExStarsSqlException.cs" />
+    <Compile Include="Exceptions\FMAlarmAndEventLogException.cs" />
+    <Compile Include="Exceptions\FMEmailFormatException.cs" />
+    <Compile Include="Exceptions\FMFatalErrorException.cs" />
+    <Compile Include="Exceptions\FMHardwareKeyFailureException.cs" />
+    <Compile Include="Exceptions\FMHardwareKeyWrongVersionException.cs" />
+    <Compile Include="Exceptions\FMInsufficientRightsException.cs" />
+    <Compile Include="Exceptions\FMLicenseException.cs" />
+    <Compile Include="Exceptions\FMNoQueryTypesAvailableException.cs" />
+    <Compile Include="Exceptions\FMPasswordException.cs" />
+    <Compile Include="Exceptions\FMSiteNotFoundException.cs" />
+    <Compile Include="Exceptions\IntoPlaneImportGeneralException.cs" />
+    <Compile Include="Exceptions\CompanyRoleMapCollectionException.cs" />
+    <Compile Include="Exceptions\ProductClassException.cs" />
+    <Compile Include="Exceptions\SyncCommunicationException.cs" />
+    <Compile Include="Generic\ServiceResponse.cs" />
+    <Compile Include="Interfaces\IAnimationDrawingMaps.cs" />
+    <Compile Include="Interfaces\IFuelsManagerModule.cs" />
+    <Compile Include="Interfaces\IMovementNotify.cs" />
+    <Compile Include="Interfaces\IReportingRequestProcessor.cs" />
+    <Compile Include="BusinessInterfaces\ITransactions.cs" />
+    <Compile Include="DataObjects\ProductIrdoClass.cs" />
+    <Compile Include="Parsers\IridiumPayloadParserBase.cs" />
+    <Compile Include="Parsers\IridiumPositionPayloadParser.cs" />
+    <Compile Include="PIDXTransactions\AuthorizationDenyCA.cs" />
+    <Compile Include="PIDXTransactions\AuthorizationDenyLA.cs" />
+    <Compile Include="PIDXTransactions\AuthorizationGrantedLA.cs" />
+    <Compile Include="PIDXTransactions\BOLBLProduct.cs" />
+    <Compile Include="PIDXTransactions\BOLBLRecord.cs" />
+    <Compile Include="PIDXTransactions\BOLBLRecordDTN.cs" />
+    <Compile Include="PIDXTransactions\LoadAuthorizationRecord.cs" />
+    <Compile Include="PIDXTransactions\LoadAuthorizationRecordDTN.cs" />
+    <Compile Include="PIDXTransactions\PIDXProductAuthorization.cs" />
+    <Compile Include="ServiceRequests\SecurityLoginResponse.cs" />
+    <Compile Include="UtilityObjects\ApplicationInformation.cs" />
+    <Compile Include="UtilityObjects\BsmeLedgerDateType.cs" />
+    <Compile Include="UtilityObjects\CachedPropertyInfo.cs" />
+    <Compile Include="UtilityObjects\CachingXmlSerializerFactory.cs" />
+    <Compile Include="UtilityObjects\CassandraAandETableMappings.cs" />
+    <Compile Include="UtilityObjects\CassandraArchiveTableMappings.cs" />
+    <Compile Include="UtilityObjects\ClientServiceCredentials.cs" />
+    <Compile Include="UtilityObjects\ClientIpAddressUtility.cs" />
+    <Compile Include="UtilityObjects\ConfigurationSettingsHelper.cs" />
+    <Compile Include="UtilityObjects\CreateCsvFile.cs" />
+    <Compile Include="UtilityObjects\CreateExcelFile.cs" />
+    <Compile Include="UtilityObjects\CreatePdfFile.cs" />
+    <Compile Include="UtilityObjects\CreateWordFile.cs" />
+    <Compile Include="UtilityObjects\CryptoHelper.cs" />
+    <Compile Include="DataObjects\SyncContextWrapper.cs" />
+    <Compile Include="UtilityObjects\DataDictionarySingleton.cs" />
+    <Compile Include="UtilityObjects\DataTableExportHelper.cs" />
+    <Compile Include="Parsers\IridiumMessageParser.cs" />
+    <Compile Include="Parsers\IridiumTduPayloadParser.cs" />
+    <Compile Include="Parsers\IridiumWrdcuPayloadParser.cs" />
+    <Compile Include="DataObjects\VersionInfo.cs" />
+    <Compile Include="DataObjects\WeightAverageCostClass.cs" />
+    <Compile Include="DataObjects\WeightAverageCostDO.cs" />
+    <Compile Include="Exceptions\AccountingDAException.cs" />
+    <Compile Include="Exceptions\AccountingServicesException.cs" />
+    <Compile Include="Exceptions\EntityImportExportException.cs" />
+    <Compile Include="Exceptions\FinanceObjectDoesNotExistException.cs" />
+    <Compile Include="Exceptions\FinanceObjectExistsException.cs" />
+    <Compile Include="Exceptions\FMDataExchangeBaseException.cs" />
+    <Compile Include="Exceptions\FMFileAlreadyImportedException.cs" />
+    <Compile Include="Exceptions\FMHardwareKeyInvalidException.cs" />
+    <Compile Include="Exceptions\FMInvalidEntityImportFileFormatException.cs" />
+    <Compile Include="Exceptions\FMRowCountThresholdException.cs" />
+    <Compile Include="Exceptions\FMSessionInvalidException.cs" />
+    <Compile Include="Exceptions\FMStandingOfferException.cs" />
+    <Compile Include="Exceptions\FMXmlException.cs" />
+    <Compile Include="Exceptions\IdentityGuidNotFoundException.cs" />
+    <Compile Include="Exceptions\IndexNotFoundException.cs" />
+    <Compile Include="Exceptions\NoDataToSendException.cs" />
+    <Compile Include="Exceptions\PIDXException.cs" />
+    <Compile Include="Exceptions\RetrieveException.cs" />
+    <Compile Include="Exceptions\SaveTransactionsException.cs" />
+    <Compile Include="Exceptions\SaveWeightedAverageCostsException.cs" />
+    <Compile Include="Exceptions\UsersException.cs" />
+    <Compile Include="FileHanders\AccountFileHandler.cs" />
+    <Compile Include="FileHanders\FileHanderBase.cs" />
+    <Compile Include="FileHanders\SecureFileHandler.cs" />
+    <Compile Include="FileHanders\TempFileHandler.cs" />
+    <Compile Include="FMBusinessObjects.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Interfaces\IEnterprise.cs" />
+    <Compile Include="Interfaces\IEntity.cs" />
+    <Compile Include="Interfaces\IEntityDiscovery.cs" />
+    <Compile Include="Interfaces\IFMCustomFieldStates.cs" />
+    <Compile Include="Interfaces\IFMDataExchange.cs" />
+    <Compile Include="Interfaces\IFromEquipment.cs" />
+    <Compile Include="Interfaces\ILoadRackManager.cs" />
+    <Compile Include="Interfaces\IPaymentInfo.cs" />
+    <Compile Include="Interfaces\IPriceCalculator.cs" />
+    <Compile Include="Interfaces\IQualityAssurance.cs" />
+    <Compile Include="Interfaces\ISecurity.cs" />
+    <Compile Include="LogClient\ILogger.cs" />
+    <Compile Include="LogClient\Logger.cs" />
+    <Compile Include="LogClient\StopWatch.cs" />
+    <Compile Include="PIDXTransactions\AuthorizationDenyBase.cs" />
+    <Compile Include="PIDXTransactions\AuthorizationGrantedBase.cs" />
+    <Compile Include="PIDXTransactions\AuthorizationGrantedCA.cs" />
+    <Compile Include="PIDXTransactions\AuthorizationGrantedCO.cs" />
+    <Compile Include="PIDXTransactions\BOLBase.cs" />
+    <Compile Include="PIDXTransactions\BOLBBProduct.cs" />
+    <Compile Include="PIDXTransactions\BOLBBRecord.cs" />
+    <Compile Include="PIDXTransactions\BOLCBProduct.cs" />
+    <Compile Include="PIDXTransactions\BOLCBRecord.cs" />
+    <Compile Include="PIDXTransactions\BOLCBRecordDTN.cs" />
+    <Compile Include="PIDXTransactions\BOLProductBase.cs" />
+    <Compile Include="PIDXTransactions\CheckOrderRecord.cs" />
+    <Compile Include="PIDXTransactions\CreditAuthorizationRecord.cs" />
+    <Compile Include="PIDXTransactions\CreditAuthorizationRecordDTN.cs" />
+    <Compile Include="PIDXTransactions\FinishedRecord.cs" />
+    <Compile Include="PIDXTransactions\PIDXAuthorizationBase.cs" />
+    <Compile Include="PIDXTransactions\PIDXRecordBase.cs" />
+    <Compile Include="PIDXTransactions\ReTransmitRecord.cs" />
+    <Compile Include="PIDXTransactions\TCPCommBase.cs" />
+    <Compile Include="PIDXTransactions\TCPCommDTN.cs" />
+    <Compile Include="PIDXTransactions\TCPCommTDS.cs" />
+    <Compile Include="PIDXTransactions\TCPConfig.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="RasApi.cs" />
+    <Compile Include="ServiceRequests\AdjustmentDistributionSR.cs" />
+    <Compile Include="ServiceRequests\ADOFMSReverseLookupSR.cs" />
+    <Compile Include="ServiceRequests\AliasAssignmentSR.cs" />
+    <Compile Include="ServiceRequests\AllOwnerCloseoutsSR.cs" />
+    <Compile Include="ServiceRequests\ArchiveDataSR.cs" />
+    <Compile Include="ServiceRequests\AssociatedTxSR.cs" />
+    <Compile Include="ServiceRequests\AssociationQuantitySR.cs" />
+    <Compile Include="ServiceRequests\AutoDistributionProcessorSR.cs" />
+    <Compile Include="ServiceRequests\CloseoutListSR.cs" />
+    <Compile Include="ServiceRequests\CloseoutSiteSR.cs" />
+    <Compile Include="ServiceRequests\CloseoutSR.cs" />
+    <Compile Include="ServiceRequests\CopyTransactionsSR.cs" />
+    <Compile Include="ServiceRequests\SecuritySyncLoginRequest.cs" />
+    <Compile Include="ServiceRequests\DemandAssociatedTxSR.cs" />
+    <Compile Include="ServiceRequests\DrawdownSR.cs" />
+    <Compile Include="ServiceRequests\EquipmentListSR.cs" />
+    <Compile Include="ServiceRequests\ExistTransactionAssetSR.cs" />
+    <Compile Include="ServiceRequests\FinanceSR.cs" />
+    <Compile Include="ServiceRequests\FuelOrderAssociatedTxSR.cs" />
+    <Compile Include="ServiceRequests\FuelRequestSR.cs" />
+    <Compile Include="ServiceRequests\GeneralConfigSR.cs" />
+    <Compile Include="ServiceRequests\GetAssociatedParentTxSR.cs" />
+    <Compile Include="ServiceRequests\GetFuelOrderReceiptedLineItemsSR.cs" />
+    <Compile Include="ServiceRequests\GetTransactionSR.cs" />
+    <Compile Include="ServiceRequests\GetTransactionTypeSR.cs" />
+    <Compile Include="ServiceRequests\ImportExportConfigSR.cs" />
+    <Compile Include="ServiceRequests\ImportExportPluginSR.cs" />
+    <Compile Include="ServiceRequests\ImportExportSR.cs" />
+    <Compile Include="ServiceRequests\ImportSR.cs" />
+    <Compile Include="ServiceRequests\IncomingTruckGetTxSR.cs" />
+    <Compile Include="ServiceRequests\InventoryDateSR.cs" />
+    <Compile Include="ServiceRequests\InventoryReconciliationSR.cs" />
+    <Compile Include="ServiceRequests\InvoiceListSR.cs" />
+    <Compile Include="ServiceRequests\LedgerPageSR.cs" />
+    <Compile Include="ServiceRequests\ListViewSR.cs" />
+    <Compile Include="ServiceRequests\MeterReconciliationSR.cs" />
+    <Compile Include="ServiceRequests\MonthYearSR.cs" />
+    <Compile Include="ServiceRequests\OrderAssociatedTxSR.cs" />
+    <Compile Include="ServiceRequests\OrderListSR.cs" />
+    <Compile Include="ServiceRequests\OrderQtyListSR.cs" />
+    <Compile Include="ServiceRequests\OwnedAliasListSR.cs" />
+    <Compile Include="ServiceRequests\PhysicalInventoryListSR.cs" />
+    <Compile Include="ServiceRequests\ReportConfigurationDetailSR.cs" />
+    <Compile Include="ServiceRequests\ReportConfigurationGroupSR.cs" />
+    <Compile Include="ServiceRequests\ReportUrlDirSR.cs" />
+    <Compile Include="ServiceRequests\SaveInvoiceQuerySR.cs" />
+    <Compile Include="ServiceRequests\SaveTransmitTranListSR.cs" />
+    <Compile Include="ServiceRequests\SaveWeightedAverageCostsSR.cs" />
+    <Compile Include="ServiceRequests\StandingOffersSR.cs" />
+    <Compile Include="ServiceRequests\SupplyOrderAssociatedTxSR.cs" />
+    <Compile Include="ServiceRequests\SupplyOrderListSR.cs" />
+    <Compile Include="ServiceRequests\SyncControllerSR.cs" />
+    <Compile Include="ServiceRequests\TankListSR.cs" />
+    <Compile Include="ServiceRequests\TransactionAliasListSR.cs" />
+    <Compile Include="ServiceRequests\TransactionBolPidxSR.cs" />
+    <Compile Include="ServiceRequests\TransactionConfigDetailSR.cs" />
+    <Compile Include="ServiceRequests\TransactionConfigSR.cs" />
+    <Compile Include="ServiceRequests\TransactionFilterSR.cs" />
+    <Compile Include="ServiceRequests\TransactionImportSR.cs" />
+    <Compile Include="ServiceRequests\TransactionLinkSR.cs" />
+    <Compile Include="ServiceRequests\TransactionListSR.cs" />
+    <Compile Include="ServiceRequests\TransactionNoteSR.cs" />
+    <Compile Include="ServiceRequests\TxAggregationSR.cs" />
+    <Compile Include="ServiceRequests\WriteTransactionSR.cs" />
+    <Compile Include="UtilityObjects\AccountingUnitConversion.cs" />
+    <Compile Include="UtilityObjects\AdjustmentDistributor.cs" />
+    <Compile Include="UtilityObjects\AppSettingsHelper.cs" />
+    <Compile Include="UtilityObjects\CompressionProcessor.cs" />
+    <Compile Include="UtilityObjects\CurrencyClass.cs" />
+    <Compile Include="UtilityObjects\DateEfficacy.cs" />
+    <Compile Include="DataObjects\DispatchTransactionsDO.cs" />
+    <Compile Include="DataObjects\EntityToSiteMapClass.cs" />
+    <Compile Include="DataObjects\EquipmentClass.cs" />
+    <Compile Include="DataObjects\EquipmentDO.cs" />
+    <Compile Include="DataObjects\EquipmentTypeClass.cs" />
+    <Compile Include="DataObjects\FieldClass.cs" />
+    <Compile Include="DataObjects\FMCollectionBaseBindingList.cs" />
+    <Compile Include="DataObjects\FMDecimal.cs" />
+    <Compile Include="DataObjects\FuelCardClass.cs" />
+    <Compile Include="DataObjects\GroupClass.cs" />
+    <Compile Include="DataObjects\GroupTransactionAliasMapClass.cs" />
+    <Compile Include="DataObjects\IDataDictionary.cs" />
+    <Compile Include="DataObjects\LineItemDO.cs" />
+    <Compile Include="DataObjects\MeterReadingDO.cs" />
+    <Compile Include="DataObjects\NoteClass.cs" />
+    <Compile Include="DataObjects\OrderQtyListDO.cs" />
+    <Compile Include="DataObjects\OwnerTransferDO.cs" />
+    <Compile Include="DataObjects\PaymentInfoDO.cs" />
+    <Compile Include="DataObjects\PersonClass.cs" />
+    <Compile Include="DataObjects\PersonRoleMapClass.cs" />
+    <Compile Include="DataObjects\ProcessVariableClass.cs" />
+    <Compile Include="DataObjects\ProductClass.cs" />
+    <Compile Include="DataObjects\ProductMapClass.cs" />
+    <Compile Include="DataObjects\QualityTagClass.cs" />
+    <Compile Include="DataObjects\QuantityDO.cs" />
+    <Compile Include="DataObjects\QueryClass.cs" />
+    <Compile Include="DataObjects\QueryCriteriaPhrase.cs" />
+    <Compile Include="DataObjects\QueryFilterGroupClass.cs" />
+    <Compile Include="DataObjects\RegradeDO.cs" />
+    <Compile Include="DataObjects\RegradeLineItemDO.cs" />
+    <Compile Include="DataObjects\RouteInfoDO.cs" />
+    <Compile Include="DataObjects\RouteScheduleDO.cs" />
+    <Compile Include="DataObjects\SaveTransactionsResultDO.cs" />
+    <Compile Include="DataObjects\SIDifferential.cs" />
+    <Compile Include="DataObjects\SIDouble.cs" />
+    <Compile Include="DataObjects\StorageTransferDO.cs" />
+    <Compile Include="DataObjects\StorageTransferLineItemDO.cs" />
+    <Compile Include="DataObjects\SubLineItemDO.cs" />
+    <Compile Include="DataObjects\TransactionAlarmEventDO.cs" />
+    <Compile Include="DataObjects\TransactionDO.cs" />
+    <Compile Include="DataObjects\TransactionPIDXCollectionDO.cs" />
+    <Compile Include="DataObjects\TransactionPIDXDO.cs" />
+    <Compile Include="DataObjects\TransactionQuality.cs" />
+    <Compile Include="DataObjects\TransactionValidationResult.cs" />
+    <Compile Include="DataObjects\TransmitTransListDO.cs" />
+    <Compile Include="DataObjects\TransportLineItemDO.cs" />
+    <Compile Include="DataObjects\UserDataClass.cs" />
+    <Compile Include="DataObjects\VObject.cs" />
+    <Compile Include="DataObjects\WeightReadingDO.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DataObjects\QualificationMapClass.cs" />
+    <Compile Include="DataObjects\RightClass.cs" />
+    <Compile Include="DataObjects\ScheduleClass.cs" />
+    <Compile Include="DataObjects\SecurityClass.cs" />
+    <Compile Include="DataObjects\SessionClass.cs" />
+    <Compile Include="DataObjects\SiteClass.cs" />
+    <Compile Include="DataObjects\TransactionAliasClass.cs" />
+    <Compile Include="DataObjects\TransactionAliasFieldClass.cs" />
+    <Compile Include="DataObjects\TransactionAliasNameClass.cs" />
+    <Compile Include="DataObjects\TransactionStatus.cs" />
+    <Compile Include="DataObjects\UserClass.cs" />
+    <Compile Include="DataObjects\UserDataFieldClass.cs" />
+    <Compile Include="DataObjects\UserDataListValueClass.cs" />
+    <Compile Include="DataObjects\UserGroupMapClass.cs" />
+    <Compile Include="ServiceRequests\AccountingServiceRequest.cs" />
+    <Compile Include="ServiceRequests\DispatchTransactionsSR.cs" />
+    <Compile Include="ServiceRequests\LedgerSR.cs" />
+    <Compile Include="ServiceRequests\SaveTransactionsSR.cs" />
+    <Compile Include="ServiceRequests\SecurityLoginRequest.cs" />
+    <Compile Include="ServiceRequests\TransactionPIDXSR.cs" />
+    <Compile Include="ServiceRequests\TransactionSR.cs" />
+    <Compile Include="UtilityObjects\DecompressionProcessor.cs" />
+    <Compile Include="UtilityObjects\Decryption.cs" />
+    <Compile Include="UtilityObjects\Encryption.cs" />
+    <Compile Include="UtilityObjects\EncryptionBase.cs" />
+    <Compile Include="UtilityObjects\EnterpriseExportImportUtility.cs" />
+    <Compile Include="UtilityObjects\EnumerateLimits.cs" />
+    <Compile Include="UtilityObjects\EthanolExpansionScenarioHelper.cs" />
+    <Compile Include="UtilityObjects\EventLogging.cs" />
+    <Compile Include="UtilityObjects\Extensions.cs" />
+    <Compile Include="UtilityObjects\FuelsManagerId.cs" />
+    <Compile Include="UtilityObjects\GeneralHelpers.cs" />
+    <Compile Include="UtilityObjects\ListViewDataSet.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UtilityObjects\ReportService.cs" />
+    <Compile Include="UtilityObjects\ReportServicePrintService.cs" />
+    <Compile Include="UtilityObjects\SiteTimeConverter.cs" />
+    <Compile Include="UtilityObjects\SortableBindingList.cs" />
+    <Compile Include="UtilityObjects\TypeHelper.cs" />
+    <Compile Include="UtilityObjects\UnitsHelperClass.cs" />
+    <Compile Include="UtilityObjects\WebColor.cs" />
+    <Compile Include="UtilityObjects\WebConfigSettingsHelper.cs" />
+    <Compile Include="UtilityObjects\XmlObjConverter.cs" />
+    <Compile Include="Web References\ReportExecutionSvr2005\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\ReportSvr2005\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FMCore\FMCore.csproj">
+      <Project>{dbef2ca1-1f4b-48cd-a4a5-5cb22006c6ce}</Project>
+      <Name>FMCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharedComponents\EncryptionLibrary\Crypt\Crypt.csproj">
+      <Project>{00E3FAB7-CF2C-4468-A9B9-4ED849043861}</Project>
+      <Name>Crypt</Name>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="FMStrongNameKey.snk" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\ReportExecutionSvr2005\DocumentMapNode.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportExecutionSvr2005\ExecutionInfo.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportExecutionSvr2005\ExecutionInfo2.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportExecutionSvr2005\Extension.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportExecutionSvr2005\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\ReportExecutionSvr2005\reportexecution2005.wsdl" />
+    <None Include="Web References\ReportExecutionSvr2005\Warning.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportSvr2005\ActiveState.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportSvr2005\CatalogItem.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportSvr2005\DataRetrievalPlan.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportSvr2005\DataSetDefinition.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportSvr2005\DataSource.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportSvr2005\DataSourceDefinition.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportSvr2005\DataSourcePrompt.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportSvr2005\Event.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportSvr2005\ExecutionSettingEnum.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportSvr2005\ExpirationDefinition.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportSvr2005\Extension.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportSvr2005\ExtensionParameter.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportSvr2005\ExtensionSettings.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportSvr2005\ItemTypeEnum.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportSvr2005\Job.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportSvr2005\ModelCatalogItem.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportSvr2005\ModelDrillthroughReport.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportSvr2005\ModelItem.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportSvr2005\ParameterValue.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportSvr2005\ParameterValueOrFieldReference.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportSvr2005\Policy.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportSvr2005\Property.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportSvr2005\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\ReportSvr2005\ReportHistorySnapshot.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportSvr2005\ReportParameter.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportSvr2005\reportservice2005.wsdl" />
+    <None Include="Web References\ReportSvr2005\Role.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportSvr2005\Schedule.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportSvr2005\ScheduleDefinitionOrReference.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportSvr2005\Subscription.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportSvr2005\Task.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\ReportSvr2005\Warning.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://localhost:8080/reportserver/reportexecution2005.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\ReportExecutionSvr2005\</RelPath>
+      <UpdateFromURL>http://localhost:8080/reportserver/reportexecution2005.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>FMBusinessObjects_ReportExecutionSvr2005_ReportExecutionService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://localhost:8080/reportserver/reportservice2005.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\ReportSvr2005\</RelPath>
+      <UpdateFromURL>http://localhost:8080/reportserver/reportservice2005.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>FMBusinessObjects_ReportSvr2005_ReportingService2005</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Constants\ErrorStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ErrorStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

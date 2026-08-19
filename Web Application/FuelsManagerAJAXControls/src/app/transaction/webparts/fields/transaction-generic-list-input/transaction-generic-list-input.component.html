@@ -1,0 +1,30 @@
+<style>
+  .ng-dropdown-panel {
+      min-width: 300px;
+  }
+</style>
+<div class="transactionFreeFormInputParent">
+  <div>
+    <label [for]="fieldName">{{label}}:</label>
+    <span [hidden]="!required" style="color:red">*</span>
+  </div>
+  <div class="transactionFreeFormInput">
+      <ng-select
+          style="width:100%;"
+          class="fmCustomListClass"
+          [labelForId]="fieldName"
+          [virtualScroll]="true"
+          [items]="listOfItems"
+          [(ngModel)]="pickedItem"
+          [appFocusDirective]="currentFocusLabel == fieldName"
+          [nonDefaultIDName]="fieldName"
+          (keyup)="savePartial(dropDown?.itemsList?.markedItem?.value, $event.key)"
+          (focus)="clear()"
+          (blur)="selectPartial()"
+          (close)="update()"
+          appTriggerChangeDetectionOnKeyUp
+          [disabled]="!canEdit"
+          #dropDown>
+      </ng-select>
+  </div>
+</div>

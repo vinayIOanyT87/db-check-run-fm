@@ -1,0 +1,240 @@
+﻿@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.FCEE.ViewModels.FCEEMessagesSummaryModel
+
+@{
+    ViewBag.Title = "FCEEMessagesSummaryView";
+    Layout = "~/Areas/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Areas/Content/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Content/bootstrap-modal.css" rel="stylesheet" type="text/css" />
+
+<script src="~/Areas/Lib/jquery.nicescroll.min.js"></script>
+<script src="~/Areas/Lib/bootstrap-modal.js"></script>
+<script src="~/Areas/Lib/bootstrap-modalmanager.js"></script>
+<script src="~/Areas/Scripts/FMErrorAndExceptionHandling.js"></script>
+
+<script src="~/Areas/lib/ace.js"></script>
+
+@Styles.Render("~/Content/dataTable")
+@Scripts.Render("~/bundles/dataTable")
+<style>
+    .dataTables_wrapper .dataTables_paginate .paginate_button.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
+        color: white !important;
+    }
+
+    #FCEEMessagesSummaryTable_info {
+        color: white !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        color: white !important;
+    }
+
+    a {
+        color: white !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        background-image: none;
+        border: none;
+        border-width: 0px;
+        border-color: transparent;
+    }
+
+    #FCEEMessagesSummaryTable_info {
+        color: white;
+    }
+
+    #FCEEMessagesSummaryTable_first {
+        color: white !important;
+    }
+
+    #FCEEMessagesSummaryTable_previous {
+        color: white !important;
+    }
+
+    #FCEEMessagesSummaryTable_next {
+        color: white !important;
+    }
+
+    #FCEEMessagesSummaryTable_last {
+        color: white !important;
+    }
+
+    .dataTable thead th {
+        padding: 3px 18px !important;
+    }
+
+    .dataTable {
+        font-family: Roboto,Arial,Helvetica,sans-serif;
+    }
+</style>
+
+
+@Html.AntiForgeryToken()
+
+<div class="row headline" style="width: 5in; padding-bottom:10px">@FMBaseController.TranslateText("FCEE Messages")</div>
+
+<div class="row" style="margin-top: 5px;">
+    <section>
+        <div class="col-md-1">
+            <div class="message-type-filter" style="width: 19in; display:flex; flex-direction:row;">
+                <label for="ImeiFilter" style="margin-right: 5px;">Filter by IMEI:</label>
+                @Html.DropDownList("ImeiFilter", new SelectList(Model.imeiList, Model.imei), "", new { style = "margin-right: 17px; height: 24px;" })
+                <label for="MessageFilter" style="margin-right: 5px;">Filter by message type:</label>
+                @{
+                    var typeSelectList = EnumHelper.GetSelectList(typeof(FMBusinessObjects.DataObjects.EDGEMESSAGETYPE), (FMBusinessObjects.DataObjects.EDGEMESSAGETYPE?)Model.message);
+
+                    IList<SelectListItem> typeSelectListItems = typeSelectList;
+                    if (typeSelectListItems[0].Value != "-1") {
+                        typeSelectListItems.Insert(0, (new SelectListItem { Text = "", Value = "-1", Selected = true }));
+                        typeSelectListItems[1].Selected = false;
+                    };
+                }
+                @Html.DropDownList("MessageFilter", typeSelectListItems, new { style = "margin-right: 17px; height: 24px;" })
+                <label for="IndexFilter" style="margin-right: 5px;">Filter by index:</label>
+                @Html.TextBox("IndexFilter", Model.index, new { style = "margin-right: 17px; width: 50px; height: 24px;" })
+                <label for="StartDate" style="margin-right: 5px;">Start Date:</label>
+                <input type="date" id="StartDate" style="margin-right: 17px; height: 24px; " value="@Model.startDate" onblur="setEndDateIfNotSet();" />
+                <label for="EndDate" style="margin-right: 5px;">End Date:</label>
+                <input type="date" id="EndDate" style="margin-right: 17px; height: 24px; " value="@Model.endDate" />
+                <div onclick="filter()" class="pushButton" style="margin-right: 12px; height: 24px; line-height: 12px;">Submit</div>
+                <div onclick="resetFilter()" class="pushButton" style="height: 24px; line-height: 12px;">Reset</div>
+                <script>
+                    function setEndDateIfNotSet() {
+                        let endDateCtl = document.getElementById("EndDate");
+                        if (endDateCtl) {
+                            let endDate = endDateCtl.value;
+                            if (endDate == '') {
+                                let dt = new Date();
+                                let dtISOString = dt.toISOString();
+                                
+                                let dtFormatted = dtISOString.substr(0, 10);
+                        
+                                endDateCtl.value = dtFormatted;
+                                
+                            }
+                        }
+                    }
+
+                    function filter() {
+                        var msg = document.getElementById("MessageFilter").value;
+                        var imei = document.getElementById("ImeiFilter").value;
+                        var index = document.getElementById("IndexFilter").value;
+                        var startDate = document.getElementById("StartDate").value;
+                        var endDate = document.getElementById("EndDate").value;
+
+                        if (startDate > endDate) {
+                            let endDateCtl = document.getElementById("EndDate");
+                            let startDateLbl = document.querySelector("label[for='StartDate']");
+                            let endDateLbl = document.querySelector("label[for='EndDate']");
+                            let startDateLblText = "Start Date";
+                            let endDateLblText = "End Date";
+
+                            if (startDateLbl && startDateLbl.innerHTML.lastIndexOf(":") > 0 ) {
+                                startDateLblText = startDateLbl.innerHTML.substr(0, startDateLbl.innerHTML.lastIndexOf(":"));
+                            }
+                            if (endDateLbl && endDateLbl.innerHTML.lastIndexOf(":") > 0) {
+                                endDateLblText = endDateLbl.innerHTML.substr(0, endDateLbl.innerHTML.lastIndexOf(":"));
+                            }
+
+                            endDateCtl.setCustomValidity(endDateLblText + " must not be before " + startDateLblText + ".");
+                            endDateCtl.reportValidity();
+                        }
+                        else
+                        {
+                            window.location = "@Url.Action("FCEEMessagesSummaryView", new { page = 1 })" + "&msgType=" + msg + "&imei=" + imei + "&index=" + index + "&startDate="
+                                + startDate + "&endDate=" + endDate;
+                        }
+                    }
+
+                    function resetFilter() {
+                        window.location = "@Url.Action("FCEEMessagesSummaryView")";
+                    }
+                </script>
+            </div>
+            <div style="display: flex; width: 1585px; margin: 10px 0px 10px 0px;">
+                @if (Model.fceeMessages.Count > 1000)
+                {
+                    <div>Showing top 1000 results. Please narrow the filters to return all results.</div>
+                }
+                <div id="pager" class="pager-buttons" style="margin-left: auto;">
+                    <a href=" @Url.Action("FCEEMessagesSummaryView", new { page = 1, msgType = Model.message, imei = Model.imei, index = Model.index, startDate = Model.startDate, endDate = Model.endDate }) ">
+                        <img src="~/Areas/Content/tablesorter/first.png" class="first" alt="First page" />
+                    </a>
+                    <a href=" @Url.Action("FCEEMessagesSummaryView", new { page = Model.page - 1, msgType = Model.message, imei = Model.imei, index = Model.index, startDate = Model.startDate, endDate = Model.endDate }) ">
+                        <img src="~/Areas/Content/tablesorter/prev.png" class="prev" alt="Previous page" />
+                    </a>
+                    Page @Model.page of @Model.pageMax
+                    <a href=" @Url.Action("FCEEMessagesSummaryView", new { page = Model.page + 1, msgType = Model.message, imei = Model.imei, index = Model.index, startDate = Model.startDate, endDate = Model.endDate }) ">
+                        <img src="~/Areas/Content/tablesorter/next.png" class="next" alt="Next page" />
+                    </a>
+                    <a href=" @Url.Action("FCEEMessagesSummaryView", new { page = Model.pageMax, msgType = Model.message, imei = Model.imei, index = Model.index, startDate = Model.startDate, endDate = Model.endDate }) ">
+                        <img src="~/Areas/Content/tablesorter/last.png" class="last" alt="Last page" />
+                    </a>
+                </div>
+            </div>
+
+            <table id="FCEEMessagesSummaryTable" class="hover table-striped  row-border cell-border dataTable" style="width: 100%; table-layout: fixed">
+                <thead>
+                    <tr style="color: white; background-color: #0D246A">
+                        <th style="width: 120px;">
+                            IMEI Number
+                        </th>
+                        <th style="width: 80px;">
+                            Timestamp
+                        </th>
+                        <th style="width: 120px;">
+                            Message Type
+                        </th>
+                        <th style="width: 50px;">
+                            Index
+                        </th>
+                        <th style="width: 300px;">
+                            Binary Data
+                        </th>
+                        <th style="width: 700px;">
+                            Edge Data
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var FCEEMessage in Model.displayedFceeMessages)
+                    {
+                        <tr>
+
+
+                            @*The use of data-text is a trick to get the grid to always sort on the dates in an expected format rather than attempting to sort
+                                on whatever format is configured*@
+                            <td style="word-wrap:break-word">@FCEEMessage.ImeiNumber</td>
+                            <td style="word-wrap:break-word">@FCEEMessage.Timestamp.ToString("MM-dd-yyyy HH:mm:ss")</td>
+                            <td style="word-wrap:break-word">@FCEEMessage.MsgType</td>
+                            <td style="word-wrap:break-word">@FCEEMessage.Index</td>
+                            <td style="word-wrap:break-word">@BitConverter.ToString(FCEEMessage.BinaryData).Replace("-", "")</td>
+                            <td style="word-wrap:break-word">@FCEEMessage.EdgeData</td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div style="display: flex; width: 1585px; margin: 10px 0px 10px 0px;">
+                <div id="pager" class="pager-buttons" style="margin-left: auto;">
+                    <a href=" @Url.Action("FCEEMessagesSummaryView", new { page = 1, msgType = Model.message, imei = Model.imei, index = Model.index, startDate = Model.startDate, endDate = Model.endDate }) ">
+                        <img src="~/Areas/Content/tablesorter/first.png" class="first" alt="First page" />
+                    </a>
+                    <a href=" @Url.Action("FCEEMessagesSummaryView", new { page = Model.page - 1, msgType = Model.message, imei = Model.imei, index = Model.index, startDate = Model.startDate, endDate = Model.endDate }) ">
+                        <img src="~/Areas/Content/tablesorter/prev.png" class="prev" alt="Previous page" />
+                    </a>
+                    Page @Model.page of @Model.pageMax
+                    <a href=" @Url.Action("FCEEMessagesSummaryView", new { page = Model.page + 1, msgType = Model.message, imei = Model.imei, index = Model.index, startDate = Model.startDate, endDate = Model.endDate }) ">
+                        <img src="~/Areas/Content/tablesorter/next.png" class="next" alt="Next page" />
+                    </a>
+                    <a href=" @Url.Action("FCEEMessagesSummaryView", new { page = Model.pageMax, msgType = Model.message, imei = Model.imei, index = Model.index, startDate = Model.startDate, endDate = Model.endDate }) ">
+                        <img src="~/Areas/Content/tablesorter/last.png" class="last" alt="Last page" />
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+

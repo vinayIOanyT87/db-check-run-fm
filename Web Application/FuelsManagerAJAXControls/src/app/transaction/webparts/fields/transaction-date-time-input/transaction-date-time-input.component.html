@@ -1,0 +1,43 @@
+<!-- <div class="transactionFreeFormInputParent">
+  <div>
+    <label [for]="fieldName">{{label}}:</label>
+  </div>
+  <div style="height:27px">
+    <p-calendar [(ngModel)]="fieldValue"
+                [style]="{ 'width':'100%', 'height':'27px' }"
+                showTime="true" hourFormat="24"
+                appendTo='body'
+                [disabled]="!canEdit"
+                [appFocusDirective]="currentFocusLabel == fieldName"
+                [nonDefaultIDName]="fieldName"
+                appTriggerChangeDetectionOnKeyUp
+                [panelStyleClass]="'minimum-calendar'"
+                [inputId]="fieldName"></p-calendar>
+  </div>
+</div> -->
+<div class="transactionFreeFormInputParent">
+  <div>
+    <label [for]="fieldName">{{ label }}:</label>
+  </div>
+  <div>
+    <input
+      [id]="fieldName"
+      [ngModel]="fieldValue"
+      appTriggerChangeDetectionOnKeyUp
+      [appFocusDirective]="currentFocusLabel == fieldName"
+      [disabled]="!canEdit"
+      type="text"
+      style="width:50%; display:inline-block"
+    />
+    <input
+      [id]="fieldName + 'Text'"
+      [(ngModel)]="fieldTimeValue"
+      appTriggerChangeDetectionOnKeyUp
+      [appFocusDirective]="currentFocusLabel == fieldName"
+      [ngModelOptions]="{ updateOn: 'blur' }"
+      [disabled]="!canEdit"
+      type="text"
+      style="width:47%; display:inline-block;"
+    />
+  </div>
+</div>

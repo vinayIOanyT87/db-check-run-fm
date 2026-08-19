@@ -1,0 +1,14 @@
+--Install puppetier
+npm i puppeteer
+
+--Install Pkg for deployment
+npm install -g pkg
+
+--build 
+pkg printpointgroup.js -t node12-win-x64 --out-path ./build
+xcopy node_modules\puppeteer build\chromium\ /e /h /y
+
+
+-- run
+node printpointgroup.js administrator marietta marathon Tanks C24EEAAB-3C35-431F-9252-56F1F933EDDA
+node printpointgroup.js administrator marietta marathon 'small test' 3AA9E27C-FCF3-4F44-BFD1-1E5D268952C4

@@ -1,0 +1,19 @@
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="FMDispatchHiddenFields.ascx.cs" Inherits="FuelsManager.DispatchWebApp.FMDispatchHiddenFields" %>
+	<asp:HiddenField runat="server" ID="dispatchConfigurationGuidField" Value=""/>
+	<asp:HiddenField runat="server" ID="jsonTransactionAliasNamesField" Value=""/>
+	<asp:HiddenField runat="server" ID="jsonTransactionStatusValuesField" Value=""/>
+	<asp:HiddenField runat="server" ID="jsonTabularGridColumnDefinitionsField" Value=""/>
+	<asp:HiddenField runat="server" ID="jsonEquipmentGridColumnDefinitionsField" Value=""/>
+	<asp:HiddenField runat="server" ID="jsonPersonnelGridColumnDefinitionsField" Value=""/>
+	<asp:HiddenField runat="server" ID="jsonRequestGridColumnDefinitionsField" Value=""/>
+	<asp:HiddenField runat="server" ID="jsonToolbarButtonListField" Value=""/>
+	<asp:HiddenField runat="server" ID="jsonOperationalLockDateField" Value=""/>
+	<asp:HiddenField runat="server" ID="dispatchRequestServiceAddressField" Value=""/>
+	<asp:HiddenField runat="server" ID="enableServiceRequestsField" Value=""/>
+	<asp:HiddenField runat="server" ID="serviceRequestRefreshPeriodField" Value=""/>
+	<asp:HiddenField runat="server" ID="serviceRequestAutomaticRestartDelayField" Value=""/>
+	<asp:HiddenField runat="server" ID="displayCurrentTimeField" Value=""/>
+	<asp:HiddenField runat="server" ID="displayMilitaryJulianDateField" Value=""/>
+	<asp:HiddenField runat="server" ID="jsonOptionalTimesArrivalFlagField" Value=""/>
+	<asp:HiddenField runat="server" ID="jsonOptionalTimesStartFlagField" Value=""/>
+	<asp:HiddenField runat="server" ID="jsonOptionalTimesStopFlagField" Value=""/>

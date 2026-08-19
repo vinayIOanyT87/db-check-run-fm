@@ -1,0 +1,307 @@
+﻿@using System.Globalization
+@using Varec.CommonComponents.EngineeringUnitsLibrary
+@using FMBusinessObjects.DataObjects
+@using FMPointCommon
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@using Opc.Ua
+@model FuelsManager.Areas.InventoryManagement.ViewModels.TagViewerModel
+
+@{
+	//ViewBag.Title = "TagViewerDetail";
+	Layout = "~/Areas/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Areas/Content/TagViewer.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Content/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Content/bootstrap-modal.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Content/jquery-ui-timepicker-addon.css" rel="stylesheet" type="text/css" />
+<!--
+<link href="~/Areas/Content/dataTables.bootstrap.css" rel="stylesheet" type="text/css"/>
+-->
+<link href="~/Areas/Lib/DataTables/DataTables-1.10.15/css/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+
+<script src="~/Areas/Lib/bootstrap-modal.js"></script>
+<script src="~/Areas/Lib/bootstrap-modalmanager.js"></script>
+<script src="~/Areas/Lib/jquery.nicescroll.min.js"></script>
+<script src="~/Areas/Lib/jquery.mask.js"></script>
+<script src="~/Areas/Lib/jquery.numeric.js"></script>
+<script src="~/Areas/Lib/math.js"></script>
+<script src="~/Areas/Lib/NumberFormat.js"></script>
+<script src="~/Areas/Scripts/fmformatvalues.js"></script>
+<script src="~/Areas/Lib/moment.js"></script>
+<script src="~/Areas/Scripts/TagViewer.js"></script>
+<script src="~/Areas/Scripts/FMCommon.js"></script>
+<script src="~/Areas/lib/jquery-ui-timepicker-addon.js"></script>
+
+@using (Html.BeginForm("ButtonSubmit", "TagViewer", FormMethod.Post, new { id = "TagViewerForm" }))
+{
+	@Html.AntiForgeryToken()
+	{
+		var TagViewObject = Json.Encode(new { Model.SortOrder, Model.lastScrollPosition, Model.edititemrowposition });
+		<input id="TVModelObject" type="hidden" value='@TagViewObject'>
+	}
+
+	var manual = FMBaseController.TranslateText("Tag Viewer|Manual");
+	var calculated = FMBaseController.TranslateText("Tag Viewer|Calculated");
+	var opcUa = FMBaseController.TranslateText("Tag Viewer|OpcUa");
+	var unassigned = FMBaseController.TranslateText("Tag Viewer|UnAssigned");
+	var fcee = FMBaseController.TranslateText("Tag Viewer|FCEE");
+	var system = FMBaseController.TranslateText("Tag Viewer|System");
+	var communicationsFailure = FMBaseController.TranslateText("Communications Failure");
+	var numberFormatInfo = new NumberFormatInfo { NumberGroupSizes = Model.Site.GetNumberGroupSizes(), NumberGroupSeparator = Model.Site.NumberGroupSeparator, NumberDecimalSeparator = Model.Site.NumberDecimalSeparator };
+	//Generate FormatInfo JavaScript object in JSON format
+	var numberFormatInfoString = String.Format("{{{0}" + "\"NegativeSign\":\"{1}\",{0}" + "\"NumberDecimalDigits\":{2},{0}" + "\"NumberDecimalSeparator\":\"{3}\",{0}" + "\"NumberGroupSeparator\":\"{4}\",{0}" + "\"NumberGroupSizes\":{5},{0}" + "\"NumberNegativePattern\":{6},{0}" + "\"ShortDatePattern\":\"{7}\",{0}" + "\"TimePattern\":\"{8}\"{0}}}", Environment.NewLine, "-", 0, Model.Format.NumberDecimalSeparator, Model.Format.NumberGroupSeparator, Model.Format.NumberGroupSizes[0], 1, Model.ShortDatePattern, Model.TimePattern);
+
+	<input id="NumberFormatInfoString" type="hidden" value='@numberFormatInfoString' />
+	@Html.Hidden("urlTagViewerAddPointTag", @Url.Action("AddPointTags", "TagViewer"));
+	@Html.Hidden("urlTagViewerEditValue", @Url.Action("EditValue", "EditValue"));
+	@Html.Hidden("urlTagViewerSetSortOrder", @Url.Action("SetDatagridSortOrder", "TagViewer"));
+	@Html.Hidden("urlTagViewerRefresh", @Url.Action("Refresh", "TagViewer"));
+	@Html.Hidden("manualText", manual);
+	@Html.Hidden("calculatedText", calculated);
+	@Html.Hidden("opcUaText", opcUa);
+	@Html.Hidden("unassignedText", unassigned);
+	@Html.Hidden("fceeText", fcee);
+	@Html.Hidden("systemText", system);
+	@Html.Hidden("communicationsFailureText", communicationsFailure);
+
+	<div id="TagViewerMenu" class="row">
+		<div id="TagViewerTitle" class="col-lg-4 col-md-4">
+			<div id="TagViewerImage">
+				<img src="~/fmwebapp/images/Grey-Tag.png" style="height: 35px" />
+			</div>
+			<h2>@FMBaseController.TranslateText("Tag Viewer|Tag Viewer")</h2>
+		</div>
+	</div>
+
+
+	<div style="padding-top: 5px; padding-bottom: 5px" class="row">
+		@Html.FMButton("removeButton", "removeButton", FMBaseController.TranslateText("Tag Viewer|&REMOVE SELECTED"), true, FMBaseController.TranslateText("Tag Viewer|Remove Selected"))
+		<button id="addButton" type="button" class="pushButton" style="font-size:80%;font-weight:bold" title="@FMBaseController.TranslateText("Tag Viewer|Add Tag")" onclick="AddPointTags()">@FMBaseController.TranslateText("Tag Viewer|&ADD TAG")</button>
+
+	</div>
+
+	<section class="TagSection">
+		<div class="row">
+			<table id="TagTable" class="tablesorter">
+				<thead>
+					<tr class="FuelsManager-table-header">
+						<th style="text-align:center" class="text-center" data-sorter="false"><label><input class="NewCheckBox" id="DeleteAllCheckBox" name="DeleteAllCheckBox" type="checkbox" value="true" hidden="hidden" /><span></span></label></th>
+						<th style="text-align:left" class="col-md-2 text-left">@FMBaseController.TranslateText("Tag Viewer|POINT")</th>
+						<th style="text-align:left" class="col-md-2 text-left">@FMBaseController.TranslateText("Tag Viewer|TAG")</th>
+						<th style="text-align:right" class="col-md-1 text-left" data-sorter="false">@FMBaseController.TranslateText("Tag Viewer|VALUE")</th>
+						<th style="text-align:center" class="text-left" data-sorter="false"></th>
+						<th style="text-align:left" class="col-md-2 text-left">@FMBaseController.TranslateText("Tag Viewer|UNITS")</th>
+						<th style="text-align:center" class="col-md-2 text-left ">@FMBaseController.TranslateText("Tag Viewer|TIME STAMP")</th>
+						<th style="text-align:center" class="col-md-1 text-center">@FMBaseController.TranslateText("Tag Viewer|STATUS")</th>
+						<th style="text-align:center" class="col-md-1 text-center">@FMBaseController.TranslateText("Tag Viewer|TYPE")</th>
+					</tr>
+				</thead>
+				<tbody id="TableData">
+					@for (var index = 0; index < Model.Values.Count; ++index)
+					{
+						var value = Model.Values[index];
+						var editThisItem = FMBaseController.TranslateText("Edit this item");
+						var valueID = "Value_" + value.PointValueIdentifier.IdentityGuid.ToString();
+						var editID = "Edit_" + value.PointValueIdentifier.IdentityGuid.ToString();
+						var timestampID = "Timestamp_" + value.PointValueIdentifier.IdentityGuid.ToString();
+						var opcStatusID = "OpcStatus_" + value.PointValueIdentifier.IdentityGuid.ToString();
+						var overrideID = "Override_" + value.PointValueIdentifier.IdentityGuid.ToString();
+						var deleteID = "Delete_" + value.PointValueIdentifier.IdentityGuid.ToString();
+						var typeID = "Type_" + value.PointValueIdentifier.IdentityGuid.ToString();
+						var unitsID = "Units_" + value.PointValueIdentifier.IdentityGuid.ToString();
+						var limitStatus = "";
+						var selectedcolor = "color:#9697FA";
+						var statusCode = new StatusCode((uint)value.Status);
+						var disabled = (value.InputOutputType == PointTemplateTag.PointTagInputOutputType.UnAssigned
+											|| !value.Access.Modify
+											|| ((!value.Access.Override
+											|| value.InhibitOverride)
+											&& (value.InputOutputType == PointTemplateTag.PointTagInputOutputType.Calculated
+											|| value.InputOutputType == PointTemplateTag.PointTagInputOutputType.OpcUa))) ? "disabled" : "";
+
+						if (StatusCode.IsBad(statusCode))
+						{
+							selectedcolor = "color:#FF4040";
+						}
+						else if (StatusCode.IsGood(statusCode))
+						{
+							selectedcolor = "color:#27AE60";
+						}
+
+						PointTemplateTag.PointTagInputOutputType ioType;
+
+						ioType = value.InputOutputType;
+						numberFormatInfo.NumberDecimalDigits = value.DecimalPlaces;
+
+						<tr>
+							<td class="col-md-1 text-center">
+								<label><input class="NewCheckBox" id=@deleteID name=@deleteID type="checkbox" value="true" hidden="hidden" /><span></span></label>
+							</td>
+
+							<td class="col-md-2 text-left">
+								@value.PointID
+							</td>
+
+							<td class="col-md-2 text-left">
+								@if (value.OpcStatusSubCode == StatusCodes.GoodLocalOverride)
+								{
+									@value.ID <img id="@overrideID" src="~/fmwebapp/images/bluef.png" style="height: 15px" />
+								}
+								else
+								{
+									@value.ID <img id="@overrideID" src="~/fmwebapp/images/bluef.png" style="height: 15px; display: none;" />
+								}
+							</td>
+
+							<td id="@valueID" class="col-md-1 text-right tagColumnValue">
+								@if (value.Value != null)
+								{
+									if (value.ValueTypeString.IndexOf("FMBusinessObjects.DataObjects.CodedVariables") != -1)
+									{
+										FMBaseController.TranslateText(FMBusinessObjects.DataObjects.CodedVariables.SelectList.CreateUIString((Enum)value.Value));
+									}
+									else if (value.ValueTypeString.IndexOf("FMBusinessObjects.DataObjects.PointCommandStatusListReference") != -1)
+									{
+										@PointManager.GetCommandStatusKey(value.Value)
+									}
+									else if (value.ValueTypeString == "System.DateTime")
+									{
+										@(((DateTime) value.Value).ToString(Model.Site.ShortDatePattern))
+									}
+									else if (value.ValueTypeString == "System.DateTimeOffset")
+									{
+										@(((DateTimeOffset)value.Value).ToString(Model.Site.ShortDatePattern + " " + Model.Site.TimePattern))
+									}
+									else
+									{
+										@PointManager.FormatValue(value.Value.GetType(), value.Units, numberFormatInfo, value.Value)
+									}
+								}
+							</td>
+
+							<td class="col-md-1 text-left">
+								<a id="@editID" title="Edit" class="@(string.IsNullOrEmpty(disabled) ? "editLinkClass": "editLinkClassDisabled")" @disabled onclick="EditValue('@value.PointValueIdentifier'); "></a>
+							</td>
+
+							<td id="@unitsID" class="col-md-2 text-left">
+								@EngineeringUnits.GetUnitString(value.Units)
+							</td>
+							<td id="@timestampID" class="col-md-2 text-center">
+								@value.ServerTimeStamp.ToString(Model.Site.GetDateTimeFormatInfo())
+							</td>
+
+							<td id="@opcStatusID" class="col-md-1 text-center tagColumnStatus" style=@selectedcolor>
+								@(StatusCode.LookupSymbolicId((uint)value.Status) + @limitStatus)
+							</td>
+							<td id="@typeID" class="col-md-1 text-center">
+								@if (ioType.Equals(PointTemplateTag.PointTagInputOutputType.UnAssigned))
+								{
+									@unassigned
+								}
+								else if (ioType.Equals(PointTemplateTag.PointTagInputOutputType.Manual))
+								{
+									@manual
+								}
+								else if (ioType.Equals(PointTemplateTag.PointTagInputOutputType.Calculated))
+								{
+									@calculated
+								}
+								else if (ioType.Equals(PointTemplateTag.PointTagInputOutputType.OpcUa))
+								{
+									@opcUa
+								}
+								else if (ioType.Equals(PointTemplateTag.PointTagInputOutputType.FCEE))
+								{
+									@fcee
+								}
+								else if (ioType.Equals(PointTemplateTag.PointTagInputOutputType.System))
+								{
+									@system
+								}
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</section>
+
+}
+
+<!-- Modal -->
+<section id="tagViewerModals">
+	<div class="row">
+		<div id="tagViewerPointTagSelectScreen" class="modal fade modal-lg" data-backdrop="static" data-focus-on="input:first" role="dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 id="tagViewerPointTagSelectionScreen" class="modal-title">@FMBaseController.TranslateText("Tag Viewer|Tag Viewer Point Tag Selection")</h4>
+				</div>
+				<div class="modal-body">
+					<section id="tagViewerPointTagSelectScreenBody" class=""></section>
+				</div>
+				<div class="modal-footer">
+					<div class="btn-toolbar">
+						<div class="pull-right">
+							<button id="tagViewerPointTagSelectOkButton" type="submit" accesskey="O" class="btn">@FMBaseController.TranslateText("Tag Viewer|&OK")</button>
+							<button id="tagViewerPointTagSelectionCancelButton" type="button" accesskey="C" class="btn btn-default" data-dismiss="modal">@FMBaseController.TranslateText("Tag Viewer|&Cancel")</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="PointTagEditValueScreen" class="fade modal-md modal" data-backdrop="static" data-focus-on="input:first" role="dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button id="PointTagEditValueCloseButton" type="button" class="close" onclick="TagEditValueClose();" data-dismiss="modal">&times;</button>
+					<h4 id="PointTagEditValueScreen" class="modal-title" style="text-align:center; color:rgb(194,194,194);">@FMBaseController.TranslateText("SET VALUE")</h4>
+				</div>
+				<div class="modal-body">
+					<section id="PointTagEditValueScreenBody" class=""></section>
+				</div>
+				<div class="modal-footer">
+					<div class="btn-toolbar">
+						<div class="pull-right">
+							<button id="PointTagEditValueOkButton" type="button" accesskey="O" class="btn btn-default">@FMBaseController.TranslateText("PointTagEditor|&Ok")</button>
+							<button id="PointTagEditValueCancelButton" type="button" accesskey="C" class="btn">@FMBaseController.TranslateText("PointTagEditor|&Cancel")</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+
+	$(document).ready(function () {
+		var okButton = $('#PointTagEditValueOkButton');   //bds
+		ampersandIndex = okButton.text().indexOf('&');
+		if (ampersandIndex !== -1) {
+			var hotKey = okButton.text().charAt(ampersandIndex + 1);
+			okButton.html(okButton.text().replace('&' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+			okButton.attr('accesskey', hotKey);
+		}
+
+		var cancelButton = $('#PointTagEditValueCancelButton');   //bds
+		ampersandIndex = cancelButton.text().indexOf('&');
+		if (ampersandIndex !== -1) {
+			var hotKey = cancelButton.text().charAt(ampersandIndex + 1);
+			cancelButton.html(cancelButton.text().replace('&' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+			cancelButton.attr('accesskey', hotKey);
+		}
+	});
+
+	TagEditValueClose = function () {
+		$("#confirm-exceed-min-dialog").remove();
+		$("#confirm-exceed-max-dialog").remove();
+		$('#PointTagEditValueOkButton').unbind('click');
+		$('#PointTagEditValueCancelButton').unbind('click');
+		$('#PointTagEditValueScreenBody').html('');
+	}
+</script>
+

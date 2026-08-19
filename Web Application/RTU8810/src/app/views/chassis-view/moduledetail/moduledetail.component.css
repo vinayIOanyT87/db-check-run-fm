@@ -1,0 +1,90 @@
+.container {
+    padding: 10px;
+    height: calc( 100% - 90px);
+    width: 100%;
+    vertical-align: top;
+    position: relative;
+    background-color: white;
+}
+
+.container1{
+    padding-top: 20px !important;
+    background-color: whitesmoke;
+}
+
+.graphicView {
+    position: relative;
+    display: inline-block;
+    width: 180px;
+    height: 100%;
+    vertical-align: top;
+    overflow: hidden;
+    background-color: black;
+}
+
+.chassis-section-header {
+    width: 100%;
+    background-color: #006CB3;
+    color: white;
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+}
+
+.detailView {
+    position: relative;
+    display: inline-block;
+    width: 270px;
+    height: 100%;
+    vertical-align: top;
+    margin-left: 12px;
+    border: 1px solid #E0E0E0;
+    padding: 20px;
+    overflow: hidden;
+    background-color: white;
+}
+
+#moduledetail {
+    width: 170px;
+    height: 800px;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.channelid {
+    text-decoration: underline;
+    cursor: pointer;
+    text-align: center;
+}
+
+.channelheader {
+    margin-top: 10px;
+    text-align: left;
+    font: Roboto-Bold;
+    font-size: 14px;
+    color:#006cb3;
+}
+
+.channelselector {
+    /*border: 2px solid #f8e71c;*/
+    position: absolute;
+    background-color: transparent;
+    opacity: .4;
+    cursor: pointer;
+}
+
+.channelselector.active {
+    border: 2px solid #f8e71c;
+    position: absolute;
+    background-color: #f8e71c;
+    opacity: .4;
+}
+
+.channelinlinetext{
+    font: Roboto-Medium;
+    font-size: 14px;
+    color:#9b9b9b;
+    text-align: left !important;
+    padding-left: 30px;
+}
+

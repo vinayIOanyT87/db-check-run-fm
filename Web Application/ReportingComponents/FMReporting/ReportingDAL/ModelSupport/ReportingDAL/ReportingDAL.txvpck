@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nodeSet>
+  <view uin="g281w7vm2vujg7h_v">
+    <property name="$name" value="ReportingDAL" />
+    <property name="$defaultDiagram" value="True" />
+    <property name="$metaclass" value="Package Diagram" />
+    <reference referencedUin="csharp:e_class:src:ReportingDAL:ReportingDAL.ReportingDA">
+      <property name="$shortcutReference" value="true" />
+      <reference referencedUin="csharp:e_method:src:ReportingDAL:ReportingDAL.ReportingDA.ExecuteQuery(System.String)" />
+      <reference referencedUin="csharp:e_method:src:ReportingDAL:ReportingDAL.ReportingDA.GetDataSet(System.String)" />
+      <reference referencedUin="csharp:e_method:src:ReportingDAL:ReportingDAL.ReportingDA.FindConnectionString()" />
+      <reference referencedUin="csharp:e_field:src:ReportingDAL:ReportingDAL.ReportingDA.connect" />
+      <reference referencedUin="csharp:e_property:src:ReportingDAL:ReportingDAL.ReportingDA.ConnectionString" />
+      <reference referencedUin="csharp:e_method:src:ReportingDAL:ReportingDAL.ReportingDA.ReportingDA()" />
+    </reference>
+  </view>
+</nodeSet>

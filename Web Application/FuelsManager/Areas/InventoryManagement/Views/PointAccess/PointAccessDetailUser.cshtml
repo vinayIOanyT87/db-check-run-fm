@@ -1,0 +1,60 @@
+﻿@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.PointAccessDetailModel
+
+<style>
+	#UserTableContainer {
+		height: calc( 100vh - 100px );
+		overflow-y: hidden;
+	}
+</style>
+
+<div style="overflow:hidden" class="row">
+<div class="panel-pag col-xs-offset-3 col-xs-6">
+	<div id="UserTableContainer" class="text-center">
+		<div class="panel-header" style="padding-bottom: 7px">@FMBaseController.TranslateText("PointAccess|USERS")</div>
+		<table id="userTable" class="table table-condensed table-bordered" style="background-color: white; table-layout: fixed">
+			<thead>
+				<tr>
+					<th scope="col" class="text-center">@FMBaseController.TranslateText("PointAccess|ID")</th>
+					<th scope="col" class="text-center">@FMBaseController.TranslateText("PointAccess|Name")</th>
+				</tr>
+			</thead>
+			<tbody id="Users">
+				@foreach (var user in @Model.Users.AsReadOnly().OrderBy(x => x.ID))
+				{
+					<tr data-guid="@user.IdentityGuid">
+						<td>@user.ID</td>
+						<td>@user.Name</td>
+					</tr>
+				}
+			</tbody>
+
+		</table>
+		<div class="panel-header" id="emptyText" name="emptyText">No Users configured for selected User Group </div>
+	</div>
+</div>
+</div>
+
+<script>
+
+	$( document ).ready( function()
+	{
+		$( "#emptyText" ).removeClass( 'hidden' ).addClass( 'hidden' );
+
+		$( "#UserTableContainer" ).niceScroll( {
+			cursorwidth: '10px',
+			autohidemode: false,
+			cursorcolor: '#486899',
+			background: 'rgb(240, 240, 240)',
+			horizrailenabled: false,
+			railoffset: true,
+			railpadding: { top: 0, right: 0, left: -10, bottom: 0 },
+			smoothscroll: true
+		} );
+
+		if ($("#userTable tbody tr").length === 0) {
+			$("#emptyText").removeClass('hidden');
+		}
+
+	} );
+</script>

@@ -1,0 +1,176 @@
+﻿@using System.Web.Mvc.Html
+@using FMPointCommon
+@using Varec.CommonComponents.EngineeringUnitsLibrary
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.MovementNodeStartDataEditorModel
+
+<link href="~/Areas/Content/MovementNodeStartDataEditor.css" rel="stylesheet" type="text/css" />
+<script src="~/Areas/Scripts/MovementNodeStartDataEditor.js"></script>
+
+@using (Html.BeginForm("MovementNodeStartDataEditor", "MovementNodeStartDataEditor", FormMethod.Post, new { @id = "MovementNodeStartDataEditorForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("MovementNodeStartDataSaveUrl", @Url.Action("SaveMovementNodeStartData", "MovementNodeStartDataEditor"))
+    @Html.Hidden("MovementNodeStartDataGetArchivedDataUrl", @Url.Action("GetArchivedMovementNodeData", "MovementNodeStartDataEditor"))
+    @Html.Hidden("MovementNodeStartDataEditorModelStr", MovementNodeStartDataEditorController.SerializeModel(Model))
+
+    var transferStartTimeLbl = FMBaseController.TranslateText("Movement|Transfer Start Time");
+    @Html.Hidden("TransferStartTimeLabel", transferStartTimeLbl)
+    var levelLbl = FMBaseController.TranslateText("Movement|Level");
+    var temperatureLbl = FMBaseController.TranslateText("Movement|Temperature");
+    var grossVolumeLbl = FMBaseController.TranslateText("Movement|Gross Volume");
+    var netVolumeLbl = FMBaseController.TranslateText("Movement|Net Volume");
+    var massLbl = FMBaseController.TranslateText("Movement|Mass");
+    var densityLbl = FMBaseController.TranslateText("Movement|Density");
+    var stdDensityLbl = FMBaseController.TranslateText("Movement|Std Density");
+
+    var numberFormatInfoString = String.Format("{{{0}"
+         + "\"NegativeSign\":\"{1}\",{0}"
+         + "\"NumberDecimalDigits\":{2},{0}"
+         + "\"NumberDecimalSeparator\":\"{3}\",{0}"
+         + "\"NumberGroupSeparator\":\"{4}\",{0}"
+         + "\"NumberGroupSizes\":{5},{0}"
+         + "\"NumberNegativePattern\":{6},{0}"
+         + "\"ShortDatePattern\":\"{7}\",{0}"
+         + "\"TimePattern\":\"{8}\"{0}}}"
+         , Environment.NewLine
+         , "-"
+         , 0
+         , Model.NumberDecimalSeparator
+         , Model.NumberGroupSeparator
+         , Model.NumberGroupSizes[0]
+         , 1
+         , Model.ShortDatePattern
+         , Model.TimePattern);
+
+    <input id="CalendarLocationUrl" type="hidden" value='@Url.Content("~/DispatchWebApp/images")' />
+    <input id="NumberFormatInfoString" type="hidden" value='@numberFormatInfoString' />
+
+
+    var title = Model.PointId + " - " + Model.NodeId;
+
+    <section id="MovementUserDataTableSection">
+        <div class="MovementSettingsEditorHeader row">
+            <button type="button" class="close" data-dismiss="modal" onclick="$('#MovementStartDataEditorClosePropertyScreen').click();">&times;</button>
+        </div>
+        <div class="row">
+            <div class="col-xs-10 col-sm-10 col-md-8 col-lg-6">
+
+                <h4 id="MovementModuleSettingEditorTitle">@title</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-8 col-sm-8 col-md-6 col-lg-6">
+                <h5>@FMBaseController.TranslateText("Movement|Movement Node Start Data Editor")</h5>
+            </div>
+        </div>
+        <br />
+        <div id="MovementUserDataTopDiv" style="padding-top: 5px; padding-bottom: 5px;">
+            <table id="MovementNodeStartDataTable">
+                <tr>
+                    <td class="MovementNodeStartDataTdPadding1">
+                        <label id="TransferNodeStartTimeLbl">@transferStartTimeLbl</label>
+                    </td>
+                    <td class="MovementNodeStartDataTdPadding2">
+                        <input id="TransferNodeStartTimePicker" type="text" class="form-control text-center datepicker TransferNodeStartTime" />
+                    </td>
+                    <td class="MovementNodeStartDataTdPadding3">
+                        <div id="MovementNodeStartDataGetDataFromArchiveDiv">
+                            <input id="MovementNodeStartDataGetDataFromArchive" type="checkbox" value="Get Data from Archive" unchecked /><label for="GetDataFromArchive">&nbsp;&nbsp;Get Data from Archive</label>
+                        </div>
+                    </td>
+                </tr>
+                @if (!Model.IsVolumeTransferNode)
+                {
+                    <tr>
+                        <td class="MovementNodeStartDataTdPadding1">
+                            <label id="LevelLbl">@levelLbl</label>
+                        </td>
+                        <td class="MovementNodeStartDataTdPadding2">
+                            <input id="MovementNodeStartDataLevel" type="text" class="form-control text-center " value="" />
+                            @*<input id="Level" type="text" class="form-control text-center " value="@(Model.Level.HasValue ? PointManager.FormatValue(typeof(double), Model.LevelUnits, Model.NumberFormatInfo, Model.Level.Value) : string.Empty)" />*@
+                        </td>
+                        <td class="MovementNodeStartDataTdPadding3">
+                            <label id="LevelUnits">@EngineeringUnits.GetUnitString(Model.LevelUnits)</label>
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td class="MovementNodeStartDataTdPadding1">
+                        <label id="TemperatureLbl">@temperatureLbl</label>
+                    </td>
+                    <td class="MovementNodeStartDataTdPadding2">
+                        <input id="MovementNodeStartDataTemperature" type="text" class="form-control text-center" value="" />
+                        @*<input id="Temperature" type="text" class="form-control text-center" value="@(Model.Temperature.HasValue ? PointManager.FormatValue(typeof(double), Model.TemperatureUnits, Model.NumberFormatInfo, Model.Temperature.Value) : string.Empty)" />*@
+                    </td>
+                    <td class="MovementNodeStartDataTdPadding3">
+                        <label id="TemperatureUnits">@EngineeringUnits.GetUnitString(Model.TemperatureUnits)</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="MovementNodeStartDataTdPadding1">
+                        <label id="GrossVolumeLbl">@grossVolumeLbl</label>
+                    </td>
+                    <td class="MovementNodeStartDataTdPadding2">
+                        <input id="MovementNodeStartDataGrossVolume" type="text" class="form-control text-center" value="" />
+                        @*<input id="GrossVolume" type="text" class="form-control text-center" value="@(Model.GrossVolume.HasValue ? PointManager.FormatValue(typeof(double),Model.GrossVolumeUnits,Model.NumberFormatInfo,Model.GrossVolume.Value) : string.Empty)" />*@
+                    </td>
+                    <td class="MovementNodeStartDataTdPadding3">
+                        <label id="GrossVolumeUnits">@EngineeringUnits.GetUnitString(Model.GrossVolumeUnits)</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="MovementNodeStartDataTdPadding1">
+                        <label id="NetVolumeLbl">@netVolumeLbl</label>
+                    </td>
+                    <td class="MovementNodeStartDataTdPadding2">
+                        <input id="MovementNodeStartDataNetVolume" type="text" class="form-control text-center" value="" />
+                        @*<input id="NetVolume" type="text" class="form-control text-center" value="@(Model.NetVolume.HasValue ? PointManager.FormatValue(typeof(double),Model.NetVolumeUnits,Model.NumberFormatInfo,Model.NetVolume.Value) : string.Empty)" />*@
+                    </td>
+                    <td class="MovementNodeStartDataTdPadding3">
+                        <label id="NetVolumeUnits">@EngineeringUnits.GetUnitString(Model.NetVolumeUnits)</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="MovementNodeStartDataTdPadding1">
+                        <label id="MassLbl">@massLbl</label>
+                    </td>
+                    <td class="MovementNodeStartDataTdPadding2">
+                        <input id="MovementNodeStartDataMass" type="text" class="form-control text-center" value="" />
+                        @*<input id="Mass" type="text" class="form-control text-center" value="@(Model.Mass.HasValue ? PointManager.FormatValue(typeof(double),Model.MassUnits,Model.NumberFormatInfo,Model.Mass.Value) : string.Empty)" />*@
+                    </td>
+                    <td class="MovementNodeStartDataTdPadding3">
+                        <label id="MassUnits">@EngineeringUnits.GetUnitString(Model.MassUnits)</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="MovementNodeStartDataTdPadding1">
+                        <label id="DensityLbl">@densityLbl</label>
+                    </td>
+                    <td class="MovementNodeStartDataTdPadding2">
+                        <input id="MovementNodeStartDataDensity" type="text" class="form-control text-center" value="" />
+                        @*<input id="Density" type="text" class="form-control text-center" value="@(Model.Density.HasValue ? PointManager.FormatValue(typeof(double),Model.DensityUnits,Model.NumberFormatInfo,Model.Density.Value) : string.Empty)" />*@
+                    </td>
+                    <td class="MovementNodeStartDataTdPadding3">
+                        <label id="DensityUnits">@EngineeringUnits.GetUnitString(Model.DensityUnits)</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="MovementNodeStartDataTdPadding1">
+                        <label id="StdDensityLbl">@stdDensityLbl</label>
+                    </td>
+                    <td class="MovementNodeStartDataTdPadding2">
+                        <input id="MovementNodeStartDataStdDensity" type="text" class="form-control text-center" value="" />
+                        @*<input id="StdDensity" type="text" class="form-control text-center" value="@(Model.StdDensity.HasValue ? PointManager.FormatValue(typeof(double),Model.StdDensityUnits,Model.NumberFormatInfo,Model.StdDensity.Value) : string.Empty)" />*@
+                    </td>
+                    <td class="MovementNodeStartDataTdPadding3">
+                        <label id="StdDensityUnits">@EngineeringUnits.GetUnitString(Model.StdDensityUnits)</label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </section>
+}
+
+

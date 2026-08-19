@@ -1,0 +1,224 @@
+﻿	/* WORKAROUND: we have an anchor that can be set to disabled but you can still click on it and the onclick event will fire in Chrome (disabled is not a property of anchors)*/
+	 a[disabled] {
+		 pointer-events: none;
+	 }
+
+	#TagViewerMenu {
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
+
+	#TagViewerImage {
+		display: inline;
+	}
+
+	#TagViewerTitle h2 {
+		display: inline;
+		line-height: 100%;
+		vertical-align: middle;
+		padding-left: 10px;
+		color: rgb( 102, 102, 102);
+	}
+
+
+	#TagTable.table {
+		background-color: rgb(240, 240, 240);
+	}
+
+	#TagTable td{
+		border-top:none !important;
+		padding-left: 10px !important;
+	}
+
+	#TagTableWrap {
+		height: 75vh;
+		width: 98%;
+		overflow: auto;
+	}
+
+	.FuelsManager-table-header th {
+
+		color:rgb(167,167,167) !important;
+		border-bottom : none !important;
+		background-color:rgb(240,240,240) !important;
+		font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-weight: bold;
+		line-height: 30px;
+		border-width: 0px;
+		padding-left: 10px !important;
+	}
+
+	#TagTable .form-control[disabled] {
+		color: rgb(193,193,193);
+	}
+
+	#TagTable select[disabled='disabled']::-ms-value {
+		color: rgb(193,193,193);
+	}
+
+	#TagTable.table-striped > tbody > tr:nth-of-type(odd) {
+		/*		background-color: rgb(232,232,232) !important; */
+		background-color: rgb(249, 249, 249) !important; 
+	}
+
+	#TagTable.table.table.table-hover > tbody > tr:hover {
+		background-color: rgb(218,222,231) !important;
+	}
+
+	.container-fluid .row {
+		margin-left: 0px;
+		margin-right: 0px;
+	}
+
+	#addButton {
+		width: 150px;
+		float: right;
+	}
+
+	#removeButton {
+		width: 150px;
+		float: left;
+		font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-weight: bold;
+		font-size:80%;
+	}
+
+	input[type="checkbox"] + span::before
+	{
+		display: inline-block;
+		vertical-align: middle;
+	}
+
+	input[type="checkbox"] + span::before
+	{
+		content: "";
+		width: 16px;
+		height: 16px;
+		margin: 0 4px 0 0;
+		border: solid 1px #a8a8a8;
+		line-height: 14px;
+		text-align: center;
+
+		-moz-border-radius: 100%;
+		-webkit-border-radius: 100%;
+		border-radius: 100%;
+
+	}
+
+	input[type="checkbox"] + span::before
+	{
+		-moz-border-radius: 2px;
+		-webkit-border-radius: 2px;
+		border-radius: 2px;
+	}
+
+	input[type="checkbox"]:checked + span::before
+	{
+		content: "\2714";
+		font-size: 12px;
+	}
+
+	input[class="NewCheckBox"] + span::before
+	{
+		border: solid 1px rgb(193,193,193);
+	}
+
+	input[class="NewCheckBox"]:checked + span::before
+	{
+		color: rgb(99,135,190);
+		border: solid 2px rgb(99,135,190);
+	}
+
+	/*slider*/
+	.ui-slider-horizontal {
+		height: .4em;
+	}
+	.ui-slider .ui-slider-handle {
+		width: .9em;
+		height: .9em;
+	}
+	.ui-widget-header {
+		border: 1px solid rgb( 86,126,185);
+		background: rgb( 86,126,185) url(images/ui-bg_gloss-wave_55_5c9ccc_500x100.png) 50% 50% repeat-x;
+		color: #ffffff;
+		font-weight: bold;
+	}
+	.ui-state-default, .ui-widget-content .ui-state-default {
+		background: rgb( 106,156,229) url(images/ui-bg_glass_85_dfeffc_1x400.png) 50% 50% repeat-x;
+	}
+
+	.editvalue{
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		margin-left: -250px;
+		margin-top: -10px;
+		width: 500px;
+		z-index: 1050;
+		display: none;
+		overflow: hidden;
+		-webkit-overflow-scrolling: touch;
+		outline: 0;
+	}
+
+	.tablesorter-default thead .headerSortUp,
+	.tablesorter-default thead .tablesorter-headerSortUp,
+	.tablesorter-default thead .tablesorter-headerAsc {
+		background-image: url( "../../fmwebapp/images/sort_asc_grey.png" );
+		border-bottom: #000 5px solid;
+	}
+
+	.tablesorter-default thead .headerSortDown,
+	.tablesorter-default thead .tablesorter-headerSortDown,
+	.tablesorter-default thead .tablesorter-headerDesc {
+		background-image: url( "../../fmwebapp/images/sort_desc_grey.png" );
+		border-bottom: #000 5px solid;
+	}
+
+	.tablesorter-default thead .headerSortBoth,
+	.tablesorter-default thead .tablesorter-headerSortBoth,
+	.tablesorter-default thead .tablesorter-headerUnSorted {
+		background-image: none;
+		border-bottom: #000 5px solid;
+	}
+
+	.tablesorter {
+		width: 100%;
+	}
+	.tablesorter td:nth-child(9n+1) {
+		width: 1%;
+	}
+
+	.tablesorter td:nth-child(9n+5) {
+		width: 1%;
+	}
+
+	/* button settings */
+
+	.btn
+	{
+		background:rgb(240,240,240);
+		border-color:rgb(194,194,194);
+		color:rgb(194,194,194);
+	}
+	.btn:hover,
+	.btn:focus,
+	.btn-default:hover,
+	.btn-default:focus {
+		background-color: rgb(86,126,185);
+		color:white;
+		background-position: 0 -15px;
+	}
+	.btn:active,
+	.btn-default.active {
+		background-color: rgb(86,126,185) !important;
+		color:white !important;
+	}
+
+	.DialogButtonClass{
+		background:none !important;
+	}
+
+	.ui-dialog {
+		z-index: 2000 !important ;
+	}

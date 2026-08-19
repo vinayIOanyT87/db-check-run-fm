@@ -1,0 +1,11 @@
+HKCR
+{
+	NoRemove AppID
+	{
+		'%APPID%' = s 'OsdpOPCServer'
+		'OsdpOPCServer.DLL'
+		{
+			val AppID = s '%APPID%'
+		}
+	}
+}

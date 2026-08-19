@@ -1,0 +1,241 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>FuelsManagerAJAXControls</Name>
+    <RootNamespace>FuelsManagerAJAXControls</RootNamespace>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <NodeExePath>C:\Program Files\nodejs\node.exe</NodeExePath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>428beb39-34e6-48a7-a6f1-9449d47ba45b</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>
+    </StartupFile>
+    <StartWebBrowser>False</StartWebBrowser>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <TypeScriptSourceMap>true</TypeScriptSourceMap>
+    <TypeScriptModuleKind>CommonJS</TypeScriptModuleKind>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <EnableTypeScript>true</EnableTypeScript>
+    <StartWebBrowser>False</StartWebBrowser>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="e2e\" />
+    <Folder Include="e2e\src\" />
+    <Folder Include="src\" />
+    <Folder Include="src\app\" />
+    <Folder Include="src\app\fm-core\" />
+    <Folder Include="src\app\fm-core\directives\" />
+    <Folder Include="src\app\fm-core\DTO\" />
+    <Folder Include="src\app\fm-core\services\" />
+    <Folder Include="src\app\fm-core\webparts\" />
+    <Folder Include="src\app\fm-core\webparts\fm-loading-screen\" />
+    <Folder Include="src\app\transaction\" />
+    <Folder Include="src\app\transaction\insert-transaction\" />
+    <Folder Include="src\app\transaction\services\" />
+    <Folder Include="src\app\transaction\services\DTO\" />
+    <Folder Include="src\app\transaction\transaction-layout-modification\" />
+    <Folder Include="src\app\transaction\view-submitted-transactions\" />
+    <Folder Include="src\app\transaction\webparts\" />
+    <Folder Include="src\app\transaction\webparts\fields\" />
+    <Folder Include="src\app\transaction\webparts\fields\transaction-alias-input\" />
+    <Folder Include="src\app\transaction\webparts\fields\transaction-area-form-input\" />
+    <Folder Include="src\app\transaction\webparts\fields\transaction-checkbox-input\" />
+    <Folder Include="src\app\transaction\webparts\fields\transaction-date-input\" />
+    <Folder Include="src\app\transaction\webparts\fields\transaction-date-time-input\" />
+    <Folder Include="src\app\transaction\webparts\fields\transaction-document-number-input\" />
+    <Folder Include="src\app\transaction\webparts\fields\transaction-free-form-input\" />
+    <Folder Include="src\app\transaction\webparts\fields\transaction-generic-list-input\" />
+    <Folder Include="src\app\transaction\webparts\fields\transaction-label\" />
+    <Folder Include="src\app\transaction\webparts\fields\transaction-line\" />
+    <Folder Include="src\app\transaction\webparts\fields\transaction-meter-grouping-input\" />
+    <Folder Include="src\app\transaction\webparts\fields\transaction-product-list-input\" />
+    <Folder Include="src\app\transaction\webparts\fields\transaction-vcfgrouping-input\" />
+    <Folder Include="src\app\transaction\webparts\transaction-field-position-placement\" />
+    <Folder Include="src\app\transaction\webparts\transaction-field-wrapper\" />
+    <Folder Include="src\assets\" />
+    <Folder Include="src\environments\" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="e2e\src\app.e2e-spec.ts" />
+    <TypeScriptCompile Include="e2e\src\app.po.ts" />
+    <TypeScriptCompile Include="src\app\app-routing.module.ts" />
+    <TypeScriptCompile Include="src\app\app.component.ts" />
+    <TypeScriptCompile Include="src\app\app.module.ts" />
+    <TypeScriptCompile Include="src\app\fm-core\directives\enter-stop-propogation.directive.ts" />
+    <TypeScriptCompile Include="src\app\fm-core\directives\field-host.directive.ts" />
+    <TypeScriptCompile Include="src\app\fm-core\directives\focus.directive.ts" />
+    <TypeScriptCompile Include="src\app\fm-core\directives\trigger-change-detection-on-key-up.directive.ts" />
+    <TypeScriptCompile Include="src\app\fm-core\directives\trigger-focus-on-tab-to-next-element.directive.ts" />
+    <TypeScriptCompile Include="src\app\fm-core\DTO\login-response.ts" />
+    <TypeScriptCompile Include="src\app\fm-core\DTO\transaction-alias-placement-information.ts" />
+    <TypeScriptCompile Include="src\app\fm-core\DTO\transaction-alias-stored-fields-entry.ts" />
+    <TypeScriptCompile Include="src\app\fm-core\DTO\transaction-in-simplified-format.ts" />
+    <TypeScriptCompile Include="src\app\fm-core\fm-core.module.ts" />
+    <TypeScriptCompile Include="src\app\fm-core\services\keep-pinging.service.ts" />
+    <TypeScriptCompile Include="src\app\fm-core\services\loading-screen.service.ts" />
+    <TypeScriptCompile Include="src\app\fm-core\services\local-storage.service.ts" />
+    <TypeScriptCompile Include="src\app\fm-core\services\meter.service.ts" />
+    <TypeScriptCompile Include="src\app\fm-core\services\server-config.service.ts" />
+    <TypeScriptCompile Include="src\app\fm-core\services\site.service.ts" />
+    <TypeScriptCompile Include="src\app\fm-core\services\transaction.service.ts" />
+    <TypeScriptCompile Include="src\app\fm-core\services\vcf.service.ts" />
+    <TypeScriptCompile Include="src\app\fm-core\webparts\fm-loading-screen\fm-loading-screen.component.ts" />
+    <TypeScriptCompile Include="src\app\transaction\insert-transaction\insert-transaction.component.ts" />
+    <TypeScriptCompile Include="src\app\transaction\services\current-transaction-details.service.ts" />
+    <TypeScriptCompile Include="src\app\transaction\services\current-transaction-field-bag.service.ts" />
+    <TypeScriptCompile Include="src\app\transaction\services\DTO\current-transaction-settings.ts" />
+    <TypeScriptCompile Include="src\app\transaction\services\DTO\row-properties.ts" />
+    <TypeScriptCompile Include="src\app\transaction\services\DTO\TransactionFieldChangedEvent.ts" />
+    <TypeScriptCompile Include="src\app\transaction\services\meter-math.service.ts" />
+    <TypeScriptCompile Include="src\app\transaction\services\placement-engine.service.ts" />
+    <TypeScriptCompile Include="src\app\transaction\services\save-meter-start-on-meter.service.ts" />
+    <TypeScriptCompile Include="src\app\transaction\services\vcffield-calculator.service.ts" />
+    <TypeScriptCompile Include="src\app\transaction\transaction-layout-modification\transaction-layout-modification.component.ts" />
+    <TypeScriptCompile Include="src\app\transaction\transaction.module.ts" />
+    <TypeScriptCompile Include="src\app\transaction\view-submitted-transactions\view-submitted-transactions.component.ts" />
+    <TypeScriptCompile Include="src\app\transaction\webparts\fields\itransaction-alias-field.ts" />
+    <TypeScriptCompile Include="src\app\transaction\webparts\fields\transaction-alias-input\transaction-alias-input.component.ts" />
+    <TypeScriptCompile Include="src\app\transaction\webparts\fields\transaction-area-form-input\transaction-area-form-input.component.ts" />
+    <TypeScriptCompile Include="src\app\transaction\webparts\fields\transaction-checkbox-input\transaction-checkbox-input.component.ts" />
+    <TypeScriptCompile Include="src\app\transaction\webparts\fields\transaction-date-input\transaction-date-input.component.ts" />
+    <TypeScriptCompile Include="src\app\transaction\webparts\fields\transaction-date-time-input\transaction-date-time-input.component.ts" />
+    <TypeScriptCompile Include="src\app\transaction\webparts\fields\transaction-document-number-input\transaction-document-number-input.component.ts" />
+    <TypeScriptCompile Include="src\app\transaction\webparts\fields\transaction-free-form-input\transaction-free-form-input.component.ts" />
+    <TypeScriptCompile Include="src\app\transaction\webparts\fields\transaction-generic-list-input\transaction-generic-list-input.component.ts" />
+    <TypeScriptCompile Include="src\app\transaction\webparts\fields\transaction-label\transaction-label.component.ts" />
+    <TypeScriptCompile Include="src\app\transaction\webparts\fields\transaction-line\transaction-line.component.ts" />
+    <TypeScriptCompile Include="src\app\transaction\webparts\fields\transaction-meter-grouping-input\transaction-meter-grouping-input.component.ts" />
+    <TypeScriptCompile Include="src\app\transaction\webparts\fields\transaction-product-list-input\transaction-product-list-input.component.ts" />
+    <TypeScriptCompile Include="src\app\transaction\webparts\fields\transaction-vcfgrouping-input\transaction-vcfgrouping-input.component.ts" />
+    <TypeScriptCompile Include="src\app\transaction\webparts\transaction-field-position-placement\transaction-field-position-placement.component.ts" />
+    <TypeScriptCompile Include="src\app\transaction\webparts\transaction-field-wrapper\transaction-field-wrapper.component.ts" />
+    <TypeScriptCompile Include="src\environments\environment.prod.ts" />
+    <TypeScriptCompile Include="src\environments\environment.ts" />
+    <TypeScriptCompile Include="src\main.ts" />
+    <TypeScriptCompile Include="src\polyfills.ts" />
+    <TypeScriptCompile Include="src\test.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="e2e\protractor.conf.js" />
+    <Compile Include="src\karma.conf.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include=".editorconfig" />
+    <Content Include="angular.json" />
+    <Content Include="e2e\tsconfig.e2e.json" />
+    <Content Include="package-lock.json" />
+    <Content Include="package.json" />
+    <Content Include="README.md" />
+    <Content Include="src\app\app.component.css" />
+    <Content Include="src\app\app.component.html" />
+    <Content Include="src\app\fm-core\webparts\fm-loading-screen\fm-loading-screen.component.css" />
+    <Content Include="src\app\fm-core\webparts\fm-loading-screen\fm-loading-screen.component.html" />
+    <Content Include="src\app\transaction\insert-transaction\insert-transaction.component.css" />
+    <Content Include="src\app\transaction\insert-transaction\insert-transaction.component.html" />
+    <Content Include="src\app\transaction\transaction-layout-modification\transaction-layout-modification.component.css" />
+    <Content Include="src\app\transaction\transaction-layout-modification\transaction-layout-modification.component.html" />
+    <Content Include="src\app\transaction\view-submitted-transactions\view-submitted-transactions.component.css" />
+    <Content Include="src\app\transaction\view-submitted-transactions\view-submitted-transactions.component.html" />
+    <Content Include="src\app\transaction\webparts\fields\transaction-alias-input\transaction-alias-input.component.css" />
+    <Content Include="src\app\transaction\webparts\fields\transaction-alias-input\transaction-alias-input.component.html" />
+    <Content Include="src\app\transaction\webparts\fields\transaction-area-form-input\transaction-area-form-input.component.css" />
+    <Content Include="src\app\transaction\webparts\fields\transaction-area-form-input\transaction-area-form-input.component.html" />
+    <Content Include="src\app\transaction\webparts\fields\transaction-checkbox-input\transaction-checkbox-input.component.css" />
+    <Content Include="src\app\transaction\webparts\fields\transaction-checkbox-input\transaction-checkbox-input.component.html" />
+    <Content Include="src\app\transaction\webparts\fields\transaction-date-input\transaction-date-input.component.css" />
+    <Content Include="src\app\transaction\webparts\fields\transaction-date-input\transaction-date-input.component.html" />
+    <Content Include="src\app\transaction\webparts\fields\transaction-date-time-input\transaction-date-time-input.component.css" />
+    <Content Include="src\app\transaction\webparts\fields\transaction-date-time-input\transaction-date-time-input.component.html" />
+    <Content Include="src\app\transaction\webparts\fields\transaction-document-number-input\transaction-document-number-input.component.css" />
+    <Content Include="src\app\transaction\webparts\fields\transaction-document-number-input\transaction-document-number-input.component.html" />
+    <Content Include="src\app\transaction\webparts\fields\transaction-free-form-input\transaction-free-form-input.component.css" />
+    <Content Include="src\app\transaction\webparts\fields\transaction-free-form-input\transaction-free-form-input.component.html" />
+    <Content Include="src\app\transaction\webparts\fields\transaction-generic-list-input\transaction-generic-list-input.component.css" />
+    <Content Include="src\app\transaction\webparts\fields\transaction-generic-list-input\transaction-generic-list-input.component.html" />
+    <Content Include="src\app\transaction\webparts\fields\transaction-line\transaction-line.component.css" />
+    <Content Include="src\app\transaction\webparts\fields\transaction-line\transaction-line.component.html" />
+    <Content Include="src\app\transaction\webparts\fields\transaction-meter-grouping-input\transaction-meter-grouping-input.component.css" />
+    <Content Include="src\app\transaction\webparts\fields\transaction-meter-grouping-input\transaction-meter-grouping-input.component.html" />
+    <Content Include="src\app\transaction\webparts\fields\transaction-product-list-input\transaction-product-list-input.component.css" />
+    <Content Include="src\app\transaction\webparts\fields\transaction-product-list-input\transaction-product-list-input.component.html" />
+    <Content Include="src\app\transaction\webparts\fields\transaction-vcfgrouping-input\transaction-vcfgrouping-input.component.css" />
+    <Content Include="src\app\transaction\webparts\fields\transaction-vcfgrouping-input\transaction-vcfgrouping-input.component.html" />
+    <Content Include="src\app\transaction\webparts\fields\TransactionFields.css" />
+    <Content Include="src\app\transaction\webparts\transaction-field-position-placement\transaction-field-position-placement.component.css" />
+    <Content Include="src\app\transaction\webparts\transaction-field-position-placement\transaction-field-position-placement.component.html" />
+    <Content Include="src\app\transaction\webparts\transaction-field-wrapper\transaction-field-wrapper.component.css" />
+    <Content Include="src\app\transaction\webparts\transaction-field-wrapper\transaction-field-wrapper.component.html" />
+    <Content Include="src\assets\.gitkeep" />
+    <Content Include="src\browserslist" />
+    <Content Include="src\favicon.ico" />
+    <Content Include="src\index.html" />
+    <Content Include="src\styles.css" />
+    <Content Include="src\tsconfig.app.json" />
+    <Content Include="src\tsconfig.spec.json" />
+    <Content Include="src\tslint.json" />
+    <Content Include="tsconfig.json" />
+    <Content Include="tslint.json" />
+  </ItemGroup>
+  <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
+  <!-- <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />-->
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
+  <Target Name="Build">
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:48022/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

@@ -1,0 +1,195 @@
+<div class="status"><span class="connectionSignal" [ngStyle]="setBackgroundColor()"></span> {{status}}</div>
+<div class="rtuname">{{configRTUName}}</div>
+<button *ngIf="!isConnected()" class="connectbutton btn btn-primary buttontextclass" (click)="connectButton()">Connect</button>
+<button *ngIf="isConnected()" class="connectbutton btn btn-primary buttontextclass" (click)="disconnectButton()">Disconnect</button>
+
+<div class='rtudetailpanel'>
+    <div class="rtuip">IP Address: {{configIPAddress}}</div>
+    <div class="rtufwver">Firmware: {{configfwver}}</div>
+    <div class="rtusysver">System Ver: {{configSysVer}}</div>
+</div>
+<ng-template #modalRTUConnection>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Connect to RTU</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="search">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Enter IP Address" autocomplete="off" (ngModelChange)="filter($event)" [ngModel]="searchByIP">
+                <div class="input-group-append">
+                    <span class="input-group-text bg-white"><i class="fa fa-search" title="Search"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="connection-list">
+            <perfect-scrollbar>
+                <div *ngFor="let connection of filteredconnectionList" class="connectionnode" (click)="selectConnection(connection)" title="IP: {{connection.ipaddress}}&#13;Name: {{connection.name}}&#13;Last Connection: {{connection.lastconnection}}">
+                    <i class="fa fa-server fa-rotate-270 fa-4x"></i>
+                    <div class="iconlabel text-center">{{connection.ipaddress}}</div>
+                </div>
+                <div *ngIf="connectionList && connectionList.length == 0">
+                    <p class="noconnectionsfound">No previous connections!</p>
+                </div>
+            </perfect-scrollbar>
+        </div>
+        <div class="connection-login">
+            <form name="connectRTUForm" #connectRTUForm="ngForm" (keyup.enter)="connectButtonEnabled(connectRTUForm) ? connectToRTU() : false;">
+                <div class="form-group">
+                    <label for="urlTextbox">IP Address</label>
+                    <input type="text" class="form-control" id="urlTextbox" placeholder="IP Address ex. 000.000.000.000" #ipAddress [ngStyle]="getIPAddressStyle(urlTextbox, 'urlTextbox')" pattern="^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+                        required [(ngModel)]="connectionString" #urlTextbox ="ngModel" name="urlTextbox">
+                </div>
+                <div class="form-group">
+                    <label for="securityModeDropdown">Security Mode</label>
+                    <select class="form-control" id="securityModeDropdown" [(ngModel)]="securityMode" name="securityModeDropdown" (change)="updateUserIdentity()">
+                        <option value="none">None</option>
+                        <option value="sign">Sign</option>
+                        <option value="signAndEncrypt">SignAndEncrypt</option>
+                    </select>
+                </div>
+                <div class="form-group" *ngIf="securityMode != 'none'">
+                    <label for="securityPolicyDropdown">Security Policy</label>
+                    <select class="form-control" id="securityPolicyDropdown" [(ngModel)]="securityPolicy" name="securityPolicyDropdown">
+                        <option value="Basic256Sha256">Basic256Sha256</option>
+                        <option value="AES128Sha256RsaOaep">AES128Sha256RsaOaep</option>
+                        <option value="AES256Sha256RsaPss">AES256Sha256RsaPss</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="userIdentityDropdown">User Identity</label>
+                    <select class="form-control" id="userIdentityDropdown" [(ngModel)]="userIdentity" name="userIdentityDropdown">
+                        <option *ngIf="securityMode == 'none'" value="anonymous">Anonymous</option>
+                        <option value="username">User Name</option>
+                        <option *ngIf="securityMode != 'none'" value="certificate">Certificate</option>
+                    </select>
+                </div>
+                <div class="form-group" *ngIf="userIdentity == 'certificate'">
+                    <label>Certificate</label>
+                    <div class="input-group">
+                        <input type="text" readonly class="form-control" id="certificateTextbox" name="certificateTextbox" placeholder="Select a Certificate" autocomplete="off" [(ngModel)]="certificateFilename" [ngStyle]="getRequiredTextboxStyle(certificateFilename, 'certificateTextbox')" />
+                        <label id="loadCertButton">
+                            <input type="file" class="form-control" id="certFile" name="certFile" (change)="handleCertFileInput($event.target.files)" accept=".pfx" />
+                            <div class="input-group" class="search">
+                                <i class="fa fa-upload" title="Upload Certificate"></i>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group" *ngIf="userIdentity == 'username'">
+                    <label for="loginIdTextbox">Login ID</label>
+                    <input type="text" class="form-control" id="loginIdTextbox" name="loginIdTextbox" placeholder="Login ID" autocomplete="off" [(ngModel)]="loginId" #loginIdTextbox="ngModel" [ngStyle]="getlogonidStyle(loginIdTextbox, 'loginIdTextbox')">
+                </div>
+                <div class="form-group" *ngIf="userIdentity != 'anonymous'">
+                    <label for="passwordTextbox">Password<span *ngIf="userIdentity == 'certificate'"> (Optional)</span></label>
+                    <input type="password" class="form-control" id="passwordTextbox" name="passwordTextbox" placeholder="Password" autocomplete="off" [(ngModel)]="password" #passwordTextbox="ngModel" [ngStyle]="getlogonpasswordStyle(passwordTextbox, 'passwordTextbox')">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="connectButton" type="button" class="btn btn-primary buttontextclass" [disabled]="!connectButtonEnabled(connectRTUForm)" (click)="connectToRTU();">Connect</button>
+        <button id="cancelButton" type="button" class="btn btn-primary buttontextclass" (click)="modalRef.hide();">Cancel</button>
+    </div>
+</ng-template>
+
+
+<ng-template #modalRTUConnected>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Connecting to RTU</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="cancelConnection();">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="rtudetails">
+            <div>
+                <label for="rtuname">Name</label>
+                <div id="rtuname" class='rtuproperty' [ngClass]="{'text-danger': rtuname != 'unknown' && configRTUName != '' && rtuname != configRTUName}">{{rtuname}}</div>
+            </div>
+            <div>
+                <label for="rtuipaddress">IP Address</label>
+                <div id="rtuipaddress" class='rtuproperty' [ngClass]="{'text-danger': ipaddress != 'unknown' && configIPAddress != '' && ipaddress != configIPAddress}">{{ipaddress}}</div>
+            </div>
+            <div>
+                <label for="rtusysver">System Version</label>
+                <div id="rtusysver" class='rtuproperty' [ngClass]="{'text-danger': sysver != 'unknown' && configSysVer != '' && sysver.toUpperCase() != configSysVer.toUpperCase()}">{{sysver.toUpperCase()}}</div>
+            </div>
+            <div>
+                <label for="rtufirmware">Firmware Version</label>
+                <div id="rtufirmware" class='rtuproperty' [ngClass]="{'text-danger': fwver != 'unknown' && configfwver != '' && fwver != configfwver}">{{fwver}}</div>
+            </div>
+            <div>
+                <label for="rtudbfile">DB File</label>
+                <div id="rtudbfile" class='rtuproperty'>{{dbfile}}</div>
+            </div>
+        </div>
+
+        <div class="chassisview">
+            <img id="chassisImg" src="assets/chassis.png" />
+            <div id="module0" class="cpu-card interface-module0"></div>
+            <div id="interfacemoduleslist">
+                <div id="module1" class="interface-card interface-module1" [ngClass]="{'moduledifferent': fwver != 'unknown'  && configfwver != '' && module1Id != configModule1Id}" [style.background-image]="module1Img"></div>
+                <div id="module2" class="interface-card interface-module2" [ngClass]="{'moduledifferent': fwver != 'unknown'  && configfwver != '' && module2Id != configModule2Id}" [style.background-image]="module2Img"></div>
+                <div id="module3" class="interface-card interface-module3" [ngClass]="{'moduledifferent': fwver != 'unknown'  && configfwver != '' && module3Id != configModule3Id}" [style.background-image]="module3Img"></div>
+                <div id="module4" class="interface-card interface-module4" [ngClass]="{'moduledifferent': fwver != 'unknown'  && configfwver != '' && module4Id != configModule4Id}" [style.background-image]="module4Img"></div>
+                <div id="module5" class="interface-card interface-module5" [ngClass]="{'moduledifferent': fwver != 'unknown'  && configfwver != '' && module5Id != configModule5Id}" [style.background-image]="module5Img"></div>
+                <div id="module6" class="interface-card interface-module6" [ngClass]="{'moduledifferent': fwver != 'unknown'  && configfwver != '' && module6Id != configModule6Id}" [style.background-image]="module6Img"></div>
+            </div>
+        </div>
+        <div class='text-danger pull-right font-italic small'>* Red indicates differences between the current configuration and the RTU configuration</div>
+    </div>
+    <div class="modal-footer">
+      <span class='modalconnectionindicator'>
+        <span class="connectionSignal" [ngStyle]="setBackgroundColor()"></span> {{status}}
+        <span class="fa fa-lg" [ngClass]="{'fa-spinner fa-spin': isInProgress()}"></span>
+      </span>
+      <button id="cancel2Button" type="button" class="btn btn-primary" (click)="cancelConnection();">Cancel</button>
+      <button id="readButton" type="button" class="btn btn-primary "  [disabled]="!isConnected() "(click)="verifyReadConfig();">Read from RTU</button>
+      <button id="writeButton" type="button" class="btn btn-primary" [disabled]="!isConnected()" (click)="verifyWriteConfig();">Write to RTU</button>
+    </div>
+</ng-template>
+
+<ng-template #modalVerifyWritetoRTUAction>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Are you sure you want to overwrite the current RTU configuration?</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalReflocal.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            All current RTU settings will be overwritten and cannot be undone.
+        </div>
+        <div class="form-group">
+            Click <b>OK</b> to continue or <b>Cancel</b> to go back.
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="cancelButton" type="button" class="btn btn-secondary" (click)="modalReflocal.hide();">Cancel</button>
+        <button id="copyButton" type="button" class="btn btn-primary" (click)="writeConfig();">OK</button>
+    </div>
+</ng-template>
+
+<ng-template #modalVerifyReadtoRTUAction>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Are you sure you want to read from the active RTU configuration?</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalReflocal.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            All current configuration settings will be overwritten and cannot be undone.
+        </div>
+        <div class="form-group">
+            Click <b>OK</b> to continue or <b>Cancel</b> to go back.
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="cancelButton" type="button" class="btn btn-secondary" (click)="modalReflocal.hide();">Cancel</button>
+        <button id="copyButton" type="button" class="btn btn-primary" (click)="readConfig();">OK</button>
+    </div>
+</ng-template>

@@ -1,0 +1,27 @@
+﻿
+@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.PointsFilterModel
+<script src="~/Areas/Lib/jquery.columnizer.js"></script>
+
+<div id="PE_RolloutMenuUL" class="pointListColumns">
+    @foreach (var point in Model.Points)
+    {
+        var pointName = point.ID;
+        var pointGuid = point.IdentityGuid.ToString();
+        var pointDescription = point.Description;
+        var pointCategories = point.PointCategoryCollection.Select( x => x.ID).ToArray();
+        var pointCategoriesList = "|" + string.Join("|", pointCategories) + "|";  // using "|" as delimiter between the names
+
+        // URL has to be set in this manner in order for the page to reset everything.  If Url.Action is used then not all the
+        // data is reset.
+        var selectedPointUrl = "?target=../InventoryManagement/Points/PointsDetail/" + pointGuid + "&CSRFToken=" + this.Session["CSRFToken"];
+        <div class="PE_RolloutMenuLI points-dontsplit" data_tag="@pointGuid" data-name="@pointName" data-point-type="@point.PointType" data-point-category="@pointCategoriesList" onclick="GetSelectedPoint('@selectedPointUrl');">
+            <div class="PE_RolloutMenuName list-view" title="@pointName"><img src="~/DisplayImage.ashx?PictureGuid=@point.ProfileImageGuid" class="PE_RolloutSmallMenuIcon"/><span>@pointName</span></div>
+            <div class="PE_RolloutMenuName detail-view" title="@pointName">@pointName</div>
+            <div class="PE_RolloutMenuIcon detail-view"><img src="~/DisplayImage.ashx?PictureGuid=@point.ProfileImageGuid"/></div>
+            <textarea readonly class="PE_RolloutMenuDescription detail-view">@pointDescription</textarea>
+        </div>
+
+    }
+</div>
+

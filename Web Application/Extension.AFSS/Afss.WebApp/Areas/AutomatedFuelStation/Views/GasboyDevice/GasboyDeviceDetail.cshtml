@@ -1,0 +1,129 @@
+﻿@using FuelsManager.Afss.WebApp.Areas.AutomatedFuelStation.Controllers
+@using FuelsManager.Areas.Controllers
+
+@model FuelsManager.Afss.WebApp.Areas.AutomatedFuelStation.Models.GasboyDeviceDetailModel
+@{
+	ViewBag.Title = "GasboyDeviceDetail";
+}
+
+<style>
+	/*.ui-tabs {
+		border: none;
+		background: none;
+	}
+
+		.ui-tabs .ui-tabs-nav {
+			border-width: 0;
+			background: none;
+			font-family: verdana,tahoma,helvetica;
+			font-size: 8pt;
+			font-weight: bold;
+		}
+
+			.ui-tabs .ui-tabs-nav a {
+				background: #CCCCCC;
+				color: black;
+			}
+
+		.ui-tabs .ui-tabs-active a {
+			background: #0D246A;
+			color: white;
+		}
+
+	.ui-corner-top {
+		border-radius: 0;
+	}
+
+	.ui-corner-bottom {
+		border-radius: 0;
+	}
+
+	.ui-tabs .ui-tabs-panel {
+		padding: 1em 0;
+	}*/
+
+	.row {
+		max-width: 1000px;
+	}
+</style>
+
+<script>
+
+	$(document).ready(function() {
+
+		// Make the tab control appear. If an ActiveTabIndex value has been set, make that tab the active tab.
+		// If the ActiveTabIndex has not been set, show the first tab.
+		// Keep in mind that the active tab is zero-based.
+		$('#gasboyDeviceTabs').tabs();
+		$('#gasboyDeviceTabs').tabs.active = @(ViewBag.ActiveTabIndex ?? 0);
+	});
+
+</script>
+
+<div>
+	<div class="container-fluid">
+		<div class="row headline" style="padding-bottom:10px">@FMBaseController.TranslateText("Gasboy Device Configuration") - @Model.GasboyDevice.CardNumber</div>
+
+		@using (Html.BeginForm("GasboyDeviceDetail", "GasboyDevice", FormMethod.Post))
+		{
+			@Html.AntiForgeryToken()
+
+			var editText = FMBaseController.TranslateText("Edit");
+			var deleteText = FMBaseController.TranslateText("Delete");
+			var gasboyDeviceIDText = FMBaseController.TranslateText("Gasboy Device ID");
+
+			<div id="gasboyDeviceTabs">
+				<ul>
+					<li><a href="#gasboyDeviceTabs-General">@FMBaseController.TranslateText("General")</a></li>
+				</ul>
+				<div id="gasboyDeviceTabs-General">
+					<div class="row">
+						@Html.HiddenFor(m => m.GasboyDevice.IdentityGuid)
+						@Html.HiddenFor(m => m.GasboyDevice.SiteGuid)
+						<div class="col-md-2">
+							@Html.LabelFor(m => m.GasboyDevice.DeviceCode, FMBaseController.TranslateText("Device Code") + ":", new { @class = "formfieldtitle" })
+						</div>
+						<div class="col-md-4 formfield">
+							@Html.TextBoxFor(m => m.GasboyDevice.DeviceCode, new { maxlength = "50", @readonly="readonly"})
+						</div>
+						<div class="col-md-1" hidden>
+							@Html.LabelFor(m => m.GasboyDevice.DeviceName, FMBaseController.TranslateText("Device Name") + ":", new { @class = "formfieldtitle" })
+						</div>
+						<div class="col-md-5 formfield" hidden>
+							@Html.TextBoxFor(m => m.GasboyDevice.DeviceName, new { maxlength = "50" })
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-2">
+							@Html.LabelFor(m => m.GasboyDevice.CardNumber, FMBaseController.TranslateText("Card Number") + ":", new { @class = "formfieldtitle" })
+						</div>
+						<div class="col-md-4 formfield">
+							@Html.TextBoxFor(m => m.GasboyDevice.CardNumber, new { maxlength = "50", @readonly = "readonly" , style = "width: 230px;"})
+						</div>
+						<div class="col-md-1" hidden>
+							@Html.LabelFor(m => m.GasboyDevice.DepartmentCode, FMBaseController.TranslateText("Department Code") + ":", new { @class = "formfieldtitle" })
+						</div>
+						<div class="col-md-5 formfield" hidden>
+							@Html.TextBoxFor(m => m.GasboyDevice.DepartmentCode, new { maxlength = "16" })
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-2">
+							@Html.LabelFor(m => m.GasboyDevice.DepartmentID, FMBaseController.TranslateText("Department ID") + ":", new { @class = "formfieldtitle" })
+						</div>
+						<div class="col-md-4 formfield">
+							@Html.DropDownListFor(m => m.SelectedDepartment, Model.DepartmentList)
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6"></div>
+				<div class="col-md-6">
+					<input type='submit' value='@FMBaseController.TranslateText("OK")' id="btnOK" name="submitButton" class="formfieldtitle pushButton" disabled="@(!Model.IsEditable)" />
+					<input type='button' value='@FMBaseController.TranslateText("Cancel")' class="formfieldtitle" onclick="window.location.href('@Url.Action("GasboyDeviceSummaryIndex", "GasboyDevice")')" />
+				</div>
+			</div>
+		}
+	</div>
+</div>

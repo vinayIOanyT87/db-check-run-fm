@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project InitialTargets="CanonicalizePaths" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" >
+  <Target Name="AfterCompile">
+    <PropertyGroup>
+      <FMBuildDropRoot Condition=" '$(BuildFusionRoot)'=='' " >$(SolutionRoot)\..\..\..\Build_Fusion</FMBuildDropRoot>
+      <AccountingImportExportVDir Condition=" '$(AccountingImportExportVDir)'=='' " >$(FMBuildDropRoot)\AccountingImportExportVDir\</AccountingImportExportVDir>
+      <ComputerSetupDir Condition=" '$(ComputerSetupDir)'=='' " >$(FMBuildDropRoot)\Computer Setup\</ComputerSetupDir>
+      <DBDir Condition=" '$(DBDir)'=='' " >$(FMBuildDropRoot)\db\</DBDir>
+      <FuelsManagerDir Condition=" '$(FuelsManagerDir)'=='' " >$(FMBuildDropRoot)\FuelsManager\</FuelsManagerDir>
+      <FuelsManagerOnlineDir Condition=" '$(FuelsManagerOnlineDir)'=='' " >$(FMBuildDropRoot)\FuelsManager\Online Documentation\</FuelsManagerOnlineDir>
+      <FuelsManagerSharedDir Condition=" '$(FuelsManagerSharedDir)'=='' " >$(FMBuildDropRoot)\FuelsManager Shared\</FuelsManagerSharedDir>
+      <FuelsManagerVDir Condition=" '$(FuelsManagerVDir)'=='' " >$(FMBuildDropRoot)\FuelsManagerVDir\</FuelsManagerVDir>
+      <ProjectsDir Condition=" '$(ProjectsDir)'=='' " >$(FMBuildDropRoot)\Projects\</ProjectsDir>
+      <UtilsDir Condition=" '$(UtilsDir)'=='' " >$(FMBuildDropRoot)\utils\</UtilsDir>
+      <WebAppDir Condition=" '$(WebAppDir)'=='' " >$(SolutionRoot)\Web Application\</WebAppDir>
+      <ReleasedBinaries Condition="'$(ReleaseBinaries)'=='' " >$(SolutionRoot)\..\Binaries\Release\</ReleasedBinaries>
+      <MixedPlatformReleasedBinaries Condition="'$(MixedPlatformReleasedBinaries)'=='' " >$(SolutionRoot)\..\Binaries\Mixed Platforms\Release\</MixedPlatformReleasedBinaries>
+      <PublishedWebApps Condition="'$(PublishedWebApps)'=='' " >$(ReleasedBinaries)_PublishedWebsites\</PublishedWebApps>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <DBSrcFiles Include="$(WebAppDir)Database - Development\**\*.*" />
+      <AccountingImportExportFiles1 Include="$(PublishedWebApps)AccountingImportExport\**\*.*" />
+      <AccountingImportExportFiles2 Include="$(ReleasedBinaries)LogClient.dll" />
+      <AccountingImportExportFiles2 Include="$(ReleasedBinaries)AccountingBLL.dll" />
+      <AccountingImportExportFiles2 Include="$(ReleasedBinaries)AccountingServices.dll" />
+      <AccountingImportExportFiles2 Include="$(ReleasedBinaries)LogClient.dll" />
+      <FuelsManagerFiles1 Include="$(WebAppDir)Projects\Online Documentation\**\*.*" />
+      <FuelsManagerFiles2 Include="$(ReleasedBinaries)AccountingEOM.exe" />
+      <FuelsManagerFiles2 Include="$(ReleasedBinaries)LoadRackService.exe" />
+      <FuelsManagerFiles2 Include="$(ReleasedBinaries)LogService.exe" />
+      <FuelsManagerFiles2 Include="$(ReleasedBinaries)TransactionArchivingService.exe" />
+      <ProjectFiles1 Include="$(WebAppDir)Projects\**\*.*" />
+      <UtilFiles1 Include="$(WebAppDir)FMBuildUtils\*.exe" />
+      <UtilFiles1 Include="$(WebAppDir)FMBuildUtils\*.bat" />
+      <FuelsManagerVDirFiles1 Include="$(PublishedWebApps)**\*.*" />
+      <FuelsManagerVDirFiles2 Include="$(PublishedWebApps)**\bin\*.dll" />
+      <FuelsManagerVDirFiles2 Include="$(MixedPlatformReleasedBinaries)AcculoadOPCObjects.dll" />
+      <FuelsManagerVDirFiles2 Include="$(MixedPlatformReleasedBinaries)AcculoadOPCServer.dll" />
+      <FuelsManagerVDirFiles2 Include="$(MixedPlatformReleasedBinaries)DanielOPCObjects.dll" />
+      <FuelsManagerVDirFiles2 Include="$(MixedPlatformReleasedBinaries)DanielOPCServer.dll" />
+      <FuelsManagerVDirFiles2 Include="$(MixedPlatformReleasedBinaries)ContrecOPCObjects.dll" />
+      <FuelsManagerVDirFiles2 Include="$(MixedPlatformReleasedBinaries)ContrecOPCServer.dll" />
+      <FuelsManagerVDirFiles2 Include="$(ReleasedBinaries)EntityImportExport.dll" />
+      <FuelsManagerVDirFiles2 Include="$(MixedPlatformReleasedBinaries)OptomuxOPCObjects.dll" />
+      <FuelsManagerVDirFiles2 Include="$(MixedPlatformReleasedBinaries)OptomuxOPCServer.dll" />
+      <FuelsManagerVDirFiles2 Include="$(MixedPlatformReleasedBinaries)OsdpOPCObjects.dll" />
+      <FuelsManagerVDirFiles2 Include="$(MixedPlatformReleasedBinaries)OsdpOPCServer.dll" />
+      <FuelsManagerVDirFiles2 Include="$(MixedPlatformReleasedBinaries)WeightScaleOPCObjects.dll" />
+      <FuelsManagerVDirFiles2 Include="$(MixedPlatformReleasedBinaries)WeightScaleOPCServer.dll" />
+      <FuelsManagerVDirFiles3 Include="$(PublishedWebApps)FuelsManager\*.*" />
+      <FuelsManagerSharedDirFiles1 Include="$(ReleasedBinaries)*.dll" />
+      <FuelsManagerSharedDirFiles2 Include="$(WebAppDir)Binaries\*.dll" />
+      <FuelsManagerSharedDirFiles2 Include="$(WebAppDir)Binaries\*.BMP" />
+      <FuelsManagerSharedDirFiles2 Include="$(WebAppDir)Binaries\*.ini" />
+      <FuelsManagerSharedDirFiles2 Include="$(WebAppDir)SharedComponents\ConsolidatedUtilities\bin\Interop.ConsolidatedUtilities.dll" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <DBSrcFiles Remove="$(WebAppDir)Database - Development\Accounting Scripts\**\*" />
+      <AccountingImportExportFiles1 Remove="$(PublishedWebApps)AccountingImportExport\**\TestImport.xml" />
+      <FuelsManagerFiles1 Remove="$(WebAppDir)Projects\Online Documentation\**\*.scc" />
+      <ProjectFiles1 Remove="$(WebAppDir)Projects\**\*.scc" />
+      <FuelsManagerVDirFiles1 Remove="$(PublishedWebApps)**\bin\*" />
+      <FuelsManagerVDirFiles1 Remove="$(PublishedWebApps)AccountingImportExport\*" />
+      <FuelsManagerVDirFiles1 Remove="$(PublishedWebApps)**\*.dll" />
+      <FuelsManagerVDirFiles1 Remove="$(PublishedWebApps)FuelsManager\*" />
+      <FuelsManagerVDirFiles2 Remove="$(PublishedWebApps)AccountingImportExport\bin\*.dll" />
+      <FuelsManagerVDirFiles2 Remove="$(PublishedWebApps)**\bin\*.XmlSerializers.dll" />
+      <FuelsManagerVDirFiles2 Remove="$(PublishedWebApps)**\bin\AccountingDAL.dll" />
+      <FuelsManagerVDirFiles2 Remove="$(PublishedWebApps)**\bin\AccountingServices.dll" />
+      <FuelsManagerVDirFiles2 Remove="$(PublishedWebApps)**\bin\ConsolidatedBLL.dll" />
+      <FuelsManagerVDirFiles2 Remove="$(PublishedWebApps)**\bin\ConsolidatedDAL.dll" />
+      <FuelsManagerVDirFiles2 Remove="$(PublishedWebApps)**\bin\ConsolidatedDataObjects.dll" />
+      <FuelsManagerVDirFiles2 Remove="$(PublishedWebApps)**\bin\FMCommon.dll" />
+      <FuelsManagerVDirFiles2 Remove="$(PublishedWebApps)**\bin\Helpers.dll" />
+      <FuelsManagerVDirFiles2 Remove="$(PublishedWebApps)**\bin\Interop.FMUtil.dll" />
+      <FuelsManagerVDirFiles2 Remove="$(PublishedWebApps)**\bin\Interop.ConvertEngUnits.dll" />
+      <FuelsManagerVDirFiles2 Remove="$(PublishedWebApps)**\bin\Interop.VolumeCorrection.dll" />
+      <FuelsManagerVDirFiles2 Remove="$(PublishedWebApps)**\bin\LogClient.dll" />
+      <FuelsManagerVDirFiles2 Remove="$(PublishedWebApps)**\bin\Microsoft.Web.UI.WebControls.dll" />
+      <FuelsManagerVDirFiles2 Remove="$(PublishedWebApps)**\bin\ReportingBLL.dll" />
+      <FuelsManagerVDirFiles2 Remove="$(PublishedWebApps)**\bin\ReportingServices.dll" />
+      <FuelsManagerVDirFiles2 Remove="$(PublishedWebApps)**\bin\SigPlusNET.dll" />
+      <FuelsManagerSharedDirFiles1 Remove="$(ReleasedBinaries)Accounting.dll" />
+      <FuelsManagerSharedDirFiles1 Remove="$(ReleasedBinaries)*.XmlSerializers.dll" />
+      <FuelsManagerSharedDirFiles1 Remove="$(ReleasedBinaries)AccountingImportExport.dll" />
+      <FuelsManagerSharedDirFiles1 Remove="$(ReleasedBinaries)*OPCObjects.dll" />
+      <FuelsManagerSharedDirFiles1 Remove="$(ReleasedBinaries)*OPCServer.dll" />
+      <FuelsManagerSharedDirFiles1 Remove="$(ReleasedBinaries)*WebApp.dll" />
+      <FuelsManagerSharedDirFiles1 Remove="$(ReleasedBinaries)amqmdnet.dll" />
+      <FuelsManagerSharedDirFiles1 Remove="$(ReleasedBinaries)DataSynchronizationProcessor.dll" />
+      <FuelsManagerSharedDirFiles1 Remove="$(ReleasedBinaries)FieldControls.dll" />
+      <FuelsManagerSharedDirFiles1 Remove="$(ReleasedBinaries)FMControls.dll" />
+      <FuelsManagerSharedDirFiles1 Remove="$(ReleasedBinaries)Interop.*OPC*.dll" />
+      <FuelsManagerSharedDirFiles1 Remove="$(ReleasedBinaries)Microsoft.Web.UI.WebControls.dll" />
+      <FuelsManagerSharedDirFiles1 Remove="$(ReleasedBinaries)TransactionFields.dll" />
+      <FuelsManagerSharedDirFiles1 Remove="$(ReleasedBinaries)WebTicketingBLL.dll" />
+      <FuelsManagerSharedDirFiles1 Remove="$(ReleasedBinaries)WebTicketingDataObjects.dll" />
+      <FuelsManagerSharedDirFiles1 Remove="$(ReleasedBinaries)FMReporting.dll" />
+      <FuelsManagerSharedDirFiles1 Remove="$(ReleasedBinaries)FMReportWebMain.dll" />
+      <FuelsManagerSharedDirFiles1 Remove="$(ReleasedBinaries)FMXMLConfig.dll" />
+      <FuelsManagerSharedDirFiles1 Remove="$(ReleasedBinaries)FuelsManager.dll" />
+      <FuelsManagerSharedDirFiles1 Remove="$(ReleasedBinaries)FuelsManager.UnitTests.dll" />
+      <FuelsManagerSharedDirFiles1 Remove="$(ReleasedBinaries)OrderEntry.dll" />
+      <FuelsManagerSharedDirFiles1 Remove="$(ReleasedBinaries)ReserveLevelCalculator_Accessor.dll" />
+      <FuelsManagerSharedDirFiles1 Remove="$(ReleasedBinaries)StandardXMLImportExport.dll" />
+      <FuelsManagerSharedDirFiles2 Remove="$(WebAppDir)Binaries\amqmdnet.dll" />
+    </ItemGroup>
+
+    <MakeDir Directories="$(AccountingImportExportVDir)" />
+    <MakeDir Directories="$(AccountingImportExportVDir)\bin" />
+    <MakeDir Directories="$(ComputerSetupDir)" />
+    <MakeDir Directories="$(DBDir)" />
+    <MakeDir Directories="$(FuelsManagerDir)" />
+    <MakeDir Directories="$(FuelsManagerOnlineDir)" />
+    <MakeDir Directories="$(FuelsManagerSharedDir)" />
+    <MakeDir Directories="$(FuelsManagerVDir)" />
+    <MakeDir Directories="$(ProjectsDir)" />
+
+    <Copy SourceFiles="@(DBSrcFiles)"
+          DestinationFiles= "@(DBSrcFiles->'$(DBDir)%(RecursiveDir)%(FileName)%(Extension)')" />
+
+    <Copy SourceFiles="@(AccountingImportExportFiles1)"
+          DestinationFiles= "@(AccountingImportExportFiles1->'$(AccountingImportExportVDir)%(RecursiveDir)%(FileName)%(Extension)')" />
+    <Copy SourceFiles="@(AccountingImportExportFiles2)"
+          DestinationFolder= "$(AccountingImportExportVDir)bin\" />
+
+    <Copy SourceFiles="@(FuelsManagerFiles1)"
+          DestinationFiles= "@(FuelsManagerFiles1->'$(FuelsManagerOnlineDir)%(RecursiveDir)%(FileName)%(Extension)')" />
+    <Copy SourceFiles="@(FuelsManagerFiles2)"
+          DestinationFolder= "$(FuelsManagerDir)" />
+
+    <Copy SourceFiles="@(ProjectFiles1)"
+          DestinationFiles= "@(ProjectFiles1->'$(ProjectsDir)%(RecursiveDir)%(FileName)%(Extension)')" />
+
+    <Copy SourceFiles="@(UtilFiles1)"
+          DestinationFolder= "$(UtilsDir)" />
+
+    <Copy SourceFiles="@(FuelsManagerVDirFiles1)"
+          DestinationFiles= "@(FuelsManagerVDirFiles1->'$(FuelsManagerVDir)%(RecursiveDir)%(FileName)%(Extension)')" />
+    <MakeDir Directories="$(FuelsManagerVDir)bin" />
+    <Copy SourceFiles="@(FuelsManagerVDirFiles2)"
+          DestinationFiles= "@(FuelsManagerVDirFiles2->'$(FuelsManagerVDir)bin\%(FileName)%(Extension)')" />
+    <Copy SourceFiles="@(FuelsManagerVDirFiles3)"
+          DestinationFiles= "@(FuelsManagerVDirFiles3->'$(FuelsManagerVDir)%(FileName)%(Extension)')" />
+
+    <Copy SourceFiles="@(FuelsManagerSharedDirFiles1)"
+          DestinationFiles= "@(FuelsManagerSharedDirFiles1->'$(FuelsManagerSharedDir)%(FileName)%(Extension)')" />
+    <Copy SourceFiles="@(FuelsManagerSharedDirFiles2)"
+          DestinationFiles= "@(FuelsManagerSharedDirFiles2->'$(FuelsManagerSharedDir)%(FileName)%(Extension)')" />
+  </Target>
+</Project>

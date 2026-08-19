@@ -1,0 +1,85 @@
+﻿@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.OperateStatisticsSummaryModel
+
+@{
+  ViewBag.Title = "OperateStatisticsSummary";
+  Layout = "~/Areas/Views/Shared/_Layout.cshtml";
+}
+
+@section AddToHead {
+  <link rel="stylesheet" type="text/css" href="~/Areas/InventoryManagement/Views/OperateStatistics/Summary.css" />
+}
+
+<div class="row headline" style="width: 5in; padding-bottom: 10px">
+  @FMBaseController.TranslateText("Operate Statistics Summary")
+</div>
+
+@using (Html.BeginForm("Summary", "OperateStatistics", FormMethod.Get, new { id = "submitForm" }))
+{
+  @Html.AntiForgeryToken()
+
+  <div style="margin-bottom: 15px">
+    @Html.FMButton("refreshButton", "refreshButton", "Refresh", true, "Refresh Statistics", true)
+  </div>
+
+  <section class="FMGridSection" style="max-width: 1300px;">
+    <div class="FMGridContainer">
+      <table class="statisticsTable">
+        <thead>
+			  <tr>
+			  	<th><div>@FMBaseController.TranslateText("User")</div></th>
+			   <th><div>@FMBaseController.TranslateText("Screen")</div></th>
+			   <th><div>@FMBaseController.TranslateText("Client IP Address")</div></th>
+			   <th><div>@FMBaseController.TranslateText("Web Server IP Address")</div></th>
+			   <th><div>@FMBaseController.TranslateText("Service Name")</div></th>
+			   <th><div>@FMBaseController.TranslateText("Session Average")</div></th>
+			   <th><div>@FMBaseController.TranslateText("Session Maximum")</div></th>
+			   <th><div>@FMBaseController.TranslateText("Last Minute Average")</div></th>
+			   <th><div>@FMBaseController.TranslateText("Last Minute Maximum")</div></th>
+			  </tr>
+        </thead>
+        <tbody>
+          @{
+            var milliseconds = FMBaseController.TranslateText("ms");
+
+            foreach (var detail in Model.SessionDetails)
+            {
+							<tr>
+								<td rowspan="4" class="viewUser">@detail.User</td>
+								<td rowspan="4" class="viewtext">@detail.Screen</td>
+								<td rowspan="4" class="viewIp">@detail.ClientIpAddress</td>
+								<td rowspan="4" class="viewIp">@detail.ServerIpAddress</td>
+								<td class="viewText">Alarm Notifications</td>
+								<td class="viewNumber">@detail.AlarmNotificationsSessionAverage @milliseconds</td>
+								<td class="viewNumber">@detail.AlarmNotificationsSessionMaximum @milliseconds</td>
+								<td class="viewNumber">@detail.AlarmNotificationsMinuteAverage @milliseconds</td>
+								<td class="viewNumber">@detail.AlarmNotificationsMinuteMaximum @milliseconds</td>
+							</tr>
+              <tr>
+                <td class="viewText">Alarm Refresh</td>
+                <td class="viewNumber">@detail.AlarmRefreshSessionAverage @milliseconds</td>
+                <td class="viewNumber">@detail.AlarmRefreshSessionMaximum @milliseconds</td>
+                <td class="viewNumber">@detail.AlarmRefreshMinuteAverage @milliseconds</td>
+                <td class="viewNumber">@detail.AlarmRefreshMinuteMaximum @milliseconds</td>
+              </tr>
+              <tr>
+                <td class="viewText">Update Dynamic Tag Groups</td>
+                <td class="viewNumber">@detail.UpdateDynamicTagGroupsSessionAverage @milliseconds</td>
+                <td class="viewNumber">@detail.UpdateDynamicTagGroupsSessionMaximum @milliseconds</td>
+                <td class="viewNumber">@detail.UpdateDynamicTagGroupsMinuteAverage @milliseconds</td>
+                <td class="viewNumber">@detail.UpdateDynamicTagGroupsMinuteMaximum @milliseconds</td>
+              </tr>
+              <tr>
+                <td class="viewText">Update Values</td>
+                <td class="viewNumber">@detail.UpdateValuesSessionAverage @milliseconds</td>
+                <td class="viewNumber">@detail.UpdateValuesSessionMaximum @milliseconds</td>
+                <td class="viewNumber">@detail.UpdateValuesMinuteAverage @milliseconds</td>
+                <td class="viewNumber">@detail.UpdateValuesMinuteMaximum @milliseconds</td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+}

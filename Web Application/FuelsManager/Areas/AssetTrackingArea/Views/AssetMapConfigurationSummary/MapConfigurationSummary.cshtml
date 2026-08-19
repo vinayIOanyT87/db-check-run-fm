@@ -1,0 +1,249 @@
+﻿@using FuelsManager.Areas.AssetTrackingArea.ViewModels
+@using FuelsManager.Areas.Controllers
+@model MapConfigSummaryModel
+@{
+	ViewBag.Title = "MapConfigurationSummary";
+}
+
+@Scripts.Render("~/bundles/dataTable")
+@Styles.Render("~/Content/dataTable")
+
+<style>
+	.centeredTableData {
+		text-align: center;
+		vertical-align: middle;
+	}
+
+	.divTable {
+		width: 85%;
+		height: 50%;
+		display: table;
+		padding: 3px;
+	}
+
+	.divTableRow {
+		width: 100%;
+		height: 100%;
+		display: table-row;
+		padding: 3px;
+	}
+
+	.divTableCell {
+		width: 25%;
+		height: 100%;
+		display: table-cell;
+		padding: 3px;
+		vertical-align: top;
+	}
+
+	.divTableCell2 {
+		width: 25%;
+		height: 100%;
+		display: table-cell;
+		padding: 3px;
+		vertical-align: top;
+		position: absolute;
+		right: 40%;
+	}
+
+	.headline {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 18px;
+		font-style: italic;
+		font-weight: bold;
+		color: #0d246a;
+		line-height: normal;
+		white-space: nowrap;
+	}
+
+	.formfieldtitle {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 12px;
+		font-style: normal;
+		line-height: normal;
+		font-weight: bold;
+		font-variant: normal;
+		text-transform: none;
+		white-space: nowrap;
+	}
+
+	.formfield input {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 12px;
+		font-style: normal;
+		line-height: normal;
+		font-weight: normal;
+		font-variant: normal;
+		text-transform: none;
+		color: #000000;
+	}
+
+	.errorField {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 16px;
+		font-style: normal;
+		line-height: normal;
+		font-weight: bold;
+		font-variant: normal;
+		text-transform: none;
+		color: #FF0000;
+	}
+
+    #mapConfigSummaryTable_info{
+        color: white;
+    }
+    #mapConfigSummaryTable_first {
+        color: white !important;
+    }
+    #mapConfigSummaryTable_previous {
+        color: white !important;
+    }
+    #mapConfigSummaryTable_next {
+        color: white !important;
+    }
+    #mapConfigSummaryTable_last {
+        color: white !important;
+    }
+</style>
+<script>
+
+	$(document).ready(function () {
+		var datatable = $('#mapConfigSummaryTable')
+			.DataTable(
+			{
+				// We do not allow searching through the results via the datatable search control
+				"searching": false,
+				// Show First, Previous, Next, and Last buttons for paging
+				"pagingType": "full",
+				// Embed a div in the datatables controls so we can color the bottom of the grid
+				// like a footer
+				"dom": 'lrt<"#DataTablesFooter"ip>',
+				// Apply no initial sort
+				"order": [],
+				// Save the sort order so that if users navigate away from the page and return their sort is retained
+				"stateSave": true,
+				// Tell datatables that we don't care about highlighting the columns that have been sorted. According to the documentation, this improves performance.
+				"orderClasses": false,
+				"columnDefs": [
+					// Disallow sorting of the edit / delete columns
+					{ "targets": [0, 1], "orderable": false }
+				]
+			});
+	});
+
+	window.onload = function (e) {
+	    window.parent.CurrentHelpKey = "MenuBar/FMMenuBar.aspx?target=../AssetTrackingArea/AssetMapConfigurationSummary/MapConfigurationSummary";
+	}
+</script>
+<div style="overflow-x: hidden; overflow-y: hidden;">
+	@using (Html.BeginForm("MapConfigurationSummary", "AssetMapConfigurationSummary", FormMethod.Post))
+	{
+		var editText = FMBaseController.TranslateText("Edit");
+		var deleteText = FMBaseController.TranslateText("Delete");
+		var mapNameText = FMBaseController.TranslateText("Map Name");
+		var descriptionText = FMBaseController.TranslateText("Description");
+
+		@Html.AntiForgeryToken()
+
+		<div class="divTable">
+			<div class="divTableRow">
+				<div class="divTableCell">
+					@Html.Label(FMBaseController.TranslateText("Maps Configuration"), new { @Class = "headline" })
+				</div>
+			</div>
+		</div>
+		<div style="position: absolute; left: 32px;">
+			<div class="divTable" style="width: 400px">
+				<div class="divTableRow">
+					<div class="divTableCell">
+						@Html.LabelFor(m => m.FindText, FMBaseController.TranslateText("Find Text:"), new { @class = "formfieldtitle" })
+					</div>
+					<div class="divTableCell">
+						@Html.TextBoxFor(m => m.FindText, new { style = "width:250px;", autofocus = "autofocus", title = "Search for this text in results", maxlength = "50" })
+					</div>
+					<div class="divTableCell">&nbsp;</div>
+					<div class="divTableCell">
+						<input type="submit" name="submitButton" value='@FMBaseController.TranslateText("Refresh")' class="formfieldtitle" maxlength="50" />
+					</div>
+				</div>
+				<div class="divTableRow">
+					<div class="divTableCell">&nbsp;</div>
+					<div class="divTableCell">&nbsp;</div>
+					<div class="divTableCell">&nbsp;</div>
+					<div class="divTableCell">&nbsp;</div>
+				</div>
+				<div class="divTableRow">
+					<div class="divTableCell">
+						<input type="button" id="btnAddTop" class="formfieldtitle" value='@FMBaseController.TranslateText("Add")' disabled="@(!Model.IsEditable)" onclick="@("window.location.href='" + @Url.Action("MapConfiguration", "AssetMapConfiguration", new { mapConfigurationGuid = Guid.Empty }) + "'")" />
+					</div>
+					<div class="divTableCell">&nbsp;</div>
+					<div class="divTableCell">&nbsp;</div>
+					<div class="divTableCell">&nbsp;</div>
+				</div>
+			</div>
+			<div class="divTable">
+				<div class="row" style="margin-top: 5px; width: 800px">
+					<section>
+						<div class="col-md-12">
+							<table id="mapConfigSummaryTable" class="hover stripe row-border cell-border" style="width: 100%">
+								<thead>
+									<tr style="color: white; background-color: #0D246A">
+										<th>
+											@editText
+										</th>
+										<th>
+											@deleteText
+										</th>
+										<th>
+											@mapNameText
+										</th>
+										<th>
+											@descriptionText
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach (MapConfigurationModel map in @Model.MapConfigurationList)
+							{
+								var deleteEnabled = @Model.IsEditable && (@Model.SiteGuid == map.SiteGuid);
+								var deleteImage = @Model.IsEditable && (@Model.SiteGuid == map.SiteGuid) ? Url.Content("~/FMWebApp/Images/delete.gif") : Url.Content("~/FMWebApp/Images/delete_un.gif");
+								<tr>
+									<td style="width: 36px;" class="centeredTableData">
+										<a class="editLinkClass" title="@editText" href='@Url.Action("MapConfiguration", "AssetMapConfiguration", new { mapConfigurationGuid = @map.AssetTrackingMapConfigurationGuid })'>@editText</a>
+									</td>
+									<td style="width: 36px;" class="centeredTableData">
+										<button name="deleteButton" value="@map.AssetTrackingMapConfigurationGuid" disabled="@(!deleteEnabled)" style="background: transparent; color: transparent; height: 22px;" onclick=" if (disabled) return; return confirm('Are you sure you want to delete?'); ">
+											<span>
+												<img src="@deleteImage" style="margin-left: -10px; margin-right: -10px; margin-top: -3px; margin-bottom: -3px; padding-bottom: 9px" alt="Delete" />
+											</span>
+										</button>
+									</td>
+									<td>@map.MapName</td>
+									<td>@map.Description</td>
+								</tr>
+							}
+								</tbody>
+							</table>
+						</div>
+					</section>
+				</div>
+			</div>
+			<div class="divTable">
+				<div class="divTableRow">
+					<div class="divTableCell">
+						<input type="button" id="btnAddBottom" class="formfieldtitle" value='@FMBaseController.TranslateText("Add")' disabled="@(Model.IsEditable ? null : "disabled")" onclick="@("window.location.href='" + @Url.Action("MapConfiguration", "AssetMapConfiguration", new { mapConfigurationGuid = Guid.Empty }) + "'")" />
+					</div>
+				</div>
+				<div class="divTableRow">
+					<div class="divTableCell">&nbsp;</div>
+				</div>
+				<div class="divTableRow">
+					<div class="divTableCell">
+						@Html.ValidationMessage("Error", new { @Class = "errorField", style = "width:360px" })
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+</div>
+

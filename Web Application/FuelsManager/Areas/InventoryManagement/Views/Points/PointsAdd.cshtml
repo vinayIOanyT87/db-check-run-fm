@@ -1,0 +1,48 @@
+﻿@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.PointsDetailModel
+@{
+    ViewBag.Title = "PointsDetail";
+    Layout = "~/Areas/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Areas/Scripts/FMErrorAndExceptionHandling.js"></script>
+
+<style>
+    .layoutTable td {
+        padding: 5px 10px;
+    }
+</style>
+
+<div class="headline">@FMBaseController.TranslateText("Point Template")</div>
+
+@using (Html.BeginForm("PointsDetail"))
+{
+    @Html.AntiForgeryToken()
+
+    <table class="layoutTable" style="margin-top: 15px;">
+        <tr>
+            <td class="formfieldtitle">Point ID Prefix</td>
+            <td class="formfield">@Html.EditorFor(model => model.ID, new { autofocus = "autofocus" })</td>
+        </tr>
+        <tr>
+            <td class="formfieldtitle">Point Template</td>
+            <td class="formfield">@Html.DropDownListFor(m => m.TemplateSelection, new SelectList(Model.Templates, "IdentityGuid", "ID", Model.TemplateSelection))</td>
+        </tr>
+        <tr>
+            <td class="formfieldtitle">How many to create</td>
+            <td class="formfield">@Html.EditorFor(model => model.NumberToCreate)</td>
+        </tr>
+    </table>
+
+    <div style="margin-top: 15px">
+        <table>
+            <tr>
+                <td style="width: 150px">
+                    @Html.FMButton("cancelButton", "cancelButton", "Cancel", true, "Cancel and Exit Page")
+                </td>
+                <td>
+                    @Html.FMButton("createButton", "createPoints", "&Create", true, "Bulk Create Points")
+                </td>
+            </tr>
+        </table>
+    </div>
+}

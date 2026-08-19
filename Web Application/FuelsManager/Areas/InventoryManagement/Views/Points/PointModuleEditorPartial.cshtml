@@ -1,0 +1,148 @@
+﻿@using FuelsManager.Areas.Controllers
+@using FMBusinessObjects.DataObjects
+@model FuelsManager.Areas.InventoryManagement.ViewModels.PointModuleEditorModel
+
+<style>
+	#PTTModuleCalculation {
+		height: calc(100vh - 200px);
+	}
+	.PSSTInput {
+		column-count: 2;
+		column-gap: 30px;
+		column-fill: balance;
+	}
+
+	.PSSTInput .list-group-item {
+		display: inline-block;
+		width: 100%;
+		border: none;
+	}
+
+	.PSSTInput .list-group-item:first-child {
+		 border-top-left-radius: 0px;
+		 border-top-right-radius: 0px;
+	}
+
+	.PSSTInput .list-group-item:nth-child(odd) {
+    background-color: #f9f9f9;
+	}
+</style>
+
+
+<div id="PTTModuleEdit" class="">
+	<form id="PTTModuleEditDetails" class="form-horizontal">
+		<fieldset>
+				<!-- Form Name -->
+				<legend>@FMBaseController.TranslateText("Module") - @Model.ID</legend>
+		</fieldset>
+	</form>
+	<div class="panel-group" id="PTTModuleCalculation">
+		<div class="panel panel-default" id="panelTags">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" data-target="#Tags" href="#Tags">@FMBaseController.TranslateText("Tags")</a>
+					</h4>
+				</div>
+				<div id="Tags" class="panel-collapse collapse">
+					<div class="panel-body">
+						<div class="row row-eq-height">
+								<ul id="" class="list-group PSSTInput">
+
+										@foreach (var tag in Model.Tags.OrderBy(x => x.ID))
+										{
+												<li class="list-group-item text-center">
+													@Html.Label(FMBaseController.TranslateText(tag.ID), new { @class = "control-label" })
+												</li>
+										}
+
+								</ul>
+						</div>
+					</div>
+				</div>
+		</div>
+
+
+
+		<h4>@FMBaseController.TranslateText("Settings")</h4>
+
+		<ul id="PMEPropertyList" class="list-group">
+				@foreach (var modulePointProperty in Model.Properties)
+				{
+					<li class="list-group-item">
+						<input type="hidden" id="@modulePointProperty.PointPropertyGuid" name="propertyguid" class="form-control " value="@modulePointProperty.PointPropertyGuid" disabled>
+						<div class="row">
+								<div class="form-group">
+									<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+										<input type="text" name="" id="@modulePointProperty.ID" class="form-control " value="@modulePointProperty.ID" disabled>
+
+									</div>
+									<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+										@if (modulePointProperty.Value == null || !Model.HasModifyModuleLibraryRight)
+										{
+											continue;
+										}
+										else if (modulePointProperty.Value.GetType() == typeof(StrapTable))
+										{
+											<!-- NOTE: we are passing the point level units and decimals instead of the point-->
+											<input type="button" id="PMEEditProperty@(modulePointProperty)" value='@FMBaseController.TranslateText("OPEN EDITOR")' class="btn"
+													 onclick="onStrapTableClickPropertyScreen('false', '@modulePointProperty.PointGuid', '@modulePointProperty.PointPropertyGuid');" style="position: relative; left: 10px" />
+										}
+										else if (modulePointProperty.Value.GetType() == typeof(VcfModuleSettings))
+										{
+											<input type="button" id="PMEEditProperty@(modulePointProperty)" value='@FMBaseController.TranslateText("OPEN EDITOR")' class="btn"
+													 onclick="onVcfSettingsClickPropertyScreen('false', '@modulePointProperty.PointGuid', '@modulePointProperty.PointPropertyGuid');" style="position: relative; left: 10px" />
+
+										}
+										else if (modulePointProperty.Value.GetType() == typeof(Vessel))
+										{
+											<input type="button" id="PMEEditProperty@(modulePointProperty)" value='@FMBaseController.TranslateText("OPEN EDITOR")' class="btn"
+													 onclick="onVesselSettingsClickPropertyScreen('false', '@modulePointProperty.PointGuid', '@modulePointProperty.PointPropertyGuid');" style="position: relative; left: 10px" />
+
+										}
+										else if (modulePointProperty.Value.GetType() == typeof(RateModuleSettings))
+										{
+											<input type="button" id="PMEEditProperty@(modulePointProperty)" value='@FMBaseController.TranslateText("OPEN EDITOR")' class="btn"
+													 onclick="OnRateSettingsClickPropertyScreen('false', '@modulePointProperty.PointGuid', '@modulePointProperty.PointPropertyGuid');" style="position: relative; left: 10px" />
+
+										}
+										else if (modulePointProperty.Value.GetType() == typeof(MovementModuleSettings))
+										{
+											<input type="button" id="PMEEditProperty@(modulePointProperty)" value='@FMBaseController.TranslateText("OPEN EDITOR")' class="btn"
+													 onclick="OnMovementModuleSettingsClickPropertyScreen('false', '@modulePointProperty.PointGuid', '@modulePointProperty.PointPropertyGuid');" style="position: relative; left: 10px" />
+
+										}
+
+									</div>
+								</div>
+						</div>
+					</li>
+				}
+
+		</ul>
+		<div class="panel panel-default @(Model.Properties.Count > 0 ? "hidden" : "")" id="panelNoParameters">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						No Settings
+					</h4>
+				</div>
+		</div>
+
+
+	</div>
+
+</div>
+
+<script>
+
+	$(document).ready(function () {
+		// custom scroll bars
+		$("#PTTModuleCalculation").niceScroll({
+				cursorwidth: '10px',
+				autohidemode: false,
+				cursorcolor: '#486899',
+				background: 'rgb(240, 240, 240)',
+				horizrailenabled: false
+			} );
+	});
+
+</script>

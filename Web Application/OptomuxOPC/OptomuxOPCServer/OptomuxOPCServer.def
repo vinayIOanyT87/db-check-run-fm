@@ -1,0 +1,9 @@
+; OptomuxOPCServer.def : Declares the module parameters.
+
+LIBRARY      "OptomuxOPCServer.DLL"
+
+EXPORTS
+	DllCanUnloadNow		PRIVATE
+	DllGetClassObject	PRIVATE
+	DllRegisterServer	PRIVATE
+	DllUnregisterServer	PRIVATE

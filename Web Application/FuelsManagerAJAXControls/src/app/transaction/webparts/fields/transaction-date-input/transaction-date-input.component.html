@@ -1,0 +1,12 @@
+<div class="transactionFreeFormInputParent">
+  <div>
+      <label [for]="fieldName">{{label}}:</label>
+  </div>
+  <div class="transactionFreeFormInput">
+    <input [id]="fieldName"
+           [ngModel]="fieldValue | date:'MM/dd/yyyy' "
+           [appFocusDirective]="currentFocusLabel == fieldName"
+           [disabled]="!canEdit"
+           type="text" />
+  </div>
+</div>

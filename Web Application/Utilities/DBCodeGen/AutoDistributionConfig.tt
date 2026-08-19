@@ -1,0 +1,67 @@
+﻿<#@ assembly name="Microsoft.SqlServer.ConnectionInfo" #>
+<#@ assembly name="Microsoft.SqlServer.Smo" #>
+<#@ import namespace="Microsoft.SqlServer.Management.Smo" #>
+<#+
+public class AutoDistributionConfig
+{
+	private const string MapSchemaName = "map";
+	private const string AutoDistributionEntityName = "AutoDistributionRule";
+    
+	public static void CreateMainTable(CodeGenConfig theConfig)
+	{
+		const string RuleIDFieldName = "RuleID";
+		TableInfo newTable = new TableInfo("dbo", "AutoDistributionRule");
+		newTable.FieldList.Add(FieldInfo.NewForeignKey("Site", EntityKeyInfo.SiteKeyInfo, false));
+		newTable.FieldList.Add(new FieldInfo(RuleIDFieldName, "NVARCHAR(50)"));
+		newTable.FieldList.Add(new FieldInfo("RuleDescription", "NVARCHAR(255)"));
+		newTable.FieldList.Add(new FieldInfo("RuleEnabled", "BIT"));
+		newTable.FieldList.Add(new FieldInfo("DefaultEOM", "BIT"));
+		newTable.FieldList.Add(FieldInfo.NewForeignKey("TransactionAlias", EntityKeyInfo.TransactionAliasKeyInfo, false));
+		EntityKeyInfo newKeyInfo = new EntityKeyInfo("dbo","tblAutoDistributionReasonCodes","AutoDistributionReasonCodeGuid");
+		newTable.FieldList.Add(FieldInfo.NewForeignKey("DefaultReasonCode", newKeyInfo, false));
+		newTable.FieldList.Add(new FieldInfo("DefaultNotes", "NVARCHAR(1000)"));
+		
+		newTable.SelectByFieldNames = new string[]{RuleIDFieldName};
+		newTable.EntityToSiteMap = new EntityKeyInfo( "map", "tblEntityAutoDistributionRuleToSite", "AutoDistributionRuleGuid");
+		newTable.OrderByFieldName = RuleIDFieldName;
+		
+		CreateTemplate newTemplate = new CreateTemplate();
+		newTemplate.MyTable = newTable;
+		
+		FMTemplateBase.AddStandardTemplates(theConfig, newTemplate);
+				
+	}
+	public static CodeGenConfig NewConfig()
+	{
+		CodeGenConfig theConfig = new CodeGenConfig("Daniel Or", "ConsolidatedDB");
+		
+		CreateMainTable(theConfig);		
+		
+		// EntityToSite Map
+		EntityKeyInfo autoDistributionKey = new EntityKeyInfo("dbo", "tblAutoDistributionRule", "AutoDistributionRuleGuid");
+		CreateEntityMapTemplate newEntityMapTemplate = CreateEntityMapTemplate.NewTemplate(theConfig, AutoDistributionEntityName, autoDistributionKey);
+		FMTemplateBase.AddStandardTemplates ( theConfig, newEntityMapTemplate);				
+		
+		MapInfo[] myChildren = new MapInfo[]
+			{
+				new MapInfo(MapSchemaName, "ManagerGroup", EntityKeyInfo.ApplicationStringKeyInfo, AutoDistributionEntityName, autoDistributionKey),
+				new MapInfo(MapSchemaName, "Manager", EntityKeyInfo.CompanyKeyInfo, AutoDistributionEntityName, autoDistributionKey),
+				new MapInfo(MapSchemaName, "OwnerGroup", EntityKeyInfo.ApplicationStringKeyInfo, AutoDistributionEntityName, autoDistributionKey),
+				new MapInfo(MapSchemaName, "Owner", EntityKeyInfo.CompanyKeyInfo, AutoDistributionEntityName, autoDistributionKey),
+				new MapInfo(MapSchemaName, "ProductGroup", EntityKeyInfo.ApplicationStringKeyInfo, AutoDistributionEntityName, autoDistributionKey),
+				new MapInfo(MapSchemaName, "Product", EntityKeyInfo.ProductKeyInfo, AutoDistributionEntityName, autoDistributionKey),
+				new MapInfo(MapSchemaName, "TransactionAlias", EntityKeyInfo.TransactionAliasKeyInfo, AutoDistributionEntityName, autoDistributionKey),
+			};
+		foreach (MapInfo child in myChildren)
+		{
+			child.MyTable.FieldList[0].ForeignKey.CascadeDelete = false;
+			CreateMapTemplate newMapTemplate = new CreateMapTemplate(child);
+			FMTemplateBase.AddStandardTemplates ( theConfig, newMapTemplate);
+			theConfig.TemplateList.Add(new SelectAssignedTemplate(theConfig.DBName, child));		
+		}
+		// This depends on other objects
+		theConfig.TemplateList.Add(new DeleteApplicationTemplate(theConfig.DBName, theConfig.TemplateList[0].MyTable));		
+		return theConfig;
+	}
+		
+}#>

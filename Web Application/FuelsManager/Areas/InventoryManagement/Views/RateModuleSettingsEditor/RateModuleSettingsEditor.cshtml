@@ -1,0 +1,75 @@
+﻿@using FMBusinessObjects.DataObjects
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.RateModuleSettingsEditorModel
+
+<link href="~/Areas/Content/RateModuleSettingEditor.css" rel="stylesheet" type="text/css" />
+<script src="~/Areas/Scripts/RateModuleSettingsEditor.js"></script>
+
+@using (Html.BeginForm("ButtonSubmit", "RateModuleSettingsEditor", FormMethod.Post, new
+{
+	id = "RateModuleSettingsEditorForm"
+}))
+{
+	@Html.AntiForgeryToken()
+
+	@Html.Hidden("urlSaveRateModuleSettings", @Url.Action("SaveRateModuleSettings", "RateModuleSettingsEditor"));
+
+	@Html.HiddenFor(m => m.PointGuid);
+	@Html.HiddenFor(m => m.PointPropertyGuid);
+	@Html.HiddenFor(m => m.Readonly);
+	@Html.HiddenFor(m => m.RateUnit);
+	@Html.HiddenFor(m => m.RateUnitAbbr);
+	@Html.HiddenFor(m => m.RateUnitType);
+	@Html.HiddenFor(m => m.IsTemplatePoint);
+
+	var title = Model.PointId + " - " + Model.PointPropertyId;
+
+	<section id="RateModuleSettingsEditorPartial" class="">
+		<div class="RateModuleSettingsEditorHeader row">
+			<button type="button" class="close" data-dismiss="modal" onclick="$('#PEMPEClosePropertyScreen').click();">&times;</button>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+				<h4>@title</h4>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<h5 id="RateModuleEditorTitle">@FMBaseController.TranslateText("Rate Module Editor")</h5>
+			</div>
+		</div>
+		<br />
+		<div class="row">
+			<div id="RateModuleSettingsLeftList" class="col-sm-6 col-md-6 col-lg-6">
+				<div class="form-group">
+					@Html.Label(@FMBaseController.TranslateText("Deadband") + @Model.RateUnitAbbr, new { ID = "DeadbandLabel", @class = "control-label" })
+					@Html.TextBoxFor(m => m.RateModuleSettings.Deadband, new { ID = "DeadbandTextBox", @class = "form-control" }).Disable(@Model.Readonly)
+				</div>
+			</div>
+			<div id="RateModuleSettingsCenterList" class="col-sm-6 col-md-6 col-lg-6">
+				<div class="form-group">
+					@Html.Label(@FMBaseController.TranslateText("Inactive Time Period (seconds)"), new { ID = "StaleTimePeriodLabel", @class = "control-label" })
+					@Html.TextBoxFor(m => m.RateModuleSettings.StaleTimePeriodInSeconds, new { ID = "StaleTimePeriodTextBox", @class = "form-control" }).Disable(@Model.Readonly)
+				</div>
+			</div>
+			<div id="RateModuleSettingsAveragingList" class="col-sm-6 col-md-6 col-lg-6">
+				<div class="form-group">
+					@Html.Label(@FMBaseController.TranslateText("Flow Calculations Type:"), new { ID = "FlowCalculationTypeLabel", @class = "control-label" })<br />
+					@Html.RadioButtonFor(m => m.RateModuleSettings.FlowCalculationType, "Averaging").Disable(@Model.Readonly) <span> Averaging </span><br />
+					<!-- Leased Squared is being disabled because even though it works people do not understand. This is far to complicated for this company and I regret ever implementing this-->
+					@Html.RadioButtonFor(m => m.RateModuleSettings.FlowCalculationType, "Least Squared").Disable(true) <span> Least Squared </span>
+				</div>
+			</div>
+			<div id="RateModuleSettingsAveragingSettings" class="col-sm-6 col-md-6 col-lg-6">
+				<div class="form-group">
+					@Html.Label(@FMBaseController.TranslateText("Samples") + " (Max = 10)", new { ID = "SamplesLabel", @class = "control-label" })
+					@Html.TextBoxFor(m => m.RateModuleSettings.AveragingNumberSamples, new { ID = "AveragingNumberSamplesTextBox", @class = "form-control" }).Disable(@Model.Readonly)
+					@Html.Label(@FMBaseController.TranslateText("Sample Time Secs") + " (Max = 120)", new { ID = "SampleTimeLabel", @class = "control-label" })
+					@Html.TextBoxFor(m => m.RateModuleSettings.AveragingSampleTimeSeconds, new { ID = "AveragingSampleTimeSecondsTextBox", @class = "form-control" }).Disable(@Model.Readonly)
+				</div>
+			</div>
+		</div>
+	</section>
+}
+

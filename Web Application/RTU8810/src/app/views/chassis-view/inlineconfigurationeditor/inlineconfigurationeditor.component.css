@@ -1,0 +1,44 @@
+.inlineinputeditor {
+    border: none;
+    color: inherit;
+    height: 33px;
+    outline: none;
+    width: 100%;
+    padding-right:5px;
+}
+
+.inlineinputeditor:disabled {
+  cursor: not-allowed;
+  background-color: transparent;
+  color: #808080;
+}
+
+.inlineinputeditorLhex {
+  border: none;
+  color: inherit;
+  height: 33px;
+  outline: none;
+  width: 5em;
+  padding-right:5px;
+}
+
+.inlineinputeditorLhex:disabled {
+  cursor: not-allowed;
+  background-color: transparent;
+  color: #808080;
+}
+
+.LhexPrefix{
+
+  background-color: transparent;
+  color: #808080;
+}
+
+select {
+    text-align: right;
+    text-align-last: right;
+}
+
+select::-ms-expand {
+    display: none;
+}

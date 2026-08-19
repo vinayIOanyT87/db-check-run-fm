@@ -1,0 +1,180 @@
+.homecard {
+    padding: 20px;
+    background-color: white;
+    height: 350px;
+    border: 1px solid #E0E0E0;
+	box-shadow: 0 3px 20px #444;
+	border-radius: 3px;;
+}
+
+.description {
+    font: Roboto;
+    font-size: 14px;
+    color: #9b9b9b;
+    height: 50px;
+}
+
+.name {
+    color: #006CB3;
+    height: 70px;
+    text-align: right;
+    width: 70%;
+    float: right;
+    margin-bottom: 20px;
+    font-weight: bold;
+    display: flex;
+    justify-content: flex-end;
+}
+
+i {
+    color: #006CB3;
+    padding: 10px;
+}
+
+.action {
+    min-width: 150px !important;
+    text-align: center;
+    margin-left: auto;
+    float: right;
+}
+
+.middle-homecard {
+    height: 135px;
+    display: block;
+}
+
+.middle-homecard img {
+    height: 100px;
+    width: 100px;
+    float: right;
+    margin-top: 20px;
+}
+
+.detailinfo {
+    display: inline-block;
+    width: calc( 100% - 120px);
+    font: Roboto;
+    color: #9b9b9b;
+    font-size: 12px;
+    word-spacing: 9999999px;
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
+}
+
+.cardbottomclass
+{
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    background-color: #006CB3 !important;
+}
+
+.adminIconClass
+{
+  width: 41px;
+  height: 41px;
+  background-image: url(../../../../assets/account-circle.png);
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.hostNetwordClass
+{
+  width: 47px;
+  height: 35px;
+  background-image: url(../../../../assets/ic-settings.png);
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.chassisIconClass
+{
+    width: 54px;
+    height: 68px;
+    background-image: url(../../../../assets/ic-chassis.png);
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+
+  .tankIconClass
+  {
+    width: 50px;
+    height: 39px;
+    background-image: url(../../../../assets/tank1.png);
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+
+  .systemadminIconClass
+  {
+    width: 56px;
+    height: 56px;
+    background-image: url(../../../../assets/settings1.png);
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+
+  .diagnosticsIconClass
+  {
+    width: 48px;
+    height: 53px;
+    background-image: url(../../../../assets/ic-diagnostics1.png);
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+
+  .alarmIconClass
+  {
+    width: 41px;
+    height: 48px;
+    background-image: url(../../../../assets/alarm-bell.png);
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+
+  .modbusIconClass
+  {
+    width: 56px;
+    height: 56px;
+    background-image: url(../../../../assets/ic-action.png);
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+
+.documenationIconClass {
+  width: 56px;
+  height: 56px;
+  background-image: url(../../../../assets/Book-Open-56.png);
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+
+.certificateIconClass { width: 56px;
+  height: 56px;
+  background-image: url(../../../../assets/certificate-menu.png);
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}

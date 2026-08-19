@@ -1,0 +1,545 @@
+﻿/* Trend Section Blocks Items */
+.FMTrend {
+     display: block;
+     height: 100%;
+	 border-width: 0px;
+	 margin: 0px;
+	 padding: 0px;     
+     width: 100%;
+}
+
+.FMTrendGraph {
+    width: calc( 100% - 50px);
+    height: calc( 100% - 280px);
+    display: inline-block;
+    border-width: 0px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.FMTrendMenuBar {
+    width: 100%;
+    height: 100px;
+    border-width: 0px;
+    padding: 0px 20px;
+    overflow: hidden;
+}
+
+.FMTrendLegend {
+	 width: 100%;
+    height: 170px;
+    border-width: 0px;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden; 
+}
+
+/* Trend Menu Bar Items */
+label.FMTrendMenuSelectTimeOptions {
+	font-weight: 75;
+	font-size: 12px;
+	color: #4d4d4d;
+	line-height: 30px;
+}
+
+
+label.FMTrendMenuRadioLabelEnabled {
+	font-weight: 75;
+	font-size: 12px;
+	color: #444444;
+}
+
+label.FMTrendMenuRadioLabelDisabled {
+	font-weight:  75;
+	font-size: 12px;
+	color: #666666;
+}
+
+label.FMTrendMenuDateLabelEnabled {
+	font-weight: 56;
+	font-size: 12px;
+	color: #444444;
+}
+
+label.FMTrendMenuDateLabelDisabled {
+	font-weight:  56;
+	font-size: 12px;
+	color: #666666;
+}
+
+
+.FMTrendMenuDateTime {
+	font-weight: 75 !important;
+	font-size: 12px !important;
+	color: #666666 !important;
+}
+
+select.FMTrendMenuZoomType {
+	font-weight:  46  !important;
+	font-size: 12px  !important;
+	color: #4D4D4D  !important;
+	margin-left: 10px;
+	width: calc( 100% - 144px);
+	max-width: 100px;
+	height: 30px;
+	display: inline-block;
+	position: relative;
+	top: -12px;
+}
+
+select.FMTrendMenuPeriodType {
+	font-weight:  46  !important;
+	font-size: 12px  !important;
+	color: #666666  !important;
+}
+
+input.FMTrendMenuPeriod {
+	font-weight:  46  !important;
+	font-size: 12px  !important;
+	color: #666666  !important;
+}
+
+.FMTrend input.hasDatepicker {
+	display: inline-block;
+	width: calc( ( 100% / 2 ) - 160px );
+   max-width: 160px;
+}
+
+.FMTrend .ui-datepicker-trigger {
+	Width: 25px !important;
+	margin-left: 5px;
+	float: none !important;
+   margin-top: 0px !important;
+}
+
+
+.FMTrendMenuTable {
+	display: inline-block;
+	background: url(../fmwebapp/Images/Table.png);
+	height: 33px;
+	width: 41px;
+	cursor: pointer;
+}
+
+.FMTrendMenuTableClick {
+	display: inline-block;
+	background: url(../fmwebapp/Images/Table-Active.png);
+	height: 33px;
+	width: 41px;
+	cursor: pointer;
+}
+
+.FMTrendMenuTrend {
+	display: inline-block;
+	background: url(../fmwebapp/Images/Trend.png);
+	margin-top: 10px;
+	height: 33px;
+	width: 41px;
+	cursor: pointer;
+}
+
+.FMTrendMenuTrendClick {
+	display: inline-block;
+	background: url(../fmwebapp/Images/Trend-Active.png);
+	margin-top: 10px;
+	height: 33px;
+	width: 41px;
+	cursor: pointer;
+}
+
+.FMTrendMenuPan {
+	display: inline-block;
+	background: url(../fmwebapp/Images/Hand.png);
+	margin-top: 10px;
+	height: 33px;
+	width: 41px;
+	cursor: pointer;
+}
+
+.FMTrendMenuPanActive {
+	display: inline-block;
+	background: url(../fmwebapp/Images/Hand-Active.png);
+	margin-top: 10px;
+	height: 33px;
+	width: 41px;
+	cursor: pointer;
+}
+
+.FMTrendMenuZoomOut {
+	display: inline-block;
+	background: url(../fmwebapp/Images/Zoom-Out.png);
+	margin-top: 10px;
+	height: 33px;
+	width: 41px;
+	cursor: pointer;
+}
+
+.FMTrendMenuZoomOutClick {
+	display: inline-block;
+	background: url(../fmwebapp/Images/Zoom-Out-Active.png);
+	margin-top: 10px;
+	height: 33px;
+	width: 41px;
+	cursor: pointer;
+}
+
+.FMTrendMenuZoom {
+	display: inline-block;
+	background: url(../fmwebapp/Images/Zoom.png);
+	margin-top: 10px;
+	height: 33px;
+	width: 41px;
+	cursor: pointer;
+}
+
+.FMTrendMenuZoomActive {
+	display: inline-block;
+	background: url(../fmwebapp/Images/Zoom-Active.png);
+	margin-top: 10px;
+	height: 33px;
+	width: 41px;
+	cursor: pointer;
+}
+
+.FMTrendMenuExport {
+	display: inline-block;
+	background: url(../fmwebapp/Images/Export.png);
+	margin-top: 10px;
+	height: 34px;
+	width: 40px;
+	visibility: hidden;
+	cursor: pointer;
+}
+
+.FMTrendMenuExportClick {
+	display: inline-block;
+	background: url(../fmwebapp/Images/Export-Active.png);
+	margin-top: 10px;
+	height: 34px;
+	width: 40px;
+	cursor: pointer;
+}
+
+.FMTrendMenuPrint {
+	display: inline-block;
+	background: url(../fmwebapp/Images/Print.png);
+	margin-top: 10px;
+	height: 34px;
+	width: 42px;
+	cursor: pointer;
+   visibility: hidden;
+}
+
+.FMTrendMenuPrintClick {
+	display: inline-block;
+	background: url(../fmwebapp/Images/Print-Active.png);
+	margin-top: 10px;
+	height: 34px;
+	width: 42px;
+	cursor: pointer;
+}
+
+
+.FMTrendMenuLeft {
+	display: inline-block;
+	background: url(../fmwebapp/Images/Left.png);
+	margin-top: 10px;
+	height: 34px;
+	width: 34px;
+	cursor: pointer;
+}
+
+.FMTrendMenuLeftClick {
+	display: inline-block;
+	background: url(../fmwebapp/Images/Left-Active.png);
+	margin-top: 10px;
+	height: 34px;
+	width: 34px;
+	cursor: pointer;
+}
+
+.FMTrendMenuRight {
+	display: inline-block;
+	background: url(../fmwebapp/Images/Right.png);
+	margin-top: 10px;
+	height: 34px;
+	width: 34px;
+	cursor: pointer;
+}
+
+.FMTrendMenuRightClick {
+	display: inline-block;
+	background: url(../fmwebapp/Images/Right-Active.png);
+	margin-top: 10px;
+	height: 34px;
+	width: 34px;
+	cursor: pointer;
+}
+
+
+.FMTrendMenuPlay {
+	display: inline-block;
+	background: url(../fmwebapp/Images/Play2.png);
+	margin-top: 10px;
+	height: 34px;
+	width: 34px;
+	cursor: pointer;
+}
+
+.FMTrendMenuPlayClick {
+	display: inline-block;
+	background: url(../fmwebapp/Images/Play2-Active.png);
+	margin-top: 10px;
+	height: 34px;
+	width: 34px;
+	cursor: pointer;
+}
+
+.FMTrendMenuPause {
+	display: inline-block;
+	background: url(../fmwebapp/Images/Pause2.png);
+	margin-top: 10px;
+	height: 34px;
+	width: 34px;
+	cursor: pointer;
+}
+
+.FMTrendMenuPauseClick {
+	display: inline-block;
+	background: url(../fmwebapp/Images/Pause2-Active.png);
+	margin-top: 10px;
+	height: 34px;
+	width: 34px;
+	cursor: pointer;
+}
+
+.FMTrendMenuRefresh {
+	display: inline-block;
+	background: url(../fmwebapp/Images/Refresh.png);
+	height: 34px;
+	width: 34px;
+	cursor: pointer;
+}
+
+.FMTrendMenuRefreshClick {
+	display: inline-block;
+	background: url(../fmwebapp/Images/RefreshClick.png);
+	height: 34px;
+	width: 34px;
+	cursor: pointer;
+}
+
+
+/* Trend Graph Items */
+.canvasjs-chart-tooltip {
+    display: none !important;
+}
+
+.canvasjs-chart-toolbar { 
+    display: none !important;
+}
+
+
+.canvasjs-chart-container {
+	width: 100%;
+	height: 100%;
+	margin-left: 10px;
+}
+
+
+
+/* Trend Legend Items */
+.FMTrendLegendSectionDivider {
+    width: 100%;
+    height: 30px;
+	border-width: 0px;
+/*	margin: 10px 0px 0px 0px; */
+	padding: 8px 0px;
+    background-color:lightgrey;
+}
+
+.FMTrendLegendSectionDividerEntry {
+
+	margin: -4px 0px 0px 0px;
+	padding: 0px;
+	text-align: right;
+}
+.FMTrendLegendSectionDividerEntry a, .FMTrendLegendSectionDividerEntry img {
+	cursor: pointer;
+}
+
+
+.FMTrendLegendSectionDividerHeader {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size:18px;
+	margin: -6px 0px 0px 0px;
+	padding: 0px;
+
+}
+
+.FMTrendLegendSectionFooter {
+    width: 100%;
+    height: 18px;
+	border-width: 0px;
+    background-color:lightgrey;
+}
+
+.FMTrendLegendSectionFooterEntry {
+
+	margin: 0px 0px 0px 0px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 12px;
+}
+
+.FMTrendLegendHeaderRow {
+   font-size: 12px;
+   font-weight: bold;
+   color: rgb(34,34,34);
+	word-wrap: normal;
+   white-space: nowrap;
+	padding: 0px;
+}
+
+.FMTrendLegendRowsContainer {
+    margin-right: 0px;
+    padding-left: 0px;
+    width: 100%;
+    height: 115px;
+}
+
+.FMTrendLegendRows {
+    margin-right: 0px;
+    padding-left: 0px;
+    width: 100%;
+    min-height: 115px;
+	overflow: hidden;
+}
+
+.FMTrendLegendRow {
+	margin-left: 0px;
+	padding: 0px;
+}
+
+.FMTrendLegendEntryLabel {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: small;
+	font-weight: normal;
+	padding-left: 0px;
+	color: black;
+	word-wrap: break-word;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.FMTrendLegendEntryValue {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: small;
+	padding-left: 0px;
+    width: 60px;
+    color: black;    
+}
+
+.sp-replacer {
+	margin-top: 0px !important;
+   margin-bottom: 2px !important;
+	background:none !important;
+	border: none !important;
+	padding: 2px !important;
+	width: 60px;
+}
+
+.FMTrendLegendProjectOnYAxis {
+}
+
+.FMTrendLegendInputCell {
+    height: 22px;
+}
+
+.FMTrendLegendNumericTextBox {
+	width: 100%;
+    height: 20px;
+	margin-left: 5px;
+    margin-top: 1px;
+    font-size: 12px;
+    text-align: right;
+    line-height: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+
+.FMTrendLegendNumericInputTextBox {
+	width: 100%;
+    height: 20px;
+	margin-left: 5px;
+    margin-top: 1px;
+    font-size: 12px;
+    text-align: right;
+    line-height: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.FMTrendLegendSectionFooterEntryPos {
+	margin-left: 60px;
+}
+
+.nicescroll-rails-vr {
+    display: block!important;
+ }
+
+/* Trend Table */
+.FMTrendTable {
+	width:100%;
+	height:calc( 100% - 55px);
+	padding: 0px 10px;
+}
+
+.FMTrendTable .slick-viewport {
+	-ms-overflow-style: scrollbar;
+}
+
+
+	.FMTrendTable .slick-header-column {
+		line-height: 28px !important; /*line height to 28px to vertically center header text after upgrading to slick grid 2.4.44*/
+		height: 28px !important;
+	}
+
+.FMTrendTable .slick-row > .slick-cell:first-child {
+    border-left: 1px dotted silver !important;
+}
+
+.FMTrendTable .slick-cell {
+	text-align: center;
+}
+
+.FMTrendMenuBar.tableShown {
+	height: 55px !important;
+}
+
+.FMTrendMenuBar.tableShown .FMTrendMenuPan, 
+.FMTrendMenuBar.tableShown .FMTrendMenuZoomOut,
+.FMTrendMenuBar.tableShown .FMTrendMenuZoom,
+.FMTrendMenuBar.tableShown .FMTrendMenuZoomActive,
+.FMTrendMenuBar.tableShown .FMTrendMenuZoomType,
+.FMTrendMenuBar.tableShown .FMTrendMenuLeft,
+.FMTrendMenuBar.tableShown .FMTrendMenuRight,
+.FMTrendMenuBar.tableShown .FMTrendMenuPlay,
+.FMTrendMenuBar.tableShown .FMTrendMenuPause  {
+	display: none !important;
+}
+
+.FMTrendMenuBar.tableShown .FMTrendMenuExport {
+	visibility:visible !important;
+}
+
+
+.FMTrend .setting-radio-control--radio .setting-radio-control__indicator {
+	margin-top: 0px !important;
+}
+
+.FMTrend .setting-radio-control{
+	padding-left: 24px !important;
+	padding-top: 7px !important;
+}

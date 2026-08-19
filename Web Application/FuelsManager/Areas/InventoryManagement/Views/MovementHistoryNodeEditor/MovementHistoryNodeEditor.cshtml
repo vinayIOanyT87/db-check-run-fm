@@ -1,0 +1,208 @@
+﻿@using System.Web.Mvc.Html
+@using FMPointCommon
+@using Varec.CommonComponents.EngineeringUnitsLibrary
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.MovementHistoryNodeEditorModel
+
+<link href="~/Areas/Content/MovementHistoryNodeEditor.css" rel="stylesheet" type="text/css" />
+<script src="~/Areas/Scripts/MovementHistoryNodeEditor.js"></script>
+
+@using (Html.BeginForm("MovementHistoryNodeEditor", "MovementHistoryNodeEditor", FormMethod.Post, new { @id = "MovementHistoryNodeEditorForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("MovementHistoryNodeSaveUrl", @Url.Action("SaveMovementHistoryNodeData", "MovementHistoryNodeEditor"))
+    @Html.Hidden("CalculateMovementHistoryNodeDataUrl", @Url.Action("CalculateMovementHistoryNodeData", "MovementHistoryNodeEditor"))
+    @Html.Hidden("MovementHistoryNodeEditorModelStr", MovementHistoryNodeEditorController.SerializeModel(Model))
+    @Html.Hidden("MovementHistoryNodeGetArchivedDataUrl", @Url.Action("GetArchivedMovementHistoryNodeData", "MovementHistoryNodeEditor"))
+
+
+    var dateTimeLbl = FMBaseController.TranslateText("Movement|Date Time");
+    var levelLbl = FMBaseController.TranslateText("Movement|Level");
+    var temperatureLbl = FMBaseController.TranslateText("Movement|Temperature");
+    var grossVolumeLbl = FMBaseController.TranslateText("Movement|Gross Volume");
+    var netVolumeLbl = FMBaseController.TranslateText("Movement|Net Volume");
+    var massLbl = FMBaseController.TranslateText("Movement|Mass");
+    var densityLbl = FMBaseController.TranslateText("Movement|Density");
+    var stdDensityLbl = FMBaseController.TranslateText("Movement|Std Density");
+    var waterLevelLbl = FMBaseController.TranslateText("Movement|Water Level");
+    var bswLbl = FMBaseController.TranslateText("Movement|%BSW");
+    var bswPercentLbl = FMBaseController.TranslateText("Movement|Percent");
+    var ambientTemperatureLbl = FMBaseController.TranslateText("Movement|Ambient Temperature");
+
+    var numberFormatInfoString = String.Format("{{{0}"
+            + "\"NegativeSign\":\"{1}\",{0}"
+            + "\"NumberDecimalDigits\":{2},{0}"
+            + "\"NumberDecimalSeparator\":\"{3}\",{0}"
+            + "\"NumberGroupSeparator\":\"{4}\",{0}"
+            + "\"NumberGroupSizes\":{5},{0}"
+            + "\"NumberNegativePattern\":{6},{0}"
+            + "\"ShortDatePattern\":\"{7}\",{0}"
+            + "\"TimePattern\":\"{8}\"{0}}}"
+            , Environment.NewLine
+            , "-"
+            , 0
+            , Model.NumberDecimalSeparator
+            , Model.NumberGroupSeparator
+            , Model.NumberGroupSizes[0]
+            , 1
+            , Model.ShortDatePattern
+            , Model.TimePattern);
+
+    <input id="CalendarLocationUrl" type="hidden" value='@Url.Content("~/DispatchWebApp/images")' />
+    <input id="NumberFormatInfoString" type="hidden" value='@numberFormatInfoString' />
+
+
+    var title = Model.PointId + " - " + Model.NodeId;
+
+    <section id="MovementHistoryNodeEditorTableSection">
+        <div class="MovementHistoryNodeEditorHeader row">
+            <button type="button" class="close" data-dismiss="modal" onclick="$('#MovementHistoryNodeEditorClosePropertyScreen').click();">&times;</button>
+        </div>
+        <div class="row">
+            <div class="col-xs-10 col-sm-10 col-md-8 col-lg-6">
+                <h4 id="MovementHistoryNodeEditorTitle" style="width: 500px !important">@title</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-8 col-sm-8 col-md-6 col-lg-6">
+                @if (Model.CallingTypes == 0)
+                {
+                    <h5>@FMBaseController.TranslateText("Movement|Edit Start Data")</h5>
+                }
+                @if (Model.CallingTypes == 1)
+                {
+                    <h5>@FMBaseController.TranslateText("Movement|Edit Closeout Data")</h5>
+                }
+            </div>
+        </div>
+        <br />
+        <div id="MovementHistoryNodeEditorTopDiv" style="padding-top: 5px; padding-bottom: 5px;">
+            <table id="MovementHistoryNodeEditorTable">
+                <tr>
+                    <td class="MovementHistoryNodeTdPadding1">
+                        <label id="DateTimeLbl">@dateTimeLbl</label>
+                    </td>
+                    <td class="MovementHistoryNodeTdPadding2">
+                        <input id="DateTimePicker" type="text" class="form-control text-center datepicker TransferStartTime" />
+                    </td>
+                    <td class="MovementHistoryNodeTdPadding3">
+                        <div id="GetDataFromArchiveDiv">
+                            <input id="GetDataFromArchive" type="checkbox" value="Get Data from Archive" /><label for="GetDataFromArchive">&nbsp;Get Data from Archive</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="MovementHistoryNodeTdPadding1">
+                        <label id="LevelLbl">@levelLbl</label>
+                    </td>
+                    <td class="MovementHistoryNodeTdPadding2">
+                        <input id="Level" type="text" class="form-control text-center " onblur="MovementHistoryNodeEditor.HandleFieldOnblur('Level', 'LEVEL');"  />
+                    </td>
+                    <td class="MovementHistoryNodeTdPadding3">
+                        <label id="LevelUnits">@Model.LevelUnitsStr</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="MovementHistoryNodeTdPadding1">
+                        <label id="TemperatureLbl">@temperatureLbl</label>
+                    </td>
+                    <td class="MovementHistoryNodeTdPadding2">
+                        <input id="Temperature" type="text" class="form-control text-center" onblur="MovementHistoryNodeEditor.HandleFieldOnblur('Temperature', 'DOUBLE');"   />
+                    </td>
+                    <td class="MovementHistoryNodeTdPadding3">
+                        <label id="TemperatureUnits">@Model.TemperatureUnitsStr</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="MovementHistoryNodeTdPadding1">
+                        <label id="WaterLevelLbl">@waterLevelLbl</label>
+                    </td>
+                    <td class="MovementHistoryNodeTdPadding2">
+                        <input id="WaterLevel" type="text" class="form-control text-center" onblur="MovementHistoryNodeEditor.HandleFieldOnblur('WaterLevel', 'LEVEL');"   />
+                    </td>
+                    <td class="MovementHistoryNodeTdPadding3">
+                        <label id="WaterLevelUnits">@Model.LevelUnitsStr</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="MovementHistoryNodeTdPadding1">
+                        <label id="GrossVolumeLbl">@grossVolumeLbl</label>
+                    </td>
+                    <td class="MovementHistoryNodeTdPadding2">
+                        <input id="GrossVolume" type="text" class="form-control text-center" readonly="readonly" disabled   />
+                    </td>
+                    <td class="MovementHistoryNodeTdPadding3">
+                        <label id="GrossVolumeUnits">@Model.GrossVolumeUnitsStr</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="MovementHistoryNodeTdPadding1">
+                        <label id="NetVolumeLbl">@netVolumeLbl</label>
+                    </td>
+                    <td class="MovementHistoryNodeTdPadding2">
+                        <input id="NetVolume" type="text" class="form-control text-center" readonly="readonly" disabled  />
+                    </td>
+                    <td class="MovementHistoryNodeTdPadding3">
+                        <label id="NetVolumeUnits">@Model.NetVolumeUnitsStr</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="MovementHistoryNodeTdPadding1">
+                        <label id="MassLbl">@massLbl</label>
+                    </td>
+                    <td class="MovementHistoryNodeTdPadding2">
+                        <input id="Mass" type="text" class="form-control text-center" readonly="readonly" disabled  />
+                    </td>
+                    <td class="MovementHistoryNodeTdPadding3">
+                        <label id="MassUnits">@Model.MassUnitsStr</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="MovementHistoryNodeTdPadding1">
+                        <label id="DensityLbl">@densityLbl</label>
+                    </td>
+                    <td class="MovementHistoryNodeTdPadding2">
+                        <input id="Density" type="text" class="form-control text-center" readonly="readonly" disabled  />
+                    </td>
+                    <td class="MovementHistoryNodeTdPadding3">
+                        <label id="DensityUnits">@Model.DensityUnitsStr</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="MovementHistoryNodeTdPadding1">
+                        <label id="StdDensityLbl">@stdDensityLbl</label>
+                    </td>
+                    <td class="MovementHistoryNodeTdPadding2">
+                        <input id="StdDensity" type="text" class="form-control text-center" onblur="MovementHistoryNodeEditor.HandleFieldOnblur('StdDensity', 'DOUBLE');"   />
+                    </td>
+                    <td class="MovementHistoryNodeTdPadding3">
+                        <label id="StdDensityUnits">@Model.StdDensityUnitsStr</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="MovementHistoryNodeTdPadding1">
+                        <label id="bswLbl">@bswLbl</label>
+                    </td>
+                    <td class="MovementHistoryNodeTdPadding2">
+							  <input id="Bsw" type="text" class="form-control text-center" onblur="MovementHistoryNodeEditor.HandleFieldOnblur('Bsw', 'DOUBLE');" />
+                    </td>
+                    <td class="MovementHistoryNodeTdPadding3">
+                        <label id="BswUnits">@bswPercentLbl</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="MovementHistoryNodeTdPadding1">
+                        <label id="ambientTemperatureLbl">@ambientTemperatureLbl</label>
+                    </td>
+                    <td class="MovementHistoryNodeTdPadding2">
+                        <input id="AmbientTemperature" type="text" class="form-control text-center" readonly="readonly" disabled />
+                    </td>
+                    <td class="MovementHistoryNodeTdPadding3">
+                        <label id="AmbientTemperatureUnits">@Model.AmbientTemperatureUnitsStr</label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </section>
+}

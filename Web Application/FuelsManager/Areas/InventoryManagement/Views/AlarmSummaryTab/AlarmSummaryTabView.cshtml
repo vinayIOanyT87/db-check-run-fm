@@ -1,0 +1,356 @@
+﻿@using System.Web.Mvc.Html
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.AlarmSummaryTabModel
+
+
+<link href="~/Areas/Content/AlarmSummaryTab.css" rel="stylesheet" type="text/css" />
+
+
+@using (Html.BeginForm("AlarmSummaryTabView", "AlarmSummaryTab", FormMethod.Get, new { @class = "", @id = "AlarmSummaryTabView" }))
+{
+	@Html.AntiForgeryToken()
+	@Html.Hidden("ShelveAlarmsUrl", @Url.Action("Shelve", "AlarmSummaryTab"))
+	@Html.Hidden("AckUrl", @Url.Action("AcknowledgeAlarms", "AlarmSummaryTab"))
+	@Html.Hidden("SilenceUrl", @Url.Action("SilenceAlarms", "AlarmSummaryTab"))
+	@Html.Hidden("AckWithCommentUrl", @Url.Action("AcknowledgeAlarmsWithComment", "AlarmSummaryTab"))
+	@Html.Hidden("AlarmSummaryRefreshUrl", @Url.Action("Refresh", "AlarmSummaryTab"))
+	@Html.Hidden("AlarmSummaryTabModel", AlarmSummaryTabController.SerializeModel(Model));
+	@Html.Hidden("HasSilenceRight", Model.HasSilenceRight);
+	@Html.Hidden("HasAckAllRight", Model.HasAcknowledgeAllRight);
+	@Html.Hidden("HasAckCommentsRight", Model.HasAcknowledgeCommentsRight);
+	var count = Model.AlarmSummaries.Count;
+	var timeStamp = FMBaseController.TranslateText("TimeStamp");
+	var timeStampIndexFieldName = "TimeStampIndex";
+	var pointID = FMBaseController.TranslateText("Point ID");
+	var description = FMBaseController.TranslateText("Description");
+	var tagID = FMBaseController.TranslateText("Tag ID");
+	var status = FMBaseController.TranslateText("Status");
+
+
+	<section id="AlarmSummaryTableSection">
+		<div class="col-xs-12" style="padding-top: 5px; padding-bottom: 5px;">
+			<button id="silenceButton" type="button" class="alarmSummaryHeaderButtonClass @(Model.HasSilenceRight ? "": "alarmSummaryDisableButtonClass")" onclick="javascript: return AlarmSummaryTab.Silence();">
+				<Span style="vertical-align: middle; padding: 0; border: 0;" @(Model.HasSilenceRight ? "" : "disabled")>
+					<img src="~/fmwebapp/images/Silence-off.png" id="silencebuttonimage" style="position: relative; left: -6px !important; top: -4px;" alt=@FMBaseController.TranslateText("Silence") />
+				</Span>
+				@FMBaseController.TranslateText("&Silence")
+			</button>
+			<button id="alarmGraphicButton" type="button" class="alarmSummaryHeaderButtonClass @(Model.HasViewPointDetailRight ? "": "hidden")" onclick="javascript: return AlarmSummaryTab.AlarmGraphic();">
+				<Span style="vertical-align: middle; padding: 0; border: 0;">
+					<img src="~/fmwebapp/images/Alarm-Graphic.png" style="position: relative; left: -6px !important; top: -4px;" alt=@FMBaseController.TranslateText("Alarm Graphic") />
+				</Span>
+				@FMBaseController.TranslateText("&Alarm Graphic")
+			</button>
+			<button id="helpButton" type="button" class="alarmSummaryHeaderButtonClass hidden" onclick="javascript: return AlarmSummaryTab.Help();">
+				<Span style="vertical-align: middle; padding: 0; border: 0;">
+					<img src="~/fmwebapp/images/Help.png" style="position: relative; left: -6px !important; top: -4px;" alt=@FMBaseController.TranslateText("Help") />
+				</Span>
+				@FMBaseController.TranslateText("&Help")
+			</button>
+			<button id="detailsButton" type="button" class="alarmSummaryHeaderButtonClass hidden" onclick="javascript: return AlarmSummaryTab.Details();">
+				<Span style="vertical-align: middle; padding: 0; border: 0;">
+					<img src="~/fmwebapp/images/Details.png" style="position: relative; left: -6px !important; top: -4px;" alt=@FMBaseController.TranslateText("Details") />
+				</Span>
+				@FMBaseController.TranslateText("&Details")
+			</button>
+
+			<div id="findDivOutter" style="float: right; position: relative;">
+				<label id="findLabel">@FMBaseController.TranslateText("Find"):</label>
+				<div id="findDiv" class="findDivNoBorder">
+					<div id="findInputArea">
+						<input id="alarmSummaryTabFind" type="text" class="form-control" autocomplete="off" onkeypress="javascript: return AlarmSummaryTab.PreventEnterSubmit();" />
+						<img alt="Find Icon" title="Find" src="~/fmwebapp/images/Search Icon.png" />
+					</div>
+
+					<div id="findResultsRow" class="findResultsRowHidden hidden">
+
+						<div id="findResultsDiv" class="findResultsDivBorder">
+							<label id="findResultsLabel"><i>@FMBaseController.TranslateText("0 results")</i></label>
+							<button id="findPrevButton" type="button" class="alarmSummaryFindButtonClass" onclick="javascript: return AlarmSummaryTab.FindPrev();">
+								<span class="glyphicon glyphicon-triangle-left"></span>
+								@FMBaseController.TranslateText("&Prev")
+							</button>
+							<button id="findNexButton" type="button" class="alarmSummaryFindButtonClass" onclick="javascript: return AlarmSummaryTab.FindNext();">
+								@FMBaseController.TranslateText("&Next")
+								<span class="glyphicon glyphicon-triangle-right"></span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="AlarmSummaryTableContainer" class="col-xs-12">
+			<table id="AlarmSummaryTable" class="table table-striped hover alarmSummaryTableClass">
+				<thead>
+					<tr>
+						<th class="col-sm-2 col-md-2 text-center">@timeStampIndexFieldName</th>
+						<th class="col-sm-2 col-md-2 text-center">@timeStamp</th>
+						<th class="col-sm-2 col-md-2 text-center">@pointID</th>
+						<th class="col-sm-2 col-md-2 text-center">@description</th>
+						<th class="col-sm-2 col-md-2 text-center">@tagID</th>
+						<th class="col-sm-2 col-md-2 text-center">@status</th>
+					</tr>
+				</thead>
+				<tbody id="AlarmSummaryBody">
+					@for (var index = 0; index < count; ++index)
+					{
+						var alrm = Model.AlarmSummaries[index];
+						var timestampIndexID = "TimestampIndex_" + alrm.AlarmGuid;
+						var ackButtonID = "AckButton_" + alrm.AlarmGuid;
+						var ackWithCommentButtonID = "AckWithCommentButton_" + alrm.AlarmGuid;
+						var shelveButtonID = "ShelveButton_" + alrm.AlarmGuid;
+						var timestampID = "Timestamp_" + alrm.AlarmGuid;
+						var pointIDID = "PointID_" + alrm.AlarmGuid;
+						var descriptionID = "DescriptionID_" + alrm.AlarmGuid;
+						var tagIDID = "TagID_" + alrm.AlarmGuid;
+						var statusID = "Status_" + alrm.AlarmGuid;
+						var rowID = "Row_" + alrm.AlarmGuid;
+						var alarmBackgroundSteadyColor = alrm.AlarmBackgroundSteadyColor;
+						var alarmTextSteadyColor = alrm.AlarmTextSteadyColor;
+						if (alrm.IsNormal)
+						{
+							alarmBackgroundSteadyColor = alrm.NormalUnacknowledgedAlarmBackgroundSteadyColor;
+							alarmTextSteadyColor = alrm.NormalUnacknowledgedAlarmTextSteadyColor;
+						}
+
+						<tr id="@rowID">
+							<td class="col-sm-2 col-md-2 text-center" id="@timestampIndexID">
+								@alrm.TimeStampUTCTicks
+							</td>
+							<td class="col-sm-2 col-md-2 text-center" id="@timestampID">
+								@alrm.FormattedTimestamp
+							</td>
+							<td class="col-sm-2 col-md-2 text-center" id="@pointIDID">
+								@alrm.PointID
+							</td>
+							<td class="col-sm-2 col-md-2 text-center" id="@descriptionID">
+								@alrm.Description
+							</td>
+							<td class="col-sm-2 col-md-2 text-center" id="@tagIDID">
+								@alrm.TagID
+							</td>
+							<td class="col-sm-2 col-md-2 text-center" style="background: #@alarmBackgroundSteadyColor; color: #@alarmTextSteadyColor" id="@statusID">
+								@alrm.Status
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+
+		<div class="col-xs-12">
+			<div id="alarmSummaryAcknowledgeButtons">
+				<div id="AckWCommentArea">
+					<button id="ackButton" type="button" class="btn alarmSummaryBottomButtonClass" accesskey="A" onclick="javascript: return AlarmSummaryTab.Acknowledge();">
+						@FMBaseController.TranslateText("&Acknowledge")
+					</button>
+					<button id="dropDownArrow" type="button" title="Add Comment" class="btn DownArrowClass" onclick="javascript: return AlarmSummaryTab.AcknowledgeDropdown();">
+						<span class="glyphicon glyphicon-triangle-top"></span>
+					</button>
+
+					<button id="AckWCommentButton" type="button" class="alarmSummaryCommentButton hidden" onclick="javascript: return AlarmSummaryTab.AcknowledgeWComment();">
+						@FMBaseController.TranslateText("&Comment")
+					</button>
+				</div>
+			</div>
+
+			<div id="alarmSummaryAcknowledgeAllButtons">
+				<div id="AckAllWCommentArea">
+					<button id="ackAllButton" type="button" class="pushButton alarmSummaryBottomButtonClass" accesskey="l" onclick="javascript: return AlarmSummaryTab.AcknowledgeAll();">
+						@FMBaseController.TranslateText("Acknowledge Al&l")
+					</button>
+					<button id="dropDownArrow2" type="button" title="Add Comment" class="btn DownArrowClass" onclick="javascript: return AlarmSummaryTab.AcknowledgeAllDropdown();">
+						<span class="glyphicon glyphicon-triangle-top"></span>
+					</button>
+					<button id="AckAllWCommentButton" type="button" class="alarmSummaryCommentButton hidden" onclick="javascript: return AlarmSummaryTab.AcknowledgeAllWComment();">
+						@FMBaseController.TranslateText("&Comment")
+					</button>
+				</div>
+			</div>
+
+			<div id="alarmSummaryShelveButtons">
+				<button id="shelveButton" type="button" class="btn alarmSummaryBottomButtonClass hidden" accesskey="S" onclick="javascript: return AlarmSummaryTab.Shelve();">
+					@FMBaseController.TranslateText("&Shelve Alarm")
+				</button>
+			</div>
+
+			<div id="alarmSummaryEntryCount">
+				<label id="ShowingEntriesLabel"></label>
+			</div>
+		</div>
+
+	</section>
+
+
+	<!-- Modals-->
+	<section id="shelveModals" class="shelvemodaltransparent">
+		<div class="row shelvemodaltransparent">
+			<div id="ShelveDataEntryScreen" class="modal fade modal-sm shelvemodal" data-backdrop="static" data-focus-on="input:first" role="dialog">
+				<!-- Modal content-->
+				<div class="modal-content shelvemodal">
+					<div class="modal-header shelvemodal">
+						<button id="ShelveDataEntryScreen_CloseButton" type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 id="ShelveDataScreen" class="shelvemodaltitle">@FMBaseController.TranslateText("SHELVE ALARM")</h4>
+					</div>
+					<div class="modal-body shelvemodal">
+						<section id="Shelve" class=""></section>
+					</div>
+					<div class="modal-footer shelvemodal">
+						<div class="btn-toolbar">
+							<div style="float: right">
+								<button id="ShelveDataEntryScreenOkButton" type="submit" accesskey="S" class="btn okbuttonmodal">@FMBaseController.TranslateText("&Save")</button>
+								<button id="ShelveDataEntryScreenCancelButton" type="button" accesskey="C" class="btn btn-default cancelbuttonmodal" data-dismiss="modal">@FMBaseController.TranslateText("&Cancel")</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section id="ackCommentModals" class="ackcommentmodaltransparent">
+		<div class="row ackcommentmodaltransparent">
+			<div id="AckCommentDataEntryScreen" class="modal fade ackcommentmodal" data-backdrop="static" data-width="500" data-focus-on="input:first" role="dialog">
+				<!-- Modal content-->
+				<div class="modal-content ackcommentmodal">
+					<div class="modal-header ackcommentmodal">
+						<button id="AckCommentDataEntryScreen_CloseButton" type="button" class="close" data-dismiss="modal">&times;</button>
+						<img alt="Comment Icon" src="~/fmwebapp/images/commentdialogicon.png" />
+						<h4 id="AckCommentDataScreen" style="display: inline-block; color:#b2b2b2" class="modal-title">@FMBaseController.TranslateText("Comments")</h4>
+					</div>
+					<div class="modal-body ackcommentmodal">
+						<section id="AckComment" class=""></section>
+					</div>
+					<div class="modal-footer ackcommentmodal">
+						<div class="btn-toolbar">
+							<div class="pull-right">
+								<button id="AckCommentDataEntryScreenOkButton" type="button" class="btn btn-default">@FMBaseController.TranslateText("&Save")</button>
+								<button id="AckCommentDataEntryScreenCancelButton" type="button" accesskey="C" class="btn btn-default" data-dismiss="modal">@FMBaseController.TranslateText("&Cancel")</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+}
+
+<script type="text/javascript">
+	//# sourceURL=_AlarmSummaryTabView.cshtml
+	$(document).ready(function () {
+		AlarmSummaryTab.Init();
+
+		var hotKey;
+		var button = $('#silenceButton');
+		var ampersandIndex = button.text().indexOf('&');
+		if (ampersandIndex !== -1) {
+			hotKey = button.text().charAt(ampersandIndex + 1);
+			button.html(button.html().replace('&amp;' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+			button.attr('accesskey', hotKey);
+		}
+		// chrome wants boolean where as hasSilenceRight is string
+		var hasSilenceRight = $('#HasSilenceRight').val();
+		if (hasSilenceRight === 'False') {
+			button.prop('disabled', true);
+		}
+
+		button = $('#alarmGraphicButton');
+		ampersandIndex = button.text().indexOf('&');
+		if (ampersandIndex !== -1) {
+			hotKey = button.text().charAt(ampersandIndex + 1);
+			button.html(button.html().replace('&amp;' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+			button.attr('accesskey', hotKey);
+		}
+
+		button = $('#AckWCommentButton');
+		ampersandIndex = button.text().indexOf('&');
+		if (ampersandIndex !== -1) {
+			hotKey = button.text().charAt(ampersandIndex + 1);
+			button.html(button.html().replace('&amp;' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+			button.attr('accesskey', hotKey);
+		}
+
+		button = $('#AckAllWCommentButton');
+		ampersandIndex = button.text().indexOf('&');
+		if (ampersandIndex !== -1) {
+			hotKey = button.text().charAt(ampersandIndex + 1);
+			button.html(button.html().replace('&amp;' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+			button.attr('accesskey', hotKey);
+		}
+
+		button = $('#detailsButton');
+		ampersandIndex = button.text().indexOf('&');
+		if (ampersandIndex !== -1) {
+			hotKey = button.text().charAt(ampersandIndex + 1);
+			button.html(button.html().replace('&amp;' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+			button.attr('accesskey', hotKey);
+		}
+
+		button = $('#helpButton');
+		ampersandIndex = button.text().indexOf('&');
+		if (ampersandIndex !== -1) {
+			hotKey = button.text().charAt(ampersandIndex + 1);
+			button.html(button.html().replace('&amp;' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+			button.attr('accesskey', hotKey);
+		}
+
+		button = $('#ackButton');
+		ampersandIndex = button.text().indexOf('&');
+		if (ampersandIndex !== -1) {
+			hotKey = button.text().charAt(ampersandIndex + 1);
+			button.html(button.html().replace('&amp;' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+			button.attr('accesskey', hotKey);
+		}
+
+		button = $('#ackAllButton');
+		ampersandIndex = button.text().indexOf('&');
+		if (ampersandIndex !== -1) {
+			hotKey = button.text().charAt(ampersandIndex + 1);
+			button.html(button.html().replace('&amp;' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+			button.attr('accesskey', hotKey);
+		}
+
+		button = $('#shelveButton');
+		ampersandIndex = button.text().indexOf('&');
+		if (ampersandIndex !== -1) {
+			hotKey = button.text().charAt(ampersandIndex + 1);
+			button.html(button.html().replace('&amp;' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+			button.attr('accesskey', hotKey);
+		}
+
+		button = $('#ShelveDataEntryScreenOkButton');
+		ampersandIndex = button.text().indexOf('&');
+		if (ampersandIndex !== -1) {
+			hotKey = button.text().charAt(ampersandIndex + 1);
+			button.html(button.html().replace('&amp;' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+			button.attr('accesskey', hotKey);
+		}
+
+		button = $('#ShelveDataEntryScreenCancelButton');
+		ampersandIndex = button.text().indexOf('&');
+		if (ampersandIndex !== -1) {
+			hotKey = button.text().charAt(ampersandIndex + 1);
+			button.html(button.html().replace('&amp;' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+			button.attr('accesskey', hotKey);
+		}
+
+		button = $('#AckCommentDataEntryScreenOkButton');
+		ampersandIndex = button.text().indexOf('&');
+		if (ampersandIndex !== -1) {
+			hotKey = button.text().charAt(ampersandIndex + 1);
+			button.html(button.html().replace('&amp;' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+			button.attr('accesskey', hotKey);
+		}
+
+		button = $('#AckCommentDataEntryScreenCancelButton');
+		ampersandIndex = button.text().indexOf('&');
+		if (ampersandIndex !== -1) {
+			hotKey = button.text().charAt(ampersandIndex + 1);
+			button.html(button.html().replace('&amp;' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+			button.attr('accesskey', hotKey);
+		}
+	});
+
+	$(window).resize(function () { AlarmSummaryTab.Newdiv(true); });
+	window.onscroll = function () { AlarmSummaryTab.HandleButtonEnableDisable(); };
+</script>

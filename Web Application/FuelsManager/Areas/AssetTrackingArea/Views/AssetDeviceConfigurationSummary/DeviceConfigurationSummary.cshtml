@@ -1,0 +1,281 @@
+﻿@using FuelsManager.Areas.AssetTrackingArea.ViewModels
+@using FuelsManager.Areas.Controllers
+@model AssetDeviceConfigSummaryModel
+@{
+    ViewBag.Title = "DeviceConfigurationSummary";
+}
+
+@Scripts.Render("~/bundles/dataTable")
+@Styles.Render("~/Content/dataTable")
+
+<style>
+	.centeredTableData {
+		text-align: center;
+		vertical-align: middle;
+	}
+
+	.divTable {
+		width: 85%;
+		height: 50%;
+		display: table;
+		padding: 3px;
+	}
+
+	.divTableRow {
+		width: 100%;
+		height: 100%;
+		display: table-row;
+		padding: 3px;
+	}
+
+	.divTableCell {
+		width: 25%;
+		height: 100%;
+		display: table-cell;
+		padding: 3px;
+		vertical-align: top;
+	}
+
+	.divTableCell2 {
+		width: 25%;
+		height: 100%;
+		display: table-cell;
+		padding: 3px;
+		vertical-align: top;
+		position: absolute;
+		right: 40%;
+	}
+
+	.headline {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 18px;
+		font-style: italic;
+		font-weight: bold;
+		color: #0d246a;
+		line-height: normal;
+		white-space: nowrap;
+	}
+
+	.formfieldtitle {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 12px;
+		font-style: normal;
+		line-height: normal;
+		font-weight: bold;
+		font-variant: normal;
+		text-transform: none;
+		white-space: nowrap;
+	}
+
+	.formfield input {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 12px;
+		font-style: normal;
+		line-height: normal;
+		font-weight: normal;
+		font-variant: normal;
+		text-transform: none;
+		color: #000000;
+	}
+
+	.errorField {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 16px;
+		font-style: normal;
+		line-height: normal;
+		font-weight: bold;
+		font-variant: normal;
+		text-transform: none;
+		color: #FF0000;
+	}
+    
+    #deviceConfigSummaryTable_info{
+        color: white;
+    }
+    #deviceConfigSummaryTable_first {
+        color: white !important;
+    }
+    #deviceConfigSummaryTable_previous {
+        color: white !important;
+    }
+    #deviceConfigSummaryTable_next {
+        color: white !important;
+    }
+    #deviceConfigSummaryTable_last {
+        color: white !important;
+    }
+</style>
+<script>
+	$(document).ready(function () {
+		var datatable = $('#deviceConfigSummaryTable')
+			.DataTable(
+			{
+				// We do not allow searching through the results via the datatable search control
+				"searching": false,
+				// Show First, Previous, Next, and Last buttons for paging
+				"pagingType": "full",
+				// Embed a div in the datatables controls so we can color the bottom of the grid
+				// like a footer
+				"dom": 'lrt<"#DataTablesFooter"ip>',
+				// Apply no initial sort
+				"order": [],
+				// Save the sort order so that if users navigate away from the page and return their sort is retained
+				"stateSave": true,
+				// Tell datatables that we don't care about highlighting the columns that have been sorted. According to the documentation, this improves performance.
+				"orderClasses": false,
+				"columnDefs": [
+					// Disallow sorting of the edit / delete columns
+					{ "targets": [0, 1], "orderable": false }
+				]
+			});
+	});
+
+	window.onload = function (e) {
+		window.parent.CurrentHelpKey = "MenuBar/FMMenuBar.aspx?target=../AssetTrackingArea/AssetDeviceConfigurationSummary/DeviceConfigurationSummary";
+	}
+
+	//=========================================================
+	// Sets the select value from the activation status
+	// dropdown.
+	//=========================================================
+	function GetSelectedActivationStatus()
+	{
+		var selectedActivationStatus = $("#ActivationStatusId").val();
+		$('#selectedActivationStatusInput').val(selectedActivationStatus);
+	}
+</script>
+<div style="overflow-x: hidden; overflow-y: hidden;">
+	@using (Html.BeginForm("DeviceConfigurationSummary", "AssetDeviceConfigurationSummary", FormMethod.Post))
+	{
+		var editText = FMBaseController.TranslateText("Edit");
+		var deleteText = FMBaseController.TranslateText("Delete");
+		var deviceIdText = FMBaseController.TranslateText("Device ID");
+		var descriptionText = FMBaseController.TranslateText("Description");
+		var modelNumberText = FMBaseController.TranslateText("Model Number");
+		var serialNumberText = FMBaseController.TranslateText("Serial Number");
+		var activationStatusText = FMBaseController.TranslateText("Activation Status");
+
+		@Html.AntiForgeryToken()
+
+		<div class="divTable">
+			<div class="divTableRow">
+				<div class="divTableCell">
+					@Html.Label(FMBaseController.TranslateText("Asset Tracking Devices Configuration"), new { @Class = "headline" })
+				</div>
+			</div>
+		</div>
+		<div style="position: absolute; left: 32px">
+			<div class="divTable" style="width: 400px">
+				<div class="divTableRow">
+					<div class="divTableCell">
+						@Html.LabelFor(m => m.ActionListActivationStatus, FMBaseController.TranslateText("Activation Status"), new { @class = "formfieldtitle" })
+					</div>
+					<div class="divTableCell">
+						@Html.DropDownListFor(model => model.ActivationStatusId, Model.ActionListActivationStatus, new { @Class = "formfield", @style = "width:180px", @onchange = "GetSelectedActivationStatus()" })
+					</div>
+					<div class="divTableCell">&nbsp;</div>
+					<div class="divTableCell">
+						@Html.LabelFor(m => m.FindText, FMBaseController.TranslateText("Find Text:"), new { @class = "formfieldtitle" })
+					</div>
+					<div class="divTableCell">
+						@Html.TextBoxFor(m => m.FindText, new { style = "width:250px;", autofocus = "autofocus", title = "Search for this text in results", maxlength = "50" })
+					</div>
+					<div class="divTableCell">&nbsp;</div>
+					<div class="divTableCell">
+						<input type="submit" name="submitButton" value='@FMBaseController.TranslateText("Refresh")' class="formfieldtitle" maxlength="50" />
+					</div>
+				</div>
+				<div class="divTableRow">
+					<div class="divTableCell">&nbsp;</div>
+					<div class="divTableCell">&nbsp;</div>
+					<div class="divTableCell">&nbsp;</div>
+					<div class="divTableCell">&nbsp;</div>
+				</div>
+				<div class="divTableRow">
+					<div class="divTableCell">
+						<input type="button" id="btnAddTop" class="formfieldtitle" value='@FMBaseController.TranslateText("Add")' disabled="@(!Model.IsEditable)" onclick="@("window.location.href='" + @Url.Action("DeviceConfiguration", "AssetDeviceConfiguration", new { deviceConfigurationGuid = Guid.Empty }) + "'")" />
+					</div>
+					<div class="divTableCell">&nbsp;</div>
+					<div class="divTableCell">&nbsp;</div>
+					<div class="divTableCell">&nbsp;</div>
+				</div>
+			</div>
+			<div class="divTable">
+				<div class="row" style="margin-top: 5px; width: 1000px">
+					<section>
+						<div class="col-md-12">
+							<table id="deviceConfigSummaryTable" class="hover stripe row-border cell-border" style="width: 100%">
+								<thead>
+									<tr style="color: white; background-color: #0D246A">
+										<th>
+											@editText
+										</th>
+										<th>
+											@deleteText
+										</th>
+										<th>
+											@deviceIdText
+										</th>
+										<th>
+											@descriptionText
+										</th>
+										<th>
+											@modelNumberText
+										</th>
+										<th>
+											@serialNumberText
+										</th>
+										<th>
+											@activationStatusText
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach (AssetDeviceConfigurationModel device in @Model.DeviceConfigurationList)
+								{
+									var deleteEnabled = @Model.IsEditable && (@Model.SiteGuid == device.SiteGuid);
+									var deleteImage = @Model.IsEditable && (@Model.SiteGuid == device.SiteGuid) ? Url.Content("~/FMWebApp/Images/delete.gif") : Url.Content("~/FMWebApp/Images/delete_un.gif");
+								<tr>
+									<td style="width: 36px;" class="centeredTableData">
+										<a class="editLinkClass" title="@editText" href='@Url.Action("DeviceConfiguration", "AssetDeviceConfiguration", new { deviceConfigurationGuid = device.AssetTrackingDeviceGuid })'>@editText</a>
+									</td>
+									<td style="width: 36px;" class="centeredTableData">
+										<button name="deleteButton" value="@device.AssetTrackingDeviceGuid" disabled="@(!deleteEnabled)" style="background: transparent; color: transparent; height: 22px;" onclick=" if (disabled) return; return confirm('Are you sure you want to delete?'); ">
+											<span>
+												<img src="@deleteImage" style="margin-left: -10px; margin-right: -10px; margin-top: -3px; margin-bottom: -3px; padding-bottom: 9px" alt="Delete" />
+											</span>
+										</button>
+									</td>
+									<td>@device.DeviceId</td>
+									<td>@device.Description</td>
+									<td>@device.ModelNumber</td>
+									<td>@device.SerialNumber</td>
+									<td>@device.ActivationStatusStr</td>
+								</tr>
+								}
+								</tbody>
+							</table>
+						</div>
+					</section>
+				</div>
+			</div>
+			<div class="divTable">
+				<div class="divTableRow">
+					<div class="divTableCell">
+						<input type="button" id="btnAddBottom" class="formfieldtitle" value='@FMBaseController.TranslateText("Add")' disabled="@(Model.IsEditable ? null : "disabled")" onclick="@("window.location.href='" + @Url.Action("DeviceConfiguration", "AssetDeviceConfiguration", new { deviceConfigurationGuid = Guid.Empty }) + "'")" />
+					</div>
+				</div>
+				<div class="divTableRow">
+					<div class="divTableCell">&nbsp;</div>
+				</div>
+				<div class="divTableRow">
+					<div class="divTableCell">
+						@Html.ValidationMessage("Error", new { @Class = "errorField", style = "width:360px" })
+						<input id="selectedActivationStatusInput" name="selectedActivationStatusInput" type="hidden" value="" />
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+</div>
+

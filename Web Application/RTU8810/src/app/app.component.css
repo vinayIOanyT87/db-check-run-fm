@@ -1,0 +1,27 @@
+app-sidebar {
+    display: inline-block;
+    width: 100px;
+    height: 100vh;
+    vertical-align: top;
+}
+
+app-content {
+    display: inline-block;
+    width: calc( 100% - 100px);
+    height: 100vh;
+    vertical-align: top;
+    overflow:hidden;
+}
+
+.ui-pnotify-translucent {
+    opacity: .5 !important;
+}
+
+.ui-pnotify-translucent:hover {
+    opacity: 1 !important;
+}
+
+.ui-pnotify-text {
+    text-overflow: ellipsis !important;
+    overflow-x: hidden !important;
+}

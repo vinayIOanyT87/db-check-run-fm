@@ -1,0 +1,196 @@
+﻿<#@ import namespace="System.Collections.Generic" #>
+<#+
+// <copyright file="DataTypes.tt" company="SAIC">
+//  Copyright © SAIC. All Rights Reserved.
+// </copyright>
+
+	/// <summary>
+	/// Main configuration data class
+	/// </summary>
+	public class CodeGenConfig
+	{
+		public CodeGenConfig(string newAuthorName, string newDBName)
+		{
+			this.AuthorName = newAuthorName;
+			this.DBName = newDBName;
+			this.TemplateList = new List<FMTemplateBase>();
+		}
+		
+		public string AuthorName { get; set; }
+		public string DBName { get; set; }
+		public List<FMTemplateBase> TemplateList { get; set; }
+	}
+
+	public class FieldInfo
+	{
+		public string Name { get; set; }
+		public string Type { get; set; }
+		public string Default { get; set; }
+		public ForeignKeyInfo ForeignKey { get; set; }
+		public bool IsNullable { get; set; }
+		
+		public FieldInfo(string fieldName, string typeDefinition)
+		{
+			this.Name = fieldName;
+			this.Type = typeDefinition;
+			this.IsNullable = false;
+		}
+		
+		public FieldInfo(string fieldName, string typeDefinition, bool isNullable, 
+					string defaultText, ForeignKeyInfo newForeignKey) :this(fieldName, typeDefinition)
+		{
+			this.IsNullable = isNullable;
+			this.Default = defaultText;
+			this.ForeignKey = newForeignKey;
+		}
+		
+		public static FieldInfo NewGuidField(string prefix)
+		{
+			return new FieldInfo(prefix +"Guid", "UNIQUEIDENTIFIER");
+		}
+		
+		public static FieldInfo NewForeignKey(string newName, EntityKeyInfo newKeyInfo, bool cascade)
+		{
+			FieldInfo newField = FieldInfo.NewGuidField(newName);
+			newField.ForeignKey = new ForeignKeyInfo(newKeyInfo, cascade);
+			return newField;
+		}
+	}	
+	
+	/// <summary>
+	/// Basic info of an entity: tableName and primarykey column name
+	/// </summary>
+	public class EntityKeyInfo
+	{
+		public EntityKeyInfo(string newSchemaName, string newTableName, string newPrimaryKey)
+		{
+			SchemaName = newSchemaName;
+			TableName = newTableName;
+			PrimaryKey = newPrimaryKey;
+		}
+		public string SchemaName { get; set; }
+		public string TableName { get; set; }
+		public string PrimaryKey { get; set; }
+		
+		public static EntityKeyInfo ApplicationStringKeyInfo { get { return new EntityKeyInfo("dbo", "tblApplicationString", "ApplicationStringGuid"); }	}
+		public static EntityKeyInfo SiteKeyInfo { get { return new EntityKeyInfo("dbo", "tblSites", "SiteGuid"); }	}
+		public static EntityKeyInfo CompanyKeyInfo { get { return new EntityKeyInfo("dbo", "tblCompanies", "CompanyGuid"); }	}
+		public static EntityKeyInfo ProductKeyInfo { get { return new EntityKeyInfo("dbo", "tblProducts", "ProductGuid"); }	}
+		public static EntityKeyInfo TransactionAliasKeyInfo { get { return new EntityKeyInfo("dbo", "tblTransactionAliases", "TransactionAliasGuid"); }	}
+	}
+	
+	public class ForeignKeyInfo
+	{
+		public EntityKeyInfo KeyInfo { get; set; }
+		public bool CascadeDelete { get; set; }
+		
+		public ForeignKeyInfo(EntityKeyInfo newKeyInfo, bool cascade)
+		{
+			KeyInfo = newKeyInfo;
+			CascadeDelete = cascade;
+		}
+	}
+
+	public class InfoBase
+	{
+		public string SchemaName { get; set; }	
+
+	}
+	
+	/// <summary>
+	/// tblProducts, tbl is the prefix, Products is the BaseTableName
+	/// </summary>
+	public class TableInfo : InfoBase
+	{
+		private string _prefix = "tbl";
+
+		public string Prefix 
+		{ 
+			get
+			{
+				return _prefix;
+			}
+			set
+			{
+				_prefix = value;
+			} 
+		}
+
+		public string BaseTableName = string.Empty;
+
+		public string TableName 
+		{
+			get
+			{				
+				return Prefix + BaseTableName;
+			}
+		}
+		
+		public override string ToString()
+		{
+			return Prefix + Environment.NewLine + 
+				TableName;
+		}
+		
+		public FieldInfo PrimaryKeyField { get; set; }
+		public List<FieldInfo> FieldList {get; set;}
+		public string[] SelectByFieldNames {get; set;}
+		public EntityKeyInfo EntityToSiteMap { get; set;}
+		public string OrderByFieldName {get; set;}
+
+		public TableInfo(string newSchemaName, string newBaseTableName)
+		{
+			this.SchemaName = newSchemaName;
+			this.BaseTableName = newBaseTableName;
+			this.PrimaryKeyField = new FieldInfo(BaseTableName + "Guid", "UNIQUEIDENTIFIER", false, "NEWID()", null);
+			this.FieldList = new List<FieldInfo>();
+			this.SelectByFieldNames = new string[0];
+			this.OrderByFieldName = string.Empty;
+		}			
+	}
+
+	/// <summary>
+	/// Map: Assigned mapped to Assignee.  e.g. Company map to a CompanyGroup
+	/// </summary>
+	public class MapInfo
+	{
+		
+		public MapInfo(string newSchemaName, 
+			string newAssignedName, EntityKeyInfo newAssignedKeyInfo, 
+			string newAssigneeName, EntityKeyInfo newAssigneeKeyInfo)
+		{
+			AssigneeName = newAssigneeName;
+			AssignedKeyInfo = newAssignedKeyInfo;
+			AssignedName = newAssignedName;
+			AssigneeKeyInfo = newAssigneeKeyInfo;
+
+			MyTable = new TableInfo(newSchemaName, AssignedName + "To" + AssigneeName);
+			MyTable.FieldList.Add(FieldInfo.NewForeignKey(newAssigneeName, AssigneeKeyInfo, true));			
+			MyTable.FieldList.Add(FieldInfo.NewForeignKey(newAssignedName, AssignedKeyInfo, true));
+			MyTable.SelectByFieldNames = new string[] {newAssigneeName + "Guid", newAssignedName + "Guid"};
+		}
+
+		public string AssignedName { get; set; }
+		public EntityKeyInfo AssignedKeyInfo { get; set; }
+		public string AssigneeName { get; set; }
+		public EntityKeyInfo AssigneeKeyInfo { get; set; }
+
+		public TableInfo MyTable { get; set; }
+		
+		public override string ToString()
+		{
+			string myTableString;
+			if (MyTable == null)
+			{
+				myTableString = "(MyTable is null)";
+			}
+			else				
+			{
+				myTableString = MyTable.ToString();
+			}
+			return AssigneeName + Environment.NewLine + 
+				AssignedName+ Environment.NewLine +
+				myTableString;
+		}
+	}
+#>

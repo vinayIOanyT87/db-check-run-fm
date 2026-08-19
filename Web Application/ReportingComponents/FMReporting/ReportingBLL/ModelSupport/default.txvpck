@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nodeSet>
+  <view uin="8e8q7uijl_v">
+    <property name="$name" value="default" />
+    <property name="$defaultDiagram" value="True" />
+    <property name="$metaclass" value="Package Diagram" />
+    <reference referencedUin="design:view:::904ku0q0f_v">
+      <property name="$shortcutReference" value="true" />
+      <reference referencedUin="csharp:e_class:src:ReportingBLL:ReportingBLL.ReportService" />
+    </reference>
+    <reference referencedUin="design:view:::fe8pgw8te_v">
+      <property name="$shortcutReference" value="true" />
+    </reference>
+  </view>
+</nodeSet>

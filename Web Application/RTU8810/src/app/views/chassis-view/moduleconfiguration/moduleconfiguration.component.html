@@ -1,0 +1,198 @@
+<div id="modulechanneldetails">
+    <div class="chassis-section-header"><span class="moduleheader">Module: {{currentModule}}</span>
+        <span class="channelheader">Channel: {{currentChannel !== 0 ? currentChannel: ''}}
+            <div class="btn-group" dropdown>
+                <button id="dropdown-button" dropdownToggle type="button" class="dropdown-toggle" aria-controls="dropdown-basic">
+                </button>
+                <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" aria-labelledby="button-basic">
+                    <li class="channeloption" (click)="changeChannel(0)">Module</li>
+                    <li class="channeloption" (click)="changeChannel(1)">Channel 1</li>
+                    <li class="channeloption" (click)="changeChannel(2)">Channel 2</li>
+                    <li class="channeloption" (click)="changeChannel(3)">Channel 3</li>
+                    <li class="channeloption" (click)="changeChannel(4)">Channel 4</li>
+                    <li class="channeloption" (click)="changeChannel(5)">Channel 5</li>
+                    <li class="channeloption" (click)="changeChannel(6)">Channel 6</li>
+                    <li class="channeloption" (click)="changeChannel(7)">Channel 7</li>
+                    <li class="channeloption" (click)="changeChannel(8)">Channel 8</li>
+                </ul>
+            </div>
+        </span>
+    </div>
+    <div id=configurationdivision class="chassis-section-detail">
+        <div class="iconbar">
+            <i class="fa fa-search search-icon pull-right" title="Search"></i>
+            <input type="text" class='search-entry pull-right' placeholder="Enter search parameter" [ngModel]='searchString' (ngModelChange)='searchChanged( $event )' />
+        </div>
+        <perfect-scrollbar>
+            <form>
+                <accordion #accordion [closeOthers]="true">
+                    <accordion-group #accordionprotocol *ngIf="rtuChannelProtocol" class="supportcolumns">
+                        <button class="btn btn-link btn-block clearfix" accordion-heading>
+                                <div class="pull-left float-left configurationBarSettings" >Protocol</div>
+                                <i class="float-right fa" [ngClass]="{'fa-angle-up': accordionprotocol.isOpen, 'fa-angle-down': !accordionprotocol.isOpen}"></i>
+                            </button>
+
+                        <div *ngFor="let configurationItem of rtuChannelProtocol" class="configurationrow">
+                            <div class="configurationparametername">{{configurationItem.parameter}}</div>
+                            <div class="configurationparameterdescription">{{configurationItem.description}}</div>
+                            <app-inlineconfigurationeditor [configurationItem]="configurationItem" class="configurationparametervalue" (protocolChange)="onProtocolChange($event)">
+                            </app-inlineconfigurationeditor>
+                            <div class="separator"></div>
+                        </div>
+
+                    </accordion-group>
+                    <accordion-group #accordionconfig [isOpen]="true" class="supportcolumns">
+                        <button class="btn btn-link btn-block clearfix" accordion-heading>
+                            <div class="pull-left float-left configurationBarSettings"  >Config</div>
+                            <i class="float-right fa" [ngClass]="{'fa-angle-up': accordionconfig.isOpen, 'fa-angle-down': !accordionconfig.isOpen}"></i>
+                        </button>
+                        <div *ngIf="rtuConfigModuleDetails && rtuConfigModuleDetails.length == 0; else fixConfigurationBlock">
+                            <p>No data found</p>
+                        </div>
+                        <ng-template #fixConfigurationBlock>
+                            <div *ngFor="let configurationItem of rtuConfigModuleDetails" class="configurationrow">
+                                <div class="configurationparametername"><span class="parameterWarning" title="{{showConfigWarning(configurationItem)}}" *ngIf="showConfigWarning(configurationItem) !=''">!</span>{{configurationItem.parameter}}</div>
+                                <div class="configurationparameterdescription">{{configurationItem.description}}</div>
+                                <app-inlineconfigurationeditor [disableOverride]="(configurationItem.parameter == 'IpAddress' || configurationItem.parameter == 'SubnetMask' || configurationItem.parameter == 'Gateway') " [configurationItem]="configurationItem" class="configurationparametervalue" (moduleInstalledChange)="onModuleInstalledChange($event)">
+                                </app-inlineconfigurationeditor>
+                                <div class="separator"></div>
+                            </div>
+                        </ng-template>
+                    </accordion-group>
+
+                    <accordion-group #accordiondynamic>
+                        <button class="btn btn-link btn-block clearfix" accordion-heading>
+                            <div class="pull-left float-left configurationBarSettings">Dynamic</div>
+                            <i class="float-right fa" [ngClass]="{'fa-angle-up': accordiondynamic.isOpen, 'fa-angle-down': !accordiondynamic.isOpen}"></i>
+                        </button>
+                        <div *ngIf="rtuDynamicModuleDetails && rtuDynamicModuleDetails.length == 0; else dynamicConfigurationBlock">
+                            <p>No data found</p>
+                        </div>
+                        <ng-template #dynamicConfigurationBlock>
+                            <div *ngFor="let configurationItem of rtuDynamicModuleDetails" class="configurationrow">
+                                <div class="configurationparametername">{{configurationItem.parameter}}</div>
+                                <div class="configurationparameterdescription">{{configurationItem.description}}</div>
+                                <app-inlineconfigurationeditor [configurationItem]="configurationItem" class="configurationparametervalue" (moduleCommandApply)="onModuleCommandApply($event)">
+                                </app-inlineconfigurationeditor>
+                                <div class="separator"></div>
+                            </div>
+                        </ng-template>
+                    </accordion-group>
+                    <accordion-group #accordiontanks id="rtuTankListBlock">
+                        <button class="btn btn-link btn-block clearfix " accordion-heading>
+                        <div class="pull-left float-left configurationBarSettings" >Tanks</div>
+                        <i class="float-right fa " [ngClass]="{ 'fa-angle-up': accordiontanks.isOpen, 'fa-angle-down': !accordiontanks.isOpen} "></i>
+                      </button>
+                        <div *ngIf="addTankMode == true; else rtuAssignedTankList">
+                            <div class="chassistank addTankMode" *ngFor="let tank of rtuAllTanks">
+                                <img class="tankimg" src="{{tank.assigned && './assets/Tank%20Active.png' || './assets/Tank%20Inactive.png'}}" (click)="tank.assigned = !tank.assigned">
+                                <div class="tankname" (click)="tank.assigned = !tank.assigned">{{tank.name}}</div>
+                            </div>
+                            <div class="tanklistnotificationsection">
+                                <p *ngIf="!rtuAllTanks || rtuAllTanks.length == 0" class="text-center">There are no Activated Tanks configured.</p>
+                            </div>
+                            <div class="row tanklistnotificationsection addTankMode">
+                                <div class="col btn-toolbar justify-content-center">
+                                    <button class="btn btn-secondary" type="button" (click)="addTankMode = false">Cancel</button>
+                                    <button *ngIf="rtuAllTanks && rtuAllTanks.length > 0" class="btn btn-primary" type="button" (click)="assignTanks()">Assign Tank</button>
+                                </div>
+                            </div>
+                        </div>
+                        <ng-template #rtuAssignedTankList>
+                            <div *ngIf="rtuTankList && rtuTankList.length == 0; else rtuTankListBlock">
+                                <div class="tanklistnotificationsection">
+                                    <p *ngIf="currentChannel == 0" class="text-center">There are no Tanks configured on this module.</p>
+                                    <p *ngIf="currentChannel == 0" class="text-center">Select a channel to add tanks.</p>
+                                    <p *ngIf="currentChannel > 0" class="text-center">There are no Tanks configured on this channel.</p>
+                                </div>
+                                <div *ngIf="currentChannel > 0" class="row tanklistnotificationsection">
+                                    <div class="col text-center">
+                                        <button class="btn btn-primary" type="button" (click)="this.getAllTanks()">Tank Assignment</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <ng-template #rtuTankListBlock>
+                                <div class="chassistank" *ngFor="let tank of rtuTankList">
+                                    <img class="tankimg" src="./assets/Tank%20Active.png">
+                                    <div class="tankname">{{tank}}</div>
+                                </div>
+                                <div *ngIf="currentChannel > 0" class="row tanklistnotificationsection">
+                                    <div class="col text-center">
+                                      <button class="btn btn-primary" type="button" (click)="this.getAllTanks()">Tank Assignment</button>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ng-template>
+                    </accordion-group>
+                </accordion>
+            </form>
+        </perfect-scrollbar>
+    </div>
+    <div class="chassis-section-footer">
+        <div class="btn-toolbar">
+            <button class="btn btn-secondary" type="button" style="font-family: Roboto; font-size: 14px; border-radius: 3px;" [disabled]="areThereNoChangesMade()" (click)="VerifyCancelChangesPrompt();">Cancel</button>
+            <button class="btn btn-primary" type="button" style="font-family: Roboto; font-size: 14px; background-color: #006cb3; border-radius: 3px;" (click)="saveRtuConfigToDisk();">Save RTU Config</button>
+            <button class="btn btn-primary" type="button" style="font-family: Roboto; font-size: 14px; background-color: #006cb3; border-radius: 3px;" [disabled]="isRTUConnectedandChangesExist()" (click)="VerifyApplytoRTUPrompt();">Apply To RTU</button>
+        </div>
+
+    </div>
+</div>
+
+<ng-template #modalVerifyApplytoRTUAction>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Apply current settings to RTU?</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            Any RTU settings that were changed will be overwritten and cannot be undone.
+        </div>
+        <div class="form-group">
+            Click <b>OK</b> to continue or <b>Cancel</b> to retain current settings.
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="cancelButton" type="button" class="btn btn-secondary" (click)="modalRef.hide();">Cancel</button>
+        <button id="copyButton" type="button" class="btn btn-primary" (click)="applyToRTU();">OK</button>
+    </div>
+</ng-template>
+
+<ng-template #modalVerifyCancelAction>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Are you sure you want to cancel?</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            You will lose any changes not saved or applied.
+        </div>
+        <div class="form-group">
+            Click <b>OK</b> to continue or <b>Cancel</b> to go back.
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="cancelButton" type="button" class="btn btn-secondary" (click)="modalRef.hide();">Cancel</button>
+        <button id="copyButton" type="button" class="btn btn-primary" (click)="cancelChanges();">OK</button>
+    </div>
+</ng-template>
+
+<ng-template #modalNothingtowritetoRTUAction>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Nothing To Do</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            No changed data to apply to the RTU.
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="cancelButton" type="button" class="btn btn-secondary" (click)="modalRef.hide();">OK</button>
+    </div>
+</ng-template>

@@ -1,0 +1,9 @@
+; OsdpOPCServer.def : Declares the module parameters.
+
+LIBRARY      "OsdpOPCServer.DLL"
+
+EXPORTS
+	DllCanUnloadNow		PRIVATE
+	DllGetClassObject	PRIVATE
+	DllRegisterServer	PRIVATE
+	DllUnregisterServer	PRIVATE

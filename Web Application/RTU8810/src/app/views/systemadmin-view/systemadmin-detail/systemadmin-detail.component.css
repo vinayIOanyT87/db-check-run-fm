@@ -1,0 +1,21 @@
+.detail-section-body {
+    position: relative;
+    padding: 40px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc( 100% - 50px )
+}
+
+.detail-section-footer .btn-toolbar {
+    justify-content: flex-end;
+}
+
+.detail-section-footer .btn-toolbar .btn-secondary {
+    margin-right: 30px;
+}
+
+.detail-section-footer .btn-toolbar .btn-primary {
+    margin-left: 5px;
+}
+

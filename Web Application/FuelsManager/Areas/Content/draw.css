@@ -1,0 +1,105 @@
+﻿#drawToolbar {
+    list-style-type: none;
+    position: relative;
+    left: -50px;
+}
+
+#drawToolbar li {
+    display: inline;
+}
+
+#drawToolbar a {
+    padding: 10px;
+}
+
+#drawToolbar li:hover {
+    cursor: pointer;
+} 
+
+.toolbar > ul {
+    list-style-type: none;
+}
+
+.toolbar > ul > li {
+    padding-left: 0;
+    padding-top: 7px;
+
+    margin-left: -55px;
+}
+
+#DrawingSelection {
+    width: 270px;
+    position: relative;
+    top: 8px;
+}
+
+#TagSelection {
+    width: 250px;
+    position: relative;
+    top: 15px;
+}
+
+#TagPointSelection, #PointSelection {
+    width: 250px; 
+    position: relative; 
+    top: 8px
+}
+
+.color-box {
+    -moz-min-width:30px;
+    -ms-min-width:30px;
+    -o-min-width:30px;
+    -webkit-min-width:30px;
+    min-width:30px;
+    max-width: 30px;
+	height:30px;
+	margin:5px;
+	border: 1px solid black;
+    cursor: pointer;
+}
+
+#propertiesTable tr td {
+    padding: 3px;
+}
+
+#propertyHorizontalRadius,
+#propertyOpacity,
+#propertyShadowColor,
+#propertyFontFamily,
+#propertyTop td {
+    border-top: 10px solid transparent;
+}
+
+#propertyOpacityValue {
+    border-color: black;
+    background: #BBBBBB;
+}
+
+#propertyOpacityValue .ui-slider-handle {
+    border-color: black;
+    background: #999999;
+}
+
+#pictureSelector {
+    -webkit-columns: 5;
+    -moz-columns: 5;
+    -ms-columns: 5;
+    -o-columns: 5;
+    columns: 5;
+    list-style-type: none;
+}
+
+#pictureSelector li {
+    padding: 5px;
+}
+
+.selectPicture {
+    max-width: 60px;
+    max-height: 60px;
+    min-height: 60px;
+    cursor:pointer;
+}
+
+#propertyFontFamilyValue option {
+    font-size: 16px;
+}

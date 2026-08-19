@@ -1,0 +1,79 @@
+<div id="TransactionLayoutModification">
+    <div class="container" style="max-width:none; min-width:none; padding:0; width: 100%">
+        <div class="row row-eq-height" *ngFor="let row of tableToRender" style="margin:0; padding:0; width: 100%">
+            <ng-container *ngFor="let column of row.columns">
+                <ng-container *ngIf="!column.hide">
+                    <div class="col myBorder"
+                         (drop)="dropOntoPlacement($event, row.rowIndex, column.columnIndex)"
+                         (dragover)="allowDrop($event)"
+                         [style.width.%]="column.columnComputedWidthPercentage"
+                         [style.min-width.%]="column.columnComputedWidthPercentage"
+                         [style.height.em]="column.rowHeightInEM"
+                         style="margin:0; max-width:none; padding:0;"
+                         draggable="true"
+                         (dragstart)="onDragStart($event, column.fieldToRender)">
+                        <!--{{column?.fieldToRender?.columnSpan}}
+                        {{column.columnComputedWidthPercentage}}-->
+                        <!--[style.width.%]="column.columnComputedWidthPercentage"-->
+                        <app-transaction-field-position-placement
+                            [style.width.%]="column.columnComputedWidthPercentage"
+                            [transactionAliasPlacementInfoDTO]="column.fieldToRender"
+                            (TransactionFieldChanged)="_placementEngine.columnSpanUpdated(row)"></app-transaction-field-position-placement>
+                    </div>
+                </ng-container>
+            </ng-container>
+        </div>
+    </div>
+    <div style="border:5px solid black; margin-top:5px;"
+         *ngIf="unplacedTransactionFields.length > 0">
+        <div style="margin-left:5px;">Unplaced Fields:</div>
+        <div draggable="true"
+             (dragstart)="onDragStart($event, transactionAliasField)"
+             *ngFor="let transactionAliasField of unplacedTransactionFields"
+             style="padding:2px; margin-left:5px; margin-top:5px; display:inline-block; background-color:azure; border-radius:10px;">
+            {{transactionAliasField?.displayName}}
+        </div>
+    </div>
+    <div style="border:5px solid black; margin-top:5px;">
+        <div style="margin-left:5px;">Form Fields:</div>
+        <div draggable="true"
+             (dragstart)="onDragStart($event, transactionAliasField)"
+             *ngFor="let transactionAliasField of formFields"
+             style="padding:2px; margin-left:5px; margin-top:5px; display:inline-block; background-color:azure; border-radius:10px;">
+            {{transactionAliasField?.displayName}}
+        </div>
+    </div>
+    <div style="margin: 10px 0 0 10px;">
+      Save MeterEnd into MeterStart next time the MeterID is selected: <input [(ngModel)]="_placementEngine.retrieveMeterStartOnMeterIDSet" type="checkbox" />
+    </div>
+    <div>
+        <div style="float:left; margin:10px;">
+            <button type="button" (click)="_placementEngine.removeColumn()">-</button>
+            <span style="background-color:white; height:30px">Column</span>
+            <button type="button" (click)="_placementEngine.addColumn()">+</button>
+        </div>
+        <div style="float:left; margin:10px;">
+            <button type="button" (click)="_placementEngine.removeRow()">-</button>
+            <span style="background-color:white; height:30px">Row</span>
+            <button type="button" (click)="_placementEngine.addRow()">+</button>
+        </div>
+        <button type="button" style="float:right; margin:10px;" (click)="_placementEngine.resetPlacement()">Reset fields</button>
+        <button type="button" style="float:right; margin:10px;" (click)="savePlacement()">Save fields</button>
+        <button type="button" style="float:right; margin:10px;" (click)="_placementEngine.autoPlaceFields()">Auto drop fields</button>
+        <div style="float:right; margin:10px; animation:slideInFromLeft 1s" *ngIf="saving">
+            <app-fm-loading-screen [width]="30"></app-fm-loading-screen>
+        </div>
+        <div style="float:right; margin:10px; animation:slideInFromLeft 1s" *ngIf="saved">
+            &#10004;
+        </div>
+    </div>
+    <div style="color:red; display:inline-block">
+        *The transaction alias must be saved before the layout will show the configuration changes*
+    </div>
+    <br style="clear:both">
+    <div class="hints">
+      <h4>Legend</h4>
+      <!-- https://metroui.org.ua/icons.html -->
+      <div>Persist data on save: <span class="mif-copy fg-green"></span></div>
+    </div>
+</div>

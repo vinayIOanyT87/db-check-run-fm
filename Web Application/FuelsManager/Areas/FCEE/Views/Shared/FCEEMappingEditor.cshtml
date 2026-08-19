@@ -1,0 +1,101 @@
+﻿@using FMBusinessObjects.DataObjects
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.FCEE.Controllers
+@model FuelsManager.Areas.FCEE.ViewModels.FCEEMappingEditorModel
+
+<style>
+	.settingsection a[aria-expanded=true] .expand-icon {
+		 width: 24px;
+		 height: 25px;
+		 background-image: url('@(Url.Content("~/fmwebapp/images/Selection Up.png"))');
+
+
+	}
+
+    .settingsection a[aria-expanded=false] .expand-icon {
+        width: 24px;
+        height: 25px;
+        background-image: url('@(Url.Content("~/fmwebapp/images/Selection Down.png"))');
+
+
+	}
+
+	.settingsection a:focus {
+		 outline: none;
+	}
+
+#editor {
+			min-height: 500px;
+	}
+
+	.ui-dialog {
+			z-index: 1070;
+		}
+
+
+	/* This is for making the controls have a red border when in error. */
+	.has-error .form-control {
+			border-color: red;
+			border-width: 3px;
+		}
+
+	/* This is for making the controls have a red border when in error. */
+	.has-error .form-control:focus {
+		border-color: red;
+		border-width: 3px;
+	}
+
+	/* This is for making the controls have a red border when in error. */
+	.has-error .ace_editor {
+			border-color: red;
+			border-width: 3px;
+			border-style: solid;
+		}
+
+	/* This is for making the controls have a red border when in error. */
+	.has-error .ace_editor:focus {
+		border-color: red;
+		border-width: 3px;
+		border-style: solid;
+	}
+
+
+	.FuelsManager-table-header th {
+		 color: rgb(153,153,153);
+		font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-weight: bold;
+		line-height: 30px;
+		border-width: 1px;
+	}
+
+	.booleanImgSelect.disabled {
+		cursor: not-allowed;
+		}
+
+	.deleteImg.disabled {
+		cursor: not-allowed;
+		}
+
+	.disabled {
+		cursor: not-allowed;
+	}
+
+
+</style>
+
+<div class="row">
+	<div class="form-group col-sm-5 col-md-5">
+		<label class="control-label" for="MEFCEEMappingName">@FMBaseController.TranslateText("FCEEMappingEditor|FCEEMapping NAME")</label>
+		<div class="form-group col-sm-12 col-md-12">
+			<input class="form-control input-md" id="MEFCEEMappingName" maxlength="30" name="MEFCEEMappingName" type="text" value="@Model.FCEEMapping.ImeiNumber" placeholder="@FMBaseController.TranslateText("FCEEMappingEditor|New FCEEMapping")">
+		</div>
+	</div>
+	<div class="form-group col-sm-7 col-md-7">
+		<label class="control-label" for="MEFCEEMappingDescription">@FMBaseController.TranslateText("FCEEMappingEditor|DESCRIPTION")</label>
+		<div class="form-group col-sm-12 col-md-12">
+			<input class="form-control input-md" id="MEFCEEMappingDescription" maxlength="50" name="MEFCEEMappingDescriptiont" type="text" value = "@Model.FCEEMapping.MsgType" placeholder="@FMBaseController.TranslateText("FCEEMappingEditor|Description")">
+		</div>
+	</div>
+</div>
+
+

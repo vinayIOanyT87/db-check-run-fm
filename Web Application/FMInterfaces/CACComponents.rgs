@@ -1,0 +1,26 @@
+HKCR
+{
+	FMInterfaces.CACComponents.1 = s 'CACComponents Class'
+	{
+		CLSID = s '{4A1A2E0A-FD23-4384-90AB-EBCACB569B13}'
+	}
+	FMInterfaces.CACComponents = s 'CACComponents Class'
+	{
+		CLSID = s '{4A1A2E0A-FD23-4384-90AB-EBCACB569B13}'
+		CurVer = s 'FMInterfaces.CACComponents.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {4A1A2E0A-FD23-4384-90AB-EBCACB569B13} = s 'CACComponents Class'
+		{
+			ProgID = s 'FMInterfaces.CACComponents.1'
+			VersionIndependentProgID = s 'FMInterfaces.CACComponents'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{86BE5A12-5471-404A-9BCA-6A21728A2310}'
+		}
+	}
+}

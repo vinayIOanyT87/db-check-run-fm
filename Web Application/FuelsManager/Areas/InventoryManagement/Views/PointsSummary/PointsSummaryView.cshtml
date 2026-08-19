@@ -1,0 +1,147 @@
+﻿@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.PointsSummaryModel
+@{
+    ViewBag.Title = "PointsSummaryView";
+    Layout = "~/Areas/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Areas/Scripts/FMErrorAndExceptionHandling.js"></script>
+<script src="~/Areas/Scripts/PointSummary.js"></script>
+<style>
+    .FMGridContainer {
+        max-height: calc(100vh - 175px) !important;
+    }
+</style>
+
+@using (Html.BeginForm("PointsSummaryView", "PointsSummary", FormMethod.Post, new { id = "submitForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    var editText = FMBaseController.TranslateText("Edit");
+    var deleteText = FMBaseController.TranslateText("Delete");
+    var pointID = FMBaseController.TranslateText("Point ID");
+    var pointTemplate = FMBaseController.TranslateText("Point Template");
+    var pointDescription = FMBaseController.TranslateText("Description");
+    var readOnlyDisplay = (@Model.DeleteEnabled) ? "" : "display: none;";
+
+    var count = 0;
+    if (Model.Points != null)
+    {
+        count = Model.Points.Count;
+    }
+    <div class="row headline" style="width: 5in; padding-bottom:10px">@FMBaseController.TranslateText("Points")</div>
+    <div class="row" style="max-width: 625px">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="padding-top: 5px; padding-bottom: 5px; padding-right: 15px; margin-top: 8px; margin-right: 25px; @readOnlyDisplay">
+            @Html.FMButtonIdAsCommand("addButton1", "addButton", "&" + FMBaseController.TranslateText("Add"), true, "Add New Point")
+        </div>
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="float: right; padding-right: 0; margin-right: -15px;">
+            @Html.LabelFor(m => m.PointCategoriesList, FMBaseController.TranslateText("Point Categories:"), new { @class = "control-label formfieldtitle" })
+            @Html.DropDownListFor(m => m.PointTypeslist, new SelectList(Model.PointCategoriesList, "Key", "Value"), new { ID = "PointCategoriesList", @class = "formfield", @style = "width:100%", @onchange = "FilterList()" })
+        </div>
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="float: right;">
+            @Html.LabelFor(m => m.PointTypeslist, FMBaseController.TranslateText("Point Type:"), new { @class = "control-label formfieldtitle" })
+            @Html.DropDownListFor(m => m.PointTypeslist, new SelectList(Model.PointTypeslist, "Key", "Value"), new { ID = "PointTypeslist", @class = "formfield", @style = "width:100%", @onchange = "FilterList()" })
+        </div>
+
+    </div>
+    <section class="FMGridSection" style="max-width: 625px">
+        <div class="FMGridContainer">
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            @editText<div>@editText</div>
+                        </th>
+                        <th>
+                            @pointID<div>@pointID</div>
+                        </th>
+                        <th>
+                            @pointTemplate<div>@pointTemplate</div>
+                        </th>
+                        <th>
+                            @pointDescription<div>@pointDescription</div>
+                        </th>
+                        <th>
+                            @deleteText<div>@deleteText</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (var index = 0; index < count; ++index)
+                    {
+                        var point = Model.Points[index];
+                        var pointCategories = point.PointCategoryCollection.Select(x => x.ID).ToArray();
+                        var pointCategoriesList = "|" + string.Join("|", pointCategories) + "|";  // using "|" as delimiter between the names
+
+                        var editThisItem = FMBaseController.TranslateText("Edit this item");
+
+                        <tr class="pointRow" data-guid="@point.IdentityGuid" data-point-type="@point.PointType" data-point-category="@pointCategoriesList">
+                            <td style="width: 36px; text-align: center">
+                                <a class="editLinkClass" title="@editThisItem" onclick="@Html.Raw("window.top.location.search = '?target=../InventoryManagement/Points/PointsDetail/" + @point.IdentityGuid + "&CSRFToken="+ this.Session["CSRFToken"] +"';")">@editText</a>
+                            </td>
+                            <td>@point.ID</td>
+                            <td>@point.TemplateName</td>
+                            <td>@point.Description</td>
+                            <td style="width: 36px; vertical-align: top; text-align: center">
+                                @Html.FMDeleteButton(deleteText, point.PointGuid, Model.DeleteEnabled)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <table class="FMGridFoot" style="width:100%; max-height: 35px; max-width: 625px">
+        <tfoot>
+            @if (count > 0)
+            {
+                <tr>
+                    <th id="recordCount">
+                        @string.Format(FMBaseController.TranslateText("Showing {0} records."), count)
+                    </th>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td class="formfieldtitle" style="padding-top: 5px;">
+                        @FMBaseController.TranslateText("No records found.")
+                    </td>
+                </tr>
+            }
+        </tfoot>
+    </table>
+
+    <div style="padding-top: 5px; padding-bottom: 5px; @readOnlyDisplay">
+        @Html.FMButtonIdAsCommand("addButton2", "addButton", "&" + FMBaseController.TranslateText("Add"), true, "Add New Point")
+    </div>
+    <script>
+        //===============================================================
+        // This function will handle the selected point type and category
+        // to filter list.
+        //===============================================================
+        function FilterList() {
+            var recordCountText = '@FMBaseController.TranslateText("Showing {0} records.")';
+            var selectedPointType = $("#PointTypeslist").val();
+            var selectedPointCategory = $("#PointCategoriesList").val();
+            var numVisible = 0;
+            var pointRows = $(".pointRow");
+            pointRows.each(function () {
+                if ((selectedPointType === "" || $(this).attr("data-point-type") === selectedPointType) &&
+                    (selectedPointCategory === "" || $(this).attr("data-point-category").indexOf("|" + selectedPointCategory + "|") >= 0))
+                {
+                    $(this).show();
+                    ++numVisible;
+                } else {
+                    $(this).hide();
+                }
+            });
+
+            if (pointRows.length > 0) {
+                $("#recordCount").html(recordCountText.replace('{0}', numVisible));
+            }
+
+        }
+
+    </script>
+
+}

@@ -1,0 +1,614 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">
+     Asset Visibility schema for Varec, Inc.
+     Copyright 2006 Varec, Inc. All rights reserved.
+    </xsd:documentation>
+	</xsd:annotation>
+	<xsd:element name="AssetData" type="AssetDataType" />
+	<xsd:complexType name="AssetDataType">
+		<xsd:sequence>
+			<xsd:element name="dodaac">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:length value="6" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="created" type="xsd:dateTime" />
+			<xsd:element name="data_start" type="xsd:dateTime" />
+			<xsd:element name="data_end" type="xsd:dateTime" />
+			<xsd:element name="Site" type="SiteType" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="Product" type="ProductType" minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="Personnel" type="PersonnelType" minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="Equipment" type="EquipmentType" minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="EqType" type="EqTypeType" minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="Stockage" type="StockageType" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SiteType">
+		<xsd:sequence>
+			<xsd:element name="SiteID">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:length value="6" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="VolumeUnits" type="xsd:string" />
+			<xsd:element name="TemperatureUnits" type="xsd:string" />
+			<xsd:element name="DensityUnits" type="xsd:string" />
+			<xsd:element name="VolumeDecimalPlaces" type="xsd:nonNegativeInteger" minOccurs="0" />
+			<xsd:element name="TemperatureDecimalPlaces" type="xsd:nonNegativeInteger" minOccurs="0" />
+			<xsd:element name="DensityDecimalPlaces" type="xsd:nonNegativeInteger" minOccurs="0" />
+			<xsd:element name="CreatedDate" type="xsd:dateTime" minOccurs="0" />
+			<xsd:element name="CreatedBy" type="AuditFieldType">
+			</xsd:element>
+			<xsd:element name="UpdatedDate" type="xsd:dateTime" minOccurs="0" />
+			<xsd:element name="UpdatedBy" type="AuditFieldType" />
+			<xsd:element name="RegionalSiteFlag" type="xsd:boolean" minOccurs="0" />
+			<xsd:element name="Description">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="200" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ProductType">
+		<xsd:sequence>
+			<xsd:element name="ProductID">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="30" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Description">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="50" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="GenericType">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="10" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="StockResetDate" type="xsd:date" minOccurs="0" />
+			<xsd:element name="StockTrack" type="xsd:boolean" minOccurs="0" />
+			<xsd:element name="LowDensity" type="xsd:float" minOccurs="0" />
+			<xsd:element name="HighDensity" type="xsd:float" minOccurs="0" />
+			<xsd:element name="Bonded" type="xsd:boolean" minOccurs="0" />
+			<xsd:element name="LowStockWarning" type="xsd:float" minOccurs="0" />
+			<xsd:element name="GroundFuel" type="xsd:boolean" minOccurs="0" />
+			<xsd:element name="ProductCode">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="3" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Price" type="xsd:decimal" minOccurs="0" />
+			<xsd:element name="AviationFuelFlag" type="xsd:boolean" minOccurs="0" />
+			<xsd:element name="VolumeConversionMethod" type="xsd:string" />
+			<xsd:element name="VolumeUnits" type="xsd:string" />
+			<xsd:element name="TemperatureUnits" type="xsd:string" />
+			<xsd:element name="DensityUnits" type="xsd:string" />
+			<xsd:element name="CreatedDate" type="xsd:dateTime" minOccurs="0" />
+			<xsd:element name="CreatedBy" type="AuditFieldType" />
+			<xsd:element name="UpdatedDate" type="xsd:dateTime" minOccurs="0" />
+			<xsd:element name="UpdatedBy" type="AuditFieldType" />
+			<xsd:element name="Capitalize" type="xsd:boolean" minOccurs="0" />
+			<xsd:element name="UserData1" type="UDFieldType" />
+			<xsd:element name="UserData2" type="UDFieldType" />
+			<xsd:element name="UserData3" type="UDFieldType" />
+			<xsd:element name="UserData4" type="UDFieldType" />
+			<xsd:element name="UserData5" type="UDFieldType" />
+			<xsd:element name="UserData6" type="UDFieldType" />
+			<xsd:element name="UserData7" type="UDFieldType" />
+			<xsd:element name="UserData8" type="UDFieldType" />
+			<xsd:element name="UserData9" type="UDFieldType" />
+			<xsd:element name="UserData10" type="UDFieldType" />
+			<xsd:element name="UserData11" type="UDFieldType" />
+			<xsd:element name="UserData12" type="UDFieldType" />
+			<xsd:element name="UserData13" type="UDFieldType" />
+			<xsd:element name="UserData14" type="UDFieldType" />
+			<xsd:element name="UserData15" type="UDFieldType" />
+			<xsd:element name="UserData16" type="UDFieldType" />
+			<xsd:element name="UserData17" type="UDFieldType" />
+			<xsd:element name="UserData18" type="UDFieldType" />
+			<xsd:element name="UserData19" type="UDFieldType" />
+			<xsd:element name="UserData20" type="UDFieldType" />
+			<xsd:element name="UserData21" type="UDFieldType" />
+			<xsd:element name="UserData22" type="UDFieldType" />
+			<xsd:element name="UserData23" type="UDFieldType" />
+			<xsd:element name="UserData24" type="UDFieldType" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PersonnelType">
+		<xsd:sequence>
+			<xsd:element name="EmployeeID">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="50" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="FirstName">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="20" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="MiddleName">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="20" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="LastName">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="30" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Title">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="50" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Department">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="20" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="SupervisorID">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="50" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Address1">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="50" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Address2">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="50" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="City">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="60" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="State">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="20" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="ZipCode">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="10" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Country">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="20" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Phone1">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="50" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Phone2">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="50" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="DateAssigned" type="xsd:date" minOccurs="0" />
+			<xsd:element name="DateOfSupervision" type="xsd:date" minOccurs="0" />
+			<xsd:element name="SSAN">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="11" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="DateOfBirth" type="xsd:date" minOccurs="0" />
+			<xsd:element name="PayRate" type="xsd:decimal" minOccurs="0" />
+			<xsd:element name="LaborRate1" type="xsd:decimal" minOccurs="0" />
+			<xsd:element name="LaborRate2" type="xsd:decimal" minOccurs="0" />
+			<xsd:element name="LaborRate3" type="xsd:decimal" minOccurs="0" />
+			<xsd:element name="LaborRate4" type="xsd:decimal" minOccurs="0" />
+			<xsd:element name="Status">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="1" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="CreatedDate" type="xsd:dateTime" minOccurs="0" />
+			<xsd:element name="CreatedBy" type="AuditFieldType" />
+			<xsd:element name="UpdatedDate" type="xsd:dateTime" minOccurs="0" />
+			<xsd:element name="UpdatedBy" type="AuditFieldType" />
+			<xsd:element name="Email">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="50" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="ResponsibleOfficer" type="xsd:boolean" minOccurs="0" />
+			<xsd:element name="Shift">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="1" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Designation" type="UDFieldType" />
+			<xsd:element name="Specialty" type="UDFieldType" />
+			<xsd:element name="UserData3" type="UDFieldType" />
+			<xsd:element name="UserData4" type="UDFieldType" />
+			<xsd:element name="UserData5" type="UDFieldType" />
+			<xsd:element name="UserData6" type="UDFieldType" />
+			<xsd:element name="UserData7" type="UDFieldType" />
+			<xsd:element name="UserData8" type="UDFieldType" />
+			<xsd:element name="UserData9" type="UDFieldType" />
+			<xsd:element name="UserData10" type="UDFieldType" />
+			<xsd:element name="UserData11" type="UDFieldType" />
+			<xsd:element name="UserData12" type="UDFieldType" />
+			<xsd:element name="UserData13" type="UDFieldType" />
+			<xsd:element name="UserData14" type="UDFieldType" />
+			<xsd:element name="UserData15" type="UDFieldType" />
+			<xsd:element name="UserData16" type="UDFieldType" />
+			<xsd:element name="UserData17" type="UDFieldType" />
+			<xsd:element name="UserData18" type="UDFieldType" />
+			<xsd:element name="UserData19" type="UDFieldType" />
+			<xsd:element name="UserData20" type="UDFieldType" />
+			<xsd:element name="UserData21" type="UDFieldType" />
+			<xsd:element name="UserData22" type="UDFieldType" />
+			<xsd:element name="UserData23" type="UDFieldType" />
+			<xsd:element name="UserData24" type="UDFieldType" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="EquipmentType">
+		<xsd:sequence>
+			<xsd:element name="EquipmentID">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="30" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Description">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="50" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="EquipType">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="50" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Fixed" type="xsd:boolean" minOccurs="0"/>
+			<xsd:element name="StorageType">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="2" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="InUse" type="xsd:boolean" minOccurs="0" />
+			<xsd:element name="Product">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="3" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="FixedVolume" type="xsd:boolean" minOccurs="0" />
+			<xsd:element name="IntoPlane" type="xsd:boolean" minOccurs="0" />
+			<xsd:element name="Mobile" type="xsd:boolean" minOccurs="0" />
+			<xsd:element name="AttachedTo">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="6" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="MediaType">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="1" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Meters" type="xsd:nonNegativeInteger" minOccurs="0" />
+			<xsd:element name="DefuelMeterForwards" type="xsd:boolean" minOccurs="0" />
+			<xsd:element name="Units">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="2" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="PulseRatio">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="2" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Round" type="xsd:boolean" minOccurs="0" />
+			<xsd:element name="XRef">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="10" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="LowStockWarning" type="xsd:float" minOccurs="0" />
+			<xsd:element name="StockTrack" type="xsd:boolean" minOccurs="0" />
+			<xsd:element name="Totalisor1">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="10" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Totalisor2">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="10" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="FuelingState">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="REFUEL" />
+						<xsd:enumeration value="DEFUEL" />
+						<xsd:enumeration value="" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Volume" type="xsd:float" minOccurs="0" />
+			<xsd:element name="MeterReading" type="xsd:decimal" minOccurs="0" />
+			<xsd:element name="Consecutive_OOS_Variance" type="xsd:int" minOccurs="0" />
+			<xsd:element name="Notes">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="1000" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="CreatedDate" type="xsd:dateTime" minOccurs="0" />
+			<xsd:element name="CreatedBy" type="AuditFieldType" />
+			<xsd:element name="UpdatedDate" type="xsd:dateTime" minOccurs="0" />
+			<xsd:element name="UpdatedBy" type="AuditFieldType" />
+			<xsd:element name="IssuePointNumber">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="20" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="SpecialFuelFlag" type="xsd:boolean" minOccurs="0" />
+			<xsd:element name="FacilityID" type="UDFieldType" />
+			<xsd:element name="AttachedToFacilityID" type="UDFieldType" />
+			<xsd:element name="DLAEquipmentID" type="UDFieldType" />
+			<xsd:element name="RealPersonalProperty" type="UDFieldType" />
+			<xsd:element name="RealPropertyRecordID" type="UDFieldType" />
+			<xsd:element name="AttachedToRealProperty" type="UDFieldType" />
+			<xsd:element name="IMPEligible" type="UDFieldType" />
+			<xsd:element name="SustainingActivity" type="UDFieldType" />
+			<xsd:element name="CathodicProtection" type="UDFieldType" />
+			<xsd:element name="UserData10" type="UDFieldType" />
+			<xsd:element name="UserData11" type="UDFieldType" />
+			<xsd:element name="UserData12" type="UDFieldType" />
+			<xsd:element name="UserData13" type="UDFieldType" />
+			<xsd:element name="UserData14" type="UDFieldType" />
+			<xsd:element name="UserData15" type="UDFieldType" />
+			<xsd:element name="UserData16" type="UDFieldType" />
+			<xsd:element name="UserData17" type="UDFieldType" />
+			<xsd:element name="UserData18" type="UDFieldType" />
+			<xsd:element name="UserData19" type="UDFieldType" />
+			<xsd:element name="UserData20" type="UDFieldType" />
+			<xsd:element name="UserData21" type="UDFieldType" />
+			<xsd:element name="UserData22" type="UDFieldType" />
+			<xsd:element name="UserData23" type="UDFieldType" />
+			<xsd:element name="UserData24" type="UDFieldType" />
+			<xsd:element name="RatedGPM" type="xsd:float" />
+			<xsd:element name="ActualGPM" type="xsd:float" />
+			<xsd:element name="ManufactureDate" type="xsd:date" minOccurs="0" />
+			<xsd:element name="InstallationDate" type="xsd:date" minOccurs="0" />
+			<xsd:element name="InspectionDate" type="xsd:date" minOccurs="0" />
+			<xsd:element name="CalibrationDate" type="xsd:date" minOccurs="0" />
+			<xsd:element name="MaintenanceData" type="MaintenanceDataType" />
+			<xsd:element name="QualityData" type="QualityDataType" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MaintenanceDataType">
+		<xsd:sequence>
+			<xsd:element name="InService" type="xsd:boolean" minOccurs="0" />
+			<xsd:element name="ETIC" type="xsd:date" minOccurs="0" />
+			<xsd:element name="StatusDate" type="xsd:date" minOccurs="0" />
+			<xsd:element name="WorkOrder">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="20" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="OperatorID">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="20" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Memo">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="1000" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="CreatedDate" type="xsd:dateTime" minOccurs="0" />
+			<xsd:element name="CreatedBy" type="AuditFieldType" />
+			<xsd:element name="UpdatedDate" type="xsd:dateTime" minOccurs="0" />
+			<xsd:element name="UpdatedBy" type="AuditFieldType">
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="QualityDataType">
+		<xsd:sequence>
+			<xsd:element name="StatusFlag" type="xsd:boolean" minOccurs="0" />
+			<xsd:element name="QCDueDate" type="xsd:date" minOccurs="0" />
+			<xsd:element name="TagMemo">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="1000" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="CreatedDate" type="xsd:dateTime" minOccurs="0" />
+			<xsd:element name="CreatedBy" type="AuditFieldType" />
+			<xsd:element name="UpdatedDate" type="xsd:dateTime" minOccurs="0" />
+			<xsd:element name="UpdatedBy" type="AuditFieldType">
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="EqTypeType">
+		<xsd:sequence>
+			<xsd:element name="EqTypeName">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="50" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Description">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="50" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="MaxFill" type="xsd:float" minOccurs="0" />
+			<xsd:element name="SafeFill" type="xsd:float" minOccurs="0" />
+			<xsd:element name="Make">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="20" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Model">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="32" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Year" type="xsd:nonNegativeInteger" minOccurs="0" />
+			<xsd:element name="Hydrant" type="xsd:boolean" minOccurs="0" />
+			<xsd:element name="System" type="xsd:boolean" minOccurs="0" />
+			<xsd:element name="Vehicle" type="xsd:boolean" minOccurs="0" />
+			<xsd:element name="Aircraft" type="xsd:boolean" minOccurs="0" />
+			<xsd:element name="CreatedDate" type="xsd:dateTime" minOccurs="0" />
+			<xsd:element name="CreatedBy" type="AuditFieldType" />
+			<xsd:element name="UpdatedDate" type="xsd:dateTime" minOccurs="0" />
+			<xsd:element name="UpdatedBy" type="AuditFieldType">
+			</xsd:element>
+			<xsd:element name="IssuePoint">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="20" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="StockageType">
+		<xsd:sequence>
+			<xsd:element name="Grade">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="30" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Level" type="xsd:float" minOccurs="0" />
+			<xsd:element name="VolumeGross" type="xsd:float" minOccurs="0" />
+			<xsd:element name="VolumeNet" type="xsd:float" minOccurs="0" />
+			<xsd:element name="TankStatus" type="xsd:string" />
+			<xsd:element name="VolumeMaximum" type="xsd:float" minOccurs="0" />
+			<xsd:element name="VolumeMinimum" type="xsd:float" minOccurs="0" />
+			<xsd:element name="FlowRateMaximum" type="xsd:float" minOccurs="0" />
+			<xsd:element name="Description">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:maxLength value="30" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="TankGeometry" type="xsd:string" />
+			<xsd:element name="RoofType" type="xsd:string" />
+			<xsd:element name="TankMaterial" type="xsd:string" />
+			<xsd:element name="DateTankInstalled" type="xsd:date" minOccurs="0" />
+			<xsd:element name="TankRadius" type="xsd:float" minOccurs="0" />
+			<xsd:element name="TankHeight" type="xsd:float" minOccurs="0" />
+			<xsd:element name="FlowUnits" type="xsd:string" />
+			<xsd:element name="CathodicProtection" type="xsd:boolean" minOccurs="0" />
+			<xsd:element name="TankBottomVolume" type="xsd:float" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="UDFieldType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="20" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AuditFieldType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="50" />
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

@@ -1,0 +1,124 @@
+﻿/* Override default table sorter css classes so the grid looks like a FuelsManager grid */
+.tablesorter .header,
+.tablesorter .tablesorter-header {
+    background-color: #0D246A;
+    border-left: 1pt solid #EEEEEE;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    -webkit-font-variant: normal;
+    -moz-font-variant: normal;
+    -ms-font-variant: normal;
+    -o-font-variant: normal;
+    font-variant: normal;
+    font-weight: bold;
+    line-height: normal;
+    padding: 3px;
+    text-align: left;
+    text-decoration: none;
+    text-transform: none;
+    vertical-align: middle;
+    background-image: url(data:image/gif;base64,R0lGODlhFQAJAIAAAP///////yH5BAEAAAEALAAAAAAVAAkAAAIXjI+AywnaYnhUMoqt3gZXPmVg94yJVQAAOw==);
+}
+
+/* Make odd numbered rows light gray */
+table.tablesorter tbody tr.odd td {
+    background: #eee;
+}
+
+/* Make even numbered rows darker gray */
+table.tablesorter tbody tr.even td {
+    background: gainsboro;
+}
+
+/* Use a lighter tablesorter sort arrow icon in the header than the one provided by default. It's too dark with our grid colors
+       Also, when a column is sorted, keep the bottom border the same color rather than changing it to black.
+    */
+.tablesorter thead .headerSortUp,
+.tablesorter thead .tablesorter-headerSortUp,
+.tablesorter thead .tablesorter-headerAsc {
+    background-image: url(data:image/gif;base64,R0lGODlhFQAEAIAAAP///////yH5BAEAAAEALAAAAAAVAAQAAAINjI8Bya2wnINUMopZAQA7);
+    border-bottom: #ccc 2px solid;
+}
+
+.tablesorter thead .headerSortDown,
+.tablesorter thead .tablesorter-headerSortDown,
+.tablesorter thead .tablesorter-headerDesc {
+    background-image: url(data:image/gif;base64,R0lGODlhFQAEAIAAAP///////yH5BAEAAAEALAAAAAAVAAQAAAINjB+gC+jP2ptn0WskLQA7);
+    border-bottom: #ccc 2px solid;
+}
+
+/* Use light blue as the color for a row's background when it is hovered over with the mouse. */
+.tablesorter tbody > tr:hover > td,
+.tablesorter tbody > tr.even:hover > td,
+.tablesorter tbody > tr.odd:hover > td {
+    background: lightblue;
+}
+
+/* This style is applied to the grid so that the sticky headers function properly */
+.stickyHeaderGrid {
+    overflow-y: auto;
+    max-height: 700px;
+    height: auto;
+    position: relative;
+    padding: 0 5px;
+}
+
+/* pager wrapper, div */
+.tablesorter-pager {
+    background-color: #0D246A;
+    border-left: 1pt solid #EEEEEE;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+    position: relative;
+    /* negative top margin is specified to remove some whitespace between the grid rows and the pager aka footer */
+    margin: -10px 5px 0; 
+    padding: 3px 0;
+}
+
+/* pager wrapper, in thead/tfoot */
+td.tablesorter-pager {
+    background-color: #e6eeee;
+    margin: 0; /*  needed for bootstrap .pager gets a 18px bottom margin */
+}
+
+/* pager navigation arrows */
+.tablesorter-pager img {
+    vertical-align: middle;
+    margin-right: 2px;
+    cursor: pointer;
+}
+
+/* pager output text */
+.tablesorter-pager .pagedisplay {
+    padding: 0 5px 0 5px;
+    width: 50px;
+    text-align: center;
+    background-color: #0D246A;
+}
+
+/* pager element reset (needed for bootstrap) */
+.tablesorter-pager select {
+    margin: 0;
+    padding: 0;
+    color: black;
+}
+
+/*** css used when "updateArrows" option is true ***/
+/* the pager itself gets a disabled class when the number of rows is less than the size */
+.tablesorter-pager.disabled {
+    display: none;
+}
+
+/* hide or fade out pager arrows when the first or last row is visible */
+.tablesorter-pager .disabled {
+    /* visibility: hidden */
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+    cursor: default;
+}

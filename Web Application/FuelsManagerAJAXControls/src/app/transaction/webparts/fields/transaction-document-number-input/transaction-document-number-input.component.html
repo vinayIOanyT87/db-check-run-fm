@@ -1,0 +1,15 @@
+<div class="transactionFreeFormInputParent">
+  <div>
+    <label [for]="fieldName">{{label}}:</label>
+    <span [hidden]="!required" style="color:red">*</span>
+  </div>
+  <div class="transactionFreeFormInput">
+    <input [id]="fieldName"
+           [(ngModel)]="fieldContents"
+           [ngModelOptions]="{ updateOn: 'blur' }"
+           appTriggerChangeDetectionOnKeyUp
+           [appFocusDirective]="currentFocusLabel == fieldName"
+           [disabled]="automaticDocumentNumber || !canEdit"
+           type="text" />
+  </div>
+</div>

@@ -1,0 +1,333 @@
+﻿@using FMBusinessObjects.DataObjects
+@using FMBusinessObjects.DataObjects.CodedVariables
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.PropertyModel
+
+<style>
+
+    .btn-setting.disabled {
+        cursor: not-allowed;
+    }
+</style>
+
+
+@{
+    dynamic value = (Model.PropertyBase.Value == null) ? null : Convert.ChangeType(@Model.PropertyBase.Value, @Model.PropertyBase.ValueType);
+
+    var buttonClass = (Model.IsStandard || !Model.ModifyEnabled) ? "btn-setting pull-right disabled" : "btn-setting pull-right";
+    var disabled = (Model.IsStandard || !Model.ModifyEnabled) ? true : false;
+    var ModifyDisable = (Model.ModifyEnabled) ? "" : "disabled = 'disabled'";
+
+    switch (@Model.PropertyBase.ValueTypeString)
+    {
+        case "System.Boolean":
+            <div class="row list-group-item text-left" data-guid="@Model.PropertyBase.IdentityGuid" data-display="boolean">
+                <label class="control-label col-sm-6 col-md-6 col-lg-8" for="PMEEditProperty@(Model.PropertyBase.IdentityGuid)">@Model.PropertyBase.ID</label>
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    <div class="control-group">
+                        <label class="setting-radio-control setting-radio-control--radio pull-left">
+                            @FMBaseController.TranslateText("True")
+                            <input type="radio" name="PMEEditProperty@(Model.PropertyBase.IdentityGuid)" value="true" @{if (@value) { <text> checked="checked" </text>  } } @ModifyDisable />
+                            <div class="setting-radio-control__indicator"></div>
+                        </label>
+                        <label class="setting-radio-control setting-radio-control--radio pull-right">
+                            @FMBaseController.TranslateText("False")
+                            <input type="radio" name="PMEEditProperty@(Model.PropertyBase.IdentityGuid)" value="false" @{if (!@value) { <text> checked="checked" </text>  }} @ModifyDisable />
+                            <div class="setting-radio-control__indicator"></div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            break;
+
+
+        case "System.DateTime":
+            <div class="row list-group-item text-left" data-guid="@Model.PropertyBase.IdentityGuid" data-display="calendar">
+                <label class="control-label col-sm-6 col-md-6 col-lg-8" for="PMEEditProperty@(Model.PropertyBase.IdentityGuid)">@Model.PropertyBase.ID</label>
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    <div class="control-group">
+                        <input type="text" class="form-control text-center" id="PMEEditProperty@(Model.PropertyBase.IdentityGuid)" value="@((value == null) ? "" : value.ToString(Model.Site.ShortDatePattern))" @ModifyDisable />
+                    </div>
+                </div>
+            </div>
+            break;
+
+        case "System.DateTimeOffset":
+            <div class="row list-group-item text-left" data-guid="@Model.PropertyBase.IdentityGuid" data-display="clockcalendar">
+                <label class="control-label col-sm-6 col-md-6 col-lg-8" for="PMEEditProperty@(Model.PropertyBase.IdentityGuid)">@Model.PropertyBase.ID</label>
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    <div class="control-group">
+                        <input type="text" class="form-control text-center" id="PMEEditProperty@(Model.PropertyBase.IdentityGuid)" value="@((value == null) ? "" : value.ToString(Model.Site.ShortDatePattern + " " + Model.Site.TimePattern))" @ModifyDisable />
+                    </div>
+                </div>
+            </div>
+            break;
+
+        case "System.TimeSpan":
+            <div class="row list-group-item text-left" data-guid="@Model.PropertyBase.IdentityGuid" data-display="timespan">
+                <label class="control-label col-sm-6 col-md-6 col-lg-8" for="PMEEditProperty@(Model.PropertyBase.IdentityGuid)">@Model.PropertyBase.ID</label>
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    <div class="control-group">
+                        <input type="text" class="form-control text-center" id="PMEEditProperty@(Model.PropertyBase.IdentityGuid)" value="@((value == null) ? "" : value.ToString())" @ModifyDisable />
+                    </div>
+                </div>
+            </div>
+            break;
+
+        case "System.String":
+            <div class="row list-group-item text-left" data-guid="@Model.PropertyBase.IdentityGuid" data-display="input">
+                <label class="control-label col-sm-6 col-md-6 col-lg-8" for="PMEEditProperty@(Model.PropertyBase.IdentityGuid)">@Model.PropertyBase.ID</label>
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    <div class="control-group">
+                        <input type="text" class="form-control text-left" id="PMEEditProperty@(Model.PropertyBase.IdentityGuid)" value="@((value == null) ? "" : value.ToString())" @ModifyDisable />
+                    </div>
+                </div>
+            </div>
+            break;
+
+        case "System.Double":
+        case "System.Single":
+            <div class="row list-group-item text-left" data-guid="@Model.PropertyBase.IdentityGuid" data-display="input">
+                <label class="control-label col-sm-6 col-md-6 col-lg-8" for="PMEEditProperty@(Model.PropertyBase.IdentityGuid)">@Model.PropertyBase.ID</label>
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    <div class="control-group">
+                        <input class="form-control input-md text-right" id="PMEEditProperty@(Model.PropertyBase.IdentityGuid)" type="text" data-raw-value="@String.Format("{0:F2}", value)" data-unit="@PointProperty.GetFieldUnitType(null)" data-format="PESystemDecimalPlaces" value="" @ModifyDisable>
+                    </div>
+                </div>
+            </div>
+            break;
+
+        case "System.Int16":
+        case "System.Int32":
+        case "System.Int64":
+        case "System.UInt16":
+        case "System.UInt32":
+        case "System.UInt64":
+
+            <div class="row list-group-item text-left" data-guid="@Model.PropertyBase.IdentityGuid" data-display="input">
+                <label class="control-label col-sm-6 col-md-6 col-lg-8" for="PMEEditProperty@(Model.PropertyBase.IdentityGuid)">@Model.PropertyBase.ID</label>
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    <div class="control-group">
+                        <input class="form-control input-md text-right" id="PMEEditProperty@(Model.PropertyBase.IdentityGuid)" type="text" data-raw-value="@value" data-unit="0" data-format="@PointProperty.GetFieldUnitDecimalPlaces(null)" value="" @ModifyDisable>
+                    </div>
+                </div>
+            </div>
+            break;
+
+        case "FMBusinessObjects.DataObjects.PointCommandStatusListReference":
+            <div class="row list-group-item text-left" data-guid="@Model.PropertyBase.IdentityGuid" data-display="dropdown">
+                <label class="control-label col-sm-7 col-md-7 col-lg-7" for="PMEEditProperty@(Model.PropertyBase.IdentityGuid)">@Model.PropertyBase.ID</label>
+                <div class="col-sm-1 col-md-1 col-lg-1">
+                    <span title="Point Command-Status List Selector" style="display: inline-block; margin-top: 5px; width: 20%; text-align: center;" onclick="onPointValueConfigurationEdit('@Model.IsTemplatePoint.ToString()' , 'true', '@(Model.PropertyBase.IdentityGuid)', '@Model.PropertyBase.ID');">
+                        <i class="glyphicon glyphicon-cog" style="color: rgb(0,0,0);"></i>
+                    </span>
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <select class="form-control" id="PMEEditPropertyDropDownList@(Model.PropertyBase.IdentityGuid)" @ModifyDisable>
+                        @{
+                            var pointCommandStatusListReference = value as FMBusinessObjects.DataObjects.PointCommandStatusListReference;
+                            if (pointCommandStatusListReference != null)
+                            {
+                                foreach (var enumVal in Model.PointCommandStatusListDictionary[pointCommandStatusListReference.PointCommandStatusListGuid])
+                                {
+                                    if (pointCommandStatusListReference.CurrentValue.HasValue)
+                                    {
+                                        <option value=@enumVal.Value @{if (pointCommandStatusListReference.CurrentValue.Value.ToString() == enumVal.Value) { <text> selected</text> } }>@enumVal.Text</option>
+                                    }
+                                    else
+                                    {
+                                        <option value=@enumVal.Value>@enumVal.Text</option>
+                                    }
+                                }
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            break;
+
+        case "FMBusinessObjects.DataObjects.StrapTable":
+
+            <div class="row list-group-item text-left" data-guid="@Model.PropertyBase.IdentityGuid" data-display="disabled">
+                <label class="control-label col-sm-6 col-md-6 col-lg-8" for="PMEEditProperty@(Model.PropertyBase.IdentityGuid)">@Model.PropertyBase.ID</label>
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    @{
+                        var onStrapTableClick = (disabled) ? "" : "onStrapTableClickPropertyScreen('" + @Model.IsTemplatePoint.ToString() + "', '" + @Model.PointGuid + "', '" + @Model.PropertyBase.IdentityGuid + "');";
+                    }
+                    <div class="@buttonClass" id="PMEEditPropertyStrapTable" title='@FMBaseController.TranslateText("Edit Strap Table")' onclick="@onStrapTableClick">
+                        <span class="PESettingImage glyphicon glyphicon-list-alt"></span>
+                        <span class="PESettingText">@FMBaseController.TranslateText("OPEN EDITOR")</span>
+                    </div>
+                </div>
+            </div>
+
+            break;
+
+        case "FMBusinessObjects.DataObjects.Vessel":
+
+            <div class="row list-group-item text-left" data-guid="@Model.PropertyBase.IdentityGuid" data-display="disabled">
+                <label class="control-label col-sm-6 col-md-6 col-lg-8" for="PMEEditProperty@(Model.PropertyBase.IdentityGuid)">@Model.PropertyBase.ID</label>
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    @{
+                        var onVesselClick = (disabled) ? "" : "onVesselSettingsClickPropertyScreen('" + @Model.IsTemplatePoint.ToString() + "', '" + @Model.PointGuid + "', '" + @Model.PropertyBase.IdentityGuid + "');";
+                    }
+                    <div class="@buttonClass" id="PMEEditPropertyVessel" title='@FMBaseController.TranslateText("Edit Vessel Settings")' onclick="@onVesselClick">
+                        <span class="PESettingImage glyphicon glyphicon-list-alt"></span>
+                        <span class="PESettingText">@FMBaseController.TranslateText("OPEN EDITOR")</span>
+                    </div>
+                </div>
+            </div>
+            break;
+
+        case "FMBusinessObjects.DataObjects.VcfModuleSettings":
+            <div class="row list-group-item text-left" data-guid="@Model.PropertyBase.IdentityGuid" data-display="disabled">
+                <label class="control-label col-sm-6 col-md-6 col-lg-8" for="PMEEditProperty@(Model.PropertyBase.IdentityGuid)">@Model.PropertyBase.ID</label>
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    @{
+                        var onVcfClick = (disabled) ? "" : "onVcfSettingsClickPropertyScreen('" + @Model.IsTemplatePoint.ToString() + "', '" + @Model.PointGuid + "', '" + @Model.PropertyBase.IdentityGuid + "');";
+                    }
+                    <div class="@buttonClass" id="PMEEditPropertyVcfModule" title='@(VcfModuleSettings.GetStandardsOrganization(value.CorrectionMethodType) + " " + @VcfModuleSettings.GetStandardRevision(value.CorrectionMethodType, value.CorrectionMethodSpecific)
+							+ " " + @VcfModuleSettings.GetCommodityOrTable(value.CorrectionMethodSpecific)
+							+ " " + @VcfModuleSettings.GetStandardTemperature(value.CorrectionMethodType, value.CorrectionMethodSpecific))' onclick="@onVcfClick">
+                        <span class="PESettingImage glyphicon glyphicon-list-alt"></span>
+                        <span class="PESettingText">@FMBaseController.TranslateText("OPEN EDITOR")</span>
+                    </div>
+                </div>
+            </div>
+            break;
+
+
+
+        case "FMBusinessObjects.DataObjects.QuantityModuleSettings":
+            <div class="row list-group-item text-left" data-guid="@Model.PropertyBase.IdentityGuid" data-display="dropdown">
+                <label class="control-label col-sm-6 col-md-6 col-lg-8" for="VolumeCalculationType">@(Model.PropertyBase.ID + " - " + FMBaseController.TranslateText("Volume Calculation Type"))</label>
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    <select class="form-control" id="SEVolumeCalculationType@(Model.PropertyBase.IdentityGuid)" name="VolumeCalculationType@(Model.PropertyBase.IdentityGuid)" @ModifyDisable>
+                        @foreach (var enumVal in FMBaseController.GetEnumSelectList<VolumeCalculationType>())
+                        {
+                            <option value=@enumVal.Value @{if (Convert.ToInt32(@value.VolumeCalculationType).ToString() == @enumVal.Value) { <text> selected</text> } }>@enumVal.Text</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="row list-group-item text-left" data-guid="@Model.PropertyBase.IdentityGuid" data-display="dropdown">
+                <label class="control-label col-sm-6 col-md-6 col-lg-8" for="MassOrWeightCalculationType">@(Model.PropertyBase.ID + " - " + FMBaseController.TranslateText("Mass/Weight Calculation Type"))</label>
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    <select class="form-control" id="SEMassOrWeightCalculationType@(Model.PropertyBase.IdentityGuid)" name="MassOrWeightCalculationType@(Model.PropertyBase.IdentityGuid)" @ModifyDisable>
+                        @foreach (var enumVal in PointsController.GetEnumSelectList<MassOrWeightCalculationType>())
+                        {
+                            <option value=@enumVal.Value @{if (Convert.ToInt32(@value.MassOrWeightCalculationType).ToString() == @enumVal.Value) { <text> selected</text> } }>@enumVal.Text</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            break;
+
+        case "FMBusinessObjects.DataObjects.TankCommandModuleSettings":
+            <div class="row list-group-item text-left" data-guid="@Model.PropertyBase.IdentityGuid" data-display="input">
+                <label class="control-label col-sm-6 col-md-6 col-lg-8" for="MovementAlarmDifferential" type="label" data-unit="@PointProperty.GetFieldUnitType(@value.MovementAlarmDifferential)">@(Model.PropertyBase.ID + " - " + FMBaseController.TranslateText("Movement Alarm Differential"))</label>
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    <input class="form-control input-md text-right" id="SEMovementAlarmDifferential@(Model.PropertyBase.IdentityGuid)" name="MovementAlarmDifferential@(Model.PropertyBase.IdentityGuid)" type="text" data-raw-value="@value.MovementAlarmDifferential.Value.ToString("G")" data-unit="@PointProperty.GetFieldUnitType(@value.MovementAlarmDifferential)" data-format="@PointProperty.GetFieldUnitDecimalPlaces(@value.MovementAlarmDifferential)" value="@value.MovementAlarmDifferential.Value" @ModifyDisable />
+                </div>
+            </div>
+            break;
+        case "FMBusinessObjects.DataObjects.RateModuleSettings":
+            <div class="row list-group-item text-left" data-guid="@Model.PropertyBase.IdentityGuid" data-display="disabled">
+                <label class="control-label col-sm-6 col-md-6 col-lg-8" for="PMEEditProperty@(Model.PropertyBase.IdentityGuid)">@Model.PropertyBase.ID</label>
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    @{
+                        var onRateClick = (disabled) ? "" : "OnRateSettingsClickPropertyScreen('" + @Model.IsTemplatePoint.ToString() + "', '" + @Model.PointGuid + "', '" + @Model.PropertyBase.IdentityGuid + "');";
+                    }
+                    <div class="@buttonClass" id="PMEEditPropertyRateModuleLevelProduct" title='@Model.PropertyBase.ID' onclick="@onRateClick">
+                        <span class="PESettingImage glyphicon glyphicon-list-alt"></span>
+                        <span class="PESettingText">@FMBaseController.TranslateText("OPEN EDITOR")</span>
+                    </div>
+                </div>
+            </div>
+            break;
+        case "FMBusinessObjects.DataObjects.TankTransferModuleSettings":
+            <div class="row list-group-item text-left" data-guid="@Model.PropertyBase.IdentityGuid" data-display="dropdown">
+                <label class="control-label col-sm-6 col-md-6 col-lg-8" for="TransferVolumeMode">@(Model.PropertyBase.ID + " - " +FMBaseController.TranslateText("Transfer Volume Mode"))</label>
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    <select class="form-control" id="SETransferVolumeMode@(Model.PropertyBase.IdentityGuid)" name="TransferVolumeMode@(Model.PropertyBase.IdentityGuid)" @ModifyDisable>
+                        @foreach (var enumVal in FMBaseController.GetEnumSelectList<TransferVolumeMode>())
+                        {
+                            <option value=@enumVal.Value @{if (Convert.ToInt32(@value.TransferVolumeMode).ToString() == @enumVal.Value) { <text> selected</text> } }>@enumVal.Text</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="row list-group-item text-left" data-guid="@Model.PropertyBase.IdentityGuid" data-display="input">
+                <label class="control-label col-sm-6 col-md-6 col-lg-8" for="TransferAdvisoryTime">@(Model.PropertyBase.ID + " - " + FMBaseController.TranslateText("Transfer Time Advisory"))</label>
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    <input class="form-control text-right" id="SETransferAdvisoryTime@(Model.PropertyBase.IdentityGuid)" name="TransferAdvisoryTime@(Model.PropertyBase.IdentityGuid)" value="@value.TransferAdvisoryTime" @ModifyDisable />
+                </div>
+            </div>
+            break;
+        case "FMBusinessObjects.DataObjects.VolumeTransferModuleSettings":
+            <div class="row list-group-item text-left" data-guid="@Model.PropertyBase.IdentityGuid" data-display="dropdown">
+                <label class="control-label col-sm-6 col-md-6 col-lg-8" for="TransferVolumeMode">@(Model.PropertyBase.ID + " - " +FMBaseController.TranslateText("Transfer Volume Mode"))</label>
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    <select class="form-control" id="SETransferVolumeMode@(Model.PropertyBase.IdentityGuid)" name="TransferVolumeMode@(Model.PropertyBase.IdentityGuid)" @ModifyDisable>
+                        @foreach (var enumVal in FMBaseController.GetEnumSelectList<TransferVolumeMode>())
+                        {
+                            <option value=@enumVal.Value @{if (Convert.ToInt32(@value.TransferVolumeMode).ToString() == @enumVal.Value) { <text> selected</text> } }>@enumVal.Text</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="row list-group-item text-left" data-guid="@Model.PropertyBase.IdentityGuid" data-display="input">
+                <label class="control-label col-sm-6 col-md-6 col-lg-8" for="TransferAdvisoryTime">@(Model.PropertyBase.ID + " - " + FMBaseController.TranslateText("Transfer Time Advisory"))</label>
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    <input class="form-control text-right" id="SETransferAdvisoryTime@(Model.PropertyBase.IdentityGuid)" name="TransferAdvisoryTime@(Model.PropertyBase.IdentityGuid)" value="@value.TransferAdvisoryTime" @ModifyDisable />
+                </div>
+            </div>
+            break;
+        case "FMBusinessObjects.DataObjects.MovementModuleSettings":
+            <div class="row list-group-item text-left" data-guid="@Model.PropertyBase.IdentityGuid" data-display="disabled">
+                <label class="control-label col-sm-6 col-md-6 col-lg-8" for="PMEEditProperty@(Model.PropertyBase.IdentityGuid)">@Model.PropertyBase.ID</label>
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    @{
+                        var onMovementModuleSettingsClick = (disabled) ? "" : "OnMovementModuleSettingsClickPropertyScreen('" + @Model.IsTemplatePoint.ToString() + "', '" + @Model.PointGuid + "', '" + @Model.PropertyBase.IdentityGuid + "');";
+                    }
+                    <div class="@buttonClass" id="PMEEditPropertyMovementModule" title='@Model.PropertyBase.ID' onclick="@onMovementModuleSettingsClick">
+                        <span class="PESettingImage glyphicon glyphicon-list-alt"></span>
+                        <span class="PESettingText">@FMBaseController.TranslateText("OPEN EDITOR")</span>
+                    </div>
+                </div>
+            </div>
+            break;
+        case "FMBusinessObjects.DataObjects.LeakDetectionSettings":
+            <div class="row list-group-item text-left" data-guid="@Model.PropertyBase.IdentityGuid" data-display="disabled">
+                <label class="control-label col-sm-6 col-md-6 col-lg-8" for="PMEEditProperty@(Model.PropertyBase.IdentityGuid)">@Model.PropertyBase.ID</label>
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    @{
+                        var onLeakDetectionSettingsClick = (disabled) ? "" : "onLeakDetectionSettingsClickPropertyScreen('" + @Model.IsTemplatePoint.ToString() + "', '" + @Model.PointGuid + "', '" + @Model.PropertyBase.IdentityGuid + "');";
+                    }
+                    <div class="@buttonClass" id="PMEEditPropertyMovementModule" title='@Model.PropertyBase.ID' onclick="@onLeakDetectionSettingsClick">
+                        <span class="PESettingImage glyphicon glyphicon-list-alt"></span>
+                        <span class="PESettingText">@FMBaseController.TranslateText("OPEN EDITOR")</span>
+                    </div>
+                </div>
+            </div>
+            break;
+        case "FMBusinessObjects.DataObjects.TotalizerModuleSettings":
+            <div class="row list-group-item text-left" data-guid="@Model.PropertyBase.IdentityGuid" data-display="input">
+                <label class="control-label col-sm-6 col-md-6 col-lg-8" for="RollOverAmount">@(Model.PropertyBase.ID + " - " +FMBaseController.TranslateText("Roll Over Amount"))</label>
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    <input class="form-control text-right" id="SETRollOverAmount@(Model.PropertyBase.IdentityGuid)" name="RollOverAmount@(Model.PropertyBase.IdentityGuid)" value="@value.RollOverAmount.Value" @ModifyDisable />
+                </div>
+            </div>
+            <div class="row list-group-item text-left" data-guid="@Model.PropertyBase.IdentityGuid" data-display="input">
+                <label class="control-label col-sm-6 col-md-6 col-lg-8" for="VolumePerPulse">@(Model.PropertyBase.ID + " - " + FMBaseController.TranslateText("Volume Per Pulse"))</label>
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    <input class="form-control text-right" id="SETVolumePerPulse@(Model.PropertyBase.IdentityGuid)" name="VolumePerPulse@(Model.PropertyBase.IdentityGuid)" value="@value.VolumePerPulse.Value" @ModifyDisable />
+                </div>
+            </div>
+            break;
+
+
+    }
+}
+

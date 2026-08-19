@@ -1,0 +1,99 @@
+﻿@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.DataAnalyticsArea.ViewModels.DataAnalyticsViewerModel
+@{
+    ViewBag.Title = "DataAnalyticsViewer";
+    Layout = "~/Areas/Views/Shared/_Layout.cshtml";
+}
+@* Load the Tableau API from the configured server address. 
+Is there a better way to do this? Copying the js files to the project and loading them from there didn't seem to work. *@
+<script type="text/javascript" src="@Model.DataAnalyticsServerUrl/javascripts/api/tableau-2.min.js"></script>
+<script type="text/javascript">
+    // For help with the Tableau Javascript API, see http://www.tableau.com/new-features/javascript-api
+
+    // The tableau workbook we are displaying
+    var workbook;
+
+    // The active worksheet (report) or dashboard in the Tableau workbook we are displaying
+    var activeSheet;
+
+    // A viz is the container that displays the tableau worksheet or dashboard.
+    var viz;
+
+    // Initialize a tableau worksheet or dashboard. The worksheet will be placed in the div identified by divContainerName.
+    // The dataAnalyticsServer URL is combined with the worksheet URL to form the full URL to the worksheet.
+    // e.g. http://<ip address>/views/Aviation/MainDashboard
+    function InitializeTableauViewer(divContainerName, dataAnalyticsServerURL, worksheetURL) {
+        var placeholderDiv = document.getElementById(divContainerName);
+        var url = dataAnalyticsServerURL + worksheetURL + "?:embed=yes";
+
+        var options = {
+            width: placeholderDiv.offsetWidth,
+            height: placeholderDiv.offsetHeight,
+            hideTabs: true,
+            hideToolbar: true,
+            onFirstInteractive: function() {
+                workbook = viz.getWorkbook();
+                activeSheet = workbook.getActiveSheet();
+            }
+        };
+
+        viz = new window.tableau.Viz(placeholderDiv, url, options);
+    }
+
+    // Change the value of a parameter in a Tableau worksheet or dashboard. Keep in mind that 
+    // there are parameters and quick filters in Tableau, and they look more or less the same.
+    // to change a filter value, use the ChangeFilterValue function.
+    // Example of use: ChangeParameterValue(workbook, "Begin Date", new Date());
+    function ChangeParameterValue(workbookToModify, parameterName, parameterValue) {
+        workbookToModify.changeParameterValueAsync(parameterName, parameterValue);
+    }
+
+    // Change the value of a filter in a Tableau worksheet or dashboard. 
+    // An example of a filter we commonly use would be Site.
+    // Example of use: ChangeFilterValue(workbook.getActiveSheet(), "Site Id", "DEN - ASIG");
+    function ChangeFilterValue(worksheetToModify, filterName, filterValue) {
+        worksheetToModify.applyFilterAsync(filterName, filterValue, tableau.FilterUpdateType.REPLACE);
+    }
+
+    // Display the filters applied to the current worksheet. Can be useful if you want to change a filter 
+    // but aren't sure what it's named. 
+    // Example of use: GetFilterNames(workbook.getActiveSheet());
+    function GetFilterNames(worksheetToExamine) {
+        worksheetToExamine.getFiltersAsync().then(function(filters) {
+            var filterNames;
+            $.each(filters, function(filter, i) {
+                filterNames += i.getFieldName() + ', ';
+            });
+            alert(filterNames);
+        });
+    }
+</script>
+<style>
+    #TableauContainer {
+        position: relative; 
+        min-height: 800px; 
+        min-width: 1000px; 
+        height: 90%;
+        width: 90%;
+    }
+</style>
+<div>
+    <div class="container-fluid">
+        <div class="row headline" style="padding-bottom: 10px">@FMBaseController.TranslateText("Data Analytics")</div>
+
+        @using (Html.BeginForm("DataAnalyticsViewer"))
+        {
+            @Html.AntiForgeryToken();
+
+            <script type="text/javascript">
+                // When the page is ready, load the Tableau viewer
+                $(document).ready(function() {
+                    InitializeTableauViewer('TableauContainer', '@Model.DataAnalyticsServerUrl', '@Model.MainWorksheetUrl');
+                });
+            </script>
+            <div class="row">           
+                <div class="col-md-12" id="TableauContainer"></div>
+            </div>
+        }
+    </div>
+</div>

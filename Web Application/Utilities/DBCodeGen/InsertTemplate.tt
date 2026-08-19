@@ -1,0 +1,94 @@
+﻿<#@ template language="C#" hostspecific="True" debug="True" #>
+<#@ output extension="sql" #>
+<#@ assembly name="Microsoft.SqlServer.ConnectionInfo" #>
+<#@ assembly name="Microsoft.SqlServer.Management.Sdk.Sfc" #>
+<#@ assembly name="Microsoft.SqlServer.Smo" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="T4Toolbox.10.0" #>
+<#@ import namespace="Microsoft.SqlServer.Management.Smo" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="T4Toolbox" #>
+<#+
+public class InsertTemplate : FMStoredProcTemplateBase
+{
+	
+	public InsertTemplate(string dbName, TableInfo newInfo) :base(dbName)
+	{
+		this.ObjectSuffix = "InsertByRowGuid";		
+		this.MyTable = newInfo;
+	}
+	
+	public override string Description 
+	{
+		get
+		{
+			return "Insert a record to the " + FullTableName;
+		}
+	}
+	
+	private void WriteInsertParameters(Table mySmoTable, Column primaryKeyColumn)
+	{		
+		Indent();
+		WriteParameters(mySmoTable, new string[] {primaryKeyColumn.Name, RowVersionFieldName});
+		WriteLine(",");
+		if (RowVersionColumn != null)
+		{
+			Write(ParameterDefinition(RowVersionColumn));
+			WriteLine(" = NULL,");
+		}
+		WriteLine ( ParameterDefinition(primaryKeyColumn));
+		WriteLine(" OUTPUT");
+		Unindent();
+	}
+	
+	protected override void RenderStandardCore()
+    {
+		Table mySmoTable = GetSqlSmoTable();
+		Column primaryKeyColumn = FindPrimaryKeyColumn(mySmoTable);
+		if (mySmoTable == null || primaryKeyColumn==null)
+		{
+			return;
+		}
+		CreateComment();
+#>
+CREATE PROCEDURE <#= FullObjectName #> (
+<#+		
+		WriteInsertParameters(mySmoTable, primaryKeyColumn);
+		string[] allFieldNames = GetAllFieldNames(mySmoTable);
+		string[] excludedFields = new string[] {RowVersionFieldName};
+		string fieldList = CreateList(allFieldNames, excludedFields, NoFormat);
+		excludedFields = new string[] {primaryKeyColumn.Name, RowVersionFieldName};
+		string valueList = "@NewPrimaryKeyGuid, ";		
+		valueList += CreateList(allFieldNames, excludedFields, VariableFormat);
+#>
+) AS
+BEGIN
+	DECLARE @NewPrimaryKeyGuid UNIQUEIDENTIFIER
+	SET @NewPrimaryKeyGuid = NEWID()
+	INSERT INTO <#= FullTableName #>
+	( 
+<#+		
+		Indent();
+		Indent();
+		WriteLine(fieldList);
+		Unindent();
+		Unindent();
+#>
+	) VALUES ( 
+<#+		
+		Indent();
+		Indent();
+		WriteLine(valueList);
+		Unindent();
+		Unindent();
+#>
+	)
+	SET @<#= primaryKeyColumn.Name #> = @NewPrimaryKeyGuid
+END
+GO
+
+<#+		
+
+	}
+}
+#>

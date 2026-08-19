@@ -1,0 +1,114 @@
+﻿@using System.Web.Mvc.Html
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.OpcUaEditorModel
+
+<link href="~/Areas/Content/OpcUaEditor.css" rel="stylesheet" type="text/css" />
+<script src="~/Areas/Scripts/OpcUaServers.js"></script>
+
+@using (Html.BeginForm("OpcUaServers", "OpcUaEditor", FormMethod.Post, new { id = "opcUaServersForm" }))
+{
+	@Html.AntiForgeryToken()
+	@Html.Hidden("urlSelectionModeSelectionChanged", @Url.Action("SelectionModeSelectionChanged", "OpcUaEditor"))
+	@Html.Hidden("urlDomainSelectionChanged", @Url.Action("DomainSelectionChanged", "OpcUaEditor"))
+	@Html.Hidden("urlServerSelectionChanged", @Url.Action("ServerSelectionChanged", "OpcUaEditor"))
+	@Html.Hidden("urlOpcUaServerSelectionChanged", @Url.Action("OpcUaServerSelectionChanged", "OpcUaEditor"))
+	@Html.Hidden("urlOpcUaServerSecuritySelectionChanged", @Url.Action("OpcUaServerSecuritySelectionChanged", "OpcUaEditor"))
+	@Html.Hidden("urlSecurityModeSelectionChanged", @Url.Action("SecurityModeSelectionChanged", "OpcUaEditor"))
+	@Html.Hidden("urlSecurityPolicySelectionChanged", @Url.Action("SecurityPolicySelectionChanged", "OpcUaEditor"))
+	@Html.Hidden("urlMessageEncodingSelectionChanged", @Url.Action("MessageEncodingSelectionChanged", "OpcUaEditor"))
+	@Html.Hidden("urlUserTokenTypeSelectionChanged", @Url.Action("UserTokenTypeSelectionChanged", "OpcUaEditor"))
+	@Html.Hidden("urlUserNameChanged", @Url.Action("UserNameChanged", "OpcUaEditor"))
+	@Html.Hidden("urlCertificatePathChanged", @Url.Action("CertificatePathChanged", "OpcUaEditor"))
+	@Html.Hidden("urlUserPasswordChanged", @Url.Action("UserPasswordChanged", "OpcUaEditor"))
+	@Html.Hidden("urlCertificatePasswordChanged", @Url.Action("CertificatePasswordChanged", "OpcUaEditor"))
+	@Html.Hidden("urlEndpointChanged", @Url.Action("EndpointChanged", "OpcUaEditor"))
+   @Html.Hidden("urlClose", @Url.Action("Close", "OpcUaEditor"))
+
+	@Html.Hidden("TranslatedUserName", @FMBaseController.TranslateText("User Name:"))
+	@Html.Hidden("TranslatedCertificate", @FMBaseController.TranslateText("Certificate:"))
+
+
+    <section id="opcUaServersPartial" class="">
+        <div class="row">
+            <div id="opcServerLeftList" class="col-sm-6 col-md-6 col-lg-6">
+                <div class="form-group">
+                    <div class="label-horizontal-bar">
+                        @Html.Label(@FMBaseController.TranslateText("SERVER INFORMATION"), new { @class = "control-label" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label(@FMBaseController.TranslateText("Selection Mode:"), new { @class = "control-label" })
+                    @Html.DropDownListFor(m => m.SelectionMode, new SelectList(Model.GetSelectionModeList(), "Key", "Value"), new { ID = "SelectionModeDropDownList", @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.Label(@FMBaseController.TranslateText("Domain:"), new { @class = "control-label" })
+                    @Html.DropDownListFor(m => m.Domain, new SelectList(Model.GetDomainList()), new { ID = "DomainDropDownList", @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.Label(@FMBaseController.TranslateText("Server:"), new { @class = "control-label" })
+                    @Html.DropDownListFor(m => m.Server, new SelectList(Model.GetServerList()), new { ID = "ServerDropDownList", @class = "form-control" })
+                    @Html.TextBoxFor(m => m.Server, new { ID = "ServerTextBox", @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.Label(@FMBaseController.TranslateText("OPC UA Server:"), new { @class = "control-label" })
+                    @Html.DropDownListFor(m => m.OpcUaServer, new SelectList(Model.GetOpcUaServerList()), new { ID = "OpcUaServerDropDownList", @class = "form-control" })
+                    @Html.TextBoxFor(m => m.OpcUaServer, new { ID = "OpcUaServerTextBox", @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.Label(@FMBaseController.TranslateText("OPC UA Server Security:"), new { @class = "control-label" })
+                    @Html.DropDownListFor(m => m.OpcUaServerSecurity, new SelectList(Model.GetOpcUaServerSecurityList()), new { ID = "OpcUaServerSecurityDropDownList", @class = "form-control" })
+                </div>
+            </div>
+            <div id="opcServerRightList" class="col-sm-6 col-md-6 col-lg-6">
+                <div class="form-group">
+                    <div class="label-horizontal-bar">
+                        @Html.Label(@FMBaseController.TranslateText("END POINT INFORMATION"), new { @class = "control-label" })
+                    </div>                    
+                </div>
+                <div class="form-group">
+                    @Html.Label(@FMBaseController.TranslateText("OPC UA Server Endpoint:"), new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.EndpointUrl, new { ID = "EndpointUrlTextBox", Title = Model.EndpointUrl, @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.Label(@FMBaseController.TranslateText("Security Mode:"), new { @class = "control-label" })
+                    @Html.DropDownListFor(m => m.SecurityMode, new SelectList(Model.GetSecurityModeList(), "Key", "Value"), new { ID = "SecurityModeDropDownList", @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.Label(@FMBaseController.TranslateText("Security Policy:"), new { @class = "control-label" })
+                    @Html.DropDownListFor(m => m.SecurityPolicy, new SelectList(Model.GetSecurityPolicyList(), "Key", "Value"), new { ID = "SecurityPolicyDropDownList", @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.Label(@FMBaseController.TranslateText("Message Encoding:"), new { @class = "control-label" })
+                    @Html.DropDownListFor(m => m.MessageEncoding, new SelectList(Model.GetMessageEncodingList(), "Key", "Value"), new { ID = "MessageEncodingDropDownList", @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <div class="label-horizontal-bar">
+                        @Html.Label(@FMBaseController.TranslateText("AUTHENTICATION SETTINGS"), new { @class = "control-label" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label(@FMBaseController.TranslateText("User Identity:"), new { @class = "control-label" })
+                    @Html.DropDownListFor(m => m.UserTokenType, new SelectList(Model.GetUserTokenTypeList(), "Key", "Value"), new { ID = "UserTokenTypeDropDownList", @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.Label(@FMBaseController.TranslateText("User Name:"), new { @class = "control-label", ID = "UserNameOrCertificatePathLabel" })
+                    @Html.TextBoxFor(m => m.UserName, new { ID = "UserNameTextBox", @class = "form-control" })
+                    @Html.TextBoxFor(m => m.CertificatePath, new { ID = "CertificatePathTextBox", @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.Label(@FMBaseController.TranslateText("Password:"), new { @class = "control-label" })
+                    @Html.PasswordFor(m => m.UserPassword, new { ID = "UserPasswordTextBox", @class = "form-control" })
+                    @Html.PasswordFor(m => m.CertificatePassword, new { ID = "CertificatePasswordTextBox", @class = "form-control" })
+                </div>
+
+            </div>
+        </div>
+</section>
+}
+
+
+<section id="opcUaServersErrors">
+	<div id="opcUaServersError"></div>
+</section>
+

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE dotfuscator SYSTEM "http://www.preemptive.com/dotfuscator/dtd/dotfuscator_v2.3.dtd">
+<dotfuscator version="2.3">
+  <!--Will be populated from MSBUILD/TFS Build.-->
+  <propertylist>
+    <property name="ObfuscationInputPath" value="To be populated by MSBUILD" />
+    <property name="ObfuscationOutputPath" value="To be populated by MSBUILD" />
+    <property name="StrongNameKeyPath" value="To be populated by MSBUILD" />
+  </propertylist>
+  <input>
+    <loadpaths />
+    <asmlist>
+      <package refid="2498bd8a-16bd-4091-bd14-4c426b2993fa">
+        <file dir="${ObfuscationInputPath}"/>
+        <asmlist>
+          <inputassembly refid="bd05a7c7-894e-4a1b-ad3e-d69fdf818ce6">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>transformxaml</option>
+            <file dir="" name="Crypt.dll" />
+          </inputassembly>
+          <inputassembly refid="cb2b2b38-2394-42c0-8ba3-eab480f85c6c">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>transformxaml</option>
+            <file dir="" name="EngineeringUnitsLibrary.dll" />
+          </inputassembly>
+          <inputassembly refid="c066fc2b-f159-42d1-a36c-08c3b9039ec2">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>transformxaml</option>
+            <file dir="" name="FMBusinessObjects.dll" />
+          </inputassembly>
+          <inputassembly refid="92d56831-2447-4873-9037-6be1fcf797b6">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>transformxaml</option>
+            <file dir="" name="FMExportCathayPacificInterface.dll" />
+          </inputassembly>
+          <inputassembly refid="5027532c-cf35-4197-b552-3a545ddf2807">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>transformxaml</option>
+            <file dir="" name="FMExportCommon.dll" />
+          </inputassembly>
+          <inputassembly refid="b9df6e20-32b3-44ba-9004-e66edcf88956">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>transformxaml</option>
+            <file dir="" name="FMExportPaiceInterface.dll" />
+          </inputassembly>
+          <inputassembly refid="9059b217-6394-46ab-a75d-bf78c0cbe92d">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>transformxaml</option>
+            <file dir="" name="FMExportService.exe" />
+          </inputassembly>
+          <inputassembly refid="ec1c889d-9d7b-4f4e-bee6-4beb6662a827">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>transformxaml</option>
+            <file dir="" name="FMExportServiceConfiguration.exe" />
+          </inputassembly>
+          <inputassembly refid="9c4fcec3-2522-4a30-8201-10bc127a5cf0">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>transformxaml</option>
+            <file dir="" name="FMExportSwissportDamarelInterface.dll" />
+          </inputassembly>
+          <inputassembly refid="d400ff0a-1972-4780-8675-068cf11be340">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>transformxaml</option>
+            <file dir="" name="FMExportSwissportVitolInterface.dll" />
+          </inputassembly>
+          <inputassembly refid="f5ac3747-f148-4987-b480-efda7f427e54">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>transformxaml</option>
+            <file dir="" name="FMExportWestJetInterface.dll" />
+          </inputassembly>
+        </asmlist>
+      </package>
+    </asmlist>
+  </input>
+  <output>
+    <file dir="${ObfuscationOutputPath}" />
+  </output>
+  <renaming>
+    <option>xmlserialization</option>
+    <mapping>
+      <mapoutput overwrite="false">
+        <file dir="${configdir}\Dotfuscated" name="Map.xml" />
+      </mapoutput>
+    </mapping>
+    <referencerulelist>
+      <referencerule rulekey="{6655B10A-FD58-462d-8D4F-5B1316DFF0FF}" />
+      <referencerule rulekey="{229FD6F8-5BCC-427b-8F72-A7A413ECDF1A}" />
+      <referencerule rulekey="{2B7E7C8C-A39A-4db8-9DFC-6AFD38509061}" />
+      <referencerule rulekey="{89769974-93E9-4e71-8D92-BE70E855ACFC}" />
+      <referencerule rulekey="{7D9C8B02-2383-420f-8740-A9760394C2C1}" />
+    </referencerulelist>
+  </renaming>
+  <controlflow level="high" />
+  <signing>
+    <resign>
+     <option>dontuseattributes</option>
+     <key>
+       <file dir="${StrongNameKeyPath}" name="FMStrongNameKey.snk" />
+     </key>
+    </resign>
+  </signing>
+  <sos mergeruntime="true">
+    <option>dontsendtamper</option>
+  </sos>
+  <smartobfuscation>
+    <smartobfuscationreport verbosity="all" overwrite="false" />
+  </smartobfuscation>
+</dotfuscator>

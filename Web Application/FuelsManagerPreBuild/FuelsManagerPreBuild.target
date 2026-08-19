@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project InitialTargets="CanonicalizePaths" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" >
+  <Target Name="BeforeCompile">
+    <PropertyGroup>
+      <FMBuildDropRoot Condition=" '$(BuildFusionRoot)'=='' " >$(SolutionRoot)\..\..\..\Build_Fusion</FMBuildDropRoot>
+      <Configuration>Release</Configuration>
+      <Platform>Mixed Platforms</Platform>
+    </PropertyGroup>
+
+    <RemoveDir Condition="Exists('$(FMBuildDropRoot)')" Directories="$(FMBuildDropRoot)" />
+    <MakeDir Directories="$(FMBuildDropRoot)" />
+    <MakeDir Directories="$(FMBuildDropRoot)\utils" />
+
+    <Copy SourceFiles="$(SolutionRoot)\Web Application\FMBuildUtils\Install.bat"
+        DestinationFiles= "$(FMBuildDropRoot)\utils\Install.bat" />
+    <Copy SourceFiles="$(SolutionRoot)\Web Application\FMBuildUtils\Uninstall.bat"
+        DestinationFiles= "$(FMBuildDropRoot)\utils\Uninstall.bat" />
+  </Target>
+</Project>

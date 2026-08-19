@@ -1,0 +1,264 @@
+﻿@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.ModuleLibraryModel
+
+@{
+	ViewBag.Title = "ModuleLibraryView";
+	Layout = "~/Areas/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Areas/Content/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Content/bootstrap-modal.css" rel="stylesheet" type="text/css" />
+
+<script src="~/Areas/Lib/jquery.nicescroll.min.js"></script>
+<script src="~/Areas/Lib/bootstrap-modal.js"></script>
+<script src="~/Areas/Lib/bootstrap-modalmanager.js"></script>
+<script src="~/Areas/Scripts/FMErrorAndExceptionHandling.js"></script>
+<script src="~/Areas/Scripts/ModuleLibrary.js"></script>
+
+<script src="~/Areas/lib/ace.js"></script>
+<script>function ProgrammersGuideClick() {@Model.GuideOpenerScript}</script>
+
+<style>
+	.FMGridContainer {
+		max-height: calc(100vh - 175px) !important;
+	}
+
+	button.disabled {
+		color: #b7b7b7 !important;
+		cursor: not-allowed;
+	}
+</style>
+
+@using (Html.BeginForm("ModuleLibraryView", "ModuleLibrary", FormMethod.Post, new { id = "moduleLibraryForm" }))
+{
+	@Html.AntiForgeryToken()
+
+	var editText = FMBaseController.TranslateText("Edit");
+	var deleteText = FMBaseController.TranslateText("Delete");
+	var moduleID = FMBaseController.TranslateText("Module ID");
+	var addText = FMBaseController.TranslateText("Add");
+	var addNewModuleText = FMBaseController.TranslateText("Add New Module");
+	var saveAllText = FMBaseController.TranslateText("Save All");
+	var addAccessKey = "A";
+	var saveAllAccessKey = "S";
+	var addPreFix = "";
+	var addPostFix = "";
+	var saveAllPreFix = "";
+	var saveAllPostFix = "";
+	var addAccessKeyContainedInAddText = false;
+	var saveAllAccessKeyContainedInSaveAllText = false;
+	var addButtonClass = (Model.ReadOnly) ? "disabled" : "";
+	var addButtonDisable = (Model.ReadOnly) ? "disabled=\"disabled\"" : "";
+	var saveAllButtonClass = (Model.ReadOnly) ? "disabled" : "";
+	var saveAllButtonDisable = (Model.ReadOnly) ? "disabled=\"disabled\"" : "";
+
+	if (addText.Length > 0)
+	{
+		if (addText.Contains(addAccessKey))
+		{
+			addAccessKeyContainedInAddText = true;
+			var firstIndex = addText.IndexOf(addAccessKey, StringComparison.InvariantCulture);
+			if (firstIndex > 0)
+			{
+				addPreFix = addText.Substring(0, firstIndex);
+			}
+			if (firstIndex < addText.Length)
+			{
+				addPostFix = addText.Substring(firstIndex + 1);
+			}
+		}
+	}
+
+	if (saveAllText.Length > 0)
+	{
+		if (saveAllText.Contains(saveAllAccessKey))
+		{
+			saveAllAccessKeyContainedInSaveAllText = true;
+			var firstIndex = saveAllText.IndexOf(saveAllAccessKey, StringComparison.InvariantCulture);
+			if (firstIndex > 0)
+			{
+				saveAllPreFix = saveAllText.Substring(0, firstIndex);
+			}
+			if (firstIndex < saveAllText.Length)
+			{
+				saveAllPostFix = saveAllText.Substring(firstIndex + 1);
+			}
+		}
+	}
+
+	var count = 0;
+	if (Model.ModuleList != null)
+	{
+		count = Model.ModuleList.Count;
+	}
+
+	var displayCount = Math.Min(count, 500);
+
+	var translatedCountDisplayText = string.Format(FMBaseController.TranslateText("Limiting display to") + " {0} " + FMBaseController.TranslateText("of") + " {1} " + FMBaseController.TranslateText("total records.  Use filters to reduce record count."), displayCount, count);
+
+	var translatedRecordCountText = string.Format(FMBaseController.TranslateText("Showing") + " {0} " + FMBaseController.TranslateText("record(s)."), count);
+
+	<div class="row headline" style="width: 5in; padding-bottom:10px">@FMBaseController.TranslateText("Module Library")</div>
+
+	<div style="padding-top: 5px; padding-bottom: 5px">
+		<button id="addModule1" type="button" title="@addNewModuleText" class="pushButton @addButtonClass" @addButtonDisable accesskey=@addAccessKey onclick="javascript: return ModuleLibrary.EditModule('00000000-0000-0000-0000-000000000000');">
+			@if (addAccessKeyContainedInAddText)
+			{
+				@addPreFix<u>@addAccessKey</u>@addPostFix
+			}
+			else
+			{
+				@addText
+			}
+		</button>
+		<button id="saveAll1" type="button" title="@saveAllText" class="pushButton @saveAllButtonClass" @saveAllButtonDisable accesskey=@saveAllAccessKey onclick="javascript:return ModuleLibrary.SaveAllModules();">
+			@if (saveAllAccessKeyContainedInSaveAllText)
+			{
+				@saveAllPreFix<u>@saveAllAccessKey</u>@saveAllPostFix
+			}
+			else
+			{
+				@saveAllText
+			}
+		</button>
+
+	</div>
+
+
+	<section class="FMGridSection" style="max-width: 625px">
+		<div class="FMGridContainer">
+			<table id="ModuleLibraryTable">
+				<thead>
+					<tr>
+						<th>
+							@editText<div>@editText</div>
+						</th>
+						<th>
+							@moduleID<div>@moduleID</div>
+						</th>
+						<th>
+							@deleteText<div>@deleteText</div>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					@{
+						var editThisItem = FMBaseController.TranslateText("Edit this item");
+						var delThisItem = FMBaseController.TranslateText("Delete this item");
+						var delNotSupported = FMBaseController.TranslateText("Delete not supported");
+
+						for (var index = 0; index < count; ++index)
+						{
+							var module = Model.ModuleList[index];
+
+							var deleteConfirmationText = FMBaseController.TranslateText("Are you sure you wish to delete this item?");
+							var deleteClass = (module.Standard || Model.ReadOnly || module.SiteGuid != Model.SiteGuid) ? "deleteLinkClassDisabled" : "deleteLinkClass";
+							var deleteTitle = (module.Standard || Model.ReadOnly || module.SiteGuid != Model.SiteGuid) ? delNotSupported : delThisItem;
+							var deleteDisabled = (module.Standard || Model.ReadOnly || module.SiteGuid != Model.SiteGuid) ? "disabled=\"disabled\"" : "";
+
+
+							<tr id="row_@module.ModuleGuid">
+								<td style="width: 36px; text-align: center">
+									<a class="editLinkClass" title="@editThisItem" onclick="javascript: return ModuleLibrary.EditModule('@module.ModuleGuid.ToString()');">@editText</a>
+								</td>
+								<td>@module.ModuleName</td>
+								<td style="width: 36px; vertical-align: top; text-align: center">
+									<a class="@deleteClass" @deleteDisabled title="@deleteTitle" onclick="if ( confirm( '@deleteConfirmationText' ) ){ModuleLibrary.DeleteModule( '@module.ModuleGuid' )}else{return false;}">@deleteText</a>
+								</td>
+							</tr>
+						}
+					}
+				</tbody>
+			</table>
+		</div>
+	</section>
+	<table class="FMGridFoot" style="width:100%; max-height: 35px; max-width: 625px">
+		<tfoot>
+			@if (displayCount < count)
+			{
+				<tr><th>@translatedCountDisplayText</th></tr>
+			}
+			else if (displayCount > 0)
+			{
+				<tr>
+					<th>
+						@translatedRecordCountText
+					</th>
+				</tr>
+			}
+			else
+			{
+				<tr>
+					<td class="formfieldtitle" style="padding-top: 5px;">
+						@FMBaseController.TranslateText("No records found.")
+					</td>
+				</tr>
+			}
+		</tfoot>
+	</table>
+
+	<div style="padding-top: 5px; padding-bottom: 5px">
+		<button id="addModule2" type="button" title="@addNewModuleText" class="pushButton @addButtonClass" @addButtonDisable accesskey=@addAccessKey onclick="javascript: return ModuleLibrary.EditModule('00000000-0000-0000-0000-000000000000');">
+			@if (addAccessKeyContainedInAddText)
+			{
+				@addPreFix<u>@addAccessKey</u>@addPostFix
+			}
+			else
+			{
+				@addText
+			}
+		</button>
+		<button id="saveAll2" type="button" title="@saveAllText" class="pushButton @saveAllButtonClass" @saveAllButtonDisable accesskey=@saveAllAccessKey onclick="javascript: return ModuleLibrary.SaveAllModules();">
+			@if (saveAllAccessKeyContainedInSaveAllText)
+			{
+				@saveAllPreFix<u>@saveAllAccessKey</u>@saveAllPostFix
+			}
+			else
+			{
+				@saveAllText
+			}
+		</button>
+	</div>
+}
+
+<!-- Edit Module Modal -->
+@{ 
+	var saveButton = FMBaseController.TranslateText("&Save");
+	var cancelButton = FMBaseController.TranslateText("&Cancel");
+	var guideButton = FMBaseController.TranslateText("&Programmer's Guide");
+}
+@Html.Hidden("urlModuleEditor", @Url.Action("ModuleEditor", "ModuleEditor"))
+
+<div class="row">
+	<div id="EditModuleModal" class="modal container fade" data-backdrop="static" data-focus-on="input:first" role="dialog">
+		<!-- Edit Module Modal content-->
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="EditModuleHeader row">
+					<button type="button" class="close" data-dismiss="modal" onclick="$('#ModuleEditorCloseButton').click();">×</button>
+					<div class="col-xs-12">
+						<h4>@FMBaseController.TranslateText("ModuleEditor|Edit Module")</h4>
+					</div>
+				</div>
+				<section id="moduleEditorScreen" class=""></section>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-toolbar">
+					<div class="pull-left" role="group">
+						<button id="ModuleEditorProgrammersGuideButton" type="button" class="formfieldtitle pushButton" accessKey="@FMControls.GetAccessKey(guideButton)" onclick="javascript: ProgrammersGuideClick()">
+							@Html.Raw(FMControls.FormatButtonText(guideButton))
+						</button>
+					</div>
+					<div class="pull-right" role="group">
+						<button id="ModuleEditorSaveButton" type="button" class="formfieldtitle pushButton" accessKey="@FMControls.GetAccessKey(saveButton)">
+							@Html.Raw(FMControls.FormatButtonText(saveButton))
+						</button>
+						<button id="ModuleEditorCloseButton" type="button" class="formfieldtitle pushButton" data-dismiss="modal" accessKey="@FMControls.GetAccessKey(cancelButton)" onclick="javascript: ModuleLibrary.RestoreAccessKeys();">
+							@Html.Raw(FMControls.FormatButtonText(cancelButton))
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

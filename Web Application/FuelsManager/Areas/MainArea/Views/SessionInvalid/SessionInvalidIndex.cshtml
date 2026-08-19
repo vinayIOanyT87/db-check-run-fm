@@ -1,0 +1,15 @@
+﻿@using FMBusinessObjects.Exceptions
+
+@{
+    ViewBag.Title = "SessionInvalid";
+    Layout = "~/Areas/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    $(document).ready(function() {
+        window.setTimeout(function () {
+            alert('@FMSessionInvalidException.SessionNotFoundExceptionMessage');
+            window.parent.location = '@Url.RouteUrl("LogoutForm")';
+        }, 250);
+    });
+</script>

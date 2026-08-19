@@ -1,0 +1,31 @@
+HKCR
+{
+	Varec.WeightScaleOPCServer.1 = s 'Varec WeightScale OPCServer Class'
+	{
+		CLSID = s '{AF5C3633-019F-4446-9E11-B0356D0E11A8}'
+	}
+	Varec.WeightScaleOPCServer = s 'Varec WeightScale OPCServer Class'
+	{
+		CLSID = s '{AF5C3633-019F-4446-9E11-B0356D0E11A8}'
+		CurVer = s 'Varec.WeightScaleOPCServer.1'
+        OPC
+        {
+            Vendor = s 'Varec'
+        }
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {AF5C3633-019F-4446-9E11-B0356D0E11A8} = s 'Varec WeightScale OPCServer Class'
+		{
+			ProgID = s 'Varec.WeightScaleOPCServer.1'
+			VersionIndependentProgID = s 'Varec.WeightScaleOPCServer'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{85CD7BF4-E995-4E4A-ABE2-D9FD90CF6027}'
+		}
+	}
+}

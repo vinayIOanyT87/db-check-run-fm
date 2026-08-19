@@ -1,0 +1,159 @@
+<div id="certificates">
+    <div class='certificate-section-header' style="font-family: Roboto; font-size: 18px;">Certificate Manager</div>
+    <i class="fa fa-search search-certificate-icon" (click)="togglecertificateSearch()"></i>
+    <div class="btn-group certificate-activation-menu" dropdown>
+        <a id="activationDropdown" class="dropdown-toggle" dropdownToggle data-toggle="dropdown" aria-controls="activation-dropdown">
+            <i class="fa fa-ellipsis-h "></i>
+        </a>
+        <ul id="activation-dropdown" *dropdownMenu class="dropdown-menu activation-dropdown" aria-labelledby="button-basic">
+            <li class="activationoption" *ngIf="!showPointIndexes" (click)="togglePointIdx()">Show Point Indexes</li>
+            <li class="activationoption" *ngIf="showPointIndexes" (click)="togglePointIdx()">Hide Point Indexes</li>
+        </ul>
+    </div>
+
+    <dts-select-container #container="dts-select-container" [(selectedItems)]="selectedDocuments" [custom]="true" (click)="oncertificatePanelClick($event)" [selectWithShortcut]="true" [disabled]="true" (selectionEnded)="dragSelect($event)">
+        <ng-container *ngIf="ready">
+
+            <cdk-virtual-scroll-viewport id="activecertificatelist" itemSize="99" minBufferPx="200" maxBufferPx="400" class="ps" [perfectScrollbar] #scrollable>
+                <input id="certificatefilterinput" type="text" class='search-certificate-entry' placeholder="Enter search parameter" [ngModel]='searchcertificateString' (ngModelChange)='searchcertificateStringChanged( $event )' [ngClass]="{'d-none': !searchcertificateToggle}"
+                    (click)="$event.stopPropagation()" />
+                <div *cdkVirtualFor="let certificateSet of certificatePanelSets trackBy:trackByPointId; let i = index;">
+                    <div *ngIf='certificateSet[0]' class="certificate">
+                        <img [dtsSelectItem]="certificateSet[0]" class="certificateimg" [src]=certificateSet[0].img (click)="oncertificateImgClick($event, certificateSet[0].pointId, certificateSet[0].alarmId); $event.stopPropagation()" />
+                        <span class="certificateSelectSpan" title="{{certificateSet[0].labelLine1}}&#10;{{certificateSet[0].labelLine2}}">{{certificateSet[0].labelLine1}}<br> {{certificateSet[0].labelLine2}}</span>
+                    </div>
+                    <div *ngIf='certificateSet[1]' class="certificate">
+                        <img [dtsSelectItem]="certificateSet[1]" class="certificateimg" [src]=certificateSet[1].img (click)="oncertificateImgClick($event, certificateSet[1].pointId, certificateSet[1].alarmId); $event.stopPropagation()" />
+                        <span class="certificateSelectSpan" title="{{certificateSet[1].labelLine1}}&#10;{{certificateSet[1].labelLine2}}">{{certificateSet[1].labelLine1}}<br> {{certificateSet[1].labelLine2}}</span>
+                    </div>
+                    <div *ngIf='certificateSet[2]' class="certificate">
+                        <img [dtsSelectItem]="certificateSet[2]" class="certificateimg" [src]=certificateSet[2].img (click)="oncertificateImgClick($event, certificateSet[2].pointId, certificateSet[2].alarmId); $event.stopPropagation()" />
+                        <span class="certificateSelectSpan" title="{{certificateSet[2].labelLine1}}&#10;{{certificateSet[2].labelLine2}}">{{certificateSet[2].labelLine1}}<br> {{certificateSet[2].labelLine2}}</span>
+                    </div>
+                    <div *ngIf='certificateSet[3]' class="certificate">
+                        <img [dtsSelectItem]="certificateSet[3]" class="certificateimg" [src]=certificateSet[3].img (click)="oncertificateImgClick($event, certificateSet[3].pointId, certificateSet[3].alarmId); $event.stopPropagation()" />
+                        <span class="certificateSelectSpan" title="{{certificateSet[3].labelLine1}}&#10;{{certificateSet[3].labelLine2}}">{{certificateSet[3].labelLine1}}<br> {{certificateSet[3].labelLine2}}</span>
+                    </div>
+                    <hr class="horizontalDivider" *ngIf="(i+1) % 2 == 0">
+                </div>
+
+            </cdk-virtual-scroll-viewport>
+        </ng-container>
+        <ng-container *ngIf="!ready">
+            <cdk-virtual-scroll-viewport id="activecertificatelist" itemSize="99" minBufferPx="200" maxBufferPx="400" class="ps" [perfectScrollbar] #scrollable>
+                <div *cdkVirtualFor="let certificateSet of certificatePanelSets | slice:0:7 ; let i = index;">
+
+                    <div *ngIf='certificateSet[0]' class="certificate">
+                        <img [dtsSelectItem]="certificateSet[0]" class="certificateimg" [src]=certificateSet[0].img (click)="oncertificateImgClick($event, certificateSet[0].pointId, certificateSet[0].alarmId); $event.stopPropagation()" />
+                        <span class="certificateSelectSpan" title="{{certificateSet[0].labelLine1}}&#10;{{certificateSet[0].labelLine2}}">{{certificateSet[0].labelLine1}}<br>{{certificateSet[0].labelLine2}}</span>
+                    </div>
+                    <div *ngIf='certificateSet[1]' class="certificate">
+                        <img [dtsSelectItem]="certificateSet[1]" class="certificateimg" [src]=certificateSet[1].img (click)="oncertificateImgClick($event, certificateSet[1].pointId, certificateSet[1].alarmId); $event.stopPropagation()" />
+                        <span class="certificateSelectSpan" title="{{certificateSet[1].labelLine1}}&#10;{{certificateSet[1].labelLine2}}">{{certificateSet[1].labelLine1}}<br>{{certificateSet[1].labelLine2}}</span>
+                    </div>
+                    <div *ngIf='certificateSet[2]' class="certificate">
+                        <img [dtsSelectItem]="certificateSet[2]" class="certificateimg" [src]=certificateSet[2].img (click)="oncertificateImgClick($event, certificateSet[2].pointId, certificateSet[2].alarmId); $event.stopPropagation()" />
+                        <span class="certificateSelectSpan" title="{{certificateSet[2].labelLine1}}&#10;{{certificateSet[2].labelLine2}}">{{certificateSet[2].labelLine1}}<br>{{certificateSet[2].labelLine2}}</span>
+                    </div>
+                    <div *ngIf='certificateSet[3]' class="certificate">
+                        <img [dtsSelectItem]="certificateSet[3]" class="certificateimg" [src]=certificateSet[3].img (click)="oncertificateImgClick($event, certificateSet[3].pointId, certificateSet[3].alarmId); $event.stopPropagation()" />
+                        <span class="certificateSelectSpan" title="{{certificateSet[3].labelLine1}}&#10;{{certificateSet[3].labelLine2}}">{{certificateSet[3].labelLine1}}<br>{{certificateSet[3].labelLine2}}</span>
+                    </div>
+                    <hr class="horizontalDivider" *ngIf="(i+1) % 2 == 0">
+                </div>
+
+            </cdk-virtual-scroll-viewport>
+        </ng-container>
+    </dts-select-container>
+</div>
+
+
+<div id="certificateconfiguration">
+    <ngb-tabset style="font-family: Roboto; font-size: 18px;">
+        <ng-container>
+            <ngb-tab *ngFor="let tab of certificateViewTabs;" title="{{tab.tabName}}">
+                <ng-template ngbTabContent>
+                    <div class="configuration-body">
+                        <div class="iconbar">
+                        </div>
+                        <div id="selectedcertificatesPanel">
+                            <div *ngFor="let certificate of selectedcertificates; let i = index;" class="certificate-cell">
+                                {{certificate.labelLine1}}<br>{{certificate.labelLine2}}</div>
+                        </div>
+                        <perfect-scrollbar #scrollable class="configuration-list">
+                            <ng-container *ngFor="let certificate of selectedcertificates; let alarmIndex = index;">
+                                <div [ngClass]="(tab.tabName == 'Config') ? 'certificateContainer' : 'certificateConfigContainer'">
+                                    <div class="configuration-header">
+                                        {{certificate.labelLine1}}<br>{{certificate.labelLine2}}
+                                    </div>
+                                    <ng-container *ngFor="let cell of certificate.point.pointConfiguration | keyvalue; let i = index;">
+
+                                        <div *ngIf="isParameterCell(cell) && ((tab.tabName == 'Config' && cell.value.configClass == 64) || (tab.tabName == 'Command' && (cell.value.configClass == 160 || cell.value.configClass == 32 )))" class="configuration-certificate-cell">
+                                            <div>
+                                                <div class="configuration-parametername">{{cell.value.parameter}}</div>
+                                                <app-inlineconfigurationeditor *ngIf="cell.value.parameter != 'SrcIndex' && cell.value.parameter != 'SrcParameter' && cell.value.parameter != 'DestIndex' && cell.value.parameter != 'DestParameter'" [tabIndex]="cell.tabIndex" [configurationItem]="cell.value"
+                                                    [disableOverride]="cell.value.disableOverride" class="configuration-parametervalue" (parameterChange)="onParameterChange($event, certificate) ">
+                                                </app-inlineconfigurationeditor>
+                                            </div>
+                                        </div>
+
+                                    </ng-container>
+                                </div>
+                                <div class="horizontalDivider" *ngIf="(alarmIndex % 3 == 2)"></div>
+                            </ng-container>
+
+                        </perfect-scrollbar>
+                    </div>
+                    <div class="configuration-footer">
+                        <button type="button" class="btn btn-primary" [disabled]="isRTUConnectedandChangesExist()" style="font-family: Roboto; font-size: 14px;background-color: #006cb3; border-radius: 3px;" (click)="VerifyApplytoRTUPrompt();">Apply to RTU</button>
+                        <button type="button" class="btn btn-primary" style="font-family: Roboto; font-size: 14px; background-color: #006cb3; border-radius: 3px;" (click)="saveRtuConfigToDisk();">Save RTU Config</button>
+                        <button type="button" class="btn btn-cancel-changes" [disabled]="areThereNoChangesMade()" style="font-family: Roboto; font-size: 14px; border-radius: 3px;" (click)="VerifyCancelChangesPrompt();">Cancel</button>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+        </ng-container>
+    </ngb-tabset>
+</div>
+
+<ng-template #modalVerifyCancelAction>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Are you sure you want to cancel?</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            You will lose any changes not saved or applied.
+        </div>
+        <div class="form-group">
+            Click <b>OK</b> to continue or <b>Cancel</b> to go back.
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="cancelButton" type="button" class="btn btn-secondary" (click)="modalRef.hide();">Cancel</button>
+        <button id="copyButton" type="button" class="btn btn-primary" (click)="cancelChanges();">OK</button>
+    </div>
+</ng-template>
+
+
+<ng-template #modalVerifyApplytoRTUAction>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Apply current settings to RTU?</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            Any RTU settings that were changed will be overwritten and cannot be undone.
+        </div>
+        <div class="form-group">
+            Click <b>OK</b> to continue or <b>Cancel</b> to retain current settings.
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="cancelButton" type="button" class="btn btn-secondary" (click)="modalRef.hide();">Cancel</button>
+        <button id="copyButton" type="button" class="btn btn-primary" (click)="applyToRTU();">OK</button>
+    </div>
+</ng-template>

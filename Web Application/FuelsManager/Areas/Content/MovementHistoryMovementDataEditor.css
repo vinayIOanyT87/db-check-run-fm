@@ -1,0 +1,78 @@
+﻿#movementHistoryMovementDataEditorPartial label {
+    color: rgb(153,153,153) !important;
+}
+
+#MovementHistoryMovementDataEditorPropertyScreen button[disabled] {
+    cursor: not-allowed;
+}
+
+.ui-front {
+    z-index: 10000 !important;
+}
+
+body .modal {
+    width: 750px !important;
+    margin-left: -375px !important;
+}
+
+.MovementHistoryMovementDataEditorHeader {
+    padding: 0px;
+    width: 100%;
+}
+
+.MovementHistoryMovementDataEditorHeader .close {
+    padding: 5px !important;
+    margin-top: -2px !important;
+}
+
+.h4, .h5, .h6, h4, h5, h6 {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+.form-control {
+    border-radius: 0px !important;
+}
+
+.form-group {
+    height: 60px !important;
+}
+
+#MovementHistoryMovementDataEditorPropertyScreen .modal, #MovementHistoryMovementDataEditorPropertyScreen .modal-content {
+    background-color: white !important;
+}
+
+#MovementHistoryMovementDataEditorPropertyScreen {
+    width: 500px !important;
+}
+
+.TransferStartTime {
+    height: 25px !important;
+    width: 200px !important;
+}
+
+.MovementHistoryMovementDataTdPadding1 {
+    padding-bottom: 7px;
+}
+
+.MovementHistoryMovementDataTdPadding2 {
+    padding-bottom: 7px;
+    padding-left: 40px;
+}
+
+.MovementHistoryMovementDataTdPadding3 {
+    padding-bottom: 7px;
+    padding-left: 40px;
+}
+
+#MovementHistoryMovementDataTableSection {
+    padding-left: 30px;
+}
+
+.MovementHistoryMovementDataInputHeight {
+    height: 17px !important;
+}
+
+#MovementHistoryMovementDataEditorFooter{
+    width: 500px !important;
+}

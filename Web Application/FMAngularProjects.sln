@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.271
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "FuelsManagerAJAXControls", "FuelsManagerAJAXControls\FuelsManagerAJAXControls.njsproj", "{428BEB39-34E6-48A7-A6F1-9449D47BA45B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{428BEB39-34E6-48A7-A6F1-9449D47BA45B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{428BEB39-34E6-48A7-A6F1-9449D47BA45B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{428BEB39-34E6-48A7-A6F1-9449D47BA45B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{428BEB39-34E6-48A7-A6F1-9449D47BA45B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FC2A4979-092B-4389-93CE-F3E8E55DB515}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 2
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://1552-div-team:8080/tfs/varec
+		SccProjectUniqueName0 = FuelsManagerAJAXControls\\FuelsManagerAJAXControls.njsproj
+		SccProjectName0 = FuelsManagerAJAXControls
+		SccLocalPath0 = FuelsManagerAJAXControls
+		SccLocalPath1 = .
+	EndGlobalSection
+EndGlobal

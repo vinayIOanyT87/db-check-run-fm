@@ -1,0 +1,30 @@
+/* You can add global styles to this file, and also import other style files */
+
+.persistDataOnSave {
+  height: 8px;
+  width: 8px;
+  display: inline-block;
+  background-color: green;
+  border: 1px black solid;
+  margin-bottom: 0;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.hints {
+  width: 200px;
+  float: right;
+  border: 1px black solid;
+  margin-top: 5px;
+}
+
+  .hints h4 {
+    margin: 0px;
+    background-color: darkgray;
+  }
+
+  .hints div {
+    margin: 0px;
+    background-color: lightgray;
+    border-top: 1px black solid;
+  }

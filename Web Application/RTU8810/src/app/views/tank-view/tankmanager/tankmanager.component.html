@@ -1,0 +1,254 @@
+<div id="tanks">
+    <div class='tankmanager-section-header' style="font-family: Roboto; font-size: 18px;">Tank Manager</div>
+    <i class="fa fa-search search-tank-icon" (click)="toggleTankSearch()"></i>
+    <div class="btn-group tankmanager-activation-menu" dropdown>
+        <a id="activationDropdown" class="dropdown-toggle" dropdownToggle data-toggle="dropdown"
+            aria-controls="activation-dropdown">
+            <i class="fa fa-ellipsis-h "></i>
+        </a>
+        <ul id=" activation-dropdown" *dropdownMenu class="dropdown-menu activation-dropdown"
+                aria-labelledby="button-basic">
+                <li class="activationoption" (click)="onActivate()">Activate</li>
+                <li class="activationoption" (click)="onDeactivate()">Deactivate</li>
+                <li class="activationoption" *ngIf='!showPointIndexes' (click)="togglePointIdx()">Show Point Indexes</li>
+                <li class="activationoption" *ngIf='showPointIndexes' (click)="togglePointIdx()">Hide Point Indexes</li>
+                </ul>
+    </div>
+    <dts-select-container #container="dts-select-container" [(selectedItems)]="selectedDocuments" [custom]="true" [selectWithShortcut]="true" 
+    (selectionEnded)="dragSelect($event)">
+        <cdk-virtual-scroll-viewport id="activetanklist" itemSize="120" minBufferPx="1200" maxBufferPx="1200"  class="ps" [perfectScrollbar] #scrollable (click)="onTankPanelClick($event)">
+            <input id="tanksfilterinput" type="text" class="search-tank-entry" placeholder="Enter search parameter"
+            [ngModel]='searchTankString' (ngModelChange)='searchTankChanged( $event )'
+            [ngClass]="{'d-none': !searchTankToggle}" (click)="$event.stopPropagation()" />
+            <div *cdkVirtualFor="let tankRow of filteredActiveTankRows; let i = index;">
+                <div *ngFor="let tank of tankRow; let j = index;" class="tank" >
+                    <div [class]="getActiveTankClass(j)">
+                        <img  [dtsSelectItem]="tank" class="tankimg" [src]=tank.tanklistimg
+                            (click)="onTankImgClick($event, tank.pointId, tank.tankId); $event.stopPropagation()" />
+                        <span>{{tank.label}}</span>
+                    </div>
+                    <div class="horizontalline" *ngIf="((j + (i * 4)) - 4 ) % 8 >= 0 && ((j + (i * 4)) - 4) % 8 < 4"></div>
+                </div>
+            </div>
+        </cdk-virtual-scroll-viewport>
+    </dts-select-container>
+</div>
+
+<div id="configuration">
+    <ngb-tabset style="font-family: Roboto; font-size: 18px;">
+        <ng-container *ngIf="!activationActive">
+            <ngb-tab *ngFor="let tab of tankViewTabs;" title="{{tab.tabName}}">
+                <ng-template ngbTabContent>
+                    <div class="configuration-body">
+                        <div class="iconbar">
+                            <i class="fa fa-search search-icon pull-right" title="Filter"
+                                (click)="toggleConfigurationSearch()"></i>
+                            <input id="configurationfilterinput" type="text" class='search-entry pull-right'
+                                placeholder="Enter search parameter" [ngModel]='searchConfigurationString'
+                                (ngModelChange)='searchConfigurationChanged( $event )'
+                                [ngClass]="{'d-none': !searchConfigurationToggle}" />
+                        </div>
+                        <perfect-scrollbar #scrollable class="configuration-list">
+                            <div *ngFor="let cell of tab.cells; let i = index;" [ngClass]="isSpacerCell(cell) ? 'spacerCellStyle' : 'configuration-cell' ">
+                                <div *ngIf="!isParameterCell(cell)" [ngClass]="isSpacerCell(cell) ? 'spacerStyle' : 'configuration-heading' ">{{cell.object}}</div>
+                                <div *ngIf="isParameterCell(cell)">
+                                    <div class="configuration-parametername">{{cell.object.parameter}}</div>
+                                    <div class="configuration-parameterdescription" [innerHTML]="cell.object.description"></div>
+                                    <app-inlineconfigurationeditor [tabIndex]="cell.tabIndex"
+                                        [configurationItem]="cell.object" [disableOverride]="cell.disableOverride"
+                                        class="configuration-parametervalue"
+                                        (parameterChange)="onParameterChange($event) "></app-inlineconfigurationeditor>
+                                </div>
+                                <div *ngIf="this.selectedTanks.length > 1 && (cell.object.parameter == 'Label' || cell.object.parameter == 'DeviceID')"
+                                    class="autoIncrementButton"
+                                    style="font-family: Roboto; font-size: 12px;color: #006cb3; "
+                                    (click)="autoIncrementPrompt($event, cell.object.parameter)">[Auto Number]</div>
+                            </div>
+                        </perfect-scrollbar>
+                    </div>
+                    <div class="configuration-footer">
+                        <button type="button" class="btn btn-primary" [disabled]="isRTUConnectedandChangesExist()"
+                            style="font-family: Roboto; font-size: 14px;background-color: #006cb3; border-radius: 3px;"
+                            (click)="VerifyApplytoRTUPrompt();">Apply To RTU</button>
+                        <button type="button" class="btn btn-primary"
+                            style="font-family: Roboto; font-size: 14px; background-color: #006cb3; border-radius: 3px;"
+                            (click)="saveRtuConfigToDisk();">Save RTU Config</button>
+                        <button type="button" class="btn btn-cancel-changes" [disabled]="areThereNoChangesMade()"
+                            style="font-family: Roboto; font-size: 14px; border-radius: 3px;"
+                            (click)="VerifyCancelChangesPrompt();">Cancel</button>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+        </ng-container>
+        <ngb-tab title="{{tankActivationMode}}" *ngIf="activationActive">
+            <ng-template ngbTabContent>
+                <div class="activation-body">
+                    <div class="iconbar" >
+                        <i class="fa fa-search search-icon pull-right" title="Filter"
+                            (click)="toggleActivationSearch()"></i>
+                        <input id="activationfilterinput" type="text" class='search-entry pull-right'
+                            placeholder="Enter search parameter" [ngModel]='searchActivationString'
+                            (ngModelChange)='searchActivationChanged( $event )'
+                            [ngClass]="{'d-none': !searchActivationToggle}" />
+                    </div>
+                    <dts-select-container #container="dts-select-container" [(selectedItems)]="selectedDocuments" [custom]="true" [selectWithShortcut]="true"  
+                    (selectionEnded)="activationtanklistdragSelect($event)">
+                        <cdk-virtual-scroll-viewport id="activationtanklist" itemSize="120" minBufferPx="1200" maxBufferPx="1200"  class="ps" [perfectScrollbar] #scrollable (click)="onactivationPanelClick($event)">
+                            <div *cdkVirtualFor="let tankRow of activationTankRows; let i = index;">
+                                <div *ngFor="let tank of tankRow; let j = index;" class="tank">
+                                    <div [class]="getActivationTankClass(j)" (click)="$event.stopPropagation()">
+                                        <img [dtsSelectItem]="tank" class="tankicon" [src]=tank.activationimg
+                                            (click)="onActivationTankImgClick($event, tank.pointId, tank.tankId)" />
+                                        <span *ngIf="tankActivationMode === 'ACTIVATE TANKS'">{{"Tank " + ("000" + (tank.tankId + 1)).slice(-3)}}</span>
+                                        <span *ngIf="tankActivationMode === 'DEACTIVATE TANKS'">{{tank.label}}</span>
+                                    </div>
+                                    <div class="horizontalspace" *ngIf="(j - 8 ) % 16 >= 0 && (j - 8) % 16 < 8"></div>
+                                </div>
+                            </div>
+                        </cdk-virtual-scroll-viewport>
+                    </dts-select-container>
+                    <div #activateLabelModalBackground class='inline-modalbackground d-none'>
+                        <div #activateLabelModal aria-modal="true" class='inline-modal'>
+                            <button type="button" class="close pull-right" aria-label="Close"
+                                (click)="cancelBatchActivationRename()">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h3 class="text-center">Please provide a label</h3>
+                            <p class="text-center">When activating multiple tanks, each will be sequentially labeled
+                                automatically.</p>
+                            <p class="text-center">You can rename them using the properties editor.</p>
+                            <form name="batchRenameActivationForm" #batchRenameActivationForm="ngForm">
+                                <input required type="text" #batchRenameLabel id="batchRenameLabel" 
+                                    name="batchRenameLabel" #batchRenameLabel="ngModel"
+                                    class='multilabelrename form-control' placeholder="ex. East Tank 001"
+                                    [(ngModel)]='setActivateMultiLabel' maxlength="29" autocomplete="off" />
+                            </form>
+                            <div id="batchrenametanksbuttons" class="btn-toolbar">
+                                <button id="cancelRenameButton" type="button" class="btn btn-secondary"
+                                    (click)="cancelBatchActivationRename()">Cancel</button>
+                                <button id="applyRenameButton" type="button"
+                                    [disabled]="!batchRenameActivationForm.valid" class="btn btn-primary"
+                                    (click)="applyBatchActivationRename()">Apply Label</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tank-activation-footer">
+                    <button id="saveButton" type="button" class="btn btn-primary" [disabled]="areNoTanksSelected()"
+                        (click)="saveToRTUConfiguration();">{{tankActivationApplyButtonText}}</button>
+                    <button id="cancelButton" type="button" class="btn btn-cancel"
+                        (click)="VerifyCancelActivationPrompt();">{{getcancelButtontext()}}</button>
+                </div>
+            </ng-template>
+        </ngb-tab>
+    </ngb-tabset>
+
+</div>
+
+<ng-template #modalVerifyApplytoRTUAction>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Apply current settings to RTU?</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            Any RTU settings that were changed will be overwritten and cannot be undone.
+        </div>
+        <div class="form-group">
+            Click <b>OK</b> to continue or <b>Cancel</b> to retain current settings.
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="cancelButton" type="button" class="btn btn-secondary" (click)="modalRef.hide();">Cancel</button>
+        <button id="copyButton" type="button" class="btn btn-primary" (click)="applyToRTU();">OK</button>
+    </div>
+</ng-template>
+
+<ng-template #modalVerifyCancelAction>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Are you sure you want to cancel?</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            You will lose any changes not saved or applied.
+        </div>
+        <div class="form-group">
+            Click <b>OK</b> to continue or <b>Cancel</b> to go back.
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="cancelButton" type="button" class="btn btn-secondary" (click)="modalRef.hide();">Cancel</button>
+        <button id="copyButton" type="button" class="btn btn-primary" (click)="cancelChanges();">OK</button>
+    </div>
+</ng-template>
+
+<ng-template #modalVerifyCancelActivation>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Are you sure you want to cancel?</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            You will lose any changes not saved or applied.
+        </div>
+        <div class="form-group">
+            Click <b>OK</b> to continue or <b>Cancel</b> to go back.
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="cancelButton" type="button" class="btn btn-secondary" (click)="modalRef.hide();">Cancel</button>
+        <button id="copyButton" type="button" class="btn btn-primary" (click)="cancelActivation();">OK</button>
+    </div>
+</ng-template>
+
+<ng-template #modalAutoIncrementValue>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left" [ngStyle]="setIncrementTitlestyle()">Set Multiple Tank Labels</h4>
+        <h4 class="modal-title pull-left" [ngStyle]="setIncrementTitlestyle1()">Set Multiple Device IDs</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group" [ngStyle]="setTextFieldStyle()">
+            Label: <input id="baseText" class="autoIncrementTextbox" [ngStyle]="setLabelTextboxMaxLength(baseText)" placeholder=" Base Text" type="text" #baseText>
+        </div>
+        <div class="form-group">
+            Starts at (number): <input id="startingInteger" class="autoIncrementTextbox" placeholder=" Starting Integer"
+                type="number" #startingInteger>
+        </div>
+        <div class="form-group">
+            Increment by: <input id="intervalInteger" class="autoIncrementTextbox" placeholder=" Increment Integer"
+                type="number" #intervalInteger>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="cancelButton" type="button" class="btn btn-secondary" (click)="modalRef.hide();">Cancel</button>
+        <button id="confirmButton" type="button" class="btn btn-primary"
+            (click)="autoIncrementApply(baseText.value,startingInteger.value, intervalInteger.value);">Apply</button>
+    </div>
+</ng-template>
+
+<ng-template #modalNothingtowritetoRTUAction>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Nothing To Do</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            No changed data to apply to the RTU.
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="cancelButton" type="button" class="btn btn-secondary" (click)="modalRef.hide();">OK</button>
+    </div>
+</ng-template>

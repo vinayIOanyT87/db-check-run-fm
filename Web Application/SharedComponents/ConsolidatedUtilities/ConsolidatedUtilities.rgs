@@ -1,0 +1,11 @@
+HKCR
+{
+	NoRemove AppID
+	{
+		'%APPID%' = s 'ConsolidatedUtilities'
+		'ConsolidatedUtilities.DLL'
+		{
+			val AppID = s '%APPID%'
+		}
+	}
+}

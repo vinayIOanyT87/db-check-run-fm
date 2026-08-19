@@ -1,0 +1,117 @@
+﻿@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.FieldHelpers
+@model FuelsManager.Areas.AccountingArea.ViewModels.TransactionEditorViewModel
+@{
+    ViewBag.Title = "TransactionEditor";
+    Layout = "~/Areas/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    FMLayout.dateFormat = '@Html.ConvertDateFormat(Model.ShortDatePattern)';
+    FMLayout.calendarLocation = '@Url.Content("~/DispatchWebApp/images")';
+</script>
+
+<style>
+    .transactionDetail tr td {
+        padding: 3px 10px 3px 10px;
+    }
+
+    .fieldRequired {
+        color: crimson;
+        width: 5px;
+        vertical-align: middle;
+    }
+
+    .transactionButtons tr td {
+        padding: 3px 3px 3px 0;
+    }
+
+    .transactionButtons tr td+td {
+        padding: 3px;
+    }
+
+    .txEditorHeading tr td {
+        padding: 10px 10px 10px 10px;
+    }
+</style>
+
+<div>
+    <table class="txEditorHeading">
+        <tr>
+            <td class="headline">
+                @Model.AliasName
+            </td>
+            <td>
+                <input type="submit" value="<<" title='@FMBaseController.TranslateText("Previous Transaction")' class="formfieldtitle" disabled="disabled"/>
+            </td>
+            <td>
+                <input type="submit" value=">>" title='@FMBaseController.TranslateText("Next Transaction")' class="formfieldtitle" disabled="disabled" />
+            </td>
+        </tr>
+    </table>
+</div>
+
+@using ( Html.BeginForm( "ButtonSubmit", "TransactionEditor", FormMethod.Post, new { id = "submitForm" } ) )
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="formfieldtitle">
+        
+        @Html.HiddenFor( m => m.Transaction.LineItems[0].Product )
+        @Html.HiddenFor( m => m.ShortDatePattern )
+        @Html.HiddenFor( m => m.TimePattern )
+
+        <table class="transactionDetail formfieldtitle">
+            <tbody>
+                <tr>
+                    @for (var index = 0; index < @Model.Fields.Count; ++index)
+                    {
+                        var field = @Model.Fields[index];
+
+                        <td>@field.DisplayName</td>
+                        
+                        <td class="fieldRequired" style="padding: 3px 0">
+                            @if (field.FieldRequired)
+                            {
+                                @:*
+                            }
+                        </td>
+                        
+                        <td class="formfield">
+                            @Html.FMGenerateField(field, Model)
+                        </td>
+
+                        if ( index % 2 == 1 )
+                        {
+                            @:</tr><tr>
+                        }
+                    }
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div style="padding: 10px 0 10px 0">
+        <table class="transactionButtons">
+            <tr>
+                <td>@Html.FMButton( "applyButton", "&Apply", true, "Save transaction" )</td>
+                <td>@Html.FMButton( "newButton", "&New", true, "Save transaction and start new" )</td>
+                <td>@Html.FMButtonSubdued( "closeButton", "&Close", true, "Close editor" )</td>
+                @*
+                <td>@Html.FMButtonSubdued( "Delete", Model.IsDeleteAvailable )</td>
+                <td>@Html.FMButtonSubdued( "Reverse", Model.IsReverseAvailable )</td>
+                <td>@Html.FMButtonSubdued( "Reverse / Update", Model.IsReverseUpdateAvailable )</td>
+                <td>@Html.FMButtonSubdued( "View Printable", Model.IsViewPrintableAvailable )</td>
+                <td>@Html.FMButtonSubdued( "Combine", Model.IsCombineAvailable )</td>
+                *@
+            </tr>
+        </table>
+    </div>
+
+    <div style="padding: 10px 0 10px 0" class="formfield">
+        Transaction ID: @Model.TransactionId
+        <span class="formfieldtitle" style="padding-left: 50px; color: crimson">@FMBaseController.TranslateText( "* Denotes Required Field" )</span>
+        <br/>
+        Alt+A for Apply.  Alt+N for New
+    </div>
+}

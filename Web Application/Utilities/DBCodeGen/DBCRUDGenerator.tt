@@ -1,0 +1,78 @@
+﻿<#@ assembly name="Microsoft.SqlServer.ConnectionInfo" #>
+<#@ assembly name="Microsoft.SqlServer.Smo" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="Microsoft.SqlServer.Management.Smo" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ include file="T4Toolbox.tt" #><#@include file="DataTypes.tt" #><#@ include file="FMTemplateBase.tt" #><#@ include file="CreateTemplate.tt" #><#@ include file="InsertTemplate.tt" #><#@ include file="DeleteTemplate.tt" #><#@ include file="DeleteApplicationTemplate.tt" #><#@ include file="UpdateTemplate.tt" #><#@ include file="SelectTemplate.tt" #><#@ include file="SelectAssignedTemplate.tt" #><#@ include file="OutputTemplate.tt" #>
+<#+
+public class DBCRUDGenerator : Generator
+{
+    public CodeGenConfig Config{ get; set; }
+	private OutputTemplate DumpTemplate = new OutputTemplate();
+	
+	public DBCRUDGenerator(CodeGenConfig newConfig)
+	{
+		Config = newConfig;
+	}
+	
+	private void MyWriteLine(string msg)
+	{
+		MyWrite(msg + Environment.NewLine);
+	}
+	private void MyWrite(string msg)
+	{
+		DumpTemplate.Message = msg;
+		DumpTemplate.Render();
+	}
+	
+	private void DumpInfo()
+	{
+		string msg = 
+		"--------------------------------------------------------------------------------------------------------------------" + Environment.NewLine +
+		"-- This file is generated.  Don't update this directly unless you know what you're doing.  Thank."+ Environment.NewLine +
+		"-- (generated at " + DateTime.Now.ToString() +")" + Environment.NewLine +
+		"--------------------------------------------------------------------------------------------------------------------" + Environment.NewLine;
+		MyWriteLine(msg);
+		
+		HashSet<string> tableList = new HashSet<string>();
+		HashSet<string> objectList = new HashSet<string>();
+		foreach (FMTemplateBase currentTemplate in Config.TemplateList)
+		{
+			tableList.Add(currentTemplate.FullTableName);
+			objectList.Add(currentTemplate.FullObjectName);
+		}
+		
+		MyWriteLine("-- The following are all the tables involved: ");
+		foreach (string tableName in tableList)
+		{
+			MyWriteLine("--" + tableName);
+		}
+		MyWriteLine("");
+		MyWriteLine("-- The following are all the objects created(They may be just prefixes, like *DeleteBy*): ");
+		foreach (string objectName in objectList)
+		{
+			MyWriteLine("--" + objectName);
+		}
+		MyWriteLine("");
+		
+	}
+	
+	/// <summary>
+	/// Simple mechanism: generate Drop in revesrse order, then create in the given order.
+	/// </summary>
+	protected override void RunCore()
+	{		
+		DumpInfo();
+		FMTemplateBase.AuthorName = Config.AuthorName;
+		for (int idx=Config.TemplateList.Count-1; idx>=0; idx--)
+		{
+			FMTemplateBase currentTemplate = Config.TemplateList[idx];
+			currentTemplate.RenderDrop();
+		}
+		foreach (FMTemplateBase currentTemplate in Config.TemplateList)
+		{
+			currentTemplate.RenderStandard();
+		}
+  	}
+}
+#>

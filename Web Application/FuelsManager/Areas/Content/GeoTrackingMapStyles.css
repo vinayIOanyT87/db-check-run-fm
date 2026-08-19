@@ -1,0 +1,555 @@
+﻿	html, body, #MapHost {
+		width: 100%;
+		height: 100%;
+		margin: 0;
+	}
+
+	.divTable {
+		width: 70%;
+		height: 50%;
+		display: table;
+		padding: 3px;
+	}
+
+	.divTable2 {
+		width: 30%;
+		height: 50%;
+		display: table;
+		padding: 3px;
+	}
+
+	.divTableRow {
+		width: 100%;
+		height: 100%;
+		display: table-row;
+		padding: 3px;
+	}
+
+	.divTableCell {
+		width: 45%;
+		height: 100%;
+		display: table-cell;
+		padding: 3px;
+		vertical-align: top;
+	}
+
+	.divTableCell2 {
+		width: 25%;
+		height: 100%;
+		display: table-cell;
+		padding: 3px;
+		vertical-align: top;
+		position: absolute;
+		right: 35%;
+	}
+
+	.headline {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 18px;
+		font-style: italic;
+		font-weight: bold;
+		color: #0d246a;
+		line-height: normal;
+		white-space: nowrap;
+	}
+
+	/* Map menu title headline */
+	.mapMenuHeadline {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 18px;
+		font-style: normal;
+		font-weight: normal;
+		color: #1364B5;
+		line-height: normal;
+		white-space: nowrap;
+	}
+
+	/* Map menu main filter items */
+	.filterGroupHeadLine {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 11px;
+		font-style: italic;
+		font-weight: normal;
+		color: #A0A0A0;
+		line-height: normal;
+		white-space: nowrap;
+	}
+
+	/* Map menu subline filter items */
+	.filterGroupItem {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 9px;
+		font-style: normal;
+		font-weight: normal;
+		color: #000000;
+		line-height: normal;
+		white-space: nowrap;
+	}
+
+	.formfieldtitle {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 12px;
+		font-style: normal;
+		line-height: normal;
+		font-weight: bold;
+		font-variant: normal;
+		text-transform: none;
+		white-space: nowrap;
+	}
+
+	/* Map menu refresh button */
+	.mapRefreshButton {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 11px;
+		font-style: normal;
+		font-weight: normal;
+		color: white;
+		background: rgb( 86,126,185);
+		line-height: normal;
+		white-space: nowrap;
+		border: 1px solid;
+		width: 120px;
+		height: 25px;
+	}
+
+	/* Equipment History Close button */
+	.equipmentHistoryCloseButton {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 11px;
+		font-style: normal;
+		font-weight: normal;
+		color: white;
+		background: rgb( 86,126,185);
+		line-height: normal;
+		white-space: nowrap;
+		border: 1px solid;
+		width: 70px;
+		height: 20px;
+		float: right;
+	}
+
+	/* Complete Investigation button */
+	.completeInvestigationButton {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 11px;
+		font-style: normal;
+		font-weight: normal;
+		color: white;
+		background: rgb( 86,126,185);
+		line-height: normal;
+		white-space: nowrap;
+		border: 1px solid;
+		width: 160px;
+		height: 20px;
+		float: right;
+	}
+
+	/* Start Investigation button */
+	.startInvestigationButton {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 11px;
+		font-style: normal;
+		font-weight: normal;
+		color: white;
+		background: rgb( 86,126,185);
+		line-height: normal;
+		white-space: nowrap;
+		border: 1px solid;
+		width: 160px;
+		height: 20px;
+		float: right;
+	}
+
+	/* Confirmation buttons */
+	.confirmationButton {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 11px;
+		font-style: normal;
+		font-weight: normal;
+		color: white;
+		background: rgb( 86,126,185);
+		line-height: normal;
+		white-space: nowrap;
+		border: 1px solid;
+		width: 80px;
+		height: 25px;
+	}
+
+	/* Button disabled */
+	.buttonDisabled {
+		background: grey;
+	}
+
+	/* Button disabled */
+	.buttonEnabled {
+		background: rgb( 86,126,185);
+	}
+
+	/* Equipment History horizontal line divider between the filters and grid. */
+	.horizontalSolidLine{
+		width: 890px;
+		height: 25px;
+		border-bottom: 1px solid black;
+		}
+
+	/* Equipment History vertical line divider between the filters. */
+	.verticalSolidLine{
+		border-left: 1px solid #686868;
+		height: 15px;
+		}
+
+	/* Equipment History Header section. */
+	.equipmentHistoryHeaderRow {
+		width: 825px;
+		margin: 0 auto;
+		padding-top: 5px;
+	}
+
+	.equipmentHistoryColumn1 {
+		width: 110px;
+	}
+
+	.equipmentHistoryColumn2 {
+		width: 10px;
+		text-align: center;
+	}
+
+	.equipmentHistoryColumn3 {
+		width: 10px;
+		text-align: center;
+	}
+
+	.equipmentHistoryColumn4 {
+		width: 130px;
+		text-align: left;
+	}
+
+	.equipmentHistoryColumn5 {
+		width: 150px;
+		text-align: left;
+	}
+
+	.equipmentHistoryColumn6 {
+		width: 100px;
+		text-align: left;
+	}
+
+	.equipmentHistoryColumn7 {
+		width: 80px;
+	}
+
+	.equipmentHistoryColumn8 {
+		width: 70px;
+	}
+
+	.equipmentHistoryColumn9 {
+		width: 80px;
+	}
+
+	.equipmentHistoryColumn10 {
+		width: 80px;
+	}
+
+	.equipmentHistoryColumn11 {
+		width: 100px;
+		text-align: left;
+		padding-left: 7px;
+		word-wrap: break-word;
+	}
+
+	.equipmentHistoryHeaderColumn1 {
+		width: 150px;
+	}
+
+	.equipmentHistoryHeaderColumn2 {
+		width: 30px;
+		text-align: center;
+	}
+
+	.equipmentHistoryHeaderColumn3 {
+		width: 30px;
+		text-align: center;
+	}
+
+	.equipmentHistoryHeaderColumn4 {
+		width: 130px;
+		text-align: center;
+	}
+
+	.equipmentHistoryHeaderColumn5 {
+		width: 150px;
+	}
+
+	.equipmentHistoryHeaderColumn6 {
+		width: 100px;
+		text-align: left;
+		padding-left: 10px;
+	}
+
+	.equipmentHistoryHeaderColumn7 {
+		width: 80px;
+	}
+
+	.equipmentHistoryHeaderColumn8 {
+		width: 70px;
+	}
+
+	.equipmentHistoryHeaderColumn9 {
+		width: 80px;
+	}
+
+	.equipmentHistoryHeaderColumn10 {
+		width: 80px;
+	}
+
+	.equipmentHistoryHeaderColumn11 {
+		width: 100px;
+		text-align: left;
+	}
+
+	/* Equipment History Filter section. */
+	.equipmentHistoryFilterRow {
+		width: 100%;
+		margin: 0 auto;
+		padding-bottom: 5px;
+	}
+
+	.equipmentHistoryFilterBlock1 {
+		width: 100px;
+		float: left;
+	}
+
+	.equipmentHistoryFilterBlock2 {
+		width: 65px;
+		float: left;
+		padding-top: 1px;
+	}
+
+	.equipmentHistoryFilterBlock3 {
+		width: 10px;
+		float: left;
+		padding-top: 4px;
+	}
+
+	.equipmentHistoryFilterBlock4 {
+		width: 150px;
+		float: left;
+	}
+
+	.equipmentHistoryFilterBlock5 {
+		width: 60px;
+		float: left;
+	}
+
+	.equipmentHistoryFilterBlock6 {
+		width: 70px;
+		float: left;
+		padding: 3px;
+	}
+
+	.equipmentHistoryFilterBlock7 {
+		width: 50px;
+		float: left;
+	}
+
+	.equipmentHistoryFilterBlock8 {
+		width: 30px;
+		float: right;
+	}
+
+	.menuSubItems {
+		background:#ffffff
+	}
+
+	.formfield input {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 12px;
+		font-style: normal;
+		line-height: normal;
+		font-weight: normal;
+		font-variant: normal;
+		text-transform: none;
+		color: #000000;
+	}
+
+	/* Map OpenLayers scale. */
+	.olControlScaleLine {
+		top: 5px;
+		left: 1060px;
+		padding: 5px
+	}
+
+	.customCheckbox input {
+		display: none;
+	}
+
+	.customCheckbox span {
+		height: 15px;
+		width: 15px;
+		padding-left: 20px;
+		padding-right: 0px;
+		padding-top: 0px;
+		padding-bottom: 0px;
+		background: url("../images/AssetMapImages/Check-box---Inactive.png") no-repeat;
+	}
+
+	.customCheckbox input:checked + span {
+		background: url("../images/AssetMapImages/Check-box-Active.png") no-repeat;
+	}
+
+	.customRadioBtn input {
+		display: none;
+	}
+
+	.customRadioBtn span {
+		height: 18px;
+		width: 18px;
+		padding-left: 20px;
+		padding-right: 0px;
+		padding-top: 0px;
+		padding-bottom: 2px;
+		background: url("../images/AssetMapImages/Radio-button-off.png") no-repeat;
+	}
+
+	.customRadioBtn input:checked + span {
+		background: url("../images/AssetMapImages/Radio-button-on.png") no-repeat;
+	}
+
+	/* The side navigation menu */
+	.sidenav {
+		height: 100%; /* 100% Full-height */
+		width: 0; /* 0 width - change this with JavaScript */
+		position: fixed; /* Stay in place */
+		z-index: 1; /* Stay on top */
+		top: 0;
+		left: 0;
+		background-color: #F9F9F9; /* white*/
+		overflow-x: hidden; /* Disable horizontal scroll */
+		padding-top: 60px; /* Place content 60px from the top */
+		transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+	}
+
+	/* The navigation menu links */
+	.sidenav a {
+		padding: 8px 8px 8px 32px;
+		text-decoration: none;
+		font-size: 25px;
+		color: #818181;
+		display: block;
+		transition: 0.3s
+	}
+
+	/* When you mouse over the navigation links, change their color */
+	.sidenav a:hover, .offcanvas a:focus{
+		color: #f1f1f1;
+	}
+
+	/* Position and style the close button (top right corner) */
+	.closebtn {
+		position: absolute;
+		top: 0;
+		right: 20px;
+		width: 20px;
+		height: 20px;
+	}
+
+	/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+	#main {
+		transition: margin-left .5s;
+		padding: 20px;
+	}
+
+	li{
+    list-style-type:none;
+	}
+	li a{
+		color: #292929;
+		text-decoration:none;
+	}
+
+/*  Loading indicator */
+#loadingIndicatorFade {
+	visibility: hidden;
+	position:absolute;
+	top: 0%;
+	left: 0%;
+	width: 100%;
+	height: 100%;
+	background-color: #ababab;
+	z-index: 1001;
+	-moz-opacity: 0.8;
+	opacity: .70;
+	filter: alpha(opacity=80);
+}
+
+#loadingIndicatorModal {
+	visibility: hidden;
+	position: absolute;
+	top: 45%;
+	left: 45%;
+	width: 64px;
+	height: 64px;
+	padding:30px 15px 0px;
+	border: 3px solid #ababab;
+	box-shadow:1px 1px 10px #ababab;
+	border-radius:20px;
+	background-color: white;
+	z-index: 1050;
+	text-align:center;
+	overflow: auto;
+}
+
+/* Investigation dialog button */
+.investigationDialogButton {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	font-weight: normal;
+	color: white;
+	background: rgb( 86,126,185);
+	line-height: normal;
+	white-space: nowrap;
+	border: 1px solid;
+	width: 80px;
+	height: 20px;
+	float: right;
+}
+
+/* The Modal (background) */
+.confirmModal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.confirmModal-content {
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 20%;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}

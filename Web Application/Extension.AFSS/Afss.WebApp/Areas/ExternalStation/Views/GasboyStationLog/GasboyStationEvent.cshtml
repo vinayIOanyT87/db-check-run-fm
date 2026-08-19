@@ -1,0 +1,173 @@
+﻿@using FuelsManager.Afss.Module.Gasboy.WebApp
+@using FuelsManager.Areas.Controllers
+
+@model FuelsManager.Afss.WebApp.Areas.ExternalStation.Models.GasboyStationEventModel
+@{
+    ViewBag.Title = "GasboyStationEvent";
+    Layout = "~/Areas/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .row {
+        max-width: 1000px;
+    }
+
+    .biggerTextBox {
+        width: 637px;
+    }
+</style>
+<div>
+    <div class="container-fluid">
+        <div class="row headline" style="padding-bottom:10px">@FMBaseController.TranslateText("Gasboy Station Event Log")</div>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.ShortDatePattern)
+            @Html.HiddenFor(m => m.TimePattern)
+
+            <div class="row">
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Log.ExternalStationID, FMBaseController.TranslateText("External Station") + ":", new { @class = "formfieldtitle" })
+                </div>
+                <div class="col-md-4 formfield">
+                    @Html.TextBoxFor(m => m.Log.ExternalStationID, new { disabled = "disabled" })
+                </div>
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Log.LogType, FMBaseController.TranslateText("Log Type") + ":", new { @class = "formfieldtitle" })
+                </div>
+                <div class="col-md-4 formfield">
+                    @{ var userFriendlyLogTypeValue = @Model.Log.LogType.EnumDisplayName();}
+                    @Html.TextBoxFor(m => userFriendlyLogTypeValue, new { disabled = "disabled" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Log.CreatedDate, FMBaseController.TranslateText("Timestamp") + ":", new { @class = "formfieldtitle" })
+                </div>
+                <div class="col-md-4 formfield">
+                    @{var formattedCreatedDate = @Model.Log.CreatedDate.ToString(Model.ShortDatePattern + " " + Model.TimePattern);}
+                    @Html.TextBoxFor(m => formattedCreatedDate, new { disabled = "disabled" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Log.ErrorClassCode, FMBaseController.TranslateText("Gasboy Error Class Code") + ":", new { @class = "formfieldtitle" })
+                </div>
+                <div class="col-md-4 formfield">
+                    @Html.TextBoxFor(m => m.Log.ErrorClassCode, new { disabled = "disabled" })
+                </div>   
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Log.ErrorCode, FMBaseController.TranslateText("Gasboy Error Code") + ":", new { @class = "formfieldtitle" })
+                </div>
+                <div class="col-md-4 formfield">
+                    @Html.TextBoxFor(m => m.Log.ErrorCode, new { disabled = "disabled" })
+                </div>  
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Log.EventID, FMBaseController.TranslateText("Gasboy Event ID") + ":", new { @class = "formfieldtitle" })
+                </div>
+                <div class="col-md-4 formfield">
+                    @Html.TextBoxFor(m => m.Log.EventID, new { disabled = "disabled" })
+                </div>
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Log.FleetID, FMBaseController.TranslateText("Gasboy Fleet ID") + ":", new { @class = "formfieldtitle" })
+                </div>
+                <div class="col-md-4 formfield">
+                    @Html.TextBoxFor(m => m.Log.FleetID, new { disabled = "disabled" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Log.EventObjectType, FMBaseController.TranslateText("Gasboy Object Type") + ":", new { @class = "formfieldtitle" })
+                </div>
+                <div class="col-md-4 formfield">
+                    @Html.TextBoxFor(m => m.Log.EventObjectType, new { disabled = "disabled" })
+                </div>
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Log.ObjectID, FMBaseController.TranslateText("Gasboy Object ID") + ":", new { @class = "formfieldtitle" })
+                </div>
+                <div class="col-md-4 formfield">
+                    @Html.TextBoxFor(m => m.Log.ObjectID, new { disabled = "disabled" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Log.Field1, FMBaseController.TranslateText("Field 1") + ":", new { @class = "formfieldtitle" })
+                </div>
+                <div class="col-md-4 formfield">
+                    @Html.TextBoxFor(m => m.Log.Field1, new { disabled = "disabled" })
+                </div>
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Log.Field2, FMBaseController.TranslateText("Field 2") + ":", new { @class = "formfieldtitle" })
+                </div>
+                <div class="col-md-4 formfield">
+                    @Html.TextBoxFor(m => m.Log.Field2, new { disabled = "disabled" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Log.Field3, FMBaseController.TranslateText("Field 3") + ":", new { @class = "formfieldtitle" })
+                </div>
+                <div class="col-md-4 formfield">
+                    @Html.TextBoxFor(m => m.Log.Field3, new { disabled = "disabled" })
+                </div>
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Log.Field4, FMBaseController.TranslateText("Field 4") + ":", new { @class = "formfieldtitle" })
+                </div>
+                <div class="col-md-4 formfield">
+                    @Html.TextBoxFor(m => m.Log.Field4, new { disabled = "disabled" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Log.Field5, FMBaseController.TranslateText("Field 5") + ":", new { @class = "formfieldtitle" })
+                </div>
+                <div class="col-md-4 formfield">
+                    @Html.TextBoxFor(m => m.Log.Field5, new { disabled = "disabled" })
+                </div>
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Log.Field6, FMBaseController.TranslateText("Field 6") + ":", new { @class = "formfieldtitle" })
+                </div>
+                <div class="col-md-4 formfield">
+                    @Html.TextBoxFor(m => m.Log.Field6, new { disabled = "disabled" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Log.Field7, FMBaseController.TranslateText("Field 7") + ":", new { @class = "formfieldtitle" })
+                </div>
+                <div class="col-md-4 formfield">
+                    @Html.TextBoxFor(m => m.Log.Field7, new { disabled = "disabled" })
+                </div>
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Log.Field8, FMBaseController.TranslateText("Field 8") + ":", new { @class = "formfieldtitle" })
+                </div>
+                <div class="col-md-4 formfield">
+                    @Html.TextBoxFor(m => m.Log.Field8, new { disabled = "disabled" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Log.DeviceName, FMBaseController.TranslateText("Device Name") + ":", new { @class = "formfieldtitle" })
+                </div>
+                <div class="col-md-10 formfield">
+                    @Html.TextBoxFor(m => m.Log.DeviceName, new { disabled = "disabled", @class = "biggerTextBox" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Log.ID, FMBaseController.TranslateText("Log Entry") + ":", new { @class = "formfieldtitle" })
+                </div>
+                <div class="col-md-10 formfield">
+                    @Html.TextAreaFor(m => m.Log.ID, 20, 116, new { disabled = "disabled" })
+                </div>
+            </div>
+            <div class="row" style="margin-top: 10px;">
+                <div class="col-md-8"></div>
+                <div class="col-md-4">
+                    <input type='button' value='@FMBaseController.TranslateText("Close")' class="formfieldtitle" onclick="window.location.href('@Url.Action("GasboyStationLogSummaryIndex", "GasboyStationLog")')" />
+                </div>
+            </div>           
+        }
+    </div>
+</div>

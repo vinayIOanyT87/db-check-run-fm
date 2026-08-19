@@ -1,0 +1,27 @@
+HKCR
+{
+	ScullyOPCObjects.PortCollection.1 = s 'PortCollection Class'
+	{
+		CLSID = s '{9C08C25E-50C2-451a-9EA3-E84C589B8074}'
+	}
+	ScullyOPCObjects.PortCollection = s 'PortCollection Class'
+	{
+		CLSID = s '{9C08C25E-50C2-451a-9EA3-E84C589B8074}'
+		CurVer = s 'ScullyOPCObjects.PortCollection.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {9C08C25E-50C2-451a-9EA3-E84C589B8074} = s 'PortCollection Class'
+		{
+			ProgID = s 'ScullyOPCObjects.PortCollection.1'
+			VersionIndependentProgID = s 'ScullyOPCObjects.PortCollection'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{C54A522F-AC93-43e5-968F-028912B1A761}'
+		}
+	}
+}

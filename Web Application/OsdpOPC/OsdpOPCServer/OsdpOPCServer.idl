@@ -1,0 +1,102 @@
+// OsdpOPCServer.idl : IDL source for OsdpOPCServer
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (OsdpOPCServer.tlb) and marshalling code.
+
+#include "mtxattr.h"
+import "oaidl.idl";
+import "ocidl.idl";
+import "opcda.idl";
+
+
+[
+	object,
+	uuid(0b1db252-33bf-4033-bdd0-8dc5bc681599),
+	dual,
+	nonextensible,
+	helpstring("IDataAccess Interface"),
+	pointer_default(unique)
+]
+interface IDataAccess : IDispatch{
+	[id(1), helpstring("method GetRecordSet")] HRESULT GetRecordSet(BSTR bstrSQL, [out,retval] IDispatch** ppRecordSet);
+	[id(2), helpstring("method ExecuteQuery")] HRESULT ExecuteQuery(BSTR bstrSQL);
+};
+[
+	object,
+	uuid(b58ddcab-a2fe-4b97-b751-91bea67cd03c),
+	dual,
+	nonextensible,
+	helpstring("IOsdpControllers Interface"),
+	pointer_default(unique)
+]
+interface IOsdpControllers : IDispatch{
+	[id(1), helpstring("method Enumerate")] HRESULT Enumerate([out,retval] IDispatch** ppOsdpControllerCollection);
+	[id(2), helpstring("method Add")] HRESULT Add([in] IDispatch* pOsdpController,[out,retval] LONG* pIndex);
+	[id(3), helpstring("method Modify")] HRESULT Modify([in] IDispatch* pOsdpController);
+	[id(4), helpstring("method Purge")] HRESULT Purge([in] LONG lIndex);
+	[id(5), helpstring("method GetIndex")] HRESULT GetIndex([in] BSTR bstrID, [out,retval] LONG* pIndex);
+	[id(6), helpstring("method Get")] HRESULT Get([in] LONG lIndex, [out,retval] IDispatch** ppOsdpController);
+};
+[
+	object,
+	uuid(148968a7-c378-4192-81d3-65f7147b6c3b),
+	dual,
+	nonextensible,
+	helpstring("IPorts Interface"),
+	pointer_default(unique)
+]
+interface IPorts : IDispatch{
+	[id(1), helpstring("method Enumerate")] HRESULT Enumerate([out,retval] IDispatch** ppCardReaderCollection);
+	[id(2), helpstring("method Add")] HRESULT Add([in] IDispatch* pCardReader,[out,retval] LONG* pIndex);
+	[id(3), helpstring("method Modify")] HRESULT Modify([in] IDispatch* pCardReader);
+	[id(4), helpstring("method Purge")] HRESULT Purge([in] LONG lIndex);
+	[id(5), helpstring("method GetIndex")] HRESULT GetIndex([in] BSTR bstrID, [out,retval] LONG* pIndex);
+	[id(6), helpstring("method Get")] HRESULT Get([in] LONG lIndex, [out,retval] IDispatch** ppCardReader);
+	[id(7), helpstring("method EnumeratePortIDs")] HRESULT EnumeratePortIDs([out,retval] VARIANT* pIDs);
+};
+[
+	uuid(de54ec82-4d1e-494d-8e70-ffac46c933c1),
+	version(1.0),
+	helpstring("OsdpOPCServer 1.0 Type Library")
+]
+library OsdpOPCServerLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(8f18745e-2e84-4a72-bd68-77ddba88e14a),
+		custom(TLBATTR_TRANS_SUPPORTED,0),
+		helpstring("DataAccess Class")
+	]
+	coclass DataAccess
+	{
+		[default] interface IDataAccess;
+	};
+	[
+		uuid(f5e1937d-316f-4a07-a31e-77f2246a1b71),
+		custom(TLBATTR_TRANS_REQUIRED,0),
+		helpstring("OsdpControllers Class")
+	]
+	coclass OsdpControllers
+	{
+		[default] interface IOsdpControllers;
+	};
+	[
+		uuid(c3d67438-1065-4ebc-abcb-9b08bfcedc5a),
+		helpstring("OPCServer Class")
+	]
+	coclass OPCServer
+	{
+		[default] interface IOPCServer;
+		interface IOPCBrowseServerAddressSpace;
+	};
+
+	[
+		uuid(61cbf9b2-19af-4532-82ae-99b6e23b6efa),
+		helpstring("Ports Class")
+	]
+	coclass Ports
+	{
+		[default] interface IPorts;
+	};
+};

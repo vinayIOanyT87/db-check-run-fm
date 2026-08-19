@@ -1,0 +1,113 @@
+﻿@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.OperateModel
+
+@{
+    ViewBag.Title = "Operate";
+    Layout = "~/Areas/Views/Shared/_Layout.cshtml";
+}
+
+@section AddToHead{
+
+
+    @Styles.Render("~/Content/operate")
+    @Scripts.Render("~/bundles/core")
+
+
+
+    <style type="text/css">
+        .gsfBackground {
+            border-color: #99ed69;
+            font-size: 15;
+            margin-bottom: 17;
+        }
+
+        .cuiDiv {
+            display: none;
+            background: #3B577F;
+            font-size: 12px;
+            line-height: 28px;
+            color: white;
+            text-align: center;
+            vertical-align: middle;
+            height: 28px;
+            position: fixed;
+            left: 0;
+            right: 0;
+            width: 100%;
+        }
+
+        .fullscreen > .cuiDiv {
+            display: block;
+        }
+
+        .cuiTopDiv {
+            top: 0;
+            z-index: -1;
+        }
+
+        .cuiBottomDiv {
+            bottom: 0;
+        }
+
+        .hamburger-menu {
+            border: 1px solid #ddd;
+        }
+    </style>
+
+    <script type="text/javascript">
+	//fmCore.debug = false;
+
+	var FMOperateIndex = FMOperateIndex || {};
+	FMOperateIndex.numberDrawings = 0;
+	FMOperateIndex.userId = '@Model.UserGuid';
+	FMOperateIndex.siteId = '@Model.SiteGuid';
+
+	FMOperateIndex.viewPointGroupsRight = '@Model.ViewPointGroupsRight';
+	FMOperateIndex.modifyPointGroupsRight = '@Model.ModifyPointGroupsRight';
+	FMOperateIndex.createPublicPointGroupsRight = '@Model.CreatePublicPointGroupsRight';
+	FMOperateIndex.modifyPublicPointGroupsRight = '@Model.ModifyPublicPointGroupsRight';
+	FMOperateIndex.createSharedPointGroupsRight = '@Model.CreateSharedPointGroupsRight';
+	FMOperateIndex.modifySharedPointGroupsRight = '@Model.ModifySharedPointGroupsRight';
+	FMOperateIndex.pointgroupreportgeneration = '@Model.pointgroupreportgeneration';
+
+	FMOperateIndex.isTabGroupEnabled = @Json.Encode(Model.IsTabGroupEnabled);
+	FMOperateIndex.MaxOperateTabsAllowed = @Json.Encode(Model.MaxOperateTabsAllowed);
+
+	FMOperateIndex.viewMovementSummaryRight = '@Model.ViewMovementSummaryRight';
+    FMOperateIndex.modifyMovementSummaryRight = '@Model.ModifyMovementSummaryRight';
+    FMOperateIndex.createPublicMovementSummaryRight = '@Model.CreatePublicMovementSummaryRight';
+    FMOperateIndex.modifyPublicMovementSummaryRight = '@Model.ModifyPublicMovementSummaryRight';
+    FMOperateIndex.createSharedMovementSummaryRight = '@Model.CreateSharedMovementSummaryRight';
+    FMOperateIndex.modifySharedMovementSummaryRight = '@Model.ModifySharedMovementSummaryRight';
+
+    FMOperateIndex.modifyMovementHistoryRight = '@Model.ModifyMovementHistoryRight';
+    FMOperateIndex.viewMovementHistoryRight = '@Model.ViewMovementHistoryRight';
+
+    FMOperateIndex.isOperateViewOnlyMode = @Json.Encode(Model.IsOperateViewOnlyMode);
+
+    var FMMovementSummaryTab = FMMovementSummaryTab || {};
+
+    FMOperateIndex.baseUrl = ApplicationBaseUrl;
+
+	$(document).ready(function ()
+	{
+	});
+
+    </script>
+}
+<div class="container-fluid">
+
+    @Html.HiddenFor(model => model.SiteGuid)
+
+    @Html.HiddenFor(model => model.UserGuid)
+
+    @Html.AntiForgeryToken()
+    @{
+        //Generate FormatInfo JavaScript object in JSON format
+        var changePasswordPage = @Url.RouteUrl("ChangePasswordForm") + "?FromApplication=false&FromOperate=true";
+        var logoutPage = @Url.RouteUrl("LogoutForm");
+    }
+
+    <div id="customModalBackground" class="hidden"></div>
+    Too many Operate sessions open
+</div>

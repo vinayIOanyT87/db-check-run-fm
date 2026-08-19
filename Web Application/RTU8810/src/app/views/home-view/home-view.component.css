@@ -1,0 +1,61 @@
+.home-leftpanel {
+    display: inline-block;
+    width: 250px;
+    vertical-align: top;
+    height: calc( 100vh - 130px);
+}
+
+.home-rightpanel {
+    display: inline-block;
+    width: calc( 100% - 250px);
+    vertical-align: top;
+    height: calc( 100vh - 130px);
+    padding: 5px;
+}
+
+.homeCard {
+    display: inline-block;
+    vertical-align: top;
+    padding: 10px;
+    width: 300px;
+    font: Roboto;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+button {
+    width: 150px;
+    margin-left: 50px;
+    margin-top: 15px;
+    padding: 6px;
+}
+
+#file {
+    display: none;
+}
+
+.show {
+    opacity: 1 !important;
+}
+
+.step {
+    opacity: 0;
+    transition: .2s ease-in-out all;
+    position: absolute;
+}
+
+#configNotifications {
+    margin-left: 50px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.buttonTextClass {
+    font-family: Roboto;
+    font-size: 13px;
+    border-radius: 3px;
+}
+
+button.close {
+  width: 45px;
+}

@@ -1,0 +1,27 @@
+HKCR
+{
+	OptomuxOPCObjects.OptomuxController.1 = s 'OptomuxController Class'
+	{
+		CLSID = s '{E7E70A48-7A25-4E15-A8B9-BDCD55254A92}'
+	}
+	OptomuxOPCObjects.OptomuxController = s 'OptomuxController Class'
+	{
+		CLSID = s '{E7E70A48-7A25-4E15-A8B9-BDCD55254A92}'
+		CurVer = s 'OptomuxOPCObjects.OptomuxController.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {E7E70A48-7A25-4E15-A8B9-BDCD55254A92} = s 'OptomuxController Class'
+		{
+			ProgID = s 'OptomuxOPCObjects.OptomuxController.1'
+			VersionIndependentProgID = s 'OptomuxOPCObjects.OptomuxController'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{F6F29101-4C9B-4480-BFF1-683397E8ADBA}'
+		}
+	}
+}

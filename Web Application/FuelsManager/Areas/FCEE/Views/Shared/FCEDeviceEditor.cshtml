@@ -1,0 +1,279 @@
+﻿@using Varec.CommonComponents.EngineeringUnitsLibrary
+@using FMBusinessObjects.DataObjects
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.FCEE.Controllers
+@using System.Text.Encodings.Web
+@model FuelsManager.Areas.FCEE.ViewModels.FCEDeviceEditorModel
+
+<style>
+    #FCEDeviceEditorDivScroll {
+        padding-top: 15px;
+        height: calc(100vh - 250px);
+        margin-bottom: 0px !important;
+    }
+
+        #FCEDeviceEditorDivScroll .collapse {
+            padding-bottom: 15px;
+        }
+
+
+        #FCEDeviceEditorDivScroll .btn-toolbar {
+            margin-left: 0px;
+        }
+
+        #FCEDeviceEditorDivScroll .separator-label {
+            color: #b2b2b2;
+        }
+
+    .FCEDeviceeditorsectionhorizontalline {
+        margin-left: 175px;
+        margin-right: 50px;
+        margin-bottom: 35px;
+        top: 10px;
+        border-bottom-style: solid;
+        height: 10px;
+        border-width: thin;
+        border-color: rgb(153,153,153);
+    }
+
+    .settingsection a[aria-expanded=true] .expand-icon {
+        width: 24px;
+        height: 25px;
+        background-image: url('~/fmwebapp/images/Selection Up.png');
+    }
+
+    .settingsection a[aria-expanded=false] .expand-icon {
+        width: 24px;
+        height: 25px;
+        background-image: url('~/fmwebapp/images/Selection Down.png');
+    }
+
+    .settingsection a:focus {
+        outline: none;
+    }
+
+    #editor {
+        min-height: 500px;
+    }
+
+    .ui-dialog {
+        z-index: 1070;
+    }
+
+
+    /* This is for making the controls have a red border when in error. */
+    .has-error .form-control {
+        border-color: red;
+        border-width: 3px;
+    }
+
+        /* This is for making the controls have a red border when in error. */
+        .has-error .form-control:focus {
+            border-color: red;
+            border-width: 3px;
+        }
+
+    /* This is for making the controls have a red border when in error. */
+    .has-error .ace_editor {
+        border-color: red;
+        border-width: 3px;
+        border-style: solid;
+    }
+
+        /* This is for making the controls have a red border when in error. */
+        .has-error .ace_editor:focus {
+            border-color: red;
+            border-width: 3px;
+            border-style: solid;
+        }
+
+
+    .FuelsManager-table-header th {
+        color: rgb(153,153,153);
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-weight: bold;
+        line-height: 30px;
+        border-width: 1px;
+    }
+
+    .booleanImgSelect.disabled {
+        cursor: not-allowed;
+    }
+
+    .deleteImg.disabled {
+        cursor: not-allowed;
+    }
+
+    .disabled {
+        cursor: not-allowed;
+    }
+
+    input[type='checkbox'] {
+        transform: scale(1.4);
+    }
+
+    .required::before {
+        content: "*";
+        color: crimson;
+        margin-right: 5px;
+        vertical-align: super;
+    }
+
+	.notrequired::before {
+		content: "*";
+		color: white;
+		margin-right: 5px;
+		vertical-align: super;
+	}
+
+</style>
+
+
+@{
+    var createButton = @FMBaseController.TranslateText("C&reate");
+    var cancelButton = @FMBaseController.TranslateText("&Cancel");
+    var addTagButton = @FMBaseController.TranslateText("&Add Tag");
+    var deleteTagButton = @FMBaseController.TranslateText("&Delete Tag");
+    var addSettingButton = @FMBaseController.TranslateText("A&dd Setting");
+    var deleteSettingButton = @FMBaseController.TranslateText("Delete Setting");
+}
+@Html.Hidden("FCEDeviceAction", @Url.Action("SaveFCEDevice", "FCEDeviceEditor"))
+
+@Html.Hidden("FCEDeviceGuid", @Model.fceDevice.FCEDeviceGuid.ToString())
+
+<div class="form-group col-sm-4 col-md-4">
+    <label class="control-label" for="FCEDeviceName">@FMBaseController.TranslateText("FCEDeviceEditor|IMEI Number")</label>
+    <div class="form-group col-sm-12 col-md-12 formfieldtitle required">@Html.TextBoxFor(m => m.fceDevice.ImeiNumber, new { type = "text", maxlength = "15", required = "true", pattern = "[0-9]{15,15}", title = "Must be 15 digits" })</div>
+</div>
+<div class="form-group col-sm-4 col-md-4">
+    <label class="control-label" for="MEFCEDeviceDescription">@FMBaseController.TranslateText("FCEDeviceEditor| Friendly Name")</label>
+    <div class="form-group col-sm-12 col-md-12">
+        @Html.TextBoxFor(m => m.fceDevice.FriendlyName, new { type = "text", maxlength = "30", pattern = "[0-9a-zA-Z_\\-\\s']{0,30}", title = "Valid characters are alphanumeric, space, '_', '-', and '''" })
+        @Html.TextBoxFor(m => m.fceDevice.FCEDeviceGuid, new { type = "hidden", })
+        @Html.TextBoxFor(m => m.fceDevice.SiteGuid, new { type = "hidden", })
+    </div>
+</div>
+<div class="form-group col-sm-4 col-md-4">
+    <label>Push Configuration</label>
+    <div class="form-group col-sm-10 col-md-10">
+        @Html.CheckBoxFor(m => m.fceDevice.ConfigReady)
+    </div>
+</div>
+<div class="row">
+    <div id="FCEDeviceEditorDivScroll" class="col-md-12">
+        <div class="row settingsection">
+
+            <span class="pull-left separator-label">@FMBaseController.TranslateText("FCEDeviceEditor|Configuration Settings")</span>
+
+            <div class="FCEDeviceeditorsectionhorizontalline"></div>
+        </div>
+
+        <div id="fceDeviceSettings" class="row collapse in" aria-expanded="true">
+            <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                <table id="FCEDeviceSettingsTable" class="table table-striped table-responsive table-hover FuelsManager-table-header">
+                    <tbody>
+                        <tr>
+                            <td class="col-md-4 text-left" style="overflow: auto; white-space: nowrap">
+                                <label>MinTime</label>
+                            </td>
+                            <td class="col-md-4 text-left" style="overflow: auto; white-space: nowrap" title="Valid Range: 0 - 1440">
+                                <div class="formfieldtitle required">@Html.TextBoxFor(m => m.fceDevice.MinTime, new { required = "true", type = "number", min = "0", step = "1", max = "1440" })</div>
+                            </td>
+                            <td class="col-md-4 text-left" style="overflow: auto; white-space: nowrap">
+                                <label>MaxTime</label>
+                            </td>
+                            <td class="col-md-4 text-left" style="overflow: auto; white-space: nowrap" title="Valid Range: 0 - 1440">
+                                <div class="formfieldtitle required">@Html.TextBoxFor(m => m.fceDevice.MaxTime, new { required = "true", type = "number", min = "0", step = "1", max = "1440" })</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4 text-left" style="overflow: auto; white-space: nowrap">
+                                <label>LevelDeadband</label>
+                            </td>
+                            <td class="col-md-4 text-left" style="overflow: auto; white-space: nowrap" title="Valid Range: -999999 - 999999">
+                                <div class="formfieldtitle required">@Html.TextBoxFor(m => m.fceDevice.LevelDeadband, new { required = "true", type = "number", step = "any", min = "-999999", max = "999999", Value = String.Format("{0:G6}", Model.fceDevice.LevelDeadband) })</div>
+                            </td>
+                            <td class="col-md-4 text-left" style="overflow: auto; white-space: nowrap">
+                                <label>TempDeadband</label>
+                            </td>
+                            <td class="col-md-4 text-left" style="overflow: auto; white-space: nowrap" title="Valid Range: -999999 - 999999">
+                                <div class="formfieldtitle required">@Html.TextBoxFor(m => m.fceDevice.TempDeadband, new { required = "true", type = "number", step = "any", min = "-999999", max = "999999", Value = String.Format("{0:G6}", Model.fceDevice.TempDeadband) })</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4 text-left" style="overflow: auto; white-space: nowrap">
+                                <label>Heartbeat</label>
+                            </td>
+                            <td class="col-md-4 text-left" style="overflow: auto; white-space: nowrap" title="Valid Range: 0 - 60">
+                                <div class="formfieldtitle required">@Html.TextBoxFor(m => m.fceDevice.Heartbeat, new { required = "true", type = "number", min = "0", step = "1", max = "60" })</div>
+                            </td>
+                            <td class="col-md-4 text-left" style="overflow: auto; white-space: nowrap">
+                                <label>TLStanks</label>
+                            </td>
+                            <td class="col-md-4 text-left" style="overflow: auto; white-space: nowrap" title="Valid Range: 1 - 16">
+                                <div class="formfieldtitle required">@Html.TextBoxFor(m => m.fceDevice.TLStanks, new { required = "true", type = "number", min = "1", step = "1", max = "16" })</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4 text-left" style="overflow: auto; white-space: nowrap">
+                                <label>ModbusMap</label>
+                            </td>
+                            <td class="col-md-4 text-left" style="overflow: auto; white-space: nowrap" title="Valid Range: 0 - 15">
+                                <div class="formfieldtitle required">@Html.TextBoxFor(m => m.fceDevice.ModbusMap, new { required = "true", type = "number", min = "0", step = "1", max = "16" })</div>
+                            </td>
+                            <td class="col-md-4 text-left" style="overflow: auto; white-space: nowrap">
+                                <label>MidnightOffset</label>
+                            </td>
+                            <td class="col-md-4 text-left" style="overflow: auto; white-space: nowrap" title="Valid Range: 0 - 1439">
+                                <div class="formfieldtitle required">@Html.TextBoxFor(m => m.fceDevice.MidnightOffset, new { required = "true", type = "number", min = "0", step = "1", max = "1439" })</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4 text-left" style="overflow: auto; white-space: nowrap">
+                                <label>ShortDeadband</label>
+                            </td>
+                            <td class="col-md-4 text-left" style="overflow: auto; white-space: nowrap" title="Valid Range: -999999 - 999999">
+                                <div class="formfieldtitle required">@Html.TextBoxFor(m => m.fceDevice.ShortDeadband, new { required = "true", type = "number", step = "any", min = "-999999", max = "999999", Value = String.Format("{0:G6}", Model.fceDevice.ShortDeadband) })</div>
+                            </td>
+                            <td class="col-md-4 text-left" style="overflow: auto; white-space: nowrap">
+                                <label>ShortTime</label>
+                            </td>
+                            <td class="col-md-4 text-left" style="overflow: auto; white-space: nowrap" title="Valid Range: 0 - 1439">
+                                <div class="formfieldtitle required">@Html.TextBoxFor(m => m.fceDevice.ShortTime, new { required = "true", type = "number", min = "0", step = "1", max = "1439" })</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4 text-left" style="overflow: auto; white-space: nowrap">
+                                <label>LongDeadband</label>
+                            </td>
+                            <td class="col-md-4 text-left" style="overflow: auto; white-space: nowrap" title="Valid Range: -999999 - 999999">
+                                <div class="formfieldtitle required">@Html.TextBoxFor(m => m.fceDevice.LongDeadband, new { required = "true", type = "number", step = "any", min = "-999999", max = "999999", Value = String.Format("{0:G6}", Model.fceDevice.LongDeadband) })</div>
+                            </td>
+                            <td class="col-md-4 text-left" style="overflow: auto; white-space: nowrap">
+                                <label>LongTime</label>
+                            </td>
+                            <td class="col-md-4 text-left" style="overflow: auto; white-space: nowrap" title="Valid Range: 0 - 1439">
+                                <div class="formfieldtitle required">@Html.TextBoxFor(m => m.fceDevice.LongTime, new { required = "true", type = "number", min = "0", step = "1", max = "1439" })</div>
+                            </td>
+                        </tr>
+								<tr>
+									<td class="col-md-4  text-left" style="overflow: auto; white-space: nowrap">
+										<label>ScalerType</label>
+									</td>
+									<td class="col-md-4 text-left" style="overflow: auto; white-space: nowrap" title="Scaler Types">
+										<div class="formfieldtitle notrequired" ">@Html.DropDownList("ScalerType", new SelectList(Model.GetScalerTypeList))</div>
+									</td>
+									<td class="col-md-4 text-left" style="overflow: auto; white-space: nowrap">
+									</td>
+									<td class="col-md-4 text-left" style="overflow: auto; white-space: nowrap" title="">
+										<div class="formfieldtitle"></div>
+									</td>
+								</tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+

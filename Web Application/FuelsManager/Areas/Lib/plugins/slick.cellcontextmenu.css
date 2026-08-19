@@ -1,0 +1,108 @@
+﻿/* Menu */
+.slick-cellcontext-menu {
+	position: absolute;
+	display: inline-block;
+	margin: 0;
+	padding: 10px;
+	cursor: default;
+	border: 1px solid silver;
+	background-color: white !important;
+	-moz-box-shadow: 2px 2px 2px silver;
+	-webkit-box-shadow: 2px 2px 2px silver;
+	width: 250px;
+	z-index: 20;
+	line-height: 30px;
+}
+
+/* Menu items */
+.slick-cellcontext-menuitem {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	cursor: pointer;
+	padding: 2px 4px;
+	border: 1px solid transparent;
+	border-radius: 0px;
+	color: rgb( 34, 34, 34);
+	width: 100%;
+	display: inline-block;
+	height: 40px;
+}
+
+.slick-cellcontext-menuicon {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+  margin-right: 15px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  font-size: 12px;
+}
+
+.slick-cellcontext-menuitem .caret {
+	float: right;
+	margin-top: 12px;
+}
+
+.slick-cellcontext-menucontent {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+
+/* Disabled */
+.slick-cellcontext-menuitem-disabled,
+.slick-cellcontext-menuitem-disabled .slick-cellcontext-menuitem 
+ {
+	color: rgb(140, 140, 140);
+	border-color: transparent !important;
+	background: inherit !important;
+}
+
+.slick-cellcontext-menuitem:hover {
+	background: rgb(240, 240, 240);
+}
+
+.slick-cellcontext-menu .dropdown-submenu {
+	position: relative;
+}
+	.slick-cellcontext-menu .dropdown-submenu > .dropdown-menu {
+		top: 0;
+		left: 100%;
+		margin-top: -6px;
+		margin-left: -1px;
+		padding: 10px;
+		cursor: default;
+		border: 1px solid silver;
+		background-color: white !important;
+		-moz-box-shadow: 2px 2px 2px silver;
+		-webkit-box-shadow: 2px 2px 2px silver;
+		width: 185px;
+		z-index: 20;
+	}
+	.slick-cellcontext-menu .dropdown-submenu:hover > .dropdown-menu {
+		display: block;
+		-webkit-border-radius: 0px;
+		-moz-border-radius: 0px;
+		border-radius: 0px;
+	}
+
+	.slick-cellcontext-menu .dropdown-submenu:hover > a:after {
+		border-left-color: #ffffff;
+	}
+	.slick-cellcontext-menu .dropdown-submenu.pull-left {
+		float: none;
+	}
+	.slick-cellcontext-menu .dropdown-submenu.pull-left > .dropdown-menu {
+		left: -100%;
+		margin-left: 10px;
+		-webkit-border-radius: 0px;
+		-moz-border-radius: 0px;
+		border-radius: 0px;
+	}
+
+		.slick-cellcontext-menu .dropdown-submenu.pull-up > .dropdown-menu {
+			top: inherit;
+			bottom: 0;
+	}

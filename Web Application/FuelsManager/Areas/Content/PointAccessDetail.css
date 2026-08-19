@@ -1,0 +1,427 @@
+﻿	.loadingDiv {
+		position: absolute;
+		padding: 0;
+		margin: 0;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(255, 255, 255, 0.7);
+		z-index: 10000;
+	}
+
+		.loadingDiv img {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			margin: -60px 0px 0px -60px;
+			z-index: 10000;
+		}
+
+	.mainPage {
+		padding-left: 0px !important;
+	}
+
+	#accordion {
+		list-style:none;
+		margin:10px 0;
+		padding:0;
+		overflow:hidden;
+		height: calc( 100vh - 90px);
+	}
+	.panel-pag {
+		float:left;
+		display:block;
+		height:calc( 100vh - 90px );
+		overflow:hidden;
+		color:#666666;
+		text-decoration:none;
+		font-size:14px;
+		line-height: 1.5em;
+		background-color: #fff;
+		border: 1px solid transparent;
+		box-shadow: 0 1px 1px rgba(0,0,0,.05);
+		padding-top: 5px;
+	}
+
+.point-name, .setting-name, .alarmtest-name, .template-name, .tag-name {
+	word-break: break-word;
+	}
+
+.point-template-name, .setting-template-name, .tag-template-name, .alarmtest-template-name {
+	font-size: 10px;
+	font-style: italic;
+	position: absolute;
+	bottom: -2px;
+	left: 15px;
+	width: calc( 100% - 25px);
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	display: inline-block;
+}	
+
+.panel-pag.active .point-name {
+	width: calc( 100% - 30px);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+	 display: inline-block;
+}
+.panel-pag.active .setting-name {
+	 width: calc( 100% - 55px);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;	
+	 display: inline-block;
+}
+
+.panel-pag.active .tag-name {
+	 width: calc( 100% - 120px);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+	 display: inline-block;
+}
+
+.panel-pag.active .alarmtest-name {
+	 width: calc( 100% - 55px);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;	
+	 display: inline-block;
+}
+
+.panel-pag .point-template-checkboxes, .panel-pag .point-template-header-checkboxes {
+	display: none
+}
+.panel-pag.active .point-template-checkboxes, .panel-pag.active .point-template-header-checkboxes {
+	display: inline-block;
+}
+
+.panel-pag .list-group-item {
+	border-radius: 0px;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px solid #ddd !important;
+	border-top: 1px solid #ddd !important;
+}
+
+.unselected {
+color: #bbb;
+}
+
+#PAGmenu {
+    margin-top: 10px;
+    margin-bottom: 8px;
+    color: rgb( 128, 128, 128);
+}
+
+#PointDetailTitle {
+	padding-left: 0px;	
+}
+
+#PointDetailTitle img{
+	width: 29px;	
+}
+
+#PointDetailTitle h2 {
+    display: inline;
+    line-height: 100%;
+    vertical-align: middle;
+    padding-left: 10px;
+    color: rgb( 102, 102, 102);
+}
+
+#PEMenuItems > li {
+    padding-right: 35px;
+    padding-left: 0px;
+    cursor: pointer;
+}
+
+.PointDetailMenuItem span {
+    padding-right: 5px;
+}
+
+#PAGMenuItems .active {
+	color: #567eb9;
+}
+
+#PAGMenuItems {
+	padding-top: 5px;
+   margin-bottom: 0px;
+}
+
+#PAGMenuItems li, #AddPointAccessGroupToUserGroup{
+	cursor: pointer;
+}
+
+.filter-box {
+	width: 100%;
+}
+
+.filter-box-addon
+{
+    background: transparent !important;
+    border-style: solid;
+    border-radius: 20px;
+    border-width: 1px;
+    border-color: #567eb9;
+}
+
+.filter-box-addon img{
+    position: absolute;
+    padding-top: 8px;
+    padding-right: 7px;
+    pointer-events: none;
+    top: 0px;
+    right: 0px;
+}
+
+.filter-box-form-control:focus {
+	outline: none;
+}
+
+.filter-box-form-control {
+    border-style: none;
+    background-color: transparent;
+    box-shadow: none;
+    display: block;
+    width: 100%;
+    height: 30px;
+    padding-top: 0px;
+    font-weight: normal !important;
+    padding-left: 10px;
+    padding-right: 25px;
+    padding-top: 0px;
+	 color: #567eb9;
+}
+
+::-webkit-input-placeholder {
+   font-style: italic;
+	font-size: 12px;
+	color: #567eb9;
+}
+
+:-moz-placeholder {
+   font-style: italic;
+	font-size: 12px;
+	color: #567eb9;
+}
+
+::-moz-placeholder {
+   font-style: italic;
+	font-size: 12px;
+	color: #567eb9;
+}
+
+:-ms-input-placeholder {
+   font-style: italic;
+	font-size: 12px;
+	color: #567eb9;
+}
+
+.panelContent ul {
+	overflow-y: auto;
+}
+
+.panel-header {
+	color: #567eb9;
+	font-size: 16px;	
+	padding: 5px 0px;
+}
+
+
+.column-header-checkbox input[type="checkbox"] + span::before {
+	border: solid 1px #567eb9;
+}
+									
+	input[type="checkbox"] + span::before
+	{
+		display: inline-block;
+		vertical-align: middle;
+		content: "";
+		width: 16px;
+		height: 16px;
+		margin: 0 4px 0 0;
+		border: solid 1px rgb(193,193,193);
+		line-height: 14px;
+		text-align: center;
+		-moz-border-radius: 2px;
+		-webkit-border-radius: 2px;
+		border-radius: 2px;
+	}
+
+	input[type="checkbox"].partial + span::before
+	{
+		background-color: rgb( 196, 207, 225);
+		font-size: 12px;
+		content: "\2714";
+		font-weight: normal;
+	}
+
+	input[type="checkbox"]:checked + span::before
+	{
+		content: "\2714";
+		font-size: 12px;
+		font-weight: normal;
+	}
+	
+	input[type="checkbox"].disabled + span::before
+	{
+		background-color: #f0f0f0;
+		font-size: 12px;
+		content: "";
+		font-weight: normal;
+		cursor: not-allowed;
+	}
+
+	.panelContent ul li:hover input[type="checkbox"].disabled + span::before {
+		background-color: rgb( 196, 207, 225);		
+	}
+
+	.panelContent ul li:hover, #userTable tbody tr:hover {
+		 background-color: rgb( 196, 207, 225);
+		 background-repeat: no-repeat;
+	}
+
+	
+.point-template-checkboxes {
+	position:absolute;
+	right: 5px;
+}
+
+	.column-header-checkbox {
+		display: table-row;
+		width: 100%;
+		text-align: center;
+	}
+	.column-header-checkbox-label {
+		display: table-row;
+		font-size: 9px; 
+		line-height: 9px;
+		text-align: center;
+	}
+
+	.column-header-checkbox-group {
+		display: inline-table;		
+		min-width: 30px;
+		color: #567eb9;
+	}
+
+	.filter-extra {
+		width: 100%;
+		height: 40px;
+	}
+
+	#backbutton {
+		font-size: 25px;
+		vertical-align: middle;
+		padding-right: 4px;
+	}
+
+	.back-control:hover img {
+		display: none;
+	}
+
+	.back-control:hover #backbutton {
+		display: inline !important;
+		cursor: pointer;
+	}
+
+#PAGFilterPointAccessGroups i:hover, .pointgroupnamefilter:hover {
+    color: #d9edf7;
+}
+
+.pointgroupnamefilter, #AddPointAccessGroupSelectionTableBody .PointAccessGroupSelectColumn {
+	cursor: pointer;
+}
+
+#PAGFilterPointAccessGroups .remove {
+  vertical-align: middle;
+  top: 0;
+}
+#PAGFilterPointAccessGroups i {
+  margin: 0 0 0 .6em;
+  cursor: pointer;
+}
+#PAGFilterPointAccessGroups i .glyphicon-white {
+  color: #fff;
+  margin-bottom: 2px;
+}
+
+#PAGSecurity span {
+    background-image: url("../../fmwebapp/images/PointAccessGroupsGray.png");
+	 padding: 0px 10px;
+    margin-right: 8px;
+	 background-repeat: no-repeat;
+    background-size: 20px;
+}
+
+#PAGSecurity.active span {
+    background-image: url("../../fmwebapp/images/PointAccessGroupsBlue.png");
+}
+
+#PAGUserGroups span {
+    background-image: url("../../fmwebapp/images/UserGroupsGray.png");
+	 padding: 0px 11px;
+    margin-right: 8px;
+	 background-repeat: no-repeat;
+    background-size: 22px;
+}
+
+#PAGUserGroups.active span {
+    background-image: url("../../fmwebapp/images/UserGroupsBlue.png");
+}
+
+#PAGUsers span {
+    background-image: url("../../fmwebapp/images/UserGray.png");
+	 padding: 0px 8px;
+    margin-right: 8px;
+	 background-repeat: no-repeat;
+    background-size: 17px;
+}
+
+#PAGUsers.active span {
+    background-image: url("../../fmwebapp/images/UserBlue.png");
+}
+
+.pointgroupfilter {
+	background-color: rgb(193, 193, 193);
+}
+.pointgroupfilter.active {
+	background-color: #337ab7;
+}
+
+#sectionaccessrights.readonly input[type=checkbox] + span {
+	cursor: not-allowed;
+}
+
+#PointAccessGroupSelectionModal {
+	color: #666666;
+}
+
+#AddPointAccessGroupSelection tbody > tr.selected, #AddPointAccessGroupSelection tbody > tr > .selected {
+	color: white;
+}
+
+
+.PointAccessGroupSelectionHeader button {
+	 position: absolute;
+    top: 22px;
+    right: 25px;
+	 z-index: 1061;
+}
+
+#sectionuser {
+	padding-top: 10px;
+}
+
+.ui-dialog {
+	z-index: 1050;
+}
+
+.ui-widget-overlay {
+	z-index: 1049;
+}
+

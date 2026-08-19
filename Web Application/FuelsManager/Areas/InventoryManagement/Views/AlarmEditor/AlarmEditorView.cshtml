@@ -1,0 +1,749 @@
+﻿@using System.Globalization
+@using System.Web.Mvc.Html
+@using FMBusinessObjects.DataObjects
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.AlarmEditorModel
+<style>
+    .booleanImgSelect.disabled {
+        cursor: not-allowed;
+    }
+
+    .disabledCursor {
+        cursor: not-allowed !important;
+    }
+
+</style>
+<link href="~/Areas/Content/AlarmEditor.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Content/select2.min.css" rel="stylesheet" type="text/css" />
+
+<script src="~/Areas/Lib/select2.js"></script>
+<script src="~/Areas/Scripts/FMCommon.js"></script>
+<script src="~/Areas/Lib/bootstrap-modal.js"></script>
+<script src="~/Areas/Lib/bootstrap-modalmanager.js"></script>
+<script src="~/Areas/Scripts/AlarmTestEquationEditor.js"></script>
+<script src="~/Areas/Lib/jquery.numeric.js"></script>
+<script src="~/Areas/Lib/math.js"></script>
+<script src="~/Areas/Lib/NumberFormat.js"></script>
+<script src="~/Areas/Scripts/fmformatvalues.js"></script>
+
+@{
+    var numberFormatInfoString = String.Format("{{{0}" + "\"NegativeSign\":\"{1}\",{0}" + "\"NumberDecimalDigits\":{2},{0}" + "\"NumberDecimalSeparator\":\"{3}\",{0}" + "\"NumberGroupSeparator\":\"{4}\",{0}" + "\"NumberGroupSizes\":{5},{0}" + "\"NumberNegativePattern\":{6},{0}" + "\"ShortDatePattern\":\"{7}\"{0}}}", Environment.NewLine, "-", 0, Model.NumberDecimalSeparator, Model.NumberGroupSeparator, Model.NumberGroupSizes[0], 1, Model.ShortDatePattern);
+    var PointModifyDisable = (@Model.HasPointEditRight) ? "" : "disabled='disabled'";
+    var PointModifyCursorDisable = (@Model.HasPointEditRight) ? "" : "disabledCursor";
+}
+@Html.Hidden("alarmEditorNumberFormatInfo", numberFormatInfoString)
+@Html.Hidden("urlGetGraphicNames", @Url.Action("GetDrawingNames", "Draw"))
+@Html.Hidden("urlAlarmEditorEditValue", @Url.Action("EditValue", "EditValue"))
+@Html.Hidden("urlGetAlarmTestEquationEditor", @Url.Action("GetAlarmTestEquationEditor", "AlarmTestEquationEditor"))
+@Html.Hidden("urlUpdateAlarmTest", @Url.Action("AlarmEditorUpdateAlarmTest", "AlarmEditor"))
+@Html.Hidden("AlarmEditorModel", AlarmEditorController.SerializeModel(Model))
+@Html.Hidden("PointModifyRight", @Model.HasPointEditRight)
+@Html.Hidden("ExpandDataDictionary", FMBaseController.TranslateText("Expand"))
+@Html.Hidden("CollapseDataDictionary", FMBaseController.TranslateText("Collapse"))
+<div id="alarmEditorOutterDiv" class="table" style="height: calc(100vh - 80px)">
+    <div id="expandContractButton" class="expandContractButtonClass" onclick="javascript: return AlarmEditor.ContractEnabledAlarms(this);">
+        <Span style="vertical-align: middle; padding: 0; border: 0;">
+            <img src="~/fmwebapp/images/minus.png" class="expandContractButtonImageClass" alt=@FMBaseController.TranslateText("ExpandContract") />
+        </Span>
+        @FMBaseController.TranslateText("Collapse")
+    </div>
+    <table id="alarmTagsTable" class="alarmTagsTable">
+        <thead class="tableHeaderFormating">
+            <tr class="rowBorder">
+                <th class="tagExpand col-sm-2 col-md-2 text-center tagRowTd"></th>
+                <th class="tagName col-sm-2 col-md-2 text-left tagRowTd"></th>
+                <th class="tagHysteresis col-sm-2 col-md-2 text-center tagRowTd">@FMBaseController.TranslateText("Deadband")</th>
+                <th class="alarmsEnabledHeader col-sm-2 col-md-2 text-left tagRowTd">@FMBaseController.TranslateText("Enabled")</th>
+                <th class="alarmsEnabledHeader col-sm-2 col-md-2 text-left tagRowTd">@FMBaseController.TranslateText("Notify")</th>
+            </tr>
+        </thead>
+        <tbody id="alarmTagsTableBody">
+            @{
+                foreach (var tag in Model.Tags)
+                {
+                    var tagRowId = "TagRow_" + tag.PointTagGuid;
+                    var alarmRowId = "AlarmRow_" + tag.PointTagGuid;
+                    var alarmRowTdId = "AlarmRowTd_" + tag.PointTagGuid;
+                    var tableId = "alarmsTable_" + tag.PointTagGuid;
+                    var tableBodyId = "alarmsTableBody_" + tag.PointTagGuid;
+                    var tagExpandId = "TagExpand_" + tag.PointTagGuid;
+                    var tagNameId = "TagName_" + tag.PointTagGuid;
+                    //(Eric Simmons - 8-11-2017) Make sure to fix this code call once we implement custom templates.
+                    var fromStandardTemplate = FMBusinessObjects.Constants.Guids.VerticalTankTemplateGuid == Model.PointTemplateGuid;
+                    var hysteresisId = "Hysteresis_" + tag.PointTagGuid;
+                    var hysteresisInputId = "HysteresisInput_" + tag.PointTagGuid;
+                    var alarmsEnableToggleId = "AlarmsEnableToggle_" + tag.PointTagGuid;
+                    var alarmsEnableToggleImgId = "AlarmsEnableToggleImg_" + tag.PointTagGuid;
+                    var tagAlarmsNotifyToggleId = "TagAlarmsNotifyToggle_" + tag.PointTagGuid;
+                    var tagAlarmsNotifyToggleImgId = "TagAlarmsNotifyToggleImg_" + tag.PointTagGuid;
+                    var alarmrowclassstring = "hidden rowBorder";
+                    var holdOffText = FMBaseController.TranslateText("AlarmTemplateEditor|Hold Off");
+                    bool tagAlarmsNotify = tag.Alarms.Find(x => x.Notify == true) != null;
+
+                    if (tag.AlarmsEnabled)
+                    {
+                        alarmrowclassstring = "rowBorder";
+                    }
+                        <tr id="@tagRowId" class="rowBorder tagrowTr">
+                            @if (tag.Alarms.Count > 0)
+                            {
+                                if (tag.AlarmsEnabled)
+                                {
+                                    <td id="@tagExpandId" class="tagExpand col-sm-2 col-md-2 text-right tagRowTd" onclick="javascript: return AlarmEditor.CollapseAlarms( this );"><img name="collapse" draggable="false" title="expanded" alt="expanded" src="~/fmwebapp/images/Arrow-downBl.png"></td>
+                                }
+                                else
+                                {
+                                    <td id="@tagExpandId" class="tagExpand col-sm-2 col-md-2 text-right tagRowTd" onclick="javascript: return AlarmEditor.ExpandAlarms( this );"><img name="expand" draggable="false" title="collapsed" alt="collapsed" src="~/fmwebapp/images/Arrow-rightBL.png"></td>
+                                }
+                            }
+                            else
+                            {
+                                <td id="@tagExpandId" class="tagExpand col-sm-2 col-md-2 text-right tagRowTd"></td>
+                            }
+                            <td id="@tagNameId" class="tagName col-sm-2 col-md-2 text-left tagRowTd">@tag.Id</td>
+                            <td id="@hysteresisId" class="tagHysteresis col-sm-2 col-md-2 text-center tagRowTd">
+                                <Span>
+                                    <input id=@hysteresisInputId type="text" class="alarmEditorInput" value="@tag.Hysteresis" onblur="AlarmEditor.SaveHysteresis( this )" @((PointTemplateTag.IsNumeric(@tag.DataType) && Model.HasPointEditRight) ? "" : "disabled") />
+                                </Span>
+                            </td>
+                            @if (tag.AlarmsEnabled)
+                            {
+                                <td class="alarmsEnabled col-sm-2 col-md-2 text-left tagRowTd" id="@alarmsEnableToggleId">
+                                    @if (Model.HasDisableAlarmOnPointRight)
+                                    {
+                                        <img id="@alarmsEnableToggleImgId" draggable="false" title="toggleOn" alt="toggleOn" src="~/fmwebapp/images/On.png" onclick="javascript: return AlarmEditor.DisableAlarms( this ); ">
+                                    }
+                                    else
+                                    {
+                                        <img id="@alarmsEnableToggleImgId" class="booleanImgSelect disabled" draggable="false" title="toggleOn" alt="toggleOn" src="~/fmwebapp/images/GrayToggleOnDisabled.png">
+                                    }
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="alarmsEnabled col-sm-2 col-md-2 text-left tagRowTd" id="@alarmsEnableToggleId">
+                                    @if (Model.HasEnableAlarmOnPointRight)
+                                    {
+                                        <img id="@alarmsEnableToggleImgId" draggable="false" title="toggleOff" alt="toggleOff" src="~/fmwebapp/images/Off.png" onclick="javascript: return AlarmEditor.EnableAlarms( this );">
+                                    }
+                                    else
+                                    {
+                                        <img id="@alarmsEnableToggleImgId" class="booleanImgSelect disabled" draggable="false" title="toggleOff" alt="toggleOff" src="~/fmwebapp/images/Off.png">
+
+                                    }
+                                </td>
+                            }
+                            @if (tagAlarmsNotify)
+                            {
+                                <td class="alarmsEnabled col-sm-2 col-md-2 text-left tagRowTd" id="@tagAlarmsNotifyToggleId">
+                                    @if (Model.HasNotifyAlarmOnPointRight && tag.AlarmsEnabled)
+                                    {
+                                        <img id="@tagAlarmsNotifyToggleImgId" draggable="false" title="toggleOn" alt="toggleOn" src="~/fmwebapp/images/On.png" onclick="javascript: return AlarmEditor.NotifyAlarms( this, false );">
+                                    }
+                                    else
+                                    {
+                                        <img id="@tagAlarmsNotifyToggleImgId" class="booleanImgSelect disabled" draggable="false" title="toggleOn" alt="toggleOn" src="~/fmwebapp/images/GrayToggleOnDisabled.png" />
+                                    }
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="alarmsEnabled col-sm-2 col-md-2 text-left tagRowTd" id="@tagAlarmsNotifyToggleId">
+                                    @if (Model.HasNotifyAlarmOnPointRight && tag.AlarmsEnabled)
+                                    {
+                                        <img id="@tagAlarmsNotifyToggleImgId" draggable="false" title="toggleOff" alt="toggleOff" src="~/fmwebapp/images/Off.png" onclick="javascript: return AlarmEditor.NotifyAlarms( this, true );">
+                                    }
+                                    else
+                                    {
+                                        <img id="@tagAlarmsNotifyToggleImgId" class="booleanImgSelect disabled" draggable="false" title="toggleOff" alt="toggleOff" src="~/fmwebapp/images/Off.png">
+                                    }
+                                </td>
+                            }
+                        </tr>
+                    if (tag.Alarms.Count > 0)
+                    {
+                        <tr class="@alarmrowclassstring" id="@alarmRowId">
+                            <!--<td class="alarmDummyFirstColumn col-sm-2 col-md-2 text-left"></td>-->
+                            <td id="@alarmRowTdId" class="alarmRow col-sm-2 col-md-2 text-left" colspan="5">
+                                <table id="@tableId" class="alarmAlarmsTable">
+                                    <thead class="tableHeaderFormating">
+                                        <tr class="rowBorder">
+                                            <th class="col-sm-2 col-md-2 text-left alarmDummyFirstColumn alarmRowTd firstAlarmTd"></th>
+                                            <th class="col-sm-2 col-md-2 text-left alarmRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm Name")</th>
+                                            <th class="col-sm-2 col-md-2 text-left alarmRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm Category")</th>
+                                            <th class="col-sm-2 col-md-2 text-center alarmRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Order")</th>
+                                            <th class="col-sm-2 col-md-2 text-left alarmRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm Status Tag")</th>
+                                            <th class="col-sm-2 col-md-2 text-center alarmRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Enabled")</th>
+                                            <th class="col-sm-2 col-md-2 text-center alarmRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Notify")</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="@tableBodyId">
+                                        @foreach (var alarm in tag.Alarms)
+                                        {
+                                            var alarmsTableAlarmRowId = "AlarmsTableAlarmRow_" + alarm.AlarmGuid;
+                                            var alarmsTableAlarmIdCellId = "AlarmsTableAlarmIdCellId_" + alarm.AlarmGuid;
+                                            var alarmsTableAlarmCategoryCellId = "alarmsTableAlarmCategoryCellId_" + alarm.AlarmGuid;
+                                            var alarmsTableAlarmOrderCellId = "alarmsTableAlarmOrderCellId_" + alarm.AlarmGuid;
+                                            var alarmsTableAlarmStateTagCellId = "alarmsTableAlarmStateTagCellId_" + alarm.AlarmGuid;
+                                            var alarmsTableAlarmEnabledCellId = "alarmsTableAlarmEnabledCellId_" + alarm.AlarmGuid;
+                                            var alarmsTableAlarmEnabledCellImgId = "alarmsTableAlarmEnabledCellImgId_" + alarm.AlarmGuid;
+                                            var alarmsTableAlarmNotifyCellImgId = "alarmsTableAlarmNotifyCellImgId_" + alarm.AlarmGuid;
+                                            var alarmsTableAlarmNotifyCellId = "alarmsTableAlarmNotifyCellId_" + alarm.AlarmGuid;
+                                            var alarmExpandId = "AlarmExpand_" + alarm.AlarmGuid;
+                                            var alarmTestsRowId = "AlarmTests_" + alarm.AlarmGuid;
+                                            var alarmTestsRowTdId = "AlarmTestsTd_" + alarm.AlarmGuid;
+                                            var alarmTestsTableId = "AlarmTestTable_" + alarm.AlarmGuid;
+                                            var alarmTestsTableBodyId = "AlarmTestTableBody_" + alarm.AlarmGuid;
+                                            var rowclassstring = "hidden rowBorder";
+                                            if (tag.AlarmsEnabled && alarm.Enabled)
+                                            {
+                                                rowclassstring = "rowBorder";
+                                            }
+                                            //var suppressedShelvedSprocketId = "suppressedShelvedSprocketId_" + alarm.AlarmGuid;
+
+                                            <tr id="@alarmsTableAlarmRowId" class="rowBorder alarmrowTr">
+                                                @if (alarm.AlarmTests.Count > 0)
+                                                {
+                                                    if (alarm.Enabled && tag.AlarmsEnabled)
+                                                    {
+                                                        <td class="col-sm-2 col-md-2 text-left alarmDummyFirstColumn alarmRowTd firstAlarmTd" id="@alarmExpandId" onclick="javascript: return AlarmEditor.CollapseTests(this);"><img name="contract" draggable="false" title="expanded" alt="expanded" src="~/fmwebapp/images/Arrow-downBl.png"></td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td class="col-sm-2 col-md-2 text-left alarmDummyFirstColumn alarmRowTd firstAlarmTd" id="@alarmExpandId" onclick="javascript: return AlarmEditor.ExpandTests( this );"><img name="expand" draggable="false" title="collapsed" alt="collapsed" src="~/fmwebapp/images/Arrow-rightBL.png"></td>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <td class="col-sm-2 col-md-2 text-left alarmDummyFirstColumn alarmRowTd firstAlarmTd" id="@alarmExpandId"></td>
+                                                }
+                                                <td class="col-sm-2 col-md-2 text-left alarmRowTd alarmName" style="padding-left: 5px;" id="@alarmsTableAlarmIdCellId">@alarm.Id</td>
+                                                <td class="col-sm-2 col-md-2 text-left alarmRowTd" id="@alarmsTableAlarmCategoryCellId">@alarm.Category</td>
+                                                <td class="col-sm-2 col-md-2 text-center alarmRowTd" id="@alarmsTableAlarmOrderCellId">@alarm.Order</td>
+                                                <td class="col-sm-2 col-md-2 text-left alarmRowTd" id="@alarmsTableAlarmStateTagCellId">@alarm.AlarmStatusTagId</td>
+                                                @if (alarm.Enabled)
+                                                {
+                                                    <td class="col-sm-2 col-md-2 text-center alarmRowTd" id="@alarmsTableAlarmEnabledCellId">
+                                                        @if (Model.HasDisableAlarmOnPointRight)
+                                                        {
+                                                            <img id="@alarmsTableAlarmEnabledCellImgId" draggable="false" title="toggleOn" alt="toggleOn" src="~/fmwebapp/images/On.png" onclick="javascript: return AlarmEditor.DisableAlarm( this );">
+                                                        }
+                                                        else
+                                                        {
+                                                            <img id="@alarmsTableAlarmEnabledCellImgId" class="booleanImgSelect disabled" draggable="false" title="toggleOn" alt="toggleOn" src="~/fmwebapp/images/GrayToggleOnDisabled.png" />
+                                                        }
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="col-sm-2 col-md-2 text-center alarmRowTd" id="@alarmsTableAlarmEnabledCellId">
+                                                        @if (Model.HasEnableAlarmOnPointRight)
+                                                        {
+                                                            <img id="@alarmsTableAlarmEnabledCellImgId" draggable="false" title="toggleOff" alt="toggleOff" src="~/fmwebapp/images/Off.png" onclick="javascript: return AlarmEditor.EnableAlarm( this );">
+                                                        }
+                                                        else
+                                                        {
+                                                            <img id="@alarmsTableAlarmEnabledCellImgId" class="booleanImgSelect disabled" draggable="false" title="toggleOff" alt="toggleOff" src="~/fmwebapp/images/Off.png">
+                                                        }
+                                                    </td>
+                                                }
+                                                @if (alarm.Notify)
+                                                {
+                                                    <td class="col-sm-2 col-md-2 text-center alarmRowTd" id="@alarmsTableAlarmNotifyCellId">
+                                                        @if (Model.HasNotifyAlarmOnPointRight && alarm.Enabled)
+                                                        {
+                                                            <img id="@alarmsTableAlarmNotifyCellImgId" draggable="false" title="toggleOn" alt="toggleOn" src="~/fmwebapp/images/On.png" onclick="javascript: return AlarmEditor.NotifyAlarm( this, false );">
+                                                        }
+                                                        else
+                                                        {
+                                                            <img id="@alarmsTableAlarmNotifyCellImgId" class="booleanImgSelect disabled" draggable="false" title="toggleOn" alt="toggleOn" src="~/fmwebapp/images/GrayToggleOnDisabled.png" />
+                                                        }
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="col-sm-2 col-md-2 text-center alarmRowTd" id="@alarmsTableAlarmNotifyCellId">
+                                                        @if (Model.HasNotifyAlarmOnPointRight && alarm.Enabled)
+                                                        {
+                                                            <img id="@alarmsTableAlarmNotifyCellImgId" draggable="false" title="toggleOff" alt="toggleOff" src="~/fmwebapp/images/Off.png" onclick="javascript: return AlarmEditor.NotifyAlarm( this, true );">
+                                                        }
+                                                        else
+                                                        {
+                                                            <img id="@alarmsTableAlarmNotifyCellImgId" class="booleanImgSelect disabled" draggable="false" title="toggleOff" alt="toggleOff" src="~/fmwebapp/images/Off.png">
+                                                        }
+                                                    </td>
+                                                }
+                                            </tr>
+                                            if (alarm.AlarmTests.Count > 0)
+                                            {
+                                                <tr class="@rowclassstring" id="@alarmTestsRowId">
+                                                    <td class="alarmTestRowTd col-sm-2 col-md-2 text-left" colspan="7" id="@alarmTestsRowTdId">
+                                                        <table id="@alarmTestsTableId" class="alarmTestsTable">
+                                                            <thead class="tableHeaderFormating">
+                                                                <tr class="rowBorder">
+                                                                    <th class="col-sm-2 col-md-2 text-left testRowTd firstTestTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Test Name")</th>
+                                                                    <th class="col-sm-2 col-md-2 text-center testRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Limit Tag")</th>
+                                                                    <th class="col-sm-2 col-md-2 text-center testRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Limit Value")</th>
+                                                                    <th class="col-sm-2 col-md-2 text-center testRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm State")</th>
+                                                                    <th class="col-sm-2 col-md-2 text-center testRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm Text")</th>
+                                                                    <th class="tagHysteresis col-sm-2 col-md-2 text-center tagRowTd">@holdOffText</th>
+                                                                    <th class="col-sm-2 col-md-2 text-center testRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Test")</th>
+                                                                    <!--
+                                                                    <th class="col-sm-2 col-md-2 text-center testRowTd">Hold Off</th>
+                                                                    <th class="col-sm-2 col-md-2 text-center testRowTd">Help File</th>
+                                                                    <th class="col-sm-2 col-md-2 text-center testRowTd">Graphic</th>
+                                                                    -->
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="@alarmTestsTableBodyId">
+                                                                @foreach (var test in alarm.AlarmTests.OrderBy(x => x.Order))
+                                                                {
+                                                                    var testObj = test;
+                                                                    var testRowId = "testRow_" + test.AlarmTestGuid;
+                                                                    var testNameCellId = "testNameCellId_" + test.AlarmTestGuid;
+                                                                    var testTestCellId = "testTestCellId_" + test.AlarmTestGuid;
+                                                                    var testTestCellDivId = "testTestCellDivId_" + test.AlarmTestGuid;
+                                                                    var testLimitTagCellId = "testLimitTagCellId_" + test.AlarmTestGuid;
+                                                                    var testLimitValueCellId = "testLimitValueCellId_" + test.AlarmTestGuid;
+                                                                    var testAlarmStateCellId = "testAlarmStateCellId_" + test.AlarmTestGuid;
+                                                                    var testAlarmTextCellId = "testAlarmTextCellId_" + test.AlarmTestGuid;
+                                                                    var testHoldOffCellId = "testHoldOffCellId_" + test.AlarmTestGuid;
+                                                                    var testHelpFileCellId = "testHelpFileCellId_" + test.AlarmTestGuid;
+                                                                    var testGraphicCellId = "testGraphicCellId_" + test.AlarmTestGuid;
+                                                                    var equationSprocketId = "equationSprockedId_" + test.AlarmTestGuid;
+                                                                    var helpFileSprocketId = "helpFileSprockedId_" + test.AlarmTestGuid;
+                                                                    var diagramSprockedId = "diagramSprockedId_" + test.AlarmTestGuid;
+                                                                    var holdOffInputId = "holdOffInputId_" + test.AlarmTestGuid;
+                                                                    var alarmTextInputId = "alarmTextInputId_" + test.AlarmTestGuid;
+                                                                    var alarmStateInputId = "alarmStateInputId_" + test.AlarmTestGuid;
+                                                                    var limitValueInputId = "limitValueInputId_" + test.AlarmTestGuid;
+                                                                    var limitValueInputDisable = test.LimitTagEditable == true ? "" : "disabled";
+                                                                    var holdOffId = "HoldOff_" + test.AlarmTestGuid;
+                                                                    var timedHoldOffSecondsInputId = "TimedHoldOffSecondsInput_" + test.AlarmTestGuid;
+                                                                    var timedHoldOffMinutesInputId = "TimedHoldOffMinutesInput_" + test.AlarmTestGuid;
+
+
+                                                                    <tr id="@testRowId" class="rowBorder">
+                                                                        <td id="@testNameCellId" class="col-sm-2 col-md-2 text-left testRowTd firstTestTd">@test.Id</td>
+                                                                        <td id="@testLimitTagCellId" class="col-sm-2 col-md-2 text-center testRowTd">
+                                                                            @test.LimitTagId
+                                                                        </td>
+                                                                        <td id="@testLimitValueCellId" class="col-sm-2 col-md-2 text-center testRowTd limitTagValue">
+                                                                            <label id=@limitValueInputId type="text" data-value="@test.LimitValue" class="@PointModifyCursorDisable">@test.LimitValue</label>
+                                                                            <span class="glyphicon glyphicon-pencil pull-right @PointModifyCursorDisable"></span>
+                                                                        </td>
+                                                                        <td id="@testAlarmStateCellId" title="@test.AlarmState" class="col-sm-2 col-md-2 text-center testRowTd">
+                                                                            <Span>
+                                                                                <input id=@alarmStateInputId type="text" class="alarmEditorInput" maxlength="100" value="@test.AlarmState" onkeypress="javascript: return AlarmEditor.EditStringKeyHandler();" onblur="AlarmEditor.SaveAlarmState(this)" @PointModifyDisable />
+                                                                            </Span>
+                                                                        </td>
+                                                                        <td id="@testAlarmTextCellId" title="@test.AlarmText" class="col-sm-2 col-md-2 text-center testRowTd">
+                                                                            <Span>
+                                                                                <input id=@alarmTextInputId type="text" class="alarmEditorInput" maxlength="256" value="@test.AlarmText" onkeypress="javascript: return AlarmEditor.EditStringKeyHandler();" onblur="AlarmEditor.SaveAlarmText( this )" @PointModifyDisable />
+                                                                            </Span>
+                                                                        </td>
+                                                                        <td id="@holdOffId" class="tagHysteresis col-sm-2 col-md-2 text-center tagRowTd">
+                                                                            <Span class="alarmHoldOffBorder" style="border: 1px solid #ccc !important;padding-top: 10px;padding-bottom: 8px;padding-left: 3px;padding-right: 3px;">
+                                                                                <label class="minutesSecondsFormat" style='font-family: "Helvetica Neue";font-size: 12px;font-style: normal;font-variant: normal;color: #4d4d4d;text-align: left; white-space: nowrap;font-weight: 100;'>min: </label>
+                                                                                <input id=@timedHoldOffMinutesInputId type="text" class="alarmEditorInput" style="width:50px !important" value="@test.HoldOffMinutes" maxlength="4" onblur="AlarmEditor.SaveHoldOffMinutes( this )" @PointModifyDisable />
+                                                                                <label class="minutesSecondsFormat" style='font-family: "Helvetica Neue";font-size: 12px;font-style: normal;font-variant: normal;color: #4d4d4d;text-align: left; white-space: nowrap;font-weight: 100;'>sec: </label>
+                                                                                <input id=@timedHoldOffSecondsInputId type="text" class="alarmEditorInput" style="width:30px !important" value="@test.HoldOffSeconds" maxlength="2" onblur="AlarmEditor.SaveHoldOffSeconds( this )" @PointModifyDisable />
+                                                                            </Span>
+                                                                        </td>
+                                                                        <td id="@testTestCellId" class="col-sm-2 col-md-2 text-center testRowTd">
+                                                                            <div id="@testTestCellDivId" title="@test.AlarmTestEquation" class="alarmEditorTestCell">
+                                                                                @test.AlarmTestEquation
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <!--
+                                                                        <td id="@testHoldOffCellId" class="col-sm-2 col-md-2 text-center testRowTd">
+                                                                            <Span>
+                                                                                                    <input id=@holdOffInputId type="text" style="text-align: center;" value="@test.HoldOff" onkeypress=" javascript: return AlarmEditor.EditDoubleKeyHandler(); " />
+                                                                                                </Span>
+                                                                        </td>
+                                                                        <td id="@testHelpFileCellId" title="@test.HelpFile" class="col-sm-2 col-md-2 text-center testRowTd">
+                                                                            @test.HelpFile
+                                                                            <Span style="vertical-align: middle; padding: 0; border: 0;">
+                                                                                                    <a id="@helpFileSprocketId" class="helpFileSprocket glyphicon glyphicon-cog" href='javascript:;' onclick=' AlarmEditor.EditHelpFile( this ); '></a>
+                                                                                                </Span>
+                                                                        </td>
+                                                                        <td id="@testGraphicCellId" title="@test.DrawingId" class="col-sm-2 col-md-2 text-center testRowTd">
+                                                                            @test.DrawingId
+                                                                            <Span style="vertical-align: middle; padding: 0; border: 0;">
+                                                                                                    <a id="@diagramSprockedId" class="diagramSprocket glyphicon glyphicon-cog" href='javascript:;' onclick='AlarmEditor.EditDiagram( this );'></a>
+                                                                                                </Span>
+                                                                        </td>
+                                                                        -->
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+
+    </table>
+</div>
+
+<table id="blankAlarmTag" class="hidden tagrowTr">
+    <tbody>
+        <tr id="TagRow_{}" class="rowBorder tagrowTr">
+            <td id="TagExpand_{}" class="tagExpand col-sm-2 col-md-2 text-right tagRowTd" onclick="javascript: return AlarmEditor.CollapseAlarms( this );"><img name="collapse" draggable="false" title="expanded" alt="expanded" src="~/fmwebapp/images/Arrow-downBl.png"></td>
+            <td id="TagName_{}" class="tagName col-sm-2 col-md-2 text-left tagRowTd" data-value="">TagID</td>
+            <td id="Hysteresis_{}" class="tagHysteresis col-sm-2 col-md-2 text-center tagRowTd">
+                <Span>
+                    <input id="HysteresisInput_{}" type="text" class="alarmEditorInput" data-value="" value="0" onblur="AlarmEditor.SaveHysteresis( this )" />
+                </Span>
+            </td>
+            <td class="alarmsEnabled col-sm-2 col-md-2 text-left tagRowTd" id="AlarmsEnableToggle_{}">
+                <img id="AlarmsEnableToggleImg_{}" draggable="false" title="toggleOff" alt="toggleOff" src="~/fmwebapp/images/Off.png" onclick="javascript: return AlarmEditor.EnableAlarms( this );">
+            </td>
+
+        </tr>
+        <tr class="rowBorder" id="AlarmRow_{}">
+            <td id="AlarmRowTd_{}" class="alarmRow col-sm-2 col-md-2 text-left" colspan="5">
+                <table id="alarmsTable_{}" class="table alarmAlarmsTable">
+                    <thead class="tableHeaderFormating">
+                        <tr class="rowBorder">
+                            <th class="col-sm-2 col-md-2 text-left alarmDummyFirstColumn alarmRowTd firstAlarmTd"></th>
+                            <th class="col-sm-2 col-md-2 text-left alarmRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm Name")</th>
+                            <th class="col-sm-2 col-md-2 text-left alarmRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm Category")</th>
+                            <th class="col-sm-2 col-md-2 text-center alarmRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Order")</th>
+                            <th class="col-sm-2 col-md-2 text-left alarmRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm Status Tag")</th>
+                            <th class="col-sm-2 col-md-2 text-center alarmRowTd">Enabled</th>
+                        </tr>
+                    </thead>
+                    <tbody id="alarmsTableBody_{}"></tbody>
+                </table>
+    </tbody>
+</table>
+
+<table id="blankAlarmDefinition" class="hidden">
+    <tbody>
+        <tr id="AlarmsTableAlarmRow_{}" class="rowBorder alarmrowTr" style="background-color: #f5f5f5">
+            <td class="col-sm-2 col-md-2 text-left alarmDummyFirstColumn alarmRowTd firstAlarmTd" id="AlarmExpand_{}" onclick="javascript: return AlarmEditor.CollapseTests( this );"><img name="collapse" draggable="false" title="expanded" alt="expanded" src="~/fmwebapp/images/Arrow-downBl.png"></td>
+            <td class="col-sm-2 col-md-2 text-left alarmRowTd alarmName" style="padding-left: 5px;" id="AlarmsTableAlarmIdCellId_{}"></td>
+            <td class="col-sm-2 col-md-2 text-left alarmRowTd" id="alarmsTableAlarmCategoryCellId_{}"></td>
+            <td class="col-sm-2 col-md-2 text-center alarmRowTd" id="alarmsTableAlarmOrderCellId_{}"></td>
+            <td class="col-sm-2 col-md-2 text-left alarmRowTd" id="alarmsTableAlarmStateTagCellId_{}"></td>
+            <td class="col-sm-2 col-md-2 text-center alarmRowTd" id="alarmsTableAlarmEnabledCellId_{}">
+                <img id="alarmsTableAlarmEnabledCellImgId_{}" draggable="false" title="toggleOn" alt="toggleOff" src="~/fmwebapp/images/Off.png" onclick="javascript: return AlarmEditor.DisableAlarm( this );">
+            </td>
+        </tr>
+        <tr class="rowBorder" id="AlarmTests_{}">
+            <td class="alarmTestRowTd col-sm-2 col-md-2 text-left" colspan="6" id="AlarmTestsTd_{}">
+                <table id="AlarmTestTable_{}" class="table alarmTestsTable">
+                    <thead class="tableHeaderFormating">
+                        <tr class="rowBorder">
+                            <th class="testRowTd"></th>
+                            <th class="col-sm-2 col-md-2 text-left testRowTd firstTestTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Test Name")</th>
+                            <th class="col-sm-2 col-md-2 text-center testRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Limit Tag")</th>
+                            <th class="col-sm-2 col-md-2 text-center testRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Limit Value")</th>
+                            <th class="col-sm-2 col-md-2 text-center testRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm State")</th>
+                            <th class="col-sm-2 col-md-2 text-center testRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Alarm Text")</th>
+                            <th class="tagHysteresis col-sm-2 col-md-2 text-center tagRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Hold Off")</th>
+                            <th class="col-sm-2 col-md-2 text-center testRowTd">@FMBaseController.TranslateText("AlarmTemplateEditor|Test")</th>
+                        </tr>
+                    </thead>
+                    <tbody id="AlarmTestTableBody_{}"></tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<table id="blankAlarmTestDefinition" class="hidden">
+    <tbody>
+        <tr id="testRow_{}" class="rowBorder" style="background-color: #ffffff">
+            <td id="alarmTestTableSortable_{}" class="text-right alarmtestsortcolumn"></td>
+            <td id="testNameCellId_{}" class="col-sm-2 col-md-2 text-left testRowTd firstTestTd alarmTestName"></td>
+            <td id="testLimitTagCellId_{}" class="col-sm-2 col-md-2 text-center testRowTd"></td>
+            <td id="testLimitValueCellId_{}" class="col-sm-2 col-md-2 text-center testRowTd limitTagValue">
+                <label id="limitValueInputId_{}" type="text" onkeypress="javascript: return AlarmEditor.EditStringKeyHandler();" onblur="AlarmEditor.SaveLimitValue( this )"></label>
+                <span class="glyphicon glyphicon-pencil pull-right"></span>
+            </td>
+            <td id="testAlarmStateCellId_{}" class="col-sm-2 col-md-2 text-center testRowTd alarmTestState">
+                <Span>
+                    <input id="alarmStateInputId_{}" type="text" class="alarmEditorInput" maxlength="100" onkeypress="javascript: return AlarmEditor.EditStringKeyHandler();" onblur="AlarmEditor.SaveAlarmState(this)" />
+                </Span>
+            </td>
+            <td id="testAlarmTextCellId_{}" class="col-sm-2 col-md-2 text-center testRowTd">
+                <Span>
+                    <input id="alarmTextInputId_{}" type="text" class="alarmEditorInput" maxlength="256" onkeypress="javascript: return AlarmEditor.EditStringKeyHandler();" onblur="AlarmEditor.SaveAlarmText( this )" />
+                </Span>
+            </td>
+            <td id="HoldOff_{}" class="tagHysteresis col-sm-2 col-md-2 text-center tagRowTd">
+                <Span class="alarmHoldOffBorder" style="border: 1px solid #ccc !important;padding-top: 10px;padding-bottom: 8px;padding-left: 3px;padding-right: 3px;">
+                    <label class="minutesSecondsFormat" style='font-family: "Helvetica Neue";font-size: 12px;font-style: normal;font-variant: normal;color: #4d4d4d;text-align: left; white-space: nowrap;font-weight: 100;'>min: </label>
+                    <input id="TimedHoldOffMinutesInput_{}" type="text" class="alarmEditorInput" style="width:50px !important" maxlength="4" onblur="AlarmEditor.SaveHoldOffMinutes( this )" />
+                    <label class="minutesSecondsFormat" style='font-family: "Helvetica Neue";font-size: 12px;font-style: normal;font-variant: normal;color: #4d4d4d;text-align: left; white-space: nowrap;font-weight: 100;'>sec: </label>
+                    <input id="TimedHoldOffSecondsInput_{}" type="text" class="alarmEditorInput" style="width:30px !important" maxlength="2" onblur="AlarmEditor.SaveHoldOffSeconds( this )" />
+                </Span>
+            </td>
+            <td id="testTestCellId_{}" class="col-sm-2 col-md-2 text-center testRowTd">
+                <div id="testTestCellDivId_{}" title="" class="alarmEditorTestCell" style="width: calc( 100% - 40px);padding-top: 3px;"></div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+
+<div class="row">
+    <input id="PointTagNewValueInputId" type="hidden" value="" />
+    <input id="PointTagNewRawValueInputId" type="hidden" value="" />
+    <div id="PointTagEditValueScreen" class="fade modal-md modal" data-backdrop="static" data-focus-on="input:first" role="dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="PointTagEditValueCloseButton" type="button" class="close" onclick=" AlarmEditor.CloseEditLimitTagValue(); " data-dismiss="modal">&times;</button>
+                <h4 id="PointTagEditValueScreenTitle" class="modal-title" style="text-align: center; color: rgb(194, 194, 194);">@FMBaseController.TranslateText("SET VALUE")</h4>
+            </div>
+            <div class="modal-body">
+                <section id="PointTagEditValueScreenBody" class=""></section>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-toolbar">
+                    <div class="pull-right">
+                        <button id="PointTagEditValueOkButton" type="button" accesskey="O" class="btn btn-default">@FMBaseController.TranslateText("PointTagEditor|&Ok")</button>
+                        <button id="PointTagEditValueCancelButton" type="button" accesskey="C" class="btn">@FMBaseController.TranslateText("PointTagEditor|&Cancel")</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="row">
+    <div id="AlarmEditorGraphicModalDiv" class="modal fade modal-lg" data-backdrop="static" data-focus-on="input:first" role="dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="AlarmEditorGraphicCancelIconId" type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" style="width: 300px !important">
+                <section id="AlarmEditorGraphicSection" class="">
+                    <div class="row">
+                        <label class="modalDropdownLabel">@FMBaseController.TranslateText("Graphic Names:")</label>
+                    </div>
+                    <div class="row">
+                        <select id="GraphicNameDropdown" class="GraphicNameSelectControl">
+                            <option selected="selected" value="-99">None</option>
+                        </select>
+                    </div>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-toolbar">
+                    <div class="pull-left">
+
+                    </div>
+                    <div class="pull-right">
+                        <button id="AlarmEditorGraphicModalCancelBtn" type="button" class="formfieldtitle pushButton" data-dismiss="modal" style="width: 100px;">
+                            @FMBaseController.TranslateText("Cancel")
+                        </button>
+                        <button id="AlarmEditorGraphicModalOkBtn" type="button" class="formfieldtitle pushButton" data-dismiss="modal" style="width: 100px;" onclick="javascript: return AlarmEditor.HandleGraphicOkBtnEvent();">
+                            @FMBaseController.TranslateText("OK")
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div id="AlarmEditorEquationEditor" class="modal fade modal-lg fade" data-backdrop="static" data-focus-on="input:first" role="dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 id="AlarmEditorEquationEditorScreenTitle" class="modal-title">Alarm Test Equation</h4>
+            </div>
+            <div class="modal-body">
+                <section id="AlarmEditorEquationEditorScreen" class=""></section>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-toolbar">
+                    <div class="pull-right">
+                        <button id="AlarmEditorEquationEditorSaveButton" type="button" class="formfieldtitle pushButton" style="width: 100px;" onclick="javascript: return AlarmEditor.SaveTestEquationChanges();">
+                            @FMBaseController.TranslateText("Save")
+                        </button>
+                        <button id="AlarmEditorEquationEditorCloseButton" type="button" class="formfieldtitle pushButton" data-dismiss="modal" style="width: 100px;" onclick="javascript: return false;">
+                            @FMBaseController.TranslateText("Cancel")
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    //# sourceURL=_AlarmEditorView.cshtml
+    $(document).ready(function () {
+        AlarmEditor.Init();
+
+        var okButton = $('#PointTagEditValueOkButton');   //bds
+        ampersandIndex = okButton.text().indexOf('&');
+        if (ampersandIndex !== -1) {
+            var hotKey = okButton.text().charAt(ampersandIndex + 1);
+            okButton.html(okButton.text().replace('&' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+            okButton.attr('accesskey', hotKey);
+        }
+
+        var cancelButton = $('#PointTagEditValueCancelButton');   //bds
+        ampersandIndex = cancelButton.text().indexOf('&');
+        if (ampersandIndex !== -1) {
+            var hotKey = cancelButton.text().charAt(ampersandIndex + 1);
+            cancelButton.html(cancelButton.text().replace('&' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+            cancelButton.attr('accesskey', hotKey);
+        }
+
+
+        // click to edit limit value
+        $('#alarmTagsTable').on('click', '.limitTagValue', function () {
+            if ($('#PointModifyRight').val() == 'False') {
+                return;
+
+            }
+            var inputTagGuid = $(this).parent().closest('table').parent().closest('table').attr('id').replace('alarmsTable_', '');
+            var alarmGuid = $(this).closest('table').attr('id').replace('AlarmTestTable_', '');
+            var alarmTestGuid = $(this).attr('id').replace('testLimitValueCellId_', '');
+
+            var limitTagGuid = "";
+
+            var model = AlarmEditor.GetAlarmEditorModel();
+
+            var selectedAlarmTagModel = jQuery.grep(model.Tags, function (a) {
+                return a.PointTagGuid === inputTagGuid;
+            });
+            if (selectedAlarmTagModel.length > 0) {
+                if (selectedAlarmTagModel[0].Alarms) {
+                    var selectedAlarmModel = jQuery.grep(selectedAlarmTagModel[0].Alarms, function (a) {
+                        return a.AlarmGuid === alarmGuid;
+                    });
+                    if (selectedAlarmModel.length > 0) {
+                        var selectedAlarmTestModel = jQuery.grep(selectedAlarmModel[0].AlarmTests, function (a) {
+                            return a.AlarmTestGuid === alarmTestGuid;
+                        });
+                        if (selectedAlarmTestModel.length > 0) {
+                            limitTagGuid = selectedAlarmTestModel[0].LimitTagGuid;
+                        }
+                    }
+                }
+            }
+
+            if (limitTagGuid === "") {
+                FMErrorAndExceptionHandling.CloseNotifications();
+                FMErrorAndExceptionHandling.ShowError("Limit Tag not found.", function () { });
+                return;
+            }
+
+            var dataType = selectedAlarmTestModel[0].LimitTagValueType;
+            var id = selectedAlarmTestModel[0].LimitTagId;
+            var value = selectedAlarmTestModel[0].LimitValue;
+            var unitsType = selectedAlarmTestModel[0].LimitTagUnitsType;
+            var units = selectedAlarmTestModel[0].LimitTagUnits;
+            var decimalPlaces = selectedAlarmTestModel[0].LimitTagDecimalPlaces;
+            var maximum = selectedAlarmTestModel[0].LimitTagMax;
+            var minimum = selectedAlarmTestModel[0].LimitTagMin;
+            var pointValueIdentifier = { IdentityGuid: limitTagGuid, PointValueType: 'Tag', PropertyID: '' };
+            var pointTemplateGuid = FMPointEditor.pointGuid;
+            var pointName = $("#PEID").val();
+            var AllowOverUnderRange = "True";
+
+
+            // parse ft-in-16th or ft-in-8th values
+            if (units === 19 || units === 27) {
+                var numFormatInfoString = $('#NumberFormatInfoString').val();
+                var siteNumFormatInfo = JSON.parse(numFormatInfoString);
+                siteNumFormatInfo.NumberDecimalDigits = decimalPlaces;
+                value = math.number(FMFormatValues.ParseValue(units, siteNumFormatInfo, value, true));
+            }
+
+            var requestParms = {
+                isPointTemplate: false
+                , pointValueIdentifier: pointValueIdentifier
+                , valueTypeString: dataType
+                , id: id
+                , value: value
+                , decimalPlaces: decimalPlaces
+                , unitType: unitsType
+                , unit: units
+                , maximum: maximum
+                , minimum: minimum
+                , pointTemplateGuid: pointTemplateGuid
+                , pointName: pointName
+                , AllowOverUnderRange: AllowOverUnderRange
+            }
+
+
+            var url = $('#urlEditPointTemplateTags').val();
+            var token = $('#pointPropertiesForm input[name=__RequestVerificationToken]').val();
+            var headers = {};
+            headers['__RequestVerificationToken'] = token;
+
+            FMErrorAndExceptionHandling.CloseNotifications();
+
+            // redefine the function that will be executed when applying changes to tag values
+            HandlePointTagEditorNewValueUpdate = function () {
+                // get the new value
+
+                var newVal = $("#PointTagNewValueInputId").val();
+                var newRawVal = $("#PointTagNewRawValueInputId").val();
+                $("#limitValueInputId_" + alarmTestGuid).text(newVal);
+                $("#limitValueInputId_" + alarmTestGuid).attr('title', newVal);
+                selectedAlarmTestModel[0].LimitValue = newVal;
+                AlarmEditor.SetAlarmEditorModel(model);
+            }
+
+            // create the backdrop and wait for next modal to be triggered
+            var modalManager = $('body').modalmanager('loading');
+
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                headers: headers,
+                url: url,
+                data: requestParms,
+                success: function (response) {
+                    FMErrorAndExceptionHandling.HandleMessages(response, function (data, inError) {
+                        if (!inError || (data != null)) {
+                            $('#PointTagEditValueScreenBody').html(response.Data);
+                            $('#PointTagEditValueScreen').modal('show');
+                        }
+                        else {
+                            $('body').modalmanager('loading'); // remove the loading background
+                        }
+                    });
+                },
+                error: function (xhr, textStatus, error) {
+                    FMErrorAndExceptionHandling.ShowException(xhr, textStatus, error, function () {
+                        $('body').modalmanager('loading'); // remove the loading background
+                    });
+                }
+            });
+        });
+    });
+
+    // This function is called by the EditValue partial page.
+    function HandlePointTagEditorNewValueUpdate() {
+
+        AlarmEditor.HandleUpdatingEditLimitTagValue();
+    }
+</script>

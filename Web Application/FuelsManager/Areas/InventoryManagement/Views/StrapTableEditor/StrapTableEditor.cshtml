@@ -1,0 +1,289 @@
+﻿@using System.Web.Mvc.Html
+@using System.Globalization
+@using Varec.CommonComponents.EngineeringUnitsLibrary
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@using FuelsManager.Areas.InventoryManagement.ViewModels
+@using Microsoft.Ajax.Utilities
+@model FuelsManager.Areas.InventoryManagement.ViewModels.StrapTableEditorModel
+
+<link href="~/Areas/Content/jquery.scrolling-tabs-custom.css" rel="stylesheet">
+
+<script src="~/Areas/lib/jquery.scrolling-tabs-custom.js"></script>
+
+<link href="~/Areas/Content/StrapTableEditor.css" rel="stylesheet" type="text/css" />
+<script src="~/Areas/Scripts/StrapTableEditor.js"></script>
+
+
+
+
+@using (Html.BeginForm("StrapTableEditor", "StrapTableEditor", FormMethod.Post, new { id = "strapTableForm" }))
+{
+
+	var numberFormatInfo = new NumberFormatInfo { NumberGroupSizes = Model.Site.GetNumberGroupSizes(), NumberGroupSeparator = Model.Site.NumberGroupSeparator, NumberDecimalSeparator = Model.Site.NumberDecimalSeparator };
+
+	//Generate FormatInfo JavaScript object in JSON format
+	var numberFormatInfoString = String.Format("{{{0}" + "\"NegativeSign\":\"{1}\",{0}" + "\"NumberDecimalDigits\":{2},{0}" + "\"NumberDecimalSeparator\":\"{3}\",{0}" + "\"NumberGroupSeparator\":\"{4}\",{0}" + "\"NumberGroupSizes\":{5},{0}" + "\"NumberNegativePattern\":{6},{0}" + "\"ShortDatePattern\":\"{7}\"{0}}}", Environment.NewLine, "-", 0, Model.Site.NumberDecimalSeparator, Model.Site.NumberGroupSeparator, Model.Site.GetNumberGroupSizes()[0], 1, Model.Site.ShortDatePattern);
+
+
+	<input id="NumberFormatInfoString" type="hidden" value='@numberFormatInfoString' />
+
+
+	@Html.AntiForgeryToken();
+	@Html.HiddenFor(m => m.ActiveTab);
+	@Html.HiddenFor(m => m.PointGuid);
+	@Html.HiddenFor(m => m.PointPropertyGuid);
+	@Html.HiddenFor(m => m.LevelUnit);
+	@Html.HiddenFor(m => m.LevelDecimalPlaces);
+	@Html.HiddenFor(m => m.VolumeUnit);
+	@Html.HiddenFor(m => m.VolumeDecimalPlaces);
+	@Html.HiddenFor(m => m.DensityUnit);
+	@Html.HiddenFor(m => m.DensityDecimalPlaces);
+	@Html.HiddenFor(m => m.TemperatureUnit);
+	@Html.HiddenFor(m => m.TemperatureDecimalPlaces);
+	@Html.HiddenFor(m => m.MassUnit);
+	@Html.HiddenFor(m => m.MassDecimalPlaces);
+	@Html.HiddenFor(m => m.IsTemplatePoint);
+
+	@Html.Hidden("urlValidateRegionalSettings", @Url.Action("ValidateRegionalSettings", "StrapTableEditor"));
+	@Html.Hidden("urlDeleteStrapTable", @Url.Action("DeleteStrapTable", "StrapTableEditor"));
+	@Html.Hidden("urlAddStrapTable", @Url.Action("AddStrapTable", "StrapTableEditor"));
+	@Html.Hidden("urlSaveStrapTable", @Url.Action("SaveStrapTable", "StrapTableEditor"));
+
+	var levelText = FMBaseController.TranslateText("Level") + " (" + FMBaseController.GetEngineeringUnitsString(Model.LevelUnit) + ")";
+	var volumeText = FMBaseController.TranslateText("Volume") + " (" + FMBaseController.GetEngineeringUnitsString(Model.VolumeUnit) + ")";
+	var numberText = FMBaseController.TranslateText("Number");
+
+	@Html.Hidden("SEDeleteTableText", FMBaseController.TranslateText("&Delete Table"));
+	@Html.Hidden("SEDeleteConfirmation", FMBaseController.TranslateText("Are you sure you wish to delete selected item(s)?"));
+	@Html.Hidden("SEDeleteTableConfirmation", FMBaseController.TranslateText("Are you sure you wish to delete table"));
+	@Html.Hidden("SEDeleteTableErrorTableSelected", FMBaseController.TranslateText("Strap table in use by point. Please unassign table before deletion."));
+	@Html.Hidden("SESuccessSavingChanges", FMBaseController.TranslateText("Success! saving changes."));
+	@Html.Hidden("SEDuplicateLevel", FMBaseController.TranslateText("Duplicate Level."));
+	@Html.Hidden("SEDuplicateVolume", FMBaseController.TranslateText("Duplicate Volume."));
+	@Html.Hidden("SEVolumeSequence", FMBaseController.TranslateText("Volume is out of sequence for level."));
+	@Html.Hidden("SEVolumeNegative", FMBaseController.TranslateText("Negative Volumes are not allowed."));
+	@Html.Hidden("StrapTableLength", Model.StrapTable.StrapTables.Count());
+
+	var title = Model.PointId + " - " + Model.PointPropertyId;
+
+
+	<section id="straptableEditorPartial" class="">
+		<div class="StrapTableEditorHeader row">
+			<button type="button" class="close" data-dismiss="modal" onclick="$('#PEMPEClosePropertyScreen').click();">&times;</button>
+		</div>
+		<div class="row">
+			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+				<h4>@title</h4>
+			</div>
+			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+				@Html.LabelFor(m => m.StrapTable.SelectedTableForStrap, FMBaseController.TranslateText("Product Table"), new { @class = "control-label" })
+			</div>
+			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+				@Html.LabelFor(m => m.StrapTable.SelectedTableForStrap, FMBaseController.TranslateText("Bottoms Table"), new { @class = "control-label" })
+			</div>
+			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="visibility:hidden">
+				@Html.LabelFor(m => m.StrapTable.SelectedTableForStrap, FMBaseController.TranslateText("Solids Table"), new { @class = "control-label" })
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+				<h5>@FMBaseController.TranslateText("Strap Table Editor")</h5>
+			</div>
+			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+				@Html.DropDownListFor(m => m.StrapTable.SelectedTableForStrap, new SelectList(Model.StrapTableList, "Key", "Value", Model.StrapTable.SelectedTableForStrap), new { ID = "TableForStrapDropDownList", @class = "form-control", style = "Width:90%" })
+			</div>
+			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+				@Html.DropDownListFor(m => m.StrapTable.SelectedTableForWaterVolume, new SelectList(Model.StrapTableList, "Key", "Value", Model.StrapTable.SelectedTableForWaterVolume), new { ID = "TableForWaterVolumeDropDownList", @class = "form-control", style = "Width:90%" })
+			</div>
+			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="visibility:hidden">
+				@Html.DropDownListFor(m => m.StrapTable.SelectedTableForSolidsVolume, new SelectList(Model.StrapTableList, "Key", "Value", Model.StrapTable.SelectedTableForSolidsVolume), new { ID = "TableForSolidsVolumeDropDownList", @class = "form-control", style = "Width:90%" })
+			</div>
+		</div>
+
+		<br />
+
+		<div id="tabs" style="width: 100%;">
+			<div id="mainTabSection" class="row" style="width: 100%;">
+				<div id="mainTab">
+					<ul class="nav nav-tabs" id="tabList">
+						@for (var strapTableIndex = 0; strapTableIndex < Model.StrapTable.StrapTables.Length; strapTableIndex++)
+						{
+							var strapTable = Model.StrapTable.StrapTables[strapTableIndex];
+							if (strapTable == null)
+							{
+								continue;
+							}
+							<li class="tab-table">
+								<a data-target="#StrapTable_@strapTableIndex" data-toggle="tab" ondblclick="FMStrapTableEditor.renameTab(this);">
+									@Html.Label(Model.StrapTable.StrapTables[strapTableIndex].StrapTableDescription, new { @class = "tab-name" })
+									@Html.HiddenFor(m => m.StrapTable.StrapTables[strapTableIndex].StrapTableDescription)
+								</a>
+							</li>
+						}
+
+						<li class="tab-add-table">
+							<a id="addTable" class="anchor-add-table">
+								<label class=""></label>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="row" style="width: 100%;">
+				<div class="tab-content">
+					@for (var strapTableIndex = 0; strapTableIndex < Model.StrapTable.StrapTables.Length; strapTableIndex++)
+					{
+						var deleteDisable = Model.EditorEntries[strapTableIndex].Count > 4 ? "" : "disabled";
+						var deleteDisabledClass = Model.EditorEntries[strapTableIndex].Count > 4 ? "" : "strapTableDeleteButtonDisabled";
+						var strapTable = Model.StrapTable.StrapTables[strapTableIndex];
+						if (strapTable == null)
+						{
+							continue;
+						}
+						<div class="tab-pane" id="StrapTable_@strapTableIndex">
+							<div class="container-fluid">
+								<div class="row">
+									<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+										<br />
+										<div>
+											@Html.LabelFor(m => m.EditorStrapTableSettings[strapTableIndex].StrapDensity, @FMBaseController.TranslateText("Density Strap") + " (" + FMBaseController.GetEngineeringUnitsString(Model.DensityUnit) + ")", new { @class = "control-label" })
+											@Html.TextBoxFor(m => m.EditorStrapTableSettings[strapTableIndex].StrapDensity, new { id = "SEStrapDensity", @class = "form-control input-md text-right", maxlength = 20 })
+										</div>
+										<div>
+											@Html.LabelFor(m => m.EditorStrapTableSettings[strapTableIndex].StrapTemperature, @FMBaseController.TranslateText("Temperature Strap") + " (" + FMBaseController.GetEngineeringUnitsString(Model.TemperatureUnit) + ")", new { @class = "control-label" })
+											@Html.TextBoxFor(m => m.EditorStrapTableSettings[strapTableIndex].StrapTemperature, new { id = "SEStrapTemperature", @class = "form-control input-md text-right", maxlength = 20 })
+										</div>
+										<div>
+											@Html.LabelFor(m => m.EditorStrapTableSettings[strapTableIndex].TankShellReferenceTemperature, @FMBaseController.TranslateText("Temperature Tank Shell Reference") + " (" + FMBaseController.GetEngineeringUnitsString(Model.TemperatureUnit) + ")", new { @class = "control-label" })
+											@Html.TextBoxFor(m => m.EditorStrapTableSettings[strapTableIndex].TankShellReferenceTemperature, new { id = "SETankShellReferenceTemperature", @class = "form-control input-md text-right", maxlength = 20 })
+										</div>
+										<div>
+											@Html.LabelFor(m => m.EditorStrapTableSettings[strapTableIndex].DatumHeight, @FMBaseController.TranslateText("Datum Height") + " (" + FMBaseController.GetEngineeringUnitsString(Model.LevelUnit) + ")", new { @class = "control-label" })
+											@Html.TextBoxFor(m => m.EditorStrapTableSettings[strapTableIndex].DatumHeight, new { id = "SEDatumHeight", @class = "form-control input-md text-right", maxlength = 20 })
+										</div>
+										<div>
+											@Html.LabelFor(m => m.EditorStrapTableSettings[strapTableIndex].RoofType, @FMBaseController.TranslateText("Roof Type"), new { @class = "control-label" })
+											@Html.DropDownListFor(m => m.EditorStrapTableSettings[strapTableIndex].RoofType, new SelectList(StrapTableEditorController.GetRoofTypes(), "Value", "Text", Model.EditorStrapTableSettings[strapTableIndex].RoofType), new { id = "SERoofType", @class = "form-control" })
+										</div>
+										<div>
+											@Html.LabelFor(m => m.EditorStrapTableSettings[strapTableIndex].RoofMass, @FMBaseController.TranslateText("Roof Mass") + " (" + FMBaseController.GetEngineeringUnitsString(Model.MassUnit) + ")", new { @class = "control-label" })
+											@Html.TextBoxFor(m => m.EditorStrapTableSettings[strapTableIndex].RoofMass, new { id = "SERoofMass", @class = "form-control input-md text-right", maxlength = 20 })
+										</div>
+										<div>
+											@Html.LabelFor(m => m.EditorStrapTableSettings[strapTableIndex].RoofLandingHeight, @FMBaseController.TranslateText("Roof Landing Height") + " (" + FMBaseController.GetEngineeringUnitsString(Model.LevelUnit) + ")", new { @class = "control-label" })
+											@Html.TextBoxFor(m => m.EditorStrapTableSettings[strapTableIndex].RoofLandingHeight, new { id = "SERoofLandingHeight", @class = "form-control input-md text-right", maxlength = 20 })
+										</div>
+										<div>
+											@Html.LabelFor(m => m.EditorStrapTableSettings[strapTableIndex].RoofFloatingHeight, @FMBaseController.TranslateText("Roof Floating Height") + " (" + FMBaseController.GetEngineeringUnitsString(Model.LevelUnit) + ")", new { @class = "control-label" })
+											@Html.TextBoxFor(m => m.EditorStrapTableSettings[strapTableIndex].RoofFloatingHeight, new { id = "SERoofFloatingHeight", @class = "form-control input-md text-right", maxlength = 20 })
+										</div>
+										<br />
+									</div>
+									<div class="straptable col-xs-9 col-sm-9 col-md-9 col-lg-9">
+										<br />
+										<br />
+										<table id="StrapTableEditorTable_@strapTableIndex" class="table table-striped table-bordered hover" style="width:100%">
+											<thead class="">
+												<tr>
+													<th style="width: 36px;" class="text-center">
+														@numberText
+													</th>
+													<th class="text-center">
+														@levelText
+													</th>
+													<th class="text-center">
+														@volumeText
+													</th>
+												</tr>
+											</thead>
+											<tbody id="StrapTableEditorTableBody">
+												@for (var index = 0; index < Model.EditorEntries[strapTableIndex].Count; ++index)
+												{
+													var entry = Model.EditorEntries[strapTableIndex][index];
+													var number = index + 1;
+
+													<tr>
+														<td>@number</td>
+														<td>@entry.LevelEntry</td>
+														<td>@entry.VolumeEntry</td>
+													</tr>
+												}
+											</tbody>
+										</table>
+										<br />
+										<div class="row" role="group">
+											<button id="addStrapEntryButton_@strapTableIndex" name="addStrapEntryButton_@strapTableIndex" type="button" value="addStrapEntryButton" accesskey="A" class="addStrapEntryButton formfieldtitle tabPushButton" title="Add New Strap Table Entry" style="width: 100px;">@FMBaseController.TranslateText("&Add")</button>
+											<button id="deleteStrapEntriesButton_@strapTableIndex" name="deleteStrapEntriesButton_@strapTableIndex" type="button" value="deleteStrapEntriesButton" accesskey="L" class="@deleteDisabledClass deleteStrapEntriesButton formfieldtitle tabPushButton" title="Delete Strap Entries" disabled="@deleteDisable" style="width: 100px;">@FMBaseController.TranslateText("&Delete")</button>
+											<div class="pull-right" id="importExportdiv">
+												<button type="button" value="importButton_@strapTableIndex" accesskey="I" class="importStrapTableButton formfieldtitle tabPushButton" title="Import Strap Table" style="width: 100px;">@FMBaseController.TranslateText("&Import")</button>
+												<button type="button" value="exportButton_@strapTableIndex" accesskey="E" class="importStrapTableButton formfieldtitle tabPushButton" title="Export Strap Table" style="width: 100px;">@FMBaseController.TranslateText("&Export")</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					}
+					<input id="importStrapTable" type="file" accept=".tst,.wst" class="hidden" data-url="@Url.Action("Import", "StraptableEditor")" />
+					@Html.ActionLink("Export", "Export", "StrapTableEditor", new { }, new { @class = "hidden", id = "exportLink" })
+				</div>
+			</div>
+		</div>
+	</section>
+}
+
+<section id="strapTableModals">
+	<div id="confirmationDialog"></div>
+</section>
+
+<script>
+
+	$(document).ready(function () {
+
+		var dtButton = $('#SEDeleteTable');   //bds
+		ampersandIndex = dtButton.text().indexOf('&');
+		if (ampersandIndex !== -1) {
+			var hotKey = dtButton.text().charAt(ampersandIndex + 1);
+			dtButton.html(dtButton.text().replace('&' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+			dtButton.attr('accesskey', hotKey);
+		}
+
+		var tableLength = $('#StrapTableLength');
+
+		for (var strapTableIndex = 0; strapTableIndex < tableLength.val(); strapTableIndex++) {
+			var addButton = $('#addStrapEntryButton_' + strapTableIndex);   //bds
+			ampersandIndex = addButton.text().indexOf('&');
+			if (ampersandIndex !== -1) {
+				var hotKey = addButton.text().charAt(ampersandIndex + 1);
+				addButton.html(addButton.text().replace('&' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+				addButton.attr('accesskey', hotKey);
+			}
+
+			var delButton = $('#deleteStrapEntriesButton_' + strapTableIndex);   //bds
+			ampersandIndex = delButton.text().indexOf('&');
+			if (ampersandIndex !== -1) {
+				var hotKey = delButton.text().charAt(ampersandIndex + 1);
+				delButton.html(delButton.text().replace('&' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+				delButton.attr('accesskey', hotKey);
+			}
+
+			var impButton = $('#straptableEditorPartial [value="importButton_' + strapTableIndex + '"]');
+			ampersandIndex = impButton.text().indexOf('&');
+			if (ampersandIndex !== -1) {
+				var hotKey = impButton.text().charAt(ampersandIndex + 1);
+				impButton.html(impButton.text().replace('&' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+				impButton.attr('accesskey', hotKey);
+			}
+
+
+			var expButton = $('#straptableEditorPartial [value="exportButton_' + strapTableIndex + '"]');
+			ampersandIndex = expButton.text().indexOf('&');
+			if (ampersandIndex !== -1) {
+				var hotKey = expButton.text().charAt(ampersandIndex + 1);
+				expButton.html(expButton.text().replace('&' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+				expButton.attr('accesskey', hotKey);
+			}
+		}
+	});
+</script>

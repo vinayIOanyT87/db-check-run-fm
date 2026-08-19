@@ -1,0 +1,15 @@
+﻿<#+
+// <copyright file="OutputTemplate.tt" company="SAIC">
+//  Copyright © SAIC. All Rights Reserved.
+// </copyright>
+
+public class OutputTemplate : Template
+{
+	public string Message {get; set;}
+	public override string TransformText()
+	{
+
+        return this.Message.ToString();
+	}
+}
+#>

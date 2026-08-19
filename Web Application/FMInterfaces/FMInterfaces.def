@@ -1,0 +1,10 @@
+; FMInterfaces.def : Declares the module parameters.
+
+LIBRARY      "FMInterfaces.DLL"
+
+EXPORTS
+	DllCanUnloadNow		PRIVATE
+	DllGetClassObject	PRIVATE
+	DllRegisterServer	PRIVATE
+	DllUnregisterServer	PRIVATE
+	DllInstall		PRIVATE

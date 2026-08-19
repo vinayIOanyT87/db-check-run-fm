@@ -1,0 +1,31 @@
+﻿#RateModuleSettingsEditorPartial {
+	margin-top: 15px;
+}
+
+#RateModuleSettingsEditorPartial label {
+    color: rgb(153,153,153) !important;
+}
+
+.RateModuleSettingsEditorHeader {
+    right: 10px;
+    top: -5px;
+    position: absolute;
+}
+
+.RateModuleSettingsEditorHeader .close {
+	padding: 25px !important;
+	margin-top: -2px !important;
+}
+
+#RateModuleSettingsEditorPartial h4, #RateModuleSettingsEditorPartial h5 {
+	margin-top: 0px !important;
+	margin-bottom: 0px !important;
+}
+
+#RateModuleSettingsEditorPartial .form-group {
+    margin-bottom: 15px !important;
+}
+
+#ModulePropertyEditorPropertyScreen {
+	width: 550px;
+}

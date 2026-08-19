@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nodeSet>
+  <view uin="bs6swkft5ctjddl_v">
+    <property name="$name" value="ReportingServices" />
+    <property name="$defaultDiagram" value="True" />
+    <property name="$metaclass" value="Package Diagram" />
+    <reference referencedUin="csharp:e_class:src:ReportingServices:ReportingServices.ReportServiceRequest">
+      <property name="$shortcutReference" value="true" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportServiceRequest.ReportServiceRequest()" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportServiceRequest.EMPTY_STRING" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportServiceRequest.siteId" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportServiceRequest.Site" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportServiceRequest.siteIndex" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportServiceRequest.AddSiteToList(System.String)" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportServiceRequest.SiteList" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportServiceRequest.CurrentSiteIndex" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportServiceRequest.siteList" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportServiceRequest.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportServiceRequest.startDate" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportServiceRequest.carrierID" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportServiceRequest.ownerID" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportServiceRequest.shipToID" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportServiceRequest.productID" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportServiceRequest.securityToken" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportServiceRequest.endDate" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportServiceRequest.equipmentID" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportServiceRequest.supplierID" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportServiceRequest.managerID" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportServiceRequest.shipperID" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportServiceRequest.ShipToID" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportServiceRequest.SecurityToken" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportServiceRequest.ManagerID" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportServiceRequest.ShipperID" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportServiceRequest.EndDate" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportServiceRequest.ProductID" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportServiceRequest.EquipmentID" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportServiceRequest.StartDate" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportServiceRequest.OwnerID" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportServiceRequest.CarrierID" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportServiceRequest.SupplierID" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportServiceRequest.Init()" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportServiceRequest.UseDataDictionary" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportServiceRequest.useDataDictionary" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportServiceRequest.grossNet" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportServiceRequest.GrossNet" />
+    </reference>
+    <reference referencedUin="csharp:e_class:src:ReportingServices:ReportingServices.ReportListSR">
+      <property name="$shortcutReference" value="true" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportListSR.ReportListSR()" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportListSR.EMPTY_STRING" />
+      <reference referencedUin="csharp:l_gnt:src:ReportingServices:ReportingServices.ReportListSR:ReportingServices.ReportServiceRequest" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportListSR.Init()" />
+      <reference referencedUin="csharp:e_class:src:ReportingServices:ReportingServices.ReportListSR.SubReportTypes" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportListSR.SubReportType" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportListSR.subRptType" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportListSR.Initialize()" />
+    </reference>
+    <reference referencedUin="csharp:e_class:src:ReportingServices:ReportingServices.ReportJournalSR">
+      <property name="$shortcutReference" value="true" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportJournalSR.ReportJournalSR()" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportJournalSR.EMPTY_STRING" />
+      <reference referencedUin="csharp:l_gnt:src:ReportingServices:ReportingServices.ReportJournalSR:ReportingServices.ReportServiceRequest" />
+      <reference referencedUin="csharp:e_class:src:ReportingServices:ReportingServices.ReportJournalSR.SubReportTypes" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportJournalSR.SubReportType" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportJournalSR.subReportType" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportJournalSR.SessionID" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportJournalSR.sessionID" />
+    </reference>
+    <reference referencedUin="csharp:e_class:src:ReportingServices:ReportingServices.ReportRemoveCompanyDataSR">
+      <property name="$shortcutReference" value="true" />
+    </reference>
+    <reference referencedUin="csharp:e_class:src:ReportingServices:ReportingServices.DataObjectBase">
+      <property name="$shortcutReference" value="true" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.DataObjectBase.getLong(System.Object)" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.DataObjectBase.DataObjectBase()" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.DataObjectBase.isNull(System.Object)" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.DataObjectBase.getString(System.Object)" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.DataObjectBase.getDateTime(System.Object)" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.DataObjectBase.getDateTimeString(System.Object)" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.DataObjectBase.getFloat(System.Object)" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.DataObjectBase.getDouble(System.Object)" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.DataObjectBase.getBool(System.Object)" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.DataObjectBase.getInt(System.Object)" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.DataObjectBase.load(System.Data.DataSet)" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.DataObjectBase.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.DataObjectBase.IsDateValid(System.Object)" />
+    </reference>
+    <reference referencedUin="csharp:e_class:src:ReportingServices:ReportingServices.JournalDO">
+      <property name="$shortcutReference" value="true" />
+    </reference>
+    <reference referencedUin="csharp:e_class:src:ReportingServices:ReportingServices.ErrorObject">
+      <property name="$shortcutReference" value="true" />
+      <reference referencedUin="csharp:l_gnt:src:ReportingServices:ReportingServices.ErrorObject:ReportingServices.DataObjectBase" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ErrorObject.errorLevel" />
+      <reference referencedUin="csharp:e_class:src:ReportingServices:ReportingServices.ErrorObject.ErrorLevels" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ErrorObject.ExceptionError" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ErrorObject.errorMsg" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ErrorObject.ErrorObject()" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ErrorObject.ClearErrors()" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ErrorObject.exceptionMsg" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ErrorObject.ErrorLevel" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ErrorObject.errorFlag" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ErrorObject.ErrorMessage" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ErrorObject.HasErrors" />
+    </reference>
+    <reference referencedUin="csharp:e_class:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO">
+      <property name="$shortcutReference" value="true" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.ReportName" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.ReportDescription" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.init()" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.reportName" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.reportUrl" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.reportDescription" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.ReportUrl" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.ReportConfigurationDetailDO()" />
+      <reference referencedUin="csharp:l_gnt:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO:ReportingServices.DataObjectBase" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.ReportIndex" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.Exists" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.reportIndex" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.CreatedBy" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.UpdatedDate" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.GroupIndex" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.SQLGetReportDetail(System.String)" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.groupIndex" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.SQLInsertReportDetail()" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.AssignedToGroup" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.CreatedDate" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.createdBy" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.updatedBy" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.UpdatedBy" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.SQLUpdateReportDetail()" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.createdDate" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.updatedDate" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.EMPTY_STRING" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.SQLDeleteReportDetail()" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.SQLLoadReportDetail(System.Data.DataSet)" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.siteIndex" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.SiteIndex" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.SQLGetReportDetail(System.Int64)" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportConfigurationDetailDO.SQLUpdateGroupIndex(System.Int64,System.Int64)" />
+    </reference>
+    <reference referencedUin="csharp:e_class:src:ReportingServices:ReportingServices.ReportConfigurationGroupDO">
+      <property name="$shortcutReference" value="true" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportConfigurationGroupDO.ReportConfigurationGroupDO()" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportConfigurationGroupDO.GroupIndex" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportConfigurationGroupDO.groupIndex" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportConfigurationGroupDO.init()" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportConfigurationGroupDO.GroupName" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportConfigurationGroupDO.groupName" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportConfigurationGroupDO.SQLGetReportGroup(System.String)" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportConfigurationGroupDO.SQLDeleteReportGroup()" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportConfigurationGroupDO.SQLUpdateReportGroup()" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportConfigurationGroupDO.SQLInsertReportGroup()" />
+      <reference referencedUin="csharp:l_gnt:src:ReportingServices:ReportingServices.ReportConfigurationGroupDO:ReportingServices.DataObjectBase" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportConfigurationGroupDO.updatedDate" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportConfigurationGroupDO.createdBy" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportConfigurationGroupDO.updatedBy" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportConfigurationGroupDO.UpdatedDate" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportConfigurationGroupDO.CreatedBy" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportConfigurationGroupDO.EMPTY_STRING" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportConfigurationGroupDO.UpdatedBy" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportConfigurationGroupDO.createdDate" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportConfigurationGroupDO.CreatedDate" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportConfigurationGroupDO.SQLLoadReportGroup(System.Data.DataSet)" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportConfigurationGroupDO.SiteIndex" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportConfigurationGroupDO.siteIndex" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportConfigurationGroupDO.SQLGetReportGroup(System.Int64)" />
+    </reference>
+    <reference referencedUin="csharp:e_class:src:ReportingServices:ReportingServices.ReportConfigurationDetailSR">
+      <property name="$shortcutReference" value="true" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportConfigurationDetailSR.ReportConfigurationDetailSR()" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportConfigurationDetailSR.init()" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportConfigurationDetailSR.reportDetailDO" />
+      <reference referencedUin="csharp:l_ast:src:ReportingServices:ReportingServices.ReportConfigurationDetailSR.reportDetailDO" />
+      <reference referencedUin="csharp:l_gnt:src:ReportingServices:ReportingServices.ReportConfigurationDetailSR:ReportingServices.ReportServiceRequest" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportConfigurationDetailSR.RequestType" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportConfigurationDetailSR.ReportConfigurationDetailDO" />
+      <reference referencedUin="csharp:e_class:src:ReportingServices:ReportingServices.ReportConfigurationDetailSR.RequestTypes" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportConfigurationDetailSR.requestType" />
+      <reference referencedUin="csharp:l_ast:src:ReportingServices:ReportingServices.ReportConfigurationDetailSR.ReportConfigurationDetailDO" />
+    </reference>
+    <reference referencedUin="csharp:e_class:src:ReportingServices:ReportingServices.ReportConfigurationGroupSR">
+      <property name="$shortcutReference" value="true" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportConfigurationGroupSR.ReportConfigurationGroupSR()" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportConfigurationGroupSR.requestType" />
+      <reference referencedUin="csharp:e_class:src:ReportingServices:ReportingServices.ReportConfigurationGroupSR.RequestTypes" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportConfigurationGroupSR.reportGroupDO" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportConfigurationGroupSR.init()" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportConfigurationGroupSR.ReportConfigurationGroupDO" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportConfigurationGroupSR.RequestType" />
+      <reference referencedUin="csharp:l_ast:src:ReportingServices:ReportingServices.ReportConfigurationGroupSR.ReportConfigurationGroupDO" />
+      <reference referencedUin="csharp:l_gnt:src:ReportingServices:ReportingServices.ReportConfigurationGroupSR:ReportingServices.ReportServiceRequest" />
+      <reference referencedUin="csharp:l_ast:src:ReportingServices:ReportingServices.ReportConfigurationGroupSR.reportGroupDO" />
+    </reference>
+    <reference referencedUin="csharp:e_class:src:ReportingServices:ReportingServices.ReportConfigurationGroupListDO">
+      <property name="$shortcutReference" value="true" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportConfigurationGroupListDO.ReportConfigurationGroupListDO()" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportConfigurationGroupListDO.reportGroupDOList" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportConfigurationGroupListDO.ReportGroupDOList" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportConfigurationGroupListDO.init()" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportConfigurationGroupListDO.SQLLoadAllReportGroups(System.Data.DataSet)" />
+      <reference referencedUin="csharp:l_gnt:src:ReportingServices:ReportingServices.ReportConfigurationGroupListDO:ReportingServices.DataObjectBase" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportConfigurationGroupListDO.SQLGetAllReportGroups()" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportConfigurationGroupListDO.SQLGetAllReportGroups(System.Int32)" />
+    </reference>
+    <reference referencedUin="csharp:e_class:src:ReportingServices:ReportingServices.ReportConfigurationDetailListDO">
+      <property name="$shortcutReference" value="true" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportConfigurationDetailListDO.ReportConfigurationDetailListDO()" />
+      <reference referencedUin="csharp:e_field:src:ReportingServices:ReportingServices.ReportConfigurationDetailListDO.reportDetailDOList" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportConfigurationDetailListDO.SQLLoadAllReportDetails(System.Data.DataSet)" />
+      <reference referencedUin="csharp:e_property:src:ReportingServices:ReportingServices.ReportConfigurationDetailListDO.ReportDetailDOList" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportConfigurationDetailListDO.init()" />
+      <reference referencedUin="csharp:l_gnt:src:ReportingServices:ReportingServices.ReportConfigurationDetailListDO:ReportingServices.DataObjectBase" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportConfigurationDetailListDO.SQLGetAllReportDetails()" />
+      <reference referencedUin="csharp:e_method:src:ReportingServices:ReportingServices.ReportConfigurationDetailListDO.SQLGetAllReportDetails(System.Int32)" />
+    </reference>
+  </view>
+</nodeSet>

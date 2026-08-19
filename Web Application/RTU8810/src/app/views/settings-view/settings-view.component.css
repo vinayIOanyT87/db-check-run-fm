@@ -1,0 +1,130 @@
+.settingsLinksPanel a
+{
+    font-weight: 900;
+    margin-left: 20px;
+    font-size: 14px;
+    color: #a0a0a0;
+}
+
+.container
+{
+    margin-left: 60px;
+    width: 70%;
+    overflow: hidden;
+    margin-top:20px;
+    border: gray;
+    background-color: white;
+    box-shadow: 2px 2px 3px grey;
+}
+
+.content{
+    width: 550px;
+    height: 660px;
+    margin-left: 20px;
+    float: left;
+    background-color: #fff;
+    border-color: gray;
+
+}
+
+.ipSettingsPanel{
+    width: 550px;
+    height: 660px;
+    margin-left: 20px;
+    float: left;
+    background-color: #fff;
+    border-color: gray;
+
+}
+
+.settingsLinksPanel{
+    margin-left: 550px;
+    height: 660px;
+    border-color: gray;
+    background-color: #F2F2F2;
+    width: 100%;
+}
+
+.title {
+    color: #777777;
+    font-size: 14pt;
+    margin-top: 20px;
+    margin-left: 20px;
+    text-align: left;
+    font-weight: bolder;
+}
+
+
+.description
+{
+    font-size: 12pt;
+    margin-top: 25px;
+    margin-left: 20px;
+    margin-bottom: 100px;
+    margin-right: 20px;
+    text-align: left;
+}
+
+.inputHeading
+{
+    margin-left: 20px;
+    margin-top:50px;
+    margin-bottom: 20px;
+}
+
+input
+{
+    margin-top: 15px;
+    margin-left: 60px;
+    width: 400px;
+    height: 50px;
+    font-size: 11pt;
+    padding: 8px;
+    border-radius:2px;
+    border:1px solid #d6d6d6;
+}
+
+.validationText
+{
+    font-size: 12px;
+    color:#ff4d4d;
+    margin-left: 60px;
+}
+
+::placeholder {
+    color: #d6d6d6;
+    opacity: 1; /* Firefox */
+  }
+
+button
+{
+	color: white;
+    border-radius: 0px;
+    border: none;
+    width: 160px;
+    height: 40px;
+    margin-left: 60px;
+    margin-top: 30px;
+    font-size:14px;
+    font-weight: bold;
+	background-color: #006CB3;
+}
+
+.disabled
+{
+    background-color: #d6d6d6;
+}
+#saveButton
+{
+    margin-left: 80px;
+}
+
+
+form { display: block; width: 550px; margin: auto; }
+input[type="submit"] { margin-left: 215px; }
+span.err { color: #ff4d4d; }
+label { width: 120px; display:inline-block; text-align: right; }
+
+.highlight { 
+    border: 1px #ff4d4d solid;
+}

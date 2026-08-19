@@ -1,0 +1,541 @@
+﻿@using System
+@using System.Globalization
+@using System.Web.Mvc.Html
+@using AjaxControlToolkit
+@using FMBusinessObjects.DataObjects
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@using FuelsManager.Areas.InventoryManagement.ViewModels
+@model FuelsManager.Areas.InventoryManagement.ViewModels.AnimationManagerModel
+
+<link href="~/Areas/Content/AnimationManager.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Content/select2.min.css" rel="stylesheet" type="text/css" />
+
+<script src="~/Areas/Lib/select2.js"></script>
+<script src="~/Areas/Scripts/FMCommon.js"></script>
+<script src="~/Areas/Lib/bootstrap-modal.js"></script>
+<script src="~/Areas/Lib/bootstrap-modalmanager.js"></script>
+<script src="~/Areas/Lib/jquery.numeric.js"></script>
+<script src="~/Areas/Lib/math.js"></script>
+<script src="~/Areas/Lib/NumberFormat.js"></script>
+<script src="~/Areas/Scripts/fmformatvalues.js"></script>
+<script src="~/Areas/lib/spectrum.js"></script>
+<link rel='stylesheet' href="~/Areas/Content/spectrum.css" />
+
+
+@Html.Hidden("AnimationManagerModel", AnimationManagerController.SerializeModel(Model))
+@Html.Hidden("urlAnimationManagerAnimationSelectionChanged", @Url.Action("AnimationSelectionChanged", "AnimationManager"))
+@Html.Hidden("urlAnimationManagerAnimationSelectionChangedAndSave", @Url.Action("AnimationSelectionChangedAndSave", "AnimationManager"))
+@Html.Hidden("urlAnimationManagerOKPressed", @Url.Action("AnimationSave", "AnimationManager"))
+@Html.Hidden("urlAnimationManagerDeleteAnimation", @Url.Action("AnimationDelete", "AnimationManager"))
+@Html.Hidden("urlAnimationManagerCopyAndRenameAnimation", @Url.Action("AnimationCopyAndRename", "AnimationManager"))
+
+@Html.Hidden("AnimationMgrTextColorTranslated", FMBaseController.TranslateText("Text Color"))
+@Html.Hidden("AnimationMgrLineColorTranslated", FMBaseController.TranslateText("Line Color"))
+@Html.Hidden("AnimationMgrFillColorTranslated", FMBaseController.TranslateText("Fill Color"))
+@Html.Hidden("AnimationMgrBackgroundColorTranslated", FMBaseController.TranslateText("Background Color"))
+@Html.Hidden("AnimationMgrVisibilityTranslated", FMBaseController.TranslateText("Visibility"))
+@Html.Hidden("AnimationMgrTextTranslated", FMBaseController.TranslateText("Text"))
+@Html.Hidden("AnimationMgrMakeSelectionTranslated", FMBaseController.TranslateText("Make Selection"))
+@Html.Hidden("AnimationMgrCancelInsertTranslated", FMBaseController.TranslateText("Cancel Insert"))
+@Html.Hidden("AnimationMgrDeleteTranslated", FMBaseController.TranslateText("Delete"))
+@Html.Hidden("AnimationMgrPropertyTranslated", FMBaseController.TranslateText("Property"))
+@Html.Hidden("AnimationMgrValueTranslated", FMBaseController.TranslateText("Value"))
+@Html.Hidden("AnimationMgrDataTypeTranslated", FMBaseController.TranslateText("Data Type"))
+@Html.Hidden("AnimationMgrBitwiseOperatorTranslated", FMBaseController.TranslateText("Bitwise Operator"))
+@Html.Hidden("AnimationMgrBitMaskTranslated", FMBaseController.TranslateText("Bit Mask"))
+@Html.Hidden("AnimationMgrComparisonOperatorTranslated", FMBaseController.TranslateText("Comparison Operator"))
+@Html.Hidden("AnimationMgrUpdateTranslated", FMBaseController.TranslateText("Update"))
+@Html.Hidden("AnimationMgrCancelTranslated", FMBaseController.TranslateText("Cancel"))
+@Html.Hidden("AnimationMgrAddPropertyTranslated", FMBaseController.TranslateText("Add Property"))
+@Html.Hidden("AnimationMgrDeleteTestTranslated", FMBaseController.TranslateText("Delete Test"))
+@Html.Hidden("AnimationMgrTestDefinitionTranslated", FMBaseController.TranslateText("Test Definition"))
+@Html.Hidden("AnimationMgrPreviewTranslated", FMBaseController.TranslateText("Preview"))
+@Html.Hidden("AnimationMgrNoneTranslated", FMBaseController.TranslateText("None"))
+@Html.Hidden("AnimationMgrUnassignedTranslated", FMBaseController.TranslateText("UNASSIGNED"))
+@Html.Hidden("AnimationMgrToggleOnTranslated", FMBaseController.TranslateText("Toggle On"))
+@Html.Hidden("AnimationMgrToggleOffTranslated", FMBaseController.TranslateText("Toggle Off"))
+@Html.Hidden("AnimationMgrExpandedTranslated", FMBaseController.TranslateText("expanded"))
+@Html.Hidden("AnimationMgrAddTestTranslated", FMBaseController.TranslateText("Add Test"))
+@Html.Hidden("AnimationMgrDeleteTestGroupTranslated", FMBaseController.TranslateText("Delete Test Group"))
+@Html.Hidden("AnimationMgrDeletePropertyTranslated", FMBaseController.TranslateText("Delete Property"))
+@Html.Hidden("AnimationMgrOkTranslated", FMBaseController.TranslateText("Ok"))
+@Html.Hidden("AnimationManagerSaveModifiedAnimationTranslated", FMBaseController.TranslateText("Do you wish to save the changes to the current animation?"))
+@{
+    AnimationManagerModelAnimation anime = null;
+    foreach (var animation in Model.AnimationList)
+    {
+        if (animation.AnimationGuid == Model.SelectedAnimationGuid)
+        {
+            anime = animation;
+        }
+    }
+    var animationUseCount = anime == null ? 0 : anime.UseCount;
+    //if (Model.AnimationList.Count > 0)
+    //{
+    //    anime = Model.AnimationList[0];
+    //}
+    var deleteAnimationConfirmationText = "";
+
+    if (animationUseCount > 0)
+    {
+        var warningText = FMBaseController.TranslateText("WARNING! Animation is currently in use.");
+        var temptext = FMBaseController.TranslateText("Are you sure you wish to delete this item?");
+        deleteAnimationConfirmationText = warningText + " " + temptext;
+    }
+    else
+    {
+        deleteAnimationConfirmationText = FMBaseController.TranslateText("Are you sure you wish to delete this item?");
+    }
+
+<div id="AnimationManagerOutterDiv" class="table" style="height: calc(100vh - 200px)">
+	<table id="animationTable" class="animationTable">
+		<thead class="tableHeaderFormating">
+			<tr class="rowBorder">
+				<th class="animationExpand text-center animationRowTd"></th>
+				<th class="animationName text-left animationRowTd">@FMBaseController.TranslateText("Animation")</th>
+				<th class="animationCount text-center animationRowTd">@FMBaseController.TranslateText("Count")</th>
+				<th class="animationAddHeader text-center animationRowTd">@FMBaseController.TranslateText("Add Test Group")</th>
+				<th class="animationAddHeader text-center animationRowTd">@FMBaseController.TranslateText("Copy Animation")</th>
+				<th class="animationDelHeader text-left animationRowTd">@FMBaseController.TranslateText("Delete Animation")</th>
+			</tr>
+		</thead>
+		<tbody id="animationTableBody">
+			<tr id="animationRow" class="animationRowBorder">
+				<td id="animationExpand" class="animationExpand text-right animationRowTd" onclick="javascript: return AnimationManager.CollapseAnimation( this );">
+					<img name="collapse" draggable="false" title='@FMBaseController.TranslateText("expanded")' alt='@FMBaseController.TranslateText("expanded")' src="~/fmwebapp/images/Arrow-downBl.png">
+				</td>
+				<td id="animationList" class="animationName text-left animationRowTd">
+					<select id="AnnimationDropDown" class="animationDropDown" onchange="AnimationManager.AnimationSelectionChanged( this )">
+						@if (anime == null)
+						{
+							<option selected value="EMPTY"></option>
+						}
+						<option value="00000000-0000-0000-0000-000000000000">@FMBaseController.TranslateText("<Add New Animation>")</option>
+						@foreach (var animation in Model.AnimationList)
+						{
+							var animationSelected = "";
+							if (animation.AnimationGuid == Model.SelectedAnimationGuid)
+							{
+								animationSelected = "selected";
+								anime = animation;
+								animationUseCount = anime == null ? 0 : anime.UseCount;
+							}
+							<option @animationSelected value="@animation.AnimationGuid">@animation.ID</option>
+						}
+					</select>
+				</td>
+				<td id="animationCount" class="animationCount text-center animationRowTd">
+					@animationUseCount
+				</td>
+				<td id="animationAdd" class="animationAddHeader text-center animationRowTd" onclick="javascript: return AnimationManager.AddAnimationTestGroup( this );">
+					<img name="add" draggable="false" title='@FMBaseController.TranslateText("Add Test Group")' alt='@FMBaseController.TranslateText("Add Test Group")' src="~/fmwebapp/images/Insert-Row.png">
+				</td>
+				<td id="animationRename" class="animationAddHeader text-center animationRowTd" onclick="javascript: return AnimationManager.OpenCopyAndRenameAnimation(this);">
+					<img name="copyandrename" draggable="false" title='@FMBaseController.TranslateText("copy and rename animation")' alt='@FMBaseController.TranslateText("copy and rename animation")' src="~/fmwebapp/images/Rename.png">
+				</td>
+				<td id="animationDelete" class="animationDelRow text-left animationRowTd" style="cursor: not-allowed" onclick="if(AnimationManager.animationDeleteEnabled === false || AnimationManager.AnimationInEditMode){return ;}; if ( confirm( '@deleteAnimationConfirmationText' ) ){AnimationManager.DelAnimation( this );}">
+					<img name="del" draggable="false" title='@FMBaseController.TranslateText("Delete Animation")' alt='@FMBaseController.TranslateText("Delete Animation")' src="~/fmwebapp/images/Trash-icon.png">
+				</td>
+			</tr>
+			@if (anime != null)
+			{
+				<tr class="rowBorder" id="AnimationTestGroupsRow">
+				<td class="animationTestGroupRowTd text-left" colspan="6" id="AnimationTestGroupsTd">
+				<table id="AnimationTestGroupsTable" class="animationTestGroupTable">
+				<thead class="animationTableHeaderFormating">
+				<tr class="rowBorder">
+					<th class="testGroupHeaderCol1 text-center animationDummyFirstColumn testGroupRowTd firstAnimationTestGroupTd"></th>
+					<th class="testGroupHeaderCol2 text-left testGroupRowTd">@FMBaseController.TranslateText("Add Test")</th>
+					<th class="testGroupHeaderCol3 text-left testGroupRowTd">@FMBaseController.TranslateText("Delete Test Group")</th>
+					<th class="testGroupHeaderCol4 text-left testGroupRowTd">@FMBaseController.TranslateText("Test Group Name")</th>
+					<th class="testGroupHeaderCol5 text-left testGroupRowTd">@FMBaseController.TranslateText("Data Type")</th>
+					<th class="testGroupHeaderCol6 text-left testGroupRowTd">@FMBaseController.TranslateText("Point Value")</th>
+				</tr>
+				</thead>
+				<tbody id="AnimationTestGroupsTableBody">
+				@foreach (var testGroup in anime.AnimationTestGroups)
+				{
+					var animationTestGroupRowRowId = "AnimationTestGroupRow_" + testGroup.AnimationTestGroupGuid;
+					var animationTestGroupExpandId = "AnimationTestGroupExpand_" + testGroup.AnimationTestGroupGuid;
+					var animationTestGroupIdId = "AnimationTestGroupIdId_" + testGroup.AnimationTestGroupGuid;
+					var animationTestGroupDataTypeId = "AnimationTestGroupDataTypeId_" + testGroup.AnimationTestGroupGuid;
+					var animationTestGroupDataTypeDropDownId = "AnimationTestGroupDataTypeDropDownId_" + testGroup.AnimationTestGroupGuid;
+					var animationTestGroupAddId = "AnimationTestGroupAddId_" + testGroup.AnimationTestGroupGuid;
+					var animationTestGroupDelId = "AnimationTestGroupDelId_" + testGroup.AnimationTestGroupGuid;
+					var animationTestGroupPointValueId = "AnimationTestGroupPointValueId_" + testGroup.AnimationTestGroupGuid;
+					var animationTestRowRowId = "AnimationTestRow_" + testGroup.AnimationTestGroupGuid;
+					var animationTestRowTdId = "AnimationTestRowTd_" + testGroup.AnimationTestGroupGuid;
+					var animationTestTableId = "AnimationTestTableId_" + testGroup.AnimationTestGroupGuid;
+					var pointValueAndField = FMBaseController.TranslateText("UNASSIGNED");
+					var alarmStatusFieldForDataType = "<" + Model.TranslatedTextForAlarmStatusField + ">";
+					if (testGroup.PointValueGuid != Guid.Empty)
+					{
+						pointValueAndField = testGroup.PointValueAndFieldID;
+					}
+
+					<tr id="@animationTestGroupRowRowId" class="rowBorder">
+					<td id="@animationTestGroupExpandId" class="testGroupCol1 text-left testGroupRowTd firstAnimationTestGroupTd" onclick="javascript: return AnimationManager.CollapseTestGroup( this );">
+						<img name="collapse" draggable="false" title='@FMBaseController.TranslateText("expanded")' alt='@FMBaseController.TranslateText("expanded")' src="~/fmwebapp/images/Arrow-downBl.png">
+					</td>
+					<td id="@animationTestGroupAddId" class="testGroupCol2 text-left testGroupRowTd" onclick="javascript: return AnimationManager.AddTest( this );">
+						<img name="add" draggable="false" title='@FMBaseController.TranslateText("Add Test")' alt='@FMBaseController.TranslateText("Add Test")' src="~/fmwebapp/images/Insert-Row.png">
+					</td>
+					<td id="@animationTestGroupDelId" class="testGroupCol3 text-center testGroupRowTd" onclick="if (AnimationManager.AnimationInEditMode){return ;} if ( confirm( '@deleteAnimationConfirmationText' ) ){AnimationManager.DelTestGroup( this );}">
+						<img name="del" draggable="false" title='@FMBaseController.TranslateText("Delete Test Group")' alt='@FMBaseController.TranslateText("Delete Test Group")' src="~/fmwebapp/images/Trash-icon.png">
+					</td>
+					<td id="@animationTestGroupIdId" class="testGroupCol4 text-left testGroupRowTd" ondblclick="javascript: return AnimationManager.PutTestGroupNameInEditMode(this);">
+						@testGroup.ID
+					</td>
+					<td id="@animationTestGroupDataTypeId" class="testGroupCol5 text-left testGroupRowTd">
+						@testGroup.DataType
+					</td>
+					<td id="@animationTestGroupPointValueId" class="testGroupCol6 text-left testGroupRowTd" ondblclick="javascript: return AnimationManager.TestGroupPointValueSelection( this );">
+						@pointValueAndField
+					</td>
+				    </tr>
+				    <tr class="rowBorder" id="@animationTestRowRowId">
+										<td id="@animationTestRowTdId" class="animationTestGroupRowTd col-sm-2 col-md-2 text-left" colspan="6">
+											<table id="@animationTestTableId" class="animationTestsTable">
+												<thead class="animationTableHeaderFormating">
+													<tr>
+														<th class="text-center testHeaderCol1 testGroupRowTd firstAnimationTestTd"></th>
+														<th class="text-left testGroupRowTd testHeaderCol2">@FMBaseController.TranslateText("Add Property")</th>
+														<th class="text-left testGroupRowTd testHeaderCol3">@FMBaseController.TranslateText("Delete Test")</th>
+														<th class="text-left testGroupRowTd testHeaderCol4">@FMBaseController.TranslateText("Test Definition")</th>
+														<th class="text-left testGroupRowTd testHeaderCol5">@FMBaseController.TranslateText("Preview")</th>
+													</tr>
+												</thead>
+												<tbody>
+													@foreach (var animationTest in testGroup.TestList)
+                                                    {
+                                                        var animationTestGuid = animationTest.AnimationTestGuid;
+                                                        var animationTestTableRowId = "AnimationTestTableRowId_" + animationTest.AnimationTestGuid;
+                                                        var animationTestExpandId = "AnimationTestExpandId_" + animationTest.AnimationTestGuid;
+                                                        var animationTestDefinitionId = "AnimationTestDefinitionId_" + animationTest.AnimationTestGuid;
+                                                        var animationTestPreviewColId = "AnimationTestPreviewColId_" + animationTest.AnimationTestGuid;
+                                                        var animationTestAddId = "AnimationTestAddId_" + animationTest.AnimationTestGuid;
+                                                        var animationTestDelId = "AnimationTestDelId_" + animationTest.AnimationTestGuid;
+                                                        var animationTestPropertiesRowId = "AnimationTestPropertiesRowId_" + animationTest.AnimationTestGuid;
+                                                        var animationTestPropertiesRowTdId = "AnimationTestPropertiesRowTdId_" + animationTest.AnimationTestGuid;
+                                                        var animationTestPropertyTableId = "AnimationTestPropertyTableId_" + animationTest.AnimationTestGuid;
+
+                                                        var animationTestPreviewHdBkColorId = "AnimationTestPreviewHdBkColorId_" + animationTest.AnimationTestGuid;
+                                                        var animationTestPreviewHdLnColorId = "AnimationTestPreviewHdLnColorId_" + animationTest.AnimationTestGuid;
+                                                        var animationTestPreviewHdFlColorId = "AnimationTestPreviewHdFlColorId_" + animationTest.AnimationTestGuid;
+                                                        var animationTestPreviewHdTxColorId = "AnimationTestPreviewHdTxColorId_" + animationTest.AnimationTestGuid;
+                                                        var animationTestPreviewHdVsColorId = "AnimationTestPreviewHdVsColorId_" + animationTest.AnimationTestGuid;
+                                                        var animationTestPreviewHdTextColorId = "AnimationTestPreviewHdTextColorId_" + animationTest.AnimationTestGuid;
+
+                                                        var animationTestPreviewBkColorId = "AnimationTestPreviewBkColorId_" + animationTest.AnimationTestGuid;
+                                                        var animationTestPreviewLnColorId = "AnimationTestPreviewLnColorId_" + animationTest.AnimationTestGuid;
+                                                        var animationTestPreviewFlColorId = "AnimationTestPreviewFlColorId_" + animationTest.AnimationTestGuid;
+                                                        var animationTestPreviewTxColorId = "AnimationTestPreviewTxColorId_" + animationTest.AnimationTestGuid;
+                                                        var animationTestPreviewVsColorId = "AnimationTestPreviewVsColorId_" + animationTest.AnimationTestGuid;
+                                                        var animationTestPreviewTextColorId = "AnimationTestPreviewTextColorId_" + animationTest.AnimationTestGuid;
+
+                                                        var animationTestPreviewBkDivId1 = "AnimationTestPreviewBkDivId1_" + animationTest.AnimationTestGuid;
+                                                        var animationTestPreviewBkDivId2 = "AnimationTestPreviewBkDivId2_" + animationTest.AnimationTestGuid;
+                                                        var animationTestPreviewLnDivId1 = "AnimationTestPreviewLnDivId1_" + animationTest.AnimationTestGuid;
+                                                        var animationTestPreviewLnDivId2 = "AnimationTestPreviewLnDivId2_" + animationTest.AnimationTestGuid;
+                                                        var animationTestPreviewFlDivId1 = "AnimationTestPreviewFlDivId1_" + animationTest.AnimationTestGuid;
+                                                        var animationTestPreviewFlDivId2 = "AnimationTestPreviewFlDivId2_" + animationTest.AnimationTestGuid;
+                                                        var animationTestPreviewTxDivId1 = "AnimationTestPreviewTxDivId1_" + animationTest.AnimationTestGuid;
+                                                        var animationTestPreviewTxDivId2 = "AnimationTestPreviewTxDivId2_" + animationTest.AnimationTestGuid;
+                                                        var animationTestPreviewVsLblId = "AnimationTestPreviewVsLblId_" + animationTest.AnimationTestGuid;
+                                                        var animationTestPreviewTxLblId = "AnimationTestPreviewTxLblId_" + animationTest.AnimationTestGuid;
+                                                        var animationTestPreviewTableId = "AnimationTestPreviewTableId_" + animationTest.AnimationTestGuid;
+                                                        var propertiesList = animationTest.PropertyList;
+
+														<tr id="@animationTestTableRowId" class="rowBorder">
+															<td id="@animationTestExpandId" class="testCol1 text-left testGroupRowTd firstAnimationTestTd" onclick="javascript: return AnimationManager.CollapseTest( this );">
+																<img name="collapse" draggable="false" title='@FMBaseController.TranslateText("expanded")' alt='@FMBaseController.TranslateText("expanded")' src="~/fmwebapp/images/Arrow-downBl.png">
+															</td>
+															<td id="@animationTestAddId" class="testCol2 text-center testGroupRowTd" onclick="javascript: return AnimationManager.AddProperty( this );">
+																<img name="add" draggable="false" title='@FMBaseController.TranslateText("Add Property")' alt='@FMBaseController.TranslateText("Add Property")' src="~/fmwebapp/images/Insert-Row.png">
+															</td>
+															<td id="@animationTestDelId" class="testCol3 text-center testGroupRowTd" onclick="if (AnimationManager.AnimationInEditMode){return ;} if ( confirm( '@deleteAnimationConfirmationText' ) ){AnimationManager.DelTest( this );}">
+																<img name="del" draggable="false" title='@FMBaseController.TranslateText("Delete Test")' alt='@FMBaseController.TranslateText("Delete Test")' src="~/fmwebapp/images/Trash-icon.png">
+															</td>
+															<td id="@animationTestDefinitionId" class="testCol4 text-left testGroupRowTd" ondblclick="javascript: return AnimationManager.HandleTestEditEvent('@animationTestGuid', '@animationTestTableId', '@animationTestTableRowId');">
+																@animationTest.GetUiString()
+															</td>
+															<td id="@animationTestPreviewColId" class="testCol5 text-left testGroupRowTd">
+																<table id="@animationTestPreviewTableId" class="hidden">
+																	<thead>
+																	<tr>
+																		<th id="@animationTestPreviewHdBkColorId" class="testPreviewHeader hidden">@FMBaseController.TranslateText("BkGrnd")</th>
+																		<th id="@animationTestPreviewHdLnColorId" class="testPreviewHeader hidden">@FMBaseController.TranslateText("Line")</th>
+																		<th id="@animationTestPreviewHdFlColorId" class="testPreviewHeader hidden">@FMBaseController.TranslateText("Fill")</th>
+																		<th id="@animationTestPreviewHdTxColorId" class="testPreviewHeader hidden">@FMBaseController.TranslateText("Text Color")</th>
+																		<th id="@animationTestPreviewHdVsColorId" class="testPreviewHeader hidden">@FMBaseController.TranslateText("Visibility")</th>
+                                                                        <th id="@animationTestPreviewHdTextColorId" class="testPreviewHeader hidden">@FMBaseController.TranslateText("Text")</th>
+																	</tr>
+																	</thead>
+																	<tbody>
+																	<tr>
+																		<td id="@animationTestPreviewBkColorId" class="testPreviewPadding hidden">
+																			<div class="sp-preview testPreviewColorSize">
+																				<div id="@animationTestPreviewBkDivId1" class="sp-preview-inner" style="background-color: transparent;"></div>
+																			</div>
+																			<div class="sp-preview testPreviewColorSize">
+																				<div id="@animationTestPreviewBkDivId2" class="sp-preview-inner" style="background-color: transparent;"></div>
+																			</div>
+																		</td>
+																		<td id="@animationTestPreviewLnColorId" class="testPreviewPadding hidden">
+																			<div class="sp-preview testPreviewColorSize">
+																				<div id="@animationTestPreviewLnDivId1" class="sp-preview-inner" style="background-color: transparent;"></div>
+																			</div>
+																			<div class="sp-preview testPreviewColorSize">
+																				<div id="@animationTestPreviewLnDivId2" class="sp-preview-inner" style="background-color: transparent;"></div>
+																			</div>
+																		</td>
+																		<td id="@animationTestPreviewFlColorId" class="testPreviewPadding hidden">
+																			<div class="sp-preview testPreviewColorSize">
+																				<div id="@animationTestPreviewFlDivId1" class="sp-preview-inner" style="background-color: transparent;"></div>
+																			</div>
+																			<div class="sp-preview testPreviewColorSize">
+																				<div id="@animationTestPreviewFlDivId2" class="sp-preview-inner" style="background-color: transparent;"></div>
+																			</div>
+																		</td>
+																		<td id="@animationTestPreviewTxColorId" class="testPreviewPadding hidden">
+																			<div class="sp-preview testPreviewColorSize">
+																				<div id="@animationTestPreviewTxDivId1" class="sp-preview-inner" style="background-color: transparent;"></div>
+																			</div>
+																			<div class="sp-preview testPreviewColorSize">
+																				<div id="@animationTestPreviewTxDivId2" class="sp-preview-inner" style="background-color: transparent;"></div>
+																			</div>
+																		</td>
+																		<td id="@animationTestPreviewVsColorId" class="testPreviewPadding hidden">
+																			<label id="@animationTestPreviewVsLblId" class="testPreviewVisibilityLabel">ON</label>
+																		</td>
+                                                                        <td id="@animationTestPreviewTextColorId" class="testPreviewPadding hidden">
+                                                                            <label id="@animationTestPreviewTxLblId" class="testPreviewVisibilityLabel">ON</label>
+                                                                        </td>
+																	</tr>
+																	</tbody>
+																</table>
+															</td>
+														</tr>
+														<tr class="rowBorder" id="@animationTestPropertiesRowId">
+															<td id="@animationTestPropertiesRowTdId" class="animationTestGroupRowTd col-sm-2 col-md-2 text-left" colspan="5">
+																<table id="@animationTestPropertyTableId" class="animationTestsTable" style="width: 100%">
+																	<thead class="animationTableHeaderFormating">
+																		<tr>
+																			<th class="text-left testGroupRowTd firstAnimationTestPropertyTd">@FMBaseController.TranslateText("Delete")</th>
+																			<th class="text-left testGroupRowTd testPropertyHeaderCol2">@FMBaseController.TranslateText("Property")</th>
+																			<th class="text-left testGroupRowTd testPropertyHeaderCol3">@FMBaseController.TranslateText("Value")</th>
+																			<th class="text-left testGroupRowTd"></th>
+																			<th class="text-left testGroupRowTd"></th>
+																			<th class="text-left testGroupRowTd"></th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		@foreach (var property in propertiesList)
+																		{
+																			var propertyId = property.AnimationPropertyGuid;
+																			var animationTestPropertyTableRowId = "AnimationTestPropertyTableRowId_" + propertyId;
+																			var animationTestPropertyNameId = "AnimationTestPropertyNameId_" + propertyId;
+																			var animationTestPropertyValueId = "AnimationTestPropertyValueId_" + propertyId;
+																			var animationTestPropertyDelId = "AnimationTestPropertyDelId_" + propertyId;
+																			var animationTestPropertyColorButton1Id = "AnimationTestPropertyColorButton1Id_" + propertyId;
+																			var animationTestPropertyColorButton2Id = "AnimationTestPropertyColorButton2Id_" + propertyId;
+																			var animationTestPropertyTransparency1Id = "AnimationTestPropertyTransparency1Id_" + propertyId;
+																			var animationTestPropertyTransparency2Id = "AnimationTestPropertyTransparency2Id_" + propertyId;
+																			var animationTestPropertyColor1Id = "1|" + propertyId;
+																			var animationTestPropertyColor2Id = "2|" + propertyId;
+																			var animationTestPropertyTextboxId = "AnimationTestPropertyTextBoxId_" + propertyId;
+																			var animationTestPropertyVisibityId = "AnimationTestPropertyVisibityId_" + propertyId;
+																			<tr id="@animationTestPropertyTableRowId" class="rowBorder">
+																				<td id="@animationTestPropertyDelId" class="testPropertyCol1 text-right testGroupRowTd firstAnimationTestPropertyTd" onclick="if (AnimationManager.AnimationInEditMode){return ;} if ( confirm( '@deleteAnimationConfirmationText' ) ){AnimationManager.NewPropertyDelete('@animationTestPropertyTableRowId' );}">
+																					<img name="del" draggable="false" title='@FMBaseController.TranslateText("Delete Property")' alt='@FMBaseController.TranslateText("Delete Property")' src="~/fmwebapp/images/Trash-icon.png">
+																				</td>
+																				<td id="@animationTestPropertyNameId" class="testPropertyCol2 text-left testGroupRowTd">
+																					@property.Name
+																				</td>
+																				@if (property.LookupName == "BACKGROUND_COLOR" || property.LookupName == "LINE_COLOR" || property.LookupName == "FILL_COLOR")
+																				{
+																					var color1 = property.VisualStates[0].Value;
+																					var trans1 = property.VisualStates[1].Value;
+																					var color2 = property.VisualStates[2].Value;
+																					var trans2 = property.VisualStates[3].Value;
+																					if (string.IsNullOrEmpty(color1))
+																					{
+																						color1 = "transparent";
+																						trans1 = "100";
+																					}
+																					if (string.IsNullOrEmpty(color2))
+																					{
+																						color2 = "transparent";
+																						trans2 = "100";
+																					}
+																					<td type='text' id="@animationTestPropertyColor1Id" data-show-alpha="true" class="testPropertyStandardColorCol3 text-left testGroupRowTd full">
+																						<div class="sp-preview">
+																							<div id="@animationTestPropertyColorButton1Id" class="sp-preview-inner" style="background-color: @color1;"></div>
+																						</div>
+																					</td>
+																					<td class="testPropertyStandardColorCol4 text-left testGroupRowTd">
+																						<input id="@animationTestPropertyTransparency1Id" value="@trans1" class="animationTransPercentTextbox"
+																						       onfocus="AnimationManager.HandleTransparencyTextboxOnFocus('@animationTestPropertyTransparency1Id')"
+																						       onblur="AnimationManager.HandleTransparencyTextboxOnBlur('@animationTestPropertyTransparency1Id')"/>
+																						<label class="animationPercentLabel">%</label>
+																					</td>
+																					<td type='text' id="@animationTestPropertyColor2Id" data-show-alpha="true" class="testPropertyStandardColorCol5 text-left testGroupRowTd full">
+																						<div class="sp-preview">
+																							<div id="@animationTestPropertyColorButton2Id" class="sp-preview-inner" style="background-color: @color2;"></div>
+																						</div>
+																					</td>
+																					<td class="testPropertyStandardColorCol6 text-left testGroupRowTd">
+																						<input id="@animationTestPropertyTransparency2Id" value="@trans2" class="animationTransPercentTextbox"
+																						       onfocus="AnimationManager.HandleTransparencyTextboxOnFocus('@animationTestPropertyTransparency2Id')"
+																						       onblur="AnimationManager.HandleTransparencyTextboxOnBlur('@animationTestPropertyTransparency2Id')"/>
+																						<label class="animationPercentLabel">%</label>
+																					</td>
+                                                                                }
+                                                                                else if (property.LookupName == "TEXT_COLOR")
+                                                                                {
+                                                                                    var color1 = property.VisualStates[0].Value;
+                                                                                    var trans1 = property.VisualStates[1].Value;
+                                                                                    var color2 = property.VisualStates[2].Value;
+                                                                                    var trans2 = property.VisualStates[3].Value;
+                                                                                    if (string.IsNullOrEmpty(color1))
+                                                                                    {
+                                                                                        color1 = "transparent";
+                                                                                    }
+                                                                                    if (string.IsNullOrEmpty(color2))
+                                                                                    {
+                                                                                        color2 = "transparent";
+                                                                                    }
+																					<td type='text' id="@animationTestPropertyColor1Id" data-show-alpha="false" class="testPropertyTextColorCol3 text-left testGroupRowTd full">
+																						<div class="sp-preview">
+																							<div id="@animationTestPropertyColorButton1Id" class="sp-preview-inner" style="background-color: @color1;"></div>
+																						</div>
+																					</td>
+																					<td type='text' id="@animationTestPropertyColor2Id" data-show-alpha="false" class="testPropertyTextColorCol4 text-left testGroupRowTd full">
+																						<div class="sp-preview">
+																							<div id="@animationTestPropertyColorButton2Id" class="sp-preview-inner" style="background-color: @color2;"></div>
+																						</div>
+																					</td>
+																					<td></td>
+																					<td></td>
+																				}
+																				else if (property.LookupName == "TEXT")
+																				{
+																					<td class="testPropertyTextCol3 text-left testGroupRowTd" colspan="4" >
+																						<input id="@animationTestPropertyTextboxId" class="testPropertyTB" value="@property.Value" onblur="AnimationManager.HandlePropertyTextboxOnBlur('@animationTestPropertyTextboxId')"/>
+																					</td>			}
+																				else if (property.LookupName == "VISIBILITY")
+																				{
+																					if (property.VisualStates[0].Value == "ON")
+																					{
+																						<td class="testPropertyStandardColorCol3 text-left testGroupRowTd" onclick="AnimationManager.HandleVisibilityPropertyOnClick('@animationTestPropertyVisibityId')">
+																							<img id="@animationTestPropertyVisibityId" name="ToggleOn" title='@FMBaseController.TranslateText("Toggle On")' alt='@FMBaseController.TranslateText("Toggle On")' draggable="false" src="~/fmwebapp/images/On.png" />
+																						</td>						
+																					}
+																					else
+																					{
+																						<td class="testPropertyStandardColorCol3 text-left testGroupRowTd" onclick="AnimationManager.HandleVisibilityPropertyOnClick( '@animationTestPropertyVisibityId' )">
+																							<img id="@animationTestPropertyVisibityId" name="ToggleOff" title='@FMBaseController.TranslateText("Toggle Off")' alt='@FMBaseController.TranslateText("Toggle Off")' draggable="false" src="~/fmwebapp/images/Off.png"/>
+																						</td>
+																					}
+																					<td></td>
+																					<td></td>
+																					<td></td>
+																				}
+																			</tr>
+																		}
+																	</tbody>
+																</table>
+															</td>
+														</tr>
+													}
+												</tbody>
+											</table>
+										</td>
+									</tr>
+									}
+							</tbody>
+						</table>
+					</td>
+				</tr>
+			}
+			</tbody>
+		</table>
+	</div>
+	<section id="AnimationNewModals">
+		<div class="row">
+			<div id="AnimationNewModalScreen" class="modal fade modal-md animationnewmodal" data-backdrop="static" data-focus-on="input:first" role="dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button id="AnimationNewScreen_CloseButton" type="button" class="close" data-dismiss="modal" onclick="javascript: return AnimationManager.CloseNewAnimation( this );">&times;</button>
+						<h4 id="AnimationNewScreen" class="modal-title">@FMBaseController.TranslateText("New Animation")</h4>
+					</div>
+					<div class="modal-body">
+						<div style="display: table">
+							<div style="display: table-row">
+								<div style="display: table-cell">
+									<label for="newanimationname1" class="formfieldtitle">Name</label>
+								</div>
+								<div style="display: table-cell; padding-left: 10px">
+									<input type="text" maxlength="30" name="newanimationname1" id="newanimationname1" class="formfield" style="width: 370px" onblur="javascript: return AnimationManager.HandleAnimationNameTextboxOnChange('newanimationname1', 'AnimationNewOkButton1');" onkeyup="javascript: return AnimationManager.HandleAnimationNameTextboxOnChange('newanimationname1', 'AnimationNewOkButton1');"/>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<div class="btn-toolbar">
+							<div class="pull-right">
+								<button id="AnimationNewOkButton1" disabled="disabled" type="button" accesskey="O" class="btn" data-dismiss="modal" onclick="javascript: return AnimationManager.CreateNewAnimation( this );"><u>O</u>k</button>
+								<button id="AnimationNewCancelButton" type="button" accesskey="C" class="btn btn-default" data-dismiss="modal" onclick="javascript: return AnimationManager.CloseNewAnimation( this );"><u>C</u>ancel</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section id="AnimationCopyAndRenameModals">
+		<div class="row">
+			<div id="AnimationCopyAndRenameModalScreen" class="modal fade modal-md animationnewmodal" data-backdrop="static" data-focus-on="input:first" role="dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button id="AnimationCopyAndRenameScreen_CloseButton" type="button" class="close" data-dismiss="modal" onclick="javascript: return AnimationManager.CloseCopyAndRenameAnimation( this );">&times;</button>
+						<h4 id="AnimationCopyAndRenameScreen" class="modal-title">@FMBaseController.TranslateText("Copy And Rename Animation")</h4>
+					</div>
+					<div class="modal-body">
+						<div style="display: table">
+							<div style="display: table-row">
+								<div style="display: table-cell">
+									<label for="CopyAndRenameAnimationname" class="formfieldtitle">Name</label>
+								</div>
+								<div style="display: table-cell; padding-left: 10px">
+									<input type="text" maxlength="30" name="CopyAndRenameAnimationname" id="CopyAndRenameAnimationname" class="formfield" style="width: 370px" onblur="javascript: return AnimationManager.HandleAnimationNameTextboxOnChange('CopyAndRenameAnimationname', 'AnimationCopyAndRenameOkButton');" onkeyup="javascript: return AnimationManager.HandleAnimationNameTextboxOnChange('CopyAndRenameAnimationname', 'AnimationCopyAndRenameOkButton');" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<div class="btn-toolbar">
+							<div class="pull-right">
+								<button id="AnimationCopyAndRenameOkButton" disabled="disabled" type="button" accesskey="O" class="btn" data-dismiss="modal" onclick="javascript: return AnimationManager.CreateCopyAndRenameAnimation( this );"><u>O</u>k</button>
+								<button id="AnimationCopyAndRenameCancelButton" type="button" accesskey="C" class="btn btn-default" data-dismiss="modal" onclick="javascript: return AnimationManager.CloseCopyAndRenameAnimation( this );"><u>C</u>ancel</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+}
+
+<script type="text/javascript">
+	//# sourceURL=_AnimationManagerView.cshtml
+	$(document).ready(function ()
+	{
+	    AnimationManager.Init();
+	    AnimationManager.SetCollapsed();
+	});
+
+</script>

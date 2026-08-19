@@ -1,0 +1,62 @@
+﻿@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.StatisticsSummaryModel
+
+@{
+	ViewBag.Title = "StatisticsExplorer";
+	Layout = "~/Areas/Views/Shared/_Layout.cshtml";
+}
+
+@section AddToHead {
+    <link rel="stylesheet" type="text/css" href="~/Areas/InventoryManagement/Views/Statistics/StatisticsSummary.css"/>
+}
+
+<div class="row headline" style="width: 5in; padding-bottom: 10px">
+    @FMBaseController.TranslateText( "Point Service Statistics Summary" )
+</div>
+
+@using ( Html.BeginForm( "ButtonSubmit", "Statistics", FormMethod.Post, new { id = "submitForm" } ) )
+{
+    @Html.AntiForgeryToken()
+
+	<div style="margin-bottom: 15px">
+		@Html.DropDownListFor(m => m.SelectedPointService.IdentityGuid, Model.PointServiceList, new { onchange = "document.location.href = './PointServiceSelectionChanged?id=' + this.options[this.selectedIndex].value;" })
+	</div>
+
+    <div style="margin-bottom: 15px">
+        @Html.FMButton( "refreshButton", "refreshButton", "Refresh", true, "Refresh Statistics" )
+    </div>
+
+    <div>
+        <table class="statisticsTable">
+            <tr>
+                <th style="text-align: left">@FMBaseController.TranslateText("Stat Name")</th>
+                <th>@FMBaseController.TranslateText("Count")</th>
+                <th>@FMBaseController.TranslateText("Average")</th>
+                <th>@FMBaseController.TranslateText("Min")</th>
+                <th>@FMBaseController.TranslateText("Max")</th>
+                <th>@FMBaseController.TranslateText("Total")</th>
+            </tr>
+
+            @if (Model.Statistics != null)
+            {
+                var milliseconds = FMBaseController.TranslateText("ms");
+
+                foreach (var stat in Model.Statistics)
+                {
+                    <tr>
+                        <td>@stat.Name</td>
+                        <td class="viewNumber">@stat.Count</td>
+                        <td class="viewNumber">@stat.Average.ToString("0.00") @milliseconds</td>
+                        <td class="viewNumber">@stat.Min @milliseconds</td>
+                        <td class="viewNumber">@stat.Max @milliseconds</td>
+                        <td class="viewNumber">@stat.TotalMillisconds @milliseconds</td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+
+    <div style="margin-top: 15px">
+        <button class="formfieldtitle pushButton" style="background-color: yellow" name="command" value="resetButton" onclick="if (disabled) return; return confirm('Are you sure you wish to RESET ALL STATISTICS?');">Reset</button>
+    </div>
+}

@@ -1,0 +1,27 @@
+HKCR
+{
+	ScullyOPCServer.Ports.1 = s 'Ports Class'
+	{
+		CLSID = s '{BF99140E-F916-49c2-9541-61BDD75E4531}'
+	}
+	ScullyOPCServer.Ports = s 'Ports Class'
+	{
+		CLSID = s '{BF99140E-F916-49c2-9541-61BDD75E4531}'
+		CurVer = s 'ScullyOPCServer.Ports.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {BF99140E-F916-49c2-9541-61BDD75E4531} = s 'Ports Class'
+		{
+			ProgID = s 'ScullyOPCServer.Ports.1'
+			VersionIndependentProgID = s 'ScullyOPCServer.Ports'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{B93AB8CF-D487-4d1c-92B3-280A773CC36C}'
+		}
+	}
+}

@@ -1,0 +1,400 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BC4ECC9D-5DCB-47B9-9E31-66DAA6E15425}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FuelsManager.Afss.Module.Gasboy.OrCU</RootNamespace>
+    <AssemblyName>FuelsManager.Afss.Module.Gasboy.OrCU</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>FMStrongNameKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Communications\GasboyConnection.cs" />
+    <Compile Include="Communications\GasboySession.cs" />
+    <Compile Include="GasboyIslanderPlus.cs" />
+    <Compile Include="Communications\GasboySessionController.cs" />
+    <Compile Include="GasboyController.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\GasboyBOS\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="FMStrongNameKey.snk" />
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.CheckEHReasonabilityResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.CheckOdometerReasonabilityResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.FindMatchingReceiptResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.GetFleetDetailsByMeanIDResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.GetMeanEHResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.GetMeanPricesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.GetProductDetailsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.GetReceiptDataForReceiptResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.GetTankListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.GetTransactionDataForReceiptResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.HOBOSGetDeliveryByDateCountResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.HOBOSGetDeliveryByDateResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.HOBOSGetDeliveryByDocIdCountResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.HOBOSGetDeliveryByDocIdResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.HOBOSGetLastDeliveryIDResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.HOBOSGetPOSWelcomeMessageResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.HOBOSGetReceiptHeaderFooterResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.HOGetLastTLGDeliveriesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.HOGetLastTLSReadingResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.HOGetNewRegisteredMeansIDResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.HOGetNewUpdatedAlarmLogsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.HOGetNewUpdatedCurrentPricesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.HOGetNewUpdatedInventoryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.HOGetNewUpdatedShiftMembersResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.HOGetNewUpdatedShiftsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.HOGetNewUpdatedTankDeliveryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.HOGetNewUpdatedTankLevelHistoryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.HOGetNewUpdatedTanksStateResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.HOGetNewUpdatedTotalizerReadingResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.HOGetNumNewUpdatedTankDeliveryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.HOGetNumNewUpdatedTankLevelHistoryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.LoginResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SetPriceFromFCCResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOAuthorizeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SODeActivateResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SODeleteObjectsByIDResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOEventsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOFleetDetailsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOGetEODResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOGetPumpsData.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOGetWizardLangStrResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOHONotifyAlarmLogsLoadedResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOHONotifyBlockedMeanLoadedResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOHONotifyCurrentPricesLoadedResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOHONotifyEventLoadedResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOHONotifyInventoryLoadedResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOHONotifyReceiptLoadedResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOHONotifyRegisteredMeanLoadedResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOHONotifyShiftLoadedResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOHONotifyTankDeliveryLoadedResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOHONotifyTankLevelHistoryLoadedResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOHONotifyTanksStateLoadedResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOHONotifyTransactionLoadedResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOHOUpdateHIDFormatResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOMeanDetailsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOMeanIDsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SONewEODResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SONotifyShiftMemberLoadedResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SONotifyTotalizerReadingLoadedResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SONumEventsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SONumMeansResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SONumReceiptsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SONumTransactionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.soPAISSpecific.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOProductsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.soProductTranslation.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOPumpCPUChangeDetailsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOReceiptsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.soSetupData.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.soSetupLangStr.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.soSetupMetaData.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOSetWizardLangStrResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOSetWizardProductTranslationResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOSetWizardSetupDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOStationSetupResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOTankLevelResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOTransactionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOUpdateClusterRulesListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOUpdateClusterRulesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOUpdateClustersResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOUpdateDeptsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOUpdateFleetsCreditResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOUpdateFleetsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOUpdateFuelsRulesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOUpdateGroupRulesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOUpdateLimitsRulesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOUpdateMeansResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOUpdateMeansUsageResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOUpdateModelsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOUpdateTimeRulesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOUpdateTransCalcStatusByIDResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOUpdateVisitsRulesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOUpdateWPsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\FuelsManager.Afss.Module.Gasboy.OrCU.GasboyBOS.SOVIUConnectedResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\GasboyBOS\SiteOmatWebServiceBOS.wsdl">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\FMBusinessObjects\FMBusinessObjects.csproj">
+      <Project>{F3910E2B-3E67-4B25-874F-822EC69A6FEF}</Project>
+      <Name>FMBusinessObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Afss.BusinessObjects\Afss.BusinessObjects.csproj">
+      <Project>{9d203484-1f9c-4f01-9c92-cae8cbfde3c5}</Project>
+      <Name>Afss.BusinessObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gasboy.BusinessObjects\Gasboy.BusinessObjects.csproj">
+      <Project>{34ecc8ba-5505-4f1a-a2e5-4c37e5bdc276}</Project>
+      <Name>Gasboy.BusinessObjects</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\GasboyBOS\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\GasboyBOS\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\GasboyBOS\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\GasboyBOS\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

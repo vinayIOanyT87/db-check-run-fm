@@ -1,0 +1,46 @@
+.transactionFreeFormInputParent {
+  display:unset;
+}
+
+.ng-select.fmCustomListClass ::ng-deep {
+  border:0px;
+  min-height: 0px;
+  border-radius: 0;
+}
+.ng-select.fmCustomListClass ::ng-deep .ng-select-container .ng-value-container .ng-input {
+  padding-left: 0;
+  padding-right: 0;
+  top: 0;
+}
+.ng-select.fmCustomListClass ::ng-deep .ng-select-container .ng-value-container .ng-input:focus {
+  padding-left: 0;
+  padding-right: 0;
+  top: 0;
+  outline: 0;
+}
+.ng-select.fmCustomListClass ::ng-deep .ng-select-container  {
+  min-height: 0px;
+  border-radius: 0;
+}
+.ng-select.fmCustomListClass ::ng-deep .ng-select-container .ng-value-container {
+  padding-left:0;
+}
+.ng-select.fmCustomListClass.ng-select-opened.ng-select-bottom ::ng-deep > .ng-select-container {
+  border-style: inset;
+}
+.ng-select.fmCustomListClass.ng-select-single ::ng-deep .ng-select-container{
+  line-height: 16px;
+}
+
+.ng-select.fmCustomListClass.ng-select-single ::ng-deep .ng-select-container {
+  height: 16px;
+  min-height: 16px;
+}
+
+.ng-select.fmCustomListClass ::ng-deep .ng-select-container {
+  min-height: 16px;
+}
+.ng-select.fmCustomListClass ::ng-deep .ng-select-focused {
+  outline: none;
+  outline-width: 0;
+}

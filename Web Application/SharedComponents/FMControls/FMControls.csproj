@@ -1,0 +1,346 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CA977939-220E-4069-BC51-8530CD9350CE}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>FMControls</AssemblyName>
+    <AssemblyOriginatorKeyFile>FMStrongNameKey.snk</AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>FMControls</RootNamespace>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <SignAssembly>true</SignAssembly>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+    <PublishUrl>http://localhost/FMControls/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AjaxControlToolkit, Version=3.0.30512.14583, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Binaries\AjaxControlToolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Report.Viewer.11.0.0.0\lib\net\Microsoft.ReportViewer.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Report.Viewer.11.0.0.0\lib\net\Microsoft.ReportViewer.ProcessingObjectModel.DLL</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Report.Viewer.11.0.0.0\lib\net\Microsoft.ReportViewer.WebForms.DLL</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Design">
+      <Name>System.Design</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.EnterpriseServices">
+      <Name>System.EnterpriseServices</Name>
+    </Reference>
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web">
+      <Name>System.Web</Name>
+    </Reference>
+    <Reference Include="System.Web.Extensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyDictionary.cs" />
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ControlHelper.cs" />
+    <Compile Include="FMAddAssociatedTxLinkButton.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FMAddSubLineItemLinkButton.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FMAssetTrackingDeviceTextBox.cs" />
+    <Compile Include="FMAutoComplete.cs" />
+    <Compile Include="FMBaseDataGrid.cs" />
+    <Compile Include="FMButton.cs" />
+    <Compile Include="FMButtonClientSide.cs" />
+    <Compile Include="FMCalendarSetLinkButton.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FMCancelLinkButton.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FMCheckBox.cs" />
+    <Compile Include="FMColor.cs" />
+    <Compile Include="FMComboBox.cs" />
+    <Compile Include="FMCommandField.cs" />
+    <Compile Include="FMCompanyTextBox.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FMCompartmentTextBox.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FMConfirmationButton.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FMCustomDropDownList.cs" />
+    <Compile Include="FMDataGridFixedPaging.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FMCustomFieldStates.cs" />
+    <Compile Include="FMCustomTextBox.cs" />
+    <Compile Include="FMDataGrid.cs" />
+    <Compile Include="FMDataGridFixed.cs" />
+    <Compile Include="FMDataGridFixedBase.cs" />
+    <Compile Include="FMDate.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FMDateTime.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FMDeleteButton.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FMDeleteCommandField.cs" />
+    <Compile Include="FMDeleteLinkButton.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FMDeleteTrxAliasLinkButton.cs" />
+    <Compile Include="FMDownLinkButton.cs" />
+    <Compile Include="FMDropDownList.cs" />
+    <Compile Include="FMEditCommandField.cs" />
+    <Compile Include="FMEditLinkButton.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FMElipseButton.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FMEquipmentTextBox.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FMFuelCardTextBox.cs" />
+    <Compile Include="FMGrid.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FMGridTxSummary.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FMGridView.cs" />
+    <Compile Include="FMGridViewConfigurable.cs" />
+    <Compile Include="FMGroupingGridView.cs" />
+    <Compile Include="FMHtmlButton.cs" />
+    <Compile Include="FMLabel.cs" />
+    <Compile Include="FMLinkButton.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FMListBox.cs" />
+    <Compile Include="FMLocationSelectDropDown.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FMMenuTab.cs" />
+    <Compile Include="FMMeterAssetTextBox.cs" />
+    <Compile Include="FMMeterTextBox.cs" />
+    <Compile Include="FMOperatorTextBox.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FMPageFadeImage.cs" />
+    <Compile Include="FMPageSizeSelectCombo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FMPersonTextBox.cs" />
+    <Compile Include="FMProductTextBox.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FMRadioButton.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FMRadioButtonList.cs" />
+    <Compile Include="FMReadyForPaymentCheckBox.cs" />
+    <Compile Include="FMReportViewer.cs" />
+    <Compile Include="FMSelectCommandField.cs" />
+    <Compile Include="FMSelectLinkButton.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FMTabContainer.cs" />
+    <Compile Include="FMTankTextBox.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FMTextBoxButtonControl.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FMTextBox.cs" />
+    <Compile Include="FMTime.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FMToolbar.cs" />
+    <Compile Include="FMToolbarButton.cs" />
+    <Compile Include="FMTreeView.cs" />
+    <Compile Include="FMUpdateLinkButton.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FMUpLinkButton.cs" />
+    <Compile Include="FMUserTextBox.cs" />
+    <Compile Include="FMViewAssociatedTxLinkButton.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FMViewCommandField.cs" />
+    <Compile Include="FMViewLinkButton.cs" />
+    <Compile Include="TemplateLabelClass.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="FMStrongNameKey.snk" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\FMBusinessObjects\FMBusinessObjects.csproj">
+      <Project>{F3910E2B-3E67-4B25-874F-822EC69A6FEF}</Project>
+      <Name>FMBusinessObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\FMCore\FMCore.csproj">
+      <Project>{DBEF2CA1-1F4B-48CD-A4A5-5CB22006C6CE}</Project>
+      <Name>FMCore</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

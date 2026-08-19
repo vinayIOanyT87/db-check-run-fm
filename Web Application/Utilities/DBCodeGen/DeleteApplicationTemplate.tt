@@ -1,0 +1,129 @@
+﻿<#@ template language="C#" hostspecific="True" debug="True" #>
+<#@ output extension="sql" #>
+<#@ assembly name="Microsoft.SqlServer.ConnectionInfo" #>
+<#@ assembly name="Microsoft.SqlServer.Management.Sdk.Sfc" #>
+<#@ assembly name="Microsoft.SqlServer.Smo" #>
+<#@ assembly name="System.Data" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="T4Toolbox.10.0" #>
+<#@ import namespace="Microsoft.SqlServer.Management.Smo" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="T4Toolbox" #>
+<#+
+public class DeleteApplicationTemplate : FMStoredProcTemplateBase
+{
+	
+	public DeleteApplicationTemplate (string dbName, TableInfo newInfo) :base(dbName)
+	{
+		this.ObjectSuffix = "DeleteApplication";		
+		this.MyTable = newInfo;
+	}
+	
+	public override string Description 
+	{
+		get
+		{
+			return "Delete(cascade) a record from the " + FullTableName;
+		}
+	}
+	
+	/// <summary>
+	/// Stored Procedures have the suffix of the field name.  This method gets/generates the name.
+	/// Find the Foreign Key in the referencing table
+	/// </summary>
+	/// <param name="smoDatabase"></param>
+	/// <param name="schemaName"></param>
+	/// <param name="referencingTableName"></param>
+	/// <returns></returns>
+	private string GetDeleteSPName(Database smoDatabase, string schemaName, string referencingTableName)
+	{		
+		string spName = string.Empty;
+		Table referencingTable = new Table(smoDatabase, referencingTableName, schemaName);
+		referencingTable.Refresh();
+		foreach (ForeignKey foreignKeyInfo in referencingTable.ForeignKeys)
+		{
+			if (foreignKeyInfo.ReferencedTable == MyTable.TableName)
+			{
+				string entityName = referencingTableName;
+				string columnName = foreignKeyInfo.Columns[0].Name;
+				if (entityName.ToUpper().StartsWith("TBL"))
+				{
+					entityName = entityName.Substring(3);
+				}
+				if (entityName.ToUpper().StartsWith("ENTITY"))
+				{
+					entityName = entityName.Substring(6);
+				}
+				spName = string.Format("[{0}].[usp_{1}DeleteBy{2}]", schemaName, entityName, columnName);
+				break;  // assuming single field key
+			}
+		}
+		return spName;
+	}
+
+	/// <summary>
+	/// Gets a list of delete procedures to be called.  
+	/// Basically find all tables who has a foreign key reference to the current table.
+	/// </summary>
+	/// <returns></returns>
+	private List<string> GetDeleteSPNames()
+	{
+		List<string> retValue = new List<string>();
+		
+		Server server = new Server();
+		server.Refresh();
+		
+		Database smoDatabase = new Database(server, DatabaseName);
+		smoDatabase.Refresh();
+		
+        Table mySmoTable = new Table(smoDatabase, MyTable.TableName, MyTable.SchemaName);
+        mySmoTable.Refresh();
+
+		// Find all tablees who has a foreign key reference to the current table.
+		DataTable foreignKeyTable = mySmoTable.EnumForeignKeys();
+		foreach (DataRow row in foreignKeyTable.Rows)
+		{			
+			string schemaName = row.ItemArray[0].ToString();
+			string referencingTableName = row.ItemArray[1].ToString();
+			string spName = GetDeleteSPName(smoDatabase, schemaName, referencingTableName);
+			retValue.Add(spName);
+		}
+		return retValue;
+	}
+			
+	protected override void RenderStandardCore()
+    {
+		Table mySmoTable = GetSqlSmoTable();
+		Column primaryKeyColumn = FindPrimaryKeyColumn(mySmoTable);		
+		if (primaryKeyColumn == null)
+		{
+			// The table has not been created yet.
+			return;
+		}
+
+		List<string> deleteSPList = GetDeleteSPNames();
+		CreateComment();
+#>
+CREATE PROCEDURE <#= FullObjectName #> (
+	@<#= primaryKeyColumn.Name #> UNIQUEIDENTIFIER,
+	@RowVersion TIMESTAMP = NULL
+) AS
+BEGIN
+<#+		
+		Indent();
+		foreach (string deleteSPName in deleteSPList)
+		{
+			WriteLine ( string.Format("EXEC {0} @{1}", deleteSPName, primaryKeyColumn.Name));
+		}
+		WriteLine ( string.Format("EXEC usp_{0}DeleteByRowGuid @{1}", MyTable.BaseTableName, primaryKeyColumn.Name));
+		Unindent();
+#>
+END
+GO
+
+<#+		
+
+	}
+}
+#>

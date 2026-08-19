@@ -1,0 +1,116 @@
+﻿
+#PointCommandStatusPartial th {
+    background-color: rgb(242, 242, 242);
+    color: rgb(153, 153, 153);
+    font-size: 14px;
+    border-bottom: 0px;
+}
+
+#PointCommandStatusPartial label {
+    color: rgb(153,153,153) !important;
+}
+
+
+#PointCommandStatusPartial .dataTables_scrollHeadInner {
+        background-color: rgb(242, 242, 242);
+        border-bottom: 1px solid rgb(153, 153, 153);
+}
+
+#PointCommandStatusPartial .selected {
+	  background-color: rgb(230,230,230) !important;
+}
+
+
+#PointCommandStatusPartial .tab-name {
+    margin-bottom: 0px;
+    font-weight: normal;
+}
+
+#PointCommandStatusPartial .tab-rename {
+    color: rgb( 90,126,178);
+    background: transparent;
+    font-weight: bold;
+    border: none;
+}
+#PointCommandStatusPartial .tab-rename:focus {
+    outline-style: none;
+}
+
+.pointCommandStatusNumberColumn {
+	width: 35px;
+}
+
+.ui-front {
+    z-index: 10000 !important;
+}
+
+/* Ensures that the x shows up in the right hand corner
+    of the dialog
+*/
+.ui-dialog .ui-dialog-titlebar-close span {
+        margin: 0;
+    }
+.ui-button-icon-only .ui-icon {
+        bottom: 0px;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        padding: 0;
+    }
+
+#PointCommandStatusPartial h4, #PointCommandStatusPartial h5, #PointCommandStatusPartial h6 {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+#PointCommandStatusPartial .anchor-add-table {
+    height: 35px;
+    margin-top: 8px;
+    width: 30px;
+    padding: 5px 0px 0px 4px !important;
+}
+
+#PointCommandStatusPartial .anchor-add-table label {
+    background: url("../../fmwebapp/images/Add-Blue.png");
+    width: 0px;
+    height: 0px;
+    padding: 10px 10px 10px 10px;
+    background-repeat: no-repeat;
+}
+
+.PointCommandStatusHeader {
+	padding: 0px;
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+	.PointCommandStatusHeader .close {
+		padding: 5px !important;
+		position: absolute;
+		top: 8px;
+		right: 18px;
+	}
+
+.form-control{
+	border-radius: 0px !important;
+}
+
+#PointCommandStatusEditorScreen .modal, #PointCommandStatusEditorScreen .modal-content{
+    background-color: white !important;
+}
+
+#PointCommandStatusEditorScreen .ui-pnotify {
+	  z-index: 1051; /* make sure the notification are above the scroll bars and not hidden by them*/
+}
+
+#PointCommandStatusEditorScreen button[disabled] {
+    cursor: not-allowed;
+}
+
+.pointCommandStatusValueColumn {
+    padding-right: 12px !important;
+}
+
+button.disabled{
+	cursor: not-allowed;
+}

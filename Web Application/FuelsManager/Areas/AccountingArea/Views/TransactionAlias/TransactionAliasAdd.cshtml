@@ -1,0 +1,264 @@
+﻿@using FuelsManager.Areas.AccountingArea.ViewModels
+@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.AccountingArea.ViewModels.TransactionAliasDetailModel
+@{
+    Layout = "~/Areas/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    #TransactionAliasAddTitleLabel {
+        display: inline;
+        line-height: 100%;
+        vertical-align: middle;
+        padding-left: 10px;
+        color: rgb( 102, 102, 102);
+    }
+
+    #description {
+        height: 375px;
+        background: white;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        overflow: auto;
+    }
+
+    #transactionTypediv {
+        margin-top: 50px;
+    }
+</style>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>New Transaction Alias</title>
+    <script type="text/javascript" language="javascript" src="~/Javascripts/modalpopup.js"></script>
+    <script src="~/Areas/Scripts/FMErrorAndExceptionHandling.js"></script>
+    <link href="~/Areas/Content/TransactionAlias.css" rel="stylesheet" type="text/css" />
+</head>
+<body style="overflow-y: hidden">
+
+
+    <div class="container-fluid">
+        <div id="TransactionAliasMenu" class="row">
+            <div id="TransactionAliasTitle" class="col-lg-4 col-md-4">
+                <div id="TransactionAliasImageContainer">
+                    <img id="TransactionAliasImage" src="~/fmwebapp/images/transaction alias.png" />
+                </div>
+                <h4 id="TransactionAliasAddTitleLabel" class="title">@FMBaseController.TranslateText("Add Transaction Alias")</h4>
+            </div>
+        </div>
+        @using (Html.BeginForm("TransactionAliasAdd", "TransactionAlias", FormMethod.Post, new { @class = "", @id = "transactionAliasAddForm" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="row">
+                <div id="left-panel" class="col-sm-6">
+                    <div class="form-group col-sm-12">
+                        @Html.LabelFor(m => m.Name, @FMBaseController.TranslateText("Name"), new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.Name, (object)new { id = "AliasID", @class = "form-control input-md", maxlength = 30 })
+                    </div>
+                    <div class="form-group col-sm-12" id="transactionTypediv">
+                        @Html.LabelFor(m => m.TransTypeID, @FMBaseController.TranslateText("Transaction Type"), new { @class = "control-label" })
+                        <select class="form-control" id="TransTypeID" name="TransTypeID" value="@Model.TransTypeID">
+                            @foreach (var transactionTypes in Model.transactionTypeList.OrderBy(x => x.Name))
+                            {
+                                <option value="@transactionTypes.ID">
+                                    @transactionTypes.Name
+                                </option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div id="right-panel" class="col-sm-6">
+                    <label class="control-label col-sm-12" for="description">Description</label>
+                    <div id="description" class="col-sm-12">
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="row" style="position: absolute;bottom: 10px;">
+            <div class="btn-toolbar">
+                <div class="pull-right">
+                    <button id="CancelButtonId" type="submit" onclick="CancelButtonOnClick() " class="pushButton">
+                        @FMBaseController.TranslateText("Cancel")
+                    </button>
+                    <button id="ApplyButtonId" type="submit" onclick="ApplyButtonOnClick() " class="pushButton">
+                        @FMBaseController.TranslateText("Continue")
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
+
+
+<script>
+
+    function ApplyButtonOnClick() {
+        $('#transactionAliasAddForm').submit();
+    }
+
+    function CancelButtonOnClick() {
+        window.returnValue = null;
+        window.close();
+        closeDialogWindow();
+    }
+
+
+    function saveChanges (action, method) {
+        // hide any other notification
+        FMErrorAndExceptionHandling.CloseNotifications();
+
+        $("#AliasID").closest(".form-group").removeClass("has-error");
+
+        var notificationAttributes = { addclass: "stack-bottomright ui-pnotify-translucent", stack: FMErrorAndExceptionHandling.stack_bottomright };
+
+        if ($("#AliasID").val() == "") {
+            FMErrorAndExceptionHandling.ShowError("Name is required", null, notificationAttributes);
+            $("#AliasID").closest(".form-group").removeClass("has-error").addClass("has-error");
+            return;
+        }
+
+        // display animation
+        $('<div class=loadingDiv><img src="@(Url.Content("~/fmwebapp/images/loader_squares_120.gif"))" /></img></div>').prependTo(document.body);
+
+        $.ajax({
+            url: action,
+            type: method,
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+            data: (function () {
+                // serialize the form
+                var serializedData = $("#transactionAliasAddForm").serialize();
+
+                return serializedData;
+            })(),
+            success: function (response) {
+                FMErrorAndExceptionHandling.HandleMessages(response, function (data, inError) {
+                    $(".loadingDiv").remove();
+                    if (inError) {
+                    } else if (data != null) {
+                        window.returnValue = data;
+                        window.close();
+                        setWindowReturnValue(data);
+                        closeDialogWindow();
+                    }
+                }, notificationAttributes);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                FMErrorAndExceptionHandling.ShowException(xhr, ajaxOptions, thrownError, function () {
+                    // hide the saving animation
+                    $(".loadingDiv").remove();
+                }, notificationAttributes);
+            }
+        });
+
+
+    }
+
+    // manually hookup to the submit the form to make sure we pass all the entries from the table
+    $('#transactionAliasAddForm').submit(function () {
+        var action = this.action;
+        var method = this.method;
+        saveChanges(action, method);
+        // it is important to return false in order to
+        // cancel the default submission of the form
+        // and perform the AJAX call
+        return false;
+    });
+
+    function changeDescription(transTypeID) {
+        var description = ""
+        switch (transTypeID) {
+            case "T1_PrimaryAdjustment":
+                description = "Record End of Month gain/loss, fuel spills, or waste fuel that has been disposed.";
+                break;
+            case "T2_SecondaryAdjustment":
+                description = "Adjustment to Secondary Storage.";
+                break;
+            case "T3_PrimaryDefuel":
+                description = "Record the return of fuel from equipment to primary storage for customer credit.";
+                break;
+            case "T4_SecondaryDefuel":
+                description = "Record the return of fuel from equipment to secondary storage for customer credit.";
+                break;
+            case "T5_PrimaryDisbursement":
+                description = "Record the transfer of inventory from fixed storage tanks to trucks or other intermediate storage.";
+                break;
+            case "T6_SecondaryDisbursement":
+                description = "Record the transfer of inventory from secondary storage to equipment.";
+                break;
+            case "T7_FillStand":
+                description = "Product Movement from Primary to Secondary Storage.";
+                break;
+            case "T8_Receipt":
+                description = "Record fuel received from the supplier.";
+                break;
+            case "T9_Request":
+                description = "Record a request for fuel from an off-Site supplier through ports.";
+                break;
+            case "T10_Unload":
+                description = "Product Movement from Secondary to Primary Storage";
+                break;
+            case "T11_ConsumerTransfer":
+                description = "Product Transfer from Consumer to Consumer.";
+                break;
+            case "T13_OwnerTransfer":
+                description = "Product Transfer from Owner to Owner or Storage to Storage.";
+                break;
+            case "T14_PhysicalInventory":
+                description = "Record the physical inventory of the fuel.";
+                break;
+            case "T15_PrimaryRegrade":
+                description = "Record a change of product code, typically a downgrade or when mixing fuel products affecting Primary Storage.";
+                break;
+            case "T16_SecondaryRegrade":
+                description = "Record a change of product code, typically a downgrade or when mixing fuel products affecting Secondary Storage.";
+                break;
+            case "T17_Order":
+                description = "Order.";
+                break;
+            case "T18_SupplyOrder":
+                description = "Supply Order.";
+                break;
+            case "T23_StorageTransfer":
+                description = "Transfer to Different Storage or Equipment.";
+                break;
+            case "T25_Shipment":
+                description = "record the transfer of fuel from Primary Storage from one Site to another.";
+                break;
+            default:
+                description = "No description Available.";
+                break;
+
+        }
+        $("#description").text(description);
+    }
+
+
+    $(document).ready(function () {
+
+        $.ajaxSetup({
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            headers: { __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() },
+            cache: false,
+            traditional: true
+        });
+
+        changeDescription($("#TransTypeID").val());
+
+
+        $("#TransTypeID").on('change', function () {
+            changeDescription($("#TransTypeID").val());
+        });
+
+    });
+
+
+
+</script>

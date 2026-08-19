@@ -1,0 +1,26 @@
+<ul>
+    <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+        <a routerLink='home'>
+            <i class="fas fa-lg fa-home"></i>
+            <label>Home</label>
+        </a>
+    </li>
+    <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+        <a routerLink="assets">
+            <i class="fas fa-lg fa-server"></i>
+            <label>Assets</label>
+        </a>
+    </li >
+    <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+        <a routerLink="tools">
+            <i class="fas fa-lg fa-wrench"></i>
+            <label>Diagnostics</label>
+        </a>
+    </li>
+    <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+        <a routerLink="admin">
+            <i class="fas fa-lg fa-cog"></i>
+            <label>Settings</label>
+        </a>
+    </li>
+</ul>

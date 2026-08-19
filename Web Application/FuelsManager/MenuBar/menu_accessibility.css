@@ -1,0 +1,500 @@
+﻿/***************************************************************************
+/// Module Name:  menu.css
+/// Author:       Andy Hush
+/// Copyright (c) Varec, Inc.  All rights reserved.
+/// Summary:      A style sheet for rendering the drop-down mega-menus.
+///************************************************************************/
+.headerBar {
+	list-style: none;
+	min-width: 900px;
+	height: 33px;
+	margin: -8px -8px 0px -8px;
+	padding: 0px 10px 0px 0px;
+	background-image: url('../../FMWebApp/images/fuels-manager-bar.gif'); 
+	background-repeat: no-repeat;
+	z-index:205
+}
+
+.headerBar li {
+	display:block;
+	float: right;
+	font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	margin-left:10px;
+}
+
+.headerBar a 
+{
+    font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-size:10px;
+    color:black
+}
+
+.headerBar a:hover
+{
+    color:red
+}
+
+.mainMenu {
+	list-style: none;
+	min-width: 900px;
+	margin: 0px -8px 0px -8px;
+	height: 31px;
+	padding: 0px 20px 0px 1px;
+	
+	/* Background */
+	background-image:url('../../FMWebApp/images/menu-bar.gif');
+	background-repeat:repeat;
+}
+
+.mainMenu li {
+	float:left;
+	display:block;
+	text-align:center;
+	position:relative;
+	padding: 0px 7px 4px 7px;
+	margin-right:15px;
+	margin-top:4px;
+	outline:none;
+	line-height:21px;
+	background-image:none;
+
+}
+
+.mainMenu li:focus {
+	outline: 1px solid #777777;
+	padding: 0px 6px 4px 6px;
+	
+	/* Background color and gradients */
+
+	background: #F4F4F4;
+	background: -moz-linear-gradient(top, #FFFFFF, #FAFAFA);
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFFFF), to(#FAFAFA));
+}
+
+.mainMenu .MyMenuLI {
+	background: none;
+	z-index:215;
+	width:84px;
+	height:32px;
+}
+
+.mainMenu .MyMenuLI:hover, .mainMenu .MyMenuLI:focus {
+	outline: none;
+	padding: 0px 7px 4px 7px;
+	background: none;
+}
+
+.mainMenu li a {
+	padding: 0px 3px 0px 3px;
+
+	font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	font-size: 14px;
+	font-weight:normal;
+	color: white;
+
+	display: block;
+	outline: 0;
+	text-decoration: none;
+}
+
+li a.drop ~ div a{
+	color: black;
+}
+
+.mainMenu li .MyMenuA {
+	font-size: 16px;
+	font-style:italic;
+	position:absolute;
+	z-index:225
+}
+
+/* Main Menu title hover */
+.mainMenu li:focus a {
+	color:#002147;
+}
+
+.mainMenu li:hover .MyMenuA {
+	color:white;
+}
+
+.mainMenu li .drop {
+	padding-right:18px;
+	background:url("../../FMWebApp/images/white-arrow.png") no-repeat right 14px;
+}
+
+.mainMenu li:focus .drop {
+	background:url("../../FMWebApp/images/blue-arrow.png") no-repeat right 9px;
+}
+
+.mainMenu .MyMenuLI:hover .drop, .mainMenu .MyMenuLI:focus .drop {
+	background:url("../../FMWebApp/images/white-arrow.png") no-repeat right 10px;
+}
+
+.dropdown_Accounting, 
+.dropdown_Configuration,
+.dropdown_Operations,
+.dropdown_Administration,
+.dropdown_Assets,
+.dropdown_Reports,
+.dropdown_Dispatch
+{
+	margin:4px auto;
+	float:left;
+	position:absolute;
+	left:-999em; 	/* Hides the drop down */
+	top: -999em;	/* Hides the drop down */
+	text-align:left;
+	padding:10px 5px 0px 5px;
+	outline:1px solid #777777;
+	outline:none;
+	z-index: 999;
+	
+	/* Gradient background */
+	background:#F4F4F4;
+	background: -moz-linear-gradient(top, #FAFAFA, #E9E9E9);
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FAFAFA), to(#E9E9E9));
+}
+
+.dropdown_MyMenu
+{
+	margin:-22px auto;
+	float:left;
+	position:absolute;
+	left:-999em; 	/* Hides the drop down */
+	top: -999em;	/* Hides the drop down */
+	text-align:left;
+	padding:10px 5px 0px 5px;
+	outline:none;
+	z-index: 999;
+	
+	background:#002147;
+}
+
+.dropdown_MyMenu { left:-1px;width: 330px; }
+.dropdown_Accounting {left:-1px;width: 600px;}
+.dropdown_Configuration { left:-1px;width: 660px; }
+.dropdown_Operations { left:-350px;width: 660px; }
+.dropdown_Administration { left:-170px;width: 495px; }
+.dropdown_Assets { left:-170px;width: 495px; }
+.dropdown_Reports { left:-75px;width: 330px; }
+.dropdown_Dispatch { left:-75px;width: 330px; }
+
+.mainMenu li:focus .dropdown_MyMenu,
+.myMenuBkgdImg:focus .dropdown_MyMenu,
+.mainMenu li:focus .dropdown_Accounting,
+.mainMenu li:focus .dropdown_Dispatch,
+.mainMenu li:focus .dropdown_Configuration {
+	left:-1px;
+	top:auto;
+}
+
+.mainMenu li:focus .dropdown_Operations {
+	left:-350px;
+	top:auto;
+}
+
+.mainMenu li:focus .dropdown_Accounting,
+.mainMenu li:focus .dropdown_Configuration,
+.mainMenu li:focus .dropdown_Operations,
+.mainMenu li:focus .dropdown_Administration,
+.mainMenu li:focus .dropdown_Assets,
+.mainMenu li:focus .dropdown_Reports,
+.mainMenu li:focus .dropdown_Dispatch {
+	
+	top:auto;
+}
+
+/* Delay dropdown on all but MyMenu */
+.mainMenu li:focus .dropdown_Accounting,
+.mainMenu li:focus .dropdown_Configuration,
+.mainMenu li:focus .dropdown_Administration,
+.mainMenu li:focus .dropdown_Assets,
+.mainMenu li:focus .dropdown_Operations,
+.mainMenu li:focus .dropdown_Reports,
+.mainMenu li:focus .dropdown_Dispatch
+{
+	/* Delay */
+	transition-property: all;
+	transition-delay: 200ms;
+	/* Firefox 4 */
+	-moz-transition-property:all;
+	-moz-transition-delay:200ms;
+	/* Safari and Chrome */
+	-webkit-transition-property:all;
+	-webkit-transition-delay:200ms;
+	/* Opera */
+	-o-transition-property:all;
+	-o-transition-delay:200ms;
+}
+
+.colNormal,
+.colWide,
+.colNarrow
+{
+	display:inline;
+	float: left;
+	position: relative;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.colNarrow
+{
+	width:122px;
+}
+
+.colNormal
+{
+	width:155px;
+}
+
+.colWide
+{
+	width:190px;
+}
+
+.category, .menuRow {
+	display:inline;
+	float: left;
+	position: relative;
+}
+
+/* Basic style for category heading, leaf menu item */
+.mainMenu h3, .mainMenu ul li {
+	font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	line-height:19px;
+	font-size:12pt;
+	text-align:left;
+}
+
+/* Category heading */
+.mainMenu h3 {
+	color:#4D4D4D;
+	font-size:14px;
+	font-weight:bold;
+	margin:3px 5px 4px 5px;
+	padding-bottom:2px;
+	border-bottom:1px solid #888888;
+}
+
+/* MyMenu Category heading */
+.mainMenu .MyMenuLI h3 {
+	color:white;
+}
+
+/* Leaf menu item hyperlink */
+.mainMenu li:focus div a {
+	line-height:23px;
+	font-size:12px;
+	color:black;
+}
+
+/* Leaf MyMenu menu item hyperlink */
+.mainMenu .MyMenuLI:hover div a, .mainMenu .MyMenuLI:focus div a {
+	color:white;
+}
+
+/* Leaf menu item hyperlink hover */
+.mainMenu li:hover div a:focus {
+	color:red;
+	outline-width:3px;
+	outline-style:solid;
+	outline-color:black;
+}
+
+
+
+/* Leaf MyMenu menu item hyperlink hover */
+.mainMenu .MyMenuLI:hover div a:focus {
+	color:#D1E3F6;
+	outline-width:3px;
+	outline-style:solid;
+	outline-color:white;
+}
+
+.mainMenu li ul {
+	list-style:none;
+	padding:0;
+	margin:0 0 12px 0;
+}
+.mainMenu li ul li {
+	font-size:12px;
+	line-height:24px;
+	position:relative;
+	padding:0;
+	margin:0;
+	float:none;
+	text-align:left;
+}
+.mainMenu li ul li:focus {
+	background:none;
+	outline:none;
+	padding:0;
+	margin:0;
+}
+
+.myMenuBkgdImg
+{
+	position:relative;
+	overflow:visible;
+	z-index:220;
+	top:-9px;
+	left:-15px
+}
+
+.quickLinksDiv, .cuiDiv 
+{
+    margin: 0px 106px -20px 106px;
+}
+
+.quickLinksBar {
+	list-style: none;
+	min-height: 28px;
+	max-height: 49px;
+	min-width: 674px;
+	margin: 0;
+	padding: 2px 0px 2px 10px;
+	overflow:hidden;
+
+	background: #D1E3F6;
+
+	/* outlines */
+	outline: 1px solid #BFBFBF;
+	}
+
+.quickLinksBar li {
+	float: left;
+	display: block;
+	position: relative;
+	padding: 0px 0px 0px 0px;
+	margin-right: 17px;
+	margin-top: 3px;
+	outline: none;
+}
+
+.quickLinksBar .quickLinksLabelListItem
+{
+	padding-top:12px;
+}
+
+.quickLinksBar .quickLinksLabelListItem a
+{
+	font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+	font-size: 14px; 
+	font-weight: bold;
+	color:#575654;
+	display: block;
+	outline: 0;
+	text-decoration: none;
+}
+
+.quickLinksBar .quickLinksLabelListItem a:visited {
+	color:#575654;
+}
+
+.quickLinksBar .quickLinksLabelListItem a:hover {
+	color:red;
+}
+
+.quickLinksBar li .quickLink {
+	padding-right:0px;
+	font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	font-size: 12px;
+	line-height:21px;
+}
+
+.quickLinksBar li .quickLink {
+	color:blue;
+	display: block;
+	outline: 0;
+	text-decoration: none;
+}
+
+.quickLinksBar li .quickLink:visited {
+	color:blue;
+}
+
+.quickLinksBar li .quickLink:hover {
+	color:red;
+}
+
+.collapseQuickLinks
+{
+	display:block;
+	position:relative;
+    top:-8px;
+    left:6px;
+    height:14px;
+    width:14px;
+    background:url('../../FMWebApp/images/collapse-arrow-sprite.png') no-repeat left top;
+}
+
+.collapseQuickLinks:hover
+{
+	background-position: left -14px;
+}
+
+.expandQuickLinks
+{
+	display:block;
+	position:relative;
+    top:-22px;
+    left:6px;
+    height:14px;
+    width:14px;
+    background:url('../../FMWebApp/images/expand-arrow-sprite.png') no-repeat left top;
+    visibility:hidden;
+}
+
+.expandQuickLinks:hover
+{
+	background-position: left -14px;
+}
+
+.addQuickLink
+{
+	display:block;
+    height:14px;
+    width:14px;
+    margin-top:4px;
+    background:url('../../FMWebApp/images/plus-sign-box-sprite.png') no-repeat left top;
+}
+
+.addQuickLink:hover
+{
+	background-position: left -14px;
+}
+
+.generalText
+{
+    color: Black;
+	font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 12px;
+}
+.generalText:hover { cursor:default; }
+
+.pleaseWait 
+{
+	z-index: 500; 
+	left: 0; 
+	top: 0; 
+	position: absolute; 
+	display: none; 
+	width:200%; 
+	height: 200%; 
+	background:rgba(127, 127, 127, 0.3);
+
+}
+div.colNormal a:focus,
+div.colWide a:focus
+{
+
+		color:red;
+}
+
+div.colNormal a:hover, 
+div.colWide a:hover
+{
+
+		color:red;
+}

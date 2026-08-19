@@ -1,0 +1,149 @@
+﻿@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.PictureSummaryModel
+
+@{
+    ViewBag.Title = "PictureSummary";
+    Layout = "~/Areas/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .imagePreview {
+    }
+	td.disabled {
+  cursor: not-allowed;
+	}
+</style>
+
+<script>
+    var FMPictureSummary = {};
+
+    FMPictureSummary.PreviewSize = function (select) {
+
+        var size = '40px';
+
+        if (select.value == 'medium') {
+            size = '60px';
+        }
+
+        if (select.value == 'large') {
+            size = '80px';
+        }
+
+        $("img.imagePreview").each(function(index, element) {
+            $(element).height(size);
+        });
+    }
+</script>
+
+<div style="float:none">
+    <table>
+        <tr>
+            <td>
+                <div class="row headline" style="width: 5in; padding-bottom: 10px">
+                    @FMBaseController.TranslateText( "Picture Summary" )
+                </div>
+            </td>
+            <td>
+                <select class="formfield" id="previewSize" onchange="FMPictureSummary.PreviewSize(this);">
+                    <option value="small">Small Preview</option>
+                    <option value="medium">Medium Preview</option>
+                    <option value="large">Large Preview</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+</div>
+
+@using (Html.BeginForm(
+    ViewContext.RouteData.GetRequiredString("action"), 
+    ViewContext.RouteData.GetRequiredString("controller"), 
+    FormMethod.Post, 
+    new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+	var count = Model.Pictures.Count;
+	var displayCount = Math.Min( count, 500 );
+
+	var deleteText = FMBaseController.TranslateText( "Delete" );
+	var descriptiontext = FMBaseController.TranslateText( "Description" );
+	var pictureName = FMBaseController.TranslateText( "Picture Name" );
+	var previewText = FMBaseController.TranslateText("Preview");
+	var readOnlyDisplay = (@Model.ReadOnly) ? "display: none;" : "";
+
+    <section class="FMGridSection" style="max-width: 750px">
+        <div class="FMGridContainer">
+            <table class="detailTable" id="tagData">
+                <thead>
+						 <tr>
+							<th>@pictureName<div>@pictureName</div></th>
+							<th>@descriptiontext<div>@descriptiontext</div></th>
+							<th>@previewText<div>@previewText</div></th>
+							<th>@deleteText<div>@deleteText</div></th>
+						 </tr>
+                </thead>
+                <tbody>
+                    @foreach ( var picture in Model.Pictures )
+                    {
+						 <tr>
+							<td class="formfieldtitle">
+						 			@picture.ID
+							 </td>
+							 <td class="formfieldtitle">
+						 		@picture.Description
+							 </td>
+							 <td>
+						 		<img class="imagePreview" src="~/DisplayImage.ashx?PictureGuid=@picture.PictureGuid" height="40" />
+							 </td>
+							 <td style="width: 36px; vertical-align: middle; text-align: center">
+						 		@Html.FMDeleteButton(deleteText, picture.PictureGuid, (Model.DeleteEnabled && !picture.IsSystemImage && !Model.ReadOnly))
+							 </td>
+						 </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <table class="FMGridFoot" style="width:100%; max-height: 35px; max-width: 750px">
+        <tfoot>
+            @if ( displayCount < count )
+            {
+                <tr><th>@string.Format( FMBaseController.TranslateText( "Limiting display to {0} of {1} total records.  Use filters to reduce record count." ), displayCount, count )</th></tr>
+            }
+            else if ( displayCount > 0 )
+            {
+                <tr>
+                    <th>
+                        @string.Format( FMBaseController.TranslateText( "Showing {0} record(s)." ), count )
+                    </th>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td class="formfieldtitle" style="padding-top: 5px;">
+                        @FMBaseController.TranslateText( "No records found." )
+                    </td>
+                </tr>
+            }
+        </tfoot>
+    </table>
+
+    <div style="margin-top: 15px; width: 500px; float: none; @readOnlyDisplay">
+        <div class="formfieldtitle">
+            @FMBaseController.TranslateText( "Select a file to upload:" )
+        </div>
+        <div>
+            <table>
+                <tr>
+                    <td>@Html.TextBoxFor( x => x.File, new { type = "file" } )</td>
+                    <td style="padding-left: 15px">@Html.FMButton( "UploadButton", "UploadButton", "Upload", !Model.ReadOnly, "Upload the selected file." )</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div style="margin-top: 15px">
+        @Html.ValidationMessageFor( x => x.File )
+    </div>
+}

@@ -1,0 +1,256 @@
+﻿@using FuelsManager.Afss.Module.Gasboy.WebApp.Areas.ExternalStationArea.Controllers
+@using FuelsManager.Areas.Controllers
+
+@model FuelsManager.Afss.Module.Gasboy.WebApp.Areas.ExternalStationArea.Models.ExternalStationDetailModel
+@{
+    ViewBag.Title = "ExternalStation";
+    Layout = "~/Areas/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .ui-tabs {
+        border: none;
+        background: none;
+    }
+
+    .ui-tabs .ui-tabs-nav {
+        border-width: 0;
+        background: none;
+        font-family: verdana,tahoma,helvetica;
+        font-size: 8pt;
+        font-weight: bold;
+    }
+
+    .ui-tabs .ui-tabs-nav a {
+        background: #CCCCCC;
+        color: black;
+    }
+
+    .ui-tabs .ui-tabs-active a {
+        background: #0D246A;
+        color: white;
+    }
+
+    .ui-corner-top {
+        border-radius: 0;
+    }
+
+    .ui-corner-bottom {
+        border-radius: 0;
+    }
+
+    .ui-tabs .ui-tabs-panel {
+        padding: 1em 0;
+    }
+
+    .row {
+        max-width: 1000px;
+    }
+
+</style>
+
+<script>
+
+    $(document).ready(function() {
+        var datatable = $('#externalStationProductMappingTable')
+            .DataTable(
+            {
+                // We do not allow searching through the results via the datatable search control
+                "searching": false,
+                // Show First, Previous, Next, and Last buttons for paging
+                "pagingType": "full",
+                // Embed a div in the datatables controls so we can color the bottom of the grid 
+                // like a footer
+                "dom": 'lrt<"#DataTablesFooter"ip>',
+                // Apply no initial sort
+                "order": [],
+                // Disallow sorting
+                "ordering": false,
+                // Tell datatables that we don't care about highlighting the columns that have been sorted. According to the documentation, this improves performance.
+                "orderClasses": false
+            });
+
+        // When the add button for the product mapping grid is clicked, add a new row to the table
+        $("#btnAddBottom, #btnAddTop").click(function () {
+            event.preventDefault();
+
+            $.get('@Url.Action("AddNewRow")', function (data) {
+                datatable.rows.add($(data)).draw();
+            });
+        });
+
+        // When the delete button on the product mapping grid is clicked, remove the row
+        $(document).ready(function () {
+            $("#externalStationProductMappingTable").on("click", ".deleteLinkClass", function () {
+                datatable.row($(this).closest("tr")).remove().draw();
+            });
+        });
+    });
+
+    // Make the tab control appear. If an ActiveTabIndex value has been set, make that tab the active tab.
+    // If the ActiveTabIndex has not been set, show the first tab.
+    // Keep in mind that the active tab is zero-based. 
+    $(document).ready(function () {
+        $('#externalStationTabs').tabs({ active: @(ViewBag.ActiveTabIndex ?? 0) });
+    });
+
+</script>
+
+<div>
+    <div class="container-fluid">
+        <div class="row headline" style="padding-bottom:10px">@FMBaseController.TranslateText("External Fuel Service Station Configuration") - @Model.ExternalStation.ID</div>
+
+        @if (ViewBag.TestConnectionResult != null)
+        {
+            // Display the result of testing the connection if the user pressed the Test Connection button
+            <script>
+                setTimeout(function () {
+                    alert('@ViewBag.TestConnectionResult');
+                }, 100); 
+            </script>
+        }
+        
+        @using (Html.BeginForm("ExternalStation", "ExternalStation", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            
+            var editText = FMBaseController.TranslateText("Edit");
+            var deleteText = FMBaseController.TranslateText("Delete");
+            var stationProductIDText = FMBaseController.TranslateText("Station Product ID");
+            var fuelsManagerProductText = FMBaseController.TranslateText("FuelsManager Product");
+
+            <div id="externalStationTabs">
+                <ul>
+                    <li><a href="#externalStationTabs-General">@FMBaseController.TranslateText("General")</a></li>
+                    <li><a href="#externalStationTabs-ProductMapping">@FMBaseController.TranslateText("Product Mapping")</a></li>
+                </ul>
+                <div id="externalStationTabs-General">
+                    <div class="row">
+                        @Html.HiddenFor(m => m.ExternalStation.IdentityGuid)
+                        @Html.HiddenFor(m => m.ExternalStation.SiteGuid)
+                        @Html.HiddenFor(m => m.ExternalStation.LastSuccessfulConnection)         
+                        @Html.HiddenFor(m => m.ExternalStation.LastConnectionAttempt)    
+                        @Html.HiddenFor(m => m.ExternalStation.LastTransactionID)             
+                        @Html.HiddenFor(m => m.ExternalStation.Status)                          
+                        <div class="col-md-2">
+                            @Html.LabelFor(m => m.ExternalStation.ID, FMBaseController.TranslateText("ID") + ":", new { @class = "formfieldtitle" })
+                        </div>
+                        <div class="col-md-4 formfield">
+                            @Html.TextBoxFor(m => m.ExternalStation.ID, new { maxlength = "50" })
+                        </div>
+                        <div class="col-md-1">
+                            @Html.LabelFor(m => m.ExternalStation.IpAddress, FMBaseController.TranslateText("IP Address") + ":", new { @class = "formfieldtitle" })
+                        </div>
+                        <div class="col-md-5 formfield">
+                            @Html.TextBoxFor(m => m.ExternalStation.IpAddress, new { maxlength = "50" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(m => m.ExternalStation.UserName, FMBaseController.TranslateText("User Name") + ":", new { @class = "formfieldtitle" })
+                        </div>
+                        <div class="col-md-4 formfield">
+                            @Html.TextBoxFor(m => m.ExternalStation.UserName, new { maxlength = "50" })
+                        </div>
+                        <div class="col-md-1">
+                            @Html.LabelFor(m => m.ExternalStation.SiteCode, FMBaseController.TranslateText("Site Code") + ":", new { @class = "formfieldtitle" })
+                        </div>
+                        <div class="col-md-5 formfield">
+                            @Html.TextBoxFor(m => m.ExternalStation.SiteCode, new { maxlength = "6" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(m => m.ExternalStation.Password, FMBaseController.TranslateText("Password") + ":", new { @class = "formfieldtitle" })
+                        </div>
+                        <div class="col-md-4 formfield">
+                            @* Setting the value of the password to the model's password value looks bad, because that could mean we're showing the password in plain text in the page source.
+                            However, the controller will display a dummy value for the password if a value is present just to give the users an indication that there is a password provided.
+                            The only time the real password will show up in the source is if the user modified the password value and then did something on the form which caused the form to stay open,
+                            like pressing OK but receiving errors. *@
+                            @Html.PasswordFor(m => m.ExternalStation.Password, new { maxlength = "20", value = @Model.ExternalStation.Password })
+                        </div>
+                        <div class="col-md-1">
+                            @Html.LabelFor(m => m.ExternalStation.DoDAAC, FMBaseController.TranslateText("DoDAAC") + ":", new { @class = "formfieldtitle" })
+                        </div>
+                        <div class="col-md-5 formfield">
+                            @Html.TextBoxFor(m => m.ExternalStation.DoDAAC, new { maxlength = "6" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.Label(FMBaseController.TranslateText("Confirm Password") + ":", new { @class = "formfieldtitle" })
+                        </div>
+                        <div class="col-md-10 formfield">
+                            @* Setting the value of the password to the model's password value looks bad, because that could mean we're showing the password in plain text in the page source.
+                            However, the controller will display a dummy value for the password if a value is present just to give the users an indication that there is a password provided. 
+                            The only time the real password will show up in the source is if the user modified the password value and then did something on the form which caused the form to stay open,
+                            like pressing OK but receiving errors. *@
+                            @Html.PasswordFor(m => m.ConfirmPasswordText, new { maxlength = "20", value = @Model.ExternalStation.Password })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            @Html.LabelFor(m => m.ExternalStation.DownloadTransactionsAutomatically, FMBaseController.TranslateText("Download Transactions Automatically"), new { @class = "formfieldtitle" })
+                            @Html.CheckBoxFor(m => m.ExternalStation.DownloadTransactionsAutomatically, new { id = "chkDownloadTransactionsAutomatically", @class = "formfield" })
+                        </div>
+                        <div class="col-md-6 formfieldtitle">
+                            <button id="btnTestConnection" name="submitButton" value="@ExternalStationController.TestConnectionButtonValue">
+                                @FMBaseController.TranslateText("Test Connection")
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="externalStationTabs-ProductMapping">
+                    <div class="row">
+                        <div class="col-md-12 formfieldtitle">
+                            <button id="btnAddTop" name="submitButton" value="Add">@FMBaseController.TranslateText("Add")</button>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 5px;">
+                        <section>
+                            <div>
+                                <table id="externalStationProductMappingTable" class="hover stripe row-border cell-border">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                @deleteText
+                                            </th>
+                                            <th>
+                                                @stationProductIDText
+                                            </th>
+                                            <th>
+                                                @fuelsManagerProductText
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (int i = 0; i < Model.ExternalStation.ProductMappings.Count; i++)
+                                        {
+                                            @Html.EditorFor(m => m.ExternalStation.ProductMappings[i], new { @editText, @deleteText, @products = Model.Products })
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-9 formfieldtitle" style="margin-top: 10px;">
+                            <button id="btnAddBottom" name="submitButton" value="Add">@FMBaseController.TranslateText("Add")</button>
+                        </div>
+                        <div class="col-md-3 formfieldtitle" style="margin-top: 10px;">
+                            <button id="btnDownloadProducts" name="submitButton" value="@ExternalStationController.DownloadProductsButtonValue">@FMBaseController.TranslateText("Download Products from Station")</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6"></div>
+                <div class="col-md-6">
+                    <input type='submit' value='@FMBaseController.TranslateText("OK")' id="btnOK" name="submitButton" class="formfieldtitle pushButton" disabled="@(!Model.IsEditable)" />
+                    <input type='button' value='@FMBaseController.TranslateText("Cancel")' class="formfieldtitle" onclick="window.location.href('@Url.Action("ExternalStationSummaryIndex","ExternalStation")')" />
+                </div>
+            </div>
+        }
+    </div>
+</div>

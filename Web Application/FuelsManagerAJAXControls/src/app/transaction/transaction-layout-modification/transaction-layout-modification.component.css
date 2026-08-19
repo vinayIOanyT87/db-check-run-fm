@@ -1,0 +1,25 @@
+#TransactionLayoutModification {
+  width: 800px;
+}
+.myBorder  {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+@keyframes slideInFromLeft {
+0% {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+100% {
+  transform: translateX(0);
+  opacity: 1;
+}
+}
+
+.row-eq-height {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display:         flex;
+}

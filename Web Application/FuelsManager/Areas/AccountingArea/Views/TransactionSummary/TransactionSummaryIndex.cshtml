@@ -1,0 +1,352 @@
+﻿@using FMBusinessObjects.DataObjects
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.AccountingArea.ViewModels
+@model FuelsManager.Areas.AccountingArea.ViewModels.TransactionSummaryViewModel
+@{
+    ViewBag.Title = "TransactionSummaryIndex";
+    Layout = "~/Areas/Views/Shared/_Layout.cshtml";
+}
+
+@Scripts.Render("~/bundles/dataTable")
+@Styles.Render("~/Content/dataTable")
+
+<script>
+    FMLayout.dateFormat = '@Html.ConvertDateFormat(Model.ShortDatePattern)';
+    FMLayout.calendarLocation = '@Url.Content("~/DispatchWebApp/images")';
+
+    // Script for the order.neutral() plugin, which allows us to return the table to its original sort order
+    $.fn.dataTable.Api.register('order.neutral()', function () {
+        return this.iterator('table', function (s) {
+            s.aaSorting.length = 0;
+            s.aiDisplay.sort(function (a, b) { return a - b; });
+            s.aiDisplayMaster.sort(function (a, b) { return a - b; });
+        });
+    });
+
+   $(document).ready(function () {
+      setColumnDefs();
+
+      var datatable = $('#TransactionSummaryTable')
+      .on('init.dt', function() {
+            // When datatables initialization is complete, hide the "Please Wait..." dialog
+         $("#TableLoadPleaseWaitDiv").hide();
+      })
+
+      .on('processing.dt', function(e, settings, processing) {
+            // When datatables is processing (e.g. sort/page/filter), show the "Please Wait..." dialog
+            if (processing) {
+               $("#TableLoadPleaseWaitDiv").show();
+            }
+            else {
+               $("#TableLoadPleaseWaitDiv").hide();
+            }
+      })
+
+      .DataTable(
+      {
+         "processing": false,
+         "serverSide": true,
+         "ajax": {
+            "url": "@Url.Action("GetData", "TransactionSummary")",
+            "type": "POST",
+            "data": function(d) {
+               d.BeginDate = $('#BeginDateTextBox').val();
+               d.EndDate = $('#EndDateTextBox').val();
+               d.AliasName = $('#AliasNameTextBox').val();
+               d.ShortDatePattern = '@Model.ShortDatePattern';
+               d.TimePattern = '@Model.TimePattern';
+               d.__RequestVerificationToken = $('input[name="__RequestVerificationToken"]').val();
+            }
+         },
+         "searching": true,
+         // Show First, Previous, Next, and Last buttons for paging
+         "pagingType": "full",
+         // Embed a div in the datatables controls so we can color the bottom of the grid
+         // like a footer
+         "dom": '<"#DataTablesWrapper"lfrt<"#DataTablesFooter"ip>>',
+         // Apply no initial sort
+         "order": [],
+         // Save the sort order so that if users navigate away from the page and return their sort is retained
+         "stateSave": true,
+         // Tell datatables that we don't care about highlighting the columns that have been sorted. According to the documentation, this improves performance.
+         "orderClasses": false,
+         "columnDefs": dynamicColumnDefs,
+         "scrollX": true,
+         // Use the language option to apply the data dictionary to strings used by datatables
+         "language":
+         {
+            "info": "@FMBaseController.TranslateText("Showing")" + " _START_ " + "@FMBaseController.TranslateText("to")" + " _END_ " + "@FMBaseController.TranslateText("of")" + " _TOTAL_ " + "@FMBaseController.TranslateText("entries")",
+            "infoEmpty": "@FMBaseController.TranslateText("Showing")" + " 0 " + "@FMBaseController.TranslateText("to")" + " 0 " + "@FMBaseController.TranslateText("of")" + " 0 " + "@FMBaseController.TranslateText("entries")",
+            "lengthMenu": "@FMBaseController.TranslateText("Show")" + " _MENU_ " + "@FMBaseController.TranslateText("entries")" ,
+            "search": "@FMBaseController.TranslateText("Search")" + ":",
+            "zeroRecords": "@FMBaseController.TranslateText("No matching records found")",
+            "paginate": {
+               "first": "@FMBaseController.TranslateText("First")",
+               "last": "@FMBaseController.TranslateText("Last")",
+               "next": "@FMBaseController.TranslateText("Next")",
+               "previous": "@FMBaseController.TranslateText("Previous")"
+            }
+         }
+      })
+      .columns.adjust();
+
+      // Reset the sort when the Reset Sort button is clicked.
+      $('#btnResetSort').click(function () {
+            datatable.order.neutral().draw();
+            return false;
+      });
+
+      // Reload datatable when the Refresh button is clicked.
+      $('#btnRefresh').click(function () {
+         let modelAliasName = '@Model.SelectedAlias';
+         let selectedAlias = $('#AliasNameTextBox').val();
+         let reloadPage = (modelAliasName != selectedAlias);
+
+         datatable.ajax.reload();
+
+         if (reloadPage == true) {
+            location.reload(true);
+         }
+
+         return false;
+      });
+
+      // Don't let the user type more than twenty characters into the search box
+      $('.dataTables_filter input').attr('maxlength', 20);
+
+      // Make the enter key press the refresh button, unless the enter key was pressed on one of the
+      // table headers - pressing enter on table header changes the sort order.
+      $(window).keypress(function (event) {
+            if (event.which === 13 && event.target.tagName.toLowerCase() !== 'th') {
+               event.preventDefault();
+               $('#btnRefresh').focus().click();
+               return false;
+            }
+         });
+   });
+
+   const defaultColumnDefs = [
+         {
+            "targets": 0,
+            "orderable": false, // Disallow sorting of the edit column
+            "name": "Edit",
+            "data": "TransID",
+            "render":
+               function (data, type, full, meta) {
+                  if (full.DeleteFlag) {
+                     return '<a class="editDeletedLinkClass" style="margin: 0 auto;" title="Edit" href="' + '@Url.Action("TransactionDetail", "TransactionSummary")/' + data + '">Edit</a>';
+                  }
+                  else {
+                     return '<a class="editLinkClass" style="margin: 0 auto;" title="Edit" href="' + '@Url.Action("TransactionDetail", "TransactionSummary")/' + data + '">Edit</a>';
+                  }
+               }
+         },
+         { "targets": 1, "name": "InventoryDate", "data": "InventoryDateInSiteFormat" },
+         { "targets": 2, "name": "TransDateTime", "data": "TransDateTimeInSiteFormat" },
+         { "targets": 3, "name": "DocumentNumber", "data": "DocumentNumber" },
+         { "targets": 4, "name": "AliasName", "data": "AliasName", width: 128 },
+         { "targets": 5, "name": "TransactionStatus", "data": "TransactionStatus" },
+         { "targets": 6, "name": "OwnerID", "data": "OwnerID" },
+         { "targets": 7, "name": "ManagerID", "data": "ManagerID" },
+         { "targets": 8, "name": "ShipToID", "data": "ShipToID" },
+         { "targets": 9, "name": "Product", "data": "ProductID" },
+         { "targets": 10, "name": "GrossQuantity", "data": "GrossQuantity" },
+         { "targets": 11, "name": "NetQuantity", "data": "NetQuantity" }
+   ];
+
+   var dynamicColumnDefs = defaultColumnDefs;
+
+    function setColumnDefs() {
+
+        // this is the list of fields that we are allowed to sortby 
+        let ListOfSUpportedOrderColumns = ["InventoryDate",
+            "TransDateTime",
+            "DocumentNumber",
+            "AliasName",
+            "OwnerID",
+            "ManagerID",
+            "ShipToID",
+            "Product",
+            "GrossQuantity",
+            "NetQuantity"];
+
+      let columnNames = $("#displayColNames").val().split(',');
+      console.log('columnNames: ' + columnNames);
+      dynamicColumnDefs = [defaultColumnDefs[0]];
+      for (let i = 0; i < columnNames.length; ++i) {
+         let name = columnNames[i];
+         if (name) {
+            let dataName = name;
+            if (name.endsWith("Date") || name.endsWith("DateTime") || name == "TimeIn" || name == "TimeOut") {
+               dataName = name + "InSiteFormat";
+            }
+            else if (name == "TransID") {
+               dataName = "DisplayTransID";
+            }
+            else if (name == "Product") {
+               dataName = "ProductID";
+            }
+            else if (name == "LookupTransactionStatusIndex") {
+               dataName = "TransactionStatus"
+            }
+            else if (name == "FromManagerID") {
+               dataName = "ManagerID";
+            }
+            else if (name == "FromOwnerID") {
+               dataName = "OwnerID";
+            }
+            else if (name == "FromCarrierID") {
+               dataName = "CarrierID";
+            }
+            else if (name == "ToManagerID") {
+               dataName = "ManagerID";
+            }
+            else if (name == "ToOwnerID") {
+               dataName = "OwnerID";
+            }
+            else if (name == "ToCarrierID") {
+               dataName = "CarrierID";
+            }
+
+             var targetColDef = { "targets": i + 1, "name": name, "data": dataName, "orderable": ListOfSUpportedOrderColumns.findIndex((element) => element === dataName) >= 0 };
+            dynamicColumnDefs.push(targetColDef);
+         }
+      }
+   }
+</script>
+<style>
+    #TableLoadPleaseWaitDiv {
+        font-family: Roboto, Arial, Helvetica, sans-serif;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+        vertical-align: middle;
+        background-color: lightsteelblue;
+        color: black;
+        box-shadow: 5px 5px 5px #888;
+        position: absolute;
+        left: 50%;
+        top: 33.3%;
+        z-index: 200;
+        transform: translate(-100px, 0);
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.disabled,.dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover,.dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
+        color: white !important ;
+    }
+    #TransactionSummaryTable_info {
+         color: white !important;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        color: white !important;
+    }
+    a {
+        color:white !important;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        background-image: none;
+        border: none;
+        border-width: 0px;
+        border-color: transparent;
+    }
+        
+    #TransactionSummaryTable_info{
+        color: white;
+    }
+    #TransactionSummaryTable_first {
+        color: white !important;
+    }
+    #TransactionSummaryTable_previous {
+        color: white !important;
+    }
+    #TransactionSummaryTable_next {
+        color: white !important;
+    }
+    #TransactionSummaryTable_last {
+        color: white !important;
+    }
+
+    .dataTable {
+        font-family: Roboto,Arial,Helvetica,sans-serif;
+    }
+</style>
+<div>
+   <div class="container-fluid">
+      <div class="headline" style="padding-bottom: 10px">@FMBaseController.TranslateText("Transaction Summary")</div>
+
+      @using (Html.BeginForm("TransactionSummaryIndex"))
+      {
+         @Html.AntiForgeryToken();
+
+         var editText = FMBaseController.TranslateText("Edit");
+         var editThisItem = FMBaseController.TranslateText("Edit this item");
+         var deleteText = FMBaseController.TranslateText("Delete");
+
+         <div class="row">
+            <div class="col-md-5">
+               <label class="formfieldtitle">
+                  @FMBaseController.TranslateText("Inventory Date")
+               </label>
+               <div class="formfieldtitle">
+                  From:
+                  @Html.TextBoxFor(m => m.BeginDate, new { id = "BeginDateTextBox", @class = "formfield minWidth100 datepicker", alt = "from date" })
+                  To:
+                  @Html.TextBoxFor(m => m.EndDate, new { id = "EndDateTextBox", @class = "formfield minWidth100 datepicker", alt = "to date" })
+               </div>
+            </div>
+            <div class="col-md-6">
+               <label class="formfieldtitle">
+                  @FMBaseController.TranslateText("Alias Name")
+               </label>
+               <div>
+                  @Html.DropDownListFor(m => m.SelectedAlias, Model.AliasNames, new { id = "AliasNameTextBox", @class = "formfield", alt = "alias name" })
+               </div>
+            </div>
+            <div class="col-md-1">
+               <button type="button" id="btnRefresh" class="formfieldtitle pushButton maxWidth100" style="margin-top: 21px; margin-bottom: 5px">@FMBaseController.TranslateText("Refresh")</button>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-md-12">
+               <button type="button" id="btnResetSort" class="formfieldtitle btn">@FMBaseController.TranslateText("Reset Sort")</button>
+            </div>
+         </div>
+
+         <input type="hidden" id="displayColNames" value="@Model.ColumnDisplayNames" />
+
+         <div class="row">
+            <div id="TableLoadPleaseWaitDiv">
+               <table>
+                  <tbody>
+                     <tr style="text-align: center;">
+                        <td id="PleaseWaitTd" style="border: 1px solid black">Please Wait...</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div class="row" style="margin-top: 5px;">
+            <section>
+               <div class="col-md-12">
+                  <table id="TransactionSummaryTable" class="hover stripe row-border cell-border" style="width:100%">
+                     <thead>
+                        <tr style="color: white; background-color: #0D246A">
+                           <th>
+                              @editText
+                           </th>
+                           @foreach (KeyValuePair<string, string> col in Model.ListViewAliasColumnNames)
+                           {
+                              <th>
+                                 @FMBaseController.TranslateText(col.Value)
+                              </th>
+                           }
+                        </tr>
+                     </thead>
+                     <tbody>
+                     </tbody>
+                  </table>
+               </div>
+            </section>
+         </div>
+      }
+   </div>
+</div>

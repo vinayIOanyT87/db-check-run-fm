@@ -1,0 +1,36 @@
+﻿@using FuelsManager.Areas.Controllers;
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <style>
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            color: darkblue;
+        }
+    </style>
+</head>
+@{try
+    {
+        if (string.IsNullOrWhiteSpace(this.ViewBag.FMErrorMessage) == false)
+        {
+            Global.WriteToEventLog(this.ViewBag.FMErrorMessage, System.Diagnostics.EventLogEntryType.Error);
+        }
+    }
+    catch
+    {
+        ;
+    }
+}
+<body>
+    <div>
+        <p class="center">Request failed. Please see the Event Logs for details.</p>
+    </div>
+</body>
+</html>

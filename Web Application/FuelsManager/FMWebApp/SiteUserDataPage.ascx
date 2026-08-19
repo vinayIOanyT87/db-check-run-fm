@@ -1,0 +1,5 @@
+<%@ Register TagPrefix="FMControls" Namespace="FMControls" Assembly="FMControls" %>
+<%@ Control language="c#" Codebehind="SiteUserDataPage.ascx.cs" AutoEventWireup="True" Inherits="FuelsManager.FMWebApp.SiteUserDataPage" %>
+	<asp:table id=UserDataTable style="Z-INDEX: 100; LEFT: 0px; POSITION: absolute; TOP: 16px"
+		runat="server" ForeColor="Transparent" BackColor="Transparent" Width="600px" CellSpacing="0"
+		CellPadding="0" EnableViewState="False" aria-label="layout"></asp:table>

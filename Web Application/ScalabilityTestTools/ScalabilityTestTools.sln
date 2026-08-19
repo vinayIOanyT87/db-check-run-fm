@@ -1,0 +1,73 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FMUAAlarmServer", "ThirdPartyOpcUaServer\FMUAAlarmServer\FMUAAlarmServer.csproj", "{A486D7ED-35C4-4147-B694-42E35EE9FE0B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{EF7128B7-BBEE-44DC-9E81-884A8A93E781} = {EF7128B7-BBEE-44DC-9E81-884A8A93E781}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FMUAAlarmPluginInterface", "ThirdPartyOpcUaServer\FMUAAlarmPluginInterface\FMUAAlarmPluginInterface.csproj", "{05306EB0-F97B-4135-9131-07CCC192C1A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FMUAAlarmPlugins", "ThirdPartyOpcUaServer\FMUAAlarmPlugins\FMUAAlarmPlugins.csproj", "{EF7128B7-BBEE-44DC-9E81-884A8A93E781}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddDelComplexNodesCli", "ThirdPartyOpcUaServer\AddDelComplexNodesCli\AddDelComplexNodesCli.csproj", "{83F91484-23D3-4AA4-9211-C8B4AE00BB9E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{EF7128B7-BBEE-44DC-9E81-884A8A93E781} = {EF7128B7-BBEE-44DC-9E81-884A8A93E781}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigureFMSystem", "ConfigureFMSystem\ConfigureFMSystem.csproj", "{80B67EB3-1D48-423E-92B1-A27FCF4A532F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A486D7ED-35C4-4147-B694-42E35EE9FE0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A486D7ED-35C4-4147-B694-42E35EE9FE0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A486D7ED-35C4-4147-B694-42E35EE9FE0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A486D7ED-35C4-4147-B694-42E35EE9FE0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05306EB0-F97B-4135-9131-07CCC192C1A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05306EB0-F97B-4135-9131-07CCC192C1A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05306EB0-F97B-4135-9131-07CCC192C1A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05306EB0-F97B-4135-9131-07CCC192C1A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF7128B7-BBEE-44DC-9E81-884A8A93E781}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF7128B7-BBEE-44DC-9E81-884A8A93E781}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF7128B7-BBEE-44DC-9E81-884A8A93E781}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF7128B7-BBEE-44DC-9E81-884A8A93E781}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83F91484-23D3-4AA4-9211-C8B4AE00BB9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83F91484-23D3-4AA4-9211-C8B4AE00BB9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83F91484-23D3-4AA4-9211-C8B4AE00BB9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83F91484-23D3-4AA4-9211-C8B4AE00BB9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80B67EB3-1D48-423E-92B1-A27FCF4A532F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80B67EB3-1D48-423E-92B1-A27FCF4A532F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80B67EB3-1D48-423E-92B1-A27FCF4A532F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80B67EB3-1D48-423E-92B1-A27FCF4A532F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 6
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://1552-div-team:8080/tfs/varec
+		SccProjectUniqueName0 = ThirdPartyOpcUaServer\\AddDelComplexNodesCli\\AddDelComplexNodesCli.csproj
+		SccProjectName0 = ThirdPartyOpcUaServer/AddDelComplexNodesCli
+		SccLocalPath0 = ThirdPartyOpcUaServer\\AddDelComplexNodesCli
+		SccProjectUniqueName1 = ConfigureFMSystem\\ConfigureFMSystem.csproj
+		SccProjectName1 = ConfigureFMSystem
+		SccLocalPath1 = ConfigureFMSystem
+		SccLocalPath2 = .
+		SccProjectUniqueName3 = ThirdPartyOpcUaServer\\FMUAAlarmPluginInterface\\FMUAAlarmPluginInterface.csproj
+		SccProjectName3 = ThirdPartyOpcUaServer/FMUAAlarmPluginInterface
+		SccLocalPath3 = ThirdPartyOpcUaServer\\FMUAAlarmPluginInterface
+		SccProjectUniqueName4 = ThirdPartyOpcUaServer\\FMUAAlarmPlugins\\FMUAAlarmPlugins.csproj
+		SccProjectName4 = ThirdPartyOpcUaServer/FMUAAlarmPlugins
+		SccLocalPath4 = ThirdPartyOpcUaServer\\FMUAAlarmPlugins
+		SccProjectUniqueName5 = ThirdPartyOpcUaServer\\FMUAAlarmServer\\FMUAAlarmServer.csproj
+		SccProjectName5 = ThirdPartyOpcUaServer/FMUAAlarmServer
+		SccLocalPath5 = ThirdPartyOpcUaServer\\FMUAAlarmServer
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,44 @@
+<div id="insert-transaction-container" appTriggerChangeDetectionOnKeyUp>
+  <div [hidden]="!loading">loading....</div>
+  <div [hidden]="loading">
+      <h1>{{transactionAliasName}} Transaction</h1>
+      <div class="container" style="max-width:none; min-width:none; padding:0; width: 100%"
+           (keyup.control.enter)="save()">
+          <div class="row row-eq-height" *ngFor="let row of tableToRender" style="margin:0; padding:0; width: 100%">
+              <ng-container *ngFor="let column of row.columns">
+                  <ng-container *ngIf="!column.hide">
+                      <div class="col"
+                           [style.height.em]="column.rowHeightInEM * 1.6"
+                           [style.width.%]="column.columnComputedWidthPercentage-1"
+                           [style.min-width.%]="column.columnComputedWidthPercentage-1"
+                           style="margin:0; max-width:none; padding:0 5px 0 5px;"
+                           >
+                          <!--[style.width.%]="column.columnComputedWidthPercentage"-->
+                          <app-transaction-field-wrapper [transactionAliasPlacementInfoDTO]="column.fieldToRender"
+                                            [TransactionAliasField]="getTransactionFieldDetails(column.fieldToRender)"
+                                            [currentFocusLabel]="focusField" [canEdit]="canEdit"></app-transaction-field-wrapper>
+                      </div>
+                  </ng-container>
+              </ng-container>
+          </div>
+      </div>
+      <div id="buttonGroup" *ngIf="!currentlyInReverseUpdate">
+        <button class="transaction-btn" (click)="save()" [disabled]="!canEdit" >Save</button>
+        <button class="transaction-btn" [disabled]="!(retrieveExistingTransaction && canEdit)" (click)="delete()">Delete</button>
+        <button class="transaction-btn" [disabled]="!(retrieveExistingTransaction && canReverse)" (click)="reverse()">Reverse</button>
+        <button class="transaction-btn" [disabled]="!(retrieveExistingTransaction && canReverse)" (click)="reverseUpdate()">Reverse &#92; Update</button>
+        <button class="transaction-btn" (click)="close()">Close</button>
+      </div>
+
+      <div id="buttonGroup" *ngIf="currentlyInReverseUpdate">
+        <button class="transaction-btn" (click)="saveReverseUpdate()" [disabled]="!canEdit">Save Reverse &#92; Update</button>
+        <button class="transaction-btn" (click)="close()">Close</button>
+      </div>
+      <br style="clear:both">
+      <div class="hints">
+        <h4>Hot keys</h4>
+        <div>CTRL + ENTER to save</div>
+      </div>
+      <br ><br ><br >
+  </div>
+</div>

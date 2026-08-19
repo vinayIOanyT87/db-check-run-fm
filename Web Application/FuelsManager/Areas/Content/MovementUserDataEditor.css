@@ -1,0 +1,67 @@
+﻿#movementSettingsEditorPartial label {
+    color: rgb(153,153,153) !important;
+}
+
+#MovementUserDataEditorPropertyScreen button[disabled] {
+    cursor: not-allowed;
+}
+
+.ui-front {
+    z-index: 10000 !important;
+}
+
+body .modal {
+    width: 750px !important;
+    margin-left: -375px !important;
+}
+
+.MovementSettingsEditorHeader {
+    padding: 0px;
+    width: 100%;
+}
+
+.MovementSettingsEditorHeader .close {
+    padding: 5px !important;
+    margin-top: -2px !important;
+}
+
+.h4, .h5, .h6, h4, h5, h6 {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+.form-control {
+    border-radius: 0px !important;
+}
+
+.form-group {
+    height: 60px !important;
+}
+
+#MovementUserDataEditorPropertyScreen .modal, #MovementUserDataEditorPropertyScreen .modal-content {
+    background-color: white !important;
+}
+
+#MovementUserDataEditorPropertyScreen {
+    width: 950px !important;
+}
+
+.MovementUserDataInput {
+    height: 25px !important;
+    width: 700px !important;
+}
+
+.MovementUserDataTdPadding1 {
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+.MovementUserDataTdPadding2 {
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-left: 40px;
+}
+
+#MovementUserDataTableSection {
+    padding-left: 30px;
+}

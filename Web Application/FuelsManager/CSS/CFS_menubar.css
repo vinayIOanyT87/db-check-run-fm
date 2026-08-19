@@ -1,0 +1,5 @@
+﻿
+/*For Cross-Frame Scripting protection. Removed by CFS_menubar.js when no Cross-Frame Scripting is detected.*/
+body {
+    display: none;
+}

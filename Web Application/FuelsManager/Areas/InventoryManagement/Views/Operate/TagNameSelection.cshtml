@@ -1,0 +1,109 @@
+﻿
+@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.TagNameSelectionModel
+<script src="~/Areas/Lib/jquery.columnizer.js"></script>
+
+<style>
+	#TagsSubMenuList {
+		height: calc(100% - 75px) !important;
+	}
+</style>
+
+<div class="operateSubMenuFilter">
+	<div class="row">
+		<div class="col-sm-12 col-md-12 col-lg-12 OperateSelectionMenuTitle">
+			<label class="pull-left">@FMBaseController.TranslateText("TAGS")</label>
+			<div class="Selectionhorizontalline horizontalLineNoRightMargin"></div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12 col-md-12 col-lg-12">
+			<div class="filter-settings operate-list-filter-addon">
+				<input id="filter_tags" type="text" class="operate-List-form-control" placeholder="Search for Tag Name" />
+				<img alt="Filter Tags" title="Search" src="~/fmwebapp/images/Search Icon.png" />
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="operateSubMenuList" id="TagsSubMenuList">
+	@foreach (var name in Model.TagNames)
+	{
+	<div class="operateTagsSubMenuElement tags-dontsplit row" data-name="@name.Key" data-value="@name.Value">
+		<div class="operateTagsSubmenuTitle" title="@name.Key">@name.Key</div>
+	</div>
+	}
+
+</div>
+
+<script>
+
+	// add event to only allow to check multiple rows at a time
+	$("#TagsSubMenuList").on('click', '.operateTagsSubMenuElement', function ()
+	{
+		$( this ).hasClass( 'selected' ) ? $( this ).removeClass( 'selected' ) : $( this ).addClass( 'selected' );
+	});
+
+	$( "#filter_tags" ).on( 'input', function()
+	{
+		var filterTxt = $(this).val();
+
+		if ( filterTxt === $( this ).data( 'oldvalue' ) )
+		{
+			return;
+		}
+		else
+		{
+			$( this ).data( 'oldvalue', filterTxt );
+		}
+
+		// No points to be found, just return.
+		if ( $( '.operateTagsSubMenuElement' ).length === 0 )
+			return;
+
+		$( '#TagsSubMenuList' ).uncolumnize();
+
+		if ( filterTxt === "" )
+		{
+			$( '.operateTagsSubMenuElement' ).removeClass( "hidden" );
+		}
+		else
+		{
+			$( '.operateTagsSubMenuElement' ).each( function()
+			{
+				if ($(this).find('.operateTagsSubmenuTitle').text().toLowerCase().indexOf(filterTxt.toLowerCase()) >= 0)
+				{
+					$( this ).removeClass( "hidden" );
+				}
+				else
+				{
+					$( this ).removeClass( "hidden" ).addClass( "hidden" );
+				}
+			} );
+		}
+		$( '#TagsSubMenuList' ).columnize( {
+			columns: 2,
+			buildOnce: true,
+			cssClassPrefix: "tags",
+			lastNeverTallest: true
+		} );
+
+		// if selected row is not visible then remove the selection
+		$('.operateTagsSubMenuElement.selected.hidden').removeClass("selected");
+
+
+		// need to destroy and rebuild nicescroll since the refresh does not seem to be working on this case
+		$( "#TagsSubMenuList" ).getNiceScroll().remove();
+		$( "#TagsSubMenuList" ).niceScroll( { cursorwidth: '10px', horizrailenabled:false, autohidemode: false, cursorcolor: "#486899", background: "white" } );
+
+		$( "#filter_tags" ).val( filterTxt ); // we need the focus at the end of the last character in the input
+		$( "#filter_tags" ).focus(); // have to reset the focus since it loses focus when running columnize
+	} );
+
+	$( document ).ready( function()
+	{
+		$('.operateTagsSubMenuElement').css('height', '30px');
+		$(".operateSubMenuList").getNiceScroll().resize();
+	});
+
+</script>

@@ -1,0 +1,112 @@
+﻿#vesselSettingsEditorPartial label {
+    color: rgb(153,153,153) !important;
+}
+
+body .modal {
+	width: 800px !important;
+	margin-left: -400px  !important;
+}
+
+.VesselSettingsEditorHeader {
+	padding: 0px;
+	width: 100%;
+}
+
+.VesselSettingsEditorHeader .close {
+	padding: 5px !important;
+	margin-top: -2px !important;
+}
+
+
+.h4, .h5, .h6, h4, h5, h6 {
+	margin-top: 0px !important;
+	margin-bottom: 0px !important;
+}
+
+.form-control{
+	border-radius: 0px !important;
+}
+
+.form-group{
+	height: 60px !important;
+}
+
+td > .form-group {
+	margin: 0px 20px;
+}
+
+#ModulePropertyEditorPropertyScreen .modal, #ModulePropertyEditorPropertyScreen .modal-content{
+    background-color: white !important;
+}
+
+#ModulePropertyEditorPropertyScreen .ui-pnotify {
+	z-index: 1051; /* make sure the notification are above the scroll bars and not hidden by them*/
+}
+
+#VETankInstallationDate {
+	Width: calc(100% - 30px);
+	z-index: inherit;	
+}
+
+.input-group.date {
+    width: 100%;
+}
+
+.ui-datepicker-trigger {
+	float: right !important;
+	Width: 30px !important;
+}
+
+#VesselModuleSetupDetailMenu {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	color: rgb( 128, 128, 128);
+	width: 700px;
+}
+
+.VesselSetupTabItem span {
+	padding-right: 5px;
+}
+
+#VesselSetupTabs {
+	list-style-type: none;
+}
+
+	#VesselSetupTabs > li {
+		padding-right: 35px;
+		padding-left: 0px;
+		cursor: pointer;
+		font-weight: bold;
+	}
+
+		#VesselSetupTabs > li.selected {
+			color: rgb( 86, 126, 185);
+		}
+
+		#VesselSetupTabs > li > b.selected {
+			border-bottom-style: solid;
+		}
+
+.VesselModuleSetupDetailMenuDiv {
+	width: 100% !important;
+}
+
+.VesselModuleSetupSectionsTd {
+	width: 800px;
+}
+
+FIELDSET {
+	margin: 8px;
+	border: 1px solid silver;
+	padding: 8px;
+	border-radius: 4px;
+}
+
+LEGEND {
+	padding: 2px;
+	width: unset;
+	border-bottom: none;
+	font-size: unset;
+	margin-top: unset;
+	margin-bottom: unset;
+}

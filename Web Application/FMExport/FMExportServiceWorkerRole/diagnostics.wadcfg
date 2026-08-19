@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DiagnosticMonitorConfiguration xmlns="http://schemas.microsoft.com/ServiceHosting/2010/10/DiagnosticsConfiguration"
+      configurationChangePollInterval="PT15S"
+      overallQuotaInMB="4096">
+  <DiagnosticInfrastructureLogs bufferQuotaInMB="512"
+     scheduledTransferLogLevelFilter="Error"
+     scheduledTransferPeriod="PT5M" />
+  <Logs bufferQuotaInMB="1024"
+     scheduledTransferLogLevelFilter="Verbose"
+     scheduledTransferPeriod="PT1M" />
+  <Directories bufferQuotaInMB="256"
+     scheduledTransferPeriod="PT1M">
+
+    <!-- These three elements specify the special directories 
+           that are set up for the log types -->
+    <CrashDumps container="wad-crash-dumps" directoryQuotaInMB="128" />
+    <FailedRequestLogs container="wad-frq" directoryQuotaInMB="128" />
+    <IISLogs container="wad-iis" directoryQuotaInMB="256" />
+  </Directories>
+
+  <WindowsEventLog bufferQuotaInMB="1024"
+     scheduledTransferLogLevelFilter="Verbose"
+     scheduledTransferPeriod="PT1M">
+    <!-- The event log name is in the same format as the imperative diagnostics configuration API -->
+    <DataSource name="Application!*[System[Provider[@Name='FMExportService']]]" />
+  </WindowsEventLog>
+</DiagnosticMonitorConfiguration>

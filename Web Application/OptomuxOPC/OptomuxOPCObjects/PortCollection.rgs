@@ -1,0 +1,27 @@
+HKCR
+{
+	OptomuxOPCObjects.PortCollection.1 = s 'PortCollection Class'
+	{
+		CLSID = s '{579CD2E7-95F6-48F0-93EF-AA612F00B310}'
+	}
+	OptomuxOPCObjects.PortCollection = s 'PortCollection Class'
+	{
+		CLSID = s '{579CD2E7-95F6-48F0-93EF-AA612F00B310}'
+		CurVer = s 'OptomuxOPCObjects.PortCollection.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {579CD2E7-95F6-48F0-93EF-AA612F00B310} = s 'PortCollection Class'
+		{
+			ProgID = s 'OptomuxOPCObjects.PortCollection.1'
+			VersionIndependentProgID = s 'OptomuxOPCObjects.PortCollection'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{F6F29101-4C9B-4480-BFF1-683397E8ADBA}'
+		}
+	}
+}

@@ -1,0 +1,160 @@
+{
+	"info": {
+		"_postman_id": "343ab1c7-4bc1-4336-8020-456193d1342f",
+		"name": "Test Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27496234"
+	},
+	"item": [
+		{
+			"name": "Heartbeat Request",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// get timestamp and bounds check for 4 bytes, increment from previous timestamp\r",
+							"\r",
+							"let timestampVal = Number(pm.collectionVariables.get('timestamp')) + 1;\r",
+							"if (timestampVal > 0xFFFFFFFF || timestampVal < 0) {\r",
+							"    pm.collectionVariables.set('timestamp', 0);\r",
+							"    timestampVal = 0;\r",
+							"}\r",
+							"\r",
+							"// convert timestamp int to hex string\r",
+							"\r",
+							"let timestampHex = timestampVal.toString(16).padStart(8, '0');\r",
+							"\r",
+							"// create payload hex string\r",
+							"\r",
+							"let hexStr = pm.collectionVariables.get('imei') + timestampHex + pm.collectionVariables.get('endString');\r",
+							"\r",
+							"// convert payload hex string to ascii string\r",
+							"\r",
+							"let asciiStr = '';\r",
+							"for (let i = 0; i < hexStr.length; i += 2) {\r",
+							"    let cur = parseInt(hexStr.substring(i, i + 2), 16);\r",
+							"    if (cur > 127) {\r",
+							"        cur = 127;\r",
+							"        // let temp = asciiStr.charCodeAt(asciiStr.length - 1);\r",
+							"        // temp = temp << 8;\r",
+							"        // cur = temp + cur;\r",
+							"        // asciiStr = asciiStr.substring(0, asciiStr.length - 1);\r",
+							"    }\r",
+							"    asciiStr += String.fromCharCode(cur);\r",
+							"}\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"// ----------- [REQUEST] -----------\r",
+							"\r",
+							"// set request body to ascii string\r",
+							"pm.request.body = asciiStr;\r",
+							"\r",
+							"// add header for binary\r",
+							"\r",
+							"pm.request.headers.add({\r",
+							"    key: \"Content-Type\", value: \"application/octet-stream\"\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"// ----------- [TIMESTAMP] -----------\r",
+							"\r",
+							"pm.collectionVariables.set('timestamp', timestampVal);\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"// ----------- [TEST] -----------\r",
+							"\r",
+							"// let yTest = '';\r",
+							"\r",
+							"// for (let i = 0; i < asciiStr.length; i++) {\r",
+							"//   yTest += asciiStr.charCodeAt(i).toString(16).padStart(2, '0');\r",
+							"// }\r",
+							"\r",
+							"// console.log(\"original hex: \" + hexStr);\r",
+							"// console.log(\"ascii converted: \" + asciiStr + \" length: \" + asciiStr.length);\r",
+							"// console.log(\"ascii -> hex: \" + yTest);\r",
+							"// console.log(\"hex equal?: \" + hexStr.localeCompare(yTest));\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://web-01.fueldepot-gov.net:8080/api/v1/",
+					"protocol": "http",
+					"host": [
+						"web-01",
+						"fueldepot-gov",
+						"net"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "timestamp",
+			"value": "1684502903",
+			"type": "string"
+		},
+		{
+			"key": "endString",
+			"value": "00010000000000",
+			"type": "string"
+		},
+		{
+			"key": "imei",
+			"value": "333537373135303931383435383737",
+			"type": "string"
+		}
+	]
+}

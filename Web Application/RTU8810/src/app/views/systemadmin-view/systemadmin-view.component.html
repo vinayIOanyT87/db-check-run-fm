@@ -1,0 +1,43 @@
+<div class="systemcommands">
+  <div class="systemcommandsList">
+    <div class='systemcommandsList-section-header'>System Commands
+      <i class="fa fa-search search-tank-icon d-none" (click)="toggleCommandSearch()"></i>
+    </div>
+    <div class='systemcommandsList-section-body'>
+      <perfect-scrollbar #scrollable id="CommandList">
+          <input type="text" class='search-command-entry' placeholder="Enter search criteria" [ngModel]='searchCommandString' (ngModelChange)='searchCommandChanged( $event )' [ngClass]="{'d-none': !searchCommandToggle}" />
+          <div *ngFor="let command of CommandCards; let i = index;" class="command-card">
+              <app-systemadmin-card [command]='command' (click)='selectCommand( command );'>
+              </app-systemadmin-card>
+          </div>
+      </perfect-scrollbar>
+    </div>
+  </div>
+  <div class="systemcommandsDetail">
+      <div class='systemcommandsDetail-section-header'></div>
+
+      <div class='systemcommandsDetail-section-body'>
+          <app-systemadmin-description class='systemcommandsDetail-section-description' [selectedCommand]='selectedCommand'></app-systemadmin-description>
+          <app-systemadmin-detail class='systemcommandsDetail-section-detail' [selectedCommand]='selectedCommand' [commandStatusMsg]='commandStatusMsg' [moduleCommand]='ModuleCommand'></app-systemadmin-detail>
+      </div>
+
+
+  </div>
+</div>
+
+<ng-template #modalPendingChanges>
+  <div class="modal-header">
+      <h4 class="modal-title pull-left">Pending Changes</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide();">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body">
+      <div class="form-group">
+          Backup Database is not permitted when there are pending changes.
+      </div>
+  </div>
+  <div class="modal-footer">
+      <button id="copyButton" type="button" class="btn btn-primary" (click)="modalRef.hide();">Ok</button>
+  </div>
+</ng-template>

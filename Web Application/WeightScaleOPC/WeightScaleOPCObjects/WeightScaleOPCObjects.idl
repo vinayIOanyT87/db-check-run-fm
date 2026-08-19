@@ -1,0 +1,211 @@
+/******************************************************************************
+
+	FILE NAME:		WeightScaleOPCObjects.idl
+
+
+	PURPOSE:			IDL source for WeightScaleOPCObjects.dll
+
+
+	COMMENTS:
+
+		Copyright (C) E+H Systems & Gauging, Inc. Norcross, GA, USA, 2000
+
+		This file shall not be copied or reproduced in any form without
+				the express written consent of Endress+Hauser.
+
+
+	AUTHOR(S):	W. Gray
+
+
+	VERSION:		1.0.4  Current version
+
+
+
+	MODIFICATION HISTORY:
+		Date:			By:			Reason:
+		---------	----------  -------------------------------------------
+*******************************************************************************/
+
+// This file will be processed by the MIDL tool to
+// produce the type library (WeightScaleOPCObjects.tlb) and marshalling code.
+
+#include "mtxattr.h"
+#include "IComCollection.idl"
+import "oaidl.idl";
+import "ocidl.idl";
+
+typedef enum WEIGHTSCALE_TYPE
+{
+	TOLEDO_8142 = 0,
+	FAIRBANKS_90_164 = 1,
+	BRECHBUHLER_UMC600 = 2,
+	SIPELARIES_ASCII = 3,
+	METTLER_SICS = 4,
+	RICE_LAKE_720I = 5,
+	REVUELTARADMTX = 6,
+	MAX_WEIGHTSCALE_TYPE = 7
+} WEIGHTSCALE_TYPE;
+
+typedef enum WEIGHTSCALE_BAUD
+{
+	WEIGHTSCALE_BAUD_1200 = 0,
+	WEIGHTSCALE_BAUD_2400 = 1,
+	WEIGHTSCALE_BAUD_4800 = 2,
+	WEIGHTSCALE_BAUD_9600 = 3,
+	WEIGHTSCALE_BAUD_19200 = 4,
+	WEIGHTSCALE_BAUD_38400 = 5,
+	MAX_WEIGHTSCALE_BAUD = 6
+} WEIGHTSCALE_BAUD;
+
+typedef enum WEIGHTSCALE_PARITY
+{
+	WEIGHTSCALE_PARITY_NONE = 0,
+	WEIGHTSCALE_PARITY_EVEN = 1,
+	WEIGHTSCALE_PARITY_ODD = 2,
+	MAX_WEIGHTSCALE_PARITY = 3
+} WEIGHTSCALE_PARITY;
+
+typedef enum WEIGHTSCALE_DATA_BITS
+{
+	DATA_BITS_7 = 0,
+	DATA_BITS_8 = 1,
+	MAX_WEIGHTSCALE_DATA_BITS = 2
+} WEIGHTSCALE_DATA_BITS;
+
+typedef enum WEIGHTSCALE_STOP_BITS
+{
+	STOP_BITS_1 = 0,
+	STOP_BITS_2 = 1,
+	MAX_WEIGHTSCALE_STOP_BITS = 2
+} WEIGHTSCALE_STOP_BITS;
+
+
+[
+	object,
+	uuid(24DEED9D-30F2-489E-87B3-984D428E42E9),
+	dual,
+	nonextensible,
+	helpstring("IPort Interface"),
+	pointer_default(unique)
+]
+interface IPort : IDispatch{
+	[propget, id(1), helpstring("property Index")] HRESULT Index([out, retval] LONG* pVal);
+	[propput, id(1), helpstring("property Index")] HRESULT Index([in] LONG newVal);
+	[propget, id(2), helpstring("property ID")] HRESULT ID([out, retval] BSTR* pVal);
+	[propput, id(2), helpstring("property ID")] HRESULT ID([in] BSTR newVal);
+	[propget, id(3), helpstring("property Baud")] HRESULT Baud([out, retval] WEIGHTSCALE_BAUD* pVal);
+	[propput, id(3), helpstring("property Baud")] HRESULT Baud([in] WEIGHTSCALE_BAUD newVal);
+	[propget, id(4), helpstring("property DataBits")] HRESULT DataBits([out, retval] WEIGHTSCALE_DATA_BITS* pVal);
+	[propput, id(4), helpstring("property DataBits")] HRESULT DataBits([in] WEIGHTSCALE_DATA_BITS newVal);
+	[propget, id(5), helpstring("property Parity")] HRESULT Parity([out, retval] WEIGHTSCALE_PARITY* pVal);
+	[propput, id(5), helpstring("property Parity")] HRESULT Parity([in] WEIGHTSCALE_PARITY newVal);
+	[propget, id(6), helpstring("property StopBits")] HRESULT StopBits([out, retval] WEIGHTSCALE_STOP_BITS* pVal);
+	[propput, id(6), helpstring("property StopBits")] HRESULT StopBits([in] WEIGHTSCALE_STOP_BITS newVal);
+	[id(7), helpstring("method BaudID")] HRESULT BaudID([in] WEIGHTSCALE_BAUD Baud,[out,retval] BSTR* pVal);
+	[id(8), helpstring("method DataBitsID")] HRESULT DataBitsID([in] WEIGHTSCALE_DATA_BITS DataBits,[out,retval] BSTR* pVal);
+	[id(9), helpstring("method ParityID")] HRESULT ParityID([in] WEIGHTSCALE_PARITY Parity,[out,retval] BSTR* pVal);
+	[id(10), helpstring("method StopBitsID")] HRESULT StopBitsID([in] WEIGHTSCALE_STOP_BITS StopBits,[out,retval] BSTR* pVal);
+	[id(11), helpstring("method Load")] HRESULT Load([in] IDispatch* pDispatch);
+	[id(12), helpstring("method Reset")] HRESULT Reset(void);
+	[propget, id(13), helpstring("property InsertSQL")] HRESULT InsertSQL([out, retval] BSTR* pVal);
+	[propget, id(14), helpstring("property UpdateSQL")] HRESULT UpdateSQL([out, retval] BSTR* pVal);
+	[propget, id(15), helpstring("property PurgeSQL")] HRESULT PurgeSQL([out, retval] BSTR* pVal);
+	[propget, id(16), helpstring("property SelectSQL")] HRESULT SelectSQL([out, retval] BSTR* pVal);
+	[propget, id(17), helpstring("property SelectByIDSQL")] HRESULT SelectByIDSQL([out, retval] BSTR* pVal);
+	[propget, id(18), helpstring("property EnumerateSQL")] HRESULT EnumerateSQL([out, retval] BSTR* pVal);
+};
+[
+	object,
+	uuid(D18CE9A3-9851-4EDD-9964-68938A5D6CFB),
+	dual,
+	nonextensible,
+	helpstring("IWeightScale Interface"),
+	pointer_default(unique)
+]
+interface IWeightScale : IDispatch{
+	[propget, id(1), helpstring("property Index")] HRESULT Index([out, retval] LONG* pVal);
+	[propput, id(1), helpstring("property Index")] HRESULT Index([in] LONG newVal);
+	[propget, id(2), helpstring("property ID")] HRESULT ID([out, retval] BSTR* pVal);
+	[propput, id(2), helpstring("property ID")] HRESULT ID([in] BSTR newVal);
+	[propget, id(3), helpstring("property Type")] HRESULT Type([out, retval] WEIGHTSCALE_TYPE* pVal);
+	[propput, id(3), helpstring("property Type")] HRESULT Type([in] WEIGHTSCALE_TYPE newVal);
+	[propget, id(4), helpstring("property PortIndex")] HRESULT PortIndex([out, retval] LONG* pVal);
+	[propput, id(4), helpstring("property PortIndex")] HRESULT PortIndex([in] LONG newVal);
+	[propget, id(5), helpstring("property Port")] HRESULT Port([out, retval] BSTR* pVal);
+	[propput, id(5), helpstring("property Port")] HRESULT Port([in] BSTR newVal);
+	[propget, id(6), helpstring("property DeviceID")] HRESULT DeviceID([out, retval] LONG* pVal);
+	[propput, id(6), helpstring("property DeviceID")] HRESULT DeviceID([in] LONG newVal);
+	[id(7), helpstring("method TypeID")] HRESULT TypeID([in] WEIGHTSCALE_TYPE Type,[out,retval] BSTR* pVal);
+	[id(8), helpstring("method Load")] HRESULT Load([in] IDispatch* pDispatch);
+	[id(9), helpstring("method Reset")] HRESULT Reset(void);
+	[propget, id(10), helpstring("property InsertSQL")] HRESULT InsertSQL([out, retval] BSTR* pVal);
+	[propget, id(11), helpstring("property UpdateSQL")] HRESULT UpdateSQL([out, retval] BSTR* pVal);
+	[propget, id(12), helpstring("property PurgeSQL")] HRESULT PurgeSQL([out, retval] BSTR* pVal);
+	[propget, id(13), helpstring("property SelectSQL")] HRESULT SelectSQL([out, retval] BSTR* pVal);
+	[propget, id(14), helpstring("property SelectByIDSQL")] HRESULT SelectByIDSQL([out, retval] BSTR* pVal);
+	[propget, id(15), helpstring("property EnumerateSQL")] HRESULT EnumerateSQL([out, retval] BSTR* pVal);
+	
+};
+[
+	object,
+	uuid(2AEBF73A-01C7-4A92-BB3F-0D466FA029B0),
+	dual,
+	nonextensible,
+	helpstring("IPortCollection Interface"),
+	pointer_default(unique)
+]
+interface IPortCollection : IDispatch{
+	DECLARE_COM_COLLECTION(IPort)
+};
+[
+	object,
+	uuid(5B148EFF-E2D2-4F6B-A2E8-C16C5519F64B),
+	dual,
+	nonextensible,
+	helpstring("IWeightScaleCollection Interface"),
+	pointer_default(unique)
+]
+interface IWeightScaleCollection : IDispatch{
+	DECLARE_COM_COLLECTION(IWeightScale)
+};
+[
+	uuid(C65A4132-E6B2-46B4-8EA3-E6BBCCB10B58),
+	version(1.0),
+	helpstring("WeightScaleOPCObjects 1.0 Type Library")
+]
+library WeightScaleOPCObjectsLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(B140A6E9-E0DD-4C4F-B973-730CCA43136D),
+		helpstring("Port Class")
+	]
+	coclass Port
+	{
+		[default] interface IPort;
+	};
+	[
+		uuid(C20933A0-BBE4-42D9-9AAC-0532B2FD8807),
+		helpstring("WeightScale Class")
+	]
+	coclass WeightScale
+	{
+		[default] interface IWeightScale;
+	};
+	[
+		uuid(93ED554D-DE90-4090-A9E6-9CA89F97EAD1),
+		helpstring("PortCollection Class")
+	]
+	coclass PortCollection
+	{
+		[default] interface IPortCollection;
+	};
+	[
+		uuid(B47EA5BF-06E8-441C-BADE-43E0D6CE347D),
+		helpstring("WeightScaleCollection Class")
+	]
+	coclass WeightScaleCollection
+	{
+		[default] interface IWeightScaleCollection;
+	};
+};

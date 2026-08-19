@@ -1,0 +1,202 @@
+﻿
+@using System.Web.Mvc.Html
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.OpcUaEditorModel
+
+<style>
+</style>
+<script type="text/javascript">
+	// open opc ua servers
+	function onOpcUaServers() {
+		// specify location for server notifications
+		var notificationAttributes = { addclass: "stack-bottomright", stack: FMOpcUaBrowser.stack_bottomright_opcuaeditor };
+
+		// create the backdrop and wait for next modal to be triggered
+		$('body').modalmanager('loading');
+
+		$.ajax({
+			type: "GET",
+			cache: false,
+			url: "@Url.Action("OpcUaServers", "OpcUaEditor")",
+			cache: false,
+			//		data: null,
+			success: function (response) {
+				// we want to display error messages within the menu
+				FMErrorAndExceptionHandling.HandleMessages(response, function (data, inError) {
+					if (!inError) {
+						// replace the holder with the partial view
+						$('#OpcUaServerSelectionScreenBody').html(data);
+						$('#OpcUaServerSelectionModalScreen').modal('show');
+					} else {
+						// remove the loading of the modal
+						var modalManager = $("body").data("modalmanager");
+						modalManager.removeLoading();
+					}
+				}, notificationAttributes);
+			},
+			error: function (xhr, textStatus, error) {
+				FMErrorAndExceptionHandling.ShowException(xhr, textStatus, error,
+					function () {
+						// remove the loading of the modal
+						var modalManager = $("body").data("modalmanager");
+						modalManager.removeLoading();
+					});
+			}
+		});
+	}
+</script>
+
+<script src="~/Areas/Scripts/OpcUaBrowser.js"></script>
+
+@{
+	var okButton = @FMBaseController.TranslateText("&OK");
+	var cancelButton = @FMBaseController.TranslateText("&Cancel");
+}
+
+
+@using (Html.BeginForm("OpcUaBrowser", "OpcUaEditor", FormMethod.Post, new { id = "opcUaBrowserForm" }))
+{
+	@Html.AntiForgeryToken()
+	@Html.Hidden("urlSaveChanges", @Url.Action("SaveChanges", "OpcUaEditor"))
+	@Html.Hidden("urlServerAddressSpaceSelectionChanged", @Url.Action("ServerAddressSpaceSelectionChanged", "OpcUaEditor"))
+
+
+	<section id="opcUaBrowserPartial" class="">
+		<div class="row">
+			<div id="opcServerLeftList" class="col-sm-6 col-md-6 col-lg-6">
+				<div class="form-group">
+					<div class="label-horizontal-bar">
+						@Html.Label(FMBaseController.TranslateText("TAG INFORMATION"), new { @class = "control-label" })
+					</div>
+				</div>
+				<div class="form-group">
+					@Html.Label(FMBaseController.TranslateText("Tag:"), new { @class = "control-label" })
+					@Html.TextBoxFor(m => m.PointTagId, new { ID = "PointTagIdTextBox", disabled = "disabled", @class = "form-control" })
+				</div>
+				<div class="form-group">
+					@Html.Label(FMBaseController.TranslateText("Value Type:"), new { @class = "control-label" })
+					@Html.TextBoxFor(m => m.PointTagValueType, new { ID = "PointTagValueTypeTextBox", disabled = "disabled", @class = "form-control" })
+				</div>
+				<div class="form-group">
+					@Html.Label(FMBaseController.TranslateText("Publishing Interval:"), new { @class = "control-label" })
+					@Html.Label(" (ms)", new { @class = "control-label" })
+					@Html.TextBoxFor(m => m.PointTagOpcUaPublishingInterval, new { ID = "PointTagOpcUaPublishingIntervalTextBox", @class = "form-control" })
+				</div>
+				<div class="form-group">
+					@Html.Label(FMBaseController.TranslateText("OpcUaEditorController|Write Holdoff:"), new { @class = "control-label" })
+					@Html.Label(" (ms)", new { @class = "control-label" })
+					@Html.TextBoxFor(m => m.PointTagOpcUaWriteHoldoff, new { ID = "PointTagOpcUaWriteHoldoffTimeTextBox", @class = "form-control" }).Disable(Model.PointTagInput)
+				</div>
+				<div class="form-group">
+					@Html.Label(FMBaseController.TranslateText("OPC UA Client Holdoff"), new { @class = "control-label" })
+					@Html.Label(" (Sec(s))", new { @class = "control-label" })
+					@Html.TextBoxFor(m => m.PointTagOPCClientDeadband, new { ID = "PointTagOpcUaClientDeadbandTextBox", @class = "form-control" }).Disable(Model.PointTagOPCClientDisableFilter)
+				</div>
+				<div class="form-group">
+					@Html.Label(FMBaseController.TranslateText("OPC UA Readable:"), new { @class = "control-label" })
+					@if (Model.PointTagInput)
+					{
+						@Html.CheckBoxFor(m => m.PointTagOpcUaIsReadable, new { ID = "PointTagOpcUaIsReadableCheckBox", @class = "checkbox", disabled = "disabled" })
+					}
+					else
+					{
+						@Html.CheckBoxFor(m => m.PointTagOpcUaIsReadable, new { ID = "PointTagOpcUaIsReadableCheckBox", @class = "checkbox" })
+					}
+				</div>
+
+
+			</div>
+			<div id="opcServerRightList" class="col-sm-6 col-md-6 col-lg-6">
+				<div class="form-group">
+					<div class="label-horizontal-bar">
+						@Html.Label(FMBaseController.TranslateText("OPC NODE INFORMATION"), new { @class = "control-label" })
+					</div>
+				</div>
+				<div class="form-group">
+					@Html.Label(FMBaseController.TranslateText("OPC UA Server Endpoint:"), new { @class = "control-label", })
+					@Html.TextBoxFor(m => m.EndpointUrl, new { ID = "ServerEndpointTextBox", disabled = "disabled", Title = Model.EndpointUrl, @class = "form-control" })
+				</div>
+				<div class="form-group">
+					@Html.Label(FMBaseController.TranslateText("OPC UA Browse Path:"), new { @class = "control-label" })
+					@Html.TextBoxFor(m => m.PointTagOpcUaBrowsePath, new { ID = "PointTagOpcUaBrowsePathTextBox", @class = "form-control" })
+				</div>
+				<div class="form-group">
+					@Html.Label(FMBaseController.TranslateText("OPC UA Node ID:"), new { @class = "control-label" })
+					@Html.TextBoxFor(m => m.PointTagOpcUaNodeId, new { ID = "PointTagOpcUaNodeIdTextBox", @class = "form-control" })
+				</div>
+				<div class="form-group">
+					@Html.Label(FMBaseController.TranslateText("OpcUaEditorController|Write Periodic Update:"), new { @class = "control-label" })
+					@Html.Label(" (ms)", new { @class = "control-label" })
+					@Html.TextBoxFor(m => m.PointTagOpcUaWritePeriodicUpdateInterval, new { ID = "PointTagOpcUaWritePeriodicUpdateIntervalTextBox", @class = "form-control" }).Disable(Model.PointTagInput)
+				</div>
+				<div class="form-group">
+					@Html.Label(FMBaseController.TranslateText("OPC UA Client Holdoff"), new { @class = "control-label" })
+					@Html.Label(" (Sec(s))", new { @class = "control-label" })
+					@Html.TextBoxFor(m => m.PointTagOPCClientHoldoff, new { ID = "PointTagOpcUaClientHoldoffTextBox", @class = "form-control" }).Disable(Model.PointTagOPCClientDisableFilter)
+				</div>
+				<div class="form-group">
+					@Html.Label(FMBaseController.TranslateText("OpcUaEditorController|OPC UA Server Data Type:"), new { @class = "control-label" })
+					@Html.DropDownListFor(m => m.PointTagOpcUaServerDataType, new SelectList(Model.GetServerDataTypeList(), "value", "key"), new { ID = "PointTagOpcUaServerDataTypeDropDownList", @class = "form-control" })
+				</div>
+
+				<div class="form-group">
+					<button id="ServerSelectButton" type="button" class="btn OpcUaServerButton" onclick="onOpcUaServers();"><span class="glyphicon glyphicon-list"></span>@FMBaseController.TranslateText("Modify OPC UA Server")</button>
+				</div>
+
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 col-md-6 col-lg-6">
+				<div class="form-group">
+					@Html.Label(FMBaseController.TranslateText("Server Address Space:"), new { @class = "control-label" })
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12 col-md-12 col-lg-12">
+				<div id="serverAddressSpace">
+					<ul>
+						@foreach (var opcUaNode in Model.ServerNodeIdList)
+						{
+							<li id="@opcUaNode.Id">@opcUaNode.DisplayName</li>
+						}
+					</ul>
+				</div>
+			</div>
+		</div>
+
+	</section>
+}
+
+
+<!-- Modal -->
+<section id="opcUaBrowserModals">
+	<div class="row">
+		<div id="OpcUaServerSelectionModalScreen" class="modal fade modal-lg" data-backdrop="static" data-focus-on="input:first" role="dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-body">
+					<section id="OpcUaServerSelectionScreenBody" class=""></section>
+				</div>
+				<div class="modal-footer">
+					<div class="btn-toolbar">
+						<div class="pull-right">
+							<button id="OKButton" type="button" class="formfieldtitle pushButton" style="width: 100px;" accessKey="@FMControls.GetAccessKey( okButton )">
+								@Html.Raw(FMControls.FormatButtonText(okButton))
+							</button>
+							<button id="CancelButton" type="button" class="formfieldtitle pushButton" data-dismiss="modal" style="width: 100px;" accessKey="@FMControls.GetAccessKey(cancelButton)">
+								@Html.Raw(FMControls.FormatButtonText(cancelButton))
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section id="opcUaBrowserErrors">
+	<div id="opcUaBrowserError"></div>
+</section>
+

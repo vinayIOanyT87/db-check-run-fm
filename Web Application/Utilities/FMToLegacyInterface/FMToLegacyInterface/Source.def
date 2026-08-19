@@ -1,0 +1,17 @@
+LIBRARY FMToLegacyInterface
+; this file contains the library exports for pinvoke.
+
+EXPORTS
+			DllMain									; main entry point
+			GetLeakDetectionConfigurationData		; Leak Detection Configuration Data entry point
+			DeleteLeakDectionReportData				; Delete the loeak datection report data from the database
+			AnalyzeLeakDetectionData				; Analyze the leak detection data
+			CreateRunDestroyTankCalculator			; create the tank calculator in datamanager
+			GetHandGaugeDataStartEnd				; get hand gauge data from the movement system
+			PutHandGaugeDataStartEnd				; put hand gauge data to the movement system
+			ExecuteMvmntCmd							;
+			GetGroups								;
+			GetPrinters								;
+			GetDeliveryTickets						;
+			GetMovementInstance						;
+			SetMovementInstance						;

@@ -1,0 +1,99 @@
+﻿
+
+@using System.Web.Mvc.Html
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.PointValueConfigurationEditorModel
+
+<style>
+</style>
+
+<script src="~/Areas/Scripts/PointValueConfigurationEditor.js"></script>
+
+@{
+	var okButton = @FMBaseController.TranslateText("&OK");
+	var cancelButton = @FMBaseController.TranslateText("&Cancel");
+}
+
+
+@using (Html.BeginForm("PointValueConfigurationEditor", "Points", FormMethod.Post, new { id = "pointValueConfigurationEditorForm" }))
+{
+	var normalPriorities = new SelectList(@Model.NormalPriorityDictionary.Values.OrderBy(x => x.ID), "IdentityGuid", "ID");
+	var alarmCategories = new SelectList(@Model.AlarmCategoryDictionary.OrderBy(x => x.Value), "Key", "Value");
+
+
+	@Html.AntiForgeryToken()
+	@Html.Hidden("urlSaveValueConfigurationChanges", @Url.Action("SaveValueConfigurationChanges", "Points"))
+	@Html.Hidden("urlGetValueReferenceEntryList", @Url.Action("GetValueReferenceEntryList", "Points"))
+	@Html.Hidden("PointObjectGuidString", Model.PointObjectGuid.ToString())
+	@Html.Hidden("IsTemplatePoint", Model.IsTemplatePoint.ToString())
+	@Html.Hidden("IsSetting", Model.IsSetting.ToString())
+	@Html.Hidden("ValueTypeString", Model.ValueTypeString)
+	@Html.Hidden("ValueReferenceObject", Json.Encode(Model.ValueReferenceObject))
+	@Html.Hidden("NormalPriorities", Json.Encode(normalPriorities))
+	@Html.Hidden("AlarmCategories", Json.Encode(alarmCategories))
+
+	var valueLabelText = string.Empty;
+	if (Model.ValueTypeString == "FMBusinessObjects.DataObjects.DeviceAlarmMapReference")
+	{
+		valueLabelText = FMBaseController.TranslateText("Device Alarm Map:");
+	}
+	else if (Model.ValueTypeString == "FMBusinessObjects.DataObjects.PointCommandStatusListReference")
+	{
+		valueLabelText = FMBaseController.TranslateText("Point Command-Status List:");
+	}
+
+		<section id="pointValueConfigurationEditorPartial" class="">
+			<div class="row">
+				<div id="pointValueConfigurationEditorList">
+					<div class="form-group">
+						<div class="label-horizontal-bar">
+							@Html.Label(@FMBaseController.TranslateText("POINT VALUE CONFIGURATION"), new { @class = "control-label" })
+						</div>
+					</div>
+					<div class="form-group">
+						@Html.Label(@FMBaseController.TranslateText("Value:"), new { @class = "control-label", @style = "width: 10%;" })
+						@Html.TextBoxFor(m => m.PointObjectName, new { ID = "PointTagIdTextBox", disabled = "disabled", @class = "form-control", @style = "width: 89%; display: inline;" })
+					</div>
+					<div class="form-group">
+						@Html.Label(@valueLabelText, new { @class = "control-label" })
+						@Html.DropDownListFor(m => m.ValueGuid, new SelectList(Model.ValueReferenceDictionary, "Key", "Value", Model.ValueGuid), "", new { ID = "ValueReferenceDropDown", @class = "form-control", @onchange = "FMPointValueConfigurationEditor.fillValueReferenceEntryList('" + @Model.PointTemplateGuid + "')" })
+						@Html.ListBoxFor(m => m.ValueId, new SelectList(Model.ValueEntryDictionary, "Key", "Value", Guid.Empty, Model.ValueEntryDictionary.Keys), new { ID = "ValueReferenceEntryListBox", @class = "form-control", @onchange = "FMPointValueConfigurationEditor.valueReferenceSelectionChange(this)" })
+
+					</div>
+				</div>
+			</div>
+		</section>
+		}
+
+
+		<!-- Modal -->
+		<section id="pointValueConfigurationEditorModals">
+			<div class="row">
+				<div id="pointValueConfigurationScreen" class="modal fade modal-lg" data-backdrop="static" data-focus-on="input:first" role="dialog">
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-body">
+							<section id="pointValueConfigurationScreenBody" class=""></section>
+						</div>
+						<div class="modal-footer">
+							<div class="btn-toolbar">
+								<div class="pull-right">
+									<button id="OKButton" type="button" class="formfieldtitle pushButton" style="width: 100px;" accessKey="@FMControls.GetAccessKey( okButton )">
+										@Html.Raw(FMControls.FormatButtonText(okButton))
+									</button>
+									<button id="CancelButton" type="button" class="formfieldtitle pushButton" data-dismiss="modal" style="width: 100px;" accessKey="@FMControls.GetAccessKey(cancelButton)">
+										@Html.Raw(FMControls.FormatButtonText(cancelButton))
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="pointValueConfigurationErrors">
+			<div id="pointValueConfigurationError"></div>
+		</section>
+

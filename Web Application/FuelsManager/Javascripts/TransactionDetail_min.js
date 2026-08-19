@@ -1,0 +1,13 @@
+function MeterStartStopChange(a, b, c, d, f, g) {
+    a = document.getElementById(a); b = document.getElementById(b); c = document.getElementById(c); d = document.getElementById(d); if (null != a && null != b && (a = a.value, a = a.replace("." == f ? "," : ".", ""), a = a.replace("," == f ? "," : ".", "."), a = parseFloat(a), !isNaN(a) && (b = b.value, b = b.replace("." == f ? "," : ".", ""), b = b.replace("," == f ? "," : ".", "."), b = parseFloat(b), !isNaN(b)))) {
+        if (b >= a) null != c && (c.value = (b - a).toFixed(g)), null != d && (d.value = (b - a).toFixed(g)); else {
+            var e = a.toString(), e = e.replace(/([012345678])/g,
+            "9"), e = Number(e) + 1; null != c && (c.value = (e - a + b).toFixed(g)); null != d && (d.value = (e - a + b).toFixed(g))
+        } "," == f && (null != d && (d.value = d.value.replace(".", ",")), null != c && (c.value = c.value.replace(".", ",")))
+    }
+}
+function TempDensityVCFChange(a, b, c, d) {
+    a = document.getElementById(a); b = document.getElementById(b); c = document.getElementById(c); document.getElementById(d); null != c && "" != c.value.replace(/ /g, "") ? (null != a && (a.readOnly = !0, a.style.background = "LightGrey", a.value = ""), null != b && (b.readOnly = !0, b.style.background = "LightGrey", b.value = "")) : (null != a && (a.readOnly = !1, a.style.background = "White"), null != b && (b.readOnly = !1, b.style.background = "White")); null != a && "" != a.value.replace(/ /g, "") || null != b && "" != b.value.replace(/ /g,
+    "") ? null != c && (c.readOnly = !0, c.style.background = "LightGrey", c.value = "") : null != c && (c.readOnly = !1, c.style.background = "White")
+} function DataGridKeyPress(a) { 13 == event.keyCode && (document.getElementById("EnterKeySource").value = a) } function CallGlossary(a, b) { var c = document.getElementById(b); null != c && (c = removeSpecialCharacters(c.innerText), c = removeTrailingColon(c), window.open(a + "#" + c, "Glossary", "toolbar=0,location=0,scrollbars=1,width=400,height=300").focus()) }
+function removeSpecialCharacters(a) { null != a.match(/[\/@&()]/g) && (a = a.replace(/\s+/g, ""), a = a.replace(/[\/@&()]/g, "")); return a } function removeTrailingColon(a) { return (":" == a.charAt(a.length - 1, 1) ? a.substring(0, a.length - 1) : a).replace(/ /g, "_") } function BaseMasterOnChange(a) { null != a && "LineItem ProductPrice" == a && GenericHandleProductPrice() } function GenericHandleProductPrice() { var a = null, b = null; try { a = oLineItemProductPrice, b = oHiddenLineItemProductPrice } catch (c) { } null != a && null != b && (b.value = "true") };

@@ -1,0 +1,40 @@
+﻿
+.ui-front {
+    z-index: 10000 !important;
+}
+
+body .modal {
+    width: 1110px !important;
+    margin-left: -625px !important;
+}
+
+/* Ensures that the x shows up in the right hand corner
+    of the dialog
+*/
+.ui-dialog .ui-dialog-titlebar-close span {
+        margin: 0;
+    }
+.ui-button-icon-only .ui-icon {
+        bottom: 0px;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        padding: 0;
+    }
+
+
+
+
+.h4, .h5, .h6, h4, h5, h6 {
+	margin-top: 0px !important;
+	margin-bottom: 0px !important;
+}
+
+.form-control{
+	border-radius: 0px !important;
+}
+
+.control-row {
+    margin-top:20px;
+}
+

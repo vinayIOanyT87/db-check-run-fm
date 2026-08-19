@@ -1,0 +1,105 @@
+// WeightScaleOPCServer.idl : IDL source for WeightScaleOPCServer
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (WeightScaleOPCServer.tlb) and marshalling code.
+
+#include "mtxattr.h"
+import "oaidl.idl";
+import "ocidl.idl";
+import "opcda.idl";
+
+
+[
+	object,
+	uuid(1A13A3B1-18B4-45AC-8B3A-986A3D550E2F),
+	dual,
+	nonextensible,
+	helpstring("IWeightScales Interface"),
+	pointer_default(unique)
+]
+interface IWeightScales : IDispatch{
+	[id(1), helpstring("method Enumerate")] HRESULT Enumerate([out,retval] IDispatch** ppWeightScaleCollection);
+	[id(2), helpstring("method Add")] HRESULT Add([in] IDispatch* pWeightScale,[out,retval] LONG* pIndex);
+	[id(3), helpstring("method Modify")] HRESULT Modify([in] IDispatch* pWeightScale);
+	[id(4), helpstring("method Purge")] HRESULT Purge([in] LONG lIndex);
+	[id(5), helpstring("method GetIndex")] HRESULT GetIndex([in] BSTR bstrID, [out,retval] LONG* pIndex);
+	[id(6), helpstring("method Get")] HRESULT Get([in] LONG lIndex, [out,retval] IDispatch** ppWeightScale);
+	[id(7), helpstring("method EnumeratePortIDs")] HRESULT EnumeratePortIDs([out,retval] VARIANT* pIDs);
+};
+[
+	object,
+	uuid(0245CB0C-A46E-423E-8D5F-9B94457F1484),
+	dual,
+	nonextensible,
+	helpstring("IDataAccess Interface"),
+	pointer_default(unique)
+]
+interface IDataAccess : IDispatch{
+	[id(1), helpstring("method GetRecordSet")] HRESULT GetRecordSet(BSTR bstrSQL, [out,retval] IDispatch** ppRecordSet);
+	[id(2), helpstring("method ExecuteQuery")] HRESULT ExecuteQuery(BSTR bstrSQL);
+};
+[
+	object,
+	uuid(6F92560C-9F70-4176-9311-7A0C3387FEB8),
+	dual,
+	nonextensible,
+	helpstring("IPorts Interface"),
+	pointer_default(unique)
+]
+interface IPorts : IDispatch{
+	[id(1), helpstring("method Enumerate")] HRESULT Enumerate([out,retval] IDispatch** ppCardReaderCollection);
+	[id(2), helpstring("method Add")] HRESULT Add([in] IDispatch* pCardReader,[out,retval] LONG* pIndex);
+	[id(3), helpstring("method Modify")] HRESULT Modify([in] IDispatch* pCardReader);
+	[id(4), helpstring("method Purge")] HRESULT Purge([in] LONG lIndex);
+	[id(5), helpstring("method GetIndex")] HRESULT GetIndex([in] BSTR bstrID, [out,retval] LONG* pIndex);
+	[id(6), helpstring("method Get")] HRESULT Get([in] LONG lIndex, [out,retval] IDispatch** ppCardReader);
+	[id(7), helpstring("method EnumeratePortIDs")] HRESULT EnumeratePortIDs([out,retval] VARIANT* pIDs);
+};
+[
+	uuid(85CD7BF4-E995-4E4A-ABE2-D9FD90CF6027),
+	version(1.0),
+	helpstring("WeightScaleOPCServer 1.0 Type Library")
+]
+library WeightScaleOPCServerLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(FB4C3029-D5C9-4BB8-AC5A-1914858D79D5),
+		custom(TLBATTR_TRANS_REQUIRED,0),
+		helpstring("WeightScales Class")
+	]
+	coclass WeightScales
+	{
+		[default] interface IWeightScales;
+	};
+	[
+		uuid(5485F6AE-F03B-4FEB-A5E8-9B83D9E26516),
+		custom(TLBATTR_TRANS_SUPPORTED,0),
+		helpstring("DataAccess Class")
+	]
+	coclass DataAccess
+	{
+		[default] interface IDataAccess;
+	};
+
+	[
+		uuid(265331A0-40D0-4DEC-B614-2A21CDC5CC1F),
+		custom(TLBATTR_TRANS_REQUIRED,0),
+		helpstring("Ports Class")
+	]
+	coclass Ports
+	{
+		[default] interface IPorts;
+	};
+	[
+		uuid(AF5C3633-019F-4446-9E11-B0356D0E11A8),
+		helpstring("OPCServer Class")
+	]
+	coclass OPCServer
+	{
+		[default] interface IOPCServer;
+		interface IOPCBrowseServerAddressSpace;
+	};
+
+};

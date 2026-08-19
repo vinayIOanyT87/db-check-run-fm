@@ -1,0 +1,37 @@
+// FMInterfaces.idl : IDL source for FMInterfaces
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (FMInterfaces.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(5DA37292-E616-4C44-A702-920934174258),
+	dual,
+	nonextensible,
+	helpstring("ICACComponents Interface"),
+	pointer_default(unique)
+]
+interface ICACComponents : IDispatch{
+	[id(1), helpstring("method CACEnable")] HRESULT CACEnable([out] BSTR* szUserID, [out,retval] VARIANT_BOOL* bEnabled);
+};
+[
+	uuid(86BE5A12-5471-404A-9BCA-6A21728A2310),
+	version(1.0),
+	helpstring("FMInterfaces 1.0 Type Library")
+]
+library FMInterfacesLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(4A1A2E0A-FD23-4384-90AB-EBCACB569B13),
+		helpstring("CACComponents Class")
+	]
+	coclass CACComponents
+	{
+		[default] interface ICACComponents;
+	};
+};

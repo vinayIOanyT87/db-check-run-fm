@@ -1,0 +1,169 @@
+<div id="registermaps">
+    <div class='registermap-section-header' style="font-family: Roboto; font-size: 18px;">{{currentModBusType}}</div>
+    <i class="fa fa-search search-registermap-icon" (click)="toggleRegisterMapSearch()"></i>
+    <div class="btn-group registermap-activation-menu" dropdown>
+        <a id="activationDropdown" class="dropdown-toggle" dropdownToggle data-toggle="dropdown" aria-controls="activation-dropdown">
+            <i class="fa fa-ellipsis-h "></i>
+        </a>
+        <ul id="activation-dropdown" *dropdownMenu class="dropdown-menu activation-dropdown" aria-labelledby="button-basic">
+            <div *ngFor="let key of modbusTypeKeys">
+                <li class="activationoption" *ngIf="currentModBusType != modbusType[key]" (click)="changeModbusType(modbusType[key])">{{modbusType[key]}}</li>
+            </div>
+            <li class="activationoption" *ngIf="!showPointIndexes" (click)="togglePointIdx()">Show Point Indexes</li>
+            <li class="activationoption" *ngIf="showPointIndexes" (click)="togglePointIdx()">Hide Point Indexes</li>
+        </ul>
+    </div>
+
+    <dts-select-container #container="dts-select-container" [(selectedItems)]="selectedDocuments" [custom]="true" (click)="onRegisterMapPanelClick($event)" [selectWithShortcut]="true" [disabled]="true" (selectionEnded)="dragSelect($event)">
+        <ng-container *ngIf="ready">
+
+            <cdk-virtual-scroll-viewport id="activeregistermaplist" itemSize="99" minBufferPx="200" maxBufferPx="400" class="ps" [perfectScrollbar] #scrollable>
+                <input id="registermapfilterinput" type="text" class='search-registermap-entry' placeholder="Enter search parameter" [ngModel]='searchRegisterMapString' (ngModelChange)='searchRegisterMapStringChanged( $event )' [ngClass]="{'d-none': !searchRegisterMapToggle}"
+                    (click)="$event.stopPropagation()" />
+                <div *cdkVirtualFor="let registerMapSet of registerMapPanelSets trackBy:trackByPointId; let i = index;">
+                    <div *ngIf='registerMapSet[0]' class="registermap">
+                        <img [dtsSelectItem]="registerMapSet[0]" class="registermapimg" [src]=registerMapSet[0].img (click)="onRegisterMapImgClick($event, registerMapSet[0].pointId, registerMapSet[0].alarmId); $event.stopPropagation()" />
+                        <span class="regmapSelectSpan" title="{{registerMapSet[0].labelLine1}}&#10;{{registerMapSet[0].labelLine2}}">{{registerMapSet[0].labelLine1}}<br> {{registerMapSet[0].labelLine2}}</span>
+                    </div>
+                    <div *ngIf='registerMapSet[1]' class="registermap">
+                        <img [dtsSelectItem]="registerMapSet[1]" class="registermapimg" [src]=registerMapSet[1].img (click)="onRegisterMapImgClick($event, registerMapSet[1].pointId, registerMapSet[1].alarmId); $event.stopPropagation()" />
+                        <span class="regmapSelectSpan" title="{{registerMapSet[1].labelLine1}}&#10;{{registerMapSet[1].labelLine2}}">{{registerMapSet[1].labelLine1}}<br> {{registerMapSet[1].labelLine2}}</span>
+                    </div>
+                    <div *ngIf='registerMapSet[2]' class="registermap">
+                        <img [dtsSelectItem]="registerMapSet[2]" class="registermapimg" [src]=registerMapSet[2].img (click)="onRegisterMapImgClick($event, registerMapSet[2].pointId, registerMapSet[2].alarmId); $event.stopPropagation()" />
+                        <span class="regmapSelectSpan" title="{{registerMapSet[2].labelLine1}}&#10;{{registerMapSet[2].labelLine2}}">{{registerMapSet[2].labelLine1}}<br> {{registerMapSet[2].labelLine2}}</span>
+                    </div>
+                    <div *ngIf='registerMapSet[3]' class="registermap">
+                        <img [dtsSelectItem]="registerMapSet[3]" class="registermapimg" [src]=registerMapSet[3].img (click)="onRegisterMapImgClick($event, registerMapSet[3].pointId, registerMapSet[3].alarmId); $event.stopPropagation()" />
+                        <span class="regmapSelectSpan" title="{{registerMapSet[3].labelLine1}}&#10;{{registerMapSet[3].labelLine2}}">{{registerMapSet[3].labelLine1}}<br> {{registerMapSet[3].labelLine2}}</span>
+                    </div>
+                    <hr class="horizontalDivider" *ngIf="(i+1) % 2 == 0">
+                </div>
+
+            </cdk-virtual-scroll-viewport>
+        </ng-container>
+        <ng-container *ngIf="!ready">
+            <cdk-virtual-scroll-viewport id="activeregistermaplist" itemSize="99" minBufferPx="200" maxBufferPx="400" class="ps" [perfectScrollbar] #scrollable>
+                <div *cdkVirtualFor="let registerMapSet of registerMapPanelSets | slice:0:7 ; let i = index;">
+
+                    <div *ngIf='registerMapSet[0]' class="registermap">
+                        <img [dtsSelectItem]="registerMapSet[0]" class="registermapimg" [src]=registerMapSet[0].img (click)="onRegisterMapImgClick($event, registerMapSet[0].pointId, registerMapSet[0].alarmId); $event.stopPropagation()" />
+                        <span class="regmapSelectSpan" title="{{registerMapSet[0].labelLine1}}&#10;{{registerMapSet[0].labelLine2}}">{{registerMapSet[0].labelLine1}}<br>{{registerMapSet[0].labelLine2}}</span>
+                    </div>
+                    <div *ngIf='registerMapSet[1]' class="registermap">
+                        <img [dtsSelectItem]="registerMapSet[1]" class="registermapimg" [src]=registerMapSet[1].img (click)="onRegisterMapImgClick($event, registerMapSet[1].pointId, registerMapSet[1].alarmId); $event.stopPropagation()" />
+                        <span class="regmapSelectSpan" title="{{registerMapSet[1].labelLine1}}&#10;{{registerMapSet[1].labelLine2}}">{{registerMapSet[1].labelLine1}}<br>{{registerMapSet[1].labelLine2}}</span>
+                    </div>
+                    <div *ngIf='registerMapSet[2]' class="registermap">
+                        <img [dtsSelectItem]="registerMapSet[2]" class="registermapimg" [src]=registerMapSet[2].img (click)="onRegisterMapImgClick($event, registerMapSet[2].pointId, registerMapSet[2].alarmId); $event.stopPropagation()" />
+                        <span class="regmapSelectSpan" title="{{registerMapSet[2].labelLine1}}&#10;{{registerMapSet[2].labelLine2}}">{{registerMapSet[2].labelLine1}}<br>{{registerMapSet[2].labelLine2}}</span>
+                    </div>
+                    <div *ngIf='registerMapSet[3]' class="registermap">
+                        <img [dtsSelectItem]="registerMapSet[3]" class="registermapimg" [src]=registerMapSet[3].img (click)="onRegisterMapImgClick($event, registerMapSet[3].pointId, registerMapSet[3].alarmId); $event.stopPropagation()" />
+                        <span class="regmapSelectSpan" title="{{registerMapSet[3].labelLine1}}&#10;{{registerMapSet[3].labelLine2}}">{{registerMapSet[3].labelLine1}}<br>{{registerMapSet[3].labelLine2}}</span>
+                    </div>
+                    <hr class="horizontalDivider" *ngIf="(i+1) % 2 == 0">
+                </div>
+
+            </cdk-virtual-scroll-viewport>
+        </ng-container>
+    </dts-select-container>
+</div>
+
+
+<div id="registermapconfiguration">
+    <ngb-tabset style="font-family: Roboto; font-size: 18px;">
+        <ng-container>
+            <ngb-tab *ngFor="let tab of registerMapViewTabs;" title="{{tab.tabName}}">
+                <ng-template ngbTabContent>
+                    <div class="configuration-body">
+                        <div class="iconbar">
+                            <i class="fa fa-search search-icon pull-right" title="Filter" (click)="toggleConfigurationSearch()"></i>
+                            <input id="configurationfilterinput" type="text" class='search-entry pull-right' placeholder="Enter search parameter" [ngModel]='searchConfigurationString' (ngModelChange)='searchConfigurationChanged( $event )' [ngClass]="{'d-none': !searchConfigurationToggle}"
+                            />
+                        </div>
+                        <div id="selectedRegisterMapsPanel">
+                            <div *ngFor="let registerMap of selectedRegisterMaps; let i = index;" class="regmap-cell">
+                                {{registerMap.labelLine1}}<br>{{registerMap.labelLine2}}</div>
+                        </div>
+                        <perfect-scrollbar #scrollable class="configuration-list">
+                            <ng-container *ngFor="let registerMap of selectedRegisterMaps; let alarmIndex = index;">
+                                <div [ngClass]="(tab.tabName == 'Config') ? 'registerMapContainer' : 'registerMapConfigContainer'">
+                                    <div class="configuration-header">
+                                        {{registerMap.labelLine1}}<br>{{registerMap.labelLine2}}
+                                    </div>
+                                    <ng-container *ngFor="let cell of registerMap.point.pointConfiguration | keyvalue; let i = index;">
+
+                                        <div *ngIf="isParameterCell(cell) && ((tab.tabName == 'Config' && cell.value.configClass == 64) || (tab.tabName == 'Command' && (cell.value.configClass == 160 || cell.value.configClass == 32 )))" class="configuration-regmap-cell">
+                                            <div>
+                                                <div class="configuration-parametername">{{cell.value.parameter}}</div>
+                                                <app-inlineconfigurationeditor *ngIf="cell.value.parameter != 'SrcIndex' && cell.value.parameter != 'SrcParameter' && cell.value.parameter != 'DestIndex' && cell.value.parameter != 'DestParameter'" [tabIndex]="cell.tabIndex" [configurationItem]="cell.value"
+                                                    [disableOverride]="cell.value.disableOverride" class="configuration-parametervalue" (parameterChange)="onParameterChange($event, registerMap) ">
+                                                </app-inlineconfigurationeditor>
+                                                <input *ngIf="cell.value.parameter == 'SrcIndex' || cell.value.parameter == 'SrcParameter' || cell.value.parameter == 'DestIndex' || cell.value.parameter == 'DestParameter'" (focus)="populateTypeaheadOptions($event, registerMap, cell.value)" onfocus="this.select(); this.selAll=1;"
+                                                    placeholder="{{cell.value.translatedPendingValue}}" id={{cell.key}} type="search" class="typeahead" [(ngModel)]="cell.value.temppendingValue" [attr.disabled]="isFieldDisabled(cell)" [ngbTypeahead]="typeaheadSearch"
+                                                    [inputFormatter]="inputFormatter" [resultFormatter]="resultFormatter" [ngStyle]="setInputBoxStyle(cell)" (selectItem)="updatePendingValue($event, registerMap, cell.value)" />
+
+                                            </div>
+                                        </div>
+
+                                    </ng-container>
+                                </div>
+                                <div class="horizontalDivider" *ngIf="(alarmIndex % 3 == 2)"></div>
+                            </ng-container>
+
+                        </perfect-scrollbar>
+                    </div>
+                    <div class="configuration-footer">
+                        <button type="button" class="btn btn-primary" [disabled]="isRTUConnectedandChangesExist()" style="font-family: Roboto; font-size: 14px;background-color: #006cb3; border-radius: 3px;" (click)="VerifyApplytoRTUPrompt();">Apply to RTU</button>
+                        <button type="button" class="btn btn-primary" style="font-family: Roboto; font-size: 14px; background-color: #006cb3; border-radius: 3px;" (click)="saveRtuConfigToDisk();">Save RTU Config</button>
+                        <button type="button" class="btn btn-cancel-changes" [disabled]="areThereNoChangesMade()" style="font-family: Roboto; font-size: 14px; border-radius: 3px;" (click)="VerifyCancelChangesPrompt();">Cancel</button>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+        </ng-container>
+    </ngb-tabset>
+</div>
+
+<ng-template #modalVerifyCancelAction>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Are you sure you want to cancel?</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            You will lose any changes not saved or applied.
+        </div>
+        <div class="form-group">
+            Click <b>OK</b> to continue or <b>Cancel</b> to go back.
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="cancelButton" type="button" class="btn btn-secondary" (click)="modalRef.hide();">Cancel</button>
+        <button id="copyButton" type="button" class="btn btn-primary" (click)="cancelChanges();">OK</button>
+    </div>
+</ng-template>
+
+
+<ng-template #modalVerifyApplytoRTUAction>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Apply current settings to RTU?</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            Any RTU settings that were changed will be overwritten and cannot be undone.
+        </div>
+        <div class="form-group">
+            Click <b>OK</b> to continue or <b>Cancel</b> to retain current settings.
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="cancelButton" type="button" class="btn btn-secondary" (click)="modalRef.hide();">Cancel</button>
+        <button id="copyButton" type="button" class="btn btn-primary" (click)="applyToRTU();">OK</button>
+    </div>
+</ng-template>

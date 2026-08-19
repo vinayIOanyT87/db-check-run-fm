@@ -1,0 +1,27 @@
+﻿@using System.Web.Mvc.Html
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.AckCommentDataEntryModel
+
+@using (Html.BeginForm("OkButtonPress", "AckCommentDataEntry", FormMethod.Post))
+{
+	@Html.AntiForgeryToken()
+	@Html.Hidden("AckCommentDataEntry", Json.Encode(Model))
+	@Html.Hidden("ackCommentDataEntryUrlOkButtonPress", @Url.Action("OkButtonPress", "AckCommentDataEntry"))
+
+	<section id="SheveDataEntryPartial" class="">
+		<div class="form" style="position: relative">
+			<div class="row">
+				@Html.Label(@FMBaseController.TranslateText("Please enter any comments below, a maximum of 256 characters"), new { @class = "control-label col-xs-12" })
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<textarea class="input form-control" autofocus rows="7" cols="4" wrap="hard" ID="AckCommentDataEntryComment" style="border-color: #b2b2b2;resize: none;" maxlength=256 onkeypress="javascript: return AckCommentDataEntry.Onkeypress( event );" onPaste="javascript: return AckCommentDataEntry.OnPaste(this);"></textarea>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section id="ackCommentErrors">
+		<div id="ackCommentError"></div>
+	</section>
+}

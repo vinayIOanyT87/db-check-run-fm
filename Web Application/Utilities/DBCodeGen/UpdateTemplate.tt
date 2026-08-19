@@ -1,0 +1,86 @@
+﻿<#@ template language="C#" hostspecific="True" debug="True" #>
+<#@ output extension="sql" #>
+<#@ assembly name="Microsoft.SqlServer.ConnectionInfo" #>
+<#@ assembly name="Microsoft.SqlServer.Management.Sdk.Sfc" #>
+<#@ assembly name="Microsoft.SqlServer.Smo" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="T4Toolbox.10.0" #>
+<#@ import namespace="Microsoft.SqlServer.Management.Smo" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="T4Toolbox" #>
+<#+
+public class UpdateTemplate : FMStoredProcTemplateBase
+{
+	public UpdateTemplate(string dbName, TableInfo newInfo) :base(dbName)
+	{
+		this.ObjectSuffix = "UpdateByRowGuid";		
+		this.MyTable = newInfo;
+	}
+	
+	public override string Description 
+	{
+		get
+		{
+			return "Update a record in the " + FullTableName;
+		}
+	}
+		
+	private void WriteUpdateParameters(Table mySmoTable, Column primaryKeyColumn)
+	{		
+		Indent();
+		string[] excludedFields = new string[] {RowVersionFieldName, CreatedDateFieldName, CreatedByFieldName};		
+		WriteParameters(mySmoTable, excludedFields);
+		
+		if (RowVersionColumn == null)
+		{
+			WriteLine( "");
+		}
+		else
+		{
+			WriteLine(",");
+			Write(ParameterDefinition(RowVersionColumn));
+			WriteLine(" = NULL");
+		}
+	
+		Unindent();
+	}
+	
+	protected override void RenderStandardCore()
+    {
+		Table mySmoTable = GetSqlSmoTable();
+		Column primaryKeyColumn = FindPrimaryKeyColumn(mySmoTable);
+		if (mySmoTable == null || primaryKeyColumn==null)
+		{
+			// Running the script the first time
+			return;
+		}
+		CreateComment();
+#>
+CREATE PROCEDURE <#= FullObjectName #> (
+<#+		
+		WriteUpdateParameters(mySmoTable, primaryKeyColumn);
+#>
+) AS
+BEGIN
+	UPDATE <#= FullTableName #>
+	SET
+<#+		
+		Indent();
+		Indent();
+		string[] allFieldNames = GetAllFieldNames(mySmoTable);
+		string[] excludedFields = new string[] {primaryKeyColumn.Name, RowVersionFieldName, CreatedDateFieldName, CreatedByFieldName};
+		string fieldList = CreateList(allFieldNames, excludedFields, AssignmentFormat);
+		WriteLine(fieldList);
+		Unindent();
+		Unindent();
+#>
+	WHERE
+		<#= primaryKeyColumn.Name #> = @<#= primaryKeyColumn.Name #>
+END
+GO
+
+<#+		
+
+	}
+}
+#>

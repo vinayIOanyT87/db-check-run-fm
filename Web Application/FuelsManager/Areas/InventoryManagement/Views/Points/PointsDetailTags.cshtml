@@ -1,0 +1,183 @@
+﻿@using Varec.CommonComponents.EngineeringUnitsLibrary
+@using FMBusinessObjects.DataObjects
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.PointEditDetailModel
+
+<div class="row">
+    @{
+        var pointCommandStatusListSelectorText = FMBaseController.TranslateText("PointEditor|Point Command-Status List Selector");
+        var deviceAlarmMapSelectorText = FMBaseController.TranslateText("PointEditor|Device Alarm Map Selector");
+    }
+
+    <div id="empty_tagrow" class="hidden">
+        <table id="TagEditEmptyRowTable">
+            <tbody>
+                <tr>
+                    <td class="tagColumnID col-sm-3 col-md-3 text-left" style="overflow: auto; white-space: nowrap">
+                        <input class="form-control column-tag-name" id="Tags_{id}__Name" name="Tags[{id}].Name" type="text" maxlength="50" style="width:calc(100% - 25px); display:inline-block">
+                        <span id="Tags_{id}_TagPointCommandStatusListSelector" name="Tags[{id}].TagPointCommandStatusListSelector" title="@pointCommandStatusListSelectorText" class="point-command-status-list-reference hidden" style="display: inline-block; width: 20px; text-align: center;"><i class="glyphicon glyphicon-cog"></i></span>
+                        <span id="Tags_{id}_TagDeviceAlarmMapSelector" name="Tags[{id}]._TagDeviceAlarmMapSelector" title="@deviceAlarmMapSelectorText" class="device-alarm-map-reference hidden" style="display: inline-block; width: 20px; text-align: center;"><i class="glyphicon glyphicon-cog"></i></span>
+                    </td>
+                    <td class="hidden tagColumnPointTagGuid text-left"></td>
+                    <td class="hidden tagColumnApplyPointEngineeringUnits col-md-1 text-center">False</td>
+                    <td class="hidden tagColumnApplyPointDecimalPlaces col-md-1 text-center">False</td>
+                    <td class="hidden tagColumnApplyPointMinimum col-md-1 text-center">False</td>
+                    <td class="hidden tagColumnApplyPointMaximum col-md-1 text-center">False</td>
+                    <td class="hidden tagColumnEngineeringUnits text-left">FmuNone</td>
+                    <td class="hidden tagColumnDataType col-md-2 text-left page1" style="overflow: hidden; white-space: nowrap">
+                        <select class="form-control" id="Tags_{id}__DataType" name="Tags[{id}].DataType">
+                            @foreach (var dataType in new SelectList(@Model.TagDataTypes.Select(s => new SelectListItem { Value = s.Key, Text = s.Value }).OrderBy(x => x.Text), "Value", "Text"))
+                            {
+                                <option value="@dataType.Value">@dataType.Text</option>
+                            }
+                        </select>
+                    </td>
+                    <td class="tagColumnInputOutputType col-md-1" style="overflow: auto; white-space: nowrap">
+                        <select class="form-control" id="Tags_{id}__InputOutputType" name="Tags[{id}].InputOutputType">
+                            @foreach (var inputType in @Model.TagInputOutputTypes.OrderBy(x => x.Text))
+                            {
+                                <option value="@inputType.Value">@inputType.Text</option>
+                            }
+                        </select>
+                    </td>
+                    <td class="tagColumnOpcConnectionEditor disabledIcon col-md-1" style="overflow: auto; white-space: nowrap; text-align: center">
+                        <span id="@("tagOpcConnectionEditor_")" title="Opc Editor" style="display: inline-block; width: 20%; text-align: center; margin-top: 5px;"><i class="glyphicon glyphicon-cog"></i></span>
+                    </td>
+                    <td class="tagColumnUnits col-md-1 mainview">
+                        <select class="form-control" id="Tags_{id}__Unit" name="Tags[{id}].Unit" disabled="disabled">
+                            <option value="255"></option>
+                        </select>
+                    </td>
+                    <td class="tagColumnServerUnits col-md-1 mainview">
+                        <select class="form-control" id="Tags_{id}__ServerUnit" name="Tags[{id}].ServerUnit">
+                            <option value="255"></option>
+                        </select>
+                    </td>
+                    <td class="tagColumnDecimalPlaces col-md-1 text-right mainview">
+                        <input class="form-control input-md text-right " id="Tags_{id}__DecimalPlaces" maxlength="2" name="Tags[{id}].DecimalPlaces" type="text" disabled>
+                    </td>
+                    <td class="tagColumnMinimum col-md-1 text-right mainview">
+                        <input class="form-control input-md text-right " data-raw-value="0" id="Tags_{id}__Minimum" maxlength="20" name="Tags[{id}].Minimum" type="text" placeholder="" disabled>
+                    </td>
+                    <td class="tagColumnMaximum col-md-1 text-right mainview">
+                        <input class="form-control input-md text-right" data-raw-value="0" id="Tags_{id}__Maximum" maxlength="20" name="Tags[{id}].Maximum" type="text" placeholder="" disabled>
+                    </td>
+                    <td class="tagColumnArchived col-md-1 text-center mainview">
+                        <img name="archive" alt="Not Archived" title="@FMBaseController.TranslateText("Not Archived")" src="~/fmwebapp/images/off.png" />
+                    </td>
+                    <td class="tagColumnNamespace col-md-4 opcview hidden">
+                        <input class="form-control input-md text-right" id="Tags_{id}__OpcUaBrowsePath" name="Tags[{id}].OpcUaBrowsePath" type="text" placeholder="" disabled>
+                    </td>
+                    <td class="tagColumnNode col-md-2 opcview hidden">
+                        <input class="form-control input-md text-right" id="Tags_{id}__OpcUaNodeId" name="Tags[{id}].OpcUaNodeId" type="text" placeholder="" disabled>
+                    </td>
+                    <td class="tagColumnInterval col-md-1 opcview hidden">
+                        <input class="form-control input-md text-right" id="Tags_{id}__OpcUaPublishingInterval" name="Tags[{id}].OpcUaPublishingInterval" type="text" placeholder="" disabled>
+                    </td>
+                    <td class="hidden tagColumnInput col-md-1 text-center page3 hidden">True</td>
+                    <td class="hidden tagColumnInhibitInputOutputTypeConfiguration col-md-1 text-center">False</td>
+                    <td class="hidden tagColumnInhibitOverride col-md-1 text-center page3 hidden">False</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    @{
+        var canViewServerUnit = (Model.HasFCEERight) ? "" : "display :none;";
+    }
+    <table id="TagEditTableHeader" class="table table-bordered table-responsive table-hover FuelsManager-table-header">
+        <thead>
+            <tr>
+                <th class="col-sm-3 col-md-3 text-left">
+                    <label class="column-tag-header">@FMBaseController.TranslateText("TAGS")</label>
+                    <div class="filter-tag filter-addon filter-right-addon pull-right">
+                        <input id="PEfilter_tags" type="text" class="form-control" />
+                        <img alt="Filter Tags" title="Search" src="~/fmwebapp/images/Search Icon.png" />
+                    </div>
+                </th>
+                <th class="col-sm-1 col-md-1 text-center">@FMBaseController.TranslateText("DATA SOURCE")</th>
+                <th class="col-sm-1 col-md-1 text-center">@FMBaseController.TranslateText("OPC UA") <span id="tagGridEditorSwitch" title="Switch Views" class="pull-right"><i class="glyphicon glyphicon-cog"></i></span></th>
+                <th class="col-sm-1 col-md-1 text-center mainview">@FMBaseController.TranslateText("UNIT")</th>
+                <th class="col-sm-1 col-md-1 text-center mainview" style="@canViewServerUnit">@FMBaseController.TranslateText("SERVER UNIT")</th>
+                <th class="col-sm-1 col-md-1 text-center mainview">@FMBaseController.TranslateText("PRECISION")</th>
+                <th class="col-sm-1 col-md-1 text-center mainview">@FMBaseController.TranslateText("MIN")</th>
+                <th class="col-sm-1 col-md-1 text-center mainview">@FMBaseController.TranslateText("MAX")</th>
+                <th class="col-sm-1 col-md-1 text-center mainview">@FMBaseController.TranslateText("ARCHIVED")</th>
+                <th class="col-sm-4 col-md-4 text-center opcview hidden">@FMBaseController.TranslateText("BROWSE PATH")</th>
+                <th class="col-sm-2 col-md-2 text-center opcview hidden">@FMBaseController.TranslateText("OPC NODE")</th>
+                <th class="col-sm-1 col-md-1 text-center opcview hidden">@FMBaseController.TranslateText("INTERVAL")</th>
+                <th class="col-sm-1 col-md-1 text-center hidden">@FMBaseController.TranslateText("INPUT")</th>
+                <th class="col-sm-1 col-md-1 text-center hidden">@FMBaseController.TranslateText("CONFIG SOURCE")</th>
+                <th class="col-sm-1 col-md-1 text-center hidden">@FMBaseController.TranslateText("OVERRIDE")</th>
+            </tr>
+        </thead>
+    </table>
+    <div id="TagEditTableWrap" class="panel">
+        <table id="TagEditTable" class="table table-bordered table-responsive table-hover">
+            <tbody>
+                @{
+                    var tagList = Model.Tags.OrderBy(x => x.Name).ToList();
+                }
+                @for (int i = 0; i < tagList.Count; i++)
+                {
+                    var tag = Model.Point.Tags[tagList[i].PointTagGuid];
+                    int index = Model.Tags.FindIndex(c => c.PointTagGuid == tagList[i].PointTagGuid);
+                    var associatedModule = Model.Point.PointTagModuleReference(tag.PointTemplateTagGuid) ? "true" : "false";
+                    var associatedModuleImg = Url.Content((associatedModule == "true") ? "~/fmwebapp/images/Module Blue.png" : "~/fmwebapp/images/Module Disable.png");
+                    var associatedAlarm = Model.AlarmTagHashSet.Contains(tag.IdentityGuid) ? "true" : "false";
+                    var associatedAlarmImg = Url.Content((associatedAlarm == "true") ? "~/fmwebapp/images/Alarm Blue.png" : "~/fmwebapp/images/Alarm Disable.png");
+                    bool DisableAll = !Model.ModifyEnabled;
+                    var tagInputOutputTypes = Model.TagInputOutputTypes;
+                    if (tag.Input == false)
+                    {
+                        tagInputOutputTypes = Model.OutputTagChangeAgents;
+                    }
+                    var disableServerUnit = (!Model.HasModifyFCEERight || tagList[i].InputOutputType != PointTemplateTag.PointTagInputOutputType.FCEE);
+                   
+                    <tr>
+                        <td class="tagColumnID col-md-3 text-left" style="overflow: auto; white-space: nowrap">
+                            @Html.LabelFor(m => m.Tags[index].Name, tagList[i].Name, new { @id = "Tags_" + i + "__Name", @class = "form-control column-tag-name", @style = "width:calc(90% - 25px); display:inline-block" })
+                            <span id="@("tagPointCommandStatusListSelector_" + i)" title="@pointCommandStatusListSelectorText" class="@((tagList[i].DataType == "FMBusinessObjects.DataObjects.PointCommandStatusListReference") ? "": "hidden") @(DisableAll ? "disabledIcon" : "")" style="display: inline-block; width: 20px; text-align: center;" onclick="onPointValueConfigurationEdit('@Model.IsTemplatePoint.ToString()' , 'false', '@Model.Tags[index].PointTagGuid', '@Model.Tags[index].Name');">
+                                <i class="glyphicon glyphicon-cog"></i>
+                            </span>
+                            <span id="@("tagDeviceAlarmMapSelector_" + i)" title="@deviceAlarmMapSelectorText" class="@((tagList[i].DataType == "FMBusinessObjects.DataObjects.DeviceAlarmMapReference") ? "": "hidden") @(DisableAll ? "disabledIcon" : "")" style="display: inline-block; width: 20px; text-align: center;" onclick="onPointValueConfigurationEdit('@Model.IsTemplatePoint.ToString()' , 'false', '@Model.Tags[index].PointTagGuid', '@Model.Tags[index].Name');">
+                                <i class="glyphicon glyphicon-cog"></i>
+                            </span>
+                        </td>
+                        <td class="hidden tagColumnPointTagGuid text-left">@tagList[i].PointTagGuid</td>
+                        <td class="hidden tagColumnApplyPointEngineeringUnits text-left">@tagList[i].ApplyPointEngineeringUnits</td>
+                        <td class="hidden tagColumnApplyPointDecimalPlaces text-left">@tagList[i].ApplyPointDecimalPlaces</td>
+                        <td class="hidden tagColumnApplyPointMinimum text-left">@tagList[i].ApplyPointMinimum</td>
+                        <td class="hidden tagColumnApplyPointMaximum text-left">@tagList[i].ApplyPointMaximum</td>
+                        <td class="hidden tagColumnEngineeringUnits text-left">@tagList[i].EngineeringUnitsType.ToString()</td>
+                        <td class="hidden tagColumnDataType text-left">@tagList[i].DataType.ToString()</td>
+                        <td class="tagColumnInputOutputType col-md-1" style="overflow: auto; white-space: nowrap">
+                            @Html.DropDownListFor(m => m.Tags[index].InputOutputType, tagInputOutputTypes.OrderBy(x => x.Text), new { @class = "form-control", @style = "display:inline-block" }).Disable(@Model.Tags[index].InhibitInputOutputTypeConfiguration || DisableAll)
+                        </td>
+                        <td class="tagColumnOpcConnectionEditor col-md-1" style="overflow: auto; white-space: nowrap; text-align: center">
+                            <span id="@("tagOpcConnectionEditor_" + i)" title="Opc Editor" class="@((((tagList[i].InputOutputType == PointTemplateTag.PointTagInputOutputType.OpcUa) || (tagList[i].Input == false)) && !DisableAll) ? "": "disabledIcon")" style="display: inline-block; width: 20%; text-align: center; margin-top: 5px;" onclick=" onOpcUaEdit('@Model.Tags[index].PointTagGuid', '@index' ); "><i class="glyphicon glyphicon-cog"></i></span>
+                        </td>
+                        <td class="tagColumnUnits col-md-1 mainview">@Html.DropDownListFor(m => m.Tags[index].Unit, EngineeringUnits.GetUnitsByType((EngineeringUnitType)Enum.Parse(typeof(EngineeringUnitType), @Model.Tags[index].EngineeringUnitsType.ToString(), true)).Select(s => new SelectListItem { Text = EngineeringUnits.GetUnitAbbreviation(s), Value = ((int)s).ToString() }).OrderBy(x => x.Text), new { @class = "form-control" }).Disable(@Model.Tags[index].ApplyPointEngineeringUnits || DisableAll)</td>
+                        <td class="tagColumnServerUnits col-md-1 mainview" style="@canViewServerUnit" @canViewServerUnit>
+                            @Html.DropDownListFor(m => m.Tags[index].ServerUnit, EngineeringUnits.GetUnitsByType((EngineeringUnitType)Enum.Parse(typeof(EngineeringUnitType), @Model.Tags[index].EngineeringUnitsType.ToString(), true)).Select(s => new SelectListItem { Text = EngineeringUnits.GetUnitAbbreviation(s), Value = ((int)s).ToString() }).OrderBy(x => x.Text), new { @class = "form-control" }).Disable(DisableAll || disableServerUnit)
+                         </td>
+                        <td class="tagColumnDecimalPlaces col-md-1 text-right mainview">@Html.TextBoxFor(m => m.Tags[index].DecimalPlaces, new { @class = "form-control input-md text-right ", maxlength = 2 }).Disable(@Model.Tags[index].ApplyPointDecimalPlaces || DisableAll)</td>
+                        <td class="tagColumnMinimum col-md-1 text-right mainview">@Html.TextBoxFor(m => m.Tags[index].Minimum, new { @class = "form-control input-md text-right ", maxlength = 20, data_raw_value = @Model.Tags[index].MinimumRaw.ToString("G17") }).Disable(@Model.Tags[index].ApplyPointMinimum || DisableAll)</td>
+                        <td class="tagColumnMaximum col-md-1 text-right mainview">@Html.TextBoxFor(m => m.Tags[index].Maximum, new { @class = "form-control input-md text-right ", maxlength = 20, data_raw_value = @Model.Tags[index].MaximumRaw.ToString("G17") }).Disable(@Model.Tags[index].ApplyPointMaximum || DisableAll)</td>
+                        <td class="tagColumnArchived col-md-1 text-center mainview">
+                            <img id="Tags_@(i)__Archived" class="booleanImgSelect disabled" draggable="false" @(Html.Raw(tagList[i].Archived ? string.Format("data-value='true' title='Yes' alt='toggleOn' src='{0}'", Url.Content("~/fmwebapp/images/On.png")) : string.Format("data-value='false' title='No' alt='toggleOff' src='{0}'", Url.Content("~/fmwebapp/images/Off.png"))))>
+                        </td>
+                        <td class="tagColumnNamespace col-md-4 opcview hidden">@Html.TextBoxFor(m => m.Tags[index].OpcUaBrowsePath, new { @class = "form-control input-md text-left", title = @Model.Tags[index].OpcUaBrowsePath }).Disable(true)</td>
+                        <td class="tagColumnNode col-md-2 opcview hidden">@Html.TextBoxFor(m => m.Tags[index].OpcUaNodeId, new { @class = "form-control input-md text-left", title = @Model.Tags[index].OpcUaNodeId }).Disable(true)</td>
+                        <td class="tagColumnInterval col-md-1 opcview hidden">@Html.TextBoxFor(m => m.Tags[index].OpcUaPublishingInterval, new { @class = "form-control input-md text-right " }).Disable(true)</td>
+                        <td class="hidden tagColumnInput text-left">@tagList[i].Input</td>
+                        <td class="hidden tagColumnInhibitInputOutputTypeConfiguration text-left">@tagList[i].InhibitInputOutputTypeConfiguration</td>
+                        <td class="hidden tagColumnInhibitOverride text-left">@tagList[i].InhibitOverride</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>

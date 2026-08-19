@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MockEBSService", "MockEBSService.csproj", "{CB5259AC-00FE-46B5-9C71-B86E3226C62F}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 2
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://ser-1552-team10:8080/tfs/varec
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = MockEBSService.csproj
+		SccLocalPath1 = .
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CB5259AC-00FE-46B5-9C71-B86E3226C62F}.Debug|x86.ActiveCfg = Debug|x86
+		{CB5259AC-00FE-46B5-9C71-B86E3226C62F}.Debug|x86.Build.0 = Debug|x86
+		{CB5259AC-00FE-46B5-9C71-B86E3226C62F}.Release|x86.ActiveCfg = Release|x86
+		{CB5259AC-00FE-46B5-9C71-B86E3226C62F}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

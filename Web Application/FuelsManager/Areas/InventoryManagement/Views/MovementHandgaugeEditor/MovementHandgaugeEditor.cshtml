@@ -1,0 +1,537 @@
+﻿@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.MovementHandgaugeModel
+@{
+    ViewBag.Title = "MovementHandgaugeEditor";
+}
+
+<head>
+    <meta charset="utf-8" />
+    <link href="~/Areas/Content/select2.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Areas/Content/MovementHandgaugeStyle.css" rel="stylesheet" type="text/css" />
+    <link href="~/Areas/Content/jquery-ui-timepicker-addon.css" rel="stylesheet" type="text/css" />
+    <link href="~/Areas/Content/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+    <script src="~/Areas/Lib/select2.js"></script>
+    <script src="~/Areas/Scripts/MovementHandgauge.js"></script>
+    <script src="~/Areas/Lib/jquery.dataTables.js"></script>
+    <script src="~/Areas/lib/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Areas/Scripts/FMCommon.js"></script>
+    <script src="~/Areas/lib/moment.js" type="text/javascript"></script>
+</head>
+
+
+@using (Html.BeginForm("MovementHandgaugeEditor", "MovementHandgaugeEditor", FormMethod.Post, new { id = "MovementHandgaugeEditorForm", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("MovementHandgaugeModel", MovementHandgaugeEditorController.SerializeModel(Model))
+    @Html.Hidden("GetMovementHandgaugeDataUrl", @Url.Action("GetMovementHandgaugeData", "MovementHandgaugeEditor"))
+    @Html.Hidden("CalculateMovementHandgaugeDataUrl", @Url.Action("CalculateMovementHandgaugeData", "MovementHandgaugeEditor"))
+    @Html.Hidden("SaveMovementHandgaugeDataUrl", @Url.Action("SaveMovementHandgaugeData", "MovementHandgaugeEditor"))
+
+    var levelLbl = FMBaseController.TranslateText("Movement|Level");
+    var temperatureLbl = FMBaseController.TranslateText("Movement|Temperature");
+    var DensityLbl = FMBaseController.TranslateText("Movement|Density");
+    var stdDensityLbl = FMBaseController.TranslateText("Movement|Std Density");
+    var densityTempLbl = FMBaseController.TranslateText("Movement|Density Temp");
+    var ambientTempLbl = FMBaseController.TranslateText("Movement|Ambient Temp");
+    var waterLevelLbl = FMBaseController.TranslateText("Movement|Water Level");
+    var refHeightLbl = FMBaseController.TranslateText("Movement|Ref Height");
+    var volumeTovLbl = FMBaseController.TranslateText("Movement|Volume (TOV)");
+    var grossVolumeLbl = FMBaseController.TranslateText("Movement|Gross Volume");
+    var netVolumeLbl = FMBaseController.TranslateText("Movement|Net Volume");
+    var waterVolumeLbl = FMBaseController.TranslateText("Movement|Water Volume");
+    var massLbl = FMBaseController.TranslateText("Movement|Mass");
+    var vcfLbl = FMBaseController.TranslateText("Movement|VCF");
+    var ctshLbl = FMBaseController.TranslateText("Movement|CTSH");
+    var employeeIdLbl = FMBaseController.TranslateText("Movement|Employee ID");
+    var enterIndividualTimeStampsLbl = FMBaseController.TranslateText("Movement|Enter Individual Timestamps");
+    var saveToFinalRowLbl = FMBaseController.TranslateText("Movement|Save To Final Record");
+
+    var numberFormatInfoString = String.Format("{{{0}"
+                                    + "\"NegativeSign\":\"{1}\",{0}"
+                                    + "\"NumberDecimalDigits\":{2},{0}"
+                                    + "\"NumberDecimalSeparator\":\"{3}\",{0}"
+                                    + "\"NumberGroupSeparator\":\"{4}\",{0}"
+                                    + "\"NumberGroupSizes\":{5},{0}"
+                                    + "\"NumberNegativePattern\":{6},{0}"
+                                    + "\"ShortDatePattern\":\"{7}\",{0}"
+                                    + "\"TimePattern\":\"{8}\"{0}}}"
+                                    , Environment.NewLine
+                                    , "-"
+                                    , 0
+                                    , Model.NumberDecimalSeparator
+                                    , Model.NumberGroupSeparator
+                                    , Model.NumberGroupSizes[0]
+                                    , 1
+                                    , Model.ShortDatePattern
+                                    , Model.TimePattern);
+
+    <input id="NumberFormatInfoString" type="hidden" value='@numberFormatInfoString' />
+
+    <section id="MovementHistoryHandgaugeTableSection">
+        <div id="MovementHandgaugeEditorTopDiv" style="padding-top: 5px; padding-bottom: 5px;">
+            <table id="FormatTable" >
+                <tr>
+                    <td class="HandGaugePaneTd"><label class="formfieldtitle"><b>Start Data</b></label></td>
+                    <td class="HandGaugePaneTd"><label class="formfieldtitle"><b>End Data</b></label></td>
+                </tr>
+                <tr>
+                    <td class="HandGaugePaneTd">
+                        <div class="panel-body" style="border: 1px solid gray; background: white;">
+                            <table id="StartDataTbl" class="HandGaugeStartDataTbl">
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@levelLbl:</label>
+                                    </td>
+                                    <td>
+                                        <input id="StartLevel" class="formfield" placeholder="Level" onblur="MovementHandgauge.HandleFieldOnblur('StartLevel', 'LEVEL');" />
+                                    </td>
+                                    <td>
+                                        <input id="StartLevelTimePicker" type="text" class="HandgaugeDatePickers formfield" placeholder="Level Date/Time" />
+                                    </td>
+                                    <td>
+                                        <label id="StartLevelUnitsLbl" class="formfieldtitle">ft-in-16th</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@temperatureLbl:</label>
+                                    </td>
+                                    <td>
+                                        <input id="StartTemperature" class="formfield" placeholder="Temperature" onblur="MovementHandgauge.HandleFieldOnblur('StartTemperature', 'DOUBLE');" />
+                                    </td>
+                                    <td>
+                                        <input id="StartTempTimePicker" type="text" class="HandgaugeDatePickers formfield" placeholder="Temperature Date/Time" />
+                                    </td>
+                                    <td>
+                                        <label id="StartTemperatureUnitsLbl" class="formfieldtitle">F</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@DensityLbl:</label>
+                                    </td>
+                                    <td>
+                                        <input id="StartDensity" class="formfield" placeholder="Density" readonly="readonly" disabled />
+                                    </td>
+                                    <td>
+                                        <input id="StartDensityTimePicker" type="text" class="HandgaugeDatePickers formfield" placeholder="Density Date/Time" readonly="readonly" disabled />
+                                    </td>
+                                    <td>
+                                        <label id="StartDensityUnitsLbl" class="formfieldtitle">API</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@stdDensityLbl:</label>
+                                    </td>
+                                    <td>
+                                        <input id="StartStdDensity" class="formfield" placeholder="Std Density" onblur="MovementHandgauge.HandleFieldOnblur('StartStdDensity', 'DOUBLE');" />
+                                    </td>
+                                    <td>
+                                        <input id="StartStdDensityTimePicker" type="text" class="HandgaugeDatePickers formfield" placeholder="Std Density Date/Time" />
+                                    </td>
+                                    <td>
+                                        <label id="StartStdDensityUnitsLbl" class="formfieldtitle">API</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@densityTempLbl:</label>
+                                    </td>
+                                    <td>
+                                        <input id="StartDensityTemp" class="formfield" placeholder="Density Temp" onblur="MovementHandgauge.HandleFieldOnblur('StartDensityTemp', 'DOUBLE');" />
+                                    </td>
+                                    <td>
+                                        <input id="StartDensityTempTimePicker" type="text" class="HandgaugeDatePickers formfield" placeholder="Density Temp Date/Time" />
+                                    </td>
+                                    <td>
+                                        <label id="StartDensityTemperatureUnitsLbl" class="formfieldtitle">F</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@ambientTempLbl:</label>
+                                    </td>
+                                    <td>
+                                        <input id="StartAmbTemp" class="formfield" placeholder="Ambient Temp" onblur="MovementHandgauge.HandleFieldOnblur('StartAmbTemp', 'DOUBLE');" />
+                                    </td>
+                                    <td>
+                                        <input id="StartAmbTempTimePicker" type="text" class="HandgaugeDatePickers formfield" placeholder="Ambient Temp Date/Time" />
+                                    </td>
+                                    <td>
+                                        <label id="StartAmbTemperatureUnitsLbl" class="formfieldtitle">F</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@waterLevelLbl:</label>
+                                    </td>
+                                    <td>
+                                        <input id="StartWaterLevel" class="formfield" placeholder="Water Level" onblur="MovementHandgauge.HandleFieldOnblur('StartWaterLevel', 'LEVEL');" />
+                                    </td>
+                                    <td>
+                                        <input id="StartWaterLevelTimePicker" type="text" class="HandgaugeDatePickers formfield" placeholder="Water Level Date/Time" />
+                                    </td>
+                                    <td>
+                                        <label id="StartWaterLevelUnitsLbl" class="formfieldtitle">ft-in-16th</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@refHeightLbl:</label>
+                                    </td>
+                                    <td>
+                                        <input id="StartRefHeight" class="formfield" placeholder="Ref Height" onblur="MovementHandgauge.HandleFieldOnblur('StartRefHeight', 'DOUBLE');" readonly="readonly" disabled />
+                                    </td>
+                                    <td>
+                                        <input id="StartRefHeightTimePicker" type="text" class="HandgaugeDatePickers formfield" placeholder="Ref Height Date/Time" />
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@volumeTovLbl:</label>
+                                    </td>
+                                    <td>
+                                        <input id="StartVolumeTov" class="formfield" placeholder="Volume TOV" readonly="readonly" disabled />
+                                    </td>
+                                    <td>
+                                        <label id="StartVolumeUnitsLbl" class="formfieldtitle">gal(US)</label>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@grossVolumeLbl:</label>
+                                    </td>
+                                    <td>
+                                        <input id="StartGrossVolume" class="formfield" placeholder="Gross Volume" readonly="readonly" disabled />
+                                    </td>
+                                    <td>
+                                        <label id="StartGrossVolumeUnitsLbl" class="formfieldtitle">gal(US)</label>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@netVolumeLbl:</label>
+                                    </td>
+                                    <td>
+                                        <input id="StartNetVolume" class="formfield" placeholder="Net Volume" readonly="readonly" disabled />
+                                    </td>
+                                    <td>
+                                        <label id="StartNetVolumeUnitsLbl" class="formfieldtitle">gal(US)</label>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@waterVolumeLbl:</label>
+                                    </td>
+                                    <td>
+                                        <input id="StartWaterVolume" class="formfield" placeholder="Water Volume" readonly="readonly" disabled />
+                                    </td>
+                                    <td>
+                                        <label id="StartWaterVolumeUnitsLbl" class="formfieldtitle">gal(US)</label>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@massLbl:</label>
+                                    </td>
+                                    <td>
+                                        <input id="StartMass" class="formfield" placeholder="Mass" readonly="readonly" disabled />
+                                    </td>
+                                    <td>
+                                        <label id="StartMassUnitsLbl" class="formfieldtitle">lb</label>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@vcfLbl:</label>
+                                    </td>
+                                    <td>
+                                        <input id="StartVcf" class="formfield" placeholder="VCF" readonly="readonly" disabled />
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@ctshLbl:</label>
+                                    </td>
+                                    <td>
+                                        <input id="StartCtsh" class="formfield" placeholder="CTSH" readonly="readonly" disabled />
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@employeeIdLbl:</label>
+                                    </td>
+                                    <td colspan="3">
+                                        <input id="StartEmployeeId" class="HandgaugeEmployee formfield" placeholder="Employee ID" readonly="readonly" disabled />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">
+                                        <input type="checkbox" id="StartEnterIndTimeStampsCB" name="StartEnterIndTimeStampsCB" onchange="MovementHandgauge.HandleStartIndividualTimestampsEvent();" />
+                                        <label for="StartEnterIndTimeStampsCB" style="width: 230px">@enterIndividualTimeStampsLbl</label>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                    <td class="HandGaugePaneTd">
+                        <div class="panel-body" style="border: 1px solid gray; background: white;">
+                            <table id="EndDataTbl" class="HandGaugeEndDataTbl">
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@levelLbl:</label>
+                                    </td>
+                                    <td>
+                                        <input id="EndLevel" class="formfield" placeholder="Level" onblur="MovementHandgauge.HandleFieldOnblur('EndLevel', 'LEVEL');" />
+                                    </td>
+                                    <td>
+                                        <input id="EndLevelTimePicker" type="text" class="HandgaugeDatePickers formfield" placeholder="Level Date/Time" />
+                                    </td>
+                                    <td>
+                                        <label id="EndLevelUnitsLbl" class="formfieldtitle">ft-in-16th</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@temperatureLbl:</label>
+                                    </td>
+                                    <td>
+                                        <input id="EndTemperature" class="formfield" placeholder="Temperature" onblur="MovementHandgauge.HandleFieldOnblur('EndTemperature', 'DOUBLE');" />
+                                    </td>
+                                    <td>
+                                        <input id="EndTempTimePicker" type="text" class="HandgaugeDatePickers formfield" placeholder="Temperature Date/Time" />
+                                    </td>
+                                    <td>
+                                        <label id="EndTemperatureUnitsLbl" class="formfieldtitle">F</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@DensityLbl:</label>
+                                    </td>
+                                    <td>
+                                        <input id="EndDensity" class="formfield" placeholder="Density" readonly="readonly" disabled />
+                                    </td>
+                                    <td>
+                                        <input id="EndDensityTimePicker" type="text" class="HandgaugeDatePickers formfield" placeholder="Density Date/Time" readonly="readonly" disabled />
+                                    </td>
+                                    <td>
+                                        <label id="EndDensityUnitsLbl" class="formfieldtitle">API</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@stdDensityLbl:</label>
+                                    </td>
+                                    <td>
+                                        <input id="EndStdDensity" class="formfield" placeholder="Std Density" onblur="MovementHandgauge.HandleFieldOnblur('EndStdDensity', 'DOUBLE');" />
+                                    </td>
+                                    <td>
+                                        <input id="EndStdDensityTimePicker" type="text" class="HandgaugeDatePickers formfield" placeholder="Std Density Date/Time" />
+                                    </td>
+                                    <td>
+                                        <label id="EndStdDensityUnitsLbl" class="formfieldtitle">API</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@densityTempLbl:</label>
+                                    </td>
+                                    <td>
+                                        <input id="EndDensityTemp" class="formfield" placeholder="Density Temp" onblur="MovementHandgauge.HandleFieldOnblur('EndDensityTemp', 'DOUBLE');" />
+                                    </td>
+                                    <td>
+                                        <input id="EndDensityTempTimePicker" type="text" class="HandgaugeDatePickers formfield" placeholder="Density Temp Date/Time" />
+                                    </td>
+                                    <td>
+                                        <label id="EndDensityTemperatureUnitsLbl" class="formfieldtitle">F</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@ambientTempLbl:</label>
+                                    </td>
+                                    <td>
+                                        <input id="EndAmbTemp" class="formfield" placeholder="Ambient Temp" onblur="MovementHandgauge.HandleFieldOnblur('EndAmbTemp', 'DOUBLE');" />
+                                    </td>
+                                    <td>
+                                        <input id="EndAmbTempTimePicker" type="text" class="HandgaugeDatePickers formfield" placeholder="Ambient Temp Date/Time" />
+                                    </td>
+                                    <td>
+                                        <label id="EndAmbTemperatureUnitsLbl" class="formfieldtitle">F</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@waterLevelLbl:</label>
+                                    </td>
+                                    <td>
+                                        <input id="EndWaterLevel" class="formfield" placeholder="Water Level" onblur="MovementHandgauge.HandleFieldOnblur('EndWaterLevel', 'LEVEL');" />
+                                    </td>
+                                    <td>
+                                        <input id="EndWaterLevelTimePicker" type="text" class="HandgaugeDatePickers formfield" placeholder="Water Level Date/Time" />
+                                    </td>
+                                    <td>
+                                        <label id="EndWaterLevelUnitsLbl" class="formfieldtitle">ft-in-16th</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@refHeightLbl:</label>
+                                    </td>
+                                    <td>
+                                        <input id="EndRefHeight" class="formfield" placeholder="Ref Height" onblur="MovementHandgauge.HandleFieldOnblur('EndRefHeight', 'DOUBLE');" readonly="readonly" disabled />
+                                    </td>
+                                    <td>
+                                        <input id="EndRefHeightTimePicker" type="text" class="HandgaugeDatePickers formfield" placeholder="Ref Height Date/Time" />
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@volumeTovLbl:</label>
+                                    </td>
+                                    <td>
+                                        <input id="EndVolumeTov" class="formfield" placeholder="Volume TOV" readonly="readonly" disabled />
+                                    </td>
+                                    <td>
+                                        <label id="EndVolumeUnitsLbl" class="formfieldtitle">gal(US)</label>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@grossVolumeLbl:</label>
+                                    </td>
+                                    <td>
+                                        <input id="EndGrossVolume" class="formfield" placeholder="Gross Volume" readonly="readonly" disabled />
+                                    </td>
+                                    <td>
+                                        <label id="EndGrossVolumeUnitsLbl" class="formfieldtitle">gal(US)</label>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@netVolumeLbl:</label>
+                                    </td>
+                                    <td>
+                                        <input id="EndNetVolume" class="formfield" placeholder="Net Volume" readonly="readonly" disabled />
+                                    </td>
+                                    <td>
+                                        <label id="EndNetVolumeUnitsLbl" class="formfieldtitle">gal(US)</label>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@waterVolumeLbl:</label>
+                                    </td>
+                                    <td>
+                                        <input id="EndWaterVolume" class="formfield" placeholder="Water Volume" readonly="readonly" disabled />
+                                    </td>
+                                    <td>
+                                        <label id="EndWaterVolumeUnitsLbl" class="formfieldtitle">gal(US)</label>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@massLbl:</label>
+                                    </td>
+                                    <td>
+                                        <input id="EndMass" class="formfield" placeholder="Mass" readonly="readonly" disabled />
+                                    </td>
+                                    <td>
+                                        <label id="EndMassUnitsLbl" class="formfieldtitle">lb</label>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@vcfLbl:</label>
+                                    </td>
+                                    <td>
+                                        <input id="EndVcf" class="formfield" placeholder="VCF" readonly="readonly" disabled />
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@ctshLbl:</label>
+                                    </td>
+                                    <td>
+                                        <input id="EndCtsh" class="formfield" placeholder="CTSH" readonly="readonly" disabled />
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="formfieldtitle">@employeeIdLbl:</label>
+                                    </td>
+                                    <td colspan="3">
+                                        <input id="EndEmployeeId" class="HandgaugeEmployee formfield" placeholder="Employee ID" readonly="readonly" disabled />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">
+                                        <input type="checkbox" id="EndEnterIndTimeStampsCB" name="EndEnterIndTimeStampsCB" onchange="MovementHandgauge.HandleEndIndividualTimestampsEvent();" />
+                                        <label for="EndEnterIndTimeStampsCB" style="width: 230px">@enterIndividualTimeStampsLbl</label>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="padding-top: 5px;">
+                        <input type="checkbox" id="SaveToFinalRowCB" name="SaveToFinalRowCB" onchange="MovementHandgauge.HandleSaveToFinalRowEvent();" />
+                        <label for="SaveToFinalRowCB" style="width: 230px">@saveToFinalRowLbl</label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </section>
+}
+
+<script type="text/javascript">
+    $(document).ready(function ()
+    {
+        MovementHandgauge.imageRootPath = '@Url.Content("~/Areas/images/")';
+        MovementHandgauge.Initialize();
+    });
+</script>

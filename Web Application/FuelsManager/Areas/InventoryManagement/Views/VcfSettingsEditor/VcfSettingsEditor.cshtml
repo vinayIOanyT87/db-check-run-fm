@@ -1,0 +1,152 @@
+﻿@using System.Web.Mvc.Html
+@using System.Globalization
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@using FuelsManager.Areas.InventoryManagement.ViewModels
+@using Microsoft.Ajax.Utilities
+@using FMBusinessObjects.DataObjects
+@model FuelsManager.Areas.InventoryManagement.ViewModels.VcfSettingsEditorModel
+
+<link href="~/Areas/Content/VcfSettingsEditor.css" rel="stylesheet" type="text/css" />
+<script src="~/Areas/Scripts/VcfSettingsEditor.js"></script>
+
+@using (Html.BeginForm("ButtonSubmit", "VcfSettingsEditor", FormMethod.Post, new { id = "VcfSettingsEditorForm" }))
+{
+	@Html.AntiForgeryToken()
+
+	@Html.Hidden("urlSaveVcfSettings", @Url.Action("SaveVcfSettings", "VcfSettingsEditor"));
+
+	@Html.HiddenFor(m => m.PointGuid);
+	@Html.HiddenFor(m => m.PointPropertyGuid);
+	@Html.HiddenFor(m => m.StandardAndRevision);
+	@Html.HiddenFor(m => m.CommodityOrTable);
+	@Html.HiddenFor(m => m.StandardTemperature);
+	@Html.HiddenFor(m => m.IsTemplatePoint);
+	@Html.HiddenFor(m => m.Readonly);
+
+	var title = Model.PointId + " - " + Model.PointPropertyId;
+
+	<section id="vcfSettingsEditorPartial" class="">
+		<div class="VcfSettingsEditorHeader row">
+			<button type="button" class="close" data-dismiss="modal" onclick="$('#PEMPEClosePropertyScreen').click();">&times;</button>
+		</div>
+		<div class="row">
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<h4>@title</h4>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+				<h5>@FMBaseController.TranslateText("Volume Correction Editor")</h5>
+			</div>
+		</div>
+		<br />
+		<div class="row">
+			<div id="VcfSettingsLeftList" class="col-sm-4 col-md-4 col-lg-4">
+				<div class="form-group">
+					@Html.Label(@FMBaseController.TranslateText("Standards Organization"), new { @class = "control-label" })
+					@Html.DropDownListFor(m => m.StandardsOrganization, new SelectList(VcfModuleSettings.GetStandardsOrganizations(), "Key", "Value"), new { ID = "StandardOrganizationDropDownList", @class = "form-control" }).Disable(@Model.Readonly)
+				</div>
+				<div class="form-group">
+					@Html.Label(@FMBaseController.TranslateText("Standard - Revision"), new { @class = "control-label" })
+					<select class="form-control" id="StandardAndRevisionDropDownList" name="StandardAndRevisionDropDownList" @{if (@Model.Readonly) { <text> disabled="disabled"  </text>}}></select>
+				</div>
+				<div class="form-group">
+					@Html.Label(@FMBaseController.TranslateText("Commodity - Table"), new { @class = "control-label" })
+					<select class="form-control" id="CommodityOrTableDropDownList" name="CommodityOrTableDropDownList" @{if (@Model.Readonly) { <text> disabled="disabled"  </text>}}></select>
+				</div>
+				<div class="form-group">
+					@Html.Label(@FMBaseController.TranslateText("Temperature Standard"), new { @class = "control-label" })
+					<select class="form-control" id="StandardTemperatureDropDownList" name="StandardTemperatureDropDownList" @{if (@Model.Readonly) { <text> disabled="disabled"  </text>}}></select>
+				</div>
+				<div class="form-group">
+					@Html.Label(@FMBaseController.TranslateText("Force Vcf To 4 Digits"), new { @class = "control-label" })
+					<div class="control-group">
+						<label class="setting-radio-control setting-radio-control--radio pull-left">
+							@FMBaseController.TranslateText("YES")
+							<input type="radio" name="VcfSettings.ForceVcfTo4Digits" value="true" @{if (@Model.VcfSettings.ForceVcfTo4Digits) { <text> checked="checked" </text>   	} } @{if (@Model.Readonly) { <text> disabled="disabled" </text>}}/>
+							<div class="setting-radio-control__indicator"></div>
+						</label>
+						<label class="setting-radio-control setting-radio-control--radio pull-right">
+							@FMBaseController.TranslateText("NO")
+							<input type="radio" name="VcfSettings.ForceVcfTo4Digits" value="false" @{if (!@Model.VcfSettings.ForceVcfTo4Digits) { <text> checked="checked" </text>   	}} @{if (@Model.Readonly) { <text> disabled="disabled" </text>}}/>
+							<div class="setting-radio-control__indicator"></div>
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					@Html.Label(@FMBaseController.TranslateText("Use Hydrometer Correction"), new { @class = "control-label" })
+					<div class="control-group">
+						<label class="setting-radio-control setting-radio-control--radio pull-left">
+							@FMBaseController.TranslateText("YES")
+							<input type="radio" name="VcfSettings.UseHydrometerCorrection" value="true" @{if (@Model.VcfSettings.UseHydrometerCorrection) { <text> checked="checked" </text>     	} } @{if (@Model.Readonly) { <text> disabled="disabled" </text>}}/>
+							<div class="setting-radio-control__indicator"></div>
+						</label>
+						<label class="setting-radio-control setting-radio-control--radio pull-right">
+							@FMBaseController.TranslateText("NO")
+							<input type="radio" name="VcfSettings.UseHydrometerCorrection" value="false" @{if (!@Model.VcfSettings.UseHydrometerCorrection) { <text> checked="checked" </text>       }} @{if (@Model.Readonly) { <text> disabled="disabled" </text>}}/>
+							<div class="setting-radio-control__indicator"></div>
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					@Html.Label(@FMBaseController.TranslateText("Use Product Observed Density"), new { @class = "control-label" })
+					<div class="control-group">
+						<label class="setting-radio-control setting-radio-control--radio pull-left">
+							@FMBaseController.TranslateText("YES")
+							<input type="radio" name="VcfSettings.UseProductObservedDensity" value="true" @{if (@Model.VcfSettings.UseProductObservedDensity) { <text> checked="checked" </text>      } } @{if (@Model.Readonly) { <text> disabled="disabled" </text>}}/>
+							<div class="setting-radio-control__indicator"></div>
+						</label>
+						<label class="setting-radio-control setting-radio-control--radio pull-right">
+							@FMBaseController.TranslateText("NO")
+							<input type="radio" name="VcfSettings.UseProductObservedDensity" value="false" @{if (!@Model.VcfSettings.UseProductObservedDensity) { <text> checked="checked" </text>     }} @{if (@Model.Readonly) { <text> disabled="disabled" </text>}}/>
+							<div class="setting-radio-control__indicator"></div>
+						</label>
+					</div>
+				</div>
+			</div>
+			<div id="VcfSettingsCenterList" class="col-sm-4 col-md-4 col-lg-4">
+				<div class="form-group">
+					@Html.Label(@FMBaseController.TranslateText("Standard Temperature") + " (°F)", new { ID = "StandardTemperatureLabel", @class = "control-label" })
+					@Html.TextBoxFor(m => m.VcfSettings.BaseTemperature.Value, new { ID = "StandardTemperatureTextBox", @class = "form-control" }).Disable(@Model.Readonly)
+				</div>
+				<div class="form-group">
+					@Html.Label(@FMBaseController.TranslateText("Alternate Temperature") + " (°F)", new { ID = "AlternateTemperatureLabel", @class = "control-label" })
+					@Html.TextBoxFor(m => m.VcfSettings.AlternateTemperature.Value, new { ID = "AlternateTemperatureTextBox", @class = "form-control" }).Disable(@Model.Readonly)
+				</div>
+				<div class="form-group">
+					@Html.Label(@FMBaseController.TranslateText("Alternate Pressure") + " (" + FMBaseController.GetEngineeringUnitsString(Model.PressureUnit) + ")", new { @class = "control-label" })
+					@Html.TextBoxFor(m => m.VcfSettings.AlternateBasePressure.Value, new { ID = "AlternateBasePressureTextBox", @class = "form-control" }).Disable(@Model.Readonly)
+				</div>
+				<div class="form-group">
+					@Html.Label(@FMBaseController.TranslateText("Alpha"), new { @class = "control-label" })
+					@Html.TextBoxFor(m => m.VcfSettings.Alpha, new { ID = "AlphaTextBox", @class = "form-control" }).Disable(@Model.Readonly)
+				</div>
+			</div>
+			<div id="VcfSettingsRightList" class="col-sm-4 col-md-4 col-lg-4">
+				<div class="form-group">
+					@Html.Label(@FMBaseController.TranslateText("K0"), new { @class = "control-label" })
+					@Html.TextBoxFor(m => m.K0, new { ID = "K0TextBox", @class = "kfactors form-control" }).Disable(@Model.Readonly)
+				</div>
+				<div class="form-group">
+					@Html.Label(@FMBaseController.TranslateText("K1"), new { @class = "control-label" })
+					@Html.TextBoxFor(m => m.K1, new { ID = "K1TextBox", @class = "kfactors form-control" }).Disable(@Model.Readonly)
+				</div>
+				<div class="form-group">
+					@Html.Label(@FMBaseController.TranslateText("K2"), new { @class = "control-label" })
+					@Html.TextBoxFor(m => m.K2, new { ID = "K2TextBox", @class = "kfactors form-control" }).Disable(@Model.Readonly)
+				</div>
+				<div class="form-group">
+					@Html.Label(@FMBaseController.TranslateText("K3"), new { @class = "control-label" })
+					@Html.TextBoxFor(m => m.K3, new { ID = "K3TextBox", @class = "kfactors form-control" }).Disable(@Model.Readonly)
+				</div>
+				<div class="form-group">
+					@Html.Label(@FMBaseController.TranslateText("K4"), new { @class = "control-label" })
+					@Html.TextBoxFor(m => m.K4, new { ID = "K4TextBox", @class = "kfactors form-control" }).Disable( @Model.Readonly)
+				</div>
+			</div>
+
+		</div>
+	</section>
+}
+

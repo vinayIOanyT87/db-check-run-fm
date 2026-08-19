@@ -1,0 +1,9 @@
+; ScullyOPCServer.def : Declares the module parameters.
+
+LIBRARY      "ScullyOPCServer.DLL"
+
+EXPORTS
+	DllCanUnloadNow		PRIVATE
+	DllGetClassObject	PRIVATE
+	DllRegisterServer	PRIVATE
+	DllUnregisterServer	PRIVATE

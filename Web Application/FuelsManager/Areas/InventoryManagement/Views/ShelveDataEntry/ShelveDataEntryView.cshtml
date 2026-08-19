@@ -1,0 +1,97 @@
+﻿@using System.Web.Mvc.Html
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.ShelveDataEntryModel
+
+<link href="~/Areas/Content/ShelveDataEntryView.css" rel="stylesheet" type="text/css" />
+
+@using (Html.BeginForm("OkButtonPress", "ShelveDataEntry", FormMethod.Post))
+{
+	@Html.AntiForgeryToken()
+	@Html.Hidden("ShelveDataEntry", Json.Encode(Model))
+	@Html.Hidden("shelveDataEntryUrlOkButtonPress", @Url.Action("OkButtonPress", "ShelveDataEntry"))
+
+	<section id="SheveDataEntryPartial" class="">
+		<div class="form-horizontal">
+			<table id="ShelveDataEntryOutterTable" class="shelveDataEntryTable">
+				<tbody id="ShelveDataEntryOutterTableBody">
+					<tr>
+						<td class="shelveDataEntryTd">
+							<label class="shelveDataEntryLabel">@FMBaseController.TranslateText("SHELVE ALARM:")</label>
+						</td>
+					</tr>
+					<tr>
+						<td class="shelveDataEntryTd">
+							<div>
+								<label class="shelveDataEntryIds">@(Model.AlarmIDs)</label>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="shelveDataEntryTd">
+							<label class="shelveDataEntryLabel">@FMBaseController.TranslateText("HOW TO SHELVE (CHOOSE OPTION):")</label>
+						</td>
+					</tr>
+					<tr>
+						<td class="shelveDataEntryTd">
+							<input type="radio" name="oneshotradiobutton" id="oneshotradiobutton" value="oneshotradiobutton">
+							<label class="shelveDataEntryRadioLabelUnchecked" for="oneshotradiobutton"><span></span>@FMBaseController.TranslateText("One Time")</label>
+						</td>
+					</tr>
+					<tr>
+						<td class="shelveDataEntryTd">
+							<input type="radio" name="timeshelveradiobutton" id="timeshelveradiobutton" value="timeshelveradiobutton">
+							<label class="shelveDataEntryRadioLabelUnchecked" for="timeshelveradiobutton"><span></span>@FMBaseController.TranslateText("Time Range")</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<table id="ShelveDataEntryTable" class="shelveDataEntryTable">
+								<tbody id="ShelveDataEntryTableBody">
+									<tr style="padding-bottom: 0px; margin-bottom: 0px">
+										<td style="padding-bottom: 0px; margin-bottom: 0px">
+											<label class="shelveDataEntryTimeFrom"  style="padding-bottom: 0px; margin-bottom: 0px">@FMBaseController.TranslateText("From:")</label>
+										</td>
+										<td class="shelveDataEntryTd" style="padding-bottom: 0px; margin-bottom: 0px">
+											<label class="shelveDataEntryTimeHeader" style="padding-bottom: 0px; margin-bottom: 0px">@FMBaseController.TranslateText("Minutes")</label>
+										</td>
+										<td class="shelveDataEntryTd" style="padding-bottom: 0px; margin-bottom: 0px">
+											<label class="shelveDataEntryTimeHeader" style="padding-bottom: 0px; margin-bottom: 0px">@FMBaseController.TranslateText("Hours")</label>
+										</td>
+										<td class="shelveDataEntryTd" style="padding-bottom: 0px; margin-bottom: 0px">
+											<label class="shelveDataEntryTimeHeader" style="padding-bottom: 0px; margin-bottom: 0px">@FMBaseController.TranslateText("Days")</label>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<span></span>
+										</td>
+										<td class="shelveDataEntryTd">
+											<input id="ShelveDataEntryMinutes" type="text" class="shelveDataEntryTimeBody"/>
+										</td>
+										<td class="shelveDataEntryTd">
+											<input id="ShelveDataEntryHours" type="text" class="shelveDataEntryTimeBody"/>
+										</td>
+										<td class="shelveDataEntryTd">
+											<input id="ShelveDataEntryDays" type="text" class="shelveDataEntryTimeBody"/>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</section>
+	<section id="shelveErrors">
+		<div id="shelveError"></div>
+	</section>
+}
+
+<script type="text/javascript">
+	//# sourceURL=_ShelveDataEntryView.cshtml
+	$(document).ready(function () {
+		ShelveDataEntry.Init();
+	});
+</script>

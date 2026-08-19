@@ -1,0 +1,151 @@
+﻿@using FuelsManager.Areas.AccountingArea.ViewModels
+@model FuelsManager.Areas.AccountingArea.ViewModels.TransactionAliasDetailModel
+<style>
+    #TALayoutEditor {
+        height: calc(100vh - 150px);
+        position: relative;
+    }
+
+    #wrapper div.rowLayout {
+        height: 40px;
+        line-height: 30px;
+        display: flex;
+    }
+
+    #wrapper {
+        width: 100%;
+    }
+
+    .colLayout {
+        height: 100%;
+        display: inline-block;
+        border: 1px solid gray;
+        padding: 5px;
+    }
+    .colLayout1 {
+        width: 100%
+    }
+    .colLayout2 {
+        width: 50%
+    }
+    .colLayout3 {
+        width: 33.3%
+    }
+    .colLayout4 {
+        width: 25%
+    }
+    .colLayout5 {
+        width: 20%
+    }
+    .colLayout6 {
+        width: 16%
+    }
+    .colLayout7 {
+        width: 14%
+    }
+    .colLayout8 {
+        width: 12.5%
+    }
+    .colLayout9 {
+        width: 11.1%
+    }
+    .colLayout10 {
+        width: 10%
+    }
+    .colLayout11 {
+        width: 9%
+    }
+    .colLayout12 {
+        width: 8.3%
+    }
+
+</style>
+
+<div class="row">
+    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+        <label class="">Fields</label>
+        <ul id="AvailableLayoutFields" class="row" style="height: calc( 100vh - 100px ); overflow-x: hidden">
+            @{
+                var FieldList = Model.FieldCollection.OrderBy(x => x.displayOrder).ToList();
+            }
+            @for (int i = 0; i < FieldList.Count; i++)
+            {
+                <li class="list-group-item row">@FieldList[i].displayName</li>
+            }
+        </ul>
+    </div>
+    <div id="ModuleDetails" class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+        <label class="">Layout</label>
+        <div id="TALayoutEditor" data-model="@Model.PlacementInfo"class="col-xs-12">
+        </div>
+        <div class="col-xs-12">
+
+            <div style="float:left; margin:10px;">
+                <button type="button">-</button>
+                <span style="background-color:white; height:30px">Column</span>
+                <button type="button">+</button>
+            </div>
+            <div style="float:left; margin:10px;">
+                <button type="button">-</button>
+                <span style="background-color:white; height:30px">Row</span>
+                <button type="button">+</button>
+            </div>
+
+            <button type="button" class="btn">Reset fields</button>
+            <button type="button" class="btn">Save fields</button>
+            <button type="button" class="btn">Auto drop fields</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        // custom scroll bars
+        $("#AvailableLayoutFields").niceScroll({
+            cursorwidth: '10px',
+            autohidemode: false,
+            cursorcolor: '#486899',
+            background: 'rgb(240, 240, 240)',
+            horizrailenabled: false
+        });
+
+        function DrawPlacementLayout(placementDataModel) {
+            // remove the existing layout
+            $("#TALayoutEditor").html("");
+            var numberOfRows = placementDataModel.numberOfRows;
+            var numberOfColumns = placementDataModel.numberOfColumns;
+            var colSizeClass = "colLayout" + numberOfColumns;
+
+            var wrapper = $("<div id='wrapper'/>");
+            for (let row = 0; row < numberOfRows; row++) {
+                var rowTag = $("<div id='rowLayout" + row + "' class='rowLayout'/>");
+                for (let col = 0; col < numberOfColumns; col++) {
+                    var colTag = $("<div id='colLayout" + row + "-" + col + "' class='colLayout " + colSizeClass + "'/>");
+                    rowTag.append(colTag);
+                }
+                wrapper.append(rowTag);
+            }
+            $("#TALayoutEditor").append(wrapper);
+
+        }
+
+        function PositionFieldsInPlacementLayout(fieldMap) {
+            for (let i = 0; i < fieldMap.length; i++) {
+                if (fieldMap[i].isPlaced == true) {
+                    $("#colLayout" + fieldMap[i].xPosition + "-" + fieldMap[i].yPosition).text( fieldMap[i].displayName);
+                }
+
+            }
+
+        }
+
+
+        var placementDataModel = $("#TALayoutEditor").data("model");
+        DrawPlacementLayout(placementDataModel);
+        PositionFieldsInPlacementLayout(placementDataModel.fieldMap);
+
+    });
+
+</script>

@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE dotfuscator SYSTEM "http://www.preemptive.com/dotfuscator/dtd/dotfuscator_v2.3.dtd">
+<dotfuscator version="2.3">
+  <!--This is application generated code. Do not edit manually.-->
+  <propertylist>
+    <property name="OutputDir" value="C:\FuelsManager Primus\Web Application\ObfuscatedWebRole" />
+    <property name="SolutionRoot" value="C:\FuelsManager Primus\Web Application" />
+    <property name="InputPath" value="C:\FuelsManager Primus\Web Application\FuelsManager\obj\release\Package\PackageTmp" />
+  </propertylist>
+  <input>
+    <loadpaths />
+    <asmlist>
+      <package refid="29334302-f5a1-4c33-ae57-8058428c4c47">
+        <!-- the dir attribute below will need to be changed depending on the project -->
+        <!--<file dir="C:\FuelsManager Primus\Web Application\FuelsManager\obj\Debug\Package\PackageTmp" name="bin" />-->
+
+
+        <file dir="C:\FuelsManager Primus\Web Application\FuelsManager" name="bin" />
+
+
+        <asmlist>
+          <inputassembly refid="696dabe8-9449-441d-831f-b3d3b02c2f78">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>artifact</option>
+            <option>transformxaml</option>
+            <file dir="" name="AjaxControlToolkit.dll" />
+          </inputassembly>
+          <inputassembly refid="3e19c65f-9015-4694-8c9f-1f5667c34c33">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>transformxaml</option>
+            <file dir="" name="Crypt.dll" />
+          </inputassembly>
+          <inputassembly refid="c6df33bb-3dd2-4b53-bbab-f53c25f2182f">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>transformxaml</option>
+            <file dir="" name="EngineeringUnitsLibrary.dll" />
+          </inputassembly>
+          <inputassembly refid="7ca3c676-90f8-4dd9-8906-57c29edff1f6">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>transformxaml</option>
+            <file dir="" name="EntityImportExport.dll" />
+          </inputassembly>
+          <inputassembly refid="6872404d-821e-47b9-bfff-5721d4833af0">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>transformxaml</option>
+            <file dir="" name="FMBusinessObjects.dll" />
+          </inputassembly>
+          <inputassembly refid="7a20f3c7-59e0-46b4-8714-c96a210663de">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>transformxaml</option>
+            <file dir="" name="FMControls.dll" />
+          </inputassembly>
+          <inputassembly refid="fba1362b-8601-431a-8835-46cd55da0dd6">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>transformxaml</option>
+            <file dir="" name="FMReporting.dll" />
+          </inputassembly>
+          <inputassembly refid="c31366e4-707a-4d88-934f-17d0ffb2ec34">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>transformxaml</option>
+            <file dir="" name="FuelsManager.dll" />
+          </inputassembly>
+          <inputassembly refid="11830ae9-f1e6-4ca5-af3e-8a307aef1bb0">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>artifact</option>
+            <option>transformxaml</option>
+            <file dir="" name="ICSharpCode.SharpZipLib.dll" />
+          </inputassembly>
+          <inputassembly refid="32d150d0-4294-47ea-9c25-79d5fa575840">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>transformxaml</option>
+            <file dir="" name="Interop.ConvertEngUnits.dll" />
+          </inputassembly>
+          <inputassembly refid="d0020fcf-2ebf-446a-87a9-8b8c2955faa0">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>transformxaml</option>
+            <file dir="" name="Interop.DataManager.dll" />
+          </inputassembly>
+          <inputassembly refid="a7888557-fd5b-46df-ae0f-2c1ddf81b383">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>transformxaml</option>
+            <file dir="" name="Interop.DataObjects.dll" />
+          </inputassembly>
+          <inputassembly refid="39a2b73e-d0bb-4767-8f9f-53634c9d5b5d">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>transformxaml</option>
+            <file dir="" name="Interop.DisplayServer.dll" />
+          </inputassembly>
+          <inputassembly refid="31027d51-691f-4d42-a964-eb2721466c4e">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>artifact</option>
+            <option>transformxaml</option>
+            <file dir="" name="Interop.FMUtil.dll" />
+          </inputassembly>
+          <inputassembly refid="28be79d9-a08b-4373-a559-6cb032730c60">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>artifact</option>
+            <option>transformxaml</option>
+            <file dir="" name="OpcNetApi.Com.dll" />
+          </inputassembly>
+          <inputassembly refid="d2a525e9-c162-4db1-b629-208149de1f4b">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>artifact</option>
+            <option>transformxaml</option>
+            <file dir="" name="OpcNetApi.dll" />
+          </inputassembly>
+          <inputassembly refid="b0427a0d-1d3d-4013-9304-e63e2d5acaea">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>artifact</option>
+            <option>transformxaml</option>
+            <file dir="" name="OpcRcw.Ae.dll" />
+          </inputassembly>
+          <inputassembly refid="ab5ec783-ab4c-4180-8bfc-0dd476472a51">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>artifact</option>
+            <option>transformxaml</option>
+            <file dir="" name="OpcRcw.Comn.dll" />
+          </inputassembly>
+          <inputassembly refid="b8688ffb-3ac2-4b35-ac3a-e5c49558989d">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>artifact</option>
+            <option>transformxaml</option>
+            <file dir="" name="OpcRcw.Da.dll" />
+          </inputassembly>
+          <inputassembly refid="e0f043dc-a934-4449-882f-160edd4a3baa">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>artifact</option>
+            <option>transformxaml</option>
+            <file dir="" name="OpcRcw.Dx.dll" />
+          </inputassembly>
+          <inputassembly refid="8d539bcd-a257-4064-aec9-0b71e609490e">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>artifact</option>
+            <option>transformxaml</option>
+            <file dir="" name="OpcRcw.Hda.dll" />
+          </inputassembly>
+          <inputassembly refid="f97719ab-c848-4963-8d5c-0c768dc68056">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>transformxaml</option>
+            <file dir="" name="TransactionFields.dll" />
+          </inputassembly>
+          <inputassembly refid="890089b4-6112-4281-be32-9530003f293a">
+            <option>honoroas</option>
+            <option>stripoa</option>
+            <option>library</option>
+            <option>transformxaml</option>
+            <file dir="" name="VolumeCorrectionDotNet.dll" />
+          </inputassembly>
+        </asmlist>
+      </package>
+    </asmlist>
+  </input>
+  <output>
+    <file dir="${OutputDir}" />
+  </output>
+  <renaming>
+    <option>xmlserialization</option>
+    <mapping>
+      <mapoutput overwrite="false">
+        <file dir="${configdir}\Dotfuscated" name="Map.xml" />
+      </mapoutput>
+    </mapping>
+    <referencerulelist>
+      <referencerule rulekey="{6655B10A-FD58-462d-8D4F-5B1316DFF0FF}" />
+      <referencerule rulekey="{229FD6F8-5BCC-427b-8F72-A7A413ECDF1A}" />
+      <referencerule rulekey="{2B7E7C8C-A39A-4db8-9DFC-6AFD38509061}" />
+      <referencerule rulekey="{89769974-93E9-4e71-8D92-BE70E855ACFC}" />
+      <referencerule rulekey="{7D9C8B02-2383-420f-8740-A9760394C2C1}" />
+    </referencerulelist>
+  </renaming>
+  <controlflow level="high" />
+  <signing>
+    <resign>
+      <option>dontuseattributes</option>
+      <key>
+        <file dir="${SolutionRoot}\FMBusinessObjects" name="FMStrongNameKey.snk" />
+      </key>
+    </resign>
+  </signing>
+  <sos mergeruntime="true">
+    <option>dontsendtamper</option>
+  </sos>
+  <smartobfuscation>
+    <smartobfuscationreport verbosity="all" overwrite="false" />
+  </smartobfuscation>
+</dotfuscator>

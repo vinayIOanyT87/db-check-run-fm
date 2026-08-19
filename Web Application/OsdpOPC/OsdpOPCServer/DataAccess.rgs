@@ -1,0 +1,27 @@
+HKCR
+{
+	OsdpOPCServer.DataAccess.1 = s 'DataAccess Class'
+	{
+		CLSID = s '{8f18745e-2e84-4a72-bd68-77ddba88e14a}'
+	}
+	OsdpOPCServer.DataAccess = s 'DataAccess Class'
+	{
+		CLSID = s '{8f18745e-2e84-4a72-bd68-77ddba88e14a}'
+		CurVer = s 'OsdpOPCServer.DataAccess.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {8f18745e-2e84-4a72-bd68-77ddba88e14a} = s 'DataAccess Class'
+		{
+			ProgID = s 'OsdpOPCServer.DataAccess.1'
+			VersionIndependentProgID = s 'OsdpOPCServer.DataAccess'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{de54ec82-4d1e-494d-8e70-ffac46c933c1}'
+		}
+	}
+}

@@ -1,0 +1,242 @@
+﻿@using FuelsManager.Areas.AssetTrackingArea.ViewModels
+@using FuelsManager.Areas.Controllers
+@model AssetIconSelectionModel
+@{
+    ViewBag.Title = "IconSelection";
+}
+
+@Scripts.Render("~/bundles/dataTable")
+@Styles.Render("~/Content/dataTable")
+
+<style>
+	.centeredTableData {
+		text-align: center;
+		vertical-align: middle;
+	}
+
+	.divTable {
+		width: 85%;
+		height: 50%;
+		display: table;
+		padding: 3px;
+	}
+
+	.divTableRow {
+		width: 100%;
+		height: 100%;
+		display: table-row;
+		padding: 3px;
+	}
+
+	.divTableCell {
+		width: 25%;
+		height: 100%;
+		display: table-cell;
+		padding: 3px;
+		vertical-align: top;
+	}
+
+	.divTableCell2 {
+		width: 25%;
+		height: 100%;
+		display: table-cell;
+		padding: 3px;
+		vertical-align: top;
+		position: absolute;
+		right: 40%;
+	}
+
+	.headline {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 18px;
+		font-style: italic;
+		font-weight: bold;
+		color: #0d246a;
+		line-height: normal;
+		white-space: nowrap;
+	}
+
+	.formfieldtitle {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 12px;
+		font-style: normal;
+		line-height: normal;
+		font-weight: bold;
+		font-variant: normal;
+		text-transform: none;
+		white-space: nowrap;
+	}
+
+	.formfield input {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 12px;
+		font-style: normal;
+		line-height: normal;
+		font-weight: normal;
+		font-variant: normal;
+		text-transform: none;
+		color: #000000;
+	}
+
+	.errorField {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 16px;
+		font-style: normal;
+		line-height: normal;
+		font-weight: bold;
+		font-variant: normal;
+		text-transform: none;
+		color: #FF0000;
+	}
+    
+    #iconSelectionTable_info{
+        color: white;
+    }
+</style>
+<script>
+	$(document).ready(function() {
+		var datatable = $('#iconSelectionTable')
+			.DataTable(
+			{
+				// We do not allow searching through the results via the datatable search control
+				"searching": false,
+				// Show First, Previous, Next, and Last buttons for paging
+				"pagingType": "full",
+				// Embed a div in the datatables controls so we can color the bottom of the grid
+				// like a footer
+				"dom": 'lrt<"#DataTablesFooter"ip>',
+				// Apply no initial sort
+				"order": [],
+				// Save the sort order so that if users navigate away from the page and return their sort is retained
+				"stateSave": true,
+				// Tell datatables that we don't care about highlighting the columns that have been sorted. According to the documentation, this improves performance.
+				"orderClasses": false,
+				"columnDefs": [
+					// Disallow sorting of the edit / delete columns
+					{ "targets": [0, 1], "orderable": false }
+				]
+			});
+	});
+
+	//====================================================================
+	// This function will handle the selected item event. It will find
+	// the selected file name and return it to the parent page.
+	//====================================================================
+	function HandleSelection(selectedKey)
+	{
+		var iconInfo = new Object();
+		iconInfo.FileName = [];
+		iconInfo.Key = [];
+
+		@foreach (IconModel iconModel in Model.IconModelList)
+		{
+			@:iconInfo.FileName.push("@iconModel.IconFileName");
+			@:iconInfo.Key.push("@iconModel.IconKey");
+		}
+
+		var selectedFileName = "";
+
+		for (var nextIcon = 0; nextIcon < iconInfo.FileName.length; nextIcon++) {
+			selectedFileName = iconInfo.FileName[nextIcon];
+
+			if (iconInfo.Key[nextIcon] === selectedKey.toString()) {
+				break;
+			}
+		}
+
+		var returnObject = new Object();
+		returnObject.FileName = selectedFileName;
+
+		window.returnValue = returnObject;
+		window.close();
+	}
+
+	//====================================================================
+	// This function will handle the cancel button event. It will close
+	// the popup without any changes.
+	//====================================================================
+	function CancelCloseWindow()
+	{
+		window.returnValue = null;
+		window.close();
+	}
+</script>
+<div style="overflow-x: hidden; overflow-y: hidden;">
+	<div class="divTable">
+		<div class="divTableRow">
+			<div class="divTableCell">
+				@Html.Label(FMBaseController.TranslateText("Icon Selection"), new { @Class = "headline" })
+			</div>
+		</div>
+	</div>
+	<div class="divTable" style="width: 400px">
+		<div class="divTableRow">
+			<div class="divTableCell">&nbsp;</div>
+			<div class="divTableCell">&nbsp;</div>
+			<div class="divTableCell">&nbsp;</div>
+			<div class="divTableCell">&nbsp;</div>
+		</div>
+		<div class="divTableRow">
+			<div class="divTableCell">
+				<button name="CancelTankCoordinateBtn" onclick="CancelCloseWindow()" value="CancelTankCoordinateBtn" style="width: 100px" class="formfieldtitle">@FMBaseController.TranslateText("Cancel")</button>
+			</div>
+		</div>
+	</div>
+
+	@using (Html.BeginForm("IconSelection", "AssetIconSelection", FormMethod.Post, new { target = "_self" }))
+	{
+		var selectText = FMBaseController.TranslateText("Select");
+		var iconImageText = FMBaseController.TranslateText("Icon");
+		var iconFileNameText = FMBaseController.TranslateText("Icon File Name");
+
+		@Html.AntiForgeryToken()
+
+		<div class="divTable">
+			<div class="row" style="margin-top: 5px; width: 400px">
+				<section>
+					<div class="col-md-12">
+						<table id="iconSelectionTable" class="hover stripe row-border cell-border" style="width: 100%">
+							<thead>
+							<tr style="color: white; background-color: #0D246A">
+								<th>
+									@selectText
+								</th>
+								<th>
+									@iconImageText
+								</th>
+								<th>
+									@iconFileNameText
+								</th>
+							</tr>
+							</thead>
+							<tbody>
+							@foreach (IconModel icon in @Model.IconModelList)
+							{
+								<tr>
+									<td style="width: 36px;" class="centeredTableData">
+										<a class="selectLinkClass" title="@selectText" onclick="HandleSelection(@icon.IconKey)" href='#'>@selectText</a>
+									</td>
+									<td style="width: 36px;" class="centeredTableData">
+										<span>
+												<img src='@Url.Content(icon.IconImage)' style="margin-left: -10px; margin-right: -10px; margin-top: -3px; margin-bottom: -3px; padding-bottom: 9px; width: 25px; height: 35px" />
+											</span>
+									</td>
+									<td>@icon.IconFileName</td>
+								</tr>
+							}
+							</tbody>
+						</table>
+					</div>
+				</section>
+			</div>
+		</div>
+		<div class="divTable">
+			<div class="divTableRow">
+				<div class="divTableCell">
+					@Html.ValidationMessage("Error", new { @Class = "errorField", style = "width:360px" })
+				</div>
+			</div>
+		</div>
+	}
+</div>
+

@@ -1,0 +1,324 @@
+﻿@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.FCEE.ViewModels.FCEEMappingModel
+
+@{
+   ViewBag.Title = "FCEEMappingView";
+   Layout = "~/Areas/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Areas/Content/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Content/bootstrap-modal.css" rel="stylesheet" type="text/css" />
+
+<script src="~/Areas/Lib/jquery.nicescroll.min.js"></script>
+<script src="~/Areas/Lib/bootstrap-modal.js"></script>
+<script src="~/Areas/Lib/bootstrap-modalmanager.js"></script>
+<script src="~/Areas/Scripts/FMErrorAndExceptionHandling.js"></script>
+<script src="~/Areas/Scripts/FCEEMapping.js"></script>
+
+<script src="~/Areas/lib/ace.js"></script>
+
+<style>
+   .FMGridContainer {
+      max-height: calc(100vh - 175px) !important;
+   }
+
+   button.disabled {
+      color: #b7b7b7 !important;
+   }
+
+   .mapping-table-font {
+      font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+      font-size: 14px !important;
+      line-height: 1.42857143 !important;
+      color: #333 !important;
+      background-color: #fff !important;
+   }
+
+   .fcee-mapping-dropdown {
+      font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+      display: block;
+      width: 100%;
+      height: 34px;
+      padding: 6px 12px;
+      font-size: 14px;
+      line-height: 1.42857143;
+      color: #555;
+      background-color: #fff;
+      background-image: none;
+      border: 1px solid #667;
+      border-radius: 4px;
+      -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+      box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+      -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+      -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+      transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+   }
+
+   .text-center {
+      font-size: 14px !important;
+      color: #333 !important;
+      font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+   }
+
+    input:invalid:focus, input:invalid, select:invalid:focus, select:invalid {
+        border: 2px solid red;
+    }
+</style>
+
+@using (Html.BeginForm("ButtonSubmit", "FCEEMappingView", FormMethod.Post, new { id = "FCEEMappingViewForm" }))
+{
+   @Html.AntiForgeryToken()
+
+   @Html.Hidden("urlFCEEMappingView", @Url.Action("FCEEMappingView", "FCEEMapping"));
+   @Html.Hidden("urlDeleteFCEEMapping", @Url.Action("DeleteFCEEMapping", "FCEEMapping"));
+   @Html.Hidden("urlEditFCEEMapping", @Url.Action("EditFCEEMapping", "FCEEMapping"));
+   @Html.Hidden("urlAddFCEEMapping", @Url.Action("AddFCEEMapping", "FCEEMapping"));
+
+   var editText = FMBaseController.TranslateText("Edit");
+   var deleteText = FMBaseController.TranslateText("Delete");
+   var IMEI = FMBaseController.TranslateText("IMEI");
+   var IMEIFriendlyName = FMBaseController.TranslateText("Friendly Name");
+   var Index = FMBaseController.TranslateText("Index");
+   var Device = FMBaseController.TranslateText("Device");
+   var TagSelection = FMBaseController.TranslateText("Tag Selection");
+   var Point = FMBaseController.TranslateText("Point");
+   var addText = FMBaseController.TranslateText("Add");
+   var addNewMappingText = FMBaseController.TranslateText("Add New Mapping");
+   var messageType = FMBaseController.TranslateText("Message Type");
+   var addAccessKey = "A";
+   var addPreFix = "";
+   var addPostFix = "";
+   var addAccessKeyContainedInAddText = false;
+   var addButtonClass = (Model.ReadOnly) ? "disabled" : "";
+   var addButtonDisable = (Model.ReadOnly) ? "disabled=\"disabled\"" : "";
+
+   if (addText.Length > 0)
+   {
+      if (addText.Contains(addAccessKey))
+      {
+         addAccessKeyContainedInAddText = true;
+         var firstIndex = addText.IndexOf(addAccessKey, StringComparison.InvariantCulture);
+         if (firstIndex > 0)
+         {
+            addPreFix = addText.Substring(0, firstIndex);
+         }
+         if (firstIndex < addText.Length)
+         {
+            addPostFix = addText.Substring(firstIndex + 1);
+         }
+      }
+   }
+
+   var count = 0;
+   if (Model.FCEEMappingList.Count > 0)
+   {
+      count = Model.FCEEMappingList.Count;
+   }
+
+   var displayCount = Math.Min(count, 500);
+
+   var translatedCountDisplayText = string.Format(FMBaseController.TranslateText("Limiting display to") + " {0} " + FMBaseController.TranslateText("of") + " {1} " + FMBaseController.TranslateText("total records.  Use filters to reduce record count."), displayCount, count);
+
+   var translatedRecordCountText = string.Format(FMBaseController.TranslateText("Showing") + " {0} " + FMBaseController.TranslateText("record(s)."), count);
+
+   <div class="row headline" style="width: 5in; padding-bottom:10px">@FMBaseController.TranslateText("FCEE Mappings")</div>
+
+   <div style="padding-top: 5px; padding-bottom: 5px">
+      <button id="addMapping2" type="button" title="@addNewMappingText" class="pushButton @addButtonClass" @addButtonDisable accesskey=@addAccessKey onclick="javascript: resetEditor(); openEditor(); document.getElementById('updateTitle').innerHTML = 'Adding FCEE Mapping';">
+         @if (addAccessKeyContainedInAddText)
+         {
+            @addPreFix<u>@addAccessKey</u>@addPostFix
+         }
+         else
+         {
+            @addText
+         }
+      </button>
+   </div>
+
+   <div id="updatewindow" style="display: none; position: fixed; left: 45%; top: 50%; z-index: 3; margin-top: -200px; margin-left: -500px; background-color: white; width: 1232px; height: 200px">
+
+      <div class="FMGridContainer" style="width:95%;margin-left:auto;margin-right:auto;">
+         <div style="display:flex; margin-top: 15px;">
+            <div class="modal-title" id="updateTitle" style="font-size: 14px; margin-bottom: 15px; color:#666666">Adding FCEE Mapping</div>
+            <div onclick="document.getElementById('updatewindow').style.display = 'none'; document.getElementById('grayed-out').style.display = 'none';" style="margin-left:auto;" class="close">×</div>
+         </div>
+         <table class="table table-striped table-bordered hover mapping-table-font">
+            <thead class="modal-title mapping-table-font">
+               <tr>
+                  <td class="text-center">Point</td>
+                  <td class="text-center">FCE Device</td>
+                  <td class="text-center">Index</td>
+                  <td class="text-center">Device</td>
+                  <td class="text-center">Message Type</td>
+                    <td class="text-center">Tag Selection</td>
+               </tr>
+            </thead>
+            <tbody id="StrapTableEditorTableBody" class="">
+                <tr style="background-color: #f9f9f9;">
+                    <td>@Html.DropDownList("AddPoint", new SelectList(Model.Points, "PointGuid", "PointId"), "", new { @class = "form-control fcee-mapping-dropdown", @Required = "true" })</td>
+                    <td>@Html.DropDownList("AddFceDevice", new SelectList(Model.FCEDevices, "Value", "Text"), "", new { @class = "form-control fcee-mapping-dropdown", @Required = "true" })</td>
+                    <td>@Html.TextBox("AddIndex", "", new { type = "number", min = "0", step = "1", max = "255", @class = "form-control fcee-mapping-dropdown", style = "width: 75px;", @Required = "true" })</td>
+                    <td>@Html.TextBox("AddDevice", "", new { type = "number", min = "0", step = "1", max = "9", @class = "form-control fcee-mapping-dropdown", style = "width: 50px;", disabled = "true" })</td>
+                    <td>@Html.DropDownList("AddMsgType", EnumHelper.GetSelectList(typeof(FMBusinessObjects.DataObjects.EDGEMESSAGETYPE)).Take(22), "", new { @class = "form-control fcee-mapping-dropdown", onchange = "hideDeviceField(); hideTagSelectionField()", @Required = "true" })</td>
+                    <td>@Html.DropDownList("AddTagSelection", EnumHelper.GetSelectList(typeof(FMBusinessObjects.DataObjects.TAGSELECTIONTYPE)).Skip(1), "", new { @class = "form-control fcee-mapping-dropdown", @Required = "true" })</td>
+
+                </tr>
+            </tbody>
+         </table>
+         <div style="display:flex;">
+            <button id="addMapping1" style="margin-left:auto;" type="submit" title="@addNewMappingText" class="pushButton @addButtonClass" @addButtonDisable accesskey=@addAccessKey>
+               Save
+            </button>
+         </div>
+      </div>
+   </div>
+   <div id="grayed-out" onclick="document.getElementById('updatewindow').style.display = 'none'; document.getElementById('grayed-out').style.display = 'none';" style="display:none; position:fixed;width:100%;height:100%;top:0;left:0;background-color:black;z-index:2;opacity:.4;"></div>
+
+   <div id="fceeguidT" style="display:none"></div>
+
+   <section class="FMGridSection" style="max-width: 825px">
+      <div class="FMGridContainer">
+         <table id="FCEEMappingTable">
+            <thead>
+               <tr>
+                  <th>
+                     @editText<div>@editText</div>
+                  </th>
+                  <th>
+                     @IMEI<div>@IMEI</div>
+                  </th>
+                  <th>
+                     @IMEIFriendlyName<div>@IMEIFriendlyName</div>
+                  </th>
+                  <th>
+                     @messageType<div>@messageType</div>
+                  </th>
+                  <th>
+                     @Index<div>@Index</div>
+                  </th>
+                  <th>
+                     @Device<div>@Device</div>
+                  </th>
+                  <th>
+                     @TagSelection<div>@TagSelection</div>
+                  </th>
+                  <th>
+                     @Point<div>@Point</div>
+                  </th>
+                  <th>
+                     @deleteText<div>@deleteText</div>
+                  </th>
+               </tr>
+            </thead>
+            <tbody>
+               @{
+                  var editThisItem = FMBaseController.TranslateText("Edit this item");
+                  var delThisItem = FMBaseController.TranslateText("Delete this item");
+                  var delNotSupported = FMBaseController.TranslateText("Delete not supported");
+
+                  foreach (var FCEEMapping in Model.FCEEMappingList)
+                  {
+
+                     var deleteConfirmationText = FMBaseController.TranslateText("Are you sure you wish to delete this item?");
+                     var deleteClass = (Model.ReadOnly || FCEEMapping.Value.SiteGuid != Model.SiteGuid) ? "deleteLinkClassDisabled" : "deleteLinkClass";
+                     var deleteTitle = (Model.ReadOnly || FCEEMapping.Value.SiteGuid != Model.SiteGuid) ? delNotSupported : delThisItem;
+                     var deleteDisabled = (Model.ReadOnly || FCEEMapping.Value.SiteGuid != Model.SiteGuid) ? "disabled=\"disabled\"" : "";
+
+                     //ImeiNumber, mappingSiteGuid, pointID, pointGuid, DataAccessLayerDBI.ConvertRowVersion(rowVersion)
+                     <tr id="row_@FCEEMapping.Key">
+                        <td style="width: 36px; text-align: center">
+                           <a class="editLinkClass" title="@editThisItem" onclick="openEditor();document.getElementById('AddMsgType').value = @((int)FCEEMapping.Value.MsgType); document.getElementById('AddIndex').value = '@FCEEMapping.Value.Index'; document.getElementById('AddDevice').value = '@FCEEMapping.Value.Device'; document.getElementById('AddFceDevice').value = '@FCEEMapping.Value.FCEDeviceGuid'; document.getElementById('fceeguidT').innerHTML = '@FCEEMapping.Value.FCEEMappingGuid'; document.getElementById('AddPoint').value = '@FCEEMapping.Value.PointGuid'; document.getElementById('AddTagSelection').value = @((int)FCEEMapping.Value.TagSelection); document.getElementById('updateTitle').innerHTML = 'Editing FCEE Mapping';hideDeviceField();hideTagSelectionField()">@editText</a>
+                        </td>
+                        <td>@FCEEMapping.Value.ImeiNumber</td>
+                        <td>@FCEEMapping.Value.FriendlyName</td>
+                        <td>@FCEEMapping.Value.MsgType</td>
+                        <td>@FCEEMapping.Value.Index</td>
+                        <td>@(FCEEMapping.Value.Device != -1 ? FCEEMapping.Value.Device.ToString() : " ")</td>
+                        <td>@FCEEMapping.Value.TagSelection</td>
+                        <td>@FCEEMapping.Value.PointID</td>
+                        <td style="width: 36px; vertical-align: top; text-align: center">
+                           <a class="@deleteClass" @deleteDisabled title="@deleteTitle" onclick="if (confirm('@deleteConfirmationText')) { FCEEMapping.DeleteFCEEMapping('@FCEEMapping.Key'); var row = document.getElementById('row_@FCEEMapping.Key'); row.parentNode.removeChild(row); document.getElementById('recordNum').innerHTML = 'Showing ' + (document.getElementById('FCEEMappingTable').rows.length - 1) + ' record(s).';} else { return false; }">@deleteText</a>
+                        </td>
+                     </tr>
+
+                  }
+               }
+            </tbody>
+         </table>
+      </div>
+   </section>
+   <table class="FMGridFoot" style="width: 100%; max-height: 35px; max-width: 825px">
+      <tfoot>
+         @if (displayCount < count)
+         {
+            <tr><th>@translatedCountDisplayText</th></tr>
+         }
+         else if (displayCount > 0)
+         {
+            <tr>
+               <th id="recordNum">
+                  @translatedRecordCountText
+               </th>
+            </tr>
+         }
+         else
+         {
+            <tr>
+               <td class="formfieldtitle" style="padding-top: 5px;">
+                  @FMBaseController.TranslateText("No records found.")
+               </td>
+            </tr>
+         }
+      </tfoot>
+   </table>
+
+   <div style="padding-top: 5px; padding-bottom: 5px">
+      <button id="addFCEEMapping2" type="button" title="@addNewMappingText" class="pushButton @addButtonClass" @addButtonDisable accesskey=@addAccessKey onclick="javascript: resetEditor(); openEditor(); document.getElementById('updateTitle') = 'Adding FCEE Mapping';">
+         @if (addAccessKeyContainedInAddText)
+         {
+            @addPreFix<u>@addAccessKey</u>@addPostFix
+         }
+         else
+         {
+            @addText
+         }
+      </button>
+   </div>
+}
+
+<!-- Edit FCEE Mapping Modal -->
+@{
+   var saveButton = FMBaseController.TranslateText("&Save");
+   var cancelButton = FMBaseController.TranslateText("&Cancel");
+}
+@Html.Hidden("urlFCEEMappingEditor", @Url.Action("FCEEMappingEditor", "FCEEMappingEditor"))
+
+<div class="row">
+   <div id="EditFCEEMappingModal" class="modal container fade" data-backdrop="static" data-focus-on="input:first" role="dialog">
+      <!-- Edit FCEEMapping Modal content-->
+      <div class="modal-content">
+         <div class="modal-body">
+            <div class="EditFCEEMappingHeader row">
+               <button type="button" class="close" data-dismiss="modal" onclick="$('#FCEEMappingEditorCloseButton').click();">×</button>
+               <div class="col-xs-12">
+                  <h4>@FMBaseController.TranslateText("FCEEMapping|Edit FCEEMapping")</h4>
+               </div>
+            </div>
+            <section id="FCEEMappingEditorScreen" class=""></section>
+         </div>
+         <div class="modal-footer">
+            <div class="btn-toolbar">
+               <div class="pull-right" role="group">
+                  <button id="FCEEMappingEditorSaveButton" type="button" class="formfieldtitle pushButton" accessKey="@FMControls.GetAccessKey(saveButton)">
+                     @Html.Raw(FMControls.FormatButtonText(saveButton))
+                  </button>
+                  <button id="FCEEMappingEditorCloseButton" type="button" class="formfieldtitle pushButton" data-dismiss="modal" accessKey="@FMControls.GetAccessKey(cancelButton)" onclick="javascript: ModuleLibrary.RestoreAccessKeys();">
+                     @Html.Raw(FMControls.FormatButtonText(cancelButton))
+                  </button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

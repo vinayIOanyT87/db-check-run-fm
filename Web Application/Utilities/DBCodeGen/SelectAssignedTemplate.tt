@@ -1,0 +1,75 @@
+﻿<#@ template language="C#" hostspecific="True" debug="True" #>
+<#@ output extension="sql" #>
+<#@ assembly name="Microsoft.SqlServer.ConnectionInfo" #>
+<#@ assembly name="Microsoft.SqlServer.Management.Sdk.Sfc" #>
+<#@ assembly name="Microsoft.SqlServer.Smo" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="T4Toolbox.10.0" #>
+<#@ import namespace="Microsoft.SqlServer.Management.Smo" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="T4Toolbox" #>
+<#+
+public class SelectAssignedTemplate : FMStoredProcTemplateBase
+{
+	
+	public SelectAssignedTemplate(string dbName, MapInfo newMap) :base(dbName)
+	{
+		this.ObjectSuffix = "Select" + newMap.AssignedName;		
+		this.MyMap = newMap;
+	}
+	
+	public override string Description 
+	{
+		get
+		{
+			return "Select assigned record(s) from the " + FullTableName;
+		}
+	}
+	
+	public MapInfo MyMap { get; set; } 
+	
+	public override TableInfo MyTable
+	{
+		get
+		{
+			TableInfo actualTable = null;
+			if (MyMap!= null)
+			{
+				actualTable = MyMap.MyTable;
+			}
+			return actualTable;
+		}
+		set
+		{
+		}
+	}
+	
+	protected override void RenderStandardCore()
+    {		
+		CreateComment();
+		string assignedTableName = string.Format ( "[{0}].[{1}]", MyMap.AssignedKeyInfo.SchemaName, MyMap.AssignedKeyInfo.TableName);
+#>
+CREATE PROCEDURE <#= FullObjectName #> (
+	@<#=MyMap.AssigneeName #>Guid UNIQUEIDENTIFIER
+) AS
+BEGIN
+	SELECT 
+		MAIN.<#= MyTable.BaseTableName #>Guid,
+		MAIN.<#=MyMap.AssigneeName #>Guid,
+		MAIN.<#=MyMap.AssignedName #>Guid,
+		ASSIGNED.*
+	FROM 
+		<#= FullTableName #> MAIN WITH (NOLOCK)
+		INNER JOIN <#= assignedTableName #> ASSIGNED WITH (NOLOCK)
+		ON MAIN.<#=MyMap.AssignedName #>Guid = ASSIGNED.<#= MyMap.AssignedKeyInfo.PrimaryKey #>
+	WHERE
+		(@<#=MyMap.AssigneeName #>Guid = MAIN.<#=MyMap.AssigneeName #>Guid)
+
+END
+GO
+
+<#+		
+
+	}
+}
+#>

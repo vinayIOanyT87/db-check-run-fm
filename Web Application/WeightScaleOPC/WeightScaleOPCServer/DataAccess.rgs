@@ -1,0 +1,27 @@
+HKCR
+{
+	WeightScaleOPCServer.DataAccess.1 = s 'DataAccess Class'
+	{
+		CLSID = s '{5485F6AE-F03B-4FEB-A5E8-9B83D9E26516}'
+	}
+	WeightScaleOPCServer.DataAccess = s 'DataAccess Class'
+	{
+		CLSID = s '{5485F6AE-F03B-4FEB-A5E8-9B83D9E26516}'
+		CurVer = s 'WeightScaleOPCServer.DataAccess.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {5485F6AE-F03B-4FEB-A5E8-9B83D9E26516} = s 'DataAccess Class'
+		{
+			ProgID = s 'WeightScaleOPCServer.DataAccess.1'
+			VersionIndependentProgID = s 'WeightScaleOPCServer.DataAccess'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{85CD7BF4-E995-4E4A-ABE2-D9FD90CF6027}'
+		}
+	}
+}

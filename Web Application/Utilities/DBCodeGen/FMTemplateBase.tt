@@ -1,0 +1,313 @@
+﻿<#@ template language="C#" hostspecific="True" debug="True" #>
+<#@ output extension="sql" #>
+<#@ assembly name="T4Toolbox.10.0" #>
+<#@ import namespace="T4Toolbox" #>
+<#@ import namespace="System.Text" #>
+<#+
+public class FMStoredProcTemplateBase : FMTemplateBase
+{
+	public string ProcedureName = "NameNotSet";
+
+	public FMStoredProcTemplateBase(string dbName) :base(dbName, "PROCEDURE", "N'P', N'PC'")
+	{
+		this.ObjectPrefix = "usp";
+	}
+	
+	public override string FullObjectName
+	{
+		get
+		{
+			return string.Format( "[{0}].[{1}_{2}{3}]", MyTable.SchemaName, ObjectPrefix, MyTable.BaseTableName, ObjectSuffix);
+		}
+	}
+	
+}
+
+public class FMTemplateBase : Template
+{
+	public string RowVersionFieldName = "_RowVersion";
+	public string CreatedDateFieldName = "CreatedDate";
+	public string CreatedByFieldName = "CreatedBy";
+	// The following are used to generate comma separated list
+	public string NoFormat = "{0}";
+	public string VariableFormat = "@{0}";
+	public string AssignmentFormat = "{0} = @{0}";
+		
+	public static string AuthorName  = "NoBody__";	
+	public virtual string Description { get; set; }
+	public string DatabaseName { get; set; }
+	public virtual TableInfo MyTable {get; set;}		
+	public virtual string ObjectPrefix  { get; set; }
+	public virtual string ObjectSuffix  { get; set; }
+	public virtual string ObjectType {get; set;}
+	public virtual string ObjectTypeList {get; set;}	
+	// This determines whether we're generating drop sql or regular sql
+	public bool DropOperation {get; set;}
+	
+	protected int _indentCount = 0;
+			
+	public FMTemplateBase(string dbName, string newObjectType, string newObjectTypeList)
+	{
+		this.DatabaseName = dbName;
+		this.ObjectType = newObjectType;
+		this.ObjectTypeList = newObjectTypeList;
+	}
+	
+	public virtual string FullObjectName
+	{
+		get
+		{
+			return FullTableName;
+		}
+	}
+		
+	public string FullTableName
+	{
+		get
+		{
+			return string.Format( "[{0}].[{1}]", MyTable.SchemaName, MyTable.TableName);
+		}
+	}
+	
+	protected Column RowVersionColumn 
+	{ 
+		get
+		{
+			return FindColumnByName(GetSqlSmoTable(), RowVersionFieldName);
+		}
+	}
+
+	public static void AddStandardTemplates(CodeGenConfig theConfig, FMTemplateBase createTemplate)
+	{
+		theConfig.TemplateList.Add(createTemplate);
+		theConfig.TemplateList.Add(new InsertTemplate(theConfig.DBName, createTemplate.MyTable));
+		theConfig.TemplateList.Add(new DeleteTemplate(theConfig.DBName, createTemplate.MyTable));				
+		theConfig.TemplateList.Add(new UpdateTemplate(theConfig.DBName, createTemplate.MyTable));	
+		theConfig.TemplateList.Add(new SelectTemplate(theConfig.DBName, createTemplate.MyTable));	
+	}
+	
+	protected Table GetSqlSmoTable()
+	{
+		Server server = new Server();
+		
+        Database smoDatabase = new Database(server, DatabaseName);
+		smoDatabase.Refresh();
+		
+        Table smoTable = new Table(smoDatabase, MyTable.TableName, MyTable.SchemaName);
+        smoTable.Refresh();
+		return smoTable;
+	}
+	
+	protected Column FindPrimaryKeyColumn(Table smoTable)
+	{
+		Column retValue = null;
+		foreach (Column column in smoTable.Columns)
+		{
+			if (column.InPrimaryKey)
+			{
+				retValue = column;
+				break;
+			}
+		}
+		return retValue;
+	}
+		
+	protected Column FindColumnByName(Table smoTable, string columnName)
+	{
+		Column retValue = null;
+		foreach (Column column in smoTable.Columns)
+		{
+			if (column.Name.Equals(columnName))
+			{
+				retValue = column;
+				break;
+			}
+		}
+		return retValue;
+	}
+	
+	/// <summary>
+	/// Returns SQL data type of a stored procedure parameter for the specified <paramref name="column"/>
+	/// </summary>
+	protected string GetParameterDataType(Column column)
+	{
+		string dataType = column.DataType.Name.ToUpper();
+		string dataLength = string.Empty;
+		if (dataType == "TIMESTAMP")
+		{
+			dataType = "VARBINARY";
+		}
+		switch (column.DataType.SqlDataType)
+		{
+			case SqlDataType.Char:
+			case SqlDataType.VarChar:
+			case SqlDataType.NChar:
+			case SqlDataType.NVarChar:
+			case SqlDataType.Timestamp:
+				dataLength = string.Format("({0})", column.DataType.MaximumLength);
+				break;
+		}
+		return dataType + dataLength;
+	}
+	
+	protected bool FindInStringArray(string[] list, string target)
+	{
+		bool found = false;
+		for (int idx =0; idx<list.Length; idx++)
+		{
+			if (list[idx].Equals(target))
+			{
+				found = true;
+				break;
+			}
+		}
+		return found;
+	}
+	protected string ParameterDefinition(Column theColumn)
+	{
+		return "@" + theColumn.Name + " " + GetParameterDataType(theColumn);
+	}
+	
+	protected void WriteParameters(Table theSmoTable, string[] excluded)
+	{		
+		bool isFirstColumn = true;
+		foreach (Column theColumn in theSmoTable.Columns)
+        {
+			if (!FindInStringArray(excluded, theColumn.Name))
+			{
+				if (isFirstColumn)
+				{
+					isFirstColumn = false;
+				}
+				else
+				{
+					WriteLine(",");
+				}
+	            Write( ParameterDefinition(theColumn));
+			}
+        }
+	}
+	
+	protected string[] GetAllFieldNames(Table theSmoTable)
+	{		
+		string[] allNames = new string[theSmoTable.Columns.Count];
+		for (int idx =0; idx<allNames.Length; idx++)
+		{
+			allNames[idx] = theSmoTable.Columns[idx].Name;
+		}
+		return allNames;
+	}
+	
+	/// <summary>
+	/// Create comma separated list.  See beginning of the class for different formats.
+	/// </summary>
+	/// <param name="allFields"></param>
+	/// <param name="excluded"></param>
+	/// <param name="formatString"></param>
+	/// <returns></returns>
+	protected string CreateList(string[] allFields, string[] excluded, string formatString)
+	{		
+		StringBuilder output = new StringBuilder();
+		bool isFirst = true;
+		for (int idx =0; idx<allFields.Length; idx++)
+		{
+			string fieldName = allFields[idx];
+			if (!FindInStringArray(excluded, fieldName))
+			{
+				if (isFirst)
+				{
+					isFirst = false;
+				}
+				else
+				{
+					output.Append(", ");
+				}
+				// new line for every 3 elements
+				if (idx%4 == 3)
+				{
+					output.AppendLine();
+				}
+	            output.Append( string.Format(formatString, fieldName));
+			}
+        }
+		return output.ToString();
+	}
+	
+	protected void Indent()
+	{
+		PushIndent("\t");
+		_indentCount++;
+	}
+	
+	protected void Unindent()
+	{
+		_indentCount--;
+		PopIndent();
+	}
+	
+	protected void Unindent(int newValue)
+	{
+		while (_indentCount > newValue )
+		{
+			Unindent();
+		}
+	}
+	
+	protected void CreateComment()
+	{
+#>
+-- ==================================================================================================================
+-- Author:		<#= AuthorName #>
+-- Create date:	<#= System.DateTime.Today.ToShortDateString() #>
+-- Description:	<#= Description #>
+-- ==================================================================================================================
+<#+		
+
+	}
+	
+	public virtual void RenderStandard()
+	{
+		DropOperation = false;
+		Render();
+	}
+	
+	protected virtual void RenderStandardCore()
+	{
+	}
+	
+	public virtual void RenderDrop()
+	{
+		DropOperation = true;
+		Render();
+	}
+	
+	protected virtual void RenderDropCore()
+	{			
+#>
+-- ===================== Dropping <#= ObjectType #> - <#= FullObjectName #> ==========================================================
+IF  EXISTS (SELECT * FROM sys.objects 
+		WHERE object_id = OBJECT_ID(N'<#= FullObjectName #>') 
+			AND type in (<#= ObjectTypeList #>))	
+	DROP <#= ObjectType #> <#= FullObjectName #>
+GO	
+
+<#+		
+	
+	}
+	
+	public override string TransformText()
+    {
+		this.GenerationEnvironment.Clear();
+		if (DropOperation)
+		{
+			RenderDropCore();
+		}
+		else
+		{
+			RenderStandardCore();
+		}		
+		
+		return this.GenerationEnvironment.ToString();
+    }
+}
+#>

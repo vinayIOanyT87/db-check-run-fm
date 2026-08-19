@@ -1,0 +1,196 @@
+﻿@using System.Globalization
+@using Varec.CommonComponents.EngineeringUnitsLibrary
+@using FMBusinessObjects.DataObjects
+@using FMPointCommon
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@using Newtonsoft.Json
+@using Opc.Ua
+@model FuelsManager.Areas.InventoryManagement.ViewModels.PointLeakAnalysisModel
+
+
+<link href="~/Areas/Content/PointLeakAnalysis.css" rel="stylesheet" type="text/css" />
+<script>window.csrfToken='@FMBaseController.CSRFToken';</script>
+@Html.HiddenFor(m => m.volumeDecimalPlaces)
+@Html.HiddenFor(m => m.temperatureDecimalPlaces)
+@Html.HiddenFor(m => m.flowDecimalPlaces)
+@Html.HiddenFor(m => m.LeakReportGuid)
+@Html.HiddenFor(m => m.LeakReportName)
+
+<section class="TagSection LeakAnalysis">
+    <div class="row selected_point">
+        <h4>Selected Tank Point</h4>
+        <div>
+            <label>Point Name:</label>
+            <span>@Model.selectedBasePoint</span>
+        </div>
+        <div>
+            <label>Site Name:</label>
+            <span>@Model.siteId</span>
+        </div>
+    </div>
+    <div class="row point_properties">
+        <h4>Properties</h4>
+        <div>
+            <label>Gauge Type:</label>
+            <span>@Model.gaugeTypeName</span>
+        </div>
+        <div>
+            <label>Analysis Method:</label>
+            <span>@LeakDetectionSettings.GetLeakAnalysisMethodDisplayName(@Model.leakDetectionSettings.AnalysisMethod)</span>
+        </div>
+        <div>
+            <label>Analysis Type:</label>
+            <span>@LeakDetectionSettings.GetLeakAnalysisTypeDisplayName(@Model.leakDetectionSettings.AnalysisType)</span>
+        </div>
+    </div>
+    <div class="row">
+        <h4>General</h4>
+        <div>
+            <div class="form-group" data-display="calendar">
+                <label>Start Time:</label>
+                <div class='input-group date' id='datepickerLeakPrintTime' style="display:inline-block; width:240px;">
+                    <input type='text' class="form-control text-center" id="LeakAnalysisStartTime" name="LeakAnalysisStartTime" value="" style="Width:85%" />
+                </div>
+                <script type="text/javascript">
+						$(function () {
+							var numFormatInfoString = $('#NumberFormatInfoString').val();
+							var numFormatInfo = JSON.parse(numFormatInfoString);
+                            FMLayout.dateFormat = ConvertToJQueryUIDateFormat(numFormatInfo.ShortDatePattern);
+                            FMLayout.timeFormat = ConvertToJQueryUITimeFormat(numFormatInfo.TimePattern);
+							FMLayout.calendarLocation = '@Url.Content("~/DispatchWebApp/images")'; 
+                            $('#LeakAnalysisStartTime').datetimepicker({
+								buttonImage: FMLayout.calendarLocation + '/calendar.gif',
+								buttonImageOnly: true,
+                                showOn: "button",
+                                showTimezone: false,
+                                useLocalTimezone: false,
+                                defaultTimezone: $("#datepickerTimezoneString").val(),
+                                dateFormat: FMLayout.dateFormat,
+                                timeFormat: FMLayout.timeFormat,
+								beforeShow: function () {
+									setTimeout(function () {
+										$('.ui-datepicker').css('z-index', 1100);
+									}, 0);
+								}
+							});
+
+							$('#LeakAnalysisStartTime').datetimepicker("setDate", '@Model.startTime.ToString(@Model.dateTimeFormat)');
+						});
+
+                </script>
+            </div>
+        </div>
+        <div>
+
+            <div class="form-group" data-display="calendar">
+                <label>End Time:</label>
+                <div class='input-group date' id='datepickerLeakPrintTime' style="display:inline-block; width:240px;">
+                    <input type='text' class="form-control text-center" id="LeakAnalysisEndTime" name="LeakAnalysisStartTime" value="" style="Width:85%" />
+                </div>
+                <script type="text/javascript">
+						$(function () {
+							var numFormatInfoString = $('#NumberFormatInfoString').val();
+							var numFormatInfo = JSON.parse(numFormatInfoString);
+                            FMLayout.dateFormat = ConvertToJQueryUIDateFormat(numFormatInfo.ShortDatePattern);
+							FMLayout.timeFormat = ConvertToJQueryUITimeFormat(numFormatInfo.TimePattern);
+							FMLayout.calendarLocation = '@Url.Content("~/DispatchWebApp/images")'; 
+
+                            $('#LeakAnalysisEndTime').datetimepicker({
+								buttonImage: FMLayout.calendarLocation + '/calendar.gif',
+								buttonImageOnly: true,
+                                showOn: "button",
+                                showTimezone: false,
+                                useLocalTimezone: false,
+                                defaultTimezone: $("#datepickerTimezoneString").val(),
+                                dateFormat: FMLayout.dateFormat,
+                                timeFormat: FMLayout.timeFormat,
+								beforeShow: function () {
+									setTimeout(function () {
+										$('.ui-datepicker').css('z-index', 1100);
+									}, 0);
+								}
+							});
+
+							$('#LeakAnalysisEndTime').datetimepicker("setDate", '@Model.endTime.ToString(@Model.dateTimeFormat)');
+						});
+
+                </script>
+                <input type="button" id="RunLeakAnalysis" name="RunLeakAnalysis" value="Run Analysis" onclick="return false;" class="btn" />
+            </div>
+        </div>
+    </div>
+    <div class="row results">
+        <h4>
+            Results<input type="button" id="PrintPreview" name="PrintPreview" value="Print Preview" onclick="return false;" class="btn" disabled="disabled"/>
+        </h4>
+        <div>
+            <label>Test Analysis Status:</label>
+            <div>
+                <span id="testAnalysisStatus" class="resultvalue"></span>
+            </div>
+        </div>
+        <div>
+            <label class="resultsLabel">Leak Rate:</label>
+            <div>
+                <span id="leakRate" class="resultvalue"></span>
+                <label id="leakRateUnits" class="units">gph</label>
+            </div>
+
+        </div>
+        <div>
+            <label class="resultsLabel">Elapsed Time:</label>
+            <div>
+                <span id="elapsedTime" class="resultvalue"></span>
+                <label class="units">hh:mm:ss</label>
+            </div>
+
+        </div>
+        <div>
+            <label class="resultsLabel">Min Volume Used:</label>
+            <div>
+                <span id="minVolumeUsed" class="resultvalue"></span>
+                <label  id="minVolumeUsedUnits" class="units">gal (US)</label>
+            </div>
+
+        </div>
+        <div>
+            <label class="resultsLabel">Max Volume Used:</label>
+            <div>
+                <span id="maxVolumeUsed" class="resultvalue"></span>
+                <label id="maxVolumeUsedUnits" class="units">gal (US)</label>
+            </div>
+
+        </div>
+        <div>
+            <label class="resultsLabel">Min Temp Used:</label>
+            <div>
+                <span id="minTempUsed" class="resultvalue"></span>
+                <label id="minTempUsedUnits" class="units">°F</label>
+            </div>
+
+        </div>
+        <div>
+            <label class="resultsLabel">Max Temp Used:</label>
+            <div>
+                <span id="maxTempUsed" class="resultvalue"></span>
+                <label id="maxTempUsedUnits" class="units">°F</label>
+            </div>
+
+        </div>
+        <div>
+            <label class="resultsLabel">Temp Change:</label>
+            <div>
+                <span id="tempChange" class="resultvalue"></span>
+                <label id="tempChangeUnits" class="units">°F</label>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<script>
+    $(document).ready(function () {
+        FMPointLeakAnalysis.Init();
+    });
+</script>

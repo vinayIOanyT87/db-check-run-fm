@@ -1,0 +1,6 @@
+app-moduleconfiguration {
+    display: inline-block;
+    width: calc( 100% - 810px);
+    vertical-align: top;
+    height: calc( 100vh - 170px);
+}

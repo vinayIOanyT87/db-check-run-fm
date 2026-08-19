@@ -1,0 +1,310 @@
+﻿@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.MovementSummaryFilterModel
+@{
+    var ModifyMovementSummaryDisplay = (@Model.ModifyMovementSummaryRight) ? "" : "display: none;";
+}
+<script src="~/Areas/Lib/jquery.columnizer.js"></script>
+
+<div class="savedViewSubMenuLayout">
+<div class="operateSubMenuFilter">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12 OperateSelectionMenuTitle">
+            <label class="pull-left">@FMBaseController.TranslateText("Movement|Movement Summaries")</label>
+            <span id="MovementSummarySelectionViewMode" class="glyphicon glyphicon-th-list pull-right icon-container listViewSwitch" title="Switch to Detail View"></span>
+            <div class="Selectionhorizontalline muchshorter"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="filter-settings operate-list-filter-addon">
+                <input id="filter_movementSummary" type="text" class="operate-List-form-control" placeholder="Search for Movement Summary Name" />
+                <img alt="Filter Movement Summaries" title="Search" src="~/fmwebapp/images/Search Icon.png" />
+            </div>
+        </div>
+    </div>
+    @if (Model.AdministerMovementSummaryRight)
+    {
+        <div class="row" style="margin-top: 6px;">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <select id="filter_movementSummary_owner" class="operate-List-form-control form-control" title="Filter Movement Summaries by owner">
+                    @foreach (var ownerOption in Model.OwnerOptions)
+                    {
+                        <option value="@ownerOption.Value">@ownerOption.Text</option>
+                    }
+                </select>
+            </div>
+        </div>
+    }
+</div>
+<style>
+</style>
+<div class="operateSubMenuList" id="movementSummarySubMenuList">
+    <div class="movementSummarySelectionSubgroupTitle" data-toggle="collapse" data-target="#PrivateMovementSummarySelection"><span class="glyphicon glyphicon-minus"></span><b>Private Movement Summaries</b></div>
+    <div id="PrivateMovementSummarySelection" class="collapse in">
+        @foreach (var movementSummaryMenuModel in Model.GetPrivateMovementSummary())
+        {
+            var enableDelete = movementSummaryMenuModel.ModifyMovementSummaryRight ? "" : "display: none;";
+            var ownerKey = movementSummaryMenuModel.Owner == "Unavailable" ? "__unavailable__" : movementSummaryMenuModel.OwnerUserGuid.ToString();
+            var movementSummaryTitle = string.Format("{0} — Owner: {1}", movementSummaryMenuModel.ID, movementSummaryMenuModel.Owner);
+            <div class="operateMovementSummarySubMenuElement graphics-dontsplit row" data-guid="@movementSummaryMenuModel.MovementSummaryGuid" data-owner-key="@ownerKey" onclick="FMOperateIndex.OpenMovementSummary( '@movementSummaryMenuModel.ID', '@movementSummaryMenuModel.MovementSummaryGuid' )">
+                <div class="operateMovementSummarySubmenuTitle" title="@movementSummaryTitle">@movementSummaryMenuModel.ID<span class="edit-icon pull-right glyphicon glyphicon-trash" title="Delete Movement Summary" onclick="FMOperateIndex.DeleteMovementSummary( '@movementSummaryMenuModel.MovementSummaryGuid', '@movementSummaryMenuModel.ID' ); event.stopPropagation();" style="@enableDelete"></span></div>
+                <textarea readonly class="operateMovementSummarySubmenuTileDescription detail-view" title="@movementSummaryMenuModel.Description">@movementSummaryMenuModel.Description</textarea>
+            </div>
+        }
+    </div>
+    <div class="movementSummarySelectionSubgroupTitle" data-toggle="collapse" data-target="#PublicMovementSummarySelection"><span class="glyphicon glyphicon-minus"></span><b>Public Movement Summaries</b></div>
+    <div id="PublicMovementSummarySelection" class="collapse in">
+        @foreach (var movementSummaryMenuModel in Model.GetPublicMovementSummary())
+        {
+            var enableDelete = movementSummaryMenuModel.ModifyPublicMovementSummaryRight ? "" : "display: none;";
+            var ownerKey = movementSummaryMenuModel.OwnerUserGuid.ToString() == "00000000-0000-0000-0000-000000000000" ? "__system__" : movementSummaryMenuModel.OwnerUserGuid.ToString();
+            var movementSummaryTitle = string.Format("{0} — Owner: {1}", movementSummaryMenuModel.ID, movementSummaryMenuModel.Owner);
+            <div class="operateMovementSummarySubMenuElement graphics-dontsplit row" data-guid="@movementSummaryMenuModel.MovementSummaryGuid" data-owner-key="@ownerKey" onclick="FMOperateIndex.OpenMovementSummary( '@movementSummaryMenuModel.ID', '@movementSummaryMenuModel.MovementSummaryGuid' )">
+                <div class="operateMovementSummarySubmenuTitle" title="@movementSummaryTitle">@movementSummaryMenuModel.ID<span class="edit-icon pull-right glyphicon glyphicon-trash" title="Delete Movement Summary" onclick="FMOperateIndex.DeleteMovementSummary( '@movementSummaryMenuModel.MovementSummaryGuid', '@movementSummaryMenuModel.ID' ); event.stopPropagation();" style="@enableDelete"></span></div>
+                <textarea readonly class="operateMovementSummarySubmenuTileDescription detail-view" title="@movementSummaryMenuModel.Description">@movementSummaryMenuModel.Description</textarea>
+            </div>
+        }
+    </div>
+
+    <div class="movementSummarySelectionSubgroupTitle" data-toggle="collapse" data-target="#SharedMovementSummarySelection"><span class="glyphicon glyphicon-minus"></span><b>Shared Movement Summaries</b></div>
+    <div id="SharedMovementSummarySelection" class="collapse in">
+        @foreach (var movementSummaryMenuModel in Model.GetSharedMovementSummary())
+        {
+            var enableDelete = movementSummaryMenuModel.ModifySharedMovementSummaryRight ? "" : "display: none;";
+            var ownerKey = movementSummaryMenuModel.Owner == "Unavailable" ? "__unavailable__" : movementSummaryMenuModel.OwnerUserGuid.ToString();
+            var movementSummaryTitle = string.Format("{0} — Owner: {1}", movementSummaryMenuModel.ID, movementSummaryMenuModel.Owner);
+            <div class="operateMovementSummarySubMenuElement graphics-dontsplit row" data-guid="@movementSummaryMenuModel.MovementSummaryGuid" data-owner-key="@ownerKey" onclick="FMOperateIndex.OpenMovementSummary( '@movementSummaryMenuModel.ID', '@movementSummaryMenuModel.MovementSummaryGuid' )">
+                <div class="operateMovementSummarySubmenuTitle" title="@movementSummaryTitle">
+                    @movementSummaryMenuModel.ID @if (movementSummaryMenuModel.IsEditable)
+                    {<span class="edit-icon pull-right glyphicon glyphicon-trash" title="Delete Movement Summary" onclick="FMOperateIndex.DeleteMovementSummary( '@movementSummaryMenuModel.MovementSummaryGuid', '@movementSummaryMenuModel.ID' ); event.stopPropagation();" style="@enableDelete"></span>}
+                </div>
+                <textarea readonly class="operateMovementSummarySubmenuTileDescription detail-view" title="@movementSummaryMenuModel.Description">@movementSummaryMenuModel.Description</textarea>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="operateSubMenuButtonGroup" id="MovementSummarySubMenuButtonGroup" style="@ModifyMovementSummaryDisplay">
+    <div class="row">
+        <div class="col-sm-12 ">
+            <div class="SubMenubutton" title='@FMBaseController.TranslateText("Add Movement Summary")' onclick="FMOperateIndex.AddMovementSummary()"><span class="glyphicon glyphicon-plus-sign" style="margin-right:7px"></span>@FMBaseController.TranslateText("Add Movement Summary")</div>
+        </div>
+    </div>
+    @if (Model.AdministerMovementSummaryRight)
+    {
+        <div class="row" style="margin-top: 10px">
+            <div class="col-sm-12 ">
+                <div id="MovementSummaryDeleteAllButton" class="SubMenubutton" title='@FMBaseController.TranslateText("Delete all Movement Summaries")' onclick="FMOperateIndex.DeleteMultipleMovementSummaries()">
+                    <span class="glyphicon glyphicon-trash" style="margin-right:7px"></span>@FMBaseController.TranslateText("Delete All")
+                </div>
+            </div>
+        </div>
+    }
+</div>
+</div>
+
+<script>
+
+    if (FMOperateIndex.hasOwnProperty("selectedMovementSummaryName") == false)
+    {
+        FMOperateIndex.selectedMovementSummaryName = "";
+    }
+    if (FMOperateIndex.hasOwnProperty("selectedMovementSummaryOwner") == false)
+    {
+        FMOperateIndex.selectedMovementSummaryOwner = "";
+    }
+
+    //======================================================================================================
+    // Based on the current view selection in the movement summary rolldown menu, set the view to display.
+    //======================================================================================================
+    function ResetMovementSummaryInputViewMode()
+    {
+        if ($("#MovementSummarySelectionViewMode").hasClass("listViewSwitch"))
+        {
+            $("#MovementSummarySelectionViewMode").removeClass("glyphicon-align-justify").addClass("glyphicon-th-list");
+            $('.list-view').css('display', 'inherit');
+            $('.detail-view').css('display', 'none');
+            $('.operateMovementSummarySubMenuElement').css('height', '30px');
+        }
+        else
+        {
+            $("#MovementSummarySelectionViewMode").removeClass("glyphicon-th-list").addClass("glyphicon-align-justify");
+            $('.list-view').css('display', 'none');
+            $('.detail-view').css('display', 'inherit');
+            $('.operateMovementSummarySubMenuElement').css('height', '70px');
+        }
+    }
+
+    //====================================================================
+    // This function will handle the movement summary list filtering
+    //====================================================================
+    $("#filter_movementSummary").on('input', function ()
+    {
+        var filterTxt = $(this).val();
+
+        if (filterTxt === $(this).data('oldvalue'))
+        {
+            return;
+        }
+        else
+        {
+            $(this).data('oldvalue', filterTxt);
+        }
+
+        FMOperateIndex.selectedMovementSummaryName = filterTxt;
+        FMOperateIndex.MovementSummaryListRolloutMenuFiltering();
+    });
+
+    $("#filter_movementSummary_owner").on('change', function ()
+    {
+        FMOperateIndex.selectedMovementSummaryOwner = $(this).val();
+        FMOperateIndex.MovementSummaryListRolloutMenuFiltering();
+    });
+
+
+    //=====================================================================
+    // This function handles the movement summary list rollout menu
+    // filtering.
+    //=====================================================================
+    FMOperateIndex.MovementSummaryListRolloutMenuFiltering = function ()
+    {
+        var filterTxt = FMOperateIndex.selectedMovementSummaryName;
+        var ownerFilter = FMOperateIndex.selectedMovementSummaryOwner;
+        
+        // No points to be found, just return.
+        if ($('.operateMovementSummarySubMenuElement').length === 0)
+            return;
+
+        $('#PrivateMovementSummarySelection').uncolumnize();
+        $('#PublicMovementSummarySelection').uncolumnize();
+        $('#SharedMovementSummarySelection').uncolumnize();
+
+        ResetMovementSummaryInputViewMode();
+
+        $('.operateMovementSummarySubMenuElement').each(function ()
+        {
+            var matchesName = filterTxt === ""
+                || $(this).find('.operateMovementSummarySubmenuTitle').text().toLowerCase().indexOf(filterTxt.toLowerCase()) >= 0;
+            var matchesOwner = ownerFilter === ""
+                || ($(this).attr("data-owner-key") || "").toLowerCase() === ownerFilter.toLowerCase();
+            $(this).toggleClass("hidden", !(matchesName && matchesOwner));
+        });
+        $('#PrivateMovementSummarySelection').columnize({
+            columns: 2,
+            buildOnce: true,
+            cssClassPrefix: "graphics",
+            lastNeverTallest: true
+        });
+        $('#PublicMovementSummarySelection').columnize({
+            columns: 2,
+            buildOnce: true,
+            cssClassPrefix: "graphics",
+            lastNeverTallest: true
+        });
+        $('#SharedMovementSummarySelection').columnize({
+            columns: 2,
+            buildOnce: true,
+            cssClassPrefix: "graphics",
+            lastNeverTallest: true
+        });
+
+        // need to destroy and rebuild nicescroll since the refresh does not seem to be working on this case
+        $(".operateSubMenuList").getNiceScroll().remove();
+        $(".operateSubMenuList").niceScroll({ cursorwidth: '10px', autohidemode: false, cursorcolor: "#486899", background: "white" });
+
+        $("#filter_movementSummary").val(filterTxt);  // we need the focus at the end of the last character in the input
+        $("#filter_movementSummary").focus(); // have to reset the focus since it loses focus when running columnize
+        $("#filter_movementSummary_owner").val(ownerFilter);
+    }
+
+
+    $(document).ready(function ()
+    {
+        // Expand and hide the movement summary types (private, public, share )
+        $('#PrivateMovementSummarySelection, #PublicMovementSummarySelection, #SharedMovementSummarySelection').on('show.bs.collapse', function () {
+            var controlId = $(this).attr("id");
+            $(".movementSummarySelectionSubgroupTitle[data-target='#" + controlId + "'] span").removeClass('glyphicon-plus').addClass('glyphicon-minus');
+        });
+
+        $('#PrivateMovementSummarySelection, #PublicMovementSummarySelection, #SharedMovementSummarySelection').on('hide.bs.collapse', function () {
+            var controlId = $(this).attr("id");
+            $(".movementSummarySelectionSubgroupTitle[data-target='#" + controlId + "'] span").removeClass('glyphicon-minus').addClass('glyphicon-plus');
+        });
+
+        $('#MovementSummarySelectionViewMode').on('click', function (e)
+        {
+            if ($("#MovementSummarySelectionViewMode").hasClass("listViewSwitch"))
+            {
+                $("#MovementSummarySelectionViewMode").removeClass("listViewSwitch").addClass("detailViewSwitch");
+                $("#MovementSummarySelectionViewMode").removeClass("glyphicon-th-list").addClass("glyphicon-align-justify");
+                $("#MovementSummarySelectionViewMode").attr("title", "Switch to Compact View");
+                $('.list-view').css('display', 'none');
+                $('.detail-view').css('display', 'inherit');
+                $('.operateMovementSummarySubMenuElement').css('height', '70px');
+                FMOperateIndex.PersistUpdateFilterView("movementSummaryViewSelection", 'detailView');
+            }
+            else
+            {
+                $("#MovementSummarySelectionViewMode").removeClass("detailViewSwitch").addClass("listViewSwitch");
+                $("#MovementSummarySelectionViewMode").removeClass("glyphicon-align-justify").addClass("glyphicon-th-list");
+                $("#MovementSummarySelectionViewMode").attr("title", "Switch to Detail View");
+                $('.list-view').css('display', 'inherit');
+                $('.detail-view').css('display', 'none');
+                $('.operateMovementSummarySubMenuElement').css('height', '30px');
+                FMOperateIndex.PersistUpdateFilterView("movementSummaryViewSelection", 'compactView');
+            }
+            $(".operateSubMenuList").getNiceScroll().resize();
+        });
+
+        // check the selected view that was used previously
+        var viewMode = FMOperateIndex.GetSelectedFilterView("movementSummaryViewSelection");
+
+        if (viewMode != null)
+        {
+            if (viewMode === 'detailView')
+            {
+                $("#MovementSummarySelectionViewMode").removeClass("listViewSwitch").addClass("detailViewSwitch");
+					 $("#MovementSummarySelectionViewMode").attr("title", "Switch to Compact View");
+            }
+            else
+            {
+                $("#MovementSummarySelectionViewMode").removeClass("detailViewSwitch").addClass("listViewSwitch");
+					 $("#MovementSummarySelectionViewMode").attr("title", "Switch to Detail View");
+            }
+
+            ResetMovementSummaryInputViewMode();
+        }
+
+        // In IE when setting the focus, the cursor is placed in the first position and we need to have it
+        // in the last character to continue typing the filter
+        // Based on http://stackoverflow.com/questions/511088/use-javascript-to-place-cursor-at-end-of-text-in-text-input-element
+        $("#filter_movementSummary").focus(function ()
+        {
+            var that = this;
+            setTimeout(function () { that.selectionStart = that.selectionEnd = 10000; }, 0);
+        });
+
+        // if we have values from a previous selection then reset the content and call to filter
+        if (FMOperateIndex.selectedMovementSummaryName !== "")
+        {
+            $("#filter_movementSummary").val(FMOperateIndex.selectedMovementSummaryName);
+        }
+
+        if ($("#filter_movementSummary_owner option[value='" + FMOperateIndex.selectedMovementSummaryOwner + "']").length > 0)
+        {
+            $("#filter_movementSummary_owner").val(FMOperateIndex.selectedMovementSummaryOwner);
+        }
+        else
+        {
+            FMOperateIndex.selectedMovementSummaryOwner = "";
+        }
+
+        if (FMOperateIndex.selectedMovementSummaryName !== "" || FMOperateIndex.selectedMovementSummaryOwner !== "")
+        {
+            FMOperateIndex.MovementSummaryListRolloutMenuFiltering();
+        }
+
+    });
+</script>
+
+

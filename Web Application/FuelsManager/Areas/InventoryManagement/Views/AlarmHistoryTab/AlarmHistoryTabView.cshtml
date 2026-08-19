@@ -1,0 +1,478 @@
+﻿@using System.Web.Mvc.Html
+@using FMBusinessObjects.UtilityObjects
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.AlarmHistoryTabModel
+
+<link href="~/Areas/Content/AlarmHistoryTab.css" rel="stylesheet" type="text/css" />
+
+<script>
+	$(function ()
+	{
+		FMLayout.calendarLocation = '@Url.Content("~/DispatchWebApp/images")';
+	});
+</script>
+
+@using (Html.BeginForm("AlarmHistoryTabView", "AlarmHistoryTab", FormMethod.Get, new
+{
+    @class = "",
+    @id = "AlarmHistoryTabView"
+}))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("AlarmHistoryGetDataUrl", @Url.Action("GetData", "AlarmHistoryTab"))
+    @Html.Hidden("AlarmHistoryGetColumnFilterDataUrl", @Url.Action("AlarmHistoryTabColumnFilterGetFilter", "AlarmHistoryTab"))
+    @Html.Hidden("AlarmHistoryUpdateCommentUrl", @Url.Action("UpdateComment", "AlarmHistoryTab"))
+    @Html.Hidden("AlarmHistorySaveViewStateUrl", @Url.Action("SaveViewState", "AlarmHistoryTab"))
+    @Html.Hidden("AlarmHistoryTabModel", AlarmHistoryTabController.SerializeModel(Model))
+    //@Html.Hidden("AlarmHistory_DD_Alarms", FMBaseController.TranslateText("Alarms"))
+    @Html.Hidden("AlarmHistory_DD_Alarms", FMBaseController.TranslateText(""))
+    @Html.Hidden("AlarmHistory_DD_Show", FMBaseController.TranslateText("Show"))
+    @Html.Hidden("AlarmHistory_DD_Processing", FMBaseController.TranslateText("Processing"))
+    @Html.Hidden("AlarmHistory_DD_Showing", FMBaseController.TranslateText("Showing"))
+    @Html.Hidden("AlarmHistory_DD_to", FMBaseController.TranslateText("to"))
+    @Html.Hidden("AlarmHistory_DD_of", FMBaseController.TranslateText("of"))
+    @Html.Hidden("AlarmsDictionary", FMBaseController.TranslateText("Alarms"))
+    @Html.Hidden("EventsDictionary", FMBaseController.TranslateText("Events"))
+    @Html.Hidden("AlarmsEventsDictionary", FMBaseController.TranslateText("Alarms & Events"))
+
+	var timeStamp = FMBaseController.TranslateText("TimeStamp");
+	var site = FMBaseController.TranslateText("Site");
+	var pointType = FMBaseController.TranslateText("Point Type");
+	var point = FMBaseController.TranslateText("Point");
+	var pointDescription = FMBaseController.TranslateText("Description");
+	var variable = FMBaseController.TranslateText("Variable");
+	var value = FMBaseController.TranslateText("Value");
+	var units = FMBaseController.TranslateText("Units");
+	var alarmState = FMBaseController.TranslateText("Alarm State");
+	var priority = FMBaseController.TranslateText("Priority");
+	var action = FMBaseController.TranslateText("Action");
+	var user = FMBaseController.TranslateText("User");
+	var comments = FMBaseController.TranslateText("Comments");
+	var commentUserName = FMBaseController.TranslateText("User For Comment");
+	var commentDateTime = FMBaseController.TranslateText("Date Of Comment");
+	var alarmsDictionary = FMBaseController.TranslateText("Alarms");
+	var eventsDictionary = FMBaseController.TranslateText("Events");
+	var alarmsEventsDictionary = FMBaseController.TranslateText("Alarms & Events");
+	var alarmGuid = "Alarm Guid";
+	var alarmAndEventRecordGuid = "Alarm And Event Record Guid";
+
+
+	var numFormatInfoString = String.Format("{{{0}"
+											  + "\"NegativeSign\":\"{1}\",{0}"
+											  + "\"NumberDecimalDigits\":{2},{0}"
+											  + "\"NumberDecimalSeparator\":\"{3}\",{0}"
+											  + "\"NumberGroupSeparator\":\"{4}\",{0}"
+											  + "\"NumberGroupSizes\":{5},{0}"
+											  + "\"NumberNegativePattern\":{6},{0}"
+											  + "\"ShortDatePattern\":\"{7}\",{0}"
+											  + "\"TimePattern\":\"{8}\"{0}}}",
+											  Environment.NewLine,
+											  "-",
+											  0,
+											  Model.Site.NumberDecimalSeparator,
+											  Model.Site.NumberGroupSeparator,
+											  Model.Site.GetNumberGroupSizes()[0],
+											  1,
+											  Model.Site.ShortDatePattern,
+											  Model.Site.TimePattern);
+
+
+    <input id="NumberFormatInfoString" type="hidden" value='@numFormatInfoString' />
+
+    <section id="AlarmHistoryTableSection">
+        <div id="alarmHistoryTopDiv" style="padding-top: 5px; padding-bottom: 5px;">
+            <div id="alarmHistoryTopCustomTypeControlDiv">
+                <table id="alarmHistoryTypeControlTable">
+                    <tr>
+                        <td style="padding-right: 25px;height: 34px;">
+                            <div id="columnsTypeDivOutter">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <label id="columnsTypeLabel"></label>
+                                        </td>
+                                        <td>
+                                            <div id="columnsTypeDiv" class="columnsTypeDivNoBorder">
+                                                <div id="columnsTypeInputArea" style="width: 140px;" onclick="AlarmHistoryTab.HandleColumnTypeFilterDropdownExpandCollapse()">
+                                                    <label id="showHideColumnsTypeLabel">@FMBaseController.TranslateText("Alarms")</label>
+                                                    <span class="dropdownarrowicon glyphicon glyphicon-triangle-bottom pull-right"></span>
+                                                </div>
+                                            </div>
+                                            <div id="ColumnTypeFilterDiv" class="hidden" style="width: 140px">
+                                                <ul id="ColumnTypeFilterUl">
+                                                    <li id="AlarmLi" class="ColumnTypeFilterLiClass">
+                                                        <label>
+                                                            <input id="AlarmRadioBtn" type="radio" value="0" onchange='AlarmHistoryTab.HandleColumnTypeFilterRadioChange( "AlarmRadioBtn" );' />
+                                                            <span></span>
+                                                        </label>
+                                                        <label for="AlarmRadioBtn" class="ColumnFilterCheckboxLabelClass">@alarmsDictionary</label>
+                                                    </li>
+                                                    <li id="EventLi" class="ColumnTypeFilterLiClass">
+                                                        <label>
+                                                            <input id="EventRadioBtn" type="radio" value="0" onchange='AlarmHistoryTab.HandleColumnTypeFilterRadioChange( "EventRadioBtn" );' />
+                                                            <span></span>
+                                                        </label>
+                                                        <label for="EventRadioBtn" class="ColumnFilterCheckboxLabelClass">@eventsDictionary</label>
+                                                    </li>
+                                                    <li id="AlarmAndEventLi" class="ColumnTypeFilterLiClass">
+                                                        <label>
+                                                            <input id="AlarmAndEventRadioBtn" type="radio" value="0" onchange='AlarmHistoryTab.HandleColumnTypeFilterRadioChange( "AlarmAndEventRadioBtn" );' />
+                                                            <span></span>
+                                                        </label>
+                                                        <label for="AlarmAndEventRadioBtn" class="ColumnFilterCheckboxLabelClass">@alarmsEventsDictionary</label>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="alarmHistoryTopCustomButtonDiv">
+                <button id="alarmHistoryRefreshButton" type="button" class="alarmHistoryHeaderButtonClass" onclick="javascript: return AlarmHistoryTab.HandleColumnFilterRefresh();">
+                    <Span>
+                        <img src="~/fmwebapp/images/RefreshMini.png" alt=@FMBaseController.TranslateText("Refresh") />
+                    </Span>
+                    @FMBaseController.TranslateText("Refresh")
+                </button>
+                <button id="alarmHistoryCSVButton" type="button" class="alarmHistoryHeaderButtonClass" onclick="javascript: AlarmHistoryTab.ExportCSV();">
+                    @FMBaseController.TranslateText("Export CSV")
+                </button>
+                <button id="alarmHistoryGraphicButton" type="button" class="alarmHistoryHeaderButtonClass hidden" onclick="javascript: return AlarmHistoryTab.AlarmGraphic();">
+                    <Span style="vertical-align: middle; padding: 0; border: 0;">
+                        <img src="~/fmwebapp/images/Alarm-Graphic.png" style="position: relative; left: -6px !important; top: -4px;" alt=@FMBaseController.TranslateText("Alarm Graphic") />
+                    </Span>
+                    @FMBaseController.TranslateText("Alarm Graphic")
+                </button>
+                <button id="alarmHistoryHelpButton" type="button" class="alarmHistoryHeaderButtonClass hidden" onclick="javascript: return AlarmHistoryTab.Help();">
+                    <Span style="vertical-align: middle; padding: 0; border: 0;">
+                        <img src="~/fmwebapp/images/Help.png" style="position: relative; left: -6px !important; top: -4px;" alt=@FMBaseController.TranslateText("Help") />
+                    </Span>
+                    @FMBaseController.TranslateText("Help")
+                </button>
+                <button id="alarmHistoryDetailsButton" type="button" class="alarmHistoryHeaderButtonClass hidden" onclick="javascript: return AlarmHistoryTab.Details();">
+                    <Span style="vertical-align: middle; padding: 0; border: 0;">
+                        <img src="~/fmwebapp/images/Details.png" style="position: relative; left: -6px !important; top: -4px;" alt=@FMBaseController.TranslateText("Details") />
+                    </Span>
+                    @FMBaseController.TranslateText("Details")
+                </button>
+            </div>
+            <div id="alarmHistoryTopCustomControlDiv" class="pull-right">
+                <table id="alarmHistoryTopCustomControlTable">
+                    <tr>
+                        <td style="padding-right: 25px;">
+                            <div id="columnsDivOutter">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <label id="columnsLabel"></label>
+                                        </td>
+                                        <td>
+                                            <div id="columnsDiv" class="columnsDivNoBorder">
+                                                <div id="columnsInputArea" style="width: 180px;" onclick="AlarmHistoryTab.HandleColumnFilterDropdownExpandCollapse()">
+                                                    <label id="showHideColumnsLabel">@FMBaseController.TranslateText("Show/Hide Columns")</label>
+                                                    <span id="ColumnFilterDropDownArrow" class="dropdownarrowicon glyphicon glyphicon-triangle-bottom pull-right"></span>
+                                                </div>
+                                            </div>
+                                            <div id="ColumnFilterDiv" class="hidden" style="width: 180px">
+                                                <ul id="ColumnFilterUl">
+                                                    <li id="DateTimeLi" class="ColumnFilterLiClass">
+                                                        <label class="customCheckboxDisabled">
+                                                            <input id="DateTimeCheckbox" disabled="disabled" type="checkbox" value="0" onchange='AlarmHistoryTab.HandleColumnFilterCheckboxChange( this );' />
+                                                            <span></span>
+                                                        </label>
+                                                        <label for="DateTimeCheckbox" class="ColumnFilterCheckboxLabelClass">@FMBaseController.TranslateText("Timestamp")</label>
+                                                    </li>
+                                                    <li class="ColumnFilterLiClass">
+                                                        <label class="customCheckbox">
+                                                            <input id="SiteCheckbox" type="checkbox" value="1" onchange='AlarmHistoryTab.HandleColumnFilterCheckboxChange( this );' />
+                                                            <span></span>
+                                                        </label>
+                                                        <label for="SiteCheckbox" class="ColumnFilterCheckboxLabelClass">@FMBaseController.TranslateText("Site")</label>
+                                                    </li>
+                                                    <li class="ColumnFilterLiClass">
+                                                        <label class="customCheckbox">
+                                                            <input id="PointTypeCheckbox" type="checkbox" value="2" onchange='AlarmHistoryTab.HandleColumnFilterCheckboxChange( this );' />
+                                                            <span></span>
+                                                        </label>
+                                                        <label for="PointTypeCheckbox" class="ColumnFilterCheckboxLabelClass">@FMBaseController.TranslateText("Point Type")</label>
+                                                    </li>
+                                                    <li class="ColumnFilterLiClass">
+                                                        <label class="customCheckbox">
+                                                            <input id="PointCheckbox" type="checkbox" value="3" onchange='AlarmHistoryTab.HandleColumnFilterCheckboxChange( this );' />
+                                                            <span></span>
+                                                        </label>
+                                                        <label for="PointCheckbox" class="ColumnFilterCheckboxLabelClass">@FMBaseController.TranslateText("Point")</label>
+                                                    </li>
+                                                    <li class="ColumnFilterLiClass">
+                                                        <label class="customCheckbox">
+                                                            <input id="PointDescriptionCheckbox" type="checkbox" value="4" onchange='AlarmHistoryTab.HandleColumnFilterCheckboxChange( this );' />
+                                                            <span></span>
+                                                        </label>
+                                                        <label for="PointDescriptionCheckbox" class="ColumnFilterCheckboxLabelClass">@FMBaseController.TranslateText("Description")</label>
+                                                    </li>
+                                                    <li class="ColumnFilterLiClass">
+                                                        <label class="customCheckbox">
+                                                            <input id="VariableCheckbox" type="checkbox" value="5" onchange='AlarmHistoryTab.HandleColumnFilterCheckboxChange( this );' />
+                                                            <span></span>
+                                                        </label>
+                                                        <label for="VariableCheckbox" class="ColumnFilterCheckboxLabelClass">@FMBaseController.TranslateText("Variable")</label>
+                                                    </li>
+                                                    <li class="ColumnFilterLiClass">
+                                                        <label class="customCheckbox">
+                                                            <input id="ValueCheckbox" type="checkbox" value="6" onchange='AlarmHistoryTab.HandleColumnFilterCheckboxChange( this );' />
+                                                            <span></span>
+                                                        </label>
+                                                        <label for="ValueCheckbox" class="ColumnFilterCheckboxLabelClass">@FMBaseController.TranslateText("Value")</label>
+                                                    </li>
+                                                    <li class="ColumnFilterLiClass">
+                                                        <label class="customCheckbox">
+                                                            <input id="UnitsCheckbox" type="checkbox" value="7" onchange='AlarmHistoryTab.HandleColumnFilterCheckboxChange( this );' />
+                                                            <span></span>
+                                                        </label>
+                                                        <label for="UnitsCheckbox" class="ColumnFilterCheckboxLabelClass">@FMBaseController.TranslateText("Units")</label>
+                                                    </li>
+                                                    <li class="ColumnFilterLiClass">
+                                                        <label class="customCheckbox">
+                                                            <input id="AlarmStateCheckbox" type="checkbox" value="8" onchange='AlarmHistoryTab.HandleColumnFilterCheckboxChange( this );' />
+                                                            <span></span>
+                                                        </label>
+                                                        <label for="AlarmStateCheckbox" class="ColumnFilterCheckboxLabelClass">@FMBaseController.TranslateText("Alarm State")</label>
+                                                    </li>
+                                                    <li class="ColumnFilterLiClass">
+                                                        <label class="customCheckbox">
+                                                            <input id="PriorityCheckbox" type="checkbox" value="9" onchange='AlarmHistoryTab.HandleColumnFilterCheckboxChange( this );' />
+                                                            <span></span>
+                                                        </label>
+                                                        <label for="PriorityCheckbox" class="ColumnFilterCheckboxLabelClass">@FMBaseController.TranslateText("Priority")</label>
+                                                    </li>
+                                                    <li class="ColumnFilterLiClass">
+                                                        <label class="customCheckbox">
+                                                            <input id="ActionCheckbox" type="checkbox" value="10" onchange='AlarmHistoryTab.HandleColumnFilterCheckboxChange( this );' />
+                                                            <span></span>
+                                                        </label>
+                                                        <label for="ActionCheckbox" class="ColumnFilterCheckboxLabelClass">@FMBaseController.TranslateText("Action")</label>
+                                                    </li>
+                                                    <li class="ColumnFilterLiClass">
+                                                        <label class="customCheckbox">
+                                                            <input id="UserCheckbox" type="checkbox" value="11" onchange='AlarmHistoryTab.HandleColumnFilterCheckboxChange( this );' />
+                                                            <span></span>
+                                                        </label>
+                                                        <label for="UserCheckbox" class="ColumnFilterCheckboxLabelClass">@FMBaseController.TranslateText("User")</label>
+                                                    </li>
+                                                    <li class="ColumnFilterLiClass">
+                                                        <label class="customCheckbox">
+                                                            <input id="CommentsCheckbox" type="checkbox" value="12" onchange='AlarmHistoryTab.HandleColumnFilterCheckboxChange( this );' />
+                                                            <span></span>
+                                                        </label>
+                                                        <label for="CommentsCheckbox" class="ColumnFilterCheckboxLabelClass">@FMBaseController.TranslateText("Comments")</label>
+                                                    </li>
+                                                    <li class="ColumnFilterLiClass">
+                                                        <label class="customCheckbox">
+                                                            <input id="CommentUserNameCheckbox" type="checkbox" value="13" onchange='AlarmHistoryTab.HandleColumnFilterCheckboxChange( this );' />
+                                                            <span></span>
+                                                        </label>
+                                                        <label for="CommentUserNameCheckbox" class="ColumnFilterCheckboxLabelClass">@FMBaseController.TranslateText("User For Comment")</label>
+                                                    </li>
+                                                    <li class="ColumnFilterLiClass">
+                                                        <label class="customCheckbox">
+                                                            <input id="CommentDateTimeCheckbox" type="checkbox" value="14" onchange='AlarmHistoryTab.HandleColumnFilterCheckboxChange( this );' />
+                                                            <span></span>
+                                                        </label>
+                                                        <label for="CommentDateTimeCheckbox" class="ColumnFilterCheckboxLabelClass">@FMBaseController.TranslateText("Date Of Comment")</label>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                        <td>
+                            <div id="alarmHistoryFindDivOutter" style="position: relative;float: right;">
+                                <label id="alarmHistoryFindLabel">@FMBaseController.TranslateText("Find"):</label>
+                                <div id="alarmHistoryFindDiv" class="findDivNoBorder">
+                                    <div id="alarmHistoryFindInputArea">
+                                        <input id="alarmHistoryTabFind" type="text" class="form-control" autocomplete="off" onkeypress="javascript: return AlarmHistoryTab.PreventEnterSubmit();">
+                                        <img alt="Find Icon" title="Find" src="~/fmwebapp/images/Search Icon.png">
+                                    </div>
+                                </div>
+                                <div id="alarmHistoryFindResultsRow" class="findResultsRowHidden hidden">
+                                    <div id="alarmHistoryFindResultsDiv" class="findResultsDivBorder">
+                                        <label id="alarmHistoryFindResultsLabel"><i>@FMBaseController.TranslateText("0 results")</i></label>
+                                        <button id="alarmHistoryFindPrevButton" type="button" class="alarmHistoryFindButtonClass" onclick="javascript: return AlarmHistoryTab.FindPrev();">
+                                            <span class="glyphicon glyphicon-triangle-left"></span>
+                                            @FMBaseController.TranslateText("Prev.")
+                                        </button>
+                                        <button id="alarmHistoryFindNexButton" type="button" class="alarmHistoryFindButtonClass" onclick="javascript: return AlarmHistoryTab.FindNext();">
+                                            @FMBaseController.TranslateText("Next")
+                                            <span class="glyphicon glyphicon-triangle-right"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div id="AlarmHistoryTableContainer" class="col-xs-12">
+                <table id="AlarmHistoryTable" class="table table-striped hover alarmHistoryTableClass">
+                    <thead style="border: none;">
+							  <tr style="border: none;">
+							  	<th class="col-sm-2 col-md-2 text-center alarmHistoryTableCellEx" oncontextmenu="AlarmHistoryTab.HandleTableHeaderOnContextMenuEvent(AlarmHistoryTab.dateTimeColumnIndex); return false;">@timeStamp</th>
+							  <th class="col-sm-2 col-md-2 text-center alarmHistoryTableCellEx" oncontextmenu="AlarmHistoryTab.HandleTableHeaderOnContextMenuEvent(AlarmHistoryTab.siteColumnIndex); return false;">@site</th>
+							  <th class="col-sm-2 col-md-2 text-center alarmHistoryTableCellEx" oncontextmenu="AlarmHistoryTab.HandleTableHeaderOnContextMenuEvent(AlarmHistoryTab.pointTypeColumnIndex); return false;">@pointType</th>
+							  <th class="col-sm-2 col-md-2 text-center alarmHistoryTableCellEx" oncontextmenu="AlarmHistoryTab.HandleTableHeaderOnContextMenuEvent(AlarmHistoryTab.pointColumnIndex); return false;">@point</th>
+							  <th class="col-sm-2 col-md-2 text-center alarmHistoryTableCellEx" oncontextmenu="AlarmHistoryTab.HandleTableHeaderOnContextMenuEvent(AlarmHistoryTab.pointDescriptionColumnIndex); return false;">@pointDescription</th>
+							  <th class="col-sm-2 col-md-2 text-center alarmHistoryTableCellEx" oncontextmenu="AlarmHistoryTab.HandleTableHeaderOnContextMenuEvent(AlarmHistoryTab.variableColumnIndex); return false;">@variable</th>
+							  <th class="col-sm-2 col-md-2 text-center alarmHistoryTableCellEx" oncontextmenu="AlarmHistoryTab.HandleTableHeaderOnContextMenuEvent(AlarmHistoryTab.valueColumnIndex); return false;">@value</th>
+							  <th class="col-sm-2 col-md-2 text-center alarmHistoryTableCellEx" oncontextmenu="AlarmHistoryTab.HandleTableHeaderOnContextMenuEvent(AlarmHistoryTab.unitsColumnIndex); return false;">@units</th>
+							  <th class="col-sm-2 col-md-2 text-center alarmHistoryTableCellEx" oncontextmenu="AlarmHistoryTab.HandleTableHeaderOnContextMenuEvent(AlarmHistoryTab.alarmStateColumnIndex); return false;">@alarmState</th>
+							  <th class="col-sm-2 col-md-2 text-center alarmHistoryTableCellEx" oncontextmenu="AlarmHistoryTab.HandleTableHeaderOnContextMenuEvent(AlarmHistoryTab.priorityColumnIndex); return false;">@priority</th>
+							  <th class="col-sm-2 col-md-2 text-center alarmHistoryTableCellEx" oncontextmenu="AlarmHistoryTab.HandleTableHeaderOnContextMenuEvent(AlarmHistoryTab.actionColumnIndex); return false;">@action</th>
+							  <th class="col-sm-2 col-md-2 text-center alarmHistoryTableCellEx" oncontextmenu="AlarmHistoryTab.HandleTableHeaderOnContextMenuEvent(AlarmHistoryTab.userColumnIndex); return false;">@user</th>
+							  <th class="col-sm-2 col-md-2 text-center alarmHistoryTableCellEx" oncontextmenu="AlarmHistoryTab.HandleTableHeaderOnContextMenuEvent(AlarmHistoryTab.commentsColumnIndex); return false;">@comments<span class="glyphicon glyphicon-pencil" style="margin-left: 5px;"></span></th>
+							  <th class="col-sm-2 col-md-2 text-center alarmHistoryTableCellEx" oncontextmenu="AlarmHistoryTab.HandleTableHeaderOnContextMenuEvent(AlarmHistoryTab.commentUserNameColumnIndex); return false;">@commentUserName</th>
+							  <th class="col-sm-2 col-md-2 text-center alarmHistoryTableCellEx" oncontextmenu="AlarmHistoryTab.HandleTableHeaderOnContextMenuEvent(AlarmHistoryTab.commentDateTimeColumnIndex); return false;">@commentDateTime</th>
+							  <th class="col-sm-2 col-md-2 text-center alarmHistoryTableCellEx" oncontextmenu="AlarmHistoryTab.HandleTableHeaderOnContextMenuEvent(AlarmHistoryTab.alarmGuidColumnIndex); return false;">@alarmGuid</th>
+							  <th class="col-sm-2 col-md-2 text-center alarmHistoryTableCellEx" oncontextmenu="AlarmHistoryTab.HandleTableHeaderOnContextMenuEvent(AlarmHistoryTab.alarmAndEventRecordGuidColumnIndex); return false;">@alarmAndEventRecordGuid</th>
+							  </tr>
+                    </thead>
+                </table>
+            </div>
+            <!-- Modal -->
+            <div class="row">
+                <div id="ColumnDataFilterModalDiv" class="modal fade" data-width="500" data-backdrop="static" data-focus-on="input:first" role="dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button id="columnFilterCancelIconId" type="button" class="close" data-dismiss="modal" onclick="AlarmHistoryTab.HandleCancelFiltering();">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <section id="ColumnDataFilterSection" class="row">
+                                <div class="col-xs-12">
+                                    <label class="modalDropdownLabel">@FMBaseController.TranslateText("Choose Columns:")</label>
+                                </div>
+                                <div class="col-xs-12">
+                                    <select id="ChooseColumnDropdownId" class="form-control" onchange="AlarmHistoryTab.HandleChooseColumnDropdownEvent()">
+                                        <option selected="selected" value="-99">None</option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-12">
+                                    <label> </label>
+                                </div>
+                                <div id="ColumnFilterDateRowDiv" class="col-xs-12 hidden">
+                                    <table style="width: 100%">
+                                        <tr>
+                                            <td>
+                                                <label class="modalDropdownLabel">@FMBaseController.TranslateText("From:")</label>
+                                            </td>
+                                            <td style="width: 5%"></td>
+                                            <td>
+                                                <label class="modalDropdownLabel">@FMBaseController.TranslateText("To:")</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input type='text' class="alarmHistory-form-control text-center" id="ColumnFilterFromDateInput" name="AlarmHistory.ColumnFilterFromDate" value="" onblur="AlarmHistoryTab.HandleAvailableFilterDateChangeEvent('FROM')" />
+                                            </td>
+                                            <td style="width: 5%"></td>
+                                            <td>
+                                                <input type='text' class="alarmHistory-form-control text-center" id="ColumnFilterToDateInput" name="AlarmHistory.ColumnFilterToDate" value="" onblur="AlarmHistoryTab.HandleAvailableFilterDateChangeEvent('TO')" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div id="ColumnFilterCommentDateRowDiv" class="col-xs-12 hidden">
+                                    <table style="width: 100%">
+                                        <tr>
+                                            <td>
+                                                <label class="modalDropdownLabel">@FMBaseController.TranslateText("From:")</label>
+                                            </td>
+                                            <td style="width: 5%"></td>
+                                            <td>
+                                                <label class="modalDropdownLabel">@FMBaseController.TranslateText("To:")</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input type='text' class="alarmHistory-form-control text-center" id="ColumnFilterCommentFromDateInput" name="AlarmHistory.ColumnFilterCommentFromDate" value="" onblur="AlarmHistoryTab.HandleAvailableFilterCommentDateChangeEvent('FROM')" />
+                                            </td>
+                                            <td style="width: 5%"></td>
+                                            <td>
+                                                <input type='text' class="alarmHistory-form-control text-center" id="ColumnFilterCommentToDateInput" name="AlarmHistory.ColumnFilterCommentToDate" value="" onblur="AlarmHistoryTab.HandleAvailableFilterCommentDateChangeEvent('TO')" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <div id="AvailableFilterDropdownLabelDivId" class="col-xs-12">
+                                    <label class="modalDropdownLabel">@FMBaseController.TranslateText("Available Filters:")</label>
+                                </div>
+                                <div id="AvailableFilterDropdownDivId" class="col-xs-12">
+                                    <select class="form-control" id="AvailableFilterDropdownId" multiple="multiple" value="Undefined"></select>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="btn-toolbar">
+                                <div class="pull-left">
+
+                                </div>
+                                <div class="pull-right">
+                                    <button id="ColumnDataFilterModalClearBtn" type="button" class="formfieldtitle pushButton" style="width: 100px;" onclick="javascript: return AlarmHistoryTab.HandleClearAllFiltersBtnEvent();">
+                                        @FMBaseController.TranslateText("Clear All")
+                                    </button>
+                                    <button id="ColumnDataFilterModalOkBtn" type="button" class="formfieldtitle pushButton" data-dismiss="modal" style="width: 100px;" onclick="javascript: return AlarmHistoryTab.HandleSaveCurrentFilterAndRefresh();">
+                                        @FMBaseController.TranslateText("OK")
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+<script type="text/javascript">
+    //# sourceURL=_AlarmHistoryTabView.cshtml
+    $(document).ready(function () {
+        $("#AlarmHistoryTable").removeClass("hidden").addClass("hidden");
+        AlarmHistoryTab.HistoryInitialized = false;
+
+        AlarmHistoryTab.Init();
+    });
+
+    $(window).resize(function () { AlarmHistoryTab.HandleWindowResize(); });
+
+    $(document).mouseup(function (e) {
+        // handler to make the options and columns dropdowns close back up on
+        var dropdownsToCloseOnOutsideClick = new Array();
+
+        // Only check the divs if they currently are visible
+        if ($("#ColumnFilterDiv").length > 0 && !$("#ColumnFilterDiv").attr('class').includes("hidden")) {
+            dropdownsToCloseOnOutsideClick.push($('#ColumnFilterDiv'));
+        }
+
+        $.each(dropdownsToCloseOnOutsideClick, function (key, value) {
+            if (!$(value).is(e.target) // if the target of the click isn't the container...
+                && $(value).has(e.target).length === 0) // ... nor a descendant of the container
+            {
+                if ($(value).selector == '#ColumnFilterDiv') {
+                    if ($(e.target).attr('id') != 'ColumnFilterDropDownArrow') {
+                        AlarmHistoryTab.HandleColumnFilterDropdownExpandCollapse();
+                    }
+                }
+            }
+        })
+
+        return true;
+    })
+</script>

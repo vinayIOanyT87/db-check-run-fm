@@ -1,0 +1,3163 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+  <Modules>
+    <Module>
+      <Id>0</Id>
+      <Name>CPU Module</Name>
+      <Model>8810</Model>
+      <ModuleType>CPU</ModuleType>
+      <Revision>1.0</Revision>
+      <Image>unknown</Image>
+      <Channel1>
+        <ChannelType>Virtual, Enraf Master, RTU Slave, Modbus Master, Modbus Slave</ChannelType>
+      </Channel1>
+      <Channel2>
+        <ChannelType>Ethernet</ChannelType>
+      </Channel2>
+      <Channel3>
+        <ChannelType>Virtual, Enraf Master, RTU Slave, Modbus Master, Modbus Slave</ChannelType>
+      </Channel3>
+      <Channel4>
+        <ChannelType>Virtual, Enraf Master, RTU Slave, Modbus Master, Modbus Slave</ChannelType>
+      </Channel4>
+      <Channel5>
+        <ChannelType>Virtual</ChannelType>
+      </Channel5>
+      <Channel6>
+        <ChannelType>Virtual</ChannelType>
+      </Channel6>
+      <Channel7>
+        <ChannelType>Virtual</ChannelType>
+      </Channel7>
+      <Channel8>
+        <ChannelType>Virtual</ChannelType>
+      </Channel8>
+    </Module>
+    <Module>
+      <Id>0</Id>
+      <Name>Bi-Phase Mark</Name>
+      <Model>8810</Model>
+      <ModuleType>BPM</ModuleType>
+      <Revision>1.0</Revision>
+      <Image>unknown</Image>
+      <Channel1>
+        <ChannelType>Virtual, Enraf Master</ChannelType>
+      </Channel1>
+      <Channel2>
+        <ChannelType>Virtual, Enraf Master</ChannelType>
+      </Channel2>
+      <Channel3>
+        <ChannelType>Virtual, Enraf Master</ChannelType>
+      </Channel3>
+      <Channel4>
+        <ChannelType>Virtual, Enraf Master</ChannelType>
+      </Channel4>
+      <Channel5>
+        <ChannelType>Virtual</ChannelType>
+      </Channel5>
+      <Channel6>
+        <ChannelType>Virtual</ChannelType>
+      </Channel6>
+      <Channel7>
+        <ChannelType>Virtual</ChannelType>
+      </Channel7>
+      <Channel8>
+        <ChannelType>Virtual</ChannelType>
+      </Channel8>
+    </Module>
+    <Module>
+      <Id>0</Id>
+      <Name>Digital IO</Name>
+      <Model>8810</Model>
+      <ModuleType>DIO</ModuleType>
+      <Revision>1.0</Revision>
+      <Image>unknown</Image>
+      <Channel1>
+        <ChannelType>Virtual, Digital Input, Digital Output</ChannelType>
+      </Channel1>
+      <Channel2>
+        <ChannelType>Virtual, Digital Input, Digital Output</ChannelType>
+      </Channel2>
+      <Channel3>
+        <ChannelType>Virtual, Digital Input, Digital Output</ChannelType>
+      </Channel3>
+      <Channel4>
+        <ChannelType>Virtual, Digital Input, Digital Output</ChannelType>
+      </Channel4>
+      <Channel5>
+        <ChannelType>Virtual, Digital Input, Digital Output</ChannelType>
+      </Channel5>
+      <Channel6>
+        <ChannelType>Virtual, Digital Input, Digital Output</ChannelType>
+      </Channel6>
+      <Channel7>
+        <ChannelType>Virtual, Digital Input, Digital Output</ChannelType>
+      </Channel7>
+      <Channel8>
+        <ChannelType>Virtual, Digital Input, Digital Output</ChannelType>
+      </Channel8>
+    </Module>
+    <Module>
+      <Id>0</Id>
+      <Name>Serial Module</Name>
+      <Model>8810</Model>
+      <ModuleType>SER</ModuleType>
+      <Revision>1.0</Revision>
+      <Image>unknown</Image>
+      <Channel1>
+        <ChannelType>Virtual, Enraf Master, RTU Slave, Modbus Master, Modbus Slave</ChannelType>
+      </Channel1>
+      <Channel2>
+        <ChannelType>Virtual, Enraf Master, RTU Slave, Modbus Master, Modbus Slave</ChannelType>
+      </Channel2>
+      <Channel3>
+        <ChannelType>Virtual, Enraf Master, RTU Slave, Modbus Master, Modbus Slave</ChannelType>
+      </Channel3>
+      <Channel4>
+        <ChannelType>Virtual, Enraf Master, RTU Slave, Modbus Master, Modbus Slave</ChannelType>
+      </Channel4>
+      <Channel5>
+        <ChannelType>Virtual</ChannelType>
+      </Channel5>
+      <Channel6>
+        <ChannelType>Virtual</ChannelType>
+      </Channel6>
+      <Channel7>
+        <ChannelType>Virtual</ChannelType>
+      </Channel7>
+      <Channel8>
+        <ChannelType>Virtual</ChannelType>
+      </Channel8>
+    </Module>
+  </Modules>
+  <cpumoduleconfiguration>
+    <Name> CPU Module </Name>
+    <MaxAllowed>1</MaxAllowed>
+    <Deletable>nodelete</Deletable>
+    <moduleconfiguration>
+      <Name>Module Command</Name>
+      <Datatype>string</Datatype>
+      <VariableName>ModCmd</VariableName>
+      <ParameterType>COMMAND</ParameterType>
+      <AvailableCommands>Reset Module,Copy FW to RTU,Copy DB to RTU,Copy DB to USB,Factory Reset,Lim Fac Reset</AvailableCommands>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Diagnostic Command</Name>
+      <Datatype>string</Datatype>
+      <DatatypeLength>12</DatatypeLength>
+      <VariableName>DiagCmd</VariableName>
+      <ParameterType>COMMAND</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Status of Last Command</Name>
+      <Datatype>string</Datatype>
+      <VariableName>CmdStatus</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+      <AvailableCommands>Start,Complete,Error,Executing,Invalid,Timeout,Remove USB</AvailableCommands>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Installed Module</Name>
+      <Datatype>string</Datatype>
+      <VariableName>ModInstalled</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+      <AvailableCommands>CPU Module,Unknown Module</AvailableCommands>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>System Version for Legacy</Name>
+      <Datatype>string</Datatype>
+      <DatatypeLength>8</DatatypeLength>
+      <VariableName>SysVer</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Firmware Version</Name>
+      <Datatype>string</Datatype>
+      <DatatypeLength>32</DatatypeLength>
+      <VariableName>FwVer</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Firmware Checksum</Name>
+      <Datatype>unsigned long</Datatype>
+      <SpecialFormatting>LHEX</SpecialFormatting>
+      <VariableName>SysCheckSum</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Module Board ID</Name>
+      <Datatype>string</Datatype>
+      <DatatypeLength>16</DatatypeLength>
+      <VariableName>HwID</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Module Manufacture Date</Name>
+      <Datatype>string</Datatype>
+      <DatatypeLength>16</DatatypeLength>
+      <VariableName>HwDate</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Module Serial Number</Name>
+      <Datatype>string</Datatype>
+      <DatatypeLength>16</DatatypeLength>
+      <VariableName>HwSerialNo</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Module Part Number</Name>
+      <Datatype>string</Datatype>
+      <DatatypeLength>16</DatatypeLength>
+      <VariableName>HwPartNo</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>PCB Hardware Version</Name>
+      <Datatype>unsigned int</Datatype>
+      <VariableName>HwVer</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Number of resets</Name>
+      <Datatype>unsigned int</Datatype>
+      <VariableName>NumResets</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Error detected by Firmware</Name>
+      <Datatype>unsigned long</Datatype>
+      <SpecialFormatting>LHEX</SpecialFormatting>
+      <VariableName>ErrorCode</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>CPU temperature (C or F)</Name>
+      <Datatype>double</Datatype>
+      <VariableName>CpuTemp</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Input voltage (V)</Name>
+      <Datatype>double</Datatype>
+      <VariableName>InputVolt</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Input current (mA)</Name>
+      <Datatype>double</Datatype>
+      <VariableName>InputCurrent</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Zone 1 temperature (C or F)</Name>
+      <Datatype>double</Datatype>
+      <VariableName>Zone1Temp</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Zone 2 temperature (C or F)</Name>
+      <Datatype>double</Datatype>
+      <VariableName>Zone2Temp</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Vcc voltage (V)</Name>
+      <Datatype>double</Datatype>
+      <VariableName>VccVolt</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Field Voltage Status</Name>
+      <Datatype>string</Datatype>
+      <VariableName>FieldVoltStat</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+      <AvailableCommands>Voltage Off,Voltage On</AvailableCommands>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Field voltage (V)</Name>
+      <Datatype>double</Datatype>
+      <VariableName>FieldVolt</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Field current (mA)</Name>
+      <Datatype>double</Datatype>
+      <VariableName>FieldCurrent</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Zone 3 temperature (C or F)</Name>
+      <Datatype>double</Datatype>
+      <VariableName>Zone3Temp</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Zone 4 temperature (C or F)</Name>
+      <Datatype>double</Datatype>
+      <VariableName>Zone4Temp</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Isolated Vcc voltage (V)</Name>
+      <Datatype>double</Datatype>
+      <VariableName>IsoVccVolt</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>External USB Flash Drive</Name>
+      <Datatype>string</Datatype>
+      <VariableName>ExternalUSB</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+      <AvailableCommands>Removed,Inserted</AvailableCommands>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>External SD Card</Name>
+      <Datatype>string</Datatype>
+      <VariableName>ExternalSDC</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+      <AvailableCommands>Removed,Inserted</AvailableCommands>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Point Status</Name>
+      <Datatype>unsigned long</Datatype>
+      <SpecialFormatting>LHEX</SpecialFormatting>
+      <VariableName>PntStatus</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Point CheckSum</Name>
+      <Datatype>unsigned long</Datatype>
+      <SpecialFormatting>LHEX</SpecialFormatting>
+      <VariableName>PntCheckSum</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Point Description</Name>
+      <Datatype>string</Datatype>
+      <DatatypeLength>32</DatatypeLength>
+      <VariableName>Label</VariableName>
+      <ParameterType>CONFIG</ParameterType>
+      <DefaultValue>pntname</DefaultValue>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Configured Module</Name>
+      <Datatype>string</Datatype>
+      <VariableName>ModConfigured</VariableName>
+      <ParameterType>CONFIG</ParameterType>
+      <AvailableCommands>CPU Module</AvailableCommands>
+      <DefaultValue>CPU Module</DefaultValue>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>RTU IP Address</Name>
+      <Datatype>string</Datatype>
+      <DatatypeLength>32</DatatypeLength>
+      <VariableName>IpAddress</VariableName>
+      <ParameterType>CONFIG</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>RTU Subnet Mask</Name>
+      <Datatype>string</Datatype>
+      <DatatypeLength>32</DatatypeLength>
+      <VariableName>SubnetMask</VariableName>
+      <ParameterType>CONFIG</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>RTU Default Gateway</Name>
+      <Datatype>string</Datatype>
+      <DatatypeLength>32</DatatypeLength>
+      <VariableName>Gateway</VariableName>
+      <ParameterType>CONFIG</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>RTU Unit Address</Name>
+      <Datatype>unsigned int</Datatype>
+      <VariableName>UnitAddress</VariableName>
+      <ParameterType>CONFIG</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Display IP Address OnOff</Name>
+      <Datatype>string</Datatype>
+      <VariableName>IpDisplay</VariableName>
+      <ParameterType>CONFIG</ParameterType>
+      <AvailableCommands>Display On,Display Off</AvailableCommands>
+      <DefaultValue>Display On</DefaultValue>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>System Time</Name>
+      <Datatype>int</Datatype>
+      <SpecialFormatting>TIME</SpecialFormatting>
+      <VariableName>SystemTime</VariableName>
+      <ParameterType>CONFIG</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>UTC offset (minutes)</Name>
+      <Datatype>long</Datatype>
+      <VariableName>UTCOffset</VariableName>
+      <ParameterType>CONFIG</ParameterType>
+      <DefaultValue>0</DefaultValue>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Daylight Savings Time OnOff</Name>
+      <Datatype>string</Datatype>
+      <VariableName>DSTState</VariableName>
+      <ParameterType>CONFIG</ParameterType>
+      <AvailableCommands>DST On,DST Off</AvailableCommands>
+      <DefaultValue>DST Off</DefaultValue>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Temperature Units (F or C)</Name>
+      <Datatype>string</Datatype>
+      <VariableName>TempUnits</VariableName>
+      <ParameterType>CONFIG</ParameterType>
+      <AvailableCommands>Fahrenheit,Celsius</AvailableCommands>
+      <DefaultValue>Fahrenheit</DefaultValue>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Database File Name</Name>
+      <Datatype>string</Datatype>
+      <DatatypeLength>32</DatatypeLength>
+      <VariableName>DBFile</VariableName>
+      <ParameterType>CONFIG</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Number of Tanks (1-400)</Name>
+      <Datatype>unsigned int</Datatype>
+      <VariableName>NumberOfTanks</VariableName>
+      <ParameterType>CONFIG</ParameterType>
+      <MinimumValue>1</MinimumValue>
+      <MaximumValue>400</MaximumValue>
+      <DefaultValue>50</DefaultValue>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>spare for future use</Name>
+      <Datatype>string</Datatype>
+      <DatatypeLength>196</DatatypeLength>
+      <VariableName>spare</VariableName>
+      <ParameterType>CONFIG</ParameterType>
+    </moduleconfiguration>
+  </cpumoduleconfiguration>
+  <biphasemarkmoduleconfiguration>
+    <Name> Interface Module </Name>
+    <MaxAllowed>6</MaxAllowed>
+    <Deletable>nodelete</Deletable>
+    <moduleconfiguration>
+      <Name>Module Command</Name>
+      <Datatype>string</Datatype>
+      <VariableName>ModCmd</VariableName>
+      <ParameterType>COMMAND</ParameterType>
+      <AvailableCommands>Reset Module</AvailableCommands>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Status of Last Command</Name>
+      <Datatype>string</Datatype>
+      <VariableName>CmdStatus</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+      <AvailableCommands>Start,Complete,Error,Executing,Invalid,Timeout</AvailableCommands>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Installed Module</Name>
+      <Datatype>string</Datatype>
+      <VariableName>ModInstalled</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+      <AvailableCommands>Undefined,Bi-Phase Mark,Serial Module,Digital IO,Unknown Module</AvailableCommands>
+      <DefaultValue>Undefined</DefaultValue>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Module Temperature (C or F)</Name>
+      <Datatype>double</Datatype>
+      <VariableName>ModTemp</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Module Board ID</Name>
+      <Datatype>string</Datatype>
+      <DatatypeLength>16</DatatypeLength>
+      <VariableName>HwID</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Module Manufacture Date</Name>
+      <Datatype>string</Datatype>
+      <DatatypeLength>16</DatatypeLength>
+      <VariableName>HwDate</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Module Serial Number</Name>
+      <Datatype>string</Datatype>
+      <DatatypeLength>16</DatatypeLength>
+      <VariableName>HwSerialNo</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Module Part Number</Name>
+      <Datatype>string</Datatype>
+      <DatatypeLength>16</DatatypeLength>
+      <VariableName>HwPartNo</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>PCB Hardware Version</Name>
+      <Datatype>unsigned int</Datatype>
+      <VariableName>HwVer</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Point Status</Name>
+      <Datatype>unsigned long</Datatype>
+      <SpecialFormatting>LHEX</SpecialFormatting>
+      <VariableName>PntStatus</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Point CheckSum</Name>
+      <Datatype>unsigned long</Datatype>
+      <SpecialFormatting>LHEX</SpecialFormatting>
+      <VariableName>PntCheckSum</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Point Description</Name>
+      <Datatype>string</Datatype>
+      <DatatypeLength>32</DatatypeLength>
+      <VariableName>Label</VariableName>
+      <ParameterType>CONFIG</ParameterType>
+      <DefaultValue>pntname</DefaultValue>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Configured Module</Name>
+      <Datatype>string</Datatype>
+      <VariableName>ModConfigured</VariableName>
+      <ParameterType>CONFIG</ParameterType>
+      <AvailableCommands>Undefined,Bi-Phase Mark,Serial Module,Digital IO</AvailableCommands>
+      <DefaultValue>Undefined</DefaultValue>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>spare for future use</Name>
+      <Datatype>string</Datatype>
+      <DatatypeLength>196</DatatypeLength>
+      <VariableName>spare</VariableName>
+      <ParameterType>CONFIG</ParameterType>
+    </moduleconfiguration>
+  </biphasemarkmoduleconfiguration>
+  <digitaliomoduleconfiguration>
+    <Name> Interface Module </Name>
+    <MaxAllowed>6</MaxAllowed>
+    <Deletable>nodelete</Deletable>
+    <moduleconfiguration>
+      <Name>Module Command</Name>
+      <Datatype>string</Datatype>
+      <VariableName>ModCmd</VariableName>
+      <ParameterType>COMMAND</ParameterType>
+      <AvailableCommands>Reset Module</AvailableCommands>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Status of Last Command</Name>
+      <Datatype>string</Datatype>
+      <VariableName>CmdStatus</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+      <AvailableCommands>Start,Complete,Error,Executing,Invalid,Timeout</AvailableCommands>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Installed Module</Name>
+      <Datatype>string</Datatype>
+      <VariableName>ModInstalled</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+      <AvailableCommands>Undefined,Bi-Phase Mark,Serial Module,Digital IO,Unknown Module</AvailableCommands>
+      <DefaultValue>Undefined</DefaultValue>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Module Temperature (C or F)</Name>
+      <Datatype>double</Datatype>
+      <VariableName>ModTemp</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Module Board ID</Name>
+      <Datatype>string</Datatype>
+      <DatatypeLength>16</DatatypeLength>
+      <VariableName>HwID</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Module Manufacture Date</Name>
+      <Datatype>string</Datatype>
+      <DatatypeLength>16</DatatypeLength>
+      <VariableName>HwDate</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Module Serial Number</Name>
+      <Datatype>string</Datatype>
+      <DatatypeLength>16</DatatypeLength>
+      <VariableName>HwSerialNo</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Module Part Number</Name>
+      <Datatype>string</Datatype>
+      <DatatypeLength>16</DatatypeLength>
+      <VariableName>HwPartNo</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>PCB Hardware Version</Name>
+      <Datatype>unsigned int</Datatype>
+      <VariableName>HwVer</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Point Status</Name>
+      <Datatype>unsigned long</Datatype>
+      <SpecialFormatting>LHEX</SpecialFormatting>
+      <VariableName>PntStatus</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Point CheckSum</Name>
+      <Datatype>unsigned long</Datatype>
+      <SpecialFormatting>LHEX</SpecialFormatting>
+      <VariableName>PntCheckSum</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Point Description</Name>
+      <Datatype>string</Datatype>
+      <DatatypeLength>32</DatatypeLength>
+      <VariableName>Label</VariableName>
+      <ParameterType>CONFIG</ParameterType>
+      <DefaultValue>pntname</DefaultValue>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Configured Module</Name>
+      <Datatype>string</Datatype>
+      <VariableName>ModConfigured</VariableName>
+      <ParameterType>CONFIG</ParameterType>
+      <AvailableCommands>Undefined,Bi-Phase Mark,Serial Module,Digital IO</AvailableCommands>
+      <DefaultValue>Undefined</DefaultValue>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>spare for future use</Name>
+      <Datatype>string</Datatype>
+      <DatatypeLength>196</DatatypeLength>
+      <VariableName>spare</VariableName>
+      <ParameterType>CONFIG</ParameterType>
+    </moduleconfiguration>
+  </digitaliomoduleconfiguration>
+  <serialmoduleconfiguration>
+    <Name> Interface Module </Name>
+    <MaxAllowed>6</MaxAllowed>
+    <Deletable>nodelete</Deletable>
+    <moduleconfiguration>
+      <Name>Module Command</Name>
+      <Datatype>string</Datatype>
+      <VariableName>ModCmd</VariableName>
+      <ParameterType>COMMAND</ParameterType>
+      <AvailableCommands>Reset Module</AvailableCommands>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Status of Last Command</Name>
+      <Datatype>string</Datatype>
+      <VariableName>CmdStatus</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+      <AvailableCommands>Start,Complete,Error,Executing,Invalid,Timeout</AvailableCommands>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Installed Module</Name>
+      <Datatype>string</Datatype>
+      <VariableName>ModInstalled</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+      <AvailableCommands>Undefined,Bi-Phase Mark,Serial Module,Digital IO,Unknown Module</AvailableCommands>
+      <DefaultValue>Undefined</DefaultValue>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Module Temperature (C or F)</Name>
+      <Datatype>double</Datatype>
+      <VariableName>ModTemp</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Module Board ID</Name>
+      <Datatype>string</Datatype>
+      <DatatypeLength>16</DatatypeLength>
+      <VariableName>HwID</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Module Manufacture Date</Name>
+      <Datatype>string</Datatype>
+      <DatatypeLength>16</DatatypeLength>
+      <VariableName>HwDate</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Module Serial Number</Name>
+      <Datatype>string</Datatype>
+      <DatatypeLength>16</DatatypeLength>
+      <VariableName>HwSerialNo</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Module Part Number</Name>
+      <Datatype>string</Datatype>
+      <DatatypeLength>16</DatatypeLength>
+      <VariableName>HwPartNo</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>PCB Hardware Version</Name>
+      <Datatype>unsigned int</Datatype>
+      <VariableName>HwVer</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Point Status</Name>
+      <Datatype>unsigned long</Datatype>
+      <SpecialFormatting>LHEX</SpecialFormatting>
+      <VariableName>PntStatus</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Point CheckSum</Name>
+      <Datatype>unsigned long</Datatype>
+      <SpecialFormatting>LHEX</SpecialFormatting>
+      <VariableName>PntCheckSum</VariableName>
+      <ParameterType>DYNAMIC</ParameterType>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Point Description</Name>
+      <Datatype>string</Datatype>
+      <DatatypeLength>32</DatatypeLength>
+      <VariableName>Label</VariableName>
+      <ParameterType>CONFIG</ParameterType>
+      <DefaultValue>pntname</DefaultValue>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>Configured Module</Name>
+      <Datatype>string</Datatype>
+      <VariableName>ModConfigured</VariableName>
+      <ParameterType>CONFIG</ParameterType>
+      <AvailableCommands>Undefined,Bi-Phase Mark,Serial Module,Digital IO</AvailableCommands>
+      <DefaultValue>Undefined</DefaultValue>
+    </moduleconfiguration>
+    <moduleconfiguration>
+      <Name>spare for future use</Name>
+      <Datatype>string</Datatype>
+      <DatatypeLength>196</DatatypeLength>
+      <VariableName>spare</VariableName>
+      <ParameterType>CONFIG</ParameterType>
+    </moduleconfiguration>
+  </serialmoduleconfiguration>
+  <channels>
+    <channel>
+      <Virtualchanneltype>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>ChanCmd</Variable>
+          <VariableName>Channel Command</VariableName>
+          <ParameterType>COMMAND</ParameterType>
+          <AvailableCommands>Reset Channel,Reset Alarm</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>CmdStatus</Variable>
+          <VariableName>Status of Last Command</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <AvailableCommands>Start,Complete,Error,Executing,Invalid,Timeout</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>ComBus</Variable>
+          <VariableName>Communication Bus</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <AvailableCommands>Bi-Phase Mark,RS-232,RS-485,USB,Digital IO</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>DIOValue</Variable>
+          <VariableName>Digital IO Value</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>DIOHwValue</Variable>
+          <VariableName>Digital IO Hardware Value</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>int</Datatype>
+          <SpecialFormatting>TIME</SpecialFormatting>
+          <Variable>Elapse</Variable>
+          <VariableName>Time of Last Transaction</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>PntStatus</Variable>
+          <VariableName>Point Status</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>PntCheckSum</Variable>
+          <VariableName>Point CheckSum</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>32</DatatypeLength>
+          <Variable>Label</Variable>
+          <VariableName>Point Description</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>pntname</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>ChanState</Variable>
+          <VariableName>EnableDisable Channel</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>Enable Chan,Disable Chan</AvailableCommands>
+          <DefaultValue>Disable Chan</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>Protocol</Variable>
+          <VariableName>Protocol</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>Virtual Chan,RTU Slave,Enraf Master,Modbus Master,Modbus Slave,Digital Input,Digital Output,Ethernet</AvailableCommands>
+          <DefaultValue>Virtual Chan</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>Priority</Variable>
+          <VariableName>COS Priority</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>High Priority,Low Priority,No Priority</AvailableCommands>
+          <DefaultValue>High Priority</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>Maxtime</Variable>
+          <VariableName>Max Time Between COS Updates</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>60</DefaultValue>
+        </Configuration>
+      </Virtualchanneltype>
+      <RTUSlavechanneltype>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>ChanCmd</Variable>
+          <VariableName>Channel Command</VariableName>
+          <ParameterType>COMMAND</ParameterType>
+          <AvailableCommands>Reset Channel,Reset Alarm</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>CmdStatus</Variable>
+          <VariableName>Status of Last Command</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <AvailableCommands>Start,Complete,Error,Executing,Invalid,Timeout</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>ComBus</Variable>
+          <VariableName>Communication Bus</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <AvailableCommands>Bi-Phase Mark,RS-232,RS-485,USB,Digital IO</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>ComStatus</Variable>
+          <VariableName>Communication Status</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <AvailableCommands>Com Online,Com Offline</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>CurCommand</Variable>
+          <VariableName>Current Command</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <Variable>NumRequests</Variable>
+          <VariableName>Number of Requests</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <Variable>NumTrans</Variable>
+          <VariableName>Number of Transactions</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <Variable>NumComErrors</Variable>
+          <VariableName>Number of Requests w Errors</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>int</Datatype>
+          <SpecialFormatting>TIME</SpecialFormatting>
+          <Variable>Elapse</Variable>
+          <VariableName>Time of Last Transaction</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>PntStatus</Variable>
+          <VariableName>Point Status</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>PntCheckSum</Variable>
+          <VariableName>Point CheckSum</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>32</DatatypeLength>
+          <Variable>Label</Variable>
+          <VariableName>Point Description</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>pntname</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>ChanState</Variable>
+          <VariableName>EnableDisable Channel</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>Enable Chan,Disable Chan</AvailableCommands>
+          <DefaultValue>Disable Chan</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>Protocol</Variable>
+          <VariableName>Protocol</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>Virtual Chan,RTU Slave,Enraf Master,Modbus Master,Modbus Slave,Digital Input,Digital Output,Ethernet</AvailableCommands>
+          <DefaultValue>Virtual Chan</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>Mode</Variable>
+          <VariableName>Operational Mode</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>0</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <Variable>BaudRate</Variable>
+          <VariableName>Baud Rate</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>9600</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>4</DatatypeLength>
+          <Variable>ComParams</Variable>
+          <VariableName>Data bits Parity</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>8N</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>Timeout</Variable>
+          <VariableName>Comm Timeout (msec)</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>0</MinimumValue>
+          <MaximumValue>30000</MaximumValue>
+          <DefaultValue>2000</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>RespDelay</Variable>
+          <VariableName>Response Delay (msec)</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>0</MinimumValue>
+          <MaximumValue>1000</MaximumValue>
+          <DefaultValue>50</DefaultValue>
+        </Configuration>
+      </RTUSlavechanneltype>
+      <EnrafMasterchanneltype>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>ChanCmd</Variable>
+          <VariableName>Channel Command</VariableName>
+          <ParameterType>COMMAND</ParameterType>
+          <AvailableCommands>Reset Channel,Reset Alarm</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>CmdStatus</Variable>
+          <VariableName>Status of Last Command</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <AvailableCommands>Start,Complete,Error,Executing,Invalid,Timeout</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>ComBus</Variable>
+          <VariableName>Communication Bus</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <AvailableCommands>Bi-Phase Mark,RS-232,RS-485,USB,Digital IO</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>CurDeviceID</Variable>
+          <VariableName>Address of current device</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>CurCommand</Variable>
+          <VariableName>Current Command</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>32</DatatypeLength>
+          <Variable>CurLabel</Variable>
+          <VariableName>Current Point Description</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <Variable>NumRequests</Variable>
+          <VariableName>Number of Requests</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <Variable>NumTrans</Variable>
+          <VariableName>Number of Transactions</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <Variable>NumComErrors</Variable>
+          <VariableName>Number of Requests w Errors</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <Variable>NumTimeouts</Variable>
+          <VariableName>Number of Request Timeouts</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>NumScanList</Variable>
+          <VariableName>of Points in Scan List</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>NumFastScan</Variable>
+          <VariableName>of Points in Fast Scan</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>int</Datatype>
+          <SpecialFormatting>TIME</SpecialFormatting>
+          <Variable>Elapse</Variable>
+          <VariableName>Time of Last Transaction</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>PntStatus</Variable>
+          <VariableName>Point Status</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>PntCheckSum</Variable>
+          <VariableName>Point CheckSum</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>32</DatatypeLength>
+          <Variable>Label</Variable>
+          <VariableName>Point Description</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>pntname</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>ChanState</Variable>
+          <VariableName>EnableDisable Channel</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>Enable Chan,Disable Chan</AvailableCommands>
+          <DefaultValue>Disable Chan</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>Protocol</Variable>
+          <VariableName>Protocol</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>Virtual Chan,RTU Slave,Enraf Master,Modbus Master,Modbus Slave,Digital Input,Digital Output,Ethernet</AvailableCommands>
+          <DefaultValue>Virtual Chan</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <Variable>BaudRate</Variable>
+          <VariableName>Baud Rate</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>9600</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>Timeout</Variable>
+          <VariableName>Comm Timeout (msec)</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>0</MinimumValue>
+          <MaximumValue>30000</MaximumValue>
+          <DefaultValue>2000</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>ScanDelay</Variable>
+          <VariableName>Delay between scans (msec)</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>0</MinimumValue>
+          <MaximumValue>30000</MaximumValue>
+          <DefaultValue>500</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>MaxRetry</Variable>
+          <VariableName>of Retries</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>1</MinimumValue>
+          <MaximumValue>10</MaximumValue>
+          <DefaultValue>2</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>NormalScanMax</Variable>
+          <VariableName>Normal Scan Depth</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>0</MinimumValue>
+          <MaximumValue>20</MaximumValue>
+          <DefaultValue>1</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>FastScanMax</Variable>
+          <VariableName>Fast Scan Depth 0All</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>0</MinimumValue>
+          <MaximumValue>20</MaximumValue>
+          <DefaultValue>0</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>TempInterleave</Variable>
+          <VariableName>Temperature Interleave Factor</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>0</MinimumValue>
+          <MaximumValue>100</MaximumValue>
+          <DefaultValue>10</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>HoldOff</Variable>
+          <VariableName>Gauge Down HoldOff Count</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>0</MinimumValue>
+          <MaximumValue>100</MaximumValue>
+          <DefaultValue>10</DefaultValue>
+        </Configuration>
+      </EnrafMasterchanneltype>
+      <ModbusMasterchanneltype>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>ChanCmd</Variable>
+          <VariableName>Channel Command</VariableName>
+          <ParameterType>COMMAND</ParameterType>
+          <AvailableCommands>Reset Channel,Reset Alarm</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>CmdStatus</Variable>
+          <VariableName>Status of Last Command</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <AvailableCommands>Start,Complete,Error,Executing,Invalid,Timeout</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>ComBus</Variable>
+          <VariableName>Communication Bus</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <AvailableCommands>Bi-Phase Mark,RS-232,RS-485,USB,Digital IO</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>CurDeviceID</Variable>
+          <VariableName>Address of current device</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>CurCommand</Variable>
+          <VariableName>Current Command</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>32</DatatypeLength>
+          <Variable>CurLabel</Variable>
+          <VariableName>Current Point Description</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <Variable>NumRequests</Variable>
+          <VariableName>Number of Requests</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <Variable>NumTrans</Variable>
+          <VariableName>Number of Transactions</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <Variable>NumComErrors</Variable>
+          <VariableName>Number of Requests w Errors</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <Variable>NumTimeouts</Variable>
+          <VariableName>Number of Request Timeouts</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>NumScanList</Variable>
+          <VariableName>of Points in Scan List</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>int</Datatype>
+          <SpecialFormatting>TIME</SpecialFormatting>
+          <Variable>Elapse</Variable>
+          <VariableName>Time of Last Transaction</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>PntStatus</Variable>
+          <VariableName>Point Status</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>PntCheckSum</Variable>
+          <VariableName>Point CheckSum</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>32</DatatypeLength>
+          <Variable>Label</Variable>
+          <VariableName>Point Description</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>pntname</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>ChanState</Variable>
+          <VariableName>EnableDisable Channel</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>Enable Chan,Disable Chan</AvailableCommands>
+          <DefaultValue>Disable Chan</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>Protocol</Variable>
+          <VariableName>Protocol</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>Virtual Chan,RTU Slave,Enraf Master,Modbus Master,Modbus Slave,Digital Input,Digital Output,Ethernet</AvailableCommands>
+          <DefaultValue>Virtual Chan</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>Mode</Variable>
+          <VariableName>Operational Mode</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>0</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <Variable>BaudRate</Variable>
+          <VariableName>Baud Rate</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>9600</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>4</DatatypeLength>
+          <Variable>ComParams</Variable>
+          <VariableName>Data bits Parity</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>8N</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>Timeout</Variable>
+          <VariableName>Comm Timeout (msec)</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>0</MinimumValue>
+          <MaximumValue>30000</MaximumValue>
+          <DefaultValue>2000</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>RespDelay</Variable>
+          <VariableName>Response Delay (msec)</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>0</MinimumValue>
+          <MaximumValue>1000</MaximumValue>
+          <DefaultValue>50</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>ScanDelay</Variable>
+          <VariableName>Delay between scans (msec)</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>0</MinimumValue>
+          <MaximumValue>30000</MaximumValue>
+          <DefaultValue>500</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>MaxRetry</Variable>
+          <VariableName>of Retries</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>1</MinimumValue>
+          <MaximumValue>10</MaximumValue>
+          <DefaultValue>2</DefaultValue>
+        </Configuration>
+      </ModbusMasterchanneltype>
+      <ModbusSlavechanneltype>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>ChanCmd</Variable>
+          <VariableName>Channel Command</VariableName>
+          <ParameterType>COMMAND</ParameterType>
+          <AvailableCommands>Reset Channel,Reset Alarm</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>CmdStatus</Variable>
+          <VariableName>Status of Last Command</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <AvailableCommands>Start,Complete,Error,Executing,Invalid,Timeout</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>ComBus</Variable>
+          <VariableName>Communication Bus</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <AvailableCommands>Bi-Phase Mark,RS-232,RS-485,USB,Digital IO</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>ComStatus</Variable>
+          <VariableName>Communication Status</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <AvailableCommands>Com Online,Com Offline</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>CurAddr</Variable>
+          <VariableName>Current Data Address</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>CurCommand</Variable>
+          <VariableName>Current Command</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>32</DatatypeLength>
+          <Variable>CurMessage</Variable>
+          <VariableName>Current Request</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <Variable>NumRequests</Variable>
+          <VariableName>Number of Requests</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <Variable>NumTrans</Variable>
+          <VariableName>Number of Transactions</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <Variable>NumComErrors</Variable>
+          <VariableName>Number of Requests w Errors</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>int</Datatype>
+          <SpecialFormatting>TIME</SpecialFormatting>
+          <Variable>Elapse</Variable>
+          <VariableName>Time of Last Transaction</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>PntStatus</Variable>
+          <VariableName>Point Status</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>PntCheckSum</Variable>
+          <VariableName>Point CheckSum</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>32</DatatypeLength>
+          <Variable>Label</Variable>
+          <VariableName>Point Description</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>pntname</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>ChanState</Variable>
+          <VariableName>EnableDisable Channel</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>Enable Chan,Disable Chan</AvailableCommands>
+          <DefaultValue>Disable Chan</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>Protocol</Variable>
+          <VariableName>Protocol</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>Virtual Chan,RTU Slave,Enraf Master,Modbus Master,Modbus Slave,Digital Input,Digital Output,Ethernet</AvailableCommands>
+          <DefaultValue>Virtual Chan</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>Mode</Variable>
+          <VariableName>Operational Mode</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>0</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <Variable>BaudRate</Variable>
+          <VariableName>Baud Rate</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>9600</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>4</DatatypeLength>
+          <Variable>ComParams</Variable>
+          <VariableName>Data bits Parity</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>8N</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>Timeout</Variable>
+          <VariableName>Comm Timeout (msec)</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>0</MinimumValue>
+          <MaximumValue>30000</MaximumValue>
+          <DefaultValue>2000</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>RespDelay</Variable>
+          <VariableName>Response Delay (msec)</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>0</MinimumValue>
+          <MaximumValue>1000</MaximumValue>
+          <DefaultValue>50</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>ModbusID</Variable>
+          <VariableName>Device Address to respond to</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>0</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>DetectTime</Variable>
+          <VariableName>Modbus detect time (msec)</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>10</DefaultValue>
+        </Configuration>
+      </ModbusSlavechanneltype>
+      <DigitalInputchanneltype>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>ChanCmd</Variable>
+          <VariableName>Channel Command</VariableName>
+          <ParameterType>COMMAND</ParameterType>
+          <AvailableCommands>Reset Channel,Reset Alarm</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>CmdStatus</Variable>
+          <VariableName>Status of Last Command</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <AvailableCommands>Start,Complete,Error,Executing,Invalid,Timeout</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>ComBus</Variable>
+          <VariableName>Communication Bus</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <AvailableCommands>Bi-Phase Mark,RS-232,RS-485,USB,Digital IO</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>DIOValue</Variable>
+          <VariableName>Digital IO Value</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>DIOHwValue</Variable>
+          <VariableName>Digital IO Hardware Value</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>int</Datatype>
+          <SpecialFormatting>TIME</SpecialFormatting>
+          <Variable>Elapse</Variable>
+          <VariableName>Time of Last Transaction</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>PntStatus</Variable>
+          <VariableName>Point Status</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>PntCheckSum</Variable>
+          <VariableName>Point CheckSum</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>32</DatatypeLength>
+          <Variable>Label</Variable>
+          <VariableName>Point Description</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>pntname</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>ChanState</Variable>
+          <VariableName>EnableDisable Channel</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>Enable Chan,Disable Chan</AvailableCommands>
+          <DefaultValue>Disable Chan</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>Protocol</Variable>
+          <VariableName>Protocol</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>Virtual Chan,RTU Slave,Enraf Master,Modbus Master,Modbus Slave,Digital Input,Digital Output,Ethernet</AvailableCommands>
+          <DefaultValue>Virtual Chan</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>Priority</Variable>
+          <VariableName>COS Priority</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>High Priority,Low Priority,No Priority</AvailableCommands>
+          <DefaultValue>High Priority</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>Maxtime</Variable>
+          <VariableName>Max Time Between COS Updates</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>60</DefaultValue>
+        </Configuration>
+      </DigitalInputchanneltype>
+      <DigitalOutputchanneltype>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>ChanCmd</Variable>
+          <VariableName>Channel Command</VariableName>
+          <ParameterType>COMMAND</ParameterType>
+          <AvailableCommands>Reset Channel,Reset Alarm</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>CmdStatus</Variable>
+          <VariableName>Status of Last Command</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <AvailableCommands>Start,Complete,Error,Executing,Invalid,Timeout</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>ComBus</Variable>
+          <VariableName>Communication Bus</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <AvailableCommands>Bi-Phase Mark,RS-232,RS-485,USB,Digital IO</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>DIOValue</Variable>
+          <VariableName>Digital IO Value</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>DIOHwValue</Variable>
+          <VariableName>Digital IO Hardware Value</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>int</Datatype>
+          <SpecialFormatting>TIME</SpecialFormatting>
+          <Variable>Elapse</Variable>
+          <VariableName>Time of Last Transaction</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>PntStatus</Variable>
+          <VariableName>Point Status</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>PntCheckSum</Variable>
+          <VariableName>Point CheckSum</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>32</DatatypeLength>
+          <Variable>Label</Variable>
+          <VariableName>Point Description</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>pntname</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>ChanState</Variable>
+          <VariableName>EnableDisable Channel</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>Enable Chan,Disable Chan</AvailableCommands>
+          <DefaultValue>Disable Chan</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>Protocol</Variable>
+          <VariableName>Protocol</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>Virtual Chan,RTU Slave,Enraf Master,Modbus Master,Modbus Slave,Digital Input,Digital Output,Ethernet</AvailableCommands>
+          <DefaultValue>Virtual Chan</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>Priority</Variable>
+          <VariableName>COS Priority</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>High Priority,Low Priority,No Priority</AvailableCommands>
+          <DefaultValue>High Priority</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>Maxtime</Variable>
+          <VariableName>Max Time Between COS Updates</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>60</DefaultValue>
+        </Configuration>
+      </DigitalOutputchanneltype>
+      <Ethernetchanneltype>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>ChanCmd</Variable>
+          <VariableName>Channel Command</VariableName>
+          <ParameterType>COMMAND</ParameterType>
+          <AvailableCommands>Reset Channel,Reset Alarm</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>CmdStatus</Variable>
+          <VariableName>Status of Last Command</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <AvailableCommands>Start,Complete,Error,Executing,Invalid,Timeout</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>ComBus</Variable>
+          <VariableName>Communication Bus</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <AvailableCommands>Bi-Phase Mark,RS-232,RS-485,USB,Digital IO</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>int</Datatype>
+          <SpecialFormatting>TIME</SpecialFormatting>
+          <Variable>Elapse</Variable>
+          <VariableName>Time of Last Transaction</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>PntStatus</Variable>
+          <VariableName>Point Status</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>PntCheckSum</Variable>
+          <VariableName>Point CheckSum</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>32</DatatypeLength>
+          <Variable>Label</Variable>
+          <VariableName>Point Description</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>pntname</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>ChanState</Variable>
+          <VariableName>EnableDisable Channel</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>Enable Chan,Disable Chan</AvailableCommands>
+          <DefaultValue>Disable Chan</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>Protocol</Variable>
+          <VariableName>Protocol</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>Virtual Chan,RTU Slave,Enraf Master,Modbus Master,Modbus Slave,Digital Input,Digital Output,Ethernet</AvailableCommands>
+          <DefaultValue>Virtual Chan</DefaultValue>
+        </Configuration>
+      </Ethernetchanneltype>
+    </channel>
+  </channels>
+  <points>
+    <point>
+      <Tank>
+        <Name>Tank</Name>
+        <MaxAllowed>400</MaxAllowed>
+        <Deletable>nodelete</Deletable>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>DeviceCmd</Variable>
+          <VariableName>Device Command</VariableName>
+          <ParameterType>COMMAND</ParameterType>
+          <AvailableCommands>Reset Gauge,Raise Servo,Freeze Servo,Find Wtr Level,Follow Level,Run Test,Run Immed Prof,Find Bottom,Copy ItemCmdFil,Read Config,Write Config,Copy cfg to USB,Copy log to USB</AvailableCommands>
+          <IOType>ReadWrite</IOType>
+          <ChangeOfState>False</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>CalLevelCmd</Variable>
+          <VariableName>Calibration Level Command</VariableName>
+          <ParameterType>COMMAND</ParameterType>
+          <IOType>ReadWrite</IOType>
+          <ChangeOfState>False</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>32</DatatypeLength>
+          <Variable>ItemCmd</Variable>
+          <VariableName>Item Command</VariableName>
+          <ParameterType>COMMAND</ParameterType>
+          <IOType>ReadWrite</IOType>
+          <ChangeOfState>False</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>16</DatatypeLength>
+          <Variable>TestCmd</Variable>
+          <VariableName>Operational Test Command</VariableName>
+          <ParameterType>COMMAND</ParameterType>
+          <IOType>ReadWrite</IOType>
+          <ChangeOfState>False</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>AlarmCmd1</Variable>
+          <VariableName>Alarm 1 Command</VariableName>
+          <ParameterType>COMMAND</ParameterType>
+          <AvailableCommands>Reset Alarm</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>AlarmCmd2</Variable>
+          <VariableName>Alarm 2 Command</VariableName>
+          <ParameterType>COMMAND</ParameterType>
+          <AvailableCommands>Reset Alarm</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>AlarmCmd3</Variable>
+          <VariableName>Alarm 3 Command</VariableName>
+          <ParameterType>COMMAND</ParameterType>
+          <AvailableCommands>Reset Alarm</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>AlarmCmd4</Variable>
+          <VariableName>Alarm 4 Command</VariableName>
+          <ParameterType>COMMAND</ParameterType>
+          <AvailableCommands>Reset Alarm</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>AlarmCmd5</Variable>
+          <VariableName>Alarm 5 Command</VariableName>
+          <ParameterType>COMMAND</ParameterType>
+          <AvailableCommands>Reset Alarm</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>AlarmCmd6</Variable>
+          <VariableName>Alarm 6 Command</VariableName>
+          <ParameterType>COMMAND</ParameterType>
+          <AvailableCommands>Reset Alarm</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>AlarmCmd7</Variable>
+          <VariableName>Alarm 7 Command</VariableName>
+          <ParameterType>COMMAND</ParameterType>
+          <AvailableCommands>Reset Alarm</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>AlarmCmd8</Variable>
+          <VariableName>Alarm 8 Command</VariableName>
+          <ParameterType>COMMAND</ParameterType>
+          <AvailableCommands>Reset Alarm</AvailableCommands>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>GaugeStatus</Variable>
+          <VariableName>Gauge Status</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <AvailableCommands>Block,Bottom,Doing Profile,Failure,Finding Water,Following Level,Following Water,Invalid,Lock Test,Service Mode,Transitional,UnderRange,Valid</AvailableCommands>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>Position</Variable>
+          <VariableName>Displacer Position</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>Level</Variable>
+          <VariableName>Tank Level</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>Temp</Variable>
+          <VariableName>Tank Temperature</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>SolidsLevel</Variable>
+          <VariableName>Solids Level</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>WaterLevel</Variable>
+          <VariableName>Water Level</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>GgdDensity</Variable>
+          <VariableName>Gauged Density</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>DensityTemp</Variable>
+          <VariableName>Temp when Dens was measured</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>Pressure</Variable>
+          <VariableName>Pressure</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>CmdStatus</Variable>
+          <VariableName>Status of Last Command</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <AvailableCommands>Start,Complete,Error,Executing,Invalid,Timeout</AvailableCommands>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>AlarmStatus</Variable>
+          <VariableName>Tank Alarm Status</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>LevelStatus</Variable>
+          <VariableName>Tank Level Status</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>TempStatus</Variable>
+          <VariableName>Tank Temp Status</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>WaterStatus</Variable>
+          <VariableName>Water Level Status</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>64</DatatypeLength>
+          <Variable>CmdReply</Variable>
+          <VariableName>Command Reply</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>64</DatatypeLength>
+          <Variable>PerCmdReply</Variable>
+          <VariableName>Perodic Command Reply</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>PerFPValue1</Variable>
+          <VariableName>Periodic Floating Point Value</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>PerFPValue2</Variable>
+          <VariableName>Periodic Floating Point Value</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>int</Datatype>
+          <Variable>PerIValue1</Variable>
+          <VariableName>Periodic Integer Value</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>int</Datatype>
+          <Variable>PerIValue2</Variable>
+          <VariableName>Periodic Integer Value</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>32</DatatypeLength>
+          <Variable>ItemCmdFile</Variable>
+          <VariableName>ItemCmd File Name</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>StrapVolume</Variable>
+          <VariableName>Total Observed Volume</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+          <EngineeringUnit>gal</EngineeringUnit>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>WaterVolume</Variable>
+          <VariableName>Water Volume</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+          <EngineeringUnit>gal</EngineeringUnit>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>GrossVolume</Variable>
+          <VariableName>Gross Volume</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+          <EngineeringUnit>gal</EngineeringUnit>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>VolCorFactor</Variable>
+          <VariableName>Volume Correction Factor</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>NetVolume</Variable>
+          <VariableName>Net Volume</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+          <EngineeringUnit>gal</EngineeringUnit>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>Mass</Variable>
+          <VariableName>Mass</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>ObsDensity</Variable>
+          <VariableName>Observed Product Density</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>StdDensity</Variable>
+          <VariableName>Standard Density</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>AvgTemp</Variable>
+          <VariableName>Average Liquid Temperature</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>NumParams</Variable>
+          <VariableName>Number of Entries in Table</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>NumSubmerged</Variable>
+          <VariableName>Number of Submerged Elements</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>Temp1</Variable>
+          <VariableName>Temperature No. 1</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>Temp2</Variable>
+          <VariableName>Temperature No. 2</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>Temp3</Variable>
+          <VariableName>Temperature No. 3</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>Temp4</Variable>
+          <VariableName>Temperature No. 4</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>Temp5</Variable>
+          <VariableName>Temperature No. 5</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>Temp6</Variable>
+          <VariableName>Temperature No. 6</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>Temp7</Variable>
+          <VariableName>Temperature No. 7</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>Temp8</Variable>
+          <VariableName>Temperature No. 8</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>Temp9</Variable>
+          <VariableName>Temperature No. 9</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>Temp10</Variable>
+          <VariableName>Temperature No. 10</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>Temp11</Variable>
+          <VariableName>Temperature No. 11</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>Temp12</Variable>
+          <VariableName>Temperature No. 12</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>Temp13</Variable>
+          <VariableName>Temperature No. 13</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>Temp14</Variable>
+          <VariableName>Temperature No. 14</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>Temp15</Variable>
+          <VariableName>Temperature No. 15</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>Temp16</Variable>
+          <VariableName>Temperature No. 16</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>VaporTemp</Variable>
+          <VariableName>Vapor Temperature</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>AlarmOutput1</Variable>
+          <VariableName>Alarm 1 Output</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>AlarmOutput2</Variable>
+          <VariableName>Alarm 2 Output</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>AlarmOutput3</Variable>
+          <VariableName>Alarm 3 Output</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>AlarmOutput4</Variable>
+          <VariableName>Alarm 4 Output</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>AlarmOutput5</Variable>
+          <VariableName>Alarm 5 Output</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>AlarmOutput6</Variable>
+          <VariableName>Alarm 6 Output</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>AlarmOutput7</Variable>
+          <VariableName>Alarm 7 Output</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>AlarmOutput8</Variable>
+          <VariableName>Alarm 8 Output</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>int</Datatype>
+          <SpecialFormatting>TIME</SpecialFormatting>
+          <Variable>Elapse</Variable>
+          <VariableName>Time of Last Update</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>PntStatus</Variable>
+          <VariableName>Point Status</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+          <IOType>Read</IOType>
+          <ChangeOfState>True</ChangeOfState>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>PntCheckSum</Variable>
+          <VariableName>Point CheckSum</VariableName>
+          <ParameterType>DYNAMIC</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>32</DatatypeLength>
+          <Variable>Label</Variable>
+          <VariableName>Point Description</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>pntname</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>Module</Variable>
+          <VariableName>Module Address</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>0</MinimumValue>
+          <MaximumValue>6</MaximumValue>
+          <DefaultValue>255</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>Channel</Variable>
+          <VariableName>Channel Address</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>1</MinimumValue>
+          <MaximumValue>8</MaximumValue>
+          <DefaultValue>255</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>DeviceID</Variable>
+          <VariableName>Device ID</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>1</MinimumValue>
+          <MaximumValue>1665</MaximumValue>
+          <DefaultValue>0</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>CIUAddr</Variable>
+          <VariableName>CIU Address (0-9 or 255)</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>255</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>DeviceType</Variable>
+          <VariableName>Device Type</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>Undefined,EN811,EN854,EN873,EN990</AvailableCommands>
+          <DefaultValue>Undefined</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>TankVisible</Variable>
+          <VariableName>Tank Visible</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>Visible No,Visible Yes</AvailableCommands>
+          <DefaultValue>Visible No</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>4</DatatypeLength>
+          <Variable>TOI</Variable>
+          <VariableName>Type of Instrument</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>B</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>Mode</Variable>
+          <VariableName>Mode of Operation</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>Run Mode,Test Mode</AvailableCommands>
+          <DefaultValue>Run Mode</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>8</DatatypeLength>
+          <Variable>ScanCmd</Variable>
+          <VariableName>Scan Commands for Inst</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>BC</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>ScanMode</Variable>
+          <VariableName>Scan Mode</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>Normal Scan,Fast Scan</AvailableCommands>
+          <DefaultValue>Normal Scan</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>PerInterleave</Variable>
+          <VariableName>Periodic Interleave Factor</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>0</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>32</DatatypeLength>
+          <Variable>PerItemCmd</Variable>
+          <VariableName>Periodic Item Command</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>32</DatatypeLength>
+          <Variable>PerFilter</Variable>
+          <VariableName>Periodic Reply Data Filter</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>Priority</Variable>
+          <VariableName>COS Priority</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>High Priority,Low Priority,No Priority</AvailableCommands>
+          <DefaultValue>High Priority</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>Maxtime</Variable>
+          <VariableName>Max Time Between COS Updates</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>600</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>LevelDeadband</Variable>
+          <VariableName>COS Level Deadband</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>0.1</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>TempDeadband</Variable>
+          <VariableName>COS Temp Deadband</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>0.25</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>RoofFloatHt</Variable>
+          <VariableName>Roof Float Height</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>0.0</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>RoofLandHt</Variable>
+          <VariableName>Roof Land Height</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>0.0</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>RoofMass</Variable>
+          <VariableName>Roof Mass</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>0.0</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>MassInTable</Variable>
+          <VariableName>Roof Mass In Strap Table</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>In Table,Not In Table</AvailableCommands>
+          <DefaultValue>Not In Table</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>8</DatatypeLength>
+          <Variable>CorrMethod</Variable>
+          <VariableName>Correction Method</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>DensityMethod</Variable>
+          <VariableName>Density Method</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>No Method,Gauged,Manual Standard</AvailableCommands>
+          <DefaultValue>No Method</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>ManStdDensity</Variable>
+          <VariableName>Manual Standard Density</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>10.00</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>32</DatatypeLength>
+          <Variable>StrapFile</Variable>
+          <VariableName>Strap Table File</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>4</DatatypeLength>
+          <Variable>LevelConvert</Variable>
+          <VariableName>INtoOUT e.g. FtoM</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>FtoM</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>4</DatatypeLength>
+          <Variable>TempConvert</Variable>
+          <VariableName>INtoOUT e.g. FtoC</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>FtoC</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>4</DatatypeLength>
+          <Variable>DensityConvert</Variable>
+          <VariableName>INtoOUT e.g. AtoK</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>AtoK</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>4</DatatypeLength>
+          <Variable>MassConvert</Variable>
+          <VariableName>INtoOUT e.g. LtoK</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>LtoK</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>4</DatatypeLength>
+          <Variable>VolumeConvert</Variable>
+          <VariableName>INtoOUT e.g. GtoL</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>GtoL</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>4</DatatypeLength>
+          <Variable>PressConvert</Variable>
+          <VariableName>INtoOUT e.g. PtoM</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>PtoM</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>PressHeight</Variable>
+          <VariableName>Pressure Height</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>0.0</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>PNTREF</Datatype>
+          <Variable>AlarmParm1</Variable>
+          <VariableName>Parameter Monitored For Alarm</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>AlarmType1</Variable>
+          <VariableName>Alarm Type</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>Bitmap,Match,Mismatch,Low Threshold,High Threshold</AvailableCommands>
+          <DefaultValue>bitmap</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>Mask1</Variable>
+          <VariableName>Integer Mask</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>0</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>Threshold1</Variable>
+          <VariableName>Floating Point Threshold</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>1000000</DefaultValue>
+          <EngineeringUnit>%</EngineeringUnit>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>HoldOff1</Variable>
+          <VariableName>Alarm Holdoff Time (sec)</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>10</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>Hysteresis1</Variable>
+          <VariableName>Alarm Hysteresis Time (sec)</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>10</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>OutModule1</Variable>
+          <VariableName>Output Module Address</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>0</MinimumValue>
+          <MaximumValue>6</MaximumValue>
+          <DefaultValue>255</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>OutChannel1</Variable>
+          <VariableName>Output Channel Address</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>1</MinimumValue>
+          <MaximumValue>8</MaximumValue>
+          <DefaultValue>255</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>PNTREF</Datatype>
+          <Variable>AlarmParm2</Variable>
+          <VariableName>Parameter Monitored For Alarm</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>AlarmType2</Variable>
+          <VariableName>Alarm Type</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>Bitmap,Match,Mismatch,Low Threshold,High Threshold</AvailableCommands>
+          <DefaultValue>bitmap</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>Mask2</Variable>
+          <VariableName>Integer Mask</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>0</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>Threshold2</Variable>
+          <VariableName>Floating Point Threshold</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>1000000</DefaultValue>
+          <EngineeringUnit>%</EngineeringUnit>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>HoldOff2</Variable>
+          <VariableName>Alarm Holdoff Time (sec)</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>10</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>Hysteresis2</Variable>
+          <VariableName>Alarm Hysteresis Time (sec)</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>10</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>OutModule2</Variable>
+          <VariableName>Output Module Address</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>0</MinimumValue>
+          <MaximumValue>6</MaximumValue>
+          <DefaultValue>255</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>OutChannel2</Variable>
+          <VariableName>Output Channel Address</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>1</MinimumValue>
+          <MaximumValue>8</MaximumValue>
+          <DefaultValue>255</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>PNTREF</Datatype>
+          <Variable>AlarmParm3</Variable>
+          <VariableName>Parameter Monitored For Alarm</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>AlarmType3</Variable>
+          <VariableName>Alarm Type</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>Bitmap,Match,Mismatch,Low Threshold,High Threshold</AvailableCommands>
+          <DefaultValue>bitmap</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>Mask3</Variable>
+          <VariableName>Integer Mask</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>0</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>Threshold3</Variable>
+          <VariableName>Floating Point Threshold</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>1000000</DefaultValue>
+          <EngineeringUnit>%</EngineeringUnit>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>HoldOff3</Variable>
+          <VariableName>Alarm Holdoff Time (sec)</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>10</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>Hysteresis3</Variable>
+          <VariableName>Alarm Hysteresis Time (sec)</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>10</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>OutModule3</Variable>
+          <VariableName>Output Module Address</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>0</MinimumValue>
+          <MaximumValue>6</MaximumValue>
+          <DefaultValue>255</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>OutChannel3</Variable>
+          <VariableName>Output Channel Address</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>1</MinimumValue>
+          <MaximumValue>8</MaximumValue>
+          <DefaultValue>255</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>PNTREF</Datatype>
+          <Variable>AlarmParm4</Variable>
+          <VariableName>Parameter Monitored For Alarm</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>AlarmType4</Variable>
+          <VariableName>Alarm Type</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>Bitmap,Match,Mismatch,Low Threshold,High Threshold</AvailableCommands>
+          <DefaultValue>bitmap</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>Mask4</Variable>
+          <VariableName>Integer Mask</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>0</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>Threshold4</Variable>
+          <VariableName>Floating Point Threshold</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>1000000</DefaultValue>
+          <EngineeringUnit>%</EngineeringUnit>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>HoldOff4</Variable>
+          <VariableName>Alarm Holdoff Time (sec)</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>10</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>Hysteresis4</Variable>
+          <VariableName>Alarm Hysteresis Time (sec)</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>10</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>OutModule4</Variable>
+          <VariableName>Output Module Address</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>0</MinimumValue>
+          <MaximumValue>6</MaximumValue>
+          <DefaultValue>255</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>OutChannel4</Variable>
+          <VariableName>Output Channel Address</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>1</MinimumValue>
+          <MaximumValue>8</MaximumValue>
+          <DefaultValue>255</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>PNTREF</Datatype>
+          <Variable>AlarmParm5</Variable>
+          <VariableName>Parameter Monitored For Alarm</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>AlarmType5</Variable>
+          <VariableName>Alarm Type</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>Bitmap,Match,Mismatch,Low Threshold,High Threshold</AvailableCommands>
+          <DefaultValue>bitmap</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>Mask5</Variable>
+          <VariableName>Integer Mask</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>0</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>Threshold5</Variable>
+          <VariableName>Floating Point Threshold</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>1000000</DefaultValue>
+          <EngineeringUnit>%</EngineeringUnit>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>HoldOff5</Variable>
+          <VariableName>Alarm Holdoff Time (sec)</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>10</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>Hysteresis5</Variable>
+          <VariableName>Alarm Hysteresis Time (sec)</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>10</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>OutModule5</Variable>
+          <VariableName>Output Module Address</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>0</MinimumValue>
+          <MaximumValue>6</MaximumValue>
+          <DefaultValue>255</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>OutChannel5</Variable>
+          <VariableName>Output Channel Address</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>1</MinimumValue>
+          <MaximumValue>8</MaximumValue>
+          <DefaultValue>255</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>PNTREF</Datatype>
+          <Variable>AlarmParm6</Variable>
+          <VariableName>Parameter Monitored For Alarm</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>AlarmType6</Variable>
+          <VariableName>Alarm Type</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>Bitmap,Match,Mismatch,Low Threshold,High Threshold</AvailableCommands>
+          <DefaultValue>bitmap</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>Mask6</Variable>
+          <VariableName>Integer Mask</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>0</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>Threshold6</Variable>
+          <VariableName>Floating Point Threshold</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>1000000</DefaultValue>
+          <EngineeringUnit>%</EngineeringUnit>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>HoldOff6</Variable>
+          <VariableName>Alarm Holdoff Time (sec)</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>10</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>Hysteresis6</Variable>
+          <VariableName>Alarm Hysteresis Time (sec)</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>10</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>OutModule6</Variable>
+          <VariableName>Output Module Address</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>0</MinimumValue>
+          <MaximumValue>6</MaximumValue>
+          <DefaultValue>255</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>OutChannel6</Variable>
+          <VariableName>Output Channel Address</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>1</MinimumValue>
+          <MaximumValue>8</MaximumValue>
+          <DefaultValue>255</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>PNTREF</Datatype>
+          <Variable>AlarmParm7</Variable>
+          <VariableName>Parameter Monitored For Alarm</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>AlarmType7</Variable>
+          <VariableName>Alarm Type</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>Bitmap,Match,Mismatch,Low Threshold,High Threshold</AvailableCommands>
+          <DefaultValue>bitmap</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>Mask7</Variable>
+          <VariableName>Integer Mask</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>0</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>Threshold7</Variable>
+          <VariableName>Floating Point Threshold</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>1000000</DefaultValue>
+          <EngineeringUnit>%</EngineeringUnit>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>HoldOff7</Variable>
+          <VariableName>Alarm Holdoff Time (sec)</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>10</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>Hysteresis7</Variable>
+          <VariableName>Alarm Hysteresis Time (sec)</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>10</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>OutModule7</Variable>
+          <VariableName>Output Module Address</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>0</MinimumValue>
+          <MaximumValue>6</MaximumValue>
+          <DefaultValue>255</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>OutChannel7</Variable>
+          <VariableName>Output Channel Address</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>1</MinimumValue>
+          <MaximumValue>8</MaximumValue>
+          <DefaultValue>255</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>PNTREF</Datatype>
+          <Variable>AlarmParm8</Variable>
+          <VariableName>Parameter Monitored For Alarm</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <Variable>AlarmType8</Variable>
+          <VariableName>Alarm Type</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <AvailableCommands>Bitmap,Match,Mismatch,Low Threshold,High Threshold</AvailableCommands>
+          <DefaultValue>bitmap</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned long</Datatype>
+          <SpecialFormatting>LHEX</SpecialFormatting>
+          <Variable>Mask8</Variable>
+          <VariableName>Integer Mask</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>0</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>Threshold8</Variable>
+          <VariableName>Floating Point Threshold</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>1000000</DefaultValue>
+          <EngineeringUnit>%</EngineeringUnit>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>HoldOff8</Variable>
+          <VariableName>Alarm Holdoff Time (sec)</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>10</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>Hysteresis8</Variable>
+          <VariableName>Alarm Hysteresis Time (sec)</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <DefaultValue>10</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>OutModule8</Variable>
+          <VariableName>Output Module Address</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>0</MinimumValue>
+          <MaximumValue>6</MaximumValue>
+          <DefaultValue>255</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>OutChannel8</Variable>
+          <VariableName>Output Channel Address</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+          <MinimumValue>1</MinimumValue>
+          <MaximumValue>8</MaximumValue>
+          <DefaultValue>255</DefaultValue>
+        </Configuration>
+        <Configuration>
+          <Datatype>string</Datatype>
+          <DatatypeLength>196</DatatypeLength>
+          <Variable>spare</Variable>
+          <VariableName>spare for future use</VariableName>
+          <ParameterType>CONFIG</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>int</Datatype>
+          <SpecialFormatting>TIME</SpecialFormatting>
+          <Variable>COSTimer</Variable>
+          <VariableName>Change of State Timer</VariableName>
+          <ParameterType>SCRATCH</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>COSLevel</Variable>
+          <VariableName>COS Level Value</VariableName>
+          <ParameterType>SCRATCH</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>double</Datatype>
+          <Variable>COSTemp</Variable>
+          <VariableName>COS Temp Value</VariableName>
+          <ParameterType>SCRATCH</ParameterType>
+        </Configuration>
+        <Configuration>
+          <Datatype>unsigned int</Datatype>
+          <Variable>HoldOffCnt</Variable>
+          <VariableName>HoldOff Count</VariableName>
+          <ParameterType>SCRATCH</ParameterType>
+        </Configuration>
+      </Tank>
+    </point>
+  </points>
+</Configuration>

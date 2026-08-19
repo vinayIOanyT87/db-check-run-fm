@@ -1,0 +1,27 @@
+HKCR
+{
+	WeightScaleOPCServer.Ports.1 = s 'Ports Class'
+	{
+		CLSID = s '{265331A0-40D0-4DEC-B614-2A21CDC5CC1F}'
+	}
+	WeightScaleOPCServer.Ports = s 'Ports Class'
+	{
+		CLSID = s '{265331A0-40D0-4DEC-B614-2A21CDC5CC1F}'
+		CurVer = s 'WeightScaleOPCServer.Ports.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {265331A0-40D0-4DEC-B614-2A21CDC5CC1F} = s 'Ports Class'
+		{
+			ProgID = s 'WeightScaleOPCServer.Ports.1'
+			VersionIndependentProgID = s 'WeightScaleOPCServer.Ports'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{85CD7BF4-E995-4E4A-ABE2-D9FD90CF6027}'
+		}
+	}
+}

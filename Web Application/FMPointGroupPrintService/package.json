@@ -1,0 +1,15 @@
+{
+    "name": "printpointgroup",
+    "version": "1.0.0",
+    "description": "",
+    "bin": {
+        "main": "printpointgroup.js"
+    },
+    "scripts": {
+        "debug": "node --nolazy --inspect-brk=9229 printpointgroup.js"
+
+    },
+    "dependencies": {
+        "puppeteer": "^5.0.0"
+    }
+}

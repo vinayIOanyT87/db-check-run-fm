@@ -1,0 +1,19 @@
+#insert-transaction-container{
+  max-width: 800px;
+}
+
+.row-eq-height {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display:         flex;
+}
+
+#buttonGroup button {
+  float:right;
+  margin: 10px;
+}
+/*
+#buttonGroup button:disabled {
+  background: #aaaaaa;
+} */

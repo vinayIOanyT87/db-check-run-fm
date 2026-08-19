@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="FMBusinessObjects.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="FMBusinessObjects_ReportSvr2005_ReportingService2005" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://localhost:8080/ReportServer/ReportService2005.asmx</Value>
+    </Setting>
+    <Setting Name="FMBusinessObjects_ReportExecutionSvr2005_ReportExecutionService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://localhost:8080/ReportServer/ReportExecution2005.asmx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

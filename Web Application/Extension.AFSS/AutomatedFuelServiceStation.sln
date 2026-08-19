@@ -1,0 +1,154 @@
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Module.Gasboy", "Module.Gasboy", "{2C045054-AFA6-40C5-9E5C-7D3AF9425FA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Afss.BusinessObjects", "Afss.BusinessObjects\Afss.BusinessObjects.csproj", "{9D203484-1F9C-4F01-9C92-CAE8CBFDE3C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Afss.BusinessServices", "Afss.BusinessServices\Afss.BusinessServices.csproj", "{E6A63C9E-4068-4AA1-9BCF-FD246AD38BE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Afss.ServiceProcess", "Afss.ServiceProcess\Afss.ServiceProcess.csproj", "{C2BFB63D-EACD-4E36-9DCB-17E1CDA22454}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gasboy.BusinessObjects", "Module.Gasboy\Gasboy.BusinessObjects\Gasboy.BusinessObjects.csproj", "{34ECC8BA-5505-4F1A-A2E5-4C37E5BDC276}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gasboy.BusinessServices", "Module.Gasboy\Gasboy.BusinessServices\Gasboy.BusinessServices.csproj", "{DA3C7CD4-4CD1-42FA-AA71-BFD174F04318}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gasboy.ServiceProcess", "Module.Gasboy\Gasboy.ServiceProcess\Gasboy.ServiceProcess.csproj", "{001C244C-4D73-4E24-A801-461B2E5EFDBE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gasboy.WebApp", "Module.Gasboy\Gasboy.WebApp\Gasboy.WebApp.csproj", "{F93E978C-E00E-4281-B375-B9B7F9B81BFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FMBusinessObjects", "..\FMBusinessObjects\FMBusinessObjects.csproj", "{F3910E2B-3E67-4B25-874F-822EC69A6FEF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extension.AutomatedFuelServiceStation", "Extension.AutomatedFuelServiceStation", "{AD6EBCB3-14AD-495B-8941-A7B7CFF9A39D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EngineeringUnitsLibrary", "..\EngineeringUnitsLibrary\EngineeringUnitsLibrary.csproj", "{B97BF007-D336-4181-AD7A-0E664B770A0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crypt", "..\SharedComponents\EncryptionLibrary\Crypt\Crypt.csproj", "{00E3FAB7-CF2C-4468-A9B9-4ED849043861}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FMBusinessServices", "..\FMBusinessServices\FMBusinessServices.csproj", "{91E86AF6-3771-465B-BE21-89D503946687}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SRMCommon", "..\SRMCommon\SRMCommon.csproj", "{A7307F02-7276-43F3-A254-03CE0AC82186}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuelsManager", "..\FuelsManager\FuelsManager.csproj", "{30DE06B4-F251-49E7-A087-BCE46A788BFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityImportExport", "..\EntityImportExportComponents\EntityImportExport\EntityImportExport.csproj", "{6544D2AE-D7AD-4E07-A2C0-BEDCD62999D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FMControls", "..\SharedComponents\FMControls\FMControls.csproj", "{CA977939-220E-4069-BC51-8530CD9350CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FMSynchronizationCommon", "..\FMSynchronizationCommon\FMSynchronizationCommon.csproj", "{952EFE85-C324-4104-A5BD-337076F01D46}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 17
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://1552-div-team:8080/tfs/varec
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Afss.BusinessObjects\\Afss.BusinessObjects.csproj
+		SccProjectTopLevelParentUniqueName1 = AutomatedFuelServiceStation.sln
+		SccProjectName1 = Afss.BusinessObjects
+		SccLocalPath1 = Afss.BusinessObjects
+		SccProjectUniqueName2 = Afss.BusinessServices\\Afss.BusinessServices.csproj
+		SccProjectTopLevelParentUniqueName2 = AutomatedFuelServiceStation.sln
+		SccProjectName2 = Afss.BusinessServices
+		SccLocalPath2 = Afss.BusinessServices
+		SccProjectUniqueName3 = Afss.ServiceProcess\\Afss.ServiceProcess.csproj
+		SccProjectTopLevelParentUniqueName3 = AutomatedFuelServiceStation.sln
+		SccProjectName3 = Afss.ServiceProcess
+		SccLocalPath3 = Afss.ServiceProcess
+		SccProjectUniqueName4 = Module.Gasboy\\Gasboy.BusinessObjects\\Gasboy.BusinessObjects.csproj
+		SccProjectTopLevelParentUniqueName4 = AutomatedFuelServiceStation.sln
+		SccProjectName4 = Module.Gasboy/Gasboy.BusinessObjects
+		SccLocalPath4 = Module.Gasboy\\Gasboy.BusinessObjects
+		SccProjectUniqueName5 = Module.Gasboy\\Gasboy.BusinessServices\\Gasboy.BusinessServices.csproj
+		SccProjectTopLevelParentUniqueName5 = AutomatedFuelServiceStation.sln
+		SccProjectName5 = Module.Gasboy/Gasboy.BusinessServices
+		SccLocalPath5 = Module.Gasboy\\Gasboy.BusinessServices
+		SccProjectUniqueName6 = Module.Gasboy\\Gasboy.ServiceProcess\\Gasboy.ServiceProcess.csproj
+		SccProjectTopLevelParentUniqueName6 = AutomatedFuelServiceStation.sln
+		SccProjectName6 = Module.Gasboy/Gasboy.ServiceProcess
+		SccLocalPath6 = Module.Gasboy\\Gasboy.ServiceProcess
+		SccProjectUniqueName7 = Module.Gasboy\\Gasboy.WebApp\\Gasboy.WebApp.csproj
+		SccProjectTopLevelParentUniqueName7 = AutomatedFuelServiceStation.sln
+		SccProjectName7 = Module.Gasboy/Gasboy.WebApp
+		SccLocalPath7 = Module.Gasboy\\Gasboy.WebApp
+		SccProjectUniqueName8 = ..\\FMBusinessObjects\\FMBusinessObjects.csproj
+		SccProjectName8 = ../FMBusinessObjects
+		SccLocalPath8 = ..\\FMBusinessObjects
+		SccProjectUniqueName9 = ..\\EngineeringUnitsLibrary\\EngineeringUnitsLibrary.csproj
+		SccProjectName9 = ../EngineeringUnitsLibrary
+		SccLocalPath9 = ..\\EngineeringUnitsLibrary
+		SccProjectUniqueName10 = ..\\SharedComponents\\EncryptionLibrary\\Crypt\\Crypt.csproj
+		SccProjectName10 = ../SharedComponents/EncryptionLibrary/Crypt
+		SccLocalPath10 = ..\\SharedComponents\\EncryptionLibrary\\Crypt
+		SccProjectUniqueName11 = ..\\FMBusinessServices\\FMBusinessServices.csproj
+		SccProjectName11 = ../FMBusinessServices
+		SccLocalPath11 = ..\\FMBusinessServices
+		SccProjectUniqueName12 = ..\\SRMCommon\\SRMCommon.csproj
+		SccProjectName12 = ../SRMCommon
+		SccLocalPath12 = ..\\SRMCommon
+		SccProjectUniqueName13 = ..\\FuelsManager\\FuelsManager.csproj
+		SccProjectName13 = ../FuelsManager
+		SccLocalPath13 = ..\\FuelsManager
+		SccProjectUniqueName14 = ..\\EntityImportExportComponents\\EntityImportExport\\EntityImportExport.csproj
+		SccProjectName14 = ../EntityImportExportComponents/EntityImportExport
+		SccLocalPath14 = ..\\EntityImportExportComponents\\EntityImportExport
+		SccProjectUniqueName15 = ..\\SharedComponents\\FMControls\\FMControls.csproj
+		SccProjectName15 = ../SharedComponents/FMControls
+		SccLocalPath15 = ..\\SharedComponents\\FMControls
+		SccProjectUniqueName16 = ..\\FMSynchronizationCommon\\FMSynchronizationCommon.csproj
+		SccProjectName16 = ../FMSynchronizationCommon
+		SccLocalPath16 = ..\\FMSynchronizationCommon
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9D203484-1F9C-4F01-9C92-CAE8CBFDE3C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D203484-1F9C-4F01-9C92-CAE8CBFDE3C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6A63C9E-4068-4AA1-9BCF-FD246AD38BE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6A63C9E-4068-4AA1-9BCF-FD246AD38BE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2BFB63D-EACD-4E36-9DCB-17E1CDA22454}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2BFB63D-EACD-4E36-9DCB-17E1CDA22454}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34ECC8BA-5505-4F1A-A2E5-4C37E5BDC276}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34ECC8BA-5505-4F1A-A2E5-4C37E5BDC276}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA3C7CD4-4CD1-42FA-AA71-BFD174F04318}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA3C7CD4-4CD1-42FA-AA71-BFD174F04318}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{001C244C-4D73-4E24-A801-461B2E5EFDBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{001C244C-4D73-4E24-A801-461B2E5EFDBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F93E978C-E00E-4281-B375-B9B7F9B81BFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F93E978C-E00E-4281-B375-B9B7F9B81BFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3910E2B-3E67-4B25-874F-822EC69A6FEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3910E2B-3E67-4B25-874F-822EC69A6FEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B97BF007-D336-4181-AD7A-0E664B770A0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B97BF007-D336-4181-AD7A-0E664B770A0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00E3FAB7-CF2C-4468-A9B9-4ED849043861}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00E3FAB7-CF2C-4468-A9B9-4ED849043861}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91E86AF6-3771-465B-BE21-89D503946687}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91E86AF6-3771-465B-BE21-89D503946687}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7307F02-7276-43F3-A254-03CE0AC82186}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7307F02-7276-43F3-A254-03CE0AC82186}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30DE06B4-F251-49E7-A087-BCE46A788BFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30DE06B4-F251-49E7-A087-BCE46A788BFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6544D2AE-D7AD-4E07-A2C0-BEDCD62999D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6544D2AE-D7AD-4E07-A2C0-BEDCD62999D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA977939-220E-4069-BC51-8530CD9350CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA977939-220E-4069-BC51-8530CD9350CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{952EFE85-C324-4104-A5BD-337076F01D46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{952EFE85-C324-4104-A5BD-337076F01D46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2C045054-AFA6-40C5-9E5C-7D3AF9425FA4} = {AD6EBCB3-14AD-495B-8941-A7B7CFF9A39D}
+		{9D203484-1F9C-4F01-9C92-CAE8CBFDE3C5} = {AD6EBCB3-14AD-495B-8941-A7B7CFF9A39D}
+		{E6A63C9E-4068-4AA1-9BCF-FD246AD38BE3} = {AD6EBCB3-14AD-495B-8941-A7B7CFF9A39D}
+		{C2BFB63D-EACD-4E36-9DCB-17E1CDA22454} = {AD6EBCB3-14AD-495B-8941-A7B7CFF9A39D}
+		{34ECC8BA-5505-4F1A-A2E5-4C37E5BDC276} = {2C045054-AFA6-40C5-9E5C-7D3AF9425FA4}
+		{DA3C7CD4-4CD1-42FA-AA71-BFD174F04318} = {2C045054-AFA6-40C5-9E5C-7D3AF9425FA4}
+		{001C244C-4D73-4E24-A801-461B2E5EFDBE} = {2C045054-AFA6-40C5-9E5C-7D3AF9425FA4}
+		{F93E978C-E00E-4281-B375-B9B7F9B81BFE} = {2C045054-AFA6-40C5-9E5C-7D3AF9425FA4}
+	EndGlobalSection
+EndGlobal

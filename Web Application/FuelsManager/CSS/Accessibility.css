@@ -1,0 +1,155 @@
+﻿
+input:not([readonly="readonly"]):enabled:focus, button:enabled:focus, textarea:not([readonly]):enabled:focus{
+    outline: none;
+    border: 3px solid #4CAF50 !important; /* Green border */
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.65); /* Green shadow */
+}
+
+
+a[href]:not([disabled="disabled"]):not(:has(:is(img,i))):hover, 
+a[href] > img:not([src*="-Inactive"]):hover,
+a[href]:not([disabled="disabled"]):empty:hover, a[onclick]:not([disabled="disabled"]):hover,
+select:enabled:not([multiple]):has(option):not([disabled="disabled"]):hover, select[multiple="multiple"]:enabled:not([disabled="disabled"]) option:hover,
+input:enabled:not([readonly="readonly"]):hover, button:enabled:hover, button[aria-disabled="false"]:hover, textarea:not([readonly]):enabled:hover, 
+img[onclick]:hover,
+div[onclick]:hover, li[onclick]:hover, td[onclick]:not([style*="not-allowed"]) img:hover, 
+span[onclick]:not(:has(i)):hover, span[onclick] > i:hover, span[role="combobox"]:hover,
+input[type="radio"] + .setting-radio-control__indicator:hover,
+input[type="checkbox"]:enabled + label:hover {
+    outline: none;
+    border: 3px solid aqua;
+    box-shadow: 0 0 4px black;
+    cursor: pointer;
+}
+a[href] > img.drawcontroltool:hover {
+    outline: none;
+    border: 3px solid aqua !important;
+    box-shadow: 0 0 4px black;
+    cursor: pointer;
+}
+
+
+li.PointDetailMenuItem:hover ,
+td[id^="testLimitValueCellId_"]:hover {
+    cursor: pointer;
+    outline: none;
+    border: 3px solid aqua !important; 
+    box-shadow: 0 0 4px black; 
+}
+    
+    .ui-datepicker-trigger:hover,
+    div.FMTrendLegendRowsContainer div.sp-preview:enabled:hover,
+    div.scrtabs-tab-scroll-arrow:hover,
+    div a.tab-configuration:hover,
+    div[onmousedown]:hover,
+    div.ui-pnotify-closer[aria-role="button"]:hover {
+        outline: none;
+        border: 3px solid aqua;
+        box-shadow: 0 0 4px black;
+        cursor: pointer;
+    }
+.FMTrendMenuBar div[mouseup]:enabled:hover {
+    outline: none;
+    border: 3px solid aqua;
+    box-shadow: 0 0 4px black;
+    cursor: pointer;
+}
+
+span.detailViewSwitch:hover, span.listViewSwitch:hover {
+    outline: none;
+    border: 3px solid aqua;
+    box-shadow: 0 0 4px black;
+    cursor: pointer;
+}
+
+table td a[href]:not([disabled="disabled"]) > img:hover {
+    outline: none;
+    border: 3px solid aqua !important;
+    box-shadow: 0 0 4px black;
+    cursor: pointer;
+}
+
+
+#TagEditTable select:enabled:hover {
+    outline: none;
+    border: 3px solid aqua;
+    box-shadow: 0 0 4px black;
+    cursor: pointer;
+} 
+
+#PEMenuRolloutViewMode:hover,
+#ModuleEditorDivScroll table img.booleanImgSelect:hover,
+#ModuleEditorDivScroll table img.deleteImg:hover,
+#PAGmenu span.back-control:hover,
+#PAGMenuItems li.PointDetailMenuItem:hover,
+#pointTemplateList label:not(.ignore-click) span:hover,
+span.point-template-header-checkboxes label.column-header-checkbox span:not(.ignore-click):hover,
+span.point-template-checkboxes label span:hover,
+.usergroup-checkall label:not(.ignore-click) span:hover,
+.usergroup-checkboxes label:not(.ignore-click) span:hover,
+.drawGraphicSelectionListItem[data-guid]:hover,
+#PAGFilterPointAccessGroups span[data-guid][data-url]:hover,
+#userGroupTable tr[data-guid][data-url]:hover,
+#userTable tr[data-guid][data-url]:hover,
+#PAGFilterUserGroups span.pointgroupfilter:hover,
+#AddPointAccessGroupToUserGroup:hover,
+#pointAccessGroupTable td img:hover,
+#pointAccessGroupTable td:not(:has(*)):hover,
+#PointControlSection div.panel-container:hover,
+span.column-header-checkbox-group label span:hover {
+    outline: none;
+    border: 3px solid aqua;
+    box-shadow: 0 0 4px black;
+    cursor: pointer;
+}
+
+#MovementModuleSettingsNodeTable span.editTargetSPValue:hover,
+#MovementModuleSettingsNodeTable tr:hover,
+#CalculatorTable a.editLinkClass:hover,
+#AlarmSummaryTable tr:hover {
+    outline: 3px solid black !important;
+    border: 3px solid aqua !important;
+    cursor: pointer;
+}
+
+
+#TagTable input.NewCheckBox:enabled + span:hover {
+    outline: none;
+    border: 3px solid aqua !important;
+    cursor: pointer;
+}
+
+@scope (#RptViewer_ReportViewer) {
+    a[href]:hover, select:enabled:hover, input:enabled:hover, button:enabled:hover, button[aria-disabled="false"]:hover, textarea:not([readonly]):enabled:hover, img[onclick]:hover,
+    div[onclick]:hover, li[onclick]:hover, td[onclick] img:hover, a[onclick]:hover, span[onclick]:hover, span[role="combobox"]:hover,
+    input[type="radio"] + .setting-radio-control__indicator:hover {
+        border: revert;
+        box-shadow: revert;
+        cursor: default;
+    }
+}
+
+#RptViewer_ReportViewer input[id^="RptViewer"]:enabled:hover,
+#RptViewer_ReportViewer select[id^="RptViewer"]:enabled:hover {
+    outline: none;
+    border: 3px solid aqua;
+    box-shadow: 0 0 4px black;
+    cursor: pointer;
+}
+
+#RptViewer_ReportViewer input[id^="RptViewer"]:enabled,
+#RptViewer_ReportViewer select[id^="RptViewer"]:enabled {
+    outline: none;
+    border: 3px solid rgb(0,0,0,0.0);
+    box-shadow: none;
+    cursor: default;
+}
+
+
+
+ /*rgba(0, 0, 0, 0.9);*/
+ul[id="FMM_menu"] > li > a[onclick]:hover {
+    border: none !important;
+    box-shadow: none !important;
+
+}

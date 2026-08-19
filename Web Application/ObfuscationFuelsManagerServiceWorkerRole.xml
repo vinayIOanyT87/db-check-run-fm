@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE dotfuscator SYSTEM "http://www.preemptive.com/dotfuscator/dtd/dotfuscator_v2.3.dtd">
+<dotfuscator version="2.3">
+	<!--Will be populated from MSBUILD/TFS Build.-->
+	<propertylist>
+		<property name="ObfuscationInputPath" value="To be populated by MSBUILD" />
+		<property name="ObfuscationOutputPath" value="To be populated by MSBUILD" />
+		<property name="StrongNameKeyPath" value="To be populated by MSBUILD" />
+	</propertylist>
+	<input>
+		<loadpaths />
+		<asmlist>
+			<package refid="35E2A1ED-C3C0-486B-AB37-6C14452F8150">
+				<!-- the dir attribute below will need to be changed depending on the project -->
+				<file dir="${ObfuscationInputPath}"/>
+				<asmlist>
+					<inputassembly refid="A37A69C3-CBAB-426E-972B-CDD9C1BC2E6A">
+						<option>honoroas</option>
+						<option>stripoa</option>
+						<option>library</option>
+						<option>transformxaml</option>
+						<file dir="${ObfuscationInputPath}" name="FMBusinessObjects.dll" />
+					</inputassembly>
+					<inputassembly refid="230F8E5F-3CA2-4B66-B667-B05C949D0348">
+						<option>honoroas</option>
+						<option>stripoa</option>
+						<option>library</option>
+						<option>transformxaml</option>
+						<file dir="${ObfuscationInputPath}" name="FMBusinessServices.dll" />
+					</inputassembly>
+					<inputassembly refid="4D103D8B-BD33-4DFD-8703-9A574603C24A">
+						<option>honoroas</option>
+						<option>stripoa</option>
+						<option>library</option>
+						<option>transformxaml</option>
+						<file dir="${ObfuscationInputPath}" name="EngineeringUnitsLibrary.dll" />
+					</inputassembly>
+					<inputassembly refid="9DCD902A-6023-4CB3-87CB-58471316A8A2">
+						<option>honoroas</option>
+						<option>stripoa</option>
+						<option>library</option>
+						<option>artifact</option>
+						<option>transformxaml</option>
+						<file dir="${ObfuscationInputPath}" name="OpcNetApi.dll" />
+					</inputassembly>
+					<inputassembly refid="718415F9-B4FC-43EB-99C5-27B0AF7ABD5B">
+						<option>honoroas</option>
+						<option>stripoa</option>
+						<option>library</option>
+						<option>transformxaml</option>
+						<file dir="${ObfuscationInputPath}" name="FuelsManagerService.exe" />
+					</inputassembly>
+      		<inputassembly refid="DC7C4644-A506-424A-A28E-93E469B17805">
+						<option>honoroas</option>
+						<option>stripoa</option>
+						<option>library</option>
+						<option>transformxaml</option>
+						<file dir="${ObfuscationInputPath}" name="FuelsManagerServiceWorkerRole.dll" />
+					</inputassembly>
+				</asmlist>
+			</package>
+		</asmlist>
+	</input>
+	<output>
+		<file dir="${ObfuscationOutputPath}" />
+	</output>
+	<renaming>
+		<option>xmlserialization</option>
+		<mapping>
+			<mapoutput overwrite="false">
+				<file dir="${configdir}\Dotfuscated" name="Map.xml" />
+			</mapoutput>
+		</mapping>
+		<referencerulelist>
+			<referencerule rulekey="{6655B10A-FD58-462d-8D4F-5B1316DFF0FF}" />
+			<referencerule rulekey="{229FD6F8-5BCC-427b-8F72-A7A413ECDF1A}" />
+			<referencerule rulekey="{2B7E7C8C-A39A-4db8-9DFC-6AFD38509061}" />
+			<referencerule rulekey="{89769974-93E9-4e71-8D92-BE70E855ACFC}" />
+			<referencerule rulekey="{7D9C8B02-2383-420f-8740-A9760394C2C1}" />
+		</referencerulelist>
+	</renaming>
+	<controlflow level="high" />
+	<signing>
+		<resign>
+			<option>dontuseattributes</option>
+			<key>
+				<file dir="${StrongNameKeyPath}" name="FMStrongNameKey.snk" />
+			</key>
+		</resign>
+	</signing>
+	<sos mergeruntime="true">
+		<option>dontsendtamper</option>
+	</sos>
+	<smartobfuscation>
+		<smartobfuscationreport verbosity="all" overwrite="false" />
+	</smartobfuscation>
+</dotfuscator>

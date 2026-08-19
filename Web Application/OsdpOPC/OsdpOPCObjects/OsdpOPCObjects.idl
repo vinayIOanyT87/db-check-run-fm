@@ -1,0 +1,197 @@
+/******************************************************************************
+
+	FILE NAME:		OsdpOPCObjects.idl
+
+
+	PURPOSE:			IDL source for OsdpOPCObjects.dll
+
+
+	COMMENTS:
+
+		Copyright (C) E+H Systems & Gauging, Inc. Norcross, GA, USA, 2000
+
+		This file shall not be copied or reproduced in any form without
+				the express written consent of Endress+Hauser.
+
+
+	AUTHOR(S):	W. Gray
+
+
+	VERSION:		1.0.4  Current version
+
+
+
+	MODIFICATION HISTORY:
+		Date:			By:			Reason:
+		---------	----------  -------------------------------------------
+*******************************************************************************/
+
+
+// This file will be processed by the MIDL tool to
+// produce the type library (OsdpOPCObjects.tlb) and marshalling code.
+
+#include "mtxattr.h"
+#include "IComCollection.idl"
+import "oaidl.idl";
+import "ocidl.idl";
+
+typedef enum OSDP_BAUD
+{
+	OSDP_BAUD_1200 = 0,
+	OSDP_BAUD_2400 = 1,
+	OSDP_BAUD_4800 = 2,
+	OSDP_BAUD_9600 = 3,
+	OSDP_BAUD_19200 = 4,
+	OSDP_BAUD_38400 = 5,
+	MAX_OSDP_BAUD = 6
+} OSDP_BAUD;
+
+typedef enum OSDP_PARITY
+{
+	OSDP_PARITY_NONE = 0,
+	OSDP_PARITY_EVEN = 1,
+	OSDP_PARITY_ODD = 2,
+	MAX_OSDP_PARITY = 3
+} OSDP_PARITY;
+
+typedef enum OSDP_DATA_BITS
+{
+	DATA_BITS_7 = 0,
+	DATA_BITS_8 = 1,
+	MAX_OSDP_DATA_BITS = 2
+} OSDP_DATA_BITS;
+
+typedef enum OSDP_STOP_BITS
+{
+	STOP_BITS_1 = 0,
+	STOP_BITS_2 = 1,
+	MAX_OSDP_STOP_BITS = 2
+} OSDP_STOP_BITS;
+
+
+[
+	object,
+	uuid(c23eea85-21b8-48a0-a785-2f19dce37284),
+	dual,
+	nonextensible,
+	helpstring("IOsdpController Interface"),
+	pointer_default(unique)
+]
+interface IOsdpController : IDispatch{
+	[propget, id(1), helpstring("property Index")] HRESULT Index([out, retval] LONG* pVal);
+	[propput, id(1), helpstring("property Index")] HRESULT Index([in] LONG newVal);
+	[propget, id(2), helpstring("property ID")] HRESULT ID([out, retval] BSTR* pVal);
+	[propput, id(2), helpstring("property ID")] HRESULT ID([in] BSTR newVal);
+	[propget, id(3), helpstring("property Address")] HRESULT Address([out, retval] BYTE* pVal);
+	[propput, id(3), helpstring("property Address")] HRESULT Address([in] BYTE newVal);
+	[propget, id(4), helpstring("property PortIndex")] HRESULT PortIndex([out, retval] LONG* pVal);
+	[propput, id(4), helpstring("property PortIndex")] HRESULT PortIndex([in] LONG newVal);
+	[propget, id(5), helpstring("property PortID")] HRESULT PortID([out, retval] BSTR* pVal);
+	[propput, id(5), helpstring("property PortID")] HRESULT PortID([in] BSTR newVal);
+	[id(6), helpstring("method Load")] HRESULT Load([in] IDispatch* pDispatch);
+	[id(7), helpstring("method Reset")] HRESULT Reset(void);
+	[propget, id(8), helpstring("property InsertSQL")] HRESULT InsertSQL([out, retval] BSTR* pVal);
+	[propget, id(9), helpstring("property UpdateSQL")] HRESULT UpdateSQL([out, retval] BSTR* pVal);
+	[propget, id(10), helpstring("property PurgeSQL")] HRESULT PurgeSQL([out, retval] BSTR* pVal);
+	[propget, id(11), helpstring("property SelectSQL")] HRESULT SelectSQL([out, retval] BSTR* pVal);
+	[propget, id(12), helpstring("property SelectByIDSQL")] HRESULT SelectByIDSQL([out, retval] BSTR* pVal);
+	[propget, id(13), helpstring("property EnumerateSQL")] HRESULT EnumerateSQL([out, retval] BSTR* pVal);
+};
+[
+	object,
+	uuid(6771749b-7baf-4bee-80e5-c3aa13912abf),
+	dual,
+	nonextensible,
+	helpstring("IOsdpControllerCollection Interface"),
+	pointer_default(unique)
+]
+interface IOsdpControllerCollection : IDispatch{
+	DECLARE_COM_COLLECTION(IOsdpController)
+};
+[
+	object,
+	uuid(45244916-8e17-4cfe-b65a-47619d8884ac),
+	dual,
+	nonextensible,
+	helpstring("IPort Interface"),
+	pointer_default(unique)
+]
+interface IPort : IDispatch{
+	[propget, id(1), helpstring("property Index")] HRESULT Index([out, retval] LONG* pVal);
+	[propput, id(1), helpstring("property Index")] HRESULT Index([in] LONG newVal);
+	[propget, id(2), helpstring("property ID")] HRESULT ID([out, retval] BSTR* pVal);
+	[propput, id(2), helpstring("property ID")] HRESULT ID([in] BSTR newVal);
+	[propget, id(3), helpstring("property Baud")] HRESULT Baud([out, retval] OSDP_BAUD* pVal);
+	[propput, id(3), helpstring("property Baud")] HRESULT Baud([in] OSDP_BAUD newVal);
+	[propget, id(4), helpstring("property DataBits")] HRESULT DataBits([out, retval] OSDP_DATA_BITS* pVal);
+	[propput, id(4), helpstring("property DataBits")] HRESULT DataBits([in] OSDP_DATA_BITS newVal);
+	[propget, id(5), helpstring("property Parity")] HRESULT Parity([out, retval] OSDP_PARITY* pVal);
+	[propput, id(5), helpstring("property Parity")] HRESULT Parity([in] OSDP_PARITY newVal);
+	[propget, id(6), helpstring("property StopBits")] HRESULT StopBits([out, retval] OSDP_STOP_BITS* pVal);
+	[propput, id(6), helpstring("property StopBits")] HRESULT StopBits([in] OSDP_STOP_BITS newVal);
+	[id(7), helpstring("method BaudID")] HRESULT BaudID([in] OSDP_BAUD Baud,[out,retval] BSTR* pVal);
+	[id(8), helpstring("method DataBitsID")] HRESULT DataBitsID([in] OSDP_DATA_BITS DataBits,[out,retval] BSTR* pVal);
+	[id(9), helpstring("method ParityID")] HRESULT ParityID([in] OSDP_PARITY Parity,[out,retval] BSTR* pVal);
+	[id(10), helpstring("method StopBitsID")] HRESULT StopBitsID([in] OSDP_STOP_BITS StopBits,[out,retval] BSTR* pVal);
+	[id(11), helpstring("method Load")] HRESULT Load([in] IDispatch* pDispatch);
+	[id(12), helpstring("method Reset")] HRESULT Reset(void);
+	[propget, id(13), helpstring("property InsertSQL")] HRESULT InsertSQL([out, retval] BSTR* pVal);
+	[propget, id(14), helpstring("property UpdateSQL")] HRESULT UpdateSQL([out, retval] BSTR* pVal);
+	[propget, id(15), helpstring("property PurgeSQL")] HRESULT PurgeSQL([out, retval] BSTR* pVal);
+	[propget, id(16), helpstring("property SelectSQL")] HRESULT SelectSQL([out, retval] BSTR* pVal);
+	[propget, id(17), helpstring("property SelectByIDSQL")] HRESULT SelectByIDSQL([out, retval] BSTR* pVal);
+	[propget, id(18), helpstring("property EnumerateSQL")] HRESULT EnumerateSQL([out, retval] BSTR* pVal);
+
+};
+[
+	object,
+	uuid(a8b77555-6d37-44ef-9382-28ed10b82049),
+	dual,
+	nonextensible,
+	helpstring("IPortCollection Interface"),
+	pointer_default(unique)
+]
+interface IPortCollection : IDispatch{
+	DECLARE_COM_COLLECTION(IPort)
+};
+[
+	uuid(9676f116-2caf-49c6-96d4-cd41765a8469),
+	version(1.0),
+	helpstring("OsdpOPCObjects 1.0 Type Library")
+]
+library OsdpOPCObjectsLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(c5dd8573-9622-4ccf-8872-161f0da121dd),
+		helpstring("OsdpController Class")
+	]
+	coclass OsdpController
+	{
+		[default] interface IOsdpController;
+	};
+	[
+		uuid(1011626d-7da1-454a-af08-471d33e3a412),
+		helpstring("OsdpControllerCollection Class")
+	]
+	coclass OsdpControllerCollection
+	{
+		[default] interface IOsdpControllerCollection;
+	};
+	[
+		uuid(4aa2073d-930b-49ee-a8d7-6faff32483e2),
+		helpstring("Port Class")
+	]
+	coclass Port
+	{
+		[default] interface IPort;
+	};
+	[
+		uuid(4b674e80-5e53-4b13-9ba9-d526f3ca14a4),
+		helpstring("PortCollection Class")
+	]
+	coclass PortCollection
+	{
+		[default] interface IPortCollection;
+	};
+};

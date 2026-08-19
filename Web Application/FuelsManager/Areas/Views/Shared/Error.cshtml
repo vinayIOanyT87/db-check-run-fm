@@ -1,0 +1,48 @@
+﻿@using FuelsManager.Areas.Controllers;
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    @{
+        try
+        {
+            //Global.WriteToEventLog("abcdef exception", System.Diagnostics.EventLogEntryType.Error);
+            if (System.Web.HttpContext.Current != null && System.Web.HttpContext.Current.Session != null)
+            {
+                //Global.WriteToEventLog("abcdef exception logout2", System.Diagnostics.EventLogEntryType.Error);
+                Global.Logout(System.Web.HttpContext.Current);
+            }
+            if (string.IsNullOrWhiteSpace(this.ViewBag.FMErrorMessage) == false)
+            {
+                string msg = this.ViewBag.FMErrorMessage as string;
+                Global.WriteToEventLog(msg, System.Diagnostics.EventLogEntryType.Error);
+            }
+
+            Exception ex = Server.GetLastError();
+
+            if (ex != null)
+            {
+                Global.WriteToEventLog(ex.Message, System.Diagnostics.EventLogEntryType.Error);
+                Global.WriteToEventLog(ex.StackTrace, System.Diagnostics.EventLogEntryType.Error);
+            }
+
+        }
+        catch
+        {
+            ;
+        }
+    }
+    <script type="text/javascript">
+        alert('Request failed. Please see the Event Logs for details.');
+    </script>
+</head>
+
+<body>
+    <div>
+       
+    </div>
+</body>
+</html>

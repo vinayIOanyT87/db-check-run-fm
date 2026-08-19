@@ -1,0 +1,407 @@
+﻿@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.PointTemplateDetailModel
+
+@{
+    ViewBag.Title = "PointTemplateDetail";
+    Layout = "~/Areas/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+	#PointCommandStatusEditorScreen {
+		 width: 700px !important;
+	}
+
+	#DeviceAlarmMapsEditorScreen {
+		 width: 700px !important;
+	}
+
+
+.btn-setting {
+    -moz-min-width: 90px;
+    -ms-min-width: 90px;
+    -o-min-width: 90px;
+    -webkit-min-width: 90px;
+    min-width: 90px;
+    background-color: #f9f9f9;
+    color: rgb( 86,126,185);
+	 border-color: rgb( 86,126,185);
+    height: 30px !important;
+    border-style: none;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-image: none;
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 16px;
+    border-radius: 0;
+    cursor: pointer;
+    height: 34px;
+    width: 150px;
+    overflow: hidden;
+}
+
+    .btn-setting:hover, .btn-setting:focus, .btn-setting.focus {
+        color: rgb(153,153,153);
+        text-decoration: none;
+    }
+
+    .btn-setting .PESettingText {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+	 #PTEEditPointCommandStatus {
+		 display: block;
+	 }
+
+	 #PTEEditDeviceAlarmMaps {
+		 display: block;
+	 }
+
+</style>
+
+
+<link href="~/Areas/Content/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Content/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
+<link href="~/Areas/Lib/DataTables/DataTables-1.10.15/css/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Lib/DataTables/Select-1.2.2/css/select.dataTables.min.css" rel="stylesheet" type="text/css"/>
+
+<link href="~/Areas/Content/jquery.scrolling-tabs-custom.css" rel="stylesheet">
+<link href="~/Areas/Content/jquery.contextmenu.css" rel="stylesheet">
+<link href="~/Areas/Content/PointCommandStatusEditor.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Content/DeviceAlarmMapsEditor.css" rel="stylesheet" type="text/css" />
+
+<script src="~/Areas/Lib/DataTables/DataTables-1.10.15/js/jquery.dataTables.js"></script>
+<script src="~/Areas/Lib/DataTables/Select-1.2.2/js/dataTables.select.min.js"></script>
+<script src="~/Areas/Lib/DataTables/DataTables-1.10.15/js/dataTables.bootstrap.js"></script>
+
+<script src="~/Areas/lib/jquery.contextmenu2.js" type="text/javascript"></script>
+<script src="~/Areas/lib/jquery.contextmenu.js" type="text/javascript"></script>
+
+<script src="~/Areas/Lib/jquery.nicescroll.min.js"></script>
+
+<script src="~/Areas/Lib/bootstrap-modal.js"></script>
+<script src="~/Areas/Lib/bootstrap-modalmanager.js"></script>
+
+<div class="headline">@FMBaseController.TranslateText( "Point Template" )</div>
+
+@using (Html.BeginForm("PointTemplateDetail", "PointTemplates", FormMethod.Post, new { id = "pointTemplateForm" }))
+{
+    @Html.HiddenFor(model => model.Template.IdentityGuid)
+    //@Html.HiddenFor(model => model.SettingKey)
+    //@Html.HiddenFor(model => model.ConfigurationSettingGuid)
+
+    @Html.AntiForgeryToken()
+
+	<div style="position: relative; top: 10px">
+		<table class="detailTable">
+			<tr>
+				<td style="vertical-align: middle">
+					<div class="formfieldtitle">@FMBaseController.TranslateText("Point Template ID:")</div>
+				</td>
+                <td style="vertical-align: middle">
+                    <div class="formfieldtitle">@FMBaseController.TranslateText("Point Detail:")</div>
+                </td>
+            </tr>
+            <tr>
+				<td style="vertical-align: middle">
+					<div class="formfield">@Html.TextBoxFor(model => model.Template.ID, new { autofocus = "autofocus", disabled = "disabled", @class = "formField minWidth500" })</div>
+				</td>
+                <td style="vertical-align: middle">
+                    <div class="formfield">@Html.DropDownListFor(model => model.DefaultDrawingGuidString,  Model.AssociatedDrawings.Select(s => new SelectListItem { Text = s.ID, Value = s.DrawingGuid.ToString() }), new { @class = "form-control tagDefaultUnits", id = "PTEDefaultDrawingSelection", name = "PTEDefaultDrawingSelection" })</div>
+                </td>
+			</tr>
+		</table>
+
+	</div>
+
+	@Html.Label("Device Alarm Maps", new { @class = "formfieldtitle", style = "margin-top: 25px" })
+	<div class="btn-setting" id="PTEEditDeviceAlarmMaps" title='@FMBaseController.TranslateText("Edit Device Alarm Maps")' onclick="onDeviceAlarmMapsEditClick( '@Model.Template.IdentityGuid' );">
+		<span class="PTESettingImage glyphicon glyphicon-list-alt"></span>
+		<span class="PTESettingText">@FMBaseController.TranslateText("OPEN EDITOR")</span>
+	</div>
+
+	@Html.Label("Point Commands-Statuses", new { @class = "formfieldtitle", style = "margin-top: 25px" })
+	<div class="btn-setting" id="PTEEditPointCommandStatus" title='@FMBaseController.TranslateText("Edit Point Commands-Statuses")' onclick="onPointCommandStatusEditClick( '@Model.Template.IdentityGuid' );">
+		<span class="PTESettingImage glyphicon glyphicon-list-alt"></span>
+		<span class="PTESettingText">@FMBaseController.TranslateText("OPEN EDITOR")</span>
+	</div>
+
+    @Html.Label( "Tag Definitions", new {@class = "formfieldtitle", style="margin-top: 25px"} )
+    <section class="FMGridSection" style="max-width: 500px">
+        <div class="FMGridContainer">
+            <table class="detailTable">
+                <thead>
+                    <tr>
+                        <th>
+                            ID<div>ID</div>
+                        </th>
+                        <th>
+                            Input/Output Type<div>Input/Output Type</div>
+                        </th>
+                        <th>
+                            Input<div>Input</div>   
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ( var tag in Model.Template.Tags )
+                    {
+                        <tr>
+                            <td>@tag.Value.ID</td>
+                            <td>@tag.Value.InputOutputType</td>
+                            <td>@tag.Value.Input</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    if (Model.Template.Properties.Count > 0)
+    {
+
+        foreach (var module in Model.Template.Modules.Values)
+        {
+            var text = "Module: " + module.ModuleTypeName;
+            <div class="formfieldtitle" style="margin-top: 25px">@text</div>
+        }
+
+        @Html.Label("Properties", new { @class = "formfieldtitle", style = "margin-top: 25px" })
+        <section class="FMGridSection" style="max-width: 500px">
+            <div class="FMGridContainer">
+                <table class="detailTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                ID<div>ID</div>
+                            </th>
+                            <th>
+                                Value<div>Value</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var property in Model.Template.Properties.Values)
+                        {
+                            <tr>
+                                <td>
+                                    @property.ID
+                                </td>
+                                <td>
+                                    @property.Value
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        @Html.Label("Calculations", new { @class = "formfieldtitle", style = "margin-top: 25px" })
+        <br/>
+
+        foreach (var moduleTemplateMap in Model.Template.ModuleInstances.Values)
+        {
+            foreach (var calculation in moduleTemplateMap.Calculations.Values)
+            {
+                @Html.Label("Method Name: " + calculation.MethodName, new { @class = "formfieldtitle", style = "margin-top: 25px" })
+
+                <section class="FMGridSection" style="max-width: 500px">
+                    <div class="FMGridContainer">
+                        <table class="detailTable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Parameter Name<div>Parameter Name</div>
+                                    </th>
+                                    <th>
+                                        Tag Name<div>Tag Name</div>
+                                    </th>
+                                    <th>
+                                        Type<div>Type</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var parameter in calculation.ParameterMap.Values)
+                                {
+                                    <tr>
+                                        <td>
+                                            @parameter.ParameterName
+                                        </td>
+                                        <td>
+                                            @parameter.TagName
+                                        </td>
+                                        <td>
+                                            @parameter.ParameterType
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <br/>
+            }
+        }
+    }
+
+    var modifyDisabled = (Model.ModifyEnabled) ? "" : "disabled";
+   <div style="padding-top: 25px">
+        <input type="submit" id="save" value='@FMBaseController.TranslateText("Apply")' class="formfieldtitle pushButton" @modifyDisabled />
+
+        <input type="button" id="cancel" value='@FMBaseController.TranslateText("Cancel")' class="formfieldtitle pushButton"
+                onclick="location.href='@Url.Action("PointTemplatesIndex")'" style="position:relative; left: 10px" />
+   </div>
+}
+
+
+<!-- Modal -->
+<div class="row">
+	<div id="PointCommandStatusEditorScreen" class="modal fade" data-backdrop="static" data-focus-on="input:first" role="dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-body">
+				<section id="pointCommandStatusEditorBody" class=""></section>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-toolbar">
+					<div class="pull-left">
+
+					</div>
+					<div class="pull-right">
+						<button id="PCSESaveButton" type="button" class="formfieldtitle pushButton" style="width: 100px;">
+							@FMBaseController.TranslateText("Save")
+						</button>
+						<button id="PCECloseButton" type="button" class="formfieldtitle pushButton" data-dismiss="modal" style="width: 100px;">
+							@FMBaseController.TranslateText("Close")
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script>
+	
+	// when the save button in the Module Property Editor modal is clicked just submit the form inside the editor
+	$("#PCSESaveButton").click(
+		function () {
+			$("#PointCommandStatusEditorScreen").find('form').submit();
+		});
+
+	// open editor for PointCommandStatus
+	function onPointCommandStatusEditClick(paramPointTemplateGuid) {
+
+		var PointCommandStatusSettings = { pointTemplateGuid: paramPointTemplateGuid };
+
+
+		// create the backdrop and wait for next modal to be triggered
+		$('body').modalmanager('loading');
+
+		// close all the notifications currently openned
+		FMErrorAndExceptionHandling.CloseNotifications();
+
+		var token = $('#pointTemplateForm input[name =__RequestVerificationToken]').val();
+		var headers = {};
+		headers['__RequestVerificationToken'] = token;
+		
+		$.ajax({
+			type: "GET",
+			cache: false,
+			headers: headers,
+			url: "@Url.Action("PointCommandStatusEditor", "PointCommandStatusEditor")",
+			data: PointCommandStatusSettings,
+			success: function(response, xhr, settings) {
+				FMErrorAndExceptionHandling.HandleMessages(response, function (data, inError)
+				{
+					if (!inError) {
+						// replace the holder with the partial view
+						$('#pointCommandStatusEditorBody').html(data);
+						// show the modal
+						$('#PointCommandStatusEditorScreen').modal('show');
+						$('#PointCommandStatusForm input[type=button], #PointCommandStatusForm input[type=submit]').removeAttr("disabled");
+					}
+					else {
+						// remove the loading of the modal
+						var modalManager = $("body").data("modalmanager");
+						modalManager.removeLoading();
+					}
+				});
+			},
+			error: function (xhr, textStatus, error) {
+				FMErrorAndExceptionHandling.ShowException(xhr,
+					textStatus,
+					error,
+					function () {
+						// remove the loading of the modal
+						var modalManager = $("body").data("modalmanager");
+						modalManager.removeLoading();
+					});
+			}
+		});
+	}
+
+	// open editor for DeviceAlarmMap
+	function onDeviceAlarmMapEditClick(paramPointTemplateGuid) {
+
+		var DeviceAlarmMapSettings = { pointTemplateGuid: paramPointTemplateGuid };
+
+
+		// create the backdrop and wait for next modal to be triggered
+		$('body').modalmanager('loading');
+
+		// close all the notifications currently openned
+		FMErrorAndExceptionHandling.CloseNotifications();
+
+		var token = $('#pointTemplateForm input[name =__RequestVerificationToken]').val();
+		var headers = {};
+		headers['__RequestVerificationToken'] = token;
+		
+		$.ajax({
+			type: "GET",
+			cache: false,
+			headers: headers,
+			url: "@Url.Action("DeviceAlarmMapsEditor", "DeviceAlarmMapsEditor")",
+			data: PointCommandStatusSettings,
+		success: function(response, xhr, settings) {
+			FMErrorAndExceptionHandling.HandleMessages(response, function (data, inError)
+			{
+				if (!inError) {
+					// replace the holder with the partial view
+					$('#deviceAlarmMapsEditorBody').html(data);
+					// show the modal
+					$('#DeviceAlarmMapsEditorScreen').modal('show');
+					$('#DeviceAlarmMapsForm input[type=button], #DeviceAlarmMapsForm input[type=submit]').removeAttr("disabled");
+				}
+				else {
+					// remove the loading of the modal
+					var modalManager = $("body").data("modalmanager");
+					modalManager.removeLoading();
+				}
+			});
+		},
+		error: function (xhr, textStatus, error) {
+			FMErrorAndExceptionHandling.ShowException(xhr,
+				textStatus,
+				error,
+				function () {
+					// remove the loading of the modal
+					var modalManager = $("body").data("modalmanager");
+					modalManager.removeLoading();
+				});
+		}
+	});
+}
+
+
+
+</script>

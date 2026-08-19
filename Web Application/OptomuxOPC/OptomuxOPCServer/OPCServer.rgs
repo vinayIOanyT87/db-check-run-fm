@@ -1,0 +1,31 @@
+HKCR
+{
+	Varec.OptomuxOPCServer.1 = s 'Varec OptomuxController OPCServer Class'
+	{
+		CLSID = s '{DC07462E-EDCD-4186-9FD0-B8B7F990B490}'
+	}
+	Varec.OptomuxOPCServer = s 'Varec OptomuxController OPCServer Class'
+	{
+		CLSID = s '{DC07462E-EDCD-4186-9FD0-B8B7F990B490}'
+		CurVer = s 'Varec.OptomuxOPCServer.1'
+        OPC
+        {
+            Vendor = s 'Varec'
+        }
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {DC07462E-EDCD-4186-9FD0-B8B7F990B490} = s 'Varec OptomuxController OPCServer Class'
+		{
+			ProgID = s 'Varec.OptomuxOPCServer.1'
+			VersionIndependentProgID = s 'Varec.OptomuxOPCServer'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{DC07462E-EDCD-4186-9FD0-B8B7F990B490}'
+		}
+	}
+}

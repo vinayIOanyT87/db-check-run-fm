@@ -1,0 +1,599 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9A19B954-9CCA-43D9-9D8D-4383F6B11FA0}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OPCWebApp</RootNamespace>
+    <AssemblyName>OPCWebApp</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <UseIISExpress>false</UseIISExpress>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Interop.AcculoadOPCObjects">
+      <HintPath>..\..\Binaries\Interop.AcculoadOPCObjects.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.AcculoadOPCServer">
+      <HintPath>..\..\Binaries\Interop.AcculoadOPCServer.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.ContrecOPCObjects">
+      <HintPath>..\..\Binaries\Interop.ContrecOPCObjects.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.ContrecOPCServer">
+      <HintPath>..\..\Binaries\Interop.ContrecOPCServer.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.DanielOPCObjects">
+      <HintPath>..\..\Binaries\Interop.DanielOPCObjects.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.DanielOPCServer">
+      <HintPath>..\..\Binaries\Interop.DanielOPCServer.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.OptomuxOPCObjects">
+      <HintPath>..\..\Binaries\Interop.OptomuxOPCObjects.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.OptomuxOPCServer">
+      <HintPath>..\..\Binaries\Interop.OptomuxOPCServer.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.OsdpOPCObjects">
+      <HintPath>..\..\Binaries\Interop.OsdpOPCObjects.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.OsdpOPCServer">
+      <HintPath>..\..\Binaries\Interop.OsdpOPCServer.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.ScullyOPCObjects">
+      <HintPath>..\..\Binaries\Interop.ScullyOPCObjects.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.ScullyOPCServer">
+      <HintPath>..\..\Binaries\Interop.ScullyOPCServer.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.WeightScaleOPCObjects">
+      <HintPath>..\..\Binaries\Interop.WeightScaleOPCObjects.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.WeightScaleOPCServer">
+      <HintPath>..\..\Binaries\Interop.WeightScaleOPCServer.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="OpcNetApi, Version=2.0.2.0, Culture=neutral, PublicKeyToken=78aea80f6827b5ab, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Binaries\OpcNetApi.dll</HintPath>
+    </Reference>
+    <Reference Include="OpcNetApi.Com, Version=2.0.1.0, Culture=neutral, PublicKeyToken=78aea80f6827b5ab, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Binaries\OpcNetApi.Com.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Extensions, Version=2.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives, Version=4.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AcculoadOPCWebApp\AcculoadForm.aspx" />
+    <Content Include="AcculoadOPCWebApp\AcculoadsForm.aspx" />
+    <Content Include="AcculoadOPCWebApp\CardReaderForm.aspx" />
+    <Content Include="AcculoadOPCWebApp\CardReadersForm.aspx" />
+    <Content Include="AcculoadOPCWebApp\PortForm.aspx" />
+    <Content Include="AcculoadOPCWebApp\PortsForm.aspx" />
+    <Content Include="ContrecOPCWebApp\ContrecForm.aspx" />
+    <Content Include="ContrecOPCWebApp\ContrecsForm.aspx" />
+    <Content Include="ContrecOPCWebApp\PortForm.aspx" />
+    <Content Include="ContrecOPCWebApp\PortsForm.aspx" />
+    <Content Include="DanielOPCWebApp\DanLoadForm.aspx" />
+    <Content Include="DanielOPCWebApp\DanLoadsForm.aspx" />
+    <Content Include="DanielOPCWebApp\PortForm.aspx" />
+    <Content Include="DanielOPCWebApp\PortsForm.aspx" />
+    <Content Include="OsdpOPCWebApp\OsdpControllerForm.aspx" />
+    <Content Include="OsdpOPCWebApp\OsdpControllersForm.aspx" />
+    <Content Include="OsdpOPCWebApp\PortForm.aspx" />
+    <Content Include="OsdpOPCWebApp\PortsForm.aspx" />
+    <Content Include="OptomuxOPCWebApp\OptomuxControllerForm.aspx" />
+    <Content Include="OptomuxOPCWebApp\OptomuxControllersForm.aspx" />
+    <Content Include="OptomuxOPCWebApp\PortForm.aspx" />
+    <Content Include="OptomuxOPCWebApp\PortsForm.aspx" />
+    <Content Include="ScullyOPCWebApp\PortForm.aspx" />
+    <Content Include="ScullyOPCWebApp\PortsForm.aspx" />
+    <Content Include="ScullyOPCWebApp\ScullyForm.aspx" />
+    <Content Include="ScullyOPCWebApp\ScullysForm.aspx" />
+    <Content Include="WeightScaleOPCWebApp\PortForm.aspx" />
+    <Content Include="WeightScaleOPCWebApp\PortsForm.aspx" />
+    <Content Include="WeightScaleOPCWebApp\WeightScaleForm.aspx" />
+    <Content Include="WeightScaleOPCWebApp\WeightScalesForm.aspx" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AcculoadOPCWebApp\AcculoadForm.aspx.cs">
+      <DependentUpon>AcculoadForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AcculoadOPCWebApp\AcculoadFormBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AcculoadOPCWebApp\AcculoadsForm.aspx.cs">
+      <DependentUpon>AcculoadsForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AcculoadOPCWebApp\CardReaderForm.aspx.cs">
+      <DependentUpon>CardReaderForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AcculoadOPCWebApp\CardReadersForm.aspx.cs">
+      <DependentUpon>CardReadersForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AcculoadOPCWebApp\DataDictionaryKeys.cs" />
+    <Compile Include="AcculoadOPCWebApp\PortForm.aspx.cs">
+      <DependentUpon>PortForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AcculoadOPCWebApp\PortsForm.aspx.cs">
+      <DependentUpon>PortsForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ContrecOPCWebApp\ContrecForm.aspx.cs">
+      <DependentUpon>ContrecForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ContrecOPCWebApp\ContrecForm.aspx.designer.cs">
+      <DependentUpon>ContrecForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ContrecOPCWebApp\ContrecFormBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ContrecOPCWebApp\ContrecsForm.aspx.cs">
+      <DependentUpon>ContrecsForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ContrecOPCWebApp\ContrecsForm.aspx.designer.cs">
+      <DependentUpon>ContrecsForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ContrecOPCWebApp\PortForm.aspx.cs">
+      <DependentUpon>PortForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ContrecOPCWebApp\PortForm.aspx.designer.cs">
+      <DependentUpon>PortForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ContrecOPCWebApp\PortsForm.aspx.cs">
+      <DependentUpon>PortsForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ContrecOPCWebApp\PortsForm.aspx.designer.cs">
+      <DependentUpon>PortsForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DanielOPCWebApp\DanielFormBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DanielOPCWebApp\DanLoadForm.aspx.cs">
+      <DependentUpon>DanLoadForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DanielOPCWebApp\DanLoadForm.aspx.designer.cs">
+      <DependentUpon>DanLoadForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DanielOPCWebApp\DanLoadsForm.aspx.cs">
+      <DependentUpon>DanLoadsForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DanielOPCWebApp\DanLoadsForm.aspx.designer.cs">
+      <DependentUpon>DanLoadsForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DanielOPCWebApp\DataDictionaryKeys.cs" />
+    <Compile Include="DanielOPCWebApp\PortForm.aspx.cs">
+      <DependentUpon>PortForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DanielOPCWebApp\PortForm.aspx.designer.cs">
+      <DependentUpon>PortForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DanielOPCWebApp\PortsForm.aspx.cs">
+      <DependentUpon>PortsForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DanielOPCWebApp\PortsForm.aspx.designer.cs">
+      <DependentUpon>PortsForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="OsdpOPCWebApp\DataDictionaryKeys.cs" />
+    <Compile Include="OsdpOPCWebApp\OsdpControllerForm.aspx.cs">
+      <DependentUpon>OsdpControllerForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="OsdpOPCWebApp\OsdpControllerForm.aspx.designer.cs">
+      <DependentUpon>OsdpControllerForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="OsdpOPCWebApp\OsdpControllersForm.aspx.cs">
+      <DependentUpon>OsdpControllersForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="OsdpOPCWebApp\OsdpControllersForm.aspx.designer.cs">
+      <DependentUpon>OsdpControllersForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="OsdpOPCWebApp\OsdpFormBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="OsdpOPCWebApp\PortForm.aspx.cs">
+      <DependentUpon>PortForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="OsdpOPCWebApp\PortForm.aspx.designer.cs">
+      <DependentUpon>PortForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="OsdpOPCWebApp\PortsForm.aspx.cs">
+      <DependentUpon>PortsForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="OsdpOPCWebApp\PortsForm.aspx.designer.cs">
+      <DependentUpon>PortsForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="OptomuxOPCWebApp\DataDictionaryKeys.cs" />
+    <Compile Include="OptomuxOPCWebApp\OptomuxControllerForm.aspx.cs">
+      <DependentUpon>OptomuxControllerForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="OptomuxOPCWebApp\OptomuxControllerForm.aspx.designer.cs">
+      <DependentUpon>OptomuxControllerForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="OptomuxOPCWebApp\OptomuxControllersForm.aspx.cs">
+      <DependentUpon>OptomuxControllersForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="OptomuxOPCWebApp\OptomuxControllersForm.aspx.designer.cs">
+      <DependentUpon>OptomuxControllersForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="OptomuxOPCWebApp\OptomuxFormBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="OptomuxOPCWebApp\PortForm.aspx.cs">
+      <DependentUpon>PortForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="OptomuxOPCWebApp\PortForm.aspx.designer.cs">
+      <DependentUpon>PortForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="OptomuxOPCWebApp\PortsForm.aspx.cs">
+      <DependentUpon>PortsForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="OptomuxOPCWebApp\PortsForm.aspx.designer.cs">
+      <DependentUpon>PortsForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScullyOPCWebApp\DataDictionaryKeys.cs" />
+    <Compile Include="ScullyOPCWebApp\PortForm.aspx.cs">
+      <DependentUpon>PortForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ScullyOPCWebApp\PortForm.aspx.designer.cs">
+      <DependentUpon>PortForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ScullyOPCWebApp\PortsForm.aspx.cs">
+      <DependentUpon>PortsForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ScullyOPCWebApp\PortsForm.aspx.designer.cs">
+      <DependentUpon>PortsForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ScullyOPCWebApp\ScullyForm.aspx.cs">
+      <DependentUpon>ScullyForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ScullyOPCWebApp\ScullyForm.aspx.designer.cs">
+      <DependentUpon>ScullyForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ScullyOPCWebApp\ScullyFormBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ScullyOPCWebApp\ScullysForm.aspx.cs">
+      <DependentUpon>ScullysForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ScullyOPCWebApp\ScullysForm.aspx.designer.cs">
+      <DependentUpon>ScullysForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WeightScaleOPCWebApp\DataDictionaryKeys.cs" />
+    <Compile Include="WeightScaleOPCWebApp\PortForm.aspx.cs">
+      <DependentUpon>PortForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WeightScaleOPCWebApp\PortForm.aspx.designer.cs">
+      <DependentUpon>PortForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WeightScaleOPCWebApp\PortsForm.aspx.cs">
+      <DependentUpon>PortsForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WeightScaleOPCWebApp\PortsForm.aspx.designer.cs">
+      <DependentUpon>PortsForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WeightScaleOPCWebApp\WeightScaleForm.aspx.cs">
+      <DependentUpon>WeightScaleForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WeightScaleOPCWebApp\WeightScaleForm.aspx.designer.cs">
+      <DependentUpon>WeightScaleForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WeightScaleOPCWebApp\WeightScaleFormBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WeightScaleOPCWebApp\WeightScalesForm.aspx.cs">
+      <DependentUpon>WeightScalesForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WeightScaleOPCWebApp\WeightScalesForm.aspx.designer.cs">
+      <DependentUpon>WeightScalesForm.aspx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AcculoadOPCWebApp\AcculoadForm.aspx.resx">
+      <DependentUpon>AcculoadForm.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AcculoadOPCWebApp\AcculoadsForm.aspx.resx">
+      <DependentUpon>AcculoadsForm.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AcculoadOPCWebApp\CardReaderForm.aspx.resx">
+      <DependentUpon>CardReaderForm.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AcculoadOPCWebApp\CardReadersForm.aspx.resx">
+      <DependentUpon>CardReadersForm.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AcculoadOPCWebApp\PortForm.aspx.resx">
+      <DependentUpon>PortForm.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AcculoadOPCWebApp\PortsForm.aspx.resx">
+      <DependentUpon>PortsForm.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ContrecOPCWebApp\ContrecForm.aspx.resx">
+      <DependentUpon>ContrecForm.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ContrecOPCWebApp\ContrecsForm.aspx.resx">
+      <DependentUpon>ContrecsForm.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ContrecOPCWebApp\PortForm.aspx.resx">
+      <DependentUpon>PortForm.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ContrecOPCWebApp\PortsForm.aspx.resx">
+      <DependentUpon>PortsForm.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DanielOPCWebApp\DanLoadForm.aspx.resx">
+      <DependentUpon>DanLoadForm.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DanielOPCWebApp\DanLoadsForm.aspx.resx">
+      <DependentUpon>DanLoadsForm.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DanielOPCWebApp\PortForm.aspx.resx">
+      <DependentUpon>PortForm.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DanielOPCWebApp\PortsForm.aspx.resx">
+      <DependentUpon>PortsForm.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OsdpOPCWebApp\OsdpControllerForm.aspx.resx">
+      <DependentUpon>OsdpControllerForm.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OsdpOPCWebApp\OsdpControllersForm.aspx.resx">
+      <DependentUpon>OsdpControllersForm.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OsdpOPCWebApp\PortForm.aspx.resx">
+      <DependentUpon>PortForm.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OsdpOPCWebApp\PortsForm.aspx.resx">
+      <DependentUpon>PortsForm.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OptomuxOPCWebApp\OptomuxControllerForm.aspx.resx">
+      <DependentUpon>OptomuxControllerForm.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OptomuxOPCWebApp\OptomuxControllersForm.aspx.resx">
+      <DependentUpon>OptomuxControllersForm.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OptomuxOPCWebApp\PortForm.aspx.resx">
+      <DependentUpon>PortForm.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OptomuxOPCWebApp\PortsForm.aspx.resx">
+      <DependentUpon>PortsForm.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScullyOPCWebApp\PortForm.aspx.resx">
+      <DependentUpon>PortForm.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScullyOPCWebApp\PortsForm.aspx.resx">
+      <DependentUpon>PortsForm.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScullyOPCWebApp\ScullyForm.aspx.resx">
+      <DependentUpon>ScullyForm.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScullyOPCWebApp\ScullysForm.aspx.resx">
+      <DependentUpon>ScullysForm.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WeightScaleOPCWebApp\PortForm.aspx.resx">
+      <DependentUpon>PortForm.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WeightScaleOPCWebApp\PortsForm.aspx.resx">
+      <DependentUpon>PortsForm.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WeightScaleOPCWebApp\WeightScaleForm.aspx.resx">
+      <DependentUpon>WeightScaleForm.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WeightScaleOPCWebApp\WeightScalesForm.aspx.resx">
+      <DependentUpon>WeightScalesForm.aspx.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AcculoadOPCWebApp\web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\FMBusinessObjects\FMBusinessObjects.csproj">
+      <Project>{F3910E2B-3E67-4B25-874F-822EC69A6FEF}</Project>
+      <Name>FMBusinessObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\FuelsManager\FuelsManager.csproj">
+      <Project>{30DE06B4-F251-49E7-A087-BCE46A788BFA}</Project>
+      <Name>FuelsManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SharedComponents\FMControls\FMControls.csproj">
+      <Project>{CA977939-220E-4069-BC51-8530CD9350CE}</Project>
+      <Name>FMControls</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ContrecOPCWebApp\web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DanielOPCWebApp\web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="OptomuxOPCWebApp\web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ScullyOPCWebApp\web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="WeightScaleOPCWebApp\web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="OsdpOPCWebApp\web.config" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>IF $(ConfigurationName) == Release exit
+set regasmcmd="C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\regasm.exe "
+copy "..\bin\opcwebapp.dll" "..\..\..\FuelsManager\bin"
+copy "..\..\..\Binaries\Interop*.dll" "..\..\..\FuelsManager\bin"
+%25regasmcmd%25 ..\..\..\FuelsManager\bin\Interop.AcculoadOPCObjects.dll
+%25regasmcmd%25 ..\..\..\FuelsManager\bin\Interop.AcculoadOPCServer.dll
+%25regasmcmd%25 ..\..\..\FuelsManager\bin\Interop.ContrecOPCObjects.dll
+%25regasmcmd%25 ..\..\..\FuelsManager\bin\Interop.ContrecOPCServer.dll
+%25regasmcmd%25 ..\..\..\FuelsManager\bin\Interop.DanielOPCObjects.dll
+%25regasmcmd%25 ..\..\..\FuelsManager\bin\Interop.DanielOPCServer.dll
+%25regasmcmd%25 ..\..\..\FuelsManager\bin\Interop.OptomuxOPCObjects.dll
+%25regasmcmd%25 ..\..\..\FuelsManager\bin\Interop.OptomuxOPCServer.dll
+%25regasmcmd%25 ..\..\..\FuelsManager\bin\Interop.ScullyOPCObjects.dll
+%25regasmcmd%25 ..\..\..\FuelsManager\bin\Interop.ScullyOPCServer.dll
+%25regasmcmd%25 ..\..\..\FuelsManager\bin\Interop.WeightScaleOPCObjects.dll
+%25regasmcmd%25 ..\..\..\FuelsManager\bin\Interop.WeightScaleOPCServer.dll
+mkdir "..\..\..\FuelsManager\AcculoadOPCWebApp"
+mkdir "..\..\..\FuelsManager\ContrecOPCWebApp"
+mkdir "..\..\..\FuelsManager\DanielOPCWebApp"
+mkdir "..\..\..\FuelsManager\OptomuxOPCWebApp"
+mkdir "..\..\..\FuelsManager\ScullyOPCWebApp"
+mkdir "..\..\..\FuelsManager\WeightScaleOPCWebApp"
+mkdir "..\..\..\FuelsManager\OsdpOPCWebApp"
+copy "..\AcculoadOPCWebApp\*.aspx" "..\..\..\FuelsManager\AcculoadOPCWebApp"
+copy "..\ContrecOPCWebApp\*.aspx" "..\..\..\FuelsManager\ContrecOPCWebApp"
+copy "..\DanielOPCWebApp\*.aspx" "..\..\..\FuelsManager\DanielOPCWebApp"
+copy "..\OptomuxOPCWebApp\*.aspx" "..\..\..\FuelsManager\OptomuxOPCWebApp"
+copy "..\ScullyOPCWebApp\*.aspx" "..\..\..\FuelsManager\ScullyOPCWebApp"
+copy "..\WeightScaleOPCWebApp\*.aspx" "..\..\..\FuelsManager\WeightScaleOPCWebApp"
+copy "..\OsdpOPCWebApp\*.aspx" "..\..\..\FuelsManager\OsdpOPCWebApp"
+
+
+</PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

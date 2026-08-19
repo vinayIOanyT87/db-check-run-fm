@@ -1,0 +1,671 @@
+﻿
+#TransactionAliasMenu {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: rgb( 128, 128, 128);
+}
+
+#TAMenuItems > li {
+    padding-right: 35px;
+    padding-left: 0px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+    #TAMenuItems > li.selected {
+        color: rgb( 86, 126, 185);
+    }
+
+#TransactionAliasImageContainer {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+}
+
+#TransactionAliasImage {
+    width: 100%;
+    height: 100%;
+}
+
+
+#TransactionAliasTitle h2 {
+    display: inline;
+    line-height: 100%;
+    vertical-align: middle;
+    padding-left: 10px;
+    color: rgb( 102, 102, 102);
+}
+
+.TransactionAliasMenuItem span {
+    padding-right: 5px;
+}
+
+::-webkit-input-placeholder {
+    font-style: italic;
+    font-size: 12px;
+    color: #567eb9;
+}
+
+:-moz-placeholder {
+    font-style: italic;
+    font-size: 12px;
+    color: #567eb9;
+}
+
+::-moz-placeholder {
+    font-style: italic;
+    font-size: 12px;
+    color: #567eb9;
+}
+
+:-ms-input-placeholder {
+    font-style: italic;
+    font-size: 12px;
+    color: #567eb9;
+}
+
+.TransactionAliasCheckboxName {
+    word-break: break-word;
+}
+
+.TransactionAliasCheckboxes {
+    display: inline-block; 
+    position: absolute;
+    right: 5px;
+}
+
+input[type="checkbox"] + span::before {
+    display: inline-block;
+    vertical-align: middle;
+    content: "";
+    width: 16px;
+    height: 16px;
+    margin: 0 4px 0 0;
+    border: solid 1px rgb(193,193,193);
+    line-height: 14px;
+    text-align: center;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    background-color: white;
+}
+
+input[type="checkbox"]:checked + span::before {
+    content: "\2714";
+    font-size: 12px;
+    font-weight: normal;
+}
+
+input[type="checkbox"].disabled + span::before {
+    background-color: #f0f0f0;
+    font-size: 12px;
+    content: "";
+    font-weight: normal;
+    cursor: not-allowed;
+}
+
+div:hover input[type="checkbox"].disabled + span::before {
+    background-color: rgb( 196, 207, 225);
+}
+
+.separator-label {
+    font-weight: bold;
+    color: rgb(153,153,153);
+}
+
+.settingsectionhorizontalline {
+    margin-left: 100px;
+    margin-right: 50px;
+    top: 10px;
+    border-bottom-style: solid;
+    height: 10px;
+    border-width: thin;
+    border-color: rgb(153,153,153);
+}
+
+.settingsectionhorizontallinewide {
+    margin-left: 250px;
+    margin-right: 50px;
+    top: 10px;
+    border-bottom-style: solid;
+    height: 10px;
+    border-width: thin;
+    border-color: rgb(153,153,153);
+}
+
+.settingsection a .expand-icon {
+    width: 24px;
+    height: 25px;
+    background-image: url('../../fmwebapp/images/Selection Up.png');
+}
+
+.settingsection a.collapsed .expand-icon {
+    width: 24px;
+    height: 25px;
+    background-image: url('../../fmwebapp/images/Selection Down.png');
+}
+
+.settingsection {
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.control-label {
+    /*    font-weight: bold;
+    color: #567eb9; */
+}
+
+#FieldEditTable, #FieldEditTableHeader {
+    background-color: white;
+}
+
+#FieldEditTableWrap, #AssociationsTableWrap {
+    height: calc( 100vh - 175px);
+    overflow: auto;
+    background-color: transparent;
+}
+
+#FieldEditTableHeader {
+    margin-bottom: 0px;
+}
+
+.FuelsManager-table-header th {
+    color: rgb(153,153,153);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    line-height: 30px;
+    border-width: 1px;
+}
+
+#FieldEditTable tr {
+    border-bottom-style: solid;
+    border-bottom-width: thin;
+    border-color: #ddd;
+}
+
+#FieldEditTable .form-control, #FieldEditTableHeader .form-control {
+    border-style: none;
+    background-color: transparent;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    font-weight: bold;
+}
+
+    #FieldEditTable .form-control[disabled] {
+        color: rgb(193,193,193);
+    }
+
+#FieldEditTable select[disabled='disabled']::-ms-value {
+    color: rgb(193,193,193);
+}
+
+.fieldtype {
+    vertical-align: bottom;
+}
+
+.fieldColumnDBName > input {
+    width: auto;
+    display: inline-block;
+}
+
+.setting-radio-control {
+    font-size: 14px;
+    font-weight: bold !important;
+    line-height: 30px;
+    position: relative;
+    margin-bottom: 9px;
+    padding-left: 30px;
+    cursor: pointer;
+}
+
+    .setting-radio-control input {
+        position: absolute;
+        z-index: -1;
+        opacity: 0;
+        display: none;
+    }
+
+.setting-radio-control__indicator {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background: #e6e6e6;
+}
+
+.setting-radio-control--radio .setting-radio-control__indicator {
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 1px;
+    background: transparent;
+    margin-top: 4px;
+}
+
+/* Hover and focus states */
+.setting-radio-control:hover input ~ .setting-radio-control__indicator,
+.setting-radio-control input:focus ~ .setting-radio-control__indicator {
+    background: white;
+}
+
+/* Checked state */
+.setting-radio-control input:checked ~ .setting-radio-control__indicator {
+    border-color: rgb(72, 104, 153);
+}
+
+/* Hover state whilst checked */
+.setting-radio-control:hover input:not([disabled]):checked ~ .setting-radio-control__indicator,
+.setting-radio-control input:checked:focus ~ .setting-radio-control__indicator {
+    background: white;
+    opacity: .8;
+}
+
+/* Disabled state */
+.setting-radio-control input:disabled ~ .setting-radio-control__indicator {
+    pointer-events: none;
+    opacity: .6;
+    background: #e6e6e6;
+}
+
+/* Check mark */
+.setting-radio-control__indicator:after {
+    position: absolute;
+    display: none;
+    content: '';
+}
+
+/* Show check mark */
+.setting-radio-control input:checked ~ .setting-radio-control__indicator:after {
+    display: block;
+}
+
+/* Radio button inner circle */
+.setting-radio-control--radio .setting-radio-control__indicator:after {
+    top: 3px;
+    left: 3px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgb(72, 104, 153);
+}
+
+/* Disabled circle colour */
+.control--radio input:disabled ~ .control__indicator:after {
+    background: #7b7b7b;
+}
+
+.fieldColumnDBWrapper {
+    position: relative;
+    display: inline-block;
+    width: calc( 100% - 35px);
+}
+
+label.column-field-name {
+    padding-top: 0px;
+    margin-bottom: 0px;
+}
+
+.fieldtype {
+    position: absolute;
+    left: 10px;
+    bottom: -4px;
+}
+
+    .fieldtype.label-Transaction {
+        background-color: #337ab7;
+    }
+    .fieldtype.label-Line-Item {
+        background-color: #b77033;
+    }
+    .fieldtype.label-Notes, .fieldtype.label-Note {
+        background-color: #b7337a
+    }
+
+    .fieldtype.label-Weight-Reading {
+        background-color: #7033b7
+    }
+
+
+    .fieldtype.label-Transport-Line {
+        background-color: #33b770
+    }
+
+    .fieldtype.label-Export-Result {
+        background-color: #b73338
+    }
+
+.TransactionAliasFieldButtonGroup {
+    position: absolute;
+    left: 50px;
+    padding-top: 0px;
+    padding-bottom: 5px;
+}
+
+
+@media (min-width: 1000px) {
+    .modal.modal-lg {
+        width: 1000px;
+        margin-left: -585px;
+    }
+}
+
+.modal.modal-lg {
+    width: 940px;
+    margin-left: -470px;
+}
+
+
+.loadingDiv {
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.7);
+    z-index: 10000;
+}
+
+    .loadingDiv img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -60px 0px 0px -60px;
+        z-index: 10000;
+    }
+
+.Selectionhorizontalline {
+    margin-left: 150px;
+    margin-right: 35px;
+    height: 13px;
+    top: 10px;
+    border-bottom-style: solid;
+    border-width: thin;
+    border-color: rgb(153,153,153);
+}
+
+.control-label {
+    font-weight: normal;
+}
+
+.no-side-padding {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+#FieldConfigurationEditorScreen .select2-container,
+#TransactionFieldSelectScreen .select2-container {
+    width: 100% !important;
+}
+
+
+#FieldConfigurationEditorScreen .select2-container--default .select2-selection--multiple,
+#TransactionFieldSelectScreen .select2-container--default .select2-selection--multiple {
+    border-radius: 0px !important;
+}
+
+
+.select2-dropdown {
+    z-index: 2000 !important;
+}
+
+.margin-top-20 {
+    margin-top: 20px;
+}
+
+.transaction-detail-selection > label {
+    max-width: 50%;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+#TAGeneral img {
+    background: url("../../fmwebapp/images/Settings Icon - unselected.png");
+    width: 0px;
+    height: 0px;
+    padding: 10px 10px 10px 10px;
+}
+
+#TAGeneral.selected img {
+    background: url("../../fmwebapp/images/Settings Icon - selected.png");
+}
+
+#TAFields img {
+    background: url("../../fmwebapp/images/field icon - unselected.png");
+    width: 0px;
+    height: 0px;
+    padding: 10px 10px 10px 10px;
+}
+
+#TAFields.selected img {
+    background: url("../../fmwebapp/images/field icon - selected.png");
+}
+
+
+#TALayout img {
+    background: url("../../fmwebapp/images/layout icon - unselected.png");
+    width: 0px;
+    height: 0px;
+    padding: 5px 5px 10px 10px;
+}
+
+#TALayout.selected img {
+    background: url("../../fmwebapp/images/layout Icon - selected.png");
+}
+
+#fieldSelectionList, .TransactionFieldSelection {
+    height: calc(100% - 50px) !important;
+    width: 100%;
+}
+
+.TransactionFieldSelection {
+    height: calc(100vh - 250px) !important;
+    overflow-x: hidden;
+}
+
+#fieldSelectionList {
+    width: 888px
+}
+
+.TransactionAliasFieldSelectionElement:hover{
+    color: rgb( 59, 87, 127);
+    background-color: rgb( 245, 248, 251);
+}
+
+.TransactionAliasFieldSelectionElement {
+    height: 30px;
+    margin-top: 5px;
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+    color: rgb( 128, 128, 128 );
+    width: 275px;
+    display: inline-block;
+    position: relative;
+}
+
+.TransactionAliasFieldSelectionTitle .fieldtype {
+    left: 0px;
+}
+.column-field-name {
+    width: calc(100% - 25px);
+    display: inline-block;
+}
+
+.transaction-alias-type-filter .select2-search__field {
+    width: 100% !important;
+}
+
+.transaction-alias-filter-addon {
+    background: transparent !important;
+    border-bottom-style: solid;
+    border-radius: 0px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgb(192,192,192);
+}
+
+    .transaction-alias-filter-addon .transaction-alias-field-List-form-control {
+        border-style: none;
+        background-color: transparent;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+        display: block;
+        width: 100%;
+        height: 34px;
+        padding-top: 0px;
+        font-weight: normal !important;
+        padding-left: 10px;
+        padding-right: 25px;
+        padding-top: 0px;
+        outline: none;
+    }
+
+.operateSubMenuFilter input {
+    color: rgb(102,102,102);
+    font-weight: normal;
+    font-size: 12px;
+    outline: none;
+}
+
+
+.transaction-alias-filter-addon img {
+    position: absolute;
+    padding-top: 12px;
+    padding-right: 17px;
+    pointer-events: none;
+    top: 0px;
+    right: 0px;
+}
+
+.visibility-btn-group.btn-group .btn {
+    width: 28px !important;
+    height: 28px !important;
+}
+
+.singleselectimg {
+    height: 15px;
+    width: 15px;
+}
+
+.fieldColumnVisibility {
+    vertical-align: middle !important;
+    padding: 0px !important;
+}
+
+.margin-bottom-15 {
+    margin-bottom: 15px;
+}
+
+.mainPage {
+    padding-left: 0px !important;
+}
+
+#TALeftPanelSettings, #TARightPanelSettings {
+    height: calc( 100vh - 75px);
+}
+
+#TALeftPanelSettings {
+    padding-right: 30px;
+}
+
+.TASettingList {
+    background-color: white;
+    line-height: 35px;
+}
+
+    .TASettingList .form-group {
+        margin-bottom: 0px;
+    }
+
+        .TASettingList .form-group label {
+            font-weight: normal;
+        }
+
+#usergroupbuttondiv, #statusbuttondiv, #productbuttondiv {
+    margin-top: 10px;
+}
+
+.ta-checkbox-group {
+    padding-right: 40px;
+}
+
+.transaction-detail-selection {
+    height: 35px;
+    padding: 0px 20px;
+    background-color: white;
+}
+
+    .transaction-detail-selection label {
+        font-weight: normal !important;
+    }
+
+#statusSelectionList, #userGroupSelectionList, #productsSelectionList {
+    max-height: calc( 100vh - 300px );
+    overflow: hidden;
+}
+
+    #statusSelectionList li:nth-child(even), #userGroupSelectionList li:nth-child(even), #productsSelectionList li:nth-child(even) {
+        background-color: #f0f0f0;
+    }
+
+.TransactionAliasProductSelectionElement.selected,
+.TransactionAliasStatusSelectionElement.selected,
+.TransactionAliasUserGroupSelectionElement.selected,
+.TransactionAliasFieldSelectionElement.selected {
+    background-color: #486899 !important;
+    color: white;
+}
+
+#TASecurity .TASettingList:nth-child(odd),
+#TAStatus .TASettingList:nth-child(odd),
+#TAProducts .TASettingList:nth-child(odd) {
+    background-color: transparent;
+}
+
+.btn-group .btn {
+    width: 34px !important;
+    min-width: 20px !important;
+    height: 100%;
+    margin: 0px;
+    padding: 4px;
+    background-color: #B3B3B3 !important;
+    border: 1px solid white;
+    outline: none;
+}
+
+    .btn-group .btn.active {
+        background-color: #486899 !important;
+        outline: none;
+    }
+
+.status-default {
+    width: 20px;
+    height: 20px;
+    background-color: #B3B3B3;
+    border-radius: 10px;
+    margin-right: 10px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+    .status-default.active {
+        background-color: #486899;
+    }
+
+    .status-default::before {
+        content: "\2714";
+        font-size: 12px;
+        font-weight: normal;
+        color: white;
+        padding-left: 6px;
+        top: -7px;
+        position: relative;
+    }
+
+    .status-default:hover, .deleteImg:hover {
+        cursor: pointer;
+    }

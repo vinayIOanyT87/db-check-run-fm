@@ -1,0 +1,326 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ERR_MSG_01001" xml:space="preserve">
+    <value>Could not retrieve equipment!</value>
+    <comment>Errors for DataRetriever</comment>
+  </data>
+  <data name="ERR_MSG_01002" xml:space="preserve">
+    <value>Could not retrieve equipment types!</value>
+  </data>
+  <data name="ERR_MSG_01003" xml:space="preserve">
+    <value>Could not retrieve employees!</value>
+  </data>
+  <data name="ERR_MSG_01004" xml:space="preserve">
+    <value>Could not retrieve users!</value>
+  </data>
+  <data name="ERR_MSG_01005" xml:space="preserve">
+    <value>Could not retrieve products!</value>
+  </data>
+  <data name="ERR_MSG_01006" xml:space="preserve">
+    <value>Could not retrieve sites!</value>
+  </data>
+  <data name="ERR_MSG_01007" xml:space="preserve">
+    <value>Null hash table entered.</value>
+  </data>
+  <data name="ERR_MSG_02001" xml:space="preserve">
+    <value>Could not find xsd path in the registry!</value>
+    <comment>Errors for XMLGenerator</comment>
+  </data>
+  <data name="ERR_MSG_02002" xml:space="preserve">
+    <value>Could not access the registry!</value>
+  </data>
+  <data name="ERR_MSG_02003" xml:space="preserve">
+    <value>Could not build access data XML schema!</value>
+  </data>
+  <data name="ERR_MSG_02004" xml:space="preserve">
+    <value>Could not perform XML validation!</value>
+  </data>
+  <data name="ERR_MSG_02005" xml:space="preserve">
+    <value>Validation errors:</value>
+  </data>
+  <data name="ERR_MSG_02006" xml:space="preserve">
+    <value>Field type mismatch with the xsd!</value>
+  </data>
+  <data name="ERR_MSG_03001" xml:space="preserve">
+    <value>Accounting file download path configured in registry does not exist.  Unable to retrieve accounting data.</value>
+    <comment>Errors for Accounting data retriever</comment>
+  </data>
+  <data name="ERR_MSG_03002" xml:space="preserve">
+    <value>Unable to retrieve accounting file download path from the registry\nReason:</value>
+  </data>
+  <data name="ERR_MSG_03003" xml:space="preserve">
+    <value>No accounting Data Available to Send</value>
+  </data>
+  <data name="ERR_MSG_03004" xml:space="preserve">
+    <value>Unable to Retrieve Accounting Data:</value>
+  </data>
+  <data name="ERR_MSG_04001" xml:space="preserve">
+    <value>An error occurred while generating the secure file.  Error:</value>
+    <comment>Errors for the GUI</comment>
+  </data>
+  <data name="ERR_MSG_04002" xml:space="preserve">
+    <value>XML document is empty!</value>
+  </data>
+  <data name="ERR_MSG_04003" xml:space="preserve">
+    <value>Could not compress and encrypt enterprise data!</value>
+  </data>
+  <data name="ERR_MSG_04004" xml:space="preserve">
+    <value>Could not retrieve data!</value>
+  </data>
+  <data name="ERR_MSG_04005" xml:space="preserve">
+    <value>Could not save data!</value>
+  </data>
+  <data name="ERR_MSG_04006" xml:space="preserve">
+    <value>An Error has occurred!</value>
+  </data>
+  <data name="ERR_MSG_04007" xml:space="preserve">
+    <value>Could not access the WFL.</value>
+  </data>
+  <data name="ERR_MSG_04008" xml:space="preserve">
+    <value>Could not send data to the Enterprise.</value>
+  </data>
+  <data name="ERR_MSG_04009" xml:space="preserve">
+    <value>An error occurred while generating the Results file.  Error:</value>
+  </data>
+  <data name="ERR_MSG_05001" xml:space="preserve">
+    <value>No DataManager configured.</value>
+    <comment>Errors for IM data retriever</comment>
+  </data>
+  <data name="ERR_MSG_05002" xml:space="preserve">
+    <value>DataManager not found or error accessing DataManager.</value>
+  </data>
+  <data name="ERR_MSG_05003" xml:space="preserve">
+    <value>DataManager not running.</value>
+  </data>
+  <data name="ERR_MSG_05004" xml:space="preserve">
+    <value>Unable to read point values from tank</value>
+  </data>
+  <data name="ERR_MSG_06001" xml:space="preserve">
+    <value>Invalid user!</value>
+    <comment>Enterprise Errors</comment>
+  </data>
+  <data name="ERR_MSG_06002" xml:space="preserve">
+    <value>Could not find the enterprise secure file!</value>
+  </data>
+  <data name="ERR_MSG_06003" xml:space="preserve">
+    <value>Invalid Session information!</value>
+  </data>
+  <data name="ERR_MSG_06004" xml:space="preserve">
+    <value>Could not decrypt and/or decompress the stream!</value>
+  </data>
+  <data name="ERR_MSG_06005" xml:space="preserve">
+    <value>The enterprise decrypted/decompressed data is empty!</value>
+  </data>
+  <data name="ERR_MSG_06006" xml:space="preserve">
+    <value>The enterprise data string is empty!</value>
+  </data>
+  <data name="ERR_MSG_06007" xml:space="preserve">
+    <value>Error in saving enterprise data, rolling back!</value>
+  </data>
+  <data name="ERR_MSG_06008" xml:space="preserve">
+    <value>Could not find the Document DODAAC number!</value>
+  </data>
+  <data name="ERR_MSG_06009" xml:space="preserve">
+    <value>The document DODAAC does not match the site DODACC!</value>
+  </data>
+  <data name="ERR_MSG_06010" xml:space="preserve">
+    <value>Accounting transactions not set.</value>
+  </data>
+  <data name="ERR_MSG_06011" xml:space="preserve">
+    <value>Bad AccountSND header line.</value>
+  </data>
+  <data name="ERR_MSG_07001" xml:space="preserve">
+    <value>Error in opening stream!</value>
+  </data>
+  <data name="ERR_MSG_07002" xml:space="preserve">
+    <value>Error in reading stream!</value>
+  </data>
+  <data name="ERR_MSG_07003" xml:space="preserve">
+    <value>Corrupted File.</value>
+  </data>
+  <data name="ERR_MSG_08001" xml:space="preserve">
+    <value>syncEnterpriseBusinessBindingType not found in configuration</value>
+    <comment>Base or Enterprise Error</comment>
+  </data>
+  <data name="ERR_MSG_08002" xml:space="preserve">
+    <value>Could not locate the Client Synchronization Settings.  Verify the Client Settings under Synchronization Settings and Apply any changes.</value>
+    <comment>Base Error</comment>
+  </data>
+  <data name="ERR_MSG_08003" xml:space="preserve">
+    <value>Could not locate the Site / Group ID synchronization settings.  Verify the Client Settings under Synchronization Settings and Apply any changes.</value>
+    <comment>Base Error</comment>
+  </data>
+  <data name="ERR_MSG_08004" xml:space="preserve">
+    <value>Could not locate the Enterprise URL for Synchronization.  Verify the Enterprise URL under Synchronization Settings and Apply any changes.</value>
+    <comment>Base Error</comment>
+  </data>
+  <data name="ERR_MSG_08005" xml:space="preserve">
+    <value>Synchronization currently disabled on this client.  Verify the Client Settings under Synchronization Settings and Apply any changes.</value>
+    <comment>Base Error</comment>
+  </data>
+  <data name="ERR_MSG_08006" xml:space="preserve">
+    <value>Cannot synchronize with the same system.  The Local Synchronization Node ID is the same as the Enterprise Synchronization Node ID.  Check Enterprise URL under Synchronization Settings.</value>
+    <comment>Base Error</comment>
+  </data>
+  <data name="ERR_MSG_08007" xml:space="preserve">
+    <value>Could not locate the Local Synchronization Node ID.  Verify Synchronization Settings and Apply any changes.</value>
+    <comment>Base Error</comment>
+  </data>
+  <data name="ERR_MSG_08008" xml:space="preserve">
+    <value>Could not locate the Enterprise Synchronization Node ID.  Verify the Enterprise URL under Synchronization Settings and Apply any changes.</value>
+    <comment>Base or Enterprise Error</comment>
+  </data>
+  <data name="ERR_MSG_08009" xml:space="preserve">
+    <value>Enterprise server has not been configured for Synchronization.  Please contact the Enterprise Server Admnistrator.</value>
+    <comment>Enterprise Error</comment>
+  </data>
+  <data name="ERR_MSG_08010" xml:space="preserve">
+    <value>The Enterprise Server is currently not accepting synchronization requests.</value>
+    <comment>Enterprise Error</comment>
+  </data>
+  <data name="ERR_MSG_08011" xml:space="preserve">
+    <value>Enterprise server must be configured to accept at least one type of FuelsManager Authentication Credentials.  Please contact the Enterprise Server Admnistrator.</value>
+    <comment>Enterprise Error</comment>
+  </data>
+  <data name="ERR_MSG_08012" xml:space="preserve">
+    <value>A valid FuelsManager client authentication certificate must be provided.</value>
+    <comment>Base Error</comment>
+  </data>
+  <data name="ERR_MSG_08013" xml:space="preserve">
+    <value>FuelsManager username and password must be provided.</value>
+    <comment>Base Error</comment>
+  </data>
+  <data name="ERR_MSG_08014" xml:space="preserve">
+    <value>FuelsManager user account was unable to login to the Enterprise Server.</value>
+    <comment>Enterprise Error returned to Base</comment>
+  </data>
+  <data name="ERR_MSG_08015" xml:space="preserve">
+    <value>Unable to create system mutex representing an active synchronization controller.</value>
+    <comment>Base Error</comment>
+  </data>
+  <data name="ERR_MSG_08016" xml:space="preserve">
+    <value>Unable to create system mutex, an active synchronization controller already exists.</value>
+    <comment>Base Error</comment>
+  </data>
+	<data name="ERR_MSG_08017" xml:space="preserve">
+    <value>Synchronization currently disabled for this site.  Verify the Site Settings under Synchronization Settings and Apply any changes.</value>
+    <comment>Base Error</comment>
+  </data>
+</root>

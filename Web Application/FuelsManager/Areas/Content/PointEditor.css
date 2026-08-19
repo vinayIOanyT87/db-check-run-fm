@@ -1,0 +1,917 @@
+﻿
+.PESectionLink {
+    color: rgb(153,153,153);
+    background-color: white;
+    margin-bottom: 1px;
+    line-height: 40px;
+    vertical-align: middle;
+}
+
+    .PESectionLink span {
+        line-height: 40px;
+        margin-right: 5px;
+    }
+
+.PESection {
+    margin-top: 10px;
+}
+
+.TagDetails, .ModuleDetails {
+    cursor: pointer;
+}
+
+#PEProperties {
+    margin-top: 40px;
+    cursor: pointer;
+}
+
+#PTTTagList {
+    max-height: 80vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#PTTModuleList {
+	height: calc( 100vh - 200px);
+	overflow-y: auto;
+	overflow-x: hidden;
+	background-color: white;
+	width: 100%;
+}
+
+#PTEditor .btn-group .active {
+    background-color: #CCCCCC;
+}
+
+#PEModules .filter-addon {
+	margin-top: 10px;
+	margin-right: 5px;
+}
+
+#PEModules > label {
+	margin-top: 5px;	
+}
+
+/* style icon */
+.filter-addon .glyphicon {
+   position: absolute;
+   padding-top: 9px;
+   padding-left: 5px;
+   pointer-events: none;
+}
+
+#PEfilter_tags {
+    margin: 0px;
+    width: 100%;
+}
+
+
+/* align icon */
+.filter-left-addon .glyphicon {
+    left: 0px;
+    color: #CCCCCC;
+    margin-top: 5px;
+}
+
+.filter-right-addon .glyphicon {
+    right: 0px;
+    color: #CCCCCC;
+    margin-top: 5px;
+}
+
+
+/***********************NEW STUFF ***********/
+
+#PointsDetailMenu {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: rgb( 128, 128, 128);
+}
+
+#PointDetailImageContainer {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+}
+
+#PointDetailImage {
+    width: 100%;
+    height: auto;
+}
+
+
+#PointDetailTitle h2 {
+    display: inline;
+    line-height: 100%;
+    vertical-align: middle;
+    padding-left: 10px;
+    color: rgb( 102, 102, 102);
+}
+
+.PointDetailMenuItem span {
+    padding-right: 5px;
+}
+
+#pointDetailApplyButton {
+    width: 150px;
+    float: right;
+    border-style: solid;
+    border-width: 1px;
+    height: 100%;
+    vertical-align: middle;
+    text-align: center;
+    border-radius: 20px;
+    line-height: 35px;
+    border-color: rgb( 86, 126, 185);
+    color: rgb( 86, 126, 185);
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#PEMenuItems > li {
+    padding-right: 35px;
+    padding-left: 0px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+
+    #PEMenuItems > li.selected {
+        color: rgb( 86, 126, 185);
+    }
+
+#PESettings img {
+    background: url("../../fmwebapp/images/Settings Icon - unselected.png");
+    width: 0px;
+    height: 0px;
+    padding: 10px 10px 10px 10px;
+}
+
+#PESettings.selected img {
+    background: url("../../fmwebapp/images/Settings Icon - selected.png");
+}
+
+#PETags img {
+    background: url("../../fmwebapp/images/Tags - unselected.png");
+    width: 0px;
+    height: 0px;
+    padding: 10px 10px 10px 10px;
+}
+
+#PETags.selected img {
+    background: url("../../fmwebapp/images/Tags - selected.png");
+}
+
+#PEModules > span > img {
+    background: url("../../fmwebapp/images/Modules Icon - unselected.png");
+    width: 0px;
+    height: 0px;
+    padding: 10px 10px 10px 10px;
+}
+
+#PEModules.selected > span > img {
+    background: url("../../fmwebapp/images/Modules Icon - selected.png");
+}
+
+#PEAlarms img {
+    background: url("../../fmwebapp/images/Alarm Icon - unselected.png");
+    width: 0px;
+    height: 0px;
+    padding: 10px 10px 10px 10px;
+}
+
+#PEAlarms.selected img {
+    background: url("../../fmwebapp/images/Alarm Icon - selected.png");
+}
+
+#TagEditTable, #TagEditTableHeader {
+    background-color: white;
+}
+
+#TagEditTableWrap {
+    height: 75vh;
+    overflow: auto;
+    border: 0px;
+}
+
+#TagEditTableHeader {
+    margin-bottom: 0px;
+}
+
+.FuelsManager-table-header th {
+    color: rgb(153,153,153);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    line-height: 30px;
+    border-width: 1px;
+}
+
+#TagEditTable tr {
+    border-bottom-style: solid;
+    border-bottom-width: thin;
+    border-color: #ddd;
+}
+
+#TagEditTable .form-control, #TagEditTableHeader .form-control {
+    border-style: none;
+    background-color: transparent;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    font-weight: bold;
+}
+
+    #TagEditTable .form-control[disabled] {
+        color: rgb(193,193,193);
+    }
+
+#TagEditTable select[disabled='disabled']::-ms-value {
+    color: rgb(193,193,193);
+}
+
+#TagEditTableHeader #tagGridEditorSwitch {
+    width: 30px;
+    background-color: rgb(153,153,153);
+    color: white;
+    border-radius: 5px;
+}
+
+.column-tag-name {
+    margin-bottom: 0px;
+    font-weight: normal !important;
+}
+
+.column-tag-header {
+    padding-top: 8px;
+    margin-bottom: 0px;
+    padding-left: 12px;
+    color: rgb(153,153,153);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    padding-top: 0px;
+}
+
+.container-fluid .row {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+
+#PTTPointEditHolder label {
+    color: rgb(153,153,153);
+}
+
+#PTTPointEditHolder .separator-label {
+    font-weight: bold;
+    color: rgb(153,153,153);
+}
+
+#PTTPointEditHolder .settingsection {
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+.settingsectionhorizontalline {
+    margin-left: 175px;
+    margin-right: 50px;
+    top: 10px;
+    border-bottom-style: solid;
+    height: 10px;
+    border-width: thin;
+    border-color: rgb(153,153,153);
+}
+
+#PTTPointEditHolder {
+    font-weight: bold;
+}
+
+#PTTPointEditHolder #PEGeneralSettings {
+    color: rgb(153,153,153);
+}
+
+#PEModulePropertyList {
+    column-count: 2;
+    column-gap: 30px;
+    column-fill: balance;
+}
+
+#PEModulePropertyList > div.settings-stripes{
+    background-color: #f9f9f9;
+}
+
+#PEModulePropertyList > div {
+    background-color: transparent;
+    border: 0px;
+    height: 54px;
+    display: inline-block; 
+    width: 100%;
+    break-inside: avoid-column;
+	 overflow: hidden;
+}
+
+/* Ugly hack. Chrome has problems using multicolumns on inline-block/inline-flex and IE requires the use of inline-flex or inline-block to make it work, 
+    otherwise the column-fill does not work properly and we have unbalanced columns.
+    The code below works only for Chrome ( http://www.templatemonster.com/help/how-to-create-browser-specific-css-rules-styles.html) to make it
+    use the parent display instead of the required change for IE
+*/
+@supports (-webkit-appearance:none) {
+        #PEModulePropertyList > div {
+            display: inherit; 
+        }
+}  
+
+#PEModulePropertyList label {
+    color: black;
+    font-weight: normal;
+    line-height: 32px;
+    margin-bottom: 0px;
+	 word-break: break-word;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#PEModulePropertyList .date span{
+    border: none;
+/*    background-color: transparent; */
+}
+
+#PEModulePropertyList .date img{
+    width: 26px;
+    height: 26px;
+    float: right; 
+    margin-top: 4px;
+}
+
+/* center and make smaller the radio buttons in the general settings section */
+#PEModulePropertyList > div[data-display=boolean] > div {
+    text-align: center;
+}
+
+#PEModulePropertyList > div[data-display=boolean] > div > div.control-group {
+    width: 150px;
+    display: inline-block;
+}
+
+
+.settingsection a[aria-expanded=true] .expand-icon {
+    width: 24px;
+    height: 25px;
+    background-image: url('../../fmwebapp/images/Selection Up.png');
+}
+
+.settingsection a[aria-expanded=false] .expand-icon {
+    width: 24px;
+    height: 25px;
+    background-image: url('../../fmwebapp/images/Selection Down.png');
+}
+
+.settingsection a:focus {
+    outline: none;
+}
+
+
+#PointDefaultUnitGrid1 .control-label, #PointDefaultUnitGrid2 .control-label {
+    color: black !important;
+    font-weight: normal;
+}
+
+#pointPropertiesForm .form-control {
+    border-radius: 0px;
+}
+
+#ModulePropertyEditorPropertyScreen,
+#OPCEditorModal .modal-body,
+#OpcUaServerSelectionModalScreen .modal-body
+ {
+	overflow: hidden;
+}
+
+#OPCEditorModal .modal-body {
+	padding-bottom: 0px;
+}
+.filter-settings {
+    height: 30px;
+    line-height: 25px;
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+}
+
+    .filter-settings span {
+        margin-top: 0px !important;
+    }
+
+    .filter-settings ::-webkit-input-placeholder {
+        font-style: italic;
+        color: #222222
+    }
+
+    .filter-settings :-moz-placeholder {
+        font-style: italic;
+        color: #222222
+    }
+
+    .filter-settings ::-moz-placeholder {
+        font-style: italic;
+        color: #222222
+    }
+
+    .filter-settings :-ms-input-placeholder {
+        font-style: italic;
+        color: #222222
+    }
+
+.btn-setting {
+    -moz-min-width: 90px;
+    -ms-min-width: 90px;
+    -o-min-width: 90px;
+    -webkit-min-width: 90px;
+    min-width: 90px;
+    background-color: #f9f9f9;
+    color: rgb( 86,126,185);
+    height: 30px;
+    border-style: none;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-image: none;
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 16px;
+    border-radius: 0;
+    cursor: pointer;
+    height: 34px;
+    width: 100%;
+    overflow: hidden;
+}
+
+    .btn-setting:hover, .btn-setting:focus, .btn-setting.focus {
+        color: rgb(153,153,153);
+        text-decoration: none;
+    }
+
+    .btn-setting .PESettingText {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+#TagEditTable td.has-error {
+    background-color: #f2dede;
+}
+
+#ErrorMessages span {
+    display: block;
+}
+
+
+.setting-radio-control {
+   font-size: 14px;
+   font-weight: bold !important;
+   color: rgb(153,153,153) !important;
+   position: relative;
+   margin-bottom: 9px;
+   padding-left: 30px;
+   cursor: pointer;
+   margin-top: 4px;
+}
+
+    .setting-radio-control input {
+        position: absolute;
+        z-index: -1;
+        opacity: 0;
+	    display: none;
+    }
+
+.setting-radio-control__indicator {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background: #e6e6e6;
+}
+
+.setting-radio-control--radio .setting-radio-control__indicator {
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 1px;
+    background: transparent;
+}
+
+/* Hover and focus states */
+.setting-radio-control:hover input ~ .setting-radio-control__indicator,
+.setting-radio-control input:focus ~ .setting-radio-control__indicator {
+    background: white;
+}
+
+/* Checked state */
+.setting-radio-control input:checked ~ .setting-radio-control__indicator {
+   border-color: rgb(72, 104, 153);
+
+}
+
+/* Hover state whilst checked */
+.setting-radio-control:hover input:not([disabled]):checked ~ .setting-radio-control__indicator,
+.setting-radio-control input:checked:focus ~ .setting-radio-control__indicator {
+    background: white; 
+    opacity: .8;
+}
+
+/* Disabled state */
+.setting-radio-control input:disabled ~ .setting-radio-control__indicator {
+    pointer-events: none;
+    opacity: .6;
+    background: #e6e6e6;
+}
+
+/* Check mark */
+.setting-radio-control__indicator:after {
+    position: absolute;
+    display: none;
+    content: '';
+}
+
+/* Show check mark */
+.setting-radio-control input:checked ~ .setting-radio-control__indicator:after {
+    display: block;
+}
+
+/* Radio button inner circle */
+.setting-radio-control--radio .setting-radio-control__indicator:after {
+    top: 3px;
+    left: 3px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgb(72, 104, 153);
+}
+
+/* Disabled circle colour */
+.control--radio input:disabled ~ .control__indicator:after {
+    background: #7b7b7b;
+}
+
+/* This is for making the controls have a red border when in error. */
+.has-error .form-control {
+	border-color: red;
+	border-width: 2px;
+}
+
+/* This is for making the controls have a red border when in error. */
+.has-error .form-control:focus {
+	border-color: red;
+	border-width: 1px;
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px red;
+}
+
+/* Ensures that the x shows up in the right hand corner
+    of the dialog
+*/
+.ui-dialog .ui-dialog-titlebar-close span {
+        margin: 0;
+    }
+.ui-button-icon-only .ui-icon {
+        bottom: 0px;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        padding: 0;
+    }
+
+/* This is for graying out the selected Point Category in the dropdown list.*/
+.select2-container--default .select2-results__option[aria-selected=true]
+{
+	color: #b4b5b3;
+} 
+
+/* This section is to have a rollout menu for selecting a new Point */
+/* The side navigation menu */
+.sidenav {
+	height: 100%; /* 100% Full-height */
+	width: 0; /* 0 width - change this with JavaScript */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Stay on top */
+	top: 0;
+	left: 0;
+	background-color: #F9F9F9; /* white*/
+	overflow-x: hidden; /* Disable horizontal scroll */
+	padding-top: 60px; /* Place content 60px from the top */
+	transition: 0.4s; /* 0.4 second transition effect to slide in the sidenav */
+}
+
+/* The navigation menu links */
+.sidenav a {
+	padding: 8px 8px 8px 32px;
+	text-decoration: none;
+	font-size: 25px;
+	color: #818181;
+	display: block;
+	transition: 0.3s
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover, .offcanvas a:focus{
+	color: #f1f1f1;
+}
+
+.PE-List-form-control {
+  display: block;
+  width: 100%;
+  height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+       -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+          transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.PE-list-filter-addon{
+    height: 25px;
+	width: 100%;
+    line-height: 25px;
+    background-color: rgb(240, 240, 240);
+    border-radius: 20px;
+    position: relative;
+}
+
+.PE-list-filter-addon .PE-List-form-control {
+    border-style: none;
+    background-color: transparent;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    padding-top: 0px;
+    font-weight: normal !important;
+    color: rgb( 86, 126, 185);
+    padding-left: 10px;
+    padding-right: 25px;
+    padding-top: 0px;
+}
+
+ .PE-list-filter-addon img {
+    position: absolute;
+    padding-top: 4px;
+    padding-right: 7px;
+    pointer-events: none;
+    top: 0px;
+    right: 0px;
+}
+
+/* Used on the Point Setting points list rollout menu.*/
+#PointSettingListRolloutMenu, #PointTemplateImageMenu {
+    display: block;
+    position: absolute;
+    width: 600px;
+    height: calc(100vh - 60px);
+    top: 55px;
+    z-index: 10;
+    background-color: white;
+    box-shadow: 5px 5px 2px #888888;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+#PointSettingListRolloutMenu {
+    left: 200px;
+}
+
+ #PointTemplateImageMenu {
+    left: 125px;
+}
+
+
+#PointSettingListRolloutMenu .PE-list-filter-addon, #PointTemplateImageMenu .PE-list-filter-addon {
+    background: transparent !important;
+    border-bottom-style: solid;
+    border-radius: 0px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgb(192,192,192);
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+#PointSettingListRolloutMenu label, #PointTemplateImageMenu label {
+    color: rgb(153,153,153);
+    font-weight: normal;
+    font-size: 12px;
+}
+
+#PointSettingListRolloutMenu input, #PointTemplateImageMenu input  {
+    color: rgb(153,153,153);
+    font-weight: normal;
+    font-size: 12px;
+     outline: none;
+}
+
+#PointSettingListRolloutMenuTitle label, #PointTemplateIconRolloutMenuTitle label  {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+#PointSettingListRolloutMenuTitle .settingsectionhorizontalline, #PointTemplateIconRolloutMenuTitle .settingsectionhorizontalline {
+    margin-left: 100px;
+    margin-right: 65px;
+    height: 13px;
+}
+
+#PointSettingListRolloutMenu .icon-container, #PointTemplateImageMenu .icon-container{
+    color: rgb(153,153,153);
+    border-color: rgb(153, 153, 153);
+    font-weight: normal;
+    font-size: 12px;
+    border-style: solid;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-width: 1px;
+    padding: 4px;
+    margin-left: 5px;
+}
+
+.PE_RolloutMenuLI {
+    margin-top: 5px;
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+    color: rgb( 128, 128, 128 );
+
+}
+
+.PE_RolloutMenuLI:hover, .PE_RolloutMenuLI:hover .PE_RolloutMenuDescription, .PE_RolloutMenuLI:hover .PE_RolloutMenuName {
+    color: rgb( 86, 126, 185) !important;
+    background-color: rgb( 245, 248, 251) !important;
+}
+
+#PointSettingListRolloutMenu select{
+    font-size: 12px;
+}
+
+.PE_RolloutMenuName {
+    color: #818181 !important;
+    padding-left: 18px;
+    padding-top: 5px;
+    text-align: left;
+    font-weight: bold;
+    max-height: 30px;
+    cursor: default;
+}
+
+.PE_RolloutMenuIcon {
+    height: 75px;
+    width: 75px;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding-top: 12px;
+    padding-left: 12px;
+    margin: 0px;
+    float: left;
+}
+
+#PE_IconNameFilterMenuUL .PE_RolloutMenuIcon {
+    height: 52px !important;
+    width: 52px !important;
+}
+
+#PE_IconNameFilterMenuUL .PE_RolloutMenuIcon img{
+    width: 100%;
+    height: 100%;
+}
+
+.PE_RolloutSmallMenuIcon {
+    height: 20px;
+    width: 20px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    display: block;
+    margin-left: 0px;
+    margin-right: 10px;
+    float: left;
+}
+
+.PE_RolloutMenuLI:hover .PE_RolloutMenuIcon {
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.PE_RolloutMenuDescription {
+    display: block;
+    height: 75px;
+    width: calc( 100% - 75px);
+    font-size: small;
+    padding-top: 20px;
+    float: left;
+    border: none;
+    resize: none;
+    background-color: inherit;
+    cursor: default;
+}
+
+.PE_RolloutMenuName:hover,
+.PE_RolloutMenuIcon:hover,
+.PE_RolloutMenuDescription:hover  {
+    color: rgb( 86, 126, 185);
+    background-color: rgb( 245, 248, 251) !important;
+}
+
+
+   
+textarea:focus{
+    outline: none;
+}
+
+#SETankInstallationDate {
+	Width: calc(100% - 30px);
+	z-index: inherit;	
+}
+
+
+.disabledIcon {
+    pointer-events: none;
+    color: #ccc;
+    cursor: none !important;
+}
+
+.input-group.date {
+    width: 100%;
+}
+
+
+#PointSelector .dropdownimage {
+    background-repeat: no-repeat;
+    width: 24px; /*or your image's width*/
+    height: 25px; /*or your image's height*/
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+#PointSelector.opened .dropdownimage {
+    background-image: url("../../fmwebapp/images/Selection Up.png");
+}
+
+#PointSelector.closed .dropdownimage {
+    background-image: url("../../fmwebapp/images/Selection Down.png");
+}
+
+.LoadingAnimation {
+    position: absolute;
+    margin: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.3);
+}
+
+    .LoadingAnimation img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -60px 0px 0px -60px;
+    }
+
+.LoadingAnimation.transparent {
+    background: transparent;
+}
+
+.hasDatepicker {
+	display: inline-block;
+	Width: calc(100% - 40px);
+	z-index: inherit;	
+}
+
+.ui-datepicker-trigger {
+	display: inline-block;
+	float: right !important;
+	Width: 30px !important;
+}
+
+.pointtemplateimgcontainer {
+	border: 2px dashed rgb( 128, 128, 128);
+	padding: 6px 4px;
+	border-radius: 4px;
+	width: 44px !important; 
+}
+
+.pointtemplatetitle {
+	text-decoration: underline;
+	text-decoration-style: dashed;
+}
+
+.pointtemplatestandardtitle {
+	color: rgb( 86, 126, 185) !important;
+}
+
+.FCEEDiv {
+   margin-bottom: 5px;
+}

@@ -1,0 +1,98 @@
+﻿#UserConfigDetailMenu {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: rgb( 128, 128, 128);
+}
+
+.UserConfigDetailMenuItem span {
+    padding-right: 5px;
+}
+
+#UserConfigMenuItems {
+    list-style-type: none;
+}
+
+#UserConfigMenuItems > li {
+    padding-right: 35px;
+    padding-left: 0px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#UserConfigMenuItems > li.selected {
+    color: rgb( 86, 126, 185);
+}
+
+#UserConfigMenuItems > li > b.selected {
+    border-bottom-style: solid;
+}
+
+.UserInfoInputField {
+    width: 400px;
+    height: 30px;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: rgb( 189, 185, 185);
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: rgb( 189, 185, 185);
+}
+
+.DaysPastNotSelected {
+    width: 65px;
+    height: 27px;
+    background-color: rgb(142,142,147);
+    color: white;
+    margin: 0;
+    padding-top: 5px;
+    padding-left: 5px;
+}
+
+.DaysPastSelected {
+    width: 65px;
+    height: 27px;
+    background-color: #567eb9 !important;
+    color: white;
+    margin: 0;
+    padding-top: 5px;
+    padding-left: 5px;
+}
+
+        
+#AuditLogTable_info{
+    color: white;
+}
+#AuditLogTable_first {
+    color: white !important;
+}
+#AuditLogTable_previous {
+    color: white !important;
+}
+#AuditLogTable_next {
+    color: white !important;
+}
+#AuditLogTable_last {
+    color: white !important;
+}
+
+#TableLoadPleaseWaitDiv {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+        vertical-align: middle;
+        background-color: lightsteelblue;
+        color: black;
+        box-shadow: 5px 5px 5px #888;
+        position: absolute;
+        left: 50%;
+        top: 33.3%;
+        z-index: 200;
+        transform: translate(-100px, 0);
+}
+
+.pushButtonDisable{
+    background-color: gray !important;
+}

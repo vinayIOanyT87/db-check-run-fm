@@ -1,0 +1,139 @@
+﻿@using FuelsManager.Areas.Controllers
+@using FuelsManager.Afss.Module.Gasboy.BusinessObjects.DataObjects
+
+@model FuelsManager.Afss.WebApp.Areas.AutomatedFuelStation.Models.GasboyDeviceSummaryModel
+@{
+	ViewBag.Title = "GasboyDeviceSummaryIndex";
+}
+
+<style>
+	.centeredTableData {
+		text-align: center;
+		vertical-align: middle;
+	}
+
+.dataTables_wrapper .dataTables_paginate .disabled.paginate_button, .dataTables_wrapper .dataTables_paginate .disabled.paginate_button:hover, .dataTables_wrapper .dataTables_paginate .disabled.paginate_button:active {
+	color: #999 !important;
+}
+
+.dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
+	  color: white !important;
+  }
+
+table.dataTable, table.dataTable th, table.dataTable{
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    color: white;
+}
+</style>
+<script>
+
+	$(document).ready(function () {
+		var datatable = $('#gasboyDeviceSummaryTable')
+			.DataTable(
+			{
+				// We do not allow searching through the results via the datatable search control
+				"searching": false,
+				// Show First, Previous, Next, and Last buttons for paging
+				"pagingType": "full",
+				// Embed a div in the datatables controls so we can color the bottom of the grid
+				// like a footer
+				"dom": 'lrt<"#DataTablesFooter"ip>',
+				// Apply no initial sort
+				"order": [],
+				// Save the sort order so that if users navigate away from the page and return their sort is retained
+				"stateSave": true,
+				// Tell datatables that we don't care about highlighting the columns that have been sorted. According to the documentation, this improves performance.
+				"orderClasses": false,
+				"columnDefs": [
+					// Disallow sorting of the edit / delete columns
+					{ "targets": [0, 1], "orderable": false }
+				]
+			});
+	});
+</script>
+<div>
+	@using (Html.BeginForm("gasboyDeviceSummaryIndex", "GasboyDevice", FormMethod.Post))
+	{
+		var editText = FMBaseController.TranslateText("Edit");
+		var deleteText = FMBaseController.TranslateText("Delete");
+		var idText = FMBaseController.TranslateText("ID");
+		var cardNumberText = FMBaseController.TranslateText("CardNumber");
+
+		@Html.AntiForgeryToken()
+
+	    <div class="container-fluid">
+	        <!-- Changed from Gasboy Devices Configuration to Payment Cards Configuration since we are only using the Gasboy devices for payment cards at this point.-->
+	        <div class="row headline" style="padding-bottom: 10px">@FMBaseController.TranslateText("Payment Cards Configuration")</div>
+	        <div class="row">
+	            <div class="col-md-4">
+	                <label class="formfieldtitle">
+	                    @FMBaseController.TranslateText("Find Text")
+	                </label>
+	                <div class="formfield">
+	                    @Html.TextBoxFor(m => m.FindText, new { style = "width:250px;", autofocus = "autofocus", title = "Search for this text in results", maxlength = "50" })
+	                </div>
+	            </div>
+	            <div class="col-md-8">
+	                <input type="submit" name="submitButton" value='@FMBaseController.TranslateText("Refresh")' class="formfieldtitle pushButton maxWidth100" style="margin-top: 21px; margin-bottom: 5px" maxlength="50"/>
+	            </div>
+	        </div>
+	        <div class="row">
+	            <div class="col-md-12 formfieldtitle">
+	                <input type="button" id="btnAddTop" value='@FMBaseController.TranslateText("Add")' disabled="@(!Model.IsEditable)" onclick="@("window.location.href='" + @Url.Action("GasboyDeviceDetail", "GasboyDevice", new { gasboyDeviceGuid = Guid.Empty }) + "'")"/>
+	            </div>
+	        </div>
+	        <div class="row" style="margin-top: 5px;">
+	            <section class="FMGridSection">
+	                <div class="FMGridContainer">
+	                    <table id="gasboyDeviceSummaryTable" class="hover stripe row-border cell-border" style="width: 100%">
+	                        <thead>
+	                        <tr>
+	                            <th>
+	                                @editText
+	                            </th>
+	                            <th>
+	                                @deleteText
+	                            </th>
+	                            <th>
+	                                @idText
+	                            </th>
+	                            <th>
+	                                @cardNumberText
+	                            </th>
+	                        </tr>
+	                        </thead>
+	                        <tbody>
+	                        @foreach (GasboyDevice gasboyDevice in @Model.GasboyDevices)
+	                        {
+	                            var deleteEnabled = @Model.IsEditable && (@Model.SiteGuid == gasboyDevice.SiteGuid);
+	                            var deleteImage = @Model.IsEditable && (@Model.SiteGuid == gasboyDevice.SiteGuid) ? Url.Content("~/FMWebApp/Images/delete.gif") : Url.Content("~/FMWebApp/Images/delete_un.gif");
+	                            <tr>
+	                                <td style="width: 36px;" class="centeredTableData">
+	                                    <a class="editLinkClass" title="@editText" href='@Url.Action("GasboyDeviceDetail", "GasboyDevice", new { gasboyDeviceGuid = @gasboyDevice.IdentityGuid })'>@editText</a>
+	                                </td>
+	                                <td style="width: 36px;" class="centeredTableData">
+	                                    <button name="deleteButton" value="@gasboyDevice.IdentityGuid" disabled="@(!deleteEnabled)" style="background: transparent; color: transparent; height: 22px;" onclick=" if (disabled) return; return confirm('Are you sure you want to delete?'); ">
+	                                        <span>
+													<img src="@deleteImage" style="margin-left: -10px; margin-right: -10px; margin-top: -3px; margin-bottom: -3px; padding-bottom: 9px" alt="Delete" />
+												</span>
+	                                    </button>
+	                                </td>
+	                                <td>@gasboyDevice.ID</td>
+	                                <td>@gasboyDevice.CardNumber</td>
+	                            </tr>
+	                        }
+	                        </tbody>
+	                    </table>
+	                </div>
+	            </section>
+	        </div>
+	        <div class="row">
+	            <div class="col-md-12 formfieldtitle" style="margin-top: 10px;">
+	                <input type="button" id="btnAddBottom" value='@FMBaseController.TranslateText("Add")' disabled="@(Model.IsEditable ? null : "disabled")" onclick="@("window.location.href='" + @Url.Action("GasboyDeviceDetail", "GasboyDevice", new { gasboyDeviceGuid = Guid.Empty }) + "'")"/>
+	            </div>
+	        </div>
+	    </div>
+	}
+</div>
+

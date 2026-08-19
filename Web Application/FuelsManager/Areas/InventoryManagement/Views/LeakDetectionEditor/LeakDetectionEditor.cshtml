@@ -1,0 +1,143 @@
+﻿@using System.Web.Mvc.Html
+@using System.Globalization
+@using Varec.CommonComponents.EngineeringUnitsLibrary
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@using FuelsManager.Areas.InventoryManagement.ViewModels
+@using Microsoft.Ajax.Utilities
+@model FuelsManager.Areas.InventoryManagement.ViewModels.LeakDetectionEditorModel
+
+<link href="~/Areas/Content/jquery.scrolling-tabs-custom.css" rel="stylesheet">
+
+<script src="~/Areas/lib/jquery.scrolling-tabs-custom.js"></script>
+
+<link href="~/Areas/Content/LeakDetectionEditor.css" rel="stylesheet" type="text/css" />
+<script src="~/Areas/Scripts/LeakDetectionSettingsEditor.js"></script>
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "leakDetectionEditorForm" }))
+{
+
+    var numberFormatInfo = new NumberFormatInfo { NumberGroupSizes = Model.Site.GetNumberGroupSizes(), NumberGroupSeparator = Model.Site.NumberGroupSeparator, NumberDecimalSeparator = Model.Site.NumberDecimalSeparator };
+
+    //Generate FormatInfo JavaScript object in JSON format
+    var numberFormatInfoString = String.Format("{{{0}" + "\"NegativeSign\":\"{1}\",{0}" + "\"NumberDecimalDigits\":{2},{0}" + "\"NumberDecimalSeparator\":\"{3}\",{0}" + "\"NumberGroupSeparator\":\"{4}\",{0}" + "\"NumberGroupSizes\":{5},{0}" + "\"NumberNegativePattern\":{6},{0}" + "\"ShortDatePattern\":\"{7}\"{0}}}", Environment.NewLine, "-", 0, Model.Site.NumberDecimalSeparator, Model.Site.NumberGroupSeparator, Model.Site.GetNumberGroupSizes()[0], 1, Model.Site.ShortDatePattern);
+
+
+    <input id="NumberFormatInfoString" type="hidden" value='@numberFormatInfoString' />
+
+
+    @Html.AntiForgeryToken();
+    @Html.HiddenFor(m => m.PointGuid);
+    @Html.HiddenFor(m => m.PointPropertyGuid);
+    @Html.HiddenFor(m => m.IsTemplatePoint)
+    @Html.Hidden("urlSaveLeakDetectionModuleSettings", @Url.Action("SaveLeakDetectionEditorSettings", "LeakDetectionEditor"));
+
+
+    var numberText = FMBaseController.TranslateText("Number");
+
+    var title = Model.PointId + " - " + Model.PointPropertyId;
+
+
+    <section id="leakDetectionEditorPartial" class="">
+        <div class="leakDetectionEditorHeader row">
+            <button type="button" class="close" data-dismiss="modal" onclick="$('#PEMPEClosePropertyScreen').click();">&times;</button>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <h4>@title</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                <h5>@FMBaseController.TranslateText("Leak Detection Editor")</h5>
+            </div>
+        </div>
+        <div class="row control-row">
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                @Html.LabelFor(m => m.LeakAnalysisMethod, FMBaseController.TranslateText("Leak Analysis") + " Method", new { @class = "control-label" })
+                @Html.DropDownListFor(m => m.LeakAnalysisMethod, new SelectList(Model.LeakAnalysisMethodList, "Key", "Value", Model.LeakAnalysisMethod), new { ID = "LeakAnalysisMethodList", @class = "form-control" })
+            </div>
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                @Html.LabelFor(m => m.LeakAnalysisType, FMBaseController.TranslateText("Leak Analysis") + " Type", new { @class = "control-label" })
+                @Html.DropDownListFor(m => m.LeakAnalysisType, new SelectList(Model.LeakAnalysisTypeList, "Key", "Value", Model.LeakAnalysisType), new { ID = "LeakAnalysisTypeList", @class = "form-control" })
+
+            </div>
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                @Html.LabelFor(m => m.GaugeType, FMBaseController.TranslateText("Gauge Type"), new { @class = "control-label" })
+                @Html.DropDownListFor(m => m.GaugeType, new SelectList(Model.GaugeTypeList, "Key", "Value", Model.GaugeType), new { ID = "GaugeTypeList", @class = "form-control" })
+            </div>
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                @Html.LabelFor(m => m.MinimumFillPercentage, FMBaseController.TranslateText("Minimum Fill Percentage"), new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.MinimumFillPercentage, new { type = "number", min = "0", step = "1", max= "100", ID = "MinimumFillPercentage", @class = "form-control" })
+            </div>
+        </div>
+        <div class="row control-row">
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                @Html.LabelFor(m => m.LeakAutoPrint, FMBaseController.TranslateText("Real Time Auto Print"), new { @class = "control-label" })
+
+                <div class="control-group">
+                    <label class="setting-radio-control setting-radio-control--radio pull-left">
+                        @FMBaseController.TranslateText("YES")
+                        <input type="radio" name="LeakAutoPrint" value="true" @{if (@Model.LeakAutoPrint) { <text> checked="checked" </text>  } } />
+                        <div class="setting-radio-control__indicator"></div>
+                    </label>
+                    <label class="setting-radio-control setting-radio-control--radio pull-right">
+                        @FMBaseController.TranslateText("NO")
+                        <input type="radio" name="LeakAutoPrint" value="false" @{if (!@Model.LeakAutoPrint) { <text> checked="checked" </text>  }} @*@{if (@Model.Readonly) { <text> disabled="disabled" </text> }}*@ />
+                        <div class="setting-radio-control__indicator"></div>
+                    </label>
+                </div>
+            </div>
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                <div class="form-group" data-display="calendar">
+                    @Html.LabelFor(m => m.LeakPrintTime, FMBaseController.TranslateText("Print Time"), new { @class = "control-label" })
+                    <div class="form-group">
+                        <div class='input-group date' id='datepickerLeakPrintTime'>
+                            <input type='text' class="form-control text-center datepicker" id="LeakPrintTime" name="LeakPrintTime" value="" style="Width:85%" />
+                        </div>
+                    </div>
+                    <script type="text/javascript">
+						$(function () {
+							var numFormatInfoString = $('#NumberFormatInfoString').val();
+							var numFormatInfo = JSON.parse(numFormatInfoString);
+							FMLayout.dateFormat = ConvertToJQueryUIDateFormat(numFormatInfo.TimePattern);
+							FMLayout.calendarLocation = '@Url.Content("~/DispatchWebApp/images")';
+                            $('#LeakPrintTime').timepicker({
+								buttonImage: FMLayout.calendarLocation + '/calendar.gif',
+								buttonImageOnly: true,
+								showOn: "button",
+                                timeFormat: FMLayout.dateFormat,
+								beforeShow: function () {
+									setTimeout(function () {
+										$('.ui-datepicker').css('z-index', 1100);
+									}, 0);
+								}
+							});
+                            @*$('#LeakPrintTime').timepicker("setTime", moment('@Model.LeakPrintTime.TimeOfDay').format(numFormatInfo.TimePattern.toUpperCase()));*@
+						});$('#LeakPrintTime').timepicker("setTime", '@Model.LeakPrintTime.TimeOfDay');
+                    </script>
+                </div>
+            </div>
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                @Html.LabelFor(m => m.LeakPrintDaysBeforeEndOfMonth, FMBaseController.TranslateText("Print Days Before End of Month"), new { @class = "control-label" })
+                @Html.DropDownListFor(m => m.LeakPrintDaysBeforeEndOfMonth, new SelectList(Model.LeakPrintDaysBeforeEndOfMonthList, "Key", "Value", Model.LeakPrintDaysBeforeEndOfMonth), new { ID = "LeakPrintDaysBeforeEndOfMonth", @class = "form-control" })
+
+            </div>
+        </div>
+
+
+
+        <br />
+
+        <div id="tabs" style="width: 100%;">
+            <div id="mainTabSection" class="row" style="width: 100%;">
+
+            </div>
+        </div>
+    </section>
+}
+
+<section id="strapTableModals">
+    <div id="confirmationDialog"></div>
+</section>

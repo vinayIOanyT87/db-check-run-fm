@@ -1,0 +1,11 @@
+HKCR
+{
+	NoRemove AppID
+	{
+		'%APPID%' = s 'WeightScaleOPCObjects'
+		'WeightScaleOPCObjects.DLL'
+		{
+			val AppID = s '%APPID%'
+		}
+	}
+}

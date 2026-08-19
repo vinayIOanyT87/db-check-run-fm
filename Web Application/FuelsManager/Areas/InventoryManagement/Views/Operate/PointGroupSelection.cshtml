@@ -1,0 +1,267 @@
+﻿@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.PointGroupsFilterModel
+@{
+	var ModifyPointGroupsDisplay = (@Model.ModifyPointGroupsRight) ? "" : "display: none;";
+}
+<script src="~/Areas/Lib/jquery.columnizer.js"></script>
+
+<div class="savedViewSubMenuLayout">
+<div class="operateSubMenuFilter">
+	<div class="row">
+		<div class="col-sm-12 col-md-12 col-lg-12 OperateSelectionMenuTitle">
+			<label class="pull-left">@FMBaseController.TranslateText("POINT GROUPS")</label>
+			<span id="PointGroupSelectionViewMode" class="glyphicon glyphicon-th-list pull-right icon-container listViewSwitch" title="Switch to Detail View"></span>
+			<div class="Selectionhorizontalline shorter"></div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12 col-md-12 col-lg-12">
+			<div class="filter-settings operate-list-filter-addon">
+				<input id="filter_pointgroup" type="text" class="operate-List-form-control" placeholder="Search for Point Group Name" />
+				<img alt="Filter Point Groups" title="Search" src="~/fmwebapp/images/Search Icon.png" />
+			</div>
+		</div>
+	</div>
+	@if (Model.AdministerPointGroupsRight)
+	{
+		<div class="row" style="margin-top: 6px;">
+			<div class="col-sm-12 col-md-12 col-lg-12">
+				<select id="filter_pointgroup_owner" class="operate-List-form-control form-control" title="Filter Point Groups by owner">
+					@foreach (var ownerOption in Model.OwnerOptions)
+					{
+						<option value="@ownerOption.Value">@ownerOption.Text</option>
+					}
+				</select>
+			</div>
+		</div>
+	}
+</div>
+<style>
+</style>
+<div class="operateSubMenuList" id="pointGroupSubMenuList">
+	<div class="pointGroupSelectionSubgroupTitle" data-toggle="collapse" data-target="#PrivatePointGroupSelection"><span class="glyphicon glyphicon-minus"></span><b>Private Point Groups</b></div>
+	<div id="PrivatePointGroupSelection" class="collapse in">
+		@foreach (var pointGroup in Model.GetPrivatePointGroups())
+		{
+			var ownerKey = pointGroup.Owner == "Unavailable" ? "__unavailable__" : pointGroup.OwnerUserGuid.ToString();
+			var pointGroupTitle = string.Format("{0} — Owner: {1}", pointGroup.ID, pointGroup.Owner);
+			<div class="operatePointGroupSubMenuElement graphics-dontsplit row" data-guid="@pointGroup.PointGroupGuid" data-owner-key="@ownerKey" onclick="FMOperateIndex.openPointGroup( '@pointGroup.ID', '@pointGroup.PointGroupGuid' )">
+				<div class="operatePointGroupSubmenuTitle" title="@pointGroupTitle">@pointGroup.ID<span class="edit-icon pull-right glyphicon glyphicon-trash" title="Delete Point Group" onclick="FMOperateIndex.DeletePointGroup( '@pointGroup.PointGroupGuid', '@pointGroup.ID' ); event.stopPropagation();" style="@ModifyPointGroupsDisplay"></span></div>
+				<textarea readonly class="operatePointGroupSubmenuTileDescription detail-view" title="@pointGroup.Description">@pointGroup.Description</textarea>
+			</div>
+		}
+	</div>
+	<div class="pointGroupSelectionSubgroupTitle" data-toggle="collapse" data-target="#PublicPointGroupSelection"><span class="glyphicon glyphicon-minus"></span><b>Public Point Groups</b></div>
+	<div id="PublicPointGroupSelection" class="collapse in">
+		@foreach (var pointGroup in Model.GetPublicPointGroups())
+		{
+			var ownerKey = pointGroup.Owner == "Unavailable" ? "__unavailable__" : pointGroup.OwnerUserGuid.ToString();
+			var pointGroupTitle = string.Format("{0} — Owner: {1}", pointGroup.ID, pointGroup.Owner);
+			<div class="operatePointGroupSubMenuElement graphics-dontsplit row" data-guid="@pointGroup.PointGroupGuid" data-owner-key="@ownerKey" onclick="FMOperateIndex.openPointGroup( '@pointGroup.ID', '@pointGroup.PointGroupGuid' )">
+				<div class="operatePointGroupSubmenuTitle" title="@pointGroupTitle">@pointGroup.ID<span class="edit-icon pull-right glyphicon glyphicon-trash" title="Delete Point Group" onclick="FMOperateIndex.DeletePointGroup( '@pointGroup.PointGroupGuid', '@pointGroup.ID' ); event.stopPropagation();" style="@ModifyPointGroupsDisplay"></span></div>
+				<textarea readonly class="operatePointGroupSubmenuTileDescription detail-view" title="@pointGroup.Description">@pointGroup.Description</textarea>
+			</div>
+		}
+	</div>
+
+	<div class="pointGroupSelectionSubgroupTitle" data-toggle="collapse" data-target="#SharedPointGroupSelection"><span class="glyphicon glyphicon-minus"></span><b>Shared Point Groups</b></div>
+	<div id="SharedPointGroupSelection" class="collapse in">
+		@foreach (var pointGroup in Model.GetSharedPointGroups())
+		{
+			var ownerKey = pointGroup.Owner == "Unavailable" ? "__unavailable__" : pointGroup.OwnerUserGuid.ToString();
+			var pointGroupTitle = string.Format("{0} — Owner: {1}", pointGroup.ID, pointGroup.Owner);
+			<div class="operatePointGroupSubMenuElement graphics-dontsplit row" data-guid="@pointGroup.PointGroupGuid" data-owner-key="@ownerKey" onclick="FMOperateIndex.openPointGroup( '@pointGroup.ID', '@pointGroup.PointGroupGuid' )">
+				<div class="operatePointGroupSubmenuTitle" title="@pointGroupTitle">@pointGroup.ID @if (@pointGroup.IsEditable)
+				{ <span class="edit-icon pull-right glyphicon glyphicon-trash" title="Delete Point Group" onclick="FMOperateIndex.DeletePointGroup( '@pointGroup.PointGroupGuid', '@pointGroup.ID' ); event.stopPropagation();" style="@ModifyPointGroupsDisplay"></span> } </div>
+				<textarea readonly class="operatePointGroupSubmenuTileDescription detail-view" title="@pointGroup.Description">@pointGroup.Description</textarea>
+			</div>
+		}
+	</div>
+</div>
+
+<div class="operateSubMenuButtonGroup" id="PointGroupSubMenuButtonGroup" style="@ModifyPointGroupsDisplay">
+    <div class="row">
+        <div class="col-sm-12 ">
+            <div class="SubMenubutton" title='@FMBaseController.TranslateText("Add Point Group")' onclick="FMOperateIndex.addPointGroup()"><span class="glyphicon glyphicon-plus-sign" style="margin-right:7px"></span>@FMBaseController.TranslateText("Add Point Group")</div>
+        </div>
+    </div>
+    @if (Model.AdministerPointGroupsRight)
+	{
+        <div class="row" style="margin-top: 10px">
+            <div class="col-sm-12 ">
+                <div id="PointGroupDeleteAllButton" class="SubMenubutton" title='@FMBaseController.TranslateText("Delete all Point Groups")' onclick="FMOperateIndex.DeleteMultiplePointGroups()">
+                    <span class="glyphicon glyphicon-trash" style="margin-right:7px"></span>@FMBaseController.TranslateText("Delete All")
+                </div>
+            </div>
+        </div>
+	}
+    </div>
+</div>
+
+<script>
+
+	if (!FMOperateIndex.hasOwnProperty("selectedPointGroupName")) {
+		FMOperateIndex.selectedPointGroupName = "";
+	}
+	if (!FMOperateIndex.hasOwnProperty("selectedPointGroupOwner")) {
+		FMOperateIndex.selectedPointGroupOwner = "";
+	}
+
+	/* Based on the current view selection in the point rolldown menu, set the view to display */
+	function resetPointGroupInputViewMode() {
+		if ($("#PointGroupSelectionViewMode").hasClass("listViewSwitch")) {
+			$("#PointGroupSelectionViewMode").removeClass("glyphicon-align-justify").addClass("glyphicon-th-list");
+			$('.list-view').css('display', 'inherit');
+			$('.detail-view').css('display', 'none');
+			$('.operatePointGroupSubMenuElement').css('height', '30px');
+		} else {
+			$("#PointGroupSelectionViewMode").removeClass("glyphicon-th-list").addClass("glyphicon-align-justify");
+			$('.list-view').css('display', 'none');
+			$('.detail-view').css('display', 'inherit');
+			$('.operatePointGroupSubMenuElement').css('height', '70px');
+		}
+	}
+
+	//====================================================================
+	// This function will handle the point Group list filtering
+	//====================================================================
+	$("#filter_pointgroup").on('input', function () {
+		var filterTxt = $(this).val();
+
+		if (filterTxt === $(this).data('oldvalue')) {
+			return;
+		}
+		else {
+			$(this).data('oldvalue', filterTxt);
+		}
+
+		FMOperateIndex.selectedPointGroupName = filterTxt;
+		FMOperateIndex.PointGroupListRolloutMenuFiltering();
+	});
+
+	$("#filter_pointgroup_owner").on('change', function () {
+		FMOperateIndex.selectedPointGroupOwner = $(this).val();
+		FMOperateIndex.PointGroupListRolloutMenuFiltering();
+	});
+
+	FMOperateIndex.PointGroupListRolloutMenuFiltering = function () {
+		var filterTxt = FMOperateIndex.selectedPointGroupName;
+		var ownerFilter = FMOperateIndex.selectedPointGroupOwner;
+		// No points to be found, just return.
+		if ($('.operatePointGroupSubMenuElement').length === 0)
+			return;
+
+		$('#PrivatePointGroupSelection').uncolumnize();
+		$('#PublicPointGroupSelection').uncolumnize();
+		$('#SharedPointGroupSelection').uncolumnize();
+		resetPointGroupInputViewMode();
+
+		$('.operatePointGroupSubMenuElement').each(function () {
+			var matchesName = filterTxt === ""
+				|| $(this).find('.operatePointGroupSubmenuTitle').text().toLowerCase().indexOf(filterTxt.toLowerCase()) >= 0;
+			var matchesOwner = ownerFilter === ""
+				|| ($(this).attr("data-owner-key") || "").toLowerCase() === ownerFilter.toLowerCase();
+			$(this).toggleClass("hidden", !(matchesName && matchesOwner));
+		});
+		$('#PrivatePointGroupSelection').columnize({
+			columns: 2,
+			buildOnce: true,
+			cssClassPrefix: "graphics",
+			lastNeverTallest: true
+		});
+		$('#PublicPointGroupSelection').columnize({
+			columns: 2,
+			buildOnce: true,
+			cssClassPrefix: "graphics",
+			lastNeverTallest: true
+		});
+		$('#SharedPointGroupSelection').columnize({
+			columns: 2,
+			buildOnce: true,
+			cssClassPrefix: "graphics",
+			lastNeverTallest: true
+		});
+
+		// need to destroy and rebuild nicescroll since the refresh does not seem to be working on this case
+		$(".operateSubMenuList").getNiceScroll().remove();
+		$(".operateSubMenuList").niceScroll({ cursorwidth: '10px', autohidemode: false, cursorcolor: "#486899", background: "white" });
+
+		$("#filter_pointgroup").val(filterTxt);  // we need the focus at the end of the last character in the input
+		$("#filter_pointgroup").focus(); // have to reset the focus since it loses focus when running columnize
+		$("#filter_pointgroup_owner").val(ownerFilter);
+	}
+
+
+	$(document).ready(function ()
+	{
+		// expand and hide the point group types (private, public, share )
+		$('#PrivatePointGroupSelection, #PublicPointGroupSelection, #SharedPointGroupSelection').on('show.bs.collapse', function ()
+		{
+			var controlId = $(this).attr( "id");
+			$(".pointGroupSelectionSubgroupTitle[data-target='#" + controlId + "'] span").removeClass('glyphicon-plus').addClass('glyphicon-minus');
+		} );
+		$('#PrivatePointGroupSelection, #PublicPointGroupSelection, #SharedPointGroupSelection').on('hide.bs.collapse', function ()
+		{
+			var controlId = $(this).attr("id");
+			$(".pointGroupSelectionSubgroupTitle[data-target='#" + controlId + "'] span").removeClass('glyphicon-minus').addClass('glyphicon-plus');
+		});
+
+		$('#PointGroupSelectionViewMode').on('click', function (e) {
+			if ($("#PointGroupSelectionViewMode").hasClass("listViewSwitch")) {
+				$("#PointGroupSelectionViewMode").removeClass("listViewSwitch").addClass("detailViewSwitch");
+				$("#PointGroupSelectionViewMode").removeClass("glyphicon-th-list").addClass("glyphicon-align-justify");
+				$("#PointGroupSelectionViewMode").attr("title", "Switch to Compact View");
+				$('.list-view').css('display', 'none');
+				$('.detail-view').css('display', 'inherit');
+				$('.operatePointGroupSubMenuElement').css('height', '70px');
+				FMOperateIndex.PersistUpdateFilterView("pointGroupViewSelection", 'detailView');
+			} else {
+				$("#PointGroupSelectionViewMode").removeClass("detailViewSwitch").addClass("listViewSwitch");
+				$("#PointGroupSelectionViewMode").removeClass("glyphicon-align-justify").addClass("glyphicon-th-list");
+				$("#PointGroupSelectionViewMode").attr("title", "Switch to Detail View");
+				$('.list-view').css('display', 'inherit');
+				$('.detail-view').css('display', 'none');
+				$('.operatePointGroupSubMenuElement').css('height', '30px');
+				FMOperateIndex.PersistUpdateFilterView("pointGroupViewSelection", 'compactView');
+			}
+			$(".operateSubMenuList").getNiceScroll().resize();
+		});
+
+		// check the selected view that was used previously
+		var viewMode = FMOperateIndex.GetSelectedFilterView("pointGroupViewSelection");
+		if (viewMode != null) {
+			if (viewMode === 'detailView') {
+				$("#PointGroupSelectionViewMode").removeClass("listViewSwitch").addClass("detailViewSwitch");
+				$("#PointGroupSelectionViewMode").attr("title", "Switch to Compact View");
+			}
+			else {
+				$("#PointGroupSelectionViewMode").removeClass("detailViewSwitch").addClass("listViewSwitch");
+				$("#PointGroupSelectionViewMode").attr("title", "Switch to Detail View");
+			}
+			resetPointGroupInputViewMode();
+		}
+
+		// In IE when setting the focus, the cursor is placed in the first position and we need to have it
+		// in the last character to continue typing the filter
+		// Based on http://stackoverflow.com/questions/511088/use-javascript-to-place-cursor-at-end-of-text-in-text-input-element
+		$("#filter_pointgroup").focus(function () {
+			var that = this;
+			setTimeout(function () { that.selectionStart = that.selectionEnd = 10000; }, 0);
+		});
+
+		// if we have values from a previous selection then reset the content and call to filter
+		if (FMOperateIndex.selectedPointGroupName !== "") {
+			$("#filter_pointgroup").val(FMOperateIndex.selectedPointGroupName);
+		}
+		if ($("#filter_pointgroup_owner option[value='" + FMOperateIndex.selectedPointGroupOwner + "']").length > 0) {
+			$("#filter_pointgroup_owner").val(FMOperateIndex.selectedPointGroupOwner);
+		}
+		else {
+			FMOperateIndex.selectedPointGroupOwner = "";
+		}
+		if (FMOperateIndex.selectedPointGroupName !== "" || FMOperateIndex.selectedPointGroupOwner !== "") {
+			FMOperateIndex.PointGroupListRolloutMenuFiltering();
+		}
+
+	});
+</script>

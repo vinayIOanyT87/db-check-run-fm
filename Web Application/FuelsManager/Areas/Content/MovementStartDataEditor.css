@@ -1,0 +1,85 @@
+﻿#movementSettingsEditorPartial label {
+	color: rgb(153,153,153) !important;
+}
+
+#MovementStartDataEditorPropertyScreen button[disabled] {
+	cursor: not-allowed;
+}
+
+.ui-front {
+	z-index: 10000 !important;
+}
+
+body .modal {
+	width: 750px !important;
+	margin-left: -375px !important;
+}
+
+.MovementSettingsEditorHeader {
+	padding: 0px;
+	width: 100%;
+}
+
+.MovementSettingsEditorHeader .close {
+	padding: 5px !important;
+	margin-top: -2px !important;
+}
+
+.h4, .h5, .h6, h4, h5, h6 {
+	margin-top: 0px !important;
+	margin-bottom: 0px !important;
+}
+
+.form-control {
+	border-radius: 0px !important;
+}
+
+.form-group {
+	height: 60px !important;
+}
+
+#MovementStartDataEditorPropertyScreen .modal, #MovementStartDataEditorPropertyScreen .modal-content {
+	background-color: white !important;
+}
+
+#MovementStartDataEditorPropertyScreen {
+	width: 500px !important;
+}
+
+.TransferStartTime {
+	height: 25px !important;
+	width: 200px !important;
+}
+
+.MovementStartDataTdPadding1 {
+	padding-top: 7px;
+	padding-bottom: 7px;
+}
+
+.MovementStartDataTdPadding2 {
+	padding-top: 7px;
+	padding-bottom: 7px;
+	padding-left: 40px;
+}
+
+#MovementStartDataTableSection {
+	padding-left: 30px;
+}
+
+.MovementStartDataInputHeight {
+	height: 17px !important;
+}
+
+input.hasDatepicker {
+	display: inline-block;
+	width: calc( ( 100% / 2 ) );
+	max-width: 400px;
+}
+
+.ui-datepicker-trigger {
+	Width: 25px !important;
+	margin-left: 5px;
+	float: none !important;
+	margin-top: 0px !important;
+}
+

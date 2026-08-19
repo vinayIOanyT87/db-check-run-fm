@@ -1,0 +1,93 @@
+<div [ngSwitch]="configurationItem.dataType.toLowerCase()">
+    <div *ngSwitchCase="'string'">
+        <input #stringField id="{{configurationItem.parameter}}" tabindex="{{tabIndex}}" *ngIf="configurationItem.displayFormat!='dropdown'" onfocus="this.select(); this.selAll=1;" type="text" [attr.title]="useSmallText(configurationItem) ? configurationItem.pendingValue : ''" class="text-right inlineinputeditor" maxlength="{{configurationItem.datatypeLength}}"
+            [ngModel]="configurationItem.pendingValue" (change)="valueChange(stringField.value, $event)" (keydown.esc)="revertValue($event)" (keydown.alt)="revertValue($event)" (keyup.enter)="valueChange(stringField.value, $event)" [attr.disabled]="isFieldDisabled()"
+        />
+        <select #stringDropDownField id="{{configurationItem.parameter}}" tabindex="{{tabIndex}}" *ngIf="configurationItem.displayFormat=='dropdown'" class="text-right inlineinputeditor" [ngModel]="configurationItem.pendingValue" (click)="clearDropdown(configurationItem)"
+            (change)="valueDropDownChange(stringDropDownField.value)" [attr.disabled]="isFieldDisabled()">
+                <option value="{{option.id}}" *ngFor="let option of options">{{option.name}}</option>
+            </select>
+    </div>
+    <div *ngSwitchCase="'unsigned int'">
+        <input #unsignedIntFieldLHEX id="{{configurationItem.parameter}}" tabindex="{{tabIndex}}" *ngIf="configurationItem.displayFormat=='LHEX'" type="text" onfocus="this.select(); this.selAll=1;" class="text-right inlineinputeditor" [ngModel]="configurationItem.pendingValue"
+            appAllowOnlyHexValues maxlength="8" (change)="valueChange($event)" (change)="valueChange(unsignedIntFieldLHEX.value, $event)" (keydown.esc)="revertValue($event)" (keydown.alt)="revertValue($event)" (keyup.enter)="valueChange(unsignedIntFieldLHEX.value, $event)"
+            [attr.disabled]="isFieldDisabled()" />
+        <input #unsignedIntField id="{{configurationItem.parameter}}" tabindex="{{tabIndex}}" *ngIf="configurationItem.displayFormat!='LHEX' && configurationItem.displayFormat!='dropdown'" onfocus="this.select(); this.selAll=1;" type="text" class="text-right inlineinputeditor"
+            [ngModel]="configurationItem.pendingValue" appAllowOnlyDigits appRestricMinMax [restrict_minvalue]="min()" [restrict_maxvalue]="max()" (change)="valueChange(unsignedIntField.value, $event)" (keydown.esc)="revertValue($event)" (keydown.alt)="revertValue($event)"
+            (keyup.enter)="valueChange(unsignedIntField.value, $event)" [attr.disabled]="isFieldDisabled()" />
+        <select #stringDropDownField id="{{configurationItem.parameter}}" tabindex="{{tabIndex}}" *ngIf="configurationItem.displayFormat=='dropdown'" class="text-right inlineinputeditor" [ngModel]="configurationItem.pendingValue" (click)="clearDropdown(configurationItem)"
+            (change)="valueDropDownChange(stringDropDownField.value)" [attr.disabled]="isFieldDisabled()">
+           <option value="{{option.id}}" *ngFor="let option of options">{{option.name}}</option>
+        </select>
+    </div>
+    <div *ngSwitchCase="'int'">
+        <input #intField id="{{configurationItem.parameter}}" tabindex="{{tabIndex}}" *ngIf="configurationItem.displayFormat!='TIME'" type="text" onfocus="this.select(); this.selAll=1;" class="text-right inlineinputeditor" [ngModel]="configurationItem.pendingValue"
+            appAllowOnlySignedDigits appRestricMinMax [restrict_minvalue]="min()" [restrict_maxvalue]="max()" (change)="valueChange(intField.value, $event)" (keydown.esc)="revertValue($event)" (keydown.alt)="revertValue($event)" (keyup.enter)="valueChange(intField.value, $event)"
+            [attr.disabled]="isFieldDisabled()" />
+        <input #intFieldTime id="{{configurationItem.parameter}}" tabindex="{{tabIndex}}" *ngIf="configurationItem.displayFormat=='TIME'" type="text" onfocus="this.select(); this.selAll=1;"
+            class="text-right inlineinputeditor" [ngModel]="configurationItem.pendingValue" (change)="valueChange(intFieldTime.value, $event)" (keydown.esc)="revertValue($event)" (keydown.alt)="revertValue($event)" (keyup.enter)="valueChange(intFieldTime.value, $event)"
+            [attr.disabled]="isFieldDisabled()" />
+    </div>
+    <div *ngSwitchCase="'unsigned long'">
+        <span *ngIf="configurationItem.displayFormat=='LHEX'" class="LhexPrefix">0x</span><input #unsignedLongFieldLHEX id="{{configurationItem.parameter}}" tabindex="{{tabIndex}}" *ngIf="configurationItem.displayFormat=='LHEX'" type="text" onfocus="this.select(); this.selAll=1;" class="text-right inlineinputeditorLhex" [ngModel]="configurationItem.pendingValue"
+            appAllowOnlyHexValues maxlength="8" (change)="valueChange(unsignedLongFieldLHEX.value, $event)" (keydown.esc)="revertValue($event)" (keydown.alt)="revertValue($event)" (keyup.enter)="valueChange(unsignedLongFieldLHEX.value, $event)" [attr.disabled]="isFieldDisabled()"
+        />
+        <input #unsignedLongField id="{{configurationItem.parameter}}" tabindex="{{tabIndex}}" *ngIf="configurationItem.displayFormat!='LHEX' && configurationItem.displayFormat!='dropdown'" type="text" onfocus="this.select(); this.selAll=1;" class="text-right inlineinputeditor"
+            [ngModel]="configurationItem.pendingValue" appAllowOnlyDigits appRestricMinMax [restrict_minvalue]="min()" [restrict_maxvalue]="max()" (change)="valueChange(unsignedLongField.value, $event)" (keydown.esc)="revertValue($event)" (keydown.alt)="revertValue($event)"
+            (keyup.enter)="valueChange(unsignedLongField.value, $event)" [attr.disabled]="isFieldDisabled()" />
+        <select #stringDropDownField id="{{configurationItem.parameter}}" tabindex="{{tabIndex}}" *ngIf="configurationItem.displayFormat=='dropdown'" class="text-right inlineinputeditor" [ngModel]="configurationItem.pendingValue" (click)="clearDropdown(configurationItem)"
+            (change)="valueDropDownChange(stringDropDownField.value)" [attr.disabled]="isFieldDisabled()">
+               <option value="{{option.id}}" *ngFor="let option of options">{{option.name}}</option>
+            </select>
+    </div>
+    <div *ngSwitchCase="'long'">
+        <input #longField id="{{configurationItem.parameter}}" tabindex="{{tabIndex}}" type="text" onfocus="this.select(); this.selAll=1;" class="text-right inlineinputeditor" [ngModel]="configurationItem.pendingValue" appAllowOnlySignedDigits appRestricMinMax
+            [restrict_minvalue]="min()" [restrict_maxvalue]="max()" (change)="valueChange(longField.value, $event)" (keydown.esc)="revertValue($event)" (keydown.alt)="revertValue($event)" (keyup.enter)="valueChange(longField.value, $event)" [attr.disabled]="isFieldDisabled()"
+        />
+    </div>
+    <div *ngSwitchCase="'double'">
+        <input #doubleField id="{{configurationItem.parameter}}" tabindex="{{tabIndex}}" type="text" onfocus="this.select(); this.selAll=1;" class="text-right inlineinputeditor" [ngModel]="configurationItem.pendingValue" mask="V*.0*" [dropSpecialCharacters]="false"
+            [patterns]="customMaskPattern" (blur)="valueChange(doubleField.value, $event)" (keydown.esc)="revertValue($event)" (keydown.alt)="revertValue($event)" (keyup.enter)="valueChange(doubleField.value, $event)" [attr.disabled]="isFieldDisabled()" />
+    </div>
+
+    <div *ngSwitchDefault>
+        <input #defaultField id="{{configurationItem.parameter}}" tabindex="{{tabIndex}}" type="text" onfocus="this.select(); this.selAll=1;" class="text-right inlineinputeditor" [ngModel]="configurationItem.pendingValue" (change)="valueChange(defaultField.value, $event)"
+            (keydown.esc)="revertValue($event)" (keydown.alt)="revertValue($event)" (keyup.enter)="valueChange(defaultField.value,$event)" [attr.disabled]="isFieldDisabled()" />
+    </div>
+</div>
+
+<ng-template #modalPendingConfigurationToRTU>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">You Have Pending Changes</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="cancelCommandToRTU();">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            Pending configuration changes have not been applied to RTU. Commands are not permitted.
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="okButton" type="button" class="btn btn-secondary" (click)="cancelCommandToRTU();">Ok</button>
+    </div>
+</ng-template>
+
+
+<ng-template #modalConfirmIssueCommandToRTU>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Confirm Action</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="cancelCommandToRTU();">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            Are you sure you want to issue the Command: {{getParameterCommand()}}?
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="cancelButton" type="button" class="btn btn-secondary" (click)="cancelCommandToRTU();">No</button>
+        <button id="applyButton" type="button" class="btn btn-primary" (click)="issueCommandToRTU();">Yes</button>
+    </div>
+</ng-template>

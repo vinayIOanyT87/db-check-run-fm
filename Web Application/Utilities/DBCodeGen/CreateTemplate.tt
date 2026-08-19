@@ -1,0 +1,201 @@
+﻿<#@ import namespace="System.Collections.Generic" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="T4Toolbox.10.0" #>
+<#@ import namespace="T4Toolbox" #>
+<#+
+
+/// <summary>
+/// This template generates Entity To Site map.
+/// </summary>
+public class CreateEntityMapTemplate : CreateMapTemplate
+{
+	public CreateEntityMapTemplate( MapInfo theMap) :base(theMap)
+	{
+		MyMap.MyTable.Prefix = "tblEntity";
+		MyMap.MyTable.FieldList[0].ForeignKey.CascadeDelete = false; // otherwise, there will be cascade issue
+	}
+	
+	public static CreateEntityMapTemplate NewTemplate(CodeGenConfig theConfig, string newAssignedName, EntityKeyInfo assignedKeyInfo) 
+	{
+		
+		MapInfo theMap = new MapInfo("map", newAssignedName, assignedKeyInfo, "Site", EntityKeyInfo.SiteKeyInfo);	
+		return new CreateEntityMapTemplate(theMap);
+	}	
+}
+
+/// <summary>
+/// This template generates simple map.  Assigned mapped to Assignee.  e.g. Company map to a CompanyGroup
+/// </summary>
+public class CreateMapTemplate : CreateTemplate
+{
+	public CreateMapTemplate(MapInfo newMap)
+	{
+		MyMap = newMap;
+	}
+	public MapInfo MyMap { get; set; } 
+	public override TableInfo MyTable
+	{
+		get
+		{
+			TableInfo actualTable = null;
+			if (MyMap!= null)
+			{
+				actualTable = MyMap.MyTable;
+			}
+			return actualTable;
+		}
+		set
+		{
+		}
+	}
+
+	/// <summary>
+	/// This creates an index of the Assigned, Assignee Pair
+	/// </summary>
+	public override void CreateCustomDefinitions()
+	{
+		string[] fieldList = new string[] {MyTable.FieldList[0].Name, MyTable.FieldList[1].Name};
+		CreateIndex( fieldList, true);
+	}
+}
+
+public class CreateTemplate : FMTemplateBase
+{
+	public CreateTemplate() :base(string.Empty, "TABLE", "N'U'")
+	{
+	}		
+	
+	public void CreateAField(FieldInfo theField)
+	{
+		int oldIndentCount = _indentCount;
+		
+		// main field declaration
+		Indent();
+		string fieldDefinition = string.Format("[{0}] {1} {2}", theField.Name, theField.Type, theField.IsNullable ? string.Empty : "NOT NULL");
+		Write(fieldDefinition);
+		Indent();
+		
+		// handle default value
+		if (!string.IsNullOrWhiteSpace(theField.Default))
+		{
+			WriteLine(string.Empty);
+			string constraintSuffix = theField.Name;
+			fieldDefinition = string.Format("CONSTRAINT [DF_{0}_{1}_{2}] DEFAULT {3}", this.MyTable.SchemaName, this.MyTable.TableName, constraintSuffix, theField.Default);
+			Write(fieldDefinition);
+		}
+		
+		// handle foreign key constraint
+		if (theField.ForeignKey != null)
+		{
+			WriteLine(string.Empty);
+			fieldDefinition = string.Format("CONSTRAINT [FK_{0}_{1}_{2}]", this.MyTable.SchemaName, this.MyTable.TableName, theField.Name);
+			WriteLine(fieldDefinition);
+			fieldDefinition = string.Format("REFERENCES {0}({1})", theField.ForeignKey.KeyInfo.TableName, theField.ForeignKey.KeyInfo.PrimaryKey);
+			Write(fieldDefinition);
+			if (theField.ForeignKey.CascadeDelete)
+			{
+				WriteLine(string.Empty);
+				Indent();
+				Write("ON DELETE CASCADE ON UPDATE CASCADE");
+			}
+		}
+		WriteLine(",");
+		Unindent(oldIndentCount);				
+	}
+	
+	/// <summary>
+	/// This generates the primary key
+	/// </summary>
+	public void CreatePrimaryKeyConstraint()
+	{
+		Indent();
+		string constraintName = string.Format("PK_{0}_{1}", this.MyTable.SchemaName, this.MyTable.TableName);
+#>		
+CONSTRAINT [<#= constraintName #>] PRIMARY KEY CLUSTERED 
+(
+	[<#= this.MyTable.PrimaryKeyField.Name #>] ASC
+),
+<#+
+		Unindent();
+	}
+	
+	public void CreateIndex(string[] fieldNames, bool isUnique)
+	{
+		Indent();
+		bool isFirstField = true;
+		string constraintName = string.Format("[UX_{0}_{1}", this.MyTable.SchemaName, this.MyTable.TableName);
+		string fieldList = string.Empty;
+		foreach (string fieldName in fieldNames)
+		{
+			if (isFirstField)
+			{
+				isFirstField = false;
+			}
+			else
+			{
+				fieldList+=", ";
+			}
+				
+			constraintName += "_" + fieldName;
+			fieldList += "[" + fieldName + "]";
+		}
+		string uniqueText = isUnique ? " UNIQUE" : " ";
+#>		
+CONSTRAINT [<#= constraintName #>] <#= uniqueText #>
+	(<#= fieldList #> )
+
+<#+
+		Unindent();		
+	}
+	
+	/// <summary>
+	/// If you have anything specific to your template, override this to do it.
+	/// </summary>
+	public virtual void CreateCustomDefinitions()
+	{
+		
+	}
+	public void CreateFields()
+	{
+		CreateAField(MyTable.PrimaryKeyField);
+		foreach (FieldInfo currentField in MyTable.FieldList)
+		{
+			CreateAField(currentField);
+		}
+	}
+	
+	public void DefaultFields()
+	{
+		Indent();
+#>		
+[CreatedDate] DATETIMEOFFSET(7) NOT NULL
+	CONSTRAINT [DF_<#= MyTable.SchemaName #>_<#= MyTable.TableName #>_CreatedDate] DEFAULT (SysDateTimeOffset()),	
+[CreatedBy] UdtUserId NOT NULL
+	CONSTRAINT [DF_<#= MyTable.SchemaName #>_<#= MyTable.TableName #>_CreatedBy] DEFAULT '',	
+[UpdatedDate] DATETIMEOFFSET(7) NOT NULL
+	CONSTRAINT [DF_<#= MyTable.SchemaName #>_<#= MyTable.TableName #>_UpdatedDate] DEFAULT (SysDateTimeOffset()),	
+[UpdatedBy] UdtUserId NOT NULL
+	CONSTRAINT [DF_<#= MyTable.SchemaName #>_<#= MyTable.TableName #>_UpdatedBy] DEFAULT '',	
+[_RowVersion] RowVersion NOT NULL,	
+<#+
+		Unindent();
+	}
+	
+    protected override void RenderStandardCore()
+    {
+#>
+-- ===================== Creating <#= ObjectType #> - <#= FullObjectName #> ==========================================================
+CREATE TABLE <#= FullTableName #> (
+<#+
+		CreateFields();
+		DefaultFields();
+		CreatePrimaryKeyConstraint();
+		CreateCustomDefinitions();		
+#>
+) 	
+GO
+
+<#+
+    }
+}
+#>

@@ -1,0 +1,458 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2D516C59-392A-4EB8-8DA2-9DCA29E5019D}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Dispatch</RootNamespace>
+    <AssemblyName>Dispatch</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <ApplicationIcon>Disptach09.ico</ApplicationIcon>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile />
+    <PublishUrl>http://localhost/Dispatch/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ProductName>Dispatch</ProductName>
+    <PublisherName>Varec, Inc.</PublisherName>
+    <SuiteName>FuelsManager</SuiteName>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>9.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>0765B4779F57E292A8516FACBFDADB73C9BA47DB</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>Dispatch_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Interop.FMInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=72e9e977f38adbb2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>..\..\Binaries\Interop.FMInterfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Interop.SHDocVw, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Binaries\Interop.SHDocVw.dll</HintPath>
+    </Reference>
+    <Reference Include="OpcNetApi, Version=2.0.2.0, Culture=neutral, PublicKeyToken=78aea80f6827b5ab, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AboutBox1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutBox1.Designer.cs">
+      <DependentUpon>AboutBox1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AddInItemsClass.cs" />
+    <Compile Include="AddInsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddInsForm.designer.cs">
+      <DependentUpon>AddInsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AddMemoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddMemoForm.designer.cs">
+      <DependentUpon>AddMemoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AppointmentReminderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AppointmentReminderForm.designer.cs">
+      <DependentUpon>AppointmentReminderForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChangeOperatorStatusForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChangeOperatorStatusForm.Designer.cs">
+      <DependentUpon>ChangeOperatorStatusForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChangePasswordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChangePasswordForm.designer.cs">
+      <DependentUpon>ChangePasswordForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CommentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CommentForm.Designer.cs">
+      <DependentUpon>CommentForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControlLogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ControlLogForm.designer.cs">
+      <DependentUpon>ControlLogForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DelayedDisplayBusyDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DelayedDisplayBusyDialog.Designer.cs">
+      <DependentUpon>DelayedDisplayBusyDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DispatchContainerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DispatchContainerForm.designer.cs">
+      <DependentUpon>DispatchContainerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DispatchDataAccess.cs" />
+    <Compile Include="FMBAddressConfiguration.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FMBAddressConfiguration.Designer.cs">
+      <DependentUpon>FMBAddressConfiguration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ReleaseToAccountingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReleaseToAccountingForm.Designer.cs">
+      <DependentUpon>ReleaseToAccountingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DispatchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DispatchForm.designer.cs">
+      <DependentUpon>DispatchForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EmbeddedBrowser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EmbeddedBrowser.designer.cs">
+      <DependentUpon>EmbeddedBrowser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EvacuateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EvacuateForm.Designer.cs">
+      <DependentUpon>EvacuateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExtendedWebBrowser.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FMBaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FuelRequestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FuelRequestForm.designer.cs">
+      <DependentUpon>FuelRequestForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoginForm.designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OptionalTimesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OptionalTimesForm.designer.cs">
+      <DependentUpon>OptionalTimesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AboutBox1.resx">
+      <DependentUpon>AboutBox1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddInsForm.resx">
+      <DependentUpon>AddInsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddMemoForm.resx">
+      <DependentUpon>AddMemoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AppointmentReminderForm.resx">
+      <DependentUpon>AppointmentReminderForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChangeOperatorStatusForm.resx">
+      <DependentUpon>ChangeOperatorStatusForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChangePasswordForm.resx">
+      <DependentUpon>ChangePasswordForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CommentForm.resx">
+      <DependentUpon>CommentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControlLogForm.resx">
+      <DependentUpon>ControlLogForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DelayedDisplayBusyDialog.resx">
+      <DependentUpon>DelayedDisplayBusyDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DispatchContainerForm.resx">
+      <DependentUpon>DispatchContainerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FMBAddressConfiguration.resx">
+      <DependentUpon>FMBAddressConfiguration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReleaseToAccountingForm.resx">
+      <DependentUpon>ReleaseToAccountingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DispatchForm.resx">
+      <DependentUpon>DispatchForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EmbeddedBrowser.resx">
+      <DependentUpon>EmbeddedBrowser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EvacuateForm.resx">
+      <DependentUpon>EvacuateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FuelRequestForm.resx">
+      <DependentUpon>FuelRequestForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OptionalTimesForm.resx">
+      <DependentUpon>OptionalTimesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RadioFieldForm.resx">
+      <DependentUpon>RadioFieldForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RecirculationForm.resx">
+      <DependentUpon>RecirculationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShutdownForm.resx">
+      <DependentUpon>ShutdownForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StandbyRegistrationSelectionForm.resx">
+      <DependentUpon>StandbyRegistrationSelectionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StandbyStatusForm.resx">
+      <DependentUpon>StandbyStatusForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TotalAndAverageForm.resx">
+      <DependentUpon>TotalAndAverageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WarningBannerForm.resx">
+      <DependentUpon>WarningBannerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="app.config" />
+    <Content Include="Dispatch.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Dispatch_TemporaryKey.pfx" />
+    <None Include="Properties\app.manifest" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="RadioFieldForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RadioFieldForm.designer.cs">
+      <DependentUpon>RadioFieldForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RecirculationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RecirculationForm.designer.cs">
+      <DependentUpon>RecirculationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ShutdownForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ShutdownForm.Designer.cs">
+      <DependentUpon>ShutdownForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StandbyRegistrationSelectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StandbyRegistrationSelectionForm.designer.cs">
+      <DependentUpon>StandbyRegistrationSelectionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StandbyStatusForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StandbyStatusForm.designer.cs">
+      <DependentUpon>StandbyStatusForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TodaysAppointments.cs" />
+    <Compile Include="TotalAndAverageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TotalAndAverageForm.designer.cs">
+      <DependentUpon>TotalAndAverageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TransactionDOCollectionClass.cs" />
+    <Compile Include="WarningBannerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WarningBannerForm.Designer.cs">
+      <DependentUpon>WarningBannerForm.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Disptach09.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\FMBusinessObjects\FMBusinessObjects.csproj">
+      <Project>{f3910e2b-3e67-4b25-874f-822ec69a6fef}</Project>
+      <Name>FMBusinessObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\FMDispatchBusinessObjects\FMDispatchBusinessObjects.csproj">
+      <Project>{d076ec87-256b-4597-9c08-b8bbd1f8a014}</Project>
+      <Name>FMDispatchBusinessObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\FMCore\FMCore.csproj">
+      <Project>{dbef2ca1-1f4b-48cd-a4a5-5cb22006c6ce}</Project>
+      <Name>FMCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SharedComponents\EncryptionLibrary\Crypt\Crypt.csproj">
+      <Project>{00e3fab7-cf2c-4468-a9b9-4ed849043861}</Project>
+      <Name>Crypt</Name>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>REM Copy the FMInterfaces.dll to the output directory to help with the install
+REM FMInterfaces must be registered for desktop dispatch to work
+
+IF EXIST "$(SolutionDir)FMInterfaces\$(ConfigurationName)\FMInterfaces.dll" copy "$(SolutionDir)FMInterfaces\$(ConfigurationName)\FMInterfaces.dll" "$(TargetDir)FMInterfaces.dll"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

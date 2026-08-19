@@ -1,0 +1,2564 @@
+﻿.mainPage {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.container-fluid {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+}
+
+.mainPage .row {
+    margin-right: -10px;
+    margin-left: -15px;
+}
+
+.LoadingAnimation {
+    position: absolute;
+    margin: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.3);
+}
+
+    .LoadingAnimation img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -60px 0px 0px -60px;
+    }
+
+.LoadingAnimation.transparent {
+    background: transparent;
+}
+
+.content-menu-item li {
+    font-family: sans-serif !important;
+}
+
+.operateMenuItem a {
+	padding-left: 35px !important;
+}
+
+#mainTabSection > div {
+    display: inline;
+    float: left;
+}
+
+#mainTabSection.main-tab-without-setting > #mainTab {
+    width: calc( 100% - 42px );
+}
+
+#mainTabSection.main-tab-with-setting > #mainTab {
+    width: calc( 100% - 340px );
+}
+
+#tabList {
+    height: 41px;
+    overflow: hidden;
+    border-bottom: none;
+}
+
+
+.tab-content {
+    height: calc( 100vh - 52px );
+    background-color: white;
+    width: 100%;
+    position: relative;
+}
+
+.tab-content > .tab-pane {
+    height: 100%;
+	width: 100%;
+    overflow: auto;
+}
+
+#menuPane {
+    height: 100%;
+    position: absolute;
+    z-index: 99;
+}
+
+.hamburger-menu-display {
+    display: block;
+    height: 100%;
+    width: 200px;
+    position: absolute;
+    float: left;
+    border-radius: 0px;
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+.hamburger-submenu-expand {
+    display: block;
+    height: 100%;
+    overflow-y: hidden;
+    overflow-x: auto;
+    position: absolute;
+    left: 200px;
+    min-width: 250px;
+    width: 500px;
+    background-color: white;
+    box-shadow: 5px 5px 2px #888888;
+    padding-top: 10px;
+    padding-bottom: 15px;
+
+}
+
+.hamburger-menu {
+    width: 42px;
+    height: 42px;
+}
+
+
+    .hamburger-menu a {
+        width: 40px;
+        background-color: rgb( 59,87,127);
+        color: white;
+        display: inline-block;
+        padding-right: 10px;
+        height: 42px;
+        padding-top: 10px !important;
+        padding-left: 9px !important;
+        margin-right: 2px;
+        border: 1px solid transparent;
+        border-radius: 4px 4px 0 0;
+    }
+
+        .hamburger-menu a:hover {
+            background-color: #bbb;
+            text-decoration: none;
+        }
+
+.hamburger-menu.active a {
+   background-color: white !important;
+}
+
+.hamburger-menu.active .icon-menu-hamburger {
+   background: url("../fmwebapp/images/Hamburger-Blue.png");
+   width: 0px;
+   height: 0px;
+   padding: 10px 10px 10px 10px;
+}
+
+.icon-menu-hamburger {
+    background: url("../fmwebapp/images/Hamburger-White.png");
+    width: 0px;
+    height: 0px;
+    padding: 10px 10px 10px 10px;
+}
+
+.hamburger-menu-display > nav {
+    height: 100%;
+}
+
+.hamburger-menu-display .nav > li > a {
+    background-color: white;
+    color: rgb(59, 87, 127);
+    font-weight: bold;
+    width: 100%;
+}
+
+.hamburger-menu-display .navbar {
+    background-color: white;
+}
+
+.hamburger-menu-display hr {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.hamburger-menu-display .navbar-nav,
+.hamburger-menu-display .navbar-nav > li {
+    float: none !important;
+}
+
+
+.nav > li > a {
+	background-color: rgb( 200,200,200);
+	color: rgb(59, 87, 127);
+	display: inline-block;
+	padding-right: 10px;
+}
+
+	.nav > li > a:hover, .nav > li > a:focus {
+		background-color: rgb(102,102,102);
+		color: white;
+	}
+
+.nav > li.active > a, .nav > li.active > a:hover {
+	background-color: rgb(59, 87, 127);
+	color: white !important;
+}
+
+.nav > li.group-tab > a, .tab-content .groupTab .nav > li > a {
+	background-color: rgb(200,200,200);
+	color: rgb(59, 87, 127);
+}
+
+	.nav > li.group-tab > a:hover, .tab-content .groupTab .nav > li > a:hover {
+		background-color: rgb(102,102,102);
+		color: white;
+	}
+
+.nav > li.group-tab.active > a, .tab-content .groupTab .nav > li.active > a {
+	background-color: rgb(59, 87, 127) !important;
+	color: white !important;
+}
+
+
+.nav > li.group-tab.active .tab-name, .tab-content .groupTab .nav > li.active .tab-name {
+	color: white;
+}
+
+.groupTab .nav > li.active > a {
+    background-color:white !important;
+}
+
+
+#hamburgerMenu .navbar {
+    margin-bottom: 0px;
+    border-radius: 0px;
+}
+
+
+#hamburgerMenu .navbar-default .navbar-nav > .active > a {
+    background-color: rgb( 90,126,178) !important;
+    color: white;
+}
+
+#hamburgerMenu .navbar-default .navbar-nav > .active > a:hover {
+    background-color: white;
+    color: rgb( 90,126,178) !important;
+}
+
+#hamburgerMenu .navbar-default .navbar-nav > li:hover > a {
+    background-color: rgb( 200, 200, 200) !important; 
+}
+
+    #hamburgerMenu .navbar-default .navbar-nav > .active > a .menu-list-icon {
+        border: 1px solid white;
+    }
+
+    #hamburgerMenu .navbar-default .navbar-nav > .active > a:after, #hamburgerMenu .navbar-default .navbar-nav > .active > a:before {
+        border: solid transparent;
+        content: ' ';
+        height: 0;
+        left: 100%;
+        position: absolute;
+        width: 0;
+    }
+
+    #hamburgerMenu .navbar-default .navbar-nav > .active > a:before {
+        border-width: 10px;
+        border-right-color: white;
+        border-left-width: 10px;
+        border-right-width: 10px;
+        left: 180px;
+    }
+
+.menu-list-icon {
+    height: 8px;
+    width: 8px;
+    border: 1px solid rgb( 90,126,178);
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.menu-list-icon-group-header {
+    font-size: 12px;
+    color: rgb(102, 102, 102);
+    padding-top: 8px;
+    padding-bottom: 5px;
+    font-weight: bold;
+    padding-left: 15px;
+    font-weight: bold;
+}
+
+.tab-name {
+    margin-bottom: 0px;
+    font-weight: normal;
+}
+
+.tab-remove-icon {
+    margin-left: 15px;
+    font-size: 20px;
+    cursor: pointer;
+    background: url("../fmwebapp/images/Close-Blue.png");
+    width: 0px;
+    height: 0px;
+    padding: 10px 10px 10px 10px;
+    background-repeat: no-repeat;
+}
+
+li:hover .tab-remove-icon {
+	background: url("../fmwebapp/images/Close-White.png");
+}
+
+li.active .tab-remove-icon {
+	background: url("../fmwebapp/images/Close-White.png");
+}
+
+
+.tab-add-group {
+	background-color: rgb(59, 87, 127);
+	height: 35px;
+	margin-top: 8px;
+	width: 30px;
+	padding: 5px 0px 0px 4px !important;
+}
+
+.tab-add-group label {
+    background: url("../fmwebapp/images/Add-White.png");
+    width: 0px;
+    height: 0px;
+    padding: 10px 10px 10px 10px;
+    background-repeat: no-repeat;
+}
+
+.tab-rename-group {
+    color: rgb( 255,255,255);
+    background: transparent;
+    font-weight: bold;
+    border: none;
+}
+.tab-rename-group:focus {
+    outline-style: none;
+}
+
+.tab-pane, .groupTab {
+    -moz-box-shadow: inset 0 0 10px rgb( 220, 220, 220);
+    -webkit-box-shadow: inset 0 0 10px rgb( 220, 220, 220); 
+    box-shadow: inset 0 0 10px rgb( 220, 220, 220);
+}
+
+.groupTab {
+    padding: 10px;
+    background-color: rgb( 245, 245, 245);
+    height: 100%;
+}
+
+
+.FMDrawing {
+    width: 100%;
+    height: 100%;
+}
+
+.menu-message-center {
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    line-height: 400px;
+    font-size: 2em;
+    color: black;
+}
+
+.groupTab-tabList {
+    width: calc(100% - 280px) !important;
+    display: inline;
+    float: left;
+}
+
+.tab-current-user-time {
+	height: 32px;
+	width: 260px !important;
+	display: inline-block;
+}
+
+.tab-current-user-text, .tab-current-time-text, .tab-current-license-expiration-text {
+	padding-left: 10px;
+	height: 16px;
+	width: 230px !important;
+	font-weight: normal;
+	font-size: 12px;
+	margin-bottom: 1px;
+	color: rgb( 72,104,153);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: block;
+}
+
+.tab-current-license-expiration-text {
+	display: none;
+}
+.fullscreen .tab-current-license-expiration-text.enabled {
+	display: block;
+	font-weight: bold;
+}
+
+.fullscreen .groupTab-tabList {
+	width: calc(100% - 300px) !important;
+}
+
+.fullscreen .tab-current-user-time, .fullscreen .tab-current-user-text, .fullscreen .tab-current-license-expiration-text {
+	width: 280px !important;
+}
+
+.fullscreen .nav-tabs {
+	border-bottom: none;
+}
+
+.operate-screen-identifier {
+	position: fixed;
+	top: 25%;
+	left: 50%;
+	width: 180px;
+	height: 180px;
+	margin-left: -90px;
+	margin-top: -90px;
+	z-index: 10000;
+	pointer-events: none;
+	background-color: rgba(59, 87, 127, 0.95);
+	border: 6px solid white;
+	box-shadow: 0 0 18px rgba(0, 0, 0, 0.45);
+	color: white;
+	font-size: 96px;
+	font-weight: bold;
+	line-height: 168px;
+	text-align: center;
+}
+
+.tab-configuration-menu {
+	position: absolute;
+	width: 20px !important;
+	height: 40px;
+	display: inline;
+	top: 25px;
+}
+
+
+.tab-configuration {
+    height: 20px !important;
+    font-size: 16px;
+	padding-bottom: 20px !important;
+	padding-left: 5px;
+    outline-style: none;
+	display: inline;
+}
+
+.tab-configuration:hover {
+    text-decoration: none;
+}
+
+
+.operateSubMenuFilter .filter-addon:focus {
+    background-color: rgb(240, 240, 240);
+}
+
+.operateSubMenuFilter .filter-addon {
+    background-color: transparent;
+    margin-right: 4px;
+}
+
+.operateSubMenuList {
+    height: calc(100% - 130px) !important;
+	overflow-x: hidden;
+}
+
+.savedViewSubMenuLayout {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	min-height: 0;
+	overflow: hidden;
+}
+
+.savedViewSubMenuLayout .operateSubMenuFilter,
+.savedViewSubMenuLayout .operateSubMenuButtonGroup {
+	flex: 0 0 auto;
+}
+
+.savedViewSubMenuLayout .operateSubMenuList {
+	flex: 1 1 auto;
+	height: auto !important;
+	min-height: 0;
+}
+
+.operateSubMenuFilter, .operateSubMenuButtonGroup {
+    margin-top: 5px;
+    padding-left: 15px;
+    padding-right: 10px;
+    width: 100%;
+    display: inline-block;
+}
+
+    .operateSubMenuFilter label {
+        color: rgb( 128, 128, 128 );
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+	.operateSubMenuButtonGroup .SubMenubutton {
+		width: 100%;
+		text-align: center;
+		border-style: solid;
+		border-width: thin;
+		height: 35px;
+		line-height: 35px;
+		color: rgb( 90,126,178);
+		cursor: pointer;
+		font-size: 12px;
+	}
+
+/*
+.view-selector {
+    display: flex;
+}
+.view-selector input{
+    margin:0;
+    padding:0;
+    display:none;
+}
+
+ .view-selector label {
+        margin-left: 0px;
+        margin-right: 4px;
+        color: white;
+        padding: 5px;
+        font-size: 12px;
+        cursor: pointer ;
+        display: inline-block;
+    -webkit-transition: all 100ms ease-in;
+       -moz-transition: all 100ms ease-in;
+            transition: all 100ms ease-in;
+        background-color: rgb(169, 169, 169);
+    }
+
+.view-selector input:checked+label{
+    background-color: rgb( 90,126,178);
+}
+*/
+textarea:focus{
+    outline: none;
+}
+
+.operateSubMenuElement {
+    height: 100px;
+    margin-top: 5px;
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+    color: rgb( 102, 102, 102 );
+}
+
+	.operateSubMenuElement:hover,
+	.operateGraphicSubMenuElement:hover,
+	.operateTrendSubMenuElement:hover,
+	.operateReportSubMenuElement:hover,
+	.operatePointGroupSubMenuElement:hover,
+	.operateMovementSummarySubMenuElement:hover,
+	.operateTagsSubMenuElement:hover,
+	.operatePointTagsSubMenuElement:hover,
+	.operateSubMenuElement:hover .operateSubmenuTitle,
+	.operateTagsSubMenuElement:hover .operateTagsSubmenuTitle,
+	.operatePointTagsSubMenuElement:hover .operatePointTagsSubmenuTitle,
+	.operateSubMenuElement:hover .operateSubmenuTileDescription,
+	.operateGraphicSubMenuElement:hover .operateGraphicSubmenuTitleDescription,
+	.operateTrendSubMenuElement:hover .operateTrendSubmenuTitleDescription,
+	.operateReportSubMenuElement:hover .operateReportSubmenuTitleDescription,
+	.operatePointGroupSubMenuElement:hover .operatePointGroupSubmenuTileDescription {
+		color: rgb( 59, 87, 127);
+		background-color: rgb( 245, 248, 251);
+	}
+
+.operateTagsSubMenuElement.selected,
+.operatePointTagsSubMenuElement.selected,
+.operateSubMenuElement.selected,
+.operateTagsSubMenuElement.selected .operateTagsSubmenuTitle,
+.operatePointTagsSubMenuElement.selected .operatePointTagsSubmenuTitle,
+.operateSubMenuElement.selected .operateSubmenuTitle,
+.operateSubMenuElement.selected .operateSubmenuTileDescription,
+.operateSubMenuElement.selected .operateSubmenuTileIcon 
+{
+   color: rgb( 245, 248, 251);
+   background-color: rgb( 86, 126, 185);
+}
+
+.operateMovementSummarySubMenuElement:hover .operateMovementSummarySubmenuTileDescription {
+	color: rgb( 59, 87, 127);
+	background-color: rgb( 245, 248, 251);
+}
+
+.operatePointGroupSubMenuElement:hover .edit-icon {
+	display: inline;
+}
+
+.operateMovementSummarySubMenuElement:hover .edit-icon 
+{
+	display: inline;
+}
+
+.operateTrendSubMenuElement:hover .edit-icon {
+	display: inline;
+}
+
+.operateTrendSubMenuElement:hover .delete-icon {
+	display: inline;
+}
+
+
+.operateSubMenuFilter .OperateSelectionMenuTitle label {
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 26px;
+    margin-bottom: 0px;
+}
+
+.operateSubMenuFilter .OperateSelectionMenuTitle .settingsectionhorizontalline  {
+    margin-left: 100px;
+    margin-right: 65px;
+    height: 13px;
+}
+
+.operateSubMenuFilter .icon-container {
+    color: rgb(153,153,153);
+    border-color: rgb(153, 153, 153);
+    font-weight: normal;
+    font-size: 12px;
+    border-style: solid;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-width: 1px;
+    padding: 4px;
+    margin-left: 5px;
+}
+
+.operateSubMenuFilter .Selectionhorizontalline {
+    margin-left: 100px;
+    margin-right: 35px;
+    height: 13px;
+ 	 top: 10px;
+    border-bottom-style: solid;
+    border-width: thin;
+    border-color: rgb(153,153,153);
+}
+
+.operateSubMenuFilter .Selectionhorizontalline.horizontalLineNoRightMargin {
+    margin-right: 0px;
+}
+
+.operateSubMenuFilter .Selectionhorizontalline.shorter  {
+    margin-left: 140px;
+}
+
+	.operateSubMenuFilter .Selectionhorizontalline.muchshorter {
+		margin-left: 180px;
+	}
+
+::-webkit-input-placeholder {
+   font-style: italic;
+   color: #666666;
+}
+
+:-moz-placeholder {
+	font-style: italic;
+	color: #666666;
+}
+
+::-moz-placeholder {
+	font-style: italic;
+	color: #666666;
+}
+
+:-ms-input-placeholder {
+	font-style: italic;
+	color: #666666;
+}
+
+.operateSubmenuTitle {
+	padding-left: 18px;
+	padding-top: 5px;
+	text-align: left;
+	font-weight: bold;
+	max-height: 30px;
+	color: black;
+	cursor: default;
+	overflow: hidden;
+}
+.operateSubmenuTitle .smallTitle {
+	overflow: hidden;
+	height: 20px;
+}
+
+
+.operateSubmenuTileDescription {
+    display: block;
+    height: 70px;
+    width: calc( 100% - 75px);
+    font-size: small;
+    padding-top: 20px;
+    float: left;
+    border: none;
+    resize: none;
+    background-color: transparent;
+}
+
+
+.operate-list-filter-addon .operate-List-form-control {
+    border-style: none;
+    background-color: transparent;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding-top: 0px;
+    font-weight: normal !important;
+    padding-left: 10px;
+    padding-right: 25px;
+    padding-top: 0px;
+}
+
+/* Used on the Point Setting points list rollout menu.*/
+.operateSubMenuFilter .operate-list-filter-addon
+{
+    background: transparent !important;
+    border-bottom-style: solid;
+    border-radius: 0px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgb(192,192,192);
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.popover-content .select2 {
+	line-height: 14px;
+	font-size: 14px;
+}
+
+.popover-content .select2-container--default .select2-selection--multiple .select2-selection__choice {
+    line-height: 18px;
+}
+
+.popover-content .operate-list-filter-addon
+{
+    background: transparent !important;
+    border-radius: 0px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+}
+
+.popover-content .operate-list-filter-addon input:focus {
+  border-color: #66afe9;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+          box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+}
+
+.popover-content .operate-list-filter-addon .operate-List-form-control {
+    margin-bottom: 0px;
+}
+
+
+.popover-content input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  font-style: italic;
+}
+.popover-content input::-moz-placeholder { /* Firefox 19+ */
+  font-style: italic;
+}
+.popover-content input:-ms-input-placeholder { /* IE 10+ */
+   font-style: italic;
+}
+.popover-content input:-moz-placeholder { /* Firefox 18- */
+  font-style: italic;
+}
+
+.operateSubMenuFilter .operate-list-filter-addon img{
+    position: absolute;
+    padding-top: 18px;
+    padding-right: 17px;
+    pointer-events: none;
+    top: 0px;
+    right: 0px;
+}
+
+.popover-content .operate-list-filter-addon img {
+    position: absolute;
+    padding-top: 9px;
+    padding-right: 7px;
+    pointer-events: none;
+    top: 0px;
+    right: 0px;
+}
+
+.select2-dropdown {
+	z-index: 1061 !important;
+	border: solid  #ccc 1px  !important; 
+}
+
+.select2-container--default .select2-selection--multiple, .select2-dropdown {
+    border-radius: 0px !important;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+    border: solid  #ccc 1px  !important; 
+    outline: 0;
+}
+
+.select2-container--default .select2-selection--multiple {
+    border: 1px solid #ccc !important;
+	 -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075) !important;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075) !important;
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s !important;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s !important;
+}
+
+.operateSubMenuFilter label {
+	color: rgb(102,102,102);
+	font-weight: normal;
+	font-size: 12px;
+}
+
+.operateSubMenuFilter input {
+    color: rgb(102,102,102);
+    font-weight: normal;
+    font-size: 12px;
+    outline: none;
+}
+
+.operateSubMenuFilter select {
+    font-size: 12px;
+}
+
+
+.OperateSmallMenuIcon {
+    height: 20px;
+    width: 20px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    display: block;
+    margin-left: 0px;
+    margin-right: 10px;
+    float: left;
+}
+
+.operateGraphicSubMenuElement, .operatePointGroupSubMenuElement, .operateTagsSubMenuElement, .operatePointTagsSubMenuElement, .operateMovementSummarySubMenuElement {
+	height: 70px;
+	margin-top: 5px;
+	margin-left: 5px !important;
+	margin-right: 5px !important;
+	color: rgb( 128, 128, 128 );
+}
+
+.operateGraphicSubmenuTitle, .operatePointGroupSubmenuTitle, .operateTagsSubmenuTitle, .operatePointTagsSubmenuTitle, .operateMovementSummarySubmenuTitle {
+	padding-left: 18px;
+	padding-top: 5px;
+	text-align: left;
+	font-weight: bold;
+	height: 20px;
+	line-height: 15px;
+	color: black;
+	cursor: default;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	position: relative;
+}
+
+.operateMovementSummarySubmenuTitle .edit-icon 
+{
+	display: none;
+	padding-left: 3px;
+	padding-right: 3px;
+	position: absolute;
+	right: 0px;
+	top: 6px;
+}
+
+.operatePointGroupSubmenuTitle .edit-icon {
+	display: none;
+	padding-left: 3px;
+	padding-right: 3px;
+	position: absolute;
+	right: 0px;
+	top: 6px;
+}
+
+.operateGraphicSubmenuTitleDescription, .operatePointGroupSubmenuTileDescription, .operateMovementSummarySubmenuTileDescription {
+	display: block;
+	height: 50px;
+	width: 100%;
+	padding-left: 18px;
+	float: left;
+	border: none;
+	resize: none;
+	font-size: small;
+	padding-top: 8px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	cursor: default;
+	color: rgb(102, 102, 102);
+}
+
+.movementSummarySelectionSubgroupTitle 
+{
+	font-size: 12px;
+	padding-left: 10px;
+	color: rgb(102,102,102);
+	cursor: pointer;
+}
+
+.movementSummarySelectionSubgroupTitle span 
+{
+	margin-right: 10px;
+	font-size: 10px;
+}
+
+#PointGroupSelectionModal {
+	width: 600px;
+	overflow: hidden;
+}
+
+.pointGroupSelectionSubgroupTitle {
+	font-size: 12px;
+	padding-left: 10px;
+	color: rgb(102,102,102);
+	cursor: pointer;
+}
+.pointGroupSelectionSubgroupTitle span{
+	margin-right: 10px;
+	font-size: 10px;
+}
+
+.operateMovementSummarySubmenuTitle span 
+{
+	margin-right: 5px;
+	cursor: pointer;
+}
+
+.operatePointGroupSubmenuTitle span {
+	margin-right: 5px;
+	cursor: pointer;
+}
+
+#pointgroupconfigurationpanel .btn-default:hover,
+#pointgroupconfigurationpanel .btn-default:focus {
+    color: white;
+    background-color: rgb( 86,126,185);
+    border-color: rgb( 86,126,185);
+}
+
+.operateTrendSubMenuElement {
+        height: 70px;
+        margin-top: 5px;
+        margin-left: 5px !important;
+        margin-right: 5px !important;
+        color: rgb( 128, 128, 128 );
+    }
+
+.operateTrendSubmenuTitle {
+        padding-left: 18px;
+        padding-top: 5px;
+        text-align: left;
+        font-weight: bold;
+        height: 20px;
+        color: black;
+        cursor: default;
+    }
+
+.operateTrendSubmenuTitle .edit-icon {
+	display: none;
+	padding-left: 3px;
+	padding-right: 3px;
+}
+
+.operateTrendSubmenuTitle .delete-icon {
+	display: none;
+	padding-left: 3px;
+	padding-right: 3px;
+}
+
+
+.operateTrendSubmenuTitleDescription {
+	display: block;
+	height: 50px;
+	width: 100%;
+	padding-left: 18px;
+	float: left;
+	border: none;
+	resize: none;
+	font-size: small;
+	padding-top: 8px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: rgb(102, 102, 102);
+}
+
+.operateReportSubMenuElement {
+        height: 70px;
+        margin-top: 5px;
+        margin-left: 5px !important;
+        margin-right: 5px !important;
+        color: rgb( 128, 128, 128 );
+    }
+
+.operateReportSubmenuTitle {
+        padding-left: 18px;
+        padding-top: 5px;
+        text-align: left;
+        font-weight: bold;
+        height: 20px;
+        color: black;
+        cursor: default;
+    }
+
+.operateReportSubmenuTitleDescription {
+	display: block;
+	height: 50px;
+	width: 100%;
+	padding-left: 18px;
+	float: left;
+	border: none;
+	resize: none;
+	font-size: small;
+	padding-top: 8px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: rgb(102, 102, 102);
+}
+
+
+.tab-error-message {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    text-align: center;
+}
+
+.point-group .slick-header-column.ui-state-default, .movement-summary .slick-header-column.ui-state-default, .point-history .slick-header-column.ui-state-default {
+	height: 35px !important;
+	line-height: 35px !important; /*line height to 35px to vertically center header text after upgrading to slick grid 2.4.44*/
+	/* this controls the header background and the header text
+ 	background-color:red !important;
+	 color:red !important;
+		 */
+}
+
+.point-group .slick-cell, .movement-summary .slick-cell, .point-history .slick-cell {
+	line-height: 33px !important;
+	border: 1px solid rgb( 239, 239, 239 );
+	padding: 0px;
+	/* grid cell default background
+	 	background-color:red !important;
+		*/
+}
+
+.movement-summary .slick-header-column.ui-state-default {
+	height: 35px !important;
+	line-height: 35px !important; /*line height to 35px to vertically center header text after upgrading to slick grid 2.4.44*/
+	background-color: #486899 !important;
+	color: white !important;
+}
+.movement-summary .slick-cell {
+	line-height: 33px !important;
+	border: none !important;
+	padding: 0px;
+	background-color:transparent !important;
+}
+
+.movement-summary .ui-widget-content.slick-row.odd {
+	background: #EEEEEE;
+}
+
+.movement-summary .ui-widget-content.slick-row.even {
+	background: #DCDCDC;
+}
+
+#pointgroupprint {
+    display: block;
+    position: relative;
+    background-color: white;
+}
+
+
+.pointgroupprint thead th, .pointgroupprint tbody tr td:first-child {
+	border: 1px solid #dcdcdc !important;
+	background: #fafafa!important;
+	font-weight: bold;
+	color: #969696!important;
+}
+
+.pointgroupprint, .pointgroupprint thead th {
+	text-align: center;
+}
+
+.pointgroupprint td div, .pointgroupprint td > i > b {
+	display: inline-flex;
+	width: 100%;
+	line-height: 33px;
+}
+
+.pointgroupprint .supsub {
+    display: inline-block;
+    position: initial;
+    max-height: 25px;
+	 max-width: fit-content;
+}
+.pointgroupprint .supsub:empty {
+    width: 0px;
+}
+
+.pointgroupprint .subscript {
+    width: fit-content;
+}
+
+.pointgroupprint td > div, .pointgroupprint td > i > b {
+        justify-content: center;
+}
+
+.pointgroupprint td.text-left > div, .pointgroupprint td.text-left > i > b {
+    justify-content: flex-start;
+	 width: inherit;
+}
+
+.pointgroupprint td.text-right > div, .pointgroupprint td.text-right > i > b {
+    justify-content: flex-end;
+	 width: inherit;
+}
+
+
+.movementsummaryprint thead th, .movementsummaryprint tbody tr td:first-child {
+	border: none !important;
+	background: #fafafa !important;
+	font-weight: bold;
+	color: #969696 !important;
+}
+
+.movementsummaryprint, .movementsummaryprint thead th {
+	text-align: center;
+}
+
+.movementsummaryprint td div, .movementsummaryprint td > i > b {
+	display: inline-flex;
+	width: 100%;
+	line-height: 33px;
+}
+
+.movementsummaryprint .supsub {
+	display: inline-block;
+	position: initial;
+	max-height: 25px;
+	max-width: fit-content;
+}
+
+.movementsummaryprint .supsub:empty {
+	width: 0px;
+}
+
+.movementsummaryprint .subscript {
+	width: fit-content;
+}
+
+.movementsummaryprint td > div, .movementsummaryprint td > i > b {
+	justify-content: center;
+}
+
+.movementsummaryprint td.text-left > div, .movementsummaryprint td.text-left > i > b {
+	justify-content: flex-start;
+	width: inherit;
+}
+
+.movementsummaryprint td.text-right > div, .movementsummaryprint td.text-right > i > b {
+	justify-content: flex-end;
+	width: inherit;
+}
+
+.slick-header-columns > .slick-header-column:first-child {
+    border-left: 1px solid rgb( 220, 220, 220 ) !important;
+}
+.movement-summary-panel {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	background-color: white;
+	z-index: -1;
+}
+
+	.movement-summary-panel.active {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		right: 0px;
+		bottom: 0px;
+		z-index: 0;
+	}
+
+	.movement-summary-panel .nicescroll-rails-vr, #PointGroupAddModal .nicescroll-rails-vr {
+		display: block !important;
+		z-index: 0 !important;
+	}
+
+.pointgroup-context-menu {
+	background-color: #f0f0f0;
+	display: inline-block;
+	min-width: 150px;
+	z-index: 20;
+	margin: 0;
+	cursor: default;
+   }
+
+.slick-header-menucontent {
+
+   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+   font-size: 14px;
+}
+
+.point-history-panel {
+	position: absolute;
+	top: 46px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	background-color: white;
+	z-index: -1;
+}
+
+	.point-history-panel.active {
+		position: absolute;
+		top: 46px;
+		left: 0px;
+		right: 0px;
+		bottom: 0px;
+		z-index: 0;
+	}
+
+.point-group-panel {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	background-color: white;
+	z-index: -1;
+}
+
+.point-group-panel.active {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	z-index: 0;
+}
+
+.point-group-switch {
+	position: absolute;
+	top: -1px;
+	left: calc( 50% - 75px );
+	width: 150px;
+	height: 10px !important;
+	z-index: 2;
+	background-color: #718BB7;
+	color: transparent;
+	line-height: 35px;
+	font-size: 20px;
+	text-align: center;
+	border-radius: 0px 0px 4px 4px;
+	overflow: hidden;
+	box-shadow: inset 0 0 2px rgb( 220, 220, 220);
+}
+
+	.point-group-switch label {
+		font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+		font-size: 14px;
+		margin-left: 5px;
+		margin-bottom: 0px;
+		line-height: 25px;
+		position: relative;
+		display: inline;
+		top: -5px;
+	}
+
+	.point-group-switch .horizontal-bar {
+		 height: 1px;
+		 width: 140px;
+		 box-shadow: inset 0 0 2px white;
+		 position: absolute;
+		 top: 3px;
+		 left: 5px;
+	}
+
+	.point-group-switch .horizontal-bar2 {
+		height: 1px;
+		width: 130px;
+		box-shadow: inset 0 0 2px white;
+		position: absolute;
+		top: 6px;
+		left: 10px;
+	}
+
+.point-group-switch:hover  {
+	background-color: #718BB7;
+	color: white;
+   height: 35px !important;
+}
+
+	.point-group-switch:hover .horizontal-bar,
+	.point-group-switch:hover .horizontal-bar2 {
+		display: none;
+	}
+
+
+
+
+#pointgroupconfigurationpanel {
+	color: #718BB7;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+#pointgroupconfigurationpanel .row {
+	margin-right: 0;
+   margin-left: 0;
+}
+
+.pointgroupconfigurationpaneltitle {
+	margin-bottom: 10px;
+}
+
+.list-group.changeunitUOMList {
+	width: 100%;
+	min-height: calc(150px);
+	max-height: calc(100vh - 400px);
+	position: relative;
+	overflow: auto;
+}
+
+.list-group.changeunitUOMList .LoadingAnimation img {
+    margin: -30px 0px 0px -30px;
+}
+
+
+trendpen-dialog {
+	width: 700px !important;
+	height: 700px !important;
+}
+
+
+.modal.modal-lg {
+    width: 940px;
+    margin-left: -470px;
+}
+
+@media (min-width: 1000px) {
+	.modal.modal-lg {
+		width: 1000px;
+		margin-left: -585px;
+	}
+}
+
+.ui-widget {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
+
+.margin-top-10 {
+	margin-top: 10px;
+}
+
+.popover {
+	background-color: white !important;
+   max-width: 450px !important;
+	border-radius: 0px !important;
+}
+
+.popover-content {
+    padding: 18px 14px !important;
+}
+
+.popover.bottom>.arrow:after {
+    border-bottom-color: white !important;
+}
+
+.popover label, .popover input, .popover .list-group-item	{
+	color: rgb(178,178,178);
+	margin-bottom: 10px;
+}
+
+.popover .btn-toolbar {
+    display: inline-block;
+}
+
+.popover .list-group-item {
+    padding: 5px 10px;
+    background-color: white !important;
+    border-radius: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+.popover .list-group-item:hover {
+   background-color: rgb(178,178,178) !important;
+	color: white !important;
+}
+
+.popover .list-group-item.active, 
+.popover .list-group-item.active:focus, 
+.popover .list-group-item.active:hover {
+    background-color: #337ab7 !important;
+	color: white !important;
+}
+
+.popover .ui-spinner {
+    border: 1px solid #ccc !important;
+    background: white !important;
+}
+
+
+.popover .btn-primary {
+    background-color: transparent;
+}
+
+.popover .btn-primary:hover {
+    background-color: #286090;
+}
+
+.popover .btn-primary:focus {
+    color: #286090;
+}
+
+.popover .btn-primary:focus:hover {
+    color: white;
+}
+
+.popover input {
+    outline: none;
+}
+
+textarea[name=pointGroupSettingsDescription] {
+	border: 1px solid #ddd;
+   resize: none;
+	margin-bottom: 15px;
+	width: 100%;
+}
+
+textarea[name=movementSummarySettingsDescription] 
+{
+	border: 1px solid #ddd;
+	resize: none;
+	margin-bottom: 15px;
+	width: 100%;
+}
+
+label[name=pointGroupOwnerName] {
+	font-weight: normal;
+	padding-left: 0px;
+}
+
+label[name=movementSummaryOwnerName] 
+{
+	font-weight: normal;
+	padding-left: 0px;
+}
+
+.pointGroupConfigurationButtons {
+	margin-top: 15px;
+}
+
+.pointGroupConfigurationFont {
+	height: calc( 100vh - 250px );
+	float: left;	
+	width: 120px;
+}
+
+.pointgroup-fontsize {
+    overflow: auto;
+	 width: 215px;
+}
+
+.movementSummary-fontsize 
+{
+	overflow: auto;
+	width: 215px;
+}
+
+.grid-font-8 { font-size: 8px; line-height: 20px }
+.grid-font-9 { font-size: 9px; line-height: 20px; }
+.grid-font-10 { font-size: 10px; line-height: 20px; }
+.grid-font-11 { font-size: 11px; line-height: 20px; }
+.grid-font-12 { font-size: 12px; line-height: 20px; }
+.grid-font-13 { font-size: 13px; line-height: 20px; }
+.grid-font-14 { font-size: 14px; line-height: 20px; }
+.grid-font-15 { font-size: 15px; line-height: 20px; }
+.grid-font-16 { font-size: 16px; line-height: 20px; }
+.grid-font-17 { font-size: 17px; line-height: 20px; }
+.grid-font-18 { font-size: 18px; line-height: 20px; }
+.grid-font-19 { font-size: 19px; line-height: 20px; }
+.grid-font-20 { font-size: 20px; line-height: 20px; }
+
+.setting-radio-control {
+    font-size: 14px;
+    font-weight: bold !important;
+    color: rgb(102,102,102) !important;
+    position: relative;
+    margin-bottom: 9px;
+    padding-left: 30px;
+    cursor: pointer;
+	 padding-top: 6px;
+}
+
+    .setting-radio-control input {
+        position: absolute;
+        z-index: -1;
+        opacity: 0;
+    }
+
+.setting-radio-control__indicator {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background: #e6e6e6;
+}
+
+.setting-radio-control--radio .setting-radio-control__indicator {
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 1px;
+    background: transparent;
+    margin-top: 4px;
+}
+
+/* Hover and focus states */
+.setting-radio-control:hover input ~ .setting-radio-control__indicator,
+.setting-radio-control input:focus ~ .setting-radio-control__indicator {
+    background: white;
+}
+
+/* Checked state */
+.setting-radio-control input:checked ~ .setting-radio-control__indicator {
+   border-color: rgb(68,68,68);
+
+}
+
+/* Hover state whilst checked */
+.setting-radio-control:hover input:not([disabled]):checked ~ .setting-radio-control__indicator,
+.setting-radio-control input:checked:focus ~ .setting-radio-control__indicator {
+    background: white; 
+    opacity: .8;
+}
+
+/* Disabled state */
+.setting-radio-control input:disabled ~ .setting-radio-control__indicator {
+    pointer-events: none;
+    opacity: .6;
+    background: #e6e6e6;
+}
+
+/* Check mark */
+.setting-radio-control__indicator:after {
+    position: absolute;
+    display: none;
+    content: '';
+}
+
+/* Show check mark */
+.setting-radio-control input:checked ~ .setting-radio-control__indicator:after {
+    display: block;
+}
+
+/* Radio button inner circle */
+.setting-radio-control--radio .setting-radio-control__indicator:after {
+    top: 3px;
+    left: 3px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgb(68,68,68);
+}
+
+/* Disabled circle colour */
+.control--radio input:disabled ~ .control__indicator:after {
+    background: #7b7b7b;
+}
+
+
+	#pointGroupSaveAsDialog .setting-radio-control {
+    color: white !important;
+	}
+	#pointGroupSaveAsDialog .setting-radio-control input:checked ~ .setting-radio-control__indicator {
+    border-color: white !important;
+	 background: white !important;
+	}
+	#pointGroupSaveAsDialog .form-inline .form-group, #pointGroupSaveAsDialog .control-label-bottom-10{
+    margin-bottom: 10px;
+	}
+
+#movementSummarySaveAsDialog .setting-radio-control 
+{
+	color: white !important;
+}
+
+#movementSummarySaveAsDialog .setting-radio-control input:checked ~ .setting-radio-control__indicator 
+{
+	border-color: white !important;
+	background: white !important;
+}
+
+#movementSummarySaveAsDialog .form-inline .form-group, #movementSummarySaveAsDialog .control-label-bottom-10 
+{
+	margin-bottom: 10px;
+}
+	
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+	 min-width: 30px;
+}
+
+.margin-top-5percent {
+	margin-top: 5%;
+}
+
+.margin-bottom-5 {
+	margin-bottom: 5px !important;
+}
+
+.margin-bottom-0 {
+	margin-bottom: 0px !important;
+}
+
+.option-box {
+	border: 1px solid rgb(178, 178, 178);
+   padding: 15px;
+   box-shadow: 0 4px 4px 0 rgba(0,0,0,0.16), 0 0 0 2px rgba(0,0,0,0.08);
+}
+
+.modal .setting-radio-control {
+    color: #888 !important;
+}
+
+.modal .setting-radio-control input:checked ~ .setting-radio-control__indicator {
+    border-color: #888;
+}
+
+.modal .setting-radio-control--radio .setting-radio-control__indicator:after {
+    background: #888;
+}
+
+.pointGroupConfigurationBuildSelection {
+	height: calc( 100vh - 175px );
+	float: left;
+	width: calc( 100vw - 620px );
+}
+
+	.pointGroupConfigurationBuildSelection .querybuilderobject {
+		overflow: hidden;
+		max-height: calc( 100vh - 320px );
+	}
+
+.point-group-panel .nicescroll-rails-vr, #PointGroupAddModal .nicescroll-rails-vr {
+	display: block !important;
+	z-index: 0 !important;
+}
+
+.pointGroupConfigurationBuildSelection label {
+	font-weight: normal;
+}
+
+.btn-success:hover {
+    color: #fff;
+    background-color: rgb(90, 126, 178) !important;
+    border-color: rgb(90, 126, 178) !important;
+}
+
+#pointGroupAddQueryBuilderContainer {
+   overflow: hidden;
+   height: calc( 100vh - 300px);
+}
+
+.numericFilterMaxLabel, .dateTimeOffsetFilterMaxLabel {
+   width: 100%;
+}
+
+#customModalBackground{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: .30;
+    -webkit-opacity: .3;
+    -moz-opacity: .3;
+    filter: alpha(opacity=30);
+    z-index: 1059;
+}
+
+#pointGroupSaveScreen label {
+	font-weight: bold !important;
+}
+
+#movementSummarySaveScreen label {
+	font-weight: bold !important;
+}
+
+/*********** CHECKBOX WITH BLUE BACKGROUND ********************/
+
+.checkbox.checkbox-blue input[type=checkbox] {
+    visibility: hidden;
+}
+
+.checkbox.checkbox-blue input[type=checkbox]  + label::after {
+    content: " ";
+	background-color: rgb(90, 126, 178) !important;
+    display: inline-block  !important;
+    visibility: visible  !important;
+    color: white  !important;
+    width: 16px  !important;
+    height: 16px  !important;
+    font-size: 12px  !important;
+    line-height: 12px  !important;
+    padding: 2px  !important;
+    position: absolute  !important;
+	left: 0px;
+	top: 2px;
+}
+
+.checkbox.checkbox-blue input[type=checkbox]:checked + label::after {
+    content: "\2714";
+}
+
+.supsub {
+	position: relative;
+	height: 100%;
+	display: inline-block;
+/*	top: -15px; */
+}
+
+.subscript {
+	display: flex;
+	position: relative;
+	left: 3px;
+	top: 22px;
+	text-align: left;
+}
+
+.superscript {
+	display: flex;
+	position: relative;
+	left: 3px;
+	top: 10px;
+	text-align: left;
+}
+
+.slick-cell > div {
+	display: inline-flex;
+	width: 100%;
+	justify-content:center;
+}
+
+.slick-cell > i > b {
+	display: inline-flex;
+	width: 100%;
+	justify-content:center;
+}
+
+.slick-cell.text-right > div, .slick-cell.text-right > i > b {
+	justify-content: flex-end
+}
+
+.slick-cell.text-left > div, .slick-cell.text-left > i > b {
+	justify-content: flex-start
+}
+
+
+/* point group menu */
+
+.header-menu-filter {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/filter.png');
+}
+
+.slick-headercontext-menuitem-disabled .header-menu-filter {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/filter-Inactive.png');
+}
+
+.header-menu-set-display-precision {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Set-Display-Precision.png');
+}
+
+.slick-headercontext-menuitem-disabled .header-menu-set-display-precision {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Set-Display-Precision-Inactive.png');
+}
+
+.header-menu-add-column {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Add-Column.png');
+}
+
+.slick-headercontext-menuitem-disabled .header-menu-add-column {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Add-Column-Inactive.png');
+}
+
+.header-menu-cell-alignment {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Cell-Alignment.png');
+}
+
+.slick-headercontext-menuitem-disabled .header-menu-cell-alignment {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Cell-Alignment-Inactive.png');
+}
+
+.header-menu-cell-alignment-center {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Cell-Alignment-Center.png');
+}
+
+.slick-headercontext-menuitem-disabled .header-menu-cell-alignment-center {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Cell-Alignment-Center-Inactive.png');
+}
+
+.header-menu-cell-alignment-left {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Cell-Alignment-Left.png');
+}
+
+.slick-headercontext-menuitem-disabled .header-menu-cell-alignment-left {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Cell-Alignment-Left-Inactive.png');
+}
+
+.header-menu-cell-alignment-right {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Cell-Alignment-Right.png');
+}
+
+.slick-headercontext-menuitem-disabled .header-menu-cell-alignment-right {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Cell-Alignment-Right-Inactive.png');
+}
+
+.header-menu-delete {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Delete-Column.png');
+}
+
+.slick-headercontext-menuitem-disabled .header-menu-delete {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Delete-Column-Inactive.png');
+}
+
+.header-menu-rename {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Rename.png');
+}
+
+.slick-headercontext-menuitem-disabled .header-menu-rename  {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Rename-Inactive.png');
+}
+
+.header-menu-set-display-unit  {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Set-Display-Units.png');
+}
+
+.slick-headercontext-menuitem-disabled .header-menu-set-display-unit {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Set-Display-Units-Inactive.png');
+}
+
+.header-menu-show-unit  {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Ruler.png');
+}
+
+.slick-headercontext-menuitem-disabled .header-menu-show-unit {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Ruler-Inactive.png');
+}
+
+.header-menu-hide-unit  {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Hide-Units.png');
+}
+
+.slick-headercontext-menuitem-disabled .header-menu-hide-unit {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Hide-Units-Inactive.png');
+}
+
+.header-menu-show-quality  {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Show-Quality.png');
+}
+
+.slick-headercontext-menuitem-disabled .header-menu-show-quality {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Show-Quality-Inactive.png');
+}
+
+.header-menu-export {
+position: relative;
+top: 1px;
+background-image: url('../fmwebapp/images/Data-Export-24-inactive.png');
+scale: 90%;
+width: 24px !important;
+}
+
+.header-menu-hide-quality {
+position: relative;
+top: 1px;
+background-image: url('../fmwebapp/images/Hide-Quality.png');
+}
+
+.slick-headercontext-menuitem-disabled .header-menu-hide-quality {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Hide-Quality-Inactive.png');
+}
+
+.header-menu-tag  {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Tag.png');
+}
+
+.slick-headercontext-menuitem-disabled .header-menu-tag {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Tag-Inactive.png');
+}
+
+.header-menu-product  {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Product.png');
+}
+
+.slick-headercontext-menuitem-disabled .header-menu-product {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Product-Inactive.png');
+}
+
+.header-menu-product-description  {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Product-Description.png');
+}
+
+.slick-headercontext-menuitem-disabled .header-menu-product-description {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Product-Description-Inactive.png');
+}
+
+.movement-summary .slick-cell.selected {
+	background-color: lightskyblue !important;
+}
+.movement-summary .slick-cell, .slick-headerrow-column, .slick-footerrow-column {
+	border: unset;
+	border-right: unset;
+	border-bottom-color: unset;
+}
+
+.movement-summary .slick-cell.text-center
+{
+	text-align:unset;
+}
+
+.header-menu-empty-column  {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Insert-Empty-Column.png');
+}
+
+.slick-headercontext-menuitem-disabled .header-menu-empty-column {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Insert-Empty-Column-Inactive.png');
+}
+
+
+.cell-menu-new-movement {
+	position: relative;
+	top: 1px;
+}
+
+.cell-menu-new-movement-transfer {
+	position: relative;
+	top: 1px;
+}
+
+.cell-menu-new-movement-shipment {
+	position: relative;
+	top: 1px;
+}
+
+.cell-menu-new-movement-receipt {
+	position: relative;
+	top: 1px;
+}
+
+.cell-menu-new-movement-rundown {
+	position: relative;
+	top: 1px;
+}
+
+.cell-menu-new-movement-charge {
+	position: relative;
+	top: 1px;
+}
+
+.cell-menu-new-movement-waterdrain {
+	position: relative;
+	top: 1px;
+}
+
+.cell-menu-new-movement-blend {
+	position: relative;
+	top: 1px;
+}
+
+.cell-menu-delete-movement {
+	position: relative;
+	top: 1px;
+}
+
+.cell-menu-setup-movement {
+	position: relative;
+	top: 1px;
+}
+
+.cell-menu-initiate-movement {
+	position: relative;
+	top: 1px;
+}
+
+.cell-menu-stop-movement {
+	position: relative;
+	top: 1px;
+}
+
+.cell-menu-stop-movement-realtime {
+	position: relative;
+	top: 1px;
+}
+
+.cell-menu-stop-movement-historical {
+	position: relative;
+	top: 1px;
+}
+
+.cell-menu-initiate-movement-node {
+	position: relative;
+	top: 1px;
+}
+
+.cell-menu-stop-movement-node {
+	position: relative;
+	top: 1px;
+}
+
+.cell-menu-hold-for-manual-values {
+	position: relative;
+	top: 1px;
+}
+
+.cell-menu-edit-handgauge-values {
+	position: relative;
+	top: 1px;
+}
+
+
+
+
+.cell-toggle {
+	height: 9px;
+	width: 9px;
+	display: inline-block;
+}
+
+.cell-toggle.expand {
+	background: url('../fmwebapp/images/Arrow-rightBL.png') no-repeat center center;
+}
+
+.cell-toggle.collapse {
+	background: url('../fmwebapp/images/Arrow-downBl.png') no-repeat center center;
+}
+
+
+.cell-menu-hold-for-hand-gauge {
+	position: relative;
+	top: 1px;
+	background-image: url('../fmwebapp/images/Hand-small.png');
+}
+
+.cell-menu-insert-row {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Insert-Row.png');
+}
+
+.cell-menu-create-new-movement-row {
+	position: relative;
+	top: 1px;
+	background-image: url('../fmwebapp/images/Insert-Row.png');
+}
+
+.slick-cellcontext-menuitem-disabled .cell-menu-insert-row .cell-menu-create-new-movement-row {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Insert-Row-Inactive.png');
+}
+
+.cell-menu-insert-point {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Insert-Point.png');
+}
+
+.slick-cellcontext-menuitem-disabled .cell-menu-insert-point {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Insert-Point-Inactive.png');
+}
+
+.cell-menu-insert-total {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Insert-Total.png');
+}
+
+.slick-cellcontext-menuitem-disabled .cell-menu-insert-total {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Insert-Total-Inactive.png');
+}
+
+.cell-menu-insert-subtotal {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Insert-Sub-Total.png');
+}
+
+.slick-cellcontext-menuitem-disabled .cell-menu-insert-subtotal {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Insert-Sub-Total-Inactive.png');
+}
+
+.cell-menu-insert-empty-row {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Insert-Empty-Row.png');
+}
+
+.slick-cellcontext-menuitem-disabled .cell-menu-insert-empty-row {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Insert-Empty-Row-Inactive.png');
+}
+
+.cell-menu-remove-row {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Delete-Column.png');
+}
+
+.slick-cellcontext-menuitem-disabled .cell-menu-delete-row {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Delete-Column-Inactive.png');
+}
+
+.cell-menu-open-pointdetail {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Open_PointDetail.png');
+}
+
+.slick-cellcontext-menuitem-disabled .cell-menu-open-pointdetail {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Open_PointDetail_inactive.png');
+}
+
+.cell-menu-calculations {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Calculations.png');
+}
+
+.slick-cellcontext-menuitem-disabled .cell-menu-calculations {
+	position: relative;
+   top: 1px;
+	background-image: url('../fmwebapp/images/Calculations-Inactive.png');
+}
+
+/* Select 2 controls that have errors need to display the red border */
+.popover-content .form-group.has-error .select2-selection {
+    border-color: red !important;
+}
+
+.popover-content .select2-container--default.select2-container--focus .select2-selection--multiple {
+    border-color: #66afe9 !important;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6) !important;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6) !important;
+}
+
+input[name=dateTimeOffsetFilterMin].hasDatepicker, input[name=dateTimeOffsetFilterMax].hasDatepicker {
+    width: calc( 100% - 40px);
+}
+
+.ui-pnotify {
+    z-index: 5 !important;
+}
+
+
+  	.PointCalculatormodal {
+		display: none;
+		overflow: hidden !important;
+		-webkit-overflow-scrolling: touch;
+		outline: 0;
+   	max-height: calc(100vh - 20px);
+	}
+
+  	.PointCalculatormodal .modal-body {
+   	max-height: calc(100% - 100px);  		
+  	}
+
+#alarm-notification {
+	display: block;
+	z-index: 10000;
+	position: absolute;
+	background-position: 0 0;
+	padding: 15px;
+	height: auto;
+	margin: 0;
+	color: #3B577F;
+	background-color: #d9edf7;
+	border-color: #bce8f1;
+	border: 1px solid transparent;
+	width: 350px;
+	cursor: move;
+}
+
+	.alarm-notification-header {
+		margin-bottom: 10px;
+	}
+
+	#alarm-notification-body-icons {
+		width: 20%; 
+		display: inline-block;
+	}
+
+	#alarm-notification-body-details {
+		width: calc( 80% - 10px);
+		display: inline-block;
+		float: right;
+		margin-left: 10px;
+		border: 1px solid rgb(72, 104, 153);
+		border-collapse: collapse;
+		cursor: pointer;
+		background-color: rgb( 217, 225, 242);
+	}
+
+#alarm-notification-detail {
+	padding: 5px;
+	border: 1px solid rgb(72, 104, 153);
+	border-collapse: collapse;
+}
+
+	#alarm-notification-site,
+	#alarm-notification-priority-label,
+	#alarm-notification-priority,
+	#alarm-notification-date,
+	#alarm-notification-time {
+		font-size: 12px;
+	}
+
+	#alarm-notification-point {
+		font-size: 16px;
+		font-weight: bold;
+	}
+
+	.alarm-notification-title {
+		color: rgb(72, 104, 153); 
+		display: inline-block; 
+		font-size: 20px;
+	}
+	.alarm-notification-row {
+		height: 23px;
+		padding: 0px 5px;
+	}
+
+.alarm-notification-count {
+	color: rgb(59, 87, 127);
+	padding-bottom: 7px;
+	display: inline-block;
+	float: right;
+	font-style: italic;
+	font-size: 12px;
+	line-height: 25px;
+}
+	#alarm-notification-detail > div {
+		width: 100%;
+		text-overflow: ellipsis;
+		word-wrap: break-word;
+		overflow: hidden;
+		white-space: nowrap;
+		padding-top: 5px;
+		padding-bottom: 5px;
+	}
+	#alarm-notification-detail > div > label {
+		margin-right: 5px;
+	}
+
+	#alarm-notification-body-icons img {
+		position: relative; 
+		left: 15px !important; 
+		top: 0px; 
+	}
+
+	.alarm-notification-button {
+		border: 1px solid rgb(72, 104, 153); 
+		padding: 5px;
+		cursor: pointer;
+		border-collapse: collapse;
+		margin-bottom: 4px;
+	}
+
+	.alarm-notification-button.disabled {
+		 background-color: #F2F9FF;
+		 cursor: not-allowed;
+		 pointer-events: none;
+	}
+
+		.alarm-notification-button > div {
+			width: 100%; 
+			text-align: center; 
+			color: rgb(72, 104, 153);
+		}
+
+	.alarm-notification-detail-info {
+		text-align: right;
+		font-size: 11px; 
+	}
+
+	#alarmnotificationimage {
+		width: 24px; 
+		top: -2px; 
+		padding-right: 5px; 
+		position: relative;
+	}
+
+	#alarm-notification-priority {
+		width: 105px;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+
+	#alarm-notification-time {
+		width: 125px;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+
+
+		.groupTab .tab-content {
+			height: calc( 100% - 52px );
+	}
+	/* Make modal message on top of everything */
+	.ui-dialog {
+	z-index:1075 !important;
+	}
+
+	.ui-widget-overlay.ui-front {
+	z-index:1074 !important;
+	}
+	.ui-widget-overlay {
+		z-index: 1050;
+	}
+
+	.editvalue{
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		margin-left: -250px;
+		margin-top: -10px;
+		width: 400px;
+		z-index: 1052;
+		display: none;
+		overflow: hidden;
+		-webkit-overflow-scrolling: touch;
+		outline: 0;
+	}
+
+	.trend-editor {
+		z-index: 1051 !important;
+	}
+
+	.form-inline .form-group, .form-inline .form-control {
+		width: 100% !important;
+	}
+	.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+	}
+
+
+	.pointGroupReportSchedulemodal .row {
+		margin-bottom: 10px;
+	}
+
+	.pointGroupReportSchedulemodal #PointGroupReportScheduleStartDate,
+	.pointGroupReportSchedulemodal #PointGroupReportScheduleEndDate {
+		width: 185px !important;
+		display: inline-block;
+		margin-right: 5px;
+	}
+
+	.pointGroupReportSchedulemodal .ui-datepicker-trigger {
+		Width: 25px !important;
+		margin-left: 5px;
+		float: none !important;
+		margin-top: 0px !important;
+	}
+
+	.pointGroupReportSchedulemodal #PointGroupReportScheduleRepeatHourlyEvery,
+	.pointGroupReportSchedulemodal #PointGroupReportScheduleRepeatEvery,
+	.pointGroupReportSchedulemodal #PointGroupReportScheduleRepeatEveryMonth,
+	.pointGroupReportSchedulemodal #PointGroupReportScheduleRepeatEveryYear,
+	.pointGroupReportSchedulemodal #PointGroupReportScheduleRepeatYearMonth,
+		.pointGroupReportSchedulemodal #PointGroupReportScheduleEndOccurrence,
+		.pointGroupReportSchedulemodal #PointGroupReportScheduleMonthlyRepeatDay
+	 {
+		width: 75px !important;
+		display: inline-block;
+		margin-right: 10px;
+	}	
+
+	.pointGroupReportSchedulemodal #PointGroupReportScheduleRepeat .btn,
+	.pointGroupReportSchedulemodal #PointGroupReportScheduleRepeatWeekly .btn
+	 {
+		border: 1px solid white;
+		min-width: 100px;
+	}
+
+	.pointGroupReportSchedulemodal #PointGroupReportScheduleRepeatWeekly .btn {
+    min-width: 71px !important;
+	}
+
+	.pointGroupReportSchedulemodal #PointGroupReportScheduleRepeat .btn:hover,
+		.pointGroupReportSchedulemodal #PointGroupReportScheduleRepeatWeekly .btn:hover  {
+		background-color: #354F75 !important;
+	}
+
+	.pointGroupReportSchedulemodal #PointGroupReportScheduleRepeat .btn:focus,
+		.pointGroupReportSchedulemodal #PointGroupReportScheduleRepeatWeekly .btn:focus {
+		border: 1px solid rgb(86, 126, 185) !important;
+		box-shadow: none;
+		outline: none;
+	}
+
+	.pointGroupReportSchedulemodal #PointGroupReportScheduleRepeat .btn.active,
+	.pointGroupReportSchedulemodal #PointGroupReportScheduleRepeatWeekly .btn.active,
+	#PointGroupReportScheduleAdd {
+		background-color: white !important;
+		color: rgb(86, 126, 185) !important;
+		border: 1px solid rgb(86, 126, 185);
+	}
+
+	.pointGroupReportSchedulemodal .setting-radio-control--radio .setting-radio-control__indicator {
+		margin-top: -2px;
+	}
+
+	#reportscheduleMonthlyWeek, #reportscheduleMonthlyDay, #reportscheduleYearlyWeek, #reportscheduleYearlyDay, #reportscheduleYearlyMonthOption, #reportscheduleYearlyMonth {
+    display: inline-block;
+    width: 150px;
+	}
+
+.pointGroupReportSchedulemodal .settingsection {
+	margin-bottom: 10px;
+	margin-top: 20px;
+	padding: 0px 15px;
+}
+
+.pointGroupReportSchedulemodal .separator-label {
+    font-weight: bold;
+    color: rgb(153,153,153);
+}
+
+.pointGroupReportSchedulemodal .settingsectionhorizontalline {
+    margin-left: 90px;
+    top: 10px;
+    border-bottom-style: solid;
+    height: 10px;
+    border-width: thin;
+    border-color: rgb(153,153,153);
+}
+
+.pointGroupReportSchedulemodal #noschedule {
+	    margin-top: 60px;
+}
+
+.pointGroupReportSchedulemodal #PointGroupReportScheduleAdd {
+	    margin-top: 40px;
+}
+
+.modal-has-error .form-control {
+    border-color: red;
+    border-width: 3px;
+}
+
+input.hasDatepicker {
+	display: inline-block;
+	width: calc( ( 100% / 2 ) );
+	max-width: 400px;
+}
+
+.ui-datepicker-trigger {
+	Width: 25px !important;
+	margin-left: 5px;
+	float: none !important;
+	margin-top: 0px !important;
+}
+

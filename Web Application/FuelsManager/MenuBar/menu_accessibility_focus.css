@@ -1,0 +1,66 @@
+﻿/***************************************************************************
+/// Module Name:  menu_accessibility_focus.css
+/// Author:       Andy Hush
+/// Copyright (c) Varec, Inc.  All rights reserved.
+/// Summary:      A style sheet for rendering the drop-down mega-menus.
+///************************************************************************/
+
+button:focus, input:focus, textarea:focus, a:focus, select:focus, td:empty:focus, th:focus{
+		outline-width:3px;
+		outline-style:solid;
+		outline-color:black;
+	}
+
+
+div.colNormal a:focus,
+div.colWide a:focus
+{
+		outline-width:3px;
+		outline-style:solid;
+		outline-color:black;
+
+}
+
+div.colNormal a:hover, 
+div.colWide a:hover
+{
+		outline-width:3px;
+		outline-style:solid;
+		outline-color:black;
+
+}
+
+a.drop:focus, #divQuickLinks a:hover, #divQuickLinks a:focus
+{
+	outline-width:3px;
+	outline-style:solid;
+	outline-color:black;
+}
+
+a.MyMenuA:focus
+{
+	outline-color:white;
+}
+
+div.dropdown_MyMenu a:focus,div.dropdown_MyMenu a:hover,
+div.dropdown_MyMenu div.colWide a:hover, 
+div.dropdown_MyMenu div.colNormal a:hover, 
+div.dropdown_MyMenu
+{
+	outline-width:3px;
+	outline-style:solid;
+	outline-color:white;
+}
+
+#bdyMenuBarBody:focus, body:focus, form:focus
+{
+	outline-width:0px;
+	outline-color:none;
+}
+
+table:not([role="presentation"]) td:focus
+{
+	outline-width:3px;
+	outline-style:solid;
+	outline-color:green;
+}

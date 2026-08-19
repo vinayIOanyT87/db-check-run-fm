@@ -1,0 +1,91 @@
+﻿#movementHistoryNodeEditorPartial label {
+    color: rgb(153,153,153) !important;
+}
+
+#MovementHistoryNodeEditorPropertyScreen button[disabled] {
+    cursor: not-allowed;
+}
+
+.ui-front {
+    z-index: 10000 !important;
+}
+
+body .modal {
+    width: 750px !important;
+    margin-left: -375px !important;
+}
+
+.MovementHistoryNodeEditorHeader {
+    padding: 0px;
+    width: 100%;
+}
+
+    .MovementHistoryNodeEditorHeader .close {
+        padding: 5px !important;
+        margin-top: -2px !important;
+    }
+
+.h4, .h5, .h6, h4, h5, h6 {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+.form-control {
+    border-radius: 0px !important;
+}
+
+.form-group {
+    height: 60px !important;
+}
+
+#MovementHistoryNodeEditorPropertyScreen .modal, #MovementHistoryNodeEditorPropertyScreen .modal-content {
+    background-color: white !important;
+}
+
+#MovementHistoryNodeEditorPropertyScreen {
+    width: 650px !important;
+}
+
+.TransferStartTime {
+    height: 25px !important;
+    width: 200px !important;
+}
+
+.MovementHistoryNodeTdPadding1 {
+    padding-bottom: 7px;
+}
+
+.MovementHistoryNodeTdPadding2 {
+    padding-bottom: 7px;
+    padding-left: 20px;
+}
+
+.MovementHistoryNodeTdPadding3 {
+    padding-bottom: 7px;
+    padding-left: 20px;
+}
+
+#MovementHistoryNodeTableSection {
+    padding-left: 30px;
+}
+
+.MovementHistoryNodeInputHeight {
+    height: 17px !important;
+}
+
+#MovementHistoryNodeEditorFooter {
+    width: 600px !important;
+}
+
+input.hasDatepicker {
+    display: inline-block;
+    width: calc( ( 100% / 2 ) );
+    max-width: 400px;
+}
+
+.ui-datepicker-trigger {
+    Width: 25px !important;
+    margin-left: 5px;
+    float: none !important;
+    margin-top: 0px !important;
+}

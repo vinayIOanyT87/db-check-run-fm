@@ -1,0 +1,94 @@
+<div id="availablemodules">
+    <div class="chassis-section-header">Modules</div>
+    <perfect-scrollbar #scrollable cdkDropList id="availablemoduleslist" [cdkDropListConnectedTo]="['module1', 'module2', 'module3', 'module4', 'module5', 'module6']">
+        <div *ngFor="let module of filteredAvailableModules" class="availablemodule" cdkDrag [cdkDragData]="module">
+            <img class="availablemoduleimg" src="./assets/{{module.img}}" />
+            <img class="custom-preview" *cdkDragPreview src="./assets/{{module.img}}" />
+            <img class="custom-placeholder" *cdkDragPlaceholder src="./assets/{{module.img}}" />
+            <i style="font-family: Roboto; font-size: 10px; color: #006cb3;">{{module.name}}</i>
+        </div>
+    </perfect-scrollbar>
+</div>
+<div class="center-view">
+    <div class="chassis-section-header">Chassis View</div>
+    <div id="space" style = "background-color: white">
+        <div id="chassisview" >
+            <img id="chassisImg" src="assets/chassis.png" style = "background-color: black"/>
+            <div id="module0" [className]="currentModule == 0 && currentChannel == 0 ? 'cpu-card interface-module0 active' : 'cpu-card interface-module0'" (click)="selectModule( 0 )">
+                    <div [className]="currentModule == 0 && currentChannel == 1 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 0, 1 )" (click)="selectModuleChannel(0, 1, $event)" title="channel 1"></div>
+                    <div [className]="currentModule == 0 && currentChannel == 2 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 0, 2 )" (click)="selectModuleChannel(0, 2, $event)" title="channel 2"></div>
+                    <div [className]="currentModule == 0 && currentChannel == 3 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 0, 3 )" (click)="selectModuleChannel(0, 3, $event)" title="channel 3"></div>
+                    <div [className]="currentModule == 0 && currentChannel == 4 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 0, 4 )" (click)="selectModuleChannel(0, 4, $event)" title="channel 4"></div>
+            </div>
+            <div id="interfacemoduleslist">
+                <div id="module1" [style.background-image]="module1Img" [className]="currentModule == 1 && currentChannel == 0 ? 'interface-card interface-module1 active' : 'interface-card interface-module1'" (click)="selectModule( 1 )" cdkDropList [cdkDropListDisabled]='true' [cdkDropListConnectedTo]="['module1', 'module2', 'module3', 'module4', 'module5', 'module6']"
+                    (cdkDropListDropped)="dropped($event)">
+                    <div [className]="currentModule == 1 && currentChannel == 1 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 1, 1 )" (click)="selectModuleChannel(1, 1, $event)" title="channel 1"></div>
+                    <div [className]="currentModule == 1 && currentChannel == 2 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 1, 2 )" (click)="selectModuleChannel(1, 2, $event)" title="channel 2"></div>
+                    <div [className]="currentModule == 1 && currentChannel == 3 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 1, 3 )" (click)="selectModuleChannel(1, 3, $event)" title="channel 3"></div>
+                    <div [className]="currentModule == 1 && currentChannel == 4 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 1, 4 )" (click)="selectModuleChannel(1, 4, $event)" title="channel 4"></div>
+                    <div [className]="currentModule == 1 && currentChannel == 5 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 1, 5 )" (click)="selectModuleChannel(1, 5, $event)" title="channel 5"></div>
+                    <div [className]="currentModule == 1 && currentChannel == 6 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 1, 6 )" (click)="selectModuleChannel(1, 6, $event)" title="channel 6"></div>
+                    <div [className]="currentModule == 1 && currentChannel == 7 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 1, 7 )" (click)="selectModuleChannel(1, 7, $event)" title="channel 7"></div>
+                    <div [className]="currentModule == 1 && currentChannel == 8 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 1, 8 )" (click)="selectModuleChannel(1, 8, $event)" title="channel 8"></div>
+                </div>
+                <div id="module2" [style.background-image]="module2Img" [className]="currentModule == 2 && currentChannel == 0 ? 'interface-card interface-module2 active' : 'interface-card interface-module2'" (click)="selectModule( 2 )" cdkDropList [cdkDropListDisabled]='true' [cdkDropListConnectedTo]="['module1', 'module2', 'module3', 'module4', 'module5', 'module6']"
+                    (cdkDropListDropped)="dropped($event)">
+                    <div [className]="currentModule == 2 && currentChannel == 1 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 2, 1 )" (click)="selectModuleChannel(2, 1, $event)" title="channel 1"></div>
+                    <div [className]="currentModule == 2 && currentChannel == 2 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 2, 2 )" (click)="selectModuleChannel(2, 2, $event)" title="channel 2"></div>
+                    <div [className]="currentModule == 2 && currentChannel == 3 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 2, 3 )" (click)="selectModuleChannel(2, 3, $event)" title="channel 3"></div>
+                    <div [className]="currentModule == 2 && currentChannel == 4 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 2, 4 )" (click)="selectModuleChannel(2, 4, $event)" title="channel 4"></div>
+                    <div [className]="currentModule == 2 && currentChannel == 5 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 2, 5 )" (click)="selectModuleChannel(2, 5, $event)" title="channel 5"></div>
+                    <div [className]="currentModule == 2 && currentChannel == 6 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 2, 6 )" (click)="selectModuleChannel(2, 6, $event)" title="channel 6"></div>
+                    <div [className]="currentModule == 2 && currentChannel == 7 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 2, 7 )" (click)="selectModuleChannel(2, 7, $event)" title="channel 7"></div>
+                    <div [className]="currentModule == 2 && currentChannel == 8 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 2, 8 )" (click)="selectModuleChannel(2, 8, $event)" title="channel 8"></div>
+                </div>
+                <div id="module3" [style.background-image]="module3Img" [className]="currentModule == 3 && currentChannel == 0 ? 'interface-card interface-module3 active' : 'interface-card interface-module3'" (click)="selectModule( 3 )" cdkDropList [cdkDropListDisabled]='true' [cdkDropListConnectedTo]="['module1', 'module2', 'module3', 'module4', 'module5', 'module6']"
+                    (cdkDropListDropped)="dropped($event)">
+                    <div [className]="currentModule == 3 && currentChannel == 1 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 3, 1 )" (click)="selectModuleChannel(3, 1, $event)" title="channel 1"></div>
+                    <div [className]="currentModule == 3 && currentChannel == 2 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 3, 2 )" (click)="selectModuleChannel(3, 2, $event)" title="channel 2"></div>
+                    <div [className]="currentModule == 3 && currentChannel == 3 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 3, 3 )" (click)="selectModuleChannel(3, 3, $event)" title="channel 3"></div>
+                    <div [className]="currentModule == 3 && currentChannel == 4 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 3, 4 )" (click)="selectModuleChannel(3, 4, $event)" title="channel 4"></div>
+                    <div [className]="currentModule == 3 && currentChannel == 5 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 3, 5 )" (click)="selectModuleChannel(3, 5, $event)" title="channel 5"></div>
+                    <div [className]="currentModule == 3 && currentChannel == 6 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 3, 6 )" (click)="selectModuleChannel(3, 6, $event)" title="channel 6"></div>
+                    <div [className]="currentModule == 3 && currentChannel == 7 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 3, 7 )" (click)="selectModuleChannel(3, 7, $event)" title="channel 7"></div>
+                    <div [className]="currentModule == 3 && currentChannel == 8 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 3, 8 )" (click)="selectModuleChannel(3, 8, $event)" title="channel 8"></div>
+                </div>
+                <div id="module4" [style.background-image]="module4Img" [className]="currentModule == 4 && currentChannel == 0 ? 'interface-card interface-module4 active' : 'interface-card interface-module4'" (click)="selectModule( 4 )" cdkDropList [cdkDropListDisabled]='true' [cdkDropListConnectedTo]="['module1', 'module2', 'module3', 'module4', 'module5', 'module6']"
+                    (cdkDropListDropped)="dropped($event)">
+                    <div [className]="currentModule == 4 && currentChannel == 1 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 4, 1 )" (click)="selectModuleChannel(4, 1, $event)" title="channel 1"></div>
+                    <div [className]="currentModule == 4 && currentChannel == 2 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 4, 2 )" (click)="selectModuleChannel(4, 2, $event)" title="channel 2"></div>
+                    <div [className]="currentModule == 4 && currentChannel == 3 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 4, 3 )" (click)="selectModuleChannel(4, 3, $event)" title="channel 3"></div>
+                    <div [className]="currentModule == 4 && currentChannel == 4 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 4, 4 )" (click)="selectModuleChannel(4, 4, $event)" title="channel 4"></div>
+                    <div [className]="currentModule == 4 && currentChannel == 5 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 4, 5 )" (click)="selectModuleChannel(4, 5, $event)" title="channel 5"></div>
+                    <div [className]="currentModule == 4 && currentChannel == 6 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 4, 6 )" (click)="selectModuleChannel(4, 6, $event)" title="channel 6"></div>
+                    <div [className]="currentModule == 4 && currentChannel == 7 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 4, 7 )" (click)="selectModuleChannel(4, 7, $event)" title="channel 7"></div>
+                    <div [className]="currentModule == 4 && currentChannel == 8 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 4, 8 )" (click)="selectModuleChannel(4, 8, $event)" title="channel 8"></div>
+                </div>
+                <div id="module5" [style.background-image]="module5Img" [className]="currentModule == 5 && currentChannel == 0 ? 'interface-card interface-module5 active' : 'interface-card interface-module5'" (click)="selectModule( 5 )" cdkDropList [cdkDropListDisabled]='true' [cdkDropListConnectedTo]="['module1', 'module2', 'module3', 'module4', 'module5', 'module6']"
+                    (cdkDropListDropped)="dropped($event)">
+                    <div [className]="currentModule == 5 && currentChannel == 1 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 5, 1 )" (click)="selectModuleChannel(5, 1, $event)" title="channel 1"></div>
+                    <div [className]="currentModule == 5 && currentChannel == 2 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 5, 2 )" (click)="selectModuleChannel(5, 2, $event)" title="channel 2"></div>
+                    <div [className]="currentModule == 5 && currentChannel == 3 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 5, 3 )" (click)="selectModuleChannel(5, 3, $event)" title="channel 3"></div>
+                    <div [className]="currentModule == 5 && currentChannel == 4 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 5, 4 )" (click)="selectModuleChannel(5, 4, $event)" title="channel 4"></div>
+                    <div [className]="currentModule == 5 && currentChannel == 5 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 5, 5 )" (click)="selectModuleChannel(5, 5, $event)" title="channel 5"></div>
+                    <div [className]="currentModule == 5 && currentChannel == 6 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 5, 6 )" (click)="selectModuleChannel(5, 6, $event)" title="channel 6"></div>
+                    <div [className]="currentModule == 5 && currentChannel == 7 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 5, 7 )" (click)="selectModuleChannel(5, 7, $event)" title="channel 7"></div>
+                    <div [className]="currentModule == 5 && currentChannel == 8 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 5, 8 )" (click)="selectModuleChannel(5, 8, $event)" title="channel 8"></div>
+                </div>
+                <div id="module6" [style.background-image]="module6Img" [className]="currentModule == 6 && currentChannel == 0 ? 'interface-card interface-module6 active' : 'interface-card interface-module6'" (click)="selectModule( 6 )" cdkDropList [cdkDropListDisabled]='true' [cdkDropListConnectedTo]="['module1', 'module2', 'module3', 'module4', 'module5', 'module6']"
+                    (cdkDropListDropped)="dropped($event)">
+                    <div [className]="currentModule == 6 && currentChannel == 1 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 6, 1 )" (click)="selectModuleChannel(6, 1, $event)" title="channel 1"></div>
+                    <div [className]="currentModule == 6 && currentChannel == 2 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 6, 2 )" (click)="selectModuleChannel(6, 2, $event)" title="channel 2"></div>
+                    <div [className]="currentModule == 6 && currentChannel == 3 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 6, 3 )" (click)="selectModuleChannel(6, 3, $event)" title="channel 3"></div>
+                    <div [className]="currentModule == 6 && currentChannel == 4 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 6, 4 )" (click)="selectModuleChannel(6, 4, $event)" title="channel 4"></div>
+                    <div [className]="currentModule == 6 && currentChannel == 5 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 6, 5 )" (click)="selectModuleChannel(6, 5, $event)" title="channel 5"></div>
+                    <div [className]="currentModule == 6 && currentChannel == 6 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 6, 6 )" (click)="selectModuleChannel(6, 6, $event)" title="channel 6"></div>
+                    <div [className]="currentModule == 6 && currentChannel == 7 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 6, 7 )" (click)="selectModuleChannel(6, 7, $event)" title="channel 7"></div>
+                    <div [className]="currentModule == 6 && currentChannel == 8 ? 'channelselector active' : 'channelselector'" [ngStyle]="setModuleChannelCoordinates( 6, 8 )" (click)="selectModuleChannel(6, 8, $event)" title="channel 8"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-moduledetail [rtuconfiguration]="rtuconfiguration"></app-moduledetail>
+</div>

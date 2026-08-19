@@ -1,0 +1,187 @@
+.views-section-header {
+    width: 100%;
+	color: white;
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+	background-color: #006CB3;
+}
+
+button.newView
+{
+	color: white;
+    border-radius: 0px;
+    border: none;
+    width: 30px;
+    height: 30px;
+    margin-top: 0px;
+    font-size:14px;
+    font-weight: bold;
+	background-color: #006CB3;
+}
+
+button.delete
+{
+    color: #ff2d55;
+    border:none;
+    font-weight: 500;
+    height:30px;
+    background-color: #FFF;
+    transition: 0.5s;
+}
+
+button.delete:hover
+{
+	border:none;
+    height:30px;
+    font-weight: 900;
+    cursor: pointer;
+	color: #ff2d55;
+}
+
+.content{
+    text-align: left;
+}
+
+ul {
+    list-style-type: none;
+    font-size: 14px;
+    color: #006cb3;
+    margin-top:-32px;
+    text-align:left;
+    list-style-position: inside;
+    margin-left: 15%;
+    width: 70%;
+
+}
+
+li { 
+    margin: 0px 0;
+}
+
+.badge {
+    margin-right:20px;
+    cursor:pointer;
+    text-align: left;
+    font-size: 15px;
+    vertical-align: middle;
+}
+
+.badgeDescription{
+    text-align:left;
+    font-size: 12px;
+}
+
+.show
+{
+    opacity: 1 !important;
+
+}
+
+.step
+{
+    opacity: 0;
+    transition: .2s ease-in-out all;
+    position: absolute;
+    color: #006cb3;
+}
+
+.viewsDropdownButton
+{
+    float:right;
+    cursor: pointer;
+    margin-right:10px;
+}
+
+.viewsHeader
+{
+    margin-left:10px;
+}
+
+.views-dropdown {
+    top: inherit !important;
+    position: absolute;
+    width: 50px;
+    color: black !important;
+    margin-top:-5px;
+    margin-left:-1px;
+}
+
+.viewsoption {
+    line-height: 25px;
+    padding: 0px 10px;
+}
+
+.viewsoption:hover {
+	color: white;
+    cursor: pointer;
+	background-color: #00A5FF;
+}
+
+.diagViewImage{
+    height: 55px;
+}
+
+.viewDropdownButton
+{
+    float:right;
+    cursor: pointer;
+    margin-right:10px;
+    color: black;
+    margin-top:10px;
+}
+
+.viewHeader
+{
+    margin-left:10px;
+}
+
+.view-dropdown {
+    top: inherit !important;
+    position: absolute;
+    width: 50px;
+    color: black !important;
+    margin-top:-5px;
+    margin-left:-1px;
+}
+
+.viewoption {
+    line-height: 25px;
+    padding: 0px 10px;
+}
+
+.viewoption:hover {
+    background-color: #00A5FF;
+    color: white;
+    cursor: pointer;
+}
+
+.CreateNewViewListOption{
+    color: rgb(185, 185, 185);
+    margin-top:10px;
+    margin-left:10px;
+    cursor: pointer;
+}
+
+.CreateNewViewListOption:hover
+{
+    color: #00A5FF;
+    -webkit-transition: color .3s;
+    -moz-transition: color .3s;
+    -o-transition: color .3s;
+    transition: color .3s;
+}
+
+.inactiveViewInList
+{
+    color: black !important;
+}
+.activeViewInList
+{
+	color: #006cb3;
+}
+
+#typeDropdown{
+    margin-top:30px;
+    margin-left:10px;
+}

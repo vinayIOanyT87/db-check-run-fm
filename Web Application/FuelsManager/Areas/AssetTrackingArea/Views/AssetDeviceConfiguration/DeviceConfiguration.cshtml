@@ -1,0 +1,220 @@
+﻿@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.AssetTrackingArea.Controllers
+@model FuelsManager.Areas.AssetTrackingArea.ViewModels.AssetDeviceConfigurationModel
+@{
+	ViewBag.Title = "DeviceConfiguration";
+}
+
+<header>
+	<style>
+		.divTable {
+			width: 35%;
+			height: 50%;
+			display: table;
+			padding: 3px;
+		}
+
+		.divTableRow {
+			width: 100%;
+			height: 100%;
+			display: table-row;
+			padding: 3px;
+		}
+
+		.divTableCell {
+			width: 25%;
+			height: 100%;
+			display: table-cell;
+			padding: 3px;
+			vertical-align: top;
+		}
+
+		.divTableCell2 
+		{
+			width: 25%;
+			height: 100%;
+			display: table-cell;
+			padding: 3px;
+			vertical-align: top;
+			position: absolute;
+			right: 45%;
+		}
+
+		.headline
+		{
+			font-family: Arial, Helvetica, sans-serif;
+			font-size: 18px;
+			font-style: italic;
+			font-weight: bold;
+			color: #0d246a;
+			line-height: normal;
+			white-space:nowrap;
+		}
+		.formfieldtitle
+		{
+			font-family: Arial, Helvetica, sans-serif;
+			font-size: 12px;
+			font-style: normal;
+			line-height: normal;
+			font-weight: bold;
+			font-variant: normal;
+			text-transform: none;
+			white-space:nowrap;
+		}
+		.formfield input
+		{
+			font-family: Arial, Helvetica, sans-serif;
+			font-size: 12px;
+			font-style: normal;
+			line-height: normal;
+			font-weight: normal;
+			font-variant: normal;
+			text-transform: none;
+			color: #000000;
+		}
+		.errorField
+		{
+			font-family: Arial, Helvetica, sans-serif;
+			font-size: 16px;
+			font-style: normal;
+			line-height: normal;
+			font-weight: bold;
+			font-variant: normal;
+			text-transform: none;
+			color: #FF0000;
+		}
+	</style>
+</header>
+
+<script src="~/Areas/scripts/AssetTrackingDeviceConfig.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $(document).ready(function ()
+    {
+        AssetTrackingDeviceConfiguration.Init();
+    });
+
+    window.onload = function (e) {
+        window.parent.CurrentHelpKey = "MenuBar/FMMenuBar.aspx?target=../AssetTrackingArea/AssetDeviceConfiguration/DeviceConfiguration";
+    }
+</script>
+
+@Html.Hidden("AssetDeviceConfigModel", AssetDeviceConfigurationController.SerializeModel(Model))
+@Html.Hidden("GetAssetTrackingConfigurationUpdateUrl", @Url.Action("UpdateAssetDeviceConfigurationItem", "AssetDeviceConfiguration"))
+@Html.Hidden("GetAssetTrackingConfigurationNewUrl", @Url.Action("NewAssetDeviceConfigurationItem", "AssetDeviceConfiguration"))
+@Html.Hidden("RedirectToDeviceSummary", @Url.Action("DeviceConfigurationSummary", "AssetDeviceConfigurationSummary"))
+
+<body style="overflow-x: hidden; overflow-y: hidden;">
+	<div>
+		<section id="DeviceConfigurationForm">
+			@{
+                @Html.AntiForgeryToken()
+
+				<div class="divTable">
+					<div class="divTableRow">
+						<div class="divTableCell">
+							<label class="headline">@FMBaseController.TranslateText("Asset Tracking Device")</label>
+						</div>
+					</div>
+				</div>
+				<p></p>
+				<div style="position: absolute; left: 32px;">
+					<div class="divTable">
+						<div class="divTableRow">
+							<div class="divTableCell">
+								<label class="formfieldtitle">@FMBaseController.TranslateText("Device ID:")</label>
+                                <span style="width: 3px; color: red;">*</span>
+							</div>
+							<div class="divTableCell">
+								<input id="DeviceIdTB" type="text" class="formfield" style="width: 230px;" maxlength="30" onchange="AssetTrackingDeviceConfiguration.HandleDeviceTbEvent()" />
+							</div>
+						</div>
+						<div class="divTableRow">
+							<div class="divTableCell">
+								<label class="formfieldtitle">@FMBaseController.TranslateText("Description:")</label>
+							</div>
+							<div class="divTableCell">
+								<input id="DescriptionTB" type="text" class="formfield" style="width: 360px;" maxlength="50" />
+							</div>
+						</div>
+						<div class="divTableRow">
+							<div class="divTableCell">
+								<label class="formfieldtitle">@FMBaseController.TranslateText("Model Number:")</label>
+							</div>
+							<div class="divTableCell">
+								<input id="ModelNumberTB" type="text" class="formfield" style="width: 360px;" maxlength="50" />
+							</div>
+						</div>
+						<div class="divTableRow">
+							<div class="divTableCell">
+								<label class="formfieldtitle">@FMBaseController.TranslateText("Serial Number:")</label>
+							</div>
+							<div class="divTableCell">
+								<input id="SerialNumberTB" type="text" class="formfield" style="width: 360px;" maxlength="50" />
+							</div>
+						</div>
+						<div class="divTableRow">
+							<div class="divTableCell">
+								<label class="formfieldtitle">@FMBaseController.TranslateText("Activation Status:")</label>
+							</div>
+							<div class="divTableCell">
+								<input id="ActiveCB" type="checkbox" />
+							</div>
+						</div>
+						<div class="divTableRow">
+							<div class="divTableCell">
+								<label class="formfieldtitle">@FMBaseController.TranslateText("Source Unit:")</label>
+							</div>
+							<div class="divTableCell">
+								<select id="SourceUnitDD" class="formfield" style="width: 230px" onchange="AssetTrackingDeviceConfiguration.GetSelectedSourceUnit()">
+                                </select>
+                            </div>
+						</div>
+						<div class="divTableRow">
+							<div class="divTableCell">
+								<label class="formfieldtitle">@FMBaseController.TranslateText("Equipment:")</label>
+							</div>
+							<div class="divTableCell">
+								<select id="EquipmentIdDD" class="formfield" style="width: 230px" onchange="AssetTrackingDeviceConfiguration.GetSelectedEquipment()">
+                                </select>
+                        </div>
+						</div>
+						<div class="divTableRow">
+							<div class="divTableCell">
+								<label class="formfieldtitle">@FMBaseController.TranslateText("Device Type:")</label>
+							</div>
+							<div class="divTableCell">
+								<select id="DeviceTypesDD" class="formfield" style="width: 230px" onchange="AssetTrackingDeviceConfiguration.GetSelectedDeviceType()"></select>
+							</div>
+						</div>
+						<div class="divTableRow">
+							<div class="divTableCell">
+								<label class="formfieldtitle">@FMBaseController.TranslateText("Associated Tanks:")</label>
+							</div>
+						</div>
+						<div class="divTableRow">
+							<div class="divTableCell">
+								<select id="AssociatedTanksLB" class="formfield" style="width: 230px" multiple="multiple"></select>
+							</div>
+						</div>
+					</div>
+				</div>
+				<p></p>
+				<div style="position: absolute; top: 400px; left: 400px;">
+							<button id="NewDeviceBtn" name="NewDeviceBtn" onclick="AssetTrackingDeviceConfiguration.HandleNewButtonEvent()" class="formfieldtitle" disabled="@(Model.IsEditable ? null : "disabled")">@FMBaseController.TranslateText("New")</button>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<button id="OkDeviceBtn" name="OkDeviceBtn" onclick="AssetTrackingDeviceConfiguration.HandleOkButtonEvent()" class="formfieldtitle" disabled="@(Model.IsEditable ? null : "disabled")">@FMBaseController.TranslateText("OK")</button>
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<button id="CancelDeviceBtn" name="CancelDeviceBtn" onclick="AssetTrackingDeviceConfiguration.HandleCancelButtonEvent()" class="formfieldtitle">@FMBaseController.TranslateText("Cancel")</button>
+				</div>
+				<div class="row">
+					<input id="selectedEquipmentInput" name="selectedEquipmentInput" type="hidden" value="" />
+					<input id="selectedDeviceTypeInput" name="selectedDeviceTypeInput" type="hidden" value="" />
+					<input id="previousEquipmentSelection" name="previousEquipmentSelection" type="hidden" value="" />
+					<input id="selectedSourceUnitInput" name="selectedSourceUnitInput" type="hidden" value="" />
+                    <input id="RedirectToEquipmentUrl" name="RedirectToEquipmentUrl" type="hidden" value="" />
+				</div>
+			}
+		</section>
+	</div>
+</body>

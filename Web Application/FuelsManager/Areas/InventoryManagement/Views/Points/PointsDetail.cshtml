@@ -1,0 +1,1986 @@
+﻿@using System.Activities.Expressions
+@using System.Globalization
+@using System.Net.Mime
+@using System.Runtime.InteropServices
+@using Varec.CommonComponents.EngineeringUnitsLibrary
+@using FMBusinessObjects.DataObjects
+@using FMPointCommon
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@using Microsoft.Ajax.Utilities
+@using FuelsManager.Areas.InventoryManagement.ViewModels
+@using FMBusinessObjects.DataObjects;
+@model FuelsManager.Areas.InventoryManagement.ViewModels.PointEditDetailModel
+@{
+    //	ViewBag.Title = "PointTemplateDetail";
+    Layout = "~/Areas/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Areas/Content/PointEditor.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Content/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Content/bootstrap-modal.css" rel="stylesheet" type="text/css" />
+
+<link href="~/Areas/Lib/DataTables/DataTables-1.10.15/css/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Lib/DataTables/Select-1.2.2/css/select.dataTables.min.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Content/jquery-ui-timepicker-addon.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Lib/DataTables/RowReorder-1.2.0/css/rowReorder.bootstrap.css" rel="stylesheet" type="text/css" />
+
+<link href="~/Areas/Content/select2.min.css" rel="stylesheet" type="text/css" />
+<link href="~/Areas/Content/jstree/default/style.min.css" rel="stylesheet" tyhpe="text/css" />
+<link href="~/Areas/Content/OpcUaEditor.css" rel="stylesheet" type="text/css" />
+
+<script src="~/Areas/Lib/DataTables/DataTables-1.10.15/js/jquery.dataTables.js"></script>
+<script src="~/Areas/Lib/DataTables/Select-1.2.2/js/dataTables.select.min.js"></script>
+<script src="~/Areas/Lib/DataTables/DataTables-1.10.15/js/dataTables.bootstrap.js"></script>
+<script src="~/Areas/Lib/DataTables/RowReorder-1.2.0/js/dataTables.rowReorder.min.js"></script>
+
+<script src="~/Areas/Lib/jquery.nicescroll.min.js"></script>
+<script src="~/Areas/lib/jquery-ui-timepicker-addon.js"></script>
+
+<script src="~/Areas/Lib/bootstrap-modal.js"></script>
+<script src="~/Areas/Lib/bootstrap-modalmanager.js"></script>
+<script src="~/Areas/Lib/jquery.mask.js"></script>
+<script src="~/Areas/Lib/jquery.numeric.js"></script>
+<script src="~/Areas/Lib/math.js"></script>
+<script src="~/Areas/Lib/NumberFormat.js"></script>
+<script src="~/Areas/Lib/moment.js"></script>
+<script src="~/Areas/Scripts/FMCommon.js"></script>
+<script src="~/Areas/Scripts/fmconvertengunits.js"></script>
+<script src="~/Areas/Scripts/fmformatvalues.js"></script>
+<script src="~/Areas/Scripts/FMErrorAndExceptionHandling.js"></script>
+<script src="~/Areas/Scripts/PointEditor.js"></script>
+<script src="~/Areas/Lib/select2.js"></script>
+<script src="~/Areas/Lib/jstree.js"></script>
+<script src="~/Areas/Scripts/AlarmEditor.js"></script>
+
+@{
+    bool canModifyFCEE = Model.HasModifyFCEERight;
+}
+<script type="text/javascript">
+	var selectedCategory = "";
+	var selectedPointType = "";
+
+	// Catch any bubbling focusin events (focus does not bubble)
+	$(document).on('focusin', ':input', AlarmEditor.OnFocusIn);
+
+	function onModuleClick(moduleInstanceGuid, pointGuid)
+	{
+		var module = { 'moduleTemplateGuid': moduleInstanceGuid, 'pointGuid': pointGuid };
+
+		// close all the notifications currently openned
+		FMErrorAndExceptionHandling.CloseNotifications();
+
+		var token = $('#pointPropertiesForm input[name =__RequestVerificationToken]').val();
+		var headers = {};
+		headers['__RequestVerificationToken'] = token;
+
+		$.ajax({
+			type: "GET",
+			cache: false,
+			headers: headers,
+			url: "@Url.Action("GetModuleEditorPartialView", "Points")",
+			data: module,
+			datatype: "json",
+			success: function (response)
+			{
+				FMErrorAndExceptionHandling.HandleMessages(response, function (data, inError)
+				{
+					if (!inError)
+					{
+						$('#ModuleDetails').html(data);
+					}
+				});
+			},
+			error: function (xhr, textStatus, error)
+			{
+				FMErrorAndExceptionHandling.ShowException(xhr, textStatus, error);
+			}
+		});
+	}
+
+
+	// open editor for strap table
+	function onStrapTableClickPropertyScreen( paramIsTemplatePoint, paramPointGuid, paramModulePointPropertyGuid)
+	{
+
+		var strapTable = {  isTemplatePoint: paramIsTemplatePoint, pointGuid: paramPointGuid, pointPropertyGuid: paramModulePointPropertyGuid };
+
+		var _openStrapTable = function ()
+		{
+			// create the backdrop and wait for next modal to be triggered
+			$('body').modalmanager('loading');
+			// close all the notifications currently openned
+			FMErrorAndExceptionHandling.CloseNotifications();
+
+			var token = $('#pointPropertiesForm input[name =__RequestVerificationToken]').val();
+			var headers = {};
+			headers['__RequestVerificationToken'] = token;
+
+			$.ajax({
+				type: "GET",
+				cache: false,
+				headers: headers,
+				url: "@Url.Action("StrapTableEditor", "StrapTableEditor")",
+				data: strapTable,
+				success: function (response)
+				{
+					FMErrorAndExceptionHandling.HandleMessages(response, function (data, inError)
+					{
+						if (!inError)
+						{
+							// replace the holder with the partial view
+							$('#moduleEditorPropertyScreen').html(data);
+							// change the modal title
+							$('#PMEEditorNamePropertyScreen').text('@FMBaseController.TranslateText("Strap Table Editor")');
+							// show the modal
+							$('#ModulePropertyEditorPropertyScreen').modal('show');
+							$('#pointPropertiesForm input[type=button], #pointPropertiesForm input[type=submit]').removeAttr("disabled");
+							if ($("#EditorSaveAllowed").val() == "False") {
+								$('#PEMPESavePropertyScreen').attr('disabled', true);
+								$('#PEMPESavePropertyScreen').attr('style', "cursor: not-allowed !important;");
+								$('#addStrapEntryButton_0').attr('style', "display: none;");
+								$('#deleteStrapEntriesButton_0').attr('style', "display: none;");
+								$('#SEDeleteTable').attr('style', "display: none;");
+								$('#importExportdiv').attr('style', "display: none;");
+								$('#addTable').attr('style', "display: none;");
+
+							}
+						}
+						else
+						{
+							// remove the loading of the modal
+							var modalManager = $("body").data("modalmanager");
+							modalManager.removeLoading();
+						}
+					});
+
+				},
+				error: function (xhr, textStatus, error)
+				{
+					FMErrorAndExceptionHandling.ShowException(xhr,
+						textStatus,
+						error,
+						function ()
+						{
+							// remove the loading of the modal
+							var modalManager = $("body").data("modalmanager");
+							modalManager.removeLoading();
+						});
+				}
+			});
+		}
+
+
+		// if the user made any changes prompt to save
+		if (FMPointEditor.valuesChanged)
+		{
+
+			FMLayout.ConfirmSaveCancel($("#dialog-save-confirm"),
+				$("#dialog-save-confirm").attr('title'),
+				function ()
+				{
+					// call the save form and tell it to open the strap table if successful
+					FMPointEditor.saveChanges($('#pointPropertiesForm').attr("action"), $('#pointPropertiesForm').attr("method"), _openStrapTable, '', '');
+				});
+		}
+			// if no changes then open the modal form directly
+		else
+		{
+			_openStrapTable();
+
+		}
+
+	}
+
+
+	// open editor for leak detection settings
+    function onLeakDetectionSettingsClickPropertyScreen( paramIsTemplatePoint, paramPointGuid, paramModulePointPropertyGuid)
+	{
+
+        var leakDetectionData = {  isTemplatePoint: paramIsTemplatePoint, pointGuid: paramPointGuid, pointPropertyGuid: paramModulePointPropertyGuid };
+
+        var _openLeakDetectionEditor = function ()
+		{
+			// create the backdrop and wait for next modal to be triggered
+			$('body').modalmanager('loading');
+			// close all the notifications currently openned
+			FMErrorAndExceptionHandling.CloseNotifications();
+
+			var token = $('#pointPropertiesForm input[name =__RequestVerificationToken]').val();
+			var headers = {};
+			headers['__RequestVerificationToken'] = token;
+
+			$.ajax({
+				type: "GET",
+				cache: false,
+				headers: headers,
+				url: "@Url.Action("LeakDetectionEditor", "LeakDetectionEditor")",
+                data: leakDetectionData,
+				success: function (response)
+				{
+					FMErrorAndExceptionHandling.HandleMessages(response, function (data, inError)
+					{
+						if (!inError)
+						{
+							// replace the holder with the partial view
+							$('#moduleEditorPropertyScreen').html(data);
+							// change the modal title
+							$('#PMEEditorNamePropertyScreen').text('@FMBaseController.TranslateText("Leak Detection Editor")');
+							// show the modal
+							$('#ModulePropertyEditorPropertyScreen').modal('show');
+							$('#pointPropertiesForm input[type=button], #pointPropertiesForm input[type=submit]').removeAttr("disabled");
+							if ($("#EditorSaveAllowed").val() == "False") {
+								$('#PEMPESavePropertyScreen').attr('disabled', true);
+								$('#PEMPESavePropertyScreen').attr('style', "cursor: not-allowed !important;");
+
+							}
+						}
+						else
+						{
+							// remove the loading of the modal
+							var modalManager = $("body").data("modalmanager");
+							modalManager.removeLoading();
+						}
+					});
+
+				},
+				error: function (xhr, textStatus, error)
+				{
+					FMErrorAndExceptionHandling.ShowException(xhr,
+						textStatus,
+						error,
+						function ()
+						{
+							// remove the loading of the modal
+							var modalManager = $("body").data("modalmanager");
+							modalManager.removeLoading();
+						});
+				}
+			});
+		}
+
+
+		// if the user made any changes prompt to save
+		if (FMPointEditor.valuesChanged)
+		{
+
+			FMLayout.ConfirmSaveCancel($("#dialog-save-confirm"),
+				$("#dialog-save-confirm").attr('title'),
+				function ()
+				{
+					// call the save form and tell it to open the strap table if successful
+                    FMPointEditor.saveChanges($('#pointPropertiesForm').attr("action"), $('#pointPropertiesForm').attr("method"), _openLeakDetectionEditor, '', '');
+				});
+		}
+			// if no changes then open the modal form directly
+		else
+		{
+            _openLeakDetectionEditor();
+
+		}
+
+	}
+
+			// open FCEE Mappings
+	function onFCEEMappingsClick(paramPointGuid) {
+
+        var dataPayload = { pointGuid: paramPointGuid };
+
+		var _onFCEEMappingsClick = function () {
+			// create the backdrop and wait for next modal to be triggered
+			$('body').modalmanager('loading');
+			// close all the notifications currently openned
+			FMErrorAndExceptionHandling.CloseNotifications();
+
+			var token = $('#pointPropertiesForm input[name =__RequestVerificationToken]').val();
+			var headers = {};
+			headers['__RequestVerificationToken'] = token;
+
+			$.ajax({
+				type: "GET",
+				cache: false,
+				headers: headers,
+				url: "@Url.Action("FCEEMappingsEditor", "FCEEMappingsEditor")",
+                data: dataPayload,
+				success: function (response) {
+					FMErrorAndExceptionHandling.HandleMessages(response, function (data, inError) {
+						if (!inError) {
+							// replace the holder with the partial view
+							$('#moduleEditorPropertyScreen').html(data);
+							// change the modal title
+							$('#PMEEditorNamePropertyScreen').text('@FMBaseController.TranslateText("FCEE Mappings Editor")');
+							// show the modal
+							$('#ModulePropertyEditorPropertyScreen').modal('show');
+							if("@canModifyFCEE" == "True" || "@canModifyFCEE" == "true"){
+								$('#pointPropertiesForm input[type=button], #pointPropertiesForm input[type=submit]').removeAttr('disabled');
+							}
+						}
+						else {
+							// remove the loading of the modal
+							var modalManager = $("body").data("modalmanager");
+							modalManager.removeLoading();
+						}
+					});
+
+				},
+				error: function (xhr, textStatus, error) {
+					FMErrorAndExceptionHandling.ShowException(xhr,
+						textStatus,
+						error,
+						function () {
+							// remove the loading of the modal
+							var modalManager = $("body").data("modalmanager");
+							modalManager.removeLoading();
+						});
+				}
+			});
+		}
+        // if the user made any changes prompt to save
+		if (FMPointEditor.valuesChanged) {
+
+            FMLayout.ConfirmSaveCancel($("#dialog-save-confirm"),
+                $("#dialog-save-confirm").attr('title'),
+                function () {
+                    // call the save form and tell it to open the fcee mappings if successful
+                    FMPointEditor.saveChanges($('#pointPropertiesForm').attr("action"), $('#pointPropertiesForm').attr("method"), _onFCEEMappingsClick, '', '');
+                });
+        }
+        // if no changes then open the modal form directly
+        else {
+            _onFCEEMappingsClick();
+
+        }
+	}
+
+	// open editor for VcfCorrection
+	function onVcfSettingsClickPropertyScreen(paramIsTemplatePoint, paramPointGuid, paramPointPropertyGuid)
+	{
+
+		var vcfSettings = { isTemplatePoint: paramIsTemplatePoint, pointGuid: paramPointGuid, pointPropertyGuid: paramPointPropertyGuid };
+
+		var _openVcfSettings = function ()
+		{
+			// create the backdrop and wait for next modal to be triggered
+			$('body').modalmanager('loading');
+
+			$.ajax({
+				type: "GET",
+				cache: false,
+				url: "@Url.Action("VcfSettingsEditor", "VcfSettingsEditor")",
+				data: vcfSettings,
+				success: function (response, xhr, settings)
+				{
+					if (response && response.ErrorMessage)
+					{
+						var count = 0;
+						if (response && response.ErrorMessage)
+						{
+							$.each(response.ErrorMessage, function (key, message) { count = count + 1; });
+						}
+
+						if (count === 0)
+						{
+							$('#PEMPESavePropertyScreen').removeAttr('disabled');
+							$('#moduleEditorPropertyScreen').html(response.Data);
+							$('#PMEEditorNamePropertyScreen').text('@FMBaseController.TranslateText("Volume Correction Editor")');
+							if ($("#EditorSaveAllowed").val() == "False") {
+								$('#PEMPESavePropertyScreen').attr('disabled', true);
+								$('#PEMPESavePropertyScreen').attr('style', "cursor: not-allowed !important;");
+							}
+							$('#ModulePropertyEditorPropertyScreen').modal('show');
+						}
+						else
+						{
+							// add messages but avoid duplicates
+							var seen = {};
+
+							$.each(response.ErrorMessage, function (key, message)
+							{
+								// set the control to be flagged as having an error
+
+								$.each(message, function (i, val)
+								{
+									if (!seen[message[i]])
+									{
+										seen[message[i]] = true;
+										FMLayout.Alert(message[i], "Tag Value Editor");
+									}
+								});
+							});
+
+							$('body').modalmanager('removeLoading');;
+						}
+					}
+				},
+				error: function (xhr, textStatus, error)
+				{
+					FMErrorAndExceptionHandling.ShowException(xhr,
+						textStatus,
+						error,
+						function ()
+						{
+							// remove the loading of the modal
+							var modalManager = $("body").data("modalmanager");
+							modalManager.removeLoading();
+						});
+				}
+			});
+		}
+
+		// if the user made any changes prompt to save
+		if (FMPointEditor.valuesChanged)
+		{
+
+			FMLayout.ConfirmSaveCancel($("#dialog-save-confirm"),
+				$("#dialog-save-confirm").attr('title'),
+				function ()
+				{
+					// call the save form and tell it to open the vcf corrections if successful
+					FMPointEditor.saveChanges($('#pointPropertiesForm').attr("action"), $('#pointPropertiesForm').attr("method"), _openVcfSettings, '', '');
+				});
+		}
+			// if no changes then open the modal form directly
+		else
+		{
+			_openVcfSettings();
+
+		}
+	}
+
+	//=====================================================================================================
+	// This function will open the editor for the Rate.
+	//=====================================================================================================
+	function OnRateSettingsClickPropertyScreen(paramIsPointTemplate, paramPointGuid, paramPointPropertyGuid)
+	{
+		var rateModuleSettingsData = { isTemplatePoint: paramIsPointTemplate, pointGuid: paramPointGuid, pointPropertyGuid: paramPointPropertyGuid };
+
+		var openRateModuleSettings = function ()
+		{
+			// create the backdrop and wait for next modal to be triggered
+			$('body').modalmanager('loading');
+
+			$.ajax({
+				type: "GET",
+				cache: false,
+				url: "@Url.Action("RateModuleSettingsEditor", "RateModuleSettingsEditor")",
+				data: rateModuleSettingsData,
+				success: function (response, xhr, settings)
+				{
+					if (response && response.ErrorMessage)
+					{
+						var count = 0;
+
+						if (response.ErrorMessage)
+						{
+							$.each(response.ErrorMessage, function (key, message) { count = count + 1; });
+						}
+
+						if (count === 0)
+						{
+							$('#PEMPESavePropertyScreen').removeAttr('disabled');
+							$('#moduleEditorPropertyScreen').html(response.Data);
+
+							$('#PMEEditorNamePropertyScreen').text('@FMBaseController.TranslateText("Rate Editor")');
+							$('#RateModuleEditorTitle').text('@FMBaseController.TranslateText("Rate Editor")');
+							if ( $( "#EditorSaveAllowed" ).val() == "False" )
+							{
+								$('#PEMPESavePropertyScreen').attr('disabled', true);
+								$('#PEMPESavePropertyScreen').attr('style', "cursor: not-allowed !important;");
+							}
+							$('#ModulePropertyEditorPropertyScreen').modal('show');
+						}
+						else
+						{
+							// remove the loading of the modal
+							var modalManager = $("body").data("modalmanager");
+							modalManager.removeLoading();
+						}
+					}
+				},
+				error: function (xhr, textStatus, error)
+				{
+					FMErrorAndExceptionHandling.ShowException(xhr,
+						textStatus,
+						error,
+						function ()
+						{
+							// remove the loading of the modal
+							var modalManager = $("body").data("modalmanager");
+							modalManager.removeLoading();
+						});
+				}
+			});
+		}
+
+		// if the user made any changes prompt to save
+		if (FMPointEditor.valuesChanged)
+		{
+			FMLayout.ConfirmSaveCancel($("#dialog-save-confirm"),
+				$("#dialog-save-confirm").attr('title'),
+				function ()
+				{
+					// Call the save form and tell it to open the Rate corrections if successful.
+					FMPointEditor.saveChanges($('#pointPropertiesForm').attr("action"), $('#pointPropertiesForm').attr("method"), openRateModuleSettings, '', '');
+				});
+		}
+		else
+		{
+			// If no changes then open the modal form directly
+			openRateModuleSettings();
+		}
+	}
+
+
+	// open editor for VesselCorrection
+	function onVesselSettingsClickPropertyScreen(paramIsTemplatePoint, paramPointGuid, paramPointPropertyGuid)
+	{
+
+		var VesselSettings = { isTemplatePoint: paramIsTemplatePoint, pointGuid: paramPointGuid, pointPropertyGuid: paramPointPropertyGuid };
+
+		var _openVesselSettings = function ()
+		{
+			// create the backdrop and wait for next modal to be triggered
+			$('body').modalmanager('loading');
+
+			$.ajax({
+				type: "GET",
+				cache: false,
+				url: "@Url.Action("VesselSettingsEditor", "VesselSettingsEditor")",
+				data: VesselSettings,
+				success: function( response, xhr, settings )
+				{
+					if ( response && response.ErrorMessage )
+					{
+						var count = 0;
+						if ( response && response.ErrorMessage )
+						{
+							$.each( response.ErrorMessage, function( key, message )
+							{
+								count = count + 1;
+							} );
+						}
+
+						if ( count === 0 )
+						{
+							$( '#moduleEditorPropertyScreen' ).html( response.Data );
+							$( '#PMEEditorNamePropertyScreen' ).text( '@FMBaseController.TranslateText("Volume Correction Editor")' );
+							$('#ModulePropertyEditorPropertyScreen').modal('show');
+							$('#pointPropertiesForm input[type=button], #pointPropertiesForm input[type=submit]').removeAttr("disabled");
+							if ( $( "#EditorSaveAllowed" ).val() == "False" )
+						{
+							$('#PEMPESavePropertyScreen').attr('disabled', true);
+							$('#PEMPESavePropertyScreen').attr('style', "cursor: not-allowed !important;");}
+						}
+						else
+						{
+							// add messages but avoid duplicates
+							var seen = {};
+
+							$.each(response.ErrorMessage, function (key, message)
+							{
+								// set the control to be flagged as having an error
+
+								$.each(message, function (i, val)
+								{
+									if (!seen[message[i]])
+									{
+										seen[message[i]] = true;
+										FMLayout.Alert(message[i], "Tag Value Editor");
+									}
+								});
+							});
+
+							$('body').modalmanager('removeLoading');;
+						}
+					}
+				},
+				error: function (xhr, textStatus, error)
+				{
+					FMErrorAndExceptionHandling.ShowException(xhr,
+						textStatus,
+						error,
+						function ()
+						{
+							// remove the loading of the modal
+							var modalManager = $("body").data("modalmanager");
+							modalManager.removeLoading();
+						});
+				}
+			});
+		}
+
+		// if the user made any changes prompt to save
+		if (FMPointEditor.valuesChanged)
+		{
+			FMLayout.ConfirmSaveCancel($("#dialog-save-confirm"),
+				$("#dialog-save-confirm").attr('title'),
+				function ()
+				{
+					// call the save form and tell it to open the Vessel corrections if successful
+					FMPointEditor.saveChanges($('#pointPropertiesForm').attr("action"), $('#pointPropertiesForm').attr("method"), _openVesselSettings, '', '');
+				});
+		}
+			// if no changes then open the modal form directly
+		else
+		{
+			_openVesselSettings();
+		}
+	}
+
+	// open editor for Tank Command Settings Editor
+	function onTankCommandSettingsClickPropertyScreen(paramPointGuid, paramPointPropertyGuid)
+	{
+		var tankCommandSettings = { pointGuid: paramPointGuid, pointPropertyGuid: paramPointPropertyGuid };
+
+		var _openTankCommandSettings = function ()
+		{
+			// create the backdrop and wait for next modal to be triggered
+			$('body').modalmanager('loading');
+
+			$.ajax({
+				type: "GET",
+				cache: false,
+				url: "@Url.Action("TankCommandSettingsEditor", "TankCommandSettingsEditor")",
+				data: tankCommandSettings,
+				success: function (response, xhr, settings)
+				{
+					if (response && response.ErrorMessage)
+					{
+						var count = 0;
+						if (response && response.ErrorMessage)
+						{
+							$.each(response.ErrorMessage, function (key, message)
+							{
+								count = count + 1;
+							});
+						}
+
+						if (count === 0)
+						{
+							$('#PEMPESavePropertyScreen').removeAttr('disabled');
+							$('#moduleEditorPropertyScreen').html(response.Data);
+							$('#PMEEditorNamePropertyScreen').text('@FMBaseController.TranslateText("Tank Command Editor")');
+							$('#ModulePropertyEditorPropertyScreen').modal('show');
+						}
+						else
+						{
+							// add messages but avoid duplicates
+							var seen = {};
+
+							$.each(response.ErrorMessage, function (key, message)
+							{
+								// set the control to be flagged as having an error
+
+								$.each(message, function (i, val)
+								{
+									if (!seen[message[i]])
+									{
+										seen[message[i]] = true;
+										FMLayout.Alert(message[i], "Tank Command Editor");
+									}
+								});
+							});
+
+							$('body').modalmanager('removeLoading');;
+						}
+					}
+				},
+				error: function (xhr, textStatus, error)
+				{
+					FMErrorAndExceptionHandling.ShowException(xhr,
+						textStatus,
+						error,
+						function ()
+						{
+							// remove the loading of the modal
+							var modalManager = $("body").data("modalmanager");
+							modalManager.removeLoading();
+						});
+				}
+			});
+		}
+
+		// if the user made any changes prompt to save
+		if (FMPointEditor.valuesChanged)
+		{
+
+			FMLayout.ConfirmSaveCancel($("#dialog-save-confirm"),
+				$("#dialog-save-confirm").attr('title'),
+				function ()
+				{
+					// call the save form and tell it to open the vcf corrections if successful
+					FMPointEditor.saveChanges($('#pointPropertiesForm').attr("action"), $('#pointPropertiesForm').attr("method"), _openTankCommandSettings, '', '');
+				});
+		}
+			// if no changes then open the modal form directly
+		else
+		{
+			_openTankCommandSettings();
+
+		}
+	}
+
+	// open editor for opc ua connections
+	function onOpcUaEdit(paramPointTagGuid, pointTagSelectedIndex)
+	{
+		$('#PointTagSelectedIndex').val(pointTagSelectedIndex);
+		var tagData = { pointTagGuid: paramPointTagGuid };
+
+		// create the backdrop and wait for next modal to be triggered
+		$('body').modalmanager('loading');
+
+		// close all the notifications currently openned
+		FMErrorAndExceptionHandling.CloseNotifications();
+
+		var stack_bottomright_opcuaeditor = { "dir1": 'up', "dir2": 'left', "firstpos1": 15, "firstpos2": 25, "context": $('#OPCEditorScreen') };
+
+		var notificationAttributes = { addclass: 'stack-bottomright', stack: stack_bottomright_opcuaeditor };
+
+
+		var token = $('#pointPropertiesForm input[name =__RequestVerificationToken]').val();
+		var headers = {};
+		headers['__RequestVerificationToken'] = token;
+
+		$.ajax({
+			type: "GET",
+			cache: false,
+			headers: headers,
+			url: "@Url.Action("OpcUaBrowser", "OpcUaEditor")",
+			data: tagData,
+			success: function (response)
+			{
+				FMErrorAndExceptionHandling.HandleMessages(response, function (data, inError)
+				{
+					if (!inError || (inError && data != null))
+					{
+						// replace the holder with the partial view
+						$('#OPCEditorScreen').html(data);
+						// show the modal
+						$('#OPCEditorModal').modal('show');
+						$('#OPCEditorModal input[type=button], #opcUaBrowserForm input[type=submit]').removeAttr("disabled");
+					}
+					else
+					{
+						// remove the loading of the modal
+						var modalManager = $("body").data("modalmanager");
+						modalManager.removeLoading();
+					}
+				}, notificationAttributes);
+			},
+			error: function (xhr, textStatus, error)
+			{
+				FMErrorAndExceptionHandling.ShowException(xhr,
+					textStatus,
+					error,
+					function ()
+					{
+						// remove the loading of the modal
+						var modalManager = $("body").data("modalmanager");
+						modalManager.removeLoading();
+					});
+			}
+		});
+	}
+
+
+	// Point Value Configuration Editor
+	function onPointValueConfigurationEdit(isTemplatePoint, isSetting, pointObjectGuid, pointObjectName)
+	{
+		var tagData = { isTemplatePoint: isTemplatePoint, isSetting: isSetting, pointObjectGuid: pointObjectGuid, pointObjectName: pointObjectName };
+
+
+		var _openPointValueConfigurationEditor = function () {
+
+
+			// create the backdrop and wait for next modal to be triggered
+			$('body').modalmanager('loading');
+
+			// close all the notifications currently openned
+			FMErrorAndExceptionHandling.CloseNotifications();
+
+			var token = $('#pointPropertiesForm input[name =__RequestVerificationToken]').val();
+			var headers = {};
+			headers['__RequestVerificationToken'] = token;
+
+			$.ajax({
+				type: "GET",
+				cache: false,
+				headers: headers,
+				url: "@Url.Action("PointValueConfigurationEditor", "Points")",
+				data: tagData,
+				success: function (response) {
+					FMErrorAndExceptionHandling.HandleMessages(response, function (data, inError) {
+						if (!inError || (inError && data != null)) {
+							// replace the holder with the partial view
+							$('#PointValueConfigurationEditorScreen').html(data);
+							// show the modal
+							$('#PointValueConfigurationEditorModal').modal('show');
+							$('#PointValueConfigurationEditorModal input[type=button], #pointValueConfigurationEditorForm input[type=submit]').removeAttr("disabled");
+						}
+						else {
+							// remove the loading of the modal
+							var modalManager = $("body").data("modalmanager");
+							modalManager.removeLoading();
+						}
+					});
+				},
+				error: function (xhr, textStatus, error) {
+					FMErrorAndExceptionHandling.ShowException(xhr,
+						textStatus,
+						error,
+						function () {
+							// remove the loading of the modal
+							var modalManager = $("body").data("modalmanager");
+							modalManager.removeLoading();
+						});
+				}
+			});
+		}
+
+		// if the user made any changes prompt to save
+		if (FMPointEditor.valuesChanged)
+		{
+			FMLayout.ConfirmSaveCancel($("#dialog-save-confirm"),
+				$("#dialog-save-confirm").attr('title'),
+				function () {
+					// call the save form and tell it to open the vcf corrections if successful
+					FMPointEditor.saveChanges($('#pointPropertiesForm').attr("action"), $('#pointPropertiesForm').attr("method"), _openPointValueConfigurationEditor, '', '');
+				});
+		}
+			// if no changes then open the modal form directly
+		else {
+			_openPointValueConfigurationEditor();
+
+		}
+	}
+
+	// open editor for Point Command
+	function onPointCommandStatusEditClick(paramPointTemplateGuid)
+	{
+		if ( $( '#PCSListEnabled' ).val() == 'False' )
+		{
+			return;
+		}
+		var PointCommandStatusSettings = { pointTemplateGuid: paramPointTemplateGuid };
+
+		// create the backdrop and wait for next modal to be triggered
+		$('body').modalmanager('loading');
+
+		// close all the notifications currently openned
+		FMErrorAndExceptionHandling.CloseNotifications();
+
+		var token = $('#pointPropertiesForm input[name =__RequestVerificationToken]').val();
+		var headers = {};
+		headers['__RequestVerificationToken'] = token;
+
+		$.ajax({
+			type: "GET",
+			cache: false,
+			headers: headers,
+			url: "@Url.Action("PointCommandStatusEditor", "PointCommandStatusEditor")",
+			data: PointCommandStatusSettings,
+			success: function(response, xhr, settings) {
+				FMErrorAndExceptionHandling.HandleMessages(response, function (data, inError)
+				{
+					if (!inError) {
+						// replace the holder with the partial view
+						$('#pointCommandStatusEditorBody').html(data);
+						// show the modal
+						$('#PointCommandStatusEditorScreen').modal('show');
+						$('#PointCommandStatusForm input[type=button], #PointCommandStatusForm input[type=submit]').removeAttr("disabled");
+					}
+					else {
+						// remove the loading of the modal
+						var modalManager = $("body").data("modalmanager");
+						modalManager.removeLoading();
+					}
+				});
+			},
+			error: function (xhr, textStatus, error) {
+				FMErrorAndExceptionHandling.ShowException(xhr,
+					textStatus,
+					error,
+					function () {
+						// remove the loading of the modal
+						var modalManager = $("body").data("modalmanager");
+						modalManager.removeLoading();
+					});
+			}
+		});
+	}
+
+	// open editor for Device Alarm Map
+	function onDeviceAlarmMapsEditClick(paramPointTemplateGuid)
+	{
+		if ( $( '#PCSListEnabled' ).val() == 'False' )
+		{
+			return;
+		}
+		var DeviceAlarmMapSettings = { pointTemplateGuid: paramPointTemplateGuid };
+
+		// create the backdrop and wait for next modal to be triggered
+		$('body').modalmanager('loading');
+
+		// close all the notifications currently openned
+		FMErrorAndExceptionHandling.CloseNotifications();
+
+		var token = $('#pointPropertiesForm input[name =__RequestVerificationToken]').val();
+		var headers = {};
+		headers['__RequestVerificationToken'] = token;
+
+		$.ajax({
+			type: "GET",
+			cache: false,
+			headers: headers,
+			url: "@Url.Action("DeviceAlarmMapsEditor", "DeviceAlarmMapsEditor")",
+			data: DeviceAlarmMapSettings,
+			success: function(response, xhr, settings) {
+			FMErrorAndExceptionHandling.HandleMessages(response, function (data, inError)
+			{
+				if (!inError) {
+					// replace the holder with the partial view
+					$('#DeviceAlarmMapsEditorBody').html(data);
+					// show the modal
+					$('#DeviceAlarmMapsEditorScreen').modal('show');
+					$('#DeviceAlarmMapsForm input[type=button], #DeviceAlarmMapsForm input[type=submit]').removeAttr("disabled");
+				}
+				else {
+					// remove the loading of the modal
+					var modalManager = $("body").data("modalmanager");
+					modalManager.removeLoading();
+				}
+			});
+		},
+		error: function (xhr, textStatus, error) {
+			FMErrorAndExceptionHandling.ShowException(xhr,
+				textStatus,
+				error,
+				function () {
+					// remove the loading of the modal
+					var modalManager = $("body").data("modalmanager");
+					modalManager.removeLoading();
+				});
+		}
+	});
+	}
+
+	//=====================================================================================================
+	// This function will open the editor for the Movement Module Settings.
+	//=====================================================================================================
+	function OnMovementModuleSettingsClickPropertyScreen(paramIsPointTemplate, paramPointGuid, paramPointPropertyGuid)
+	{
+		var movementModuleSettingsData = { isTemplatePoint: paramIsPointTemplate, pointGuid: paramPointGuid, pointPropertyGuid: paramPointPropertyGuid, caller: "PointDetail" };
+
+		var openMovementModuleSettings = function ()
+		{
+			// create the backdrop and wait for next modal to be triggered
+			$('body').modalmanager('loading');
+
+			$.ajax({
+				type: "GET",
+				cache: false,
+				url: "@Url.Action("MovementModuleSettingsEditor", "MovementModuleSettingsEditor")",
+				data: movementModuleSettingsData,
+				success: function (response, xhr, settings)
+				{
+					if (response && response.ErrorMessage)
+					{
+						var count = 0;
+
+						if (response.ErrorMessage)
+						{
+							$.each(response.ErrorMessage, function (key, message) { count = count + 1; });
+						}
+
+						if (count === 0)
+						{
+							$('#PEMPESavePropertyScreen').removeAttr('disabled');
+							$('#moduleEditorPropertyScreen').html(response.Data);
+							$('#PMEEditorNamePropertyScreen').text('@FMBaseController.TranslateText("Movement Editor")');
+							if ( $( "#EditorSaveAllowed" ).val() == "False" )
+							{
+								$('#PEMPESavePropertyScreen').attr('disabled', true);
+								$('#PEMPESavePropertyScreen').attr('style', "cursor: not-allowed !important;");
+							}
+                            $('#ModulePropertyEditorPropertyScreen').modal({ keyboard: false });
+                            $('#ModulePropertyEditorPropertyScreen').modal('show');
+						}
+						else
+						{
+							// remove the loading of the modal
+							var modalManager = $("body").data("modalmanager");
+							modalManager.removeLoading();
+						}
+					}
+				},
+				error: function (xhr, textStatus, error)
+				{
+					FMErrorAndExceptionHandling.ShowException(xhr,
+						textStatus,
+						error,
+						function ()
+						{
+							// remove the loading of the modal
+							var modalManager = $("body").data("modalmanager");
+							modalManager.removeLoading();
+						});
+				}
+			});
+		}
+
+		// if the user made any changes prompt to save
+		if (FMPointEditor.valuesChanged)
+		{
+			FMLayout.ConfirmSaveCancel($("#dialog-save-confirm"),
+				$("#dialog-save-confirm").attr('title'),
+				function ()
+				{
+					// Call the save form and tell it to open the Rate corrections if successful.
+					FMPointEditor.saveChanges($('#pointPropertiesForm').attr("action"), $('#pointPropertiesForm').attr("method"), openMovementModuleSettings, '', '');
+				});
+		}
+		else
+		{
+			// If no changes then open the modal form directly
+			openMovementModuleSettings();
+		}
+	}
+
+	//=================================================================
+	// This function handles the Apply Button on click event.
+	//=================================================================
+	function ApplyButtonOnClick()
+	{
+		$('#pointPropertiesForm').submit();
+	}
+
+	//===================================================================
+	// This function handles the get selected point event. It will close
+	// the rollout menu and retrive the selected point.
+	//===================================================================
+	function GetSelectedPoint(selectedPointUrl)
+	{
+		// Do nothing if the object is null.
+		if (selectedPointUrl != null)
+		{
+			// Must set the window.top.location.search or else it will stay on the
+			// previous point.
+			window.location.href = window.top.location.search = selectedPointUrl;
+		}
+	}
+
+	//===============================================================
+	// This function will handle the selected point type on the point
+	// list rollout menu dropdown.
+	//===============================================================
+	function GetSelectedPointType()
+	{
+		selectedPointType = "";
+
+		if ($("#PointTypeId").val() !== "-99")
+		{
+			selectedPointType = $("#PointTypeId").val();
+		}
+
+		window.PointListRolloutMenuFiltering();
+	}
+
+	//===================================================================
+	// This function will handle the selected point category on the point
+	// list rollout menu dropdown.
+	//===================================================================
+	function GetSelectedPointCategory()
+	{
+		selectedCategory = "";
+
+		if ($("#CategoryId").val() !== "-99")
+		{
+			selectedCategory = $("#CategoryId").val();
+		}
+
+		window.PointListRolloutMenuFiltering();
+	}
+
+
+	$(document).ready(function ()
+	{
+		// see the last tab in use for the point editor
+		FMPointEditor.localStorageKey = "FMPointEditor_" + $("#SiteGuid").val() + "_" + $("#UserGuid").val();
+		FMPointEditor.pointGuid = $("#IdentityGuid").val();
+		FMPointEditor.unitConversionHistory = [];
+
+		var lastSettings = localStorage.getItem(FMPointEditor.localStorageKey);
+
+		// if no previous configuration add one
+		if (lastSettings === null)
+		{
+			localStorage.setItem(FMPointEditor.localStorageKey, JSON.stringify({ pointGuid: FMPointEditor.pointGuid, activeTab: "SETTING" }));
+		}
+		else
+		{
+			lastSettings = JSON.parse(lastSettings);
+			if (lastSettings.pointGuid === FMPointEditor.pointGuid)
+			{
+				switch (lastSettings.activeTab)
+				{
+					case "SETTING":
+						break;
+					case "TAG":
+						$("#PETags").click();
+						break;
+					case "MODULE":
+						$("#PEModules").click();
+						break;
+					case "ALERT":
+						$("#PEAlarms").click();
+						break;
+				}
+			}
+		}
+
+		// This sets the nice scrolling on the Point Setting section of the page.
+		$('#SettingDivScroll').niceScroll({
+			cursorwidth: '10px'
+		 , autohidemode: false
+		 , cursorcolor: "#486899"
+		 , background: "#f9f9f9"
+		 , railoffset: true
+		 , railpadding: { top: 0, right: 0, left: -5, bottom: 0 }
+		 , smoothscroll: true
+		});
+		// the html helper sets always the attribute 'selected' for the options (sets to false if not selected). select2 expects the selected attribute only for those selected
+		$('#PEPointCategory').find('option[selected=false]').removeAttr('selected');
+		$('#PEPointCategory').select2();
+
+
+
+		// if there is a change to any of the fields mark as the values have changed
+		$(".mainPage").on("input", "#PTTPointEditHolder > .row input, #PTTPointEditHolder > .row select, .PESettingPanel input, .PESettingPanel select", function ()
+		{
+			FMPointEditor.valuesChanged = true;
+		});
+		// NOTE: events for select control do not bubble up in IE so we cannot use event delegates.
+		// we must rewire the event for the setting panels every time we perform a seach since we lose the events when the tags get copied
+		$("#PTTPointEditHolder > .row select, .PESettingPanel select").on("change", function ()
+		{
+			FMPointEditor.valuesChanged = true;
+		});
+
+		// NOTE, I have to bind the chnage event because the input event doesn't seem to be working with checkboxes and radio buttons
+		$(".mainPage").on("change", "#PTTPointEditHolder > .row input, #TagEditTable input", function ()
+		{
+			FMPointEditor.valuesChanged = true;
+		});
+
+		var applyButton = $('#ApplyButtonId');
+		var ampersandIndex = applyButton.text().indexOf('&');
+		if (ampersandIndex !== -1)
+		{
+			var hotKey = applyButton.text().charAt(ampersandIndex + 1);
+			applyButton.html(applyButton.text().replace('&' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+			applyButton.attr('accesskey', hotKey);
+		}
+
+	});
+
+</script>
+
+<style>
+    .loadingDiv {
+        position: absolute;
+        padding: 0;
+        margin: 0;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.7);
+        z-index: 10000;
+    }
+
+        .loadingDiv img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: -60px 0px 0px -60px;
+            z-index: 10000;
+        }
+
+    #pointcategoriesdiv .select2-container {
+        width: 100% !important;
+    }
+
+
+    #pointcategoriesdiv .select2-container--default .select2-selection--multiple {
+        border-radius: 0px !important;
+    }
+
+    #pointproductdiv .select2-container--default .select2-selection--single {
+        height: 33px !important;
+        border-radius: 0px !important;
+    }
+
+    #pointOverrideDefaultDrawingdiv .select2-container--default .select2-selection--single {
+        height: 33px !important;
+        border-radius: 0px !important;
+    }
+
+    #PointCommandStatusPartial .tab-content {
+        height: 436px;
+    }
+
+    #DeviceAlarmMapsPartial .tab-content {
+        height: 436px;
+    }
+
+
+    .scrtabs-tab-scroll-arrow:hover {
+        background-color: transparent !important;
+    }
+
+        .scrtabs-tab-scroll-arrow:hover span{
+            background-color: #eeeeee;
+        }
+</style>
+
+@Html.Hidden("urlGetAlarmEditor", @Url.Action("GetAlarmEditor", "AlarmEditor"))
+@Html.Hidden("PCSListEnabled", (Model.HasViewPCSList || Model.HasModifyPCSList))
+@Html.Hidden("EditorSaveAllowed", (Model.ModifyEnabled))
+<body style="overflow-y: hidden">
+    <div class="container-fluid">
+        @{
+            var numberFormatInfo = new NumberFormatInfo { NumberGroupSizes = Model.Site.GetNumberGroupSizes(), NumberGroupSeparator = Model.Site.NumberGroupSeparator, NumberDecimalSeparator = Model.Site.NumberDecimalSeparator };
+
+            //Generate FormatInfo JavaScript object in JSON format
+            var numberFormatInfoString = String.Format("{{{0}" + "\"NegativeSign\":\"{1}\",{0}" + "\"NumberDecimalDigits\":{2},{0}" + "\"NumberDecimalSeparator\":\"{3}\",{0}" + "\"NumberGroupSeparator\":\"{4}\",{0}" + "\"NumberGroupSizes\":{5},{0}" + "\"NumberNegativePattern\":{6},{0}" + "\"ShortDatePattern\":\"{7}\"{0},{0}" + "\"TimePattern\":\"{8}\"{0}}}", Environment.NewLine, "-", numberFormatInfo.NumberDecimalDigits, Model.Site.NumberDecimalSeparator, Model.Site.NumberGroupSeparator, Model.Site.GetNumberGroupSizes()[0], 1, Model.Site.ShortDatePattern, Model.Site.TimePattern);
+            var canCopyString = (Model.HasCopyRight) ? "" : "disabled";
+            var canEnableDisable = ((Model.Enabled && Model.HasDisablePointRight) || (!Model.Enabled && Model.HasEnablePointRight) || (Model.ModifyEnabled));
+            var PCSListCursor = (Model.HasViewPCSList || Model.HasModifyPCSList) ? "" : "cursor: not-allowed !important;";
+            var ModifyPCSListDisplay = (Model.HasModifyPCSList) ? "" : "display: none;";
+            var ModifyDisable = (Model.ModifyEnabled || (Model.IsTemplatePoint && Model.HasCopyRight)) ? "" : "disabled = 'disabled'";
+            var ApplyButtonDisable = (Model.ModifyEnabled || (Model.ModifyEnabled && Model.IsTemplatePoint && Model.HasCopyRight) || (Model.Enabled && Model.HasDisablePointRight) || (!Model.Enabled && Model.HasEnablePointRight)) ? "" : "disabled = 'disabled'";
+            var ApplyButtonCusor = (Model.ModifyEnabled || (Model.ModifyEnabled && Model.IsTemplatePoint && Model.HasCopyRight) || (Model.Enabled && Model.HasDisablePointRight) || (!Model.Enabled && Model.HasEnablePointRight)) ? "" : "cursor: not-allowed !important;";
+            var TemplateDetailDisable = (Model.ModifyEnabled) ? "" : "disabled = 'disable'";
+            var buttonClass = (Model.ModifyEnabled) ? "btn-setting" : "btn-setting disabled";
+            var canViewFCEE = (Model.HasFCEERight) ? "" : "display :none;";
+        }
+
+        <div id="PointSettingListRolloutMenu" class="hidden" style="overflow: hidden;">
+            <a class="hidden" href="javascript:void(0)" onclick="CloseNav();">
+                <img src="~/fmwebapp/images/Selection-left-arrow.png" style="position: absolute; top: 16px; width: 25px; height: 25px;" />
+            </a>
+            <div class="row">
+                <div id="PointSettingListRolloutMenuTitle" class="col-sm-12 col-md-12 col-lg-12">
+                    <label class="pull-left">@FMBaseController.TranslateText("POINT LIST")</label>
+                    <span id="PEMenuRolloutClose" class="glyphicon glyphicon-remove pull-right icon-container" onclick="CloseNav();"></span>
+                    <span id="PEMenuRolloutViewMode" class="glyphicon glyphicon-th-list pull-right icon-container listViewSwitch" title="Switch to Detail View"></span>
+                    <div class="settingsectionhorizontalline"></div>
+                </div>
+            </div>
+            <div class="row" style="padding-right: 25px">
+                <div class="col-sm-6 col-md-6 col-lg-6">
+                    @Html.LabelFor(model => model.ActionListPointTypes, FMBaseController.TranslateText("POINT TYPE"), new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.PointTypeId, Model.ActionListPointTypes, new { @class = "form-control", @onchange = "GetSelectedPointType()" })
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-6">
+                    @Html.LabelFor(model => model.ActionListCategories, FMBaseController.TranslateText("POINT CATEGORY"), new { @class = "control-label" })
+                    @Html.DropDownListFor(model => model.CategoryId, Model.ActionListCategories, new { @class = "form-control", @onchange = "GetSelectedPointCategory()" })
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-6">
+                    <div class="filter-settings PE-list-filter-addon">
+                        <input id="PE_RolloutMenuPointNameFilterTB" type="text" class="PE-List-form-control" placeholder="Search for Point Name" />
+                        <img alt="Filter Tags" title="Search" src="~/fmwebapp/images/Search Icon.png" />
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-6">
+                    <div class="filter-settings PE-list-filter-addon">
+                        <input id="PE_RolloutMenuProductFilterTB" type="text" class="PE-List-form-control" placeholder="Search for Product Name" />
+                        <img alt="Filter Tags" title="Search" src="~/fmwebapp/images/Search Icon.png" />
+                    </div>
+                </div>
+            </div>
+            <div id="PointListDivID" class="row" style="height: calc(100vh - 205px); padding-right: 25px">
+                <div id="PE_RolloutMenuUL" class="pointListColumns">
+                </div>
+            </div>
+        </div>
+
+        <div id="PointTemplateImageMenu" class="hidden" style="overflow: hidden;">
+            <a class="hidden" href="javascript:void(0)" onclick="CloseImageSelection();">
+                <img src="~/fmwebapp/images/Selection-left-arrow.png" style="position: absolute; top: 16px; width: 25px; height: 25px;"/>
+            </a>
+            <div class="row">
+                <div id="PointTemplateIconRolloutMenuTitle" class="col-sm-12 col-md-12 col-lg-12">
+                    <label class="pull-left">@FMBaseController.TranslateText("IMAGES LIST")</label>
+                    <span id="PointTemplateIconClose" class="glyphicon glyphicon-remove pull-right icon-container" onclick="CloseImageSelection();"></span>
+                    <span id="PEImageRolloutViewMode" class="glyphicon glyphicon-th-list pull-right icon-container listViewSwitch" title="Switch to Detail View"></span>
+                    <div class="settingsectionhorizontalline"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                    <div class="filter-settings PE-list-filter-addon">
+                        <input id="PE_IconNameFilterTB" type="text" class="PE-List-form-control" placeholder="Search for Image Name"/>
+                        <img alt="Filter Images" title="Search" src="~/fmwebapp/images/Search Icon.png"/>
+                    </div>
+                </div>
+                <div id="PointImageDivID" class="row" style="height: calc(100vh - 205px); padding-right: 25px">
+                    <div id="PE_IconNameFilterMenuUL" class="pointListColumns">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="PointsDetailMenu" class="row">
+            <div id="PointDetailTitle" class="col-lg-4 col-md-4">
+                <div id="PointDetailImageContainer" data-value="@Model.ProfileImageGuid" @if(Model.IsTemplatePoint && !Model.PointTemplate.Standard){@Html.Raw("onclick='OpenImageSelection();' style='cursor: pointer;' class='pointtemplateimgcontainer'");}>
+                    <img id="PointDetailImage" src="~/DisplayImage.ashx?PictureGuid=@Model.ProfileImageGuid" />
+                </div>
+                <h2 id="PointTemplateTitle" class="@(Model.IsTemplatePoint ? "pointtemplatetitle": "") @(Model.IsTemplatePoint && Model.PointTemplate.Standard ? "pointtemplatestandardtitle": "")">@Model.Name</h2>
+                @if (Model.IsTemplatePoint == false)
+                {
+                    <span id="PointSelector" class="closed" onclick="OpenNav();">
+                        <div class="dropdownimage"></div>
+                    </span>
+                }
+            </div>
+            <ul id="PEMenuItems" class="list-inline col-lg-6 col-md-6">
+                <li id="PESettings" class="PointDetailMenuItem selected"><span><img /></span>@FMBaseController.TranslateText("SETTINGS")</li>
+                <li id="PETags" class="PointDetailMenuItem"><span><img /></span>@FMBaseController.TranslateText("TAGS")</li>
+                <li id="PEModules" class="PointDetailMenuItem"><span><img /></span>@FMBaseController.TranslateText("MODULES")</li>
+                <li id="PEAlarms" class="PointDetailMenuItem"><span><img /></span>@FMBaseController.TranslateText("ALARMS")</li>
+            </ul>
+
+            <div style="position: absolute; right: 55px; padding-top: 5px; padding-bottom: 5px">
+                <button id="ApplyButtonId" type="submit" onclick="ApplyButtonOnClick() " class="formfieldtitle pushButton"
+                        style="width: 140px; @ApplyButtonCusor" @ApplyButtonDisable>
+                    @FMBaseController.TranslateText("&Apply")
+                </button>
+            </div>
+        </div>
+
+        <div class="row">
+            @using (Model.IsTemplatePoint ? Html.BeginForm("PointsCustomTemplateEdit", "PointCustomTemplateDetail", FormMethod.Post, new { @class = "", @id = "pointPropertiesForm" }) : Html.BeginForm("PointsEdit", "Points", FormMethod.Post, new {@class = "",@id = "pointPropertiesForm"}))
+            {
+                <input id="PointTagSelectedIndex" name="PointTagSelectedIndex" type="hidden" value="" />
+                <input id="PointMenuSrvURL" type="hidden" value="@Url.Action("GetListOfPointsPartialView", "Points")" />
+                <input id="ImageSelectionSrvURL" type="hidden" value="@Url.Action("GetListOfImagesPartialView", "PointCustomTemplateDetail")"/>
+                @Html.Hidden("urlEditPointTemplateTags", @Url.Action("EditValueForUI", "EditValue"))
+                @Html.HiddenFor(model => model.IdentityGuid)
+                @Html.HiddenFor(model => model.SiteGuid)
+                @Html.HiddenFor(model => model.IsTemplatePoint)
+                @Html.Hidden("StandardPointTemplate", (Model.IsTemplatePoint && Model.PointTemplate.Standard))
+                @Html.Hidden("DerivedPoints", (Model.IsTemplatePoint && Model.PointTemplate.DerivedPointCount > 0))
+                @Html.Hidden("ModifyEnabled", (Model.ModifyEnabled))
+                @Html.Hidden("HasFCEERight", Model.HasFCEERight ? "true" : "false")
+                @Html.Hidden("HasModifyFCEERight", Model.HasModifyFCEERight ? "true" : "false")
+
+                @Html.AntiForgeryToken()
+                {
+                    var tagListObject = Json.Encode(Model.Tags.Select((x, index) => new { index, x.Name, x.PointTagGuid, Units = (int) x.Unit, ServerUnits = (int) x.ServerUnit, EngineeringUnitsType = x.EngineeringUnitsType.ToString(), x.ApplyPointEngineeringUnits, x.ApplyPointDecimalPlaces, x.ApplyPointMinimum, x.ApplyPointMaximum, x.DecimalPlaces, Minimum = x.MinimumRaw, Maximum = x.MaximumRaw, InputOutputType = (int) x.InputOutputType, x.DataType, x.Input }).ToList());
+                    tagListObject = tagListObject.Replace("\"", "\'").Replace("{\"", "{\'");
+                    <input id="PointTagListObject" type="hidden" value='@tagListObject'>
+                    <input id="NumberFormatInfoString" type="hidden" value='@numberFormatInfoString' />
+                    var userGuid = ((SecurityClass) Session["Security"]).UserGuid.ToString();
+                    <input id="UserGuid" type="hidden" value='@userGuid'>
+                }
+
+                <section id="PTTPointEditHolder" class="PESection">
+                    <!-- The scrolling is handled by nicescroll() library. It is set in the document.ready() function. -->
+                    <div id="SettingDivScroll" class="table" style="height: calc(100vh - 80px)">
+                        <div class="row">
+                            @if (Model.IsTemplatePoint == false)
+                            {
+                                <div class="form-group col-sm-1 col-md-1">
+                                    @Html.LabelFor(m => m.PointType, @FMBaseController.TranslateText("POINT TYPE"), new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.PointType, new { id = "PETemplateName", @class = "form-control input-md", maxlength = 50 }).Disable(true)
+                                </div>
+                                <div class="form-group @(Model.IsTemplatePoint == false ? "col-sm-2 col-md-2" : "col-sm-3 col-md-3")">
+                                    @Html.LabelFor(m => m.Name, @FMBaseController.TranslateText("POINT NAME"), new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.Name, (Model.ModifyEnabled) ? (object)new { id = "PEID", @class = "form-control input-md", maxlength = 30 } : new { id = "PEID", @class = "form-control input-md", maxlength = 30, @readonly = "readonly" })
+                                </div>
+                                <div class="form-group col-sm-2 col-md-2" id="pointcategoriesdiv">
+                                    @Html.LabelFor(m => m.Name, @FMBaseController.TranslateText("POINT CATEGORIES"), new { @class = "control-label" })
+                                    <select class="form-control" id="PEPointCategory" multiple="multiple" value="Undefined" @ModifyDisable>
+                                        @foreach (var category in Model.Categories)
+                                        {
+                                            <option value="@category.IdentityGuid" selected=@(Model.Point.PointCategoryCollection.Exists(x => x.ApplicationStringGuid == @category.IdentityGuid) ? "true" : "false")>
+                                                @category.ID
+                                            </option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group  @(Model.IsTemplatePoint == false ? "col-sm-2 col-md-2" : "col-sm-4 col-md-4")">
+                                    @Html.LabelFor(m => m.Description, @FMBaseController.TranslateText("DESCRIPTION"), new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.Description, (Model.ModifyEnabled) ? (object)new { id = "PEDescription", @class = "form-control input-md", maxlength = 50 } : new { id = "PEDescription", @class = "form-control input-md", maxlength = 50, @readonly = "readonly" })
+                                </div>
+
+                                <div class="form-group col-sm-2 col-md-2" id="pointproductdiv">
+                                    @Html.LabelFor(m => m.Description, @FMBaseController.TranslateText("PRODUCT"), new { @class = "control-label" })
+                                    <select class="form-control" id="PEPointProduct" value="Undefined" @ModifyDisable>
+                                        @foreach (var productId in Model.ProductIdList)
+                                        {
+                                            <option value="@productId" selected=@(Model.Point.ProductID == @productId) ? "true" "false" )>
+                                                @productId
+                                            </option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group col-sm-2 col-md-2" id="pointOverrideDefaultDrawingdiv">
+                                    @Html.LabelFor(m => m.OverrideDefaultDrawingGuidString, @FMBaseController.TranslateText("POINT DETAIL"), new { @class = "control-label" })
+                                    <select class="form-control" id="PEPointOverrideDefaultDrawing" value="Undefined" @ModifyDisable>
+                                        @foreach (var drawing in Model.AssociatedDrawings)
+                                        {
+                                            <option value="@drawing.DrawingGuid" selected=@(Model.Point.OverrideDefaultDrawingGuid == @drawing.DrawingGuid) ? "true" "false" )>
+                                                @drawing.ID
+                                            </option>
+                                        }
+                                    </select>
+                                </div>
+
+                                <div class="form-group col-sm-1 col-md-1">
+                                    @Html.LabelFor(m => m.Enabled, @FMBaseController.TranslateText("ENABLED"), new { @class = "control-label" })
+                                    @Html.CheckBoxFor(m => m.Enabled, (@canEnableDisable) ? (object)new { id = "PEEnabled", @class = "checkbox" } : new { id = "PEEnabled", @class = "checkbox", disabled = "disable" })
+
+                                    <div class="form-group" style="margin-bottom: -20px; margin-top: 8px" id="FCEEdiv">
+                                        <span class="PESettingText @buttonClass" style=" @canViewFCEE; min-width: 10px; width: 44px; padding: 5px; height: 28px;" onclick="onFCEEMappingsClick('@Model.IdentityGuid');">@FMBaseController.TranslateText("FCEE")</span>
+                                    </div>
+
+                                </div>
+
+
+
+                            }
+                            else
+                            {
+                                <div class="form-group col-sm-1 col-md-1">
+                                    @Html.LabelFor(m => m.PointType, @FMBaseController.TranslateText("TYPE"), new { @class = "control-label" })
+                                    @{
+                                        var editSettings = !(Model.IsTemplatePoint && (Model.PointTemplate.Standard || Model.PointTemplate.DerivedPointCount > 0)) && Model.ModifyEnabled;
+                                    }
+                                    @Html.DropDownListFor(model => model.PointTypeGuid, Model.ActionListPointTypes, new { @class = "form-control" }).Disable(!editSettings)
+                                </div>
+                                <div class="form-group @(Model.IsTemplatePoint == false ? "col-sm-2 col-md-2" : "col-sm-2 col-md-2")">
+                                    @Html.LabelFor(m => m.Name, @FMBaseController.TranslateText("NAME"), new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.Name, (Model.HasCopyRight && Model.ModifyEnabled) ? (object)new { id = "PEID", @class = "form-control input-md", maxlength = 30 } : new { id = "PEID", @class = "form-control input-md", maxlength = 30, @readonly = "readonly" })
+                                </div>
+                                <div class="form-group  @(Model.IsTemplatePoint == false ? "col-sm-2 col-md-2" : "col-sm-4 col-md-3")">
+                                    @Html.LabelFor(m => m.Description, @FMBaseController.TranslateText("DESCRIPTION"), new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.Description, (Model.ModifyEnabled) ? (object)new { id = "PEDescription", @class = "form-control input-md", maxlength = 50 } : new { id = "PEDescription", @class = "form-control input-md", maxlength = 50, @readonly = "readonly" })
+                                </div>
+                                <div class="form-group col-sm-2 col-md-2" id="pointOverrideDefaultDrawingdiv">
+                                    @Html.LabelFor(m => m.OverrideDefaultDrawingGuidString, @FMBaseController.TranslateText("TEMPLATE DETAIL"), new { @class = "control-label" })
+                                    <select class="form-control" id="PEPointOverrideDefaultDrawing" @TemplateDetailDisable>
+                                        @foreach (var drawing in Model.AssociatedDrawings)
+                                        {
+                                            <option value="@drawing.DrawingGuid" selected=@(Model.OverrideDefaultDrawingGuidString == @drawing.DrawingGuid.ToString()) ? "true" "false" )>
+                                                @drawing.ID
+                                            </option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group col-sm-2 col-md-2">
+                                    @Html.Label(FMBaseController.TranslateText("DEVICE ALARM MAPS"), new { @class = "control-label" })
+                                    @{
+                                        var onDeviceAlarmMapEditClick = (Model.ModifyEnabled) ? "onDeviceAlarmMapsEditClick( '" + Model.IdentityGuid + "' );" : "";
+                                    }
+                                    <div class="@buttonClass" id="PTEEditDeviceAlarmMaps" title='@FMBaseController.TranslateText("Edit Device Alarm Maps")' style="@PCSListCursor" onclick="@onDeviceAlarmMapEditClick">
+                                        <span class="PTESettingImage glyphicon glyphicon-list-alt"></span>
+                                        <span class="PTESettingText">@FMBaseController.TranslateText("OPEN EDITOR")</span>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-2 col-md-2">
+                                    @Html.Label(FMBaseController.TranslateText("POINT COMMANDS-STATUSES"), new { @class = "control-label" })
+                                    @{
+                                        var onPointCommandStatusEditClick = (Model.ModifyEnabled) ? "onPointCommandStatusEditClick( '" + Model.IdentityGuid + "' );" : "";
+                                    }
+                                    <div class="@buttonClass" id="PTEEditPointCommandStatus" title='@FMBaseController.TranslateText("Edit Point Commands-Statuses")' style="@PCSListCursor" onclick="@onPointCommandStatusEditClick">
+                                        <span class="PTESettingImage glyphicon glyphicon-list-alt"></span>
+                                        <span class="PTESettingText">@FMBaseController.TranslateText("OPEN EDITOR")</span>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                        @if (Model.IsTemplatePoint == false)
+                        {
+                            <!-- Notes section -->
+                            <div class="row settingsection">
+                                <a href="#PENotes" data-toggle="collapse" class="col-sm-12 col-md-12 col-lg-12" aria-expanded="true">
+                                    <span class="pull-left separator-label">@FMBaseController.TranslateText("NOTES")</span><span id="expandNotes" class="pull-right"><div class="expand-icon"></div></span>
+                                </a>
+                                <div class="settingsectionhorizontalline"></div>
+                            </div>
+                            <div id="PENotes" class="row collapse in" aria-expanded="true">
+                                <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                                    @Html.TextBoxFor(m => m.Notes, (Model.ModifyEnabled) ? (object) new { id = "PENotes", @class = "form-control input-md", maxlength = 255 }: new { id = "PENotes", @class = "form-control input-md", maxlength = 255, disabled="disabled" })
+                                </div>
+                            </div>
+                            <!-- End Notes section -->
+                        }
+                        <div class="row settingsection">
+                            <a href="#PEGeneralSettings" data-toggle="collapse" class="col-sm-12 col-md-12 col-lg-12" aria-expanded="true">
+                                <span class="pull-left separator-label">@FMBaseController.TranslateText("GENERAL SETTINGS")</span><span id="expandGeneralSetting" class="pull-right"><div class="expand-icon"></div></span>
+                            </a>
+                            <div class="settingsectionhorizontalline"></div>
+                        </div>
+                        <div id="PEGeneralSettings" class="row collapse in" aria-expanded="true">
+                            <div class="row">
+                                <div class="col-sm-4 col-md-4 col-lg-4 text-left">
+                                    <div class="filter-settings filter-addon filter-right-addon pull-left">
+                                        <input id="PEfilter_Settings" type="text" placeholder='@FMBaseController.TranslateText("Filter by Setting Name")' class="form-control" />
+                                        <img alt="Filter Tags" title="Search" src="~/fmwebapp/images/Search Icon.png" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-12 col-lg-12 PESettingPanel">
+                                <div id="PEModulePropertyList" class="list-group">
+                                    @if (Model.IsTemplatePoint == false)
+                                    {
+                                        foreach (var property in Model.Point.Properties)
+                                        {
+                                            var propertyModel = new PropertyModel()
+                                            {
+                                                Site = Model.Site,
+                                                IsTemplatePoint = Model.IsTemplatePoint,
+                                                IsStandard = false,
+                                                DerivedPointCount = 0,
+                                                PointGuid = property.Value.PointGuid,
+                                                PointCommandStatusListDictionary = Model.PointCommandStatusListDictionary,
+                                                PropertyBase = property.Value,
+                                                ModifyEnabled = Model.ModifyEnabled
+                                            };
+                                            @Html.Partial("~/Areas/InventoryManagement/Views/Points/PointSettings.cshtml", propertyModel);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        foreach (var property in Model.PointTemplate.Properties)
+                                        {
+                                            var propertyModel = new PropertyModel()
+                                            {
+                                                Site = Model.Site,
+                                                IsTemplatePoint = Model.IsTemplatePoint,
+                                                IsStandard = Model.PointTemplate.Standard,
+                                                DerivedPointCount = Model.PointTemplate.DerivedPointCount,
+                                                PointGuid = property.Value.PointTemplateGuid,
+                                                PointCommandStatusListDictionary = Model.PointCommandStatusListDictionary,
+                                                PropertyBase = property.Value,
+                                                ModifyEnabled = Model.ModifyEnabled && !Model.PointTemplate.ID.Equals("Standard Tank")
+                                            };
+                                            @Html.Partial("~/Areas/InventoryManagement/Views/Points/PointSettings.cshtml", propertyModel);
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row settingsection">
+                            <a href="#PEDefaultUnits" data-toggle="collapse" class="col-sm-12 col-md-12 col-lg-12" aria-expanded="true">
+                                <span class="pull-left separator-label">@FMBaseController.TranslateText("DEFAULT UNITS")</span><span id="expandDefaultUnits" class="pull-right"><div class="expand-icon"></div></span>
+                            </a>
+                            <div class="settingsectionhorizontalline"></div>
+                        </div>
+                        <div id="PEDefaultUnits" class="row collapse in" aria-expanded="true">
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <table id="PointDefaultUnitGrid1" class="table table-striped table-responsive table-hover FuelsManager-table-header">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-md-3 text-center">@FMBaseController.TranslateText("TYPE")</th>
+                                            <th class="col-md-3 text-center">@FMBaseController.TranslateText("UNITS")</th>
+                                            <th class="col-md-2 text-center">@FMBaseController.TranslateText("PRECISION")</th>
+                                            <th class="col-md-2 text-center">@FMBaseController.TranslateText("MIN")</th>
+                                            <th class="col-md-2 text-center">@FMBaseController.TranslateText("MAX")</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>@Html.LabelFor(m => m.LevelUnit, @FMBaseController.TranslateText("Levels"), new { @class = "control-label" })</td>
+                                            <td>@Html.DropDownListFor(m => m.LevelUnit, EngineeringUnits.GetUnitsByType(EngineeringUnitType.FmuLength).Select(s => new SelectListItem { Text = EngineeringUnits.GetUnitAbbreviation(s), Value = ((int)s).ToString() }).OrderBy(x => x.Text), (Model.ModifyEnabled) ? (object)new { @class = "form-control tagDefaultUnits", id = "PELevelEngineeringUnits", name = "PELevelEngineeringUnits" } : new { @class = "form-control tagDefaultUnits", id = "PELevelEngineeringUnits", name = "PELevelEngineeringUnits", disabled = "disabled" })</td>
+                                            <td>@Html.TextBoxFor(m => m.LevelDecimalPlaces, (Model.ModifyEnabled) ? (object)new { id = "PELevelDecimalPlaces", @class = "form-control input-md text-right tagDefaultDecimalPlaces", maxlength = 2 } : new { id = "PELevelDecimalPlaces", @class = "form-control input-md text-right tagDefaultDecimalPlaces", maxlength = 2, @readonly = "readonly" })</td>
+                                            <td>@Html.TextBoxFor(m => m.LevelMinimum, (Model.ModifyEnabled) ? (object)new { id = "PELevelMinimum", @class = "form-control input-md text-right tagDefaultMinimum", data_raw_value = ((double)Model.LevelMinimumRaw).ToString("G") } : new { id = "PELevelMinimum", @class = "form-control input-md text-right tagDefaultMinimum", @readonly = "readonly", data_raw_value = ((double)Model.LevelMinimumRaw).ToString("G") })</td>
+                                            <td>@Html.TextBoxFor(m => m.LevelMaximum, (Model.ModifyEnabled) ? (object)new { id = "PELevelMaximum", @class = "form-control input-md text-right tagDefaultMaximum", data_raw_value = ((double)Model.LevelMaximumRaw).ToString("G") } : new { id = "PELevelMaximum", @class = "form-control input-md text-right tagDefaultMaximum", @readonly = "readonly", data_raw_value = ((double)Model.LevelMaximumRaw).ToString("G") })</td>
+                                        </tr>
+                                        <tr>
+                                            <td>@Html.LabelFor(m => m.TemperatureUnit, @FMBaseController.TranslateText("Temperatures"), new { @class = "control-label" })</td>
+                                            <td>@Html.DropDownListFor(m => m.TemperatureUnit, EngineeringUnits.GetUnitsByType(EngineeringUnitType.FmuTemp).Select(s => new SelectListItem { Text = EngineeringUnits.GetUnitAbbreviation(s), Value = ((int)s).ToString() }).OrderBy(x => x.Text), (Model.ModifyEnabled) ? (object)new { @class = "form-control tagDefaultUnits", id = "PETemperatureEngineeringUnits", name = "PETemperatureEngineeringUnit" } : new { @class = "form-control tagDefaultUnits", id = "PETemperatureEngineeringUnits", name = "PETemperatureEngineeringUnit", disabled = "disabled" })</td>
+                                            <td>@Html.TextBoxFor(m => m.TemperatureDecimalPlaces, (Model.ModifyEnabled) ? (object)new { id = "PETemperatureDecimalPlaces", @class = "form-control input-md text-right tagDefaultDecimalPlaces", maxlength = 2 } : new { id = "PETemperatureDecimalPlaces", @class = "form-control input-md text-right tagDefaultDecimalPlaces", maxlength = 2, @readonly = "readonly" })</td>
+                                            <td>@Html.TextBoxFor(m => m.TemperatureMinimum, (Model.ModifyEnabled) ? (object)new { id = "PETemperatureMinimum", @class = "form-control input-md text-right tagDefaultMinimum", data_raw_value = ((double)Model.TemperatureMinimumRaw).ToString("G") } : new { id = "PETemperatureMinimum", @class = "form-control input-md text-right tagDefaultMinimum", data_raw_value = ((double)Model.TemperatureMinimumRaw).ToString("G"), @readonly = "readonly" })</td>
+                                            <td>@Html.TextBoxFor(m => m.TemperatureMaximum, (Model.ModifyEnabled) ? (object)new { id = "PETemperatureMaximum", @class = "form-control input-md text-right tagDefaultMaximum", data_raw_value = ((double)Model.TemperatureMaximumRaw).ToString("G") } : new { id = "PETemperatureMaximum", @class = "form-control input-md text-right tagDefaultMaximum", data_raw_value = ((double)Model.TemperatureMaximumRaw).ToString("G"), @readonly = "readonly" })</td>
+                                        </tr>
+                                        <tr>
+                                            <td>@Html.LabelFor(m => m.DensityUnit, @FMBaseController.TranslateText("Densities"), new { @class = "control-label" })</td>
+                                            <td>@Html.DropDownListFor(m => m.DensityUnit, EngineeringUnits.GetUnitsByType(EngineeringUnitType.FmuDensity).Select(s => new SelectListItem { Text = EngineeringUnits.GetUnitAbbreviation(s), Value = ((int)s).ToString() }).OrderBy(x => x.Text), (Model.ModifyEnabled) ? (object)new { @class = "form-control tagDefaultUnits", id = "PEDensityEngineeringUnits", name = "PEDensityEngineeringUnits" } : new { @class = "form-control tagDefaultUnits", id = "PEDensityEngineeringUnits", name = "PEDensityEngineeringUnits", disabled = "disabled" })</td>
+                                            <td>@Html.TextBoxFor(m => m.DensityDecimalPlaces, (Model.ModifyEnabled) ? (object)new { id = "PEDensityDecimalPlaces", @class = "form-control input-md text-right tagDefaultDecimalPlaces", maxlength = 2 } : new { id = "PEDensityDecimalPlaces", @class = "form-control input-md text-right tagDefaultDecimalPlaces", maxlength = 2, @readonly = "readonly" })</td>
+                                            <td>@Html.TextBoxFor(m => m.DensityMinimum, (Model.ModifyEnabled) ? (object)new { id = "PEDensityMinimum", @class = "form-control input-md text-right tagDefaultMinimum", data_raw_value = ((double)Model.DensityMinimumRaw).ToString("G") } : new { id = "PEDensityMinimum", @class = "form-control input-md text-right tagDefaultMinimum", data_raw_value = ((double)Model.DensityMinimumRaw).ToString("G"), @readonly = "readonly" })</td>
+                                            <td>@Html.TextBoxFor(m => m.DensityMaximum, (Model.ModifyEnabled) ? (object)new { id = "PEDensityMaximum", @class = "form-control input-md text-right tagDefaultMaximum", data_raw_value = ((double)Model.DensityMaximumRaw).ToString("G") } : new { id = "PEDensityMaximum", @class = "form-control input-md text-right tagDefaultMaximum", data_raw_value = ((double)Model.DensityMaximumRaw).ToString("G"), @readonly = "readonly" })</td>
+                                        </tr>
+                                        <tr>
+                                            <td>@Html.LabelFor(m => m.PressureUnit, @FMBaseController.TranslateText("Pressures"), new { @class = "control-label" })</td>
+                                            <td>@Html.DropDownListFor(m => m.PressureUnit, EngineeringUnits.GetUnitsByType(EngineeringUnitType.FmuPressure).Select(s => new SelectListItem { Text = EngineeringUnits.GetUnitAbbreviation(s), Value = ((int)s).ToString() }).OrderBy(x => x.Text), (Model.ModifyEnabled) ? (object)new { @class = "form-control tagDefaultUnits", id = "PEPressureEngineeringUnits", name = "PEPressureEngineeringUnits" } : new { @class = "form-control tagDefaultUnits", id = "PEPressureEngineeringUnits", name = "PEPressureEngineeringUnits", disabled = "disabled" })</td>
+                                            <td>@Html.TextBoxFor(m => m.PressureDecimalPlaces, (Model.ModifyEnabled) ? (object)new { id = "PEPressureDecimalPlaces", @class = "form-control input-md text-right tagDefaultDecimalPlaces", maxlength = 2 } : new { id = "PEPressureDecimalPlaces", @class = "form-control input-md text-right tagDefaultDecimalPlaces", maxlength = 2, @readonly = "readonly" })</td>
+                                            <td>@Html.TextBoxFor(m => m.PressureMinimum, (Model.ModifyEnabled) ? (object)new { id = "PEPressureMinimum", @class = "form-control input-md text-right tagDefaultMinimum", data_raw_value = ((double)Model.PressureMinimumRaw).ToString("G") } : new { id = "PEPressureMinimum", @class = "form-control input-md text-right tagDefaultMinimum", data_raw_value = ((double)Model.PressureMinimumRaw).ToString("G"), @readonly = "readonly" })</td>
+                                            <td>@Html.TextBoxFor(m => m.PressureMaximum, (Model.ModifyEnabled) ? (object)new { id = "PEPressureMaximum", @class = "form-control input-md text-right tagDefaultMaximum", data_raw_value = ((double)Model.PressureMaximumRaw).ToString("G") } : new { id = "PEPressureMaximum", @class = "form-control input-md text-right tagDefaultMaximum", data_raw_value = ((double)Model.PressureMaximumRaw).ToString("G"), @readonly = "readonly" })</td>
+                                        </tr>
+                                        <tr>
+                                            <td>@Html.LabelFor(m => m.VolumeUnit, @FMBaseController.TranslateText("Volumes"), new { @class = "control-label" })</td>
+                                            <td>@Html.DropDownListFor(m => m.VolumeUnit, EngineeringUnits.GetUnitsByType(EngineeringUnitType.FmuVolume).Select(s => new SelectListItem { Text = EngineeringUnits.GetUnitAbbreviation(s), Value = ((int)s).ToString() }).OrderBy(x => x.Text), (Model.ModifyEnabled) ? (object)new { @class = "form-control tagDefaultUnits", id = "PEVolumeEngineeringUnits", name = "PEVolumeEngineeringUnits" } : new { @class = "form-control tagDefaultUnits", id = "PEVolumeEngineeringUnits", name = "PEVolumeEngineeringUnits", disabled = "disabled" })</td>
+                                            <td>@Html.TextBoxFor(m => m.VolumeDecimalPlaces, (Model.ModifyEnabled) ? (object)new { id = "PEVolumeDecimalPlaces", @class = "form-control input-md text-right tagDefaultDecimalPlaces", maxlength = 2 } : new { id = "PEVolumeDecimalPlaces", @class = "form-control input-md text-right tagDefaultDecimalPlaces", maxlength = 2, @readonly = "readonly" })</td>
+                                            <td>@Html.TextBoxFor(m => m.VolumeMinimum, (Model.ModifyEnabled) ? (object)new { id = "PEVolumeMinimum", @class = "form-control input-md text-right tagDefaultMinimum", data_raw_value = ((double)Model.VolumeMinimumRaw).ToString("G") } : new { id = "PEVolumeMinimum", @class = "form-control input-md text-right tagDefaultMinimum", data_raw_value = ((double)Model.VolumeMinimumRaw).ToString("G"), @readonly = "readonly" })</td>
+                                            <td>@Html.TextBoxFor(m => m.VolumeMaximum, (Model.ModifyEnabled) ? (object)new { id = "PEVolumeMaximum", @class = "form-control input-md text-right tagDefaultMaximum", data_raw_value = ((double)Model.VolumeMaximumRaw).ToString("G") } : new { id = "PEVolumeMaximum", @class = "form-control input-md text-right tagDefaultMaximum", data_raw_value = ((double)Model.VolumeMaximumRaw).ToString("G"), @readonly = "readonly" })</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <table id="PointDefaultUnitGrid2" class="table table-striped table-responsive table-hover FuelsManager-table-header">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-md-3 text-center">@FMBaseController.TranslateText("TYPE")</th>
+                                            <th class="col-md-3 text-center">@FMBaseController.TranslateText("UNITS")</th>
+                                            <th class="col-md-2 text-center">@FMBaseController.TranslateText("PRECISION")</th>
+                                            <th class="col-md-2 text-center">@FMBaseController.TranslateText("MIN")</th>
+                                            <th class="col-md-2 text-center">@FMBaseController.TranslateText("MAX")</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>@Html.LabelFor(m => m.MassUnit, @FMBaseController.TranslateText("Mass"), new { @class = "control-label" })</td>
+                                            <td>@Html.DropDownListFor(m => m.MassUnit, EngineeringUnits.GetUnitsByType(EngineeringUnitType.FmuMass).Select(s => new SelectListItem { Text = EngineeringUnits.GetUnitAbbreviation(s), Value = ((int)s).ToString() }).OrderBy(x => x.Text), (Model.ModifyEnabled) ? (object)new { @class = "form-control tagDefaultUnits", id = "PEMassEngineeringUnits", name = "PEMassEngineeringUnits" } : new { @class = "form-control tagDefaultUnits", id = "PEMassEngineeringUnits", name = "PEMassEngineeringUnits", disabled = "disabled" })</td>
+                                            <td>@Html.TextBoxFor(m => m.MassDecimalPlaces, (Model.ModifyEnabled) ? (object)new { id = "PEMassDecimalPlaces", @class = "form-control input-md text-right tagDefaultDecimalPlaces", maxlength = 2 } : new { id = "PEMassDecimalPlaces", @class = "form-control input-md text-right tagDefaultDecimalPlaces", maxlength = 2, @readonly = "readonly" })</td>
+                                            <td>@Html.TextBoxFor(m => m.MassMinimum, (Model.ModifyEnabled) ? (object)new { id = "PEMassMinimum", @class = "form-control input-md text-right tagDefaultMinimum", data_raw_value = ((double)Model.MassMinimumRaw).ToString("G") } : new { id = "PEMassMinimum", @class = "form-control input-md text-right tagDefaultMinimum", data_raw_value = ((double)Model.MassMinimumRaw).ToString("G"), @readonly = "readonly" })</td>
+                                            <td>@Html.TextBoxFor(m => m.MassMaximum, (Model.ModifyEnabled) ? (object)new { id = "PEMassMaximum", @class = "form-control input-md text-right tagDefaultMaximum", data_raw_value = ((double)Model.MassMaximumRaw).ToString("G") } : new { id = "PEMassMaximum", @class = "form-control input-md text-right tagDefaultMaximum", data_raw_value = ((double)Model.MassMaximumRaw).ToString("G"), @readonly = "readonly" })</td>
+                                        </tr>
+                                        <tr>
+                                            <td>@Html.LabelFor(m => m.VelocityUnit, @FMBaseController.TranslateText("Level Rates"), new { @class = "control-label" })</td>
+                                            <td>@Html.DropDownListFor(m => m.VelocityUnit, EngineeringUnits.GetUnitsByType(EngineeringUnitType.FmuVelocity).Select(s => new SelectListItem { Text = EngineeringUnits.GetUnitAbbreviation(s), Value = ((int)s).ToString() }).OrderBy(x => x.Text), (Model.ModifyEnabled) ? (object)new { @class = "form-control tagDefaultUnits", id = "PEVelocityEngineeringUnits", name = "PEVelocityEngineeringUnits" } : new { @class = "form-control tagDefaultUnits", id = "PEVelocityEngineeringUnits", name = "PEVelocityEngineeringUnits", disabled = "disabled" })</td>
+                                            <td>@Html.TextBoxFor(m => m.VelocityDecimalPlaces, (Model.ModifyEnabled) ? (object)new { id = "PEVelocityDecimalPlaces", @class = "form-control input-m text-right tagDefaultDecimalPlaces", maxlength = 2 } : new { id = "PEVelocityDecimalPlaces", @class = "form-control input-m text-right tagDefaultDecimalPlaces", maxlength = 2, @readonly = "readonly" })</td>
+                                            <td>@Html.TextBoxFor(m => m.VelocityMinimum, (Model.ModifyEnabled) ? (object)new { id = "PEVelocityMinimum", @class = "form-control input-md text-right tagDefaultMinimum", data_raw_value = ((double)Model.VelocityMinimumRaw).ToString("G") } : new { id = "PEVelocityMinimum", @class = "form-control input-md text-right tagDefaultMinimum", data_raw_value = ((double)Model.VelocityMinimumRaw).ToString("G"), @readonly = "readonly" })</td>
+                                            <td>@Html.TextBoxFor(m => m.VelocityMaximum, (Model.ModifyEnabled) ? (object)new { id = "PEVelocityMaximum", @class = "form-control input-md text-right tagDefaultMaximum", data_raw_value = ((double)Model.VelocityMaximumRaw).ToString("G") } : new { id = "PEVelocityMaximum", @class = "form-control input-md text-right tagDefaultMaximum", data_raw_value = ((double)Model.VelocityMaximumRaw).ToString("G"), @readonly = "readonly" })</td>
+                                        </tr>
+                                        <tr>
+                                            <td>@Html.LabelFor(m => m.FlowUnit, @FMBaseController.TranslateText("Volume Rates"), new { @class = "control-label" })</td>
+                                            <td>@Html.DropDownListFor(m => m.FlowUnit, EngineeringUnits.GetUnitsByType(EngineeringUnitType.FmuVolflow).Select(s => new SelectListItem { Text = EngineeringUnits.GetUnitAbbreviation(s), Value = ((int)s).ToString() }).OrderBy(x => x.Text), (Model.ModifyEnabled) ? (object)new { @class = "form-control tagDefaultUnits", id = "PEVolumetricFlowEngineeringUnits", name = "PEVolumetricFlowEngineeringUnits" } : new { @class = "form-control tagDefaultUnits", id = "PEVolumetricFlowEngineeringUnits", name = "PEVolumetricFlowEngineeringUnits", disabled = "disabled" })</td>
+                                            <td>@Html.TextBoxFor(m => m.FlowDecimalPlaces, (Model.ModifyEnabled) ? (object)new { id = "PEVolumetricFlowDecimalPlaces", @class = "form-control input-md text-right tagDefaultDecimalPlaces", maxlength = 2 } : new { id = "PEVolumetricFlowDecimalPlaces", @class = "form-control input-md text-right tagDefaultDecimalPlaces", maxlength = 2, @readonly = "readonly" })</td>
+                                            <td>@Html.TextBoxFor(m => m.VolumetricFlowMinimum, (Model.ModifyEnabled) ? (object)new { id = "PEVolumetricFlowMinimum", @class = "form-control input-md text-right tagDefaultMinimum", data_raw_value = ((double)Model.VolumetricFlowMinimumRaw).ToString("G") } : new { id = "PEVolumetricFlowMinimum", @class = "form-control input-md text-right tagDefaultMinimum", data_raw_value = ((double)Model.VolumetricFlowMinimumRaw).ToString("G"), @readonly = "readonly" })</td>
+                                            <td>@Html.TextBoxFor(m => m.VolumetricFlowMaximum, (Model.ModifyEnabled) ? (object)new { id = "PEVolumetricFlowMaximum", @class = "form-control input-md text-right tagDefaultMaximum", data_raw_value = ((double)Model.VolumetricFlowMaximumRaw).ToString("G") } : new { id = "PEVolumetricFlowMaximum", @class = "form-control input-md text-right tagDefaultMaximum", data_raw_value = ((double)Model.VolumetricFlowMaximumRaw).ToString("G"), @readonly = "readonly" })</td>
+                                        </tr>
+                                        <tr>
+                                            <td>@Html.LabelFor(m => m.MassFlowUnit, @FMBaseController.TranslateText("Mass Rates"), new { @class = "control-label" })</td>
+                                            <td>@Html.DropDownListFor(m => m.MassFlowUnit, EngineeringUnits.GetUnitsByType(EngineeringUnitType.FmuMassflow).Select(s => new SelectListItem { Text = EngineeringUnits.GetUnitAbbreviation(s), Value = ((int)s).ToString() }).OrderBy(x => x.Text), (Model.ModifyEnabled) ? (object)new { @class = "form-control tagDefaultUnits", id = "PEMassFlowEngineeringUnits", name = "PEMassFlowEngineeringUnits" } : new { @class = "form-control tagDefaultUnits", id = "PEMassFlowEngineeringUnits", name = "PEMassFlowEngineeringUnits", disabled = "disabled" })</td>
+                                            <td>@Html.TextBoxFor(m => m.MassFlowDecimalPlaces, (Model.ModifyEnabled) ? (object)new { id = "PEMassFlowDecimalPlaces", @class = "form-control input-md text-right tagDefaultDecimalPlaces", maxlength = 2 } : new { id = "PEMassFlowDecimalPlaces", @class = "form-control input-md text-right tagDefaultDecimalPlaces", maxlength = 2, @readonly = "readonly" })</td>
+                                            <td>@Html.TextBoxFor(m => m.MassFlowMinimum, (Model.ModifyEnabled) ? (object)new { id = "PEMassFlowMinimum", @class = "form-control input-md text-right tagDefaultMinimum", data_raw_value = ((double)Model.MassFlowMinimumRaw).ToString("G") } : new { id = "PEMassFlowMinimum", @class = "form-control input-md text-right tagDefaultMinimum", data_raw_value = ((double)Model.MassFlowMinimumRaw).ToString("G"), @readonly = "readonly" })</td>
+                                            <td>@Html.TextBoxFor(m => m.MassFlowMaximum, (Model.ModifyEnabled) ? (object)new { id = "PEMassFlowMaximum", @class = "form-control input-md text-right tagDefaultMaximum", data_raw_value = ((double)Model.MassFlowMaximumRaw).ToString("G") } : new { id = "PEMassFlowMaximum", @class = "form-control input-md text-right tagDefaultMaximum", data_raw_value = ((double)Model.MassFlowMaximumRaw).ToString("G"), @readonly = "readonly" })</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+                <section id="PTTTagEditHolder" class="PESection hidden">
+                    @if (Model.IsTemplatePoint == false)
+                    {
+                        Html.RenderPartial("PointsDetailTags");
+                    }
+                    else
+                    {
+                        Html.RenderPartial("PointCustomTemplateDetailTags");
+                    }
+                </section>
+
+                <section id="PTTModuleEditHolder" class="PESection hidden">
+                    @if (Model.IsTemplatePoint == false)
+                    {
+                        Html.RenderPartial("PointsDetailModules");
+                    }
+                    else
+                    {
+                        Html.RenderPartial("PointCustomTemplateDetailModules");
+                    }
+                </section>
+                <section id="PTTAlarmEditHolder" class="PESection hidden">
+                    @if (Model.IsTemplatePoint == true)
+                    {
+                        Html.RenderPartial("PointCustomTemplateDetailAlarms", @Model.Alarms);
+                    }
+                </section>}
+        </div>
+        <div id="dialogboxmessages" class="hidden">
+            <div id="confirm-scaling-confirmation-dialog" title="Confirm Scaling Change">
+                <p>@FMBaseController.TranslateText("PointEditor|New Units Selected.")<br />@FMBaseController.TranslateText("PointEditor|Rescale All Associated Data Values?")</p>
+            </div>
+            <div id="confirm-name-confirmation-dialog" title="Confirm Name Change">
+                <p>@FMBaseController.TranslateText("PointEditor|A new template name was entered.")<br />@FMBaseController.TranslateText("PointEditor|Continue using the new template name?")</p>
+            </div>
+            <div id="confirm-range-confirmation-dialog" title="Confirm Range Change">
+                <p>@FMBaseController.TranslateText("PointEditor|New Range value was entered.")<br />@FMBaseController.TranslateText("PointEditor|Rescale All Associated Alarm Limits and Deadband?")<br />@FMBaseController.TranslateText("PointEditor|If you choose No, some limits may be out of range!")</p>
+            </div>
+        </div>
+        <!-- Modal -->
+        @{
+            var saveButton = @FMBaseController.TranslateText("&Save");
+            var closeButton = @FMBaseController.TranslateText("&Close");
+        }
+        <div class="row">
+            <div id="ModulePropertyEditorPropertyScreen" class="modal fade modal-lg" data-backdrop="static" data-focus-on="input:visible:first" role="dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 id="PMEEditorNamePropertyScreen" class="modal-title">Editor</h4>
+                    </div>
+                    <div class="modal-body">
+                        <section id="moduleEditorPropertyScreen" class=""></section>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-toolbar">
+                            <div class="pull-left">
+
+                            </div>
+                            <div class="pull-right">
+                                <button id="PEMPESavePropertyScreen" type="button" class="formfieldtitle pushButton" style="width: 100px;" accessKey="@FMControls.GetAccessKey( saveButton )">
+                                    @Html.Raw(FMControls.FormatButtonText(saveButton))
+                                </button>
+                                <button id="PEMPEClosePropertyScreen" type="button" class="formfieldtitle pushButton" data-dismiss="modal" style="width: 100px;" accessKey="@FMControls.GetAccessKey( closeButton )">
+                                    @Html.Raw(FMControls.FormatButtonText(closeButton))
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @{
+            var applyButton = @FMBaseController.TranslateText("&Apply");
+            var cancelButton = @FMBaseController.TranslateText("&Cancel");
+        }
+        <!-- OPC Modal -->
+        <div class="row">
+            <div id="OPCEditorModal" class="modal fade modal-lg" data-width="1000" data-backdrop="static" data-focus-on="input:first" role="dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <section id="OPCEditorScreen" class=""></section>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-toolbar">
+                            <div class="pull-left">
+
+                            </div>
+                            <div class="pull-right">
+                                <button id="PEMPESaveOPCEditor" type="button" class="formfieldtitle pushButton" accessKey="@FMControls.GetAccessKey( applyButton )">
+                                    @Html.Raw(FMControls.FormatButtonText(applyButton))
+                                </button>
+                                <button id="PEMPECloseOPCEditor" type="button" class="formfieldtitle pushButton" data-dismiss="modal" accessKey="@FMControls.GetAccessKey( cancelButton )">
+                                    @Html.Raw(FMControls.FormatButtonText(cancelButton))
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PointValueConfigurationEditor Modal -->
+        <div class="row">
+            <div id="PointValueConfigurationEditorModal" class="modal fade modal-lg" data-backdrop="static" data-focus-on="input:first" role="dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <section id="PointValueConfigurationEditorScreen" class=""></section>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-toolbar">
+                            <div class="pull-left">
+
+                            </div>
+                            <div class="pull-right">
+                                <button id="PEMPESavePointValueConfigurationEditor" type="button" class="formfieldtitle pushButton" accessKey="@FMControls.GetAccessKey(applyButton)">
+                                    @Html.Raw(FMControls.FormatButtonText(applyButton))
+                                </button>
+                                <button id="PEMPEClosePointValueConfigurationEditor" type="button" class="formfieldtitle pushButton" data-dismiss="modal" accessKey="@FMControls.GetAccessKey(cancelButton)">
+                                    @Html.Raw(FMControls.FormatButtonText(cancelButton))
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Point Command Editor Modal -->
+        <div class="row">
+            <div id="PointCommandStatusEditorScreen" class="modal fade" data-backdrop="static" data-focus-on="input:first" role="dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <section id="pointCommandStatusEditorBody" class=""></section>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-toolbar">
+                            <div class="pull-left">
+
+                            </div>
+                            <div class="pull-right">
+                                <button id="PCESaveButton" type="button" class="formfieldtitle pushButton" accessKey="s" style="width: 100px;" onclick='$("#PointCommandStatusEditorScreen").find("form").submit()'>
+                                    @FMBaseController.TranslateText("&Save")
+                                </button>
+                                <button id="PCECloseButton" type="button" class="formfieldtitle pushButton" accessKey="c" data-dismiss="modal" style="width: 100px;">
+                                    @FMBaseController.TranslateText("&Close")
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Device Alarm Maps Editor Modal -->
+        <div class="row">
+            <div id="DeviceAlarmMapsEditorScreen" class="modal fade" data-keyboard="false" data-backdrop="static" data-focus-on="input:first" role="dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <section id="DeviceAlarmMapsEditorBody" class=""></section>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-toolbar">
+                            <div class="pull-left">
+
+                            </div>
+                            <div class="pull-right">
+                                <button id="DAMESaveButton" type="button" class="formfieldtitle pushButton" accessKey="s" style="width: 100px;" onclick='$("#DeviceAlarmMapsEditorScreen").find("form").submit()'>
+                                    @FMBaseController.TranslateText("&Save")
+                                </button>
+                                <button id="DAMECloseButton" type="button" class="formfieldtitle pushButton" accessKey="c" data-dismiss="modal" style="width: 100px;">
+                                    @FMBaseController.TranslateText("&Close")
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dialog Messages -->
+        <div class="hidden">
+            <div id="dialog-save-confirm" title="@FMBaseController.TranslateText("Save To Continue")">
+                <p>@FMBaseController.TranslateText("Do you want to save before proceeding?")</p>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    $(document).ready(function () {
+
+        var okButton = $('#DAMESaveButton');   //bds
+        ampersandIndex = okButton.text().indexOf('&');
+        if (ampersandIndex !== -1) {
+            var hotKey = okButton.text().charAt(ampersandIndex + 1);
+            okButton.html(okButton.text().replace('&' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+            okButton.attr('accesskey', hotKey);
+        }
+
+
+        var cancelButton = $('#DAMECloseButton');   //bds
+        ampersandIndex = cancelButton.text().indexOf('&');
+        if (ampersandIndex !== -1) {
+            var hotKey = cancelButton.text().charAt(ampersandIndex + 1);
+            cancelButton.html(cancelButton.text().replace('&' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+            cancelButton.attr('accesskey', hotKey);
+        }
+
+        var pceokButton = $('#PCESaveButton');   //bds
+        ampersandIndex = pceokButton.text().indexOf('&');
+        if (ampersandIndex !== -1) {
+            var hotKey = pceokButton.text().charAt(ampersandIndex + 1);
+            pceokButton.html(pceokButton.text().replace('&' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+            pceokButton.attr('accesskey', hotKey);
+        }
+
+
+        var pcecancelButton = $('#PCECloseButton');   //bds
+        ampersandIndex = pcecancelButton.text().indexOf('&');
+        if (ampersandIndex !== -1) {
+            var hotKey = pcecancelButton.text().charAt(ampersandIndex + 1);
+            pcecancelButton.html(pcecancelButton.text().replace('&' + hotKey, '<span style="text-decoration: underline;">' + hotKey + '</span>'));
+            pcecancelButton.attr('accesskey', hotKey);
+		}
+    });
+    // when the save button in the Module Property Editor modal is clicked just submit the form inside the editor
+	$("#PEMPESavePropertyScreen").click(
+		function ()
+		{
+			$("#ModulePropertyEditorPropertyScreen").find('form').submit();
+		});
+	// when the apply button in the OPC Editor modal is clicked just submit the form inside the editor
+	$("#PEMPESaveOPCEditor").click(
+		function ()
+		{
+			$("#OPCEditorScreen").find('#opcUaBrowserForm').submit();
+		});
+	// when the apply button in the Point Value Configuration Editor modal is clicked just submit the form inside the editor
+	$("#PEMPESavePointValueConfigurationEditor").click(
+		function ()
+		{
+			$("#PEMPESavePointValueConfigurationEditor").attr("disabled", true);
+			$("#PointValueConfigurationEditorScreen").find('form').submit();
+			$("#PEMPESavePointValueConfigurationEditor").attr("disabled", false);
+		});
+
+	$("#PCECloseButton").click(
+		function () {
+			$('#PointCommandStatusEditorScreen').show();
+
+			$('.tab-content .dataTable').each(function (index, table) {
+				$(table).DataTable().destroy();
+			});
+
+
+			$('#pointCommandStatusEditorBody').html('');
+		}
+	);
+
+	$("#DAMECloseButton").click(
+		function () {
+			$('#DeviceAlarmMapsEditorScreen').show();
+
+			$('.tab-content .dataTable').each(function (index, table) {
+				$(table).DataTable().destroy();
+			});
+
+			$('#DeviceAlarmMapsEditorBody').html('');
+		}
+	);
+
+	window.ReloadAfterFCEE = false;
+
+	$("#PEMPEClosePropertyScreen").click(
+		function () {
+			if (window.ReloadAfterFCEE) {
+				window.ReloadAfterFCEE = false;
+				window.location.reload();
+			}
+			else {
+				$('#DeviceAlarmMapsEditorBody').html('');
+				$(".modal-header").show();
+				$("#moduleEditorPropertyScreen").html('');
+				$("#ModulePropertyEditorPropertyScreen .modal-footer .btn-toolbar .pull-left").html('');
+			}
+
+		}
+	);
+
+
+
+	function PointTemplateRedirect(Guid)
+								{
+									var newUrl = "?target=../InventoryManagement/PointCustomTemplateDetail/PointTemplateDetail/"+Guid+"&CSRFToken=@Session["CSRFToken"]";
+									window.top.location.search = newUrl;
+								}
+
+</script>

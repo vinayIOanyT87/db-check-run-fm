@@ -1,0 +1,39 @@
+﻿@using FuelsManager.Areas.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.PointEditDetailModel
+
+<div class="row">
+	<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+		<div class="PESectionLink text-center" id="PEModules">
+			<label>@FMBaseController.TranslateText("Modules")</label>
+			<div class="filter-settings filter-addon filter-right-addon pull-right">
+				<input id="PEfilter_modules" type="text" placeholder="Filter by Module Name" class="form-control">
+				<img alt="Filter Modules" title="Search" src="~/fmwebapp/images/Search Icon.png">
+			</div>
+		</div>
+		<ul id="PTTModuleList" class="list-group">
+			@foreach (var module in Model.Point.ModuleInstances)
+			{
+				<li class="list-group-item ModuleDetails" data-filtertext="@module.Value.ID" data-target="#@module.Value.ModuleToPointTemplateGuid" onclick=" onModuleClick( '@module.Value.ModuleToPointTemplateGuid', '@Model.Point.PointGuid' ) ">@module.Value.ID</li>
+			}
+
+		</ul>
+	</div>
+	<div id="ModuleDetails" class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+	</div>
+
+</div>
+
+<script>
+	
+	$(document).ready(function () {
+		// custom scroll bars
+		$("#PTTModuleList").niceScroll( {
+				cursorwidth: '10px',
+				autohidemode: false,
+				cursorcolor: '#486899',
+				background: 'rgb(240, 240, 240)',
+				horizrailenabled: false
+			} );
+	});
+
+</script>

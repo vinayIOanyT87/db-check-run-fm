@@ -1,0 +1,50 @@
+﻿@using FuelsManager.Areas.Controllers
+
+@model FuelsManager.Afss.WebApp.Areas.ExternalStation.Models.GasboyStationGeneralConfigurationModel
+@{
+    Layout = "~/Areas/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .row {
+        max-width: 1000px;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row headline" style="padding-bottom:10px">@FMBaseController.TranslateText("Gasboy Fuel Service Station General Configuration")</div>
+    @using (Html.BeginForm("GasboyStationGeneralConfiguration", "GasboyStation", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.GeneralConfiguration.IdentityGuid)
+        @Html.HiddenFor(m => m.GeneralConfiguration.SiteGuid)
+
+        <div class="row">
+            <div class="col-md-3">
+                @Html.LabelFor(m => m.GeneralConfiguration.RetailSaleTransactionAliasGuid, FMBaseController.TranslateText("Retail Sale Transaction Alias") + ":", new { @class = "formfieldtitle" })
+            </div>
+            <div class="col-md-9 formfield">
+                @Html.DropDownListFor(m => m.GeneralConfiguration.RetailSaleTransactionAliasGuid, new SelectList(Model.TransactionAliasNames, "MasterRecordGuid", "AliasName"), string.Empty, new { style = "width: 200px;" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                @Html.LabelFor(m => m.GeneralConfiguration.DownloadTransactionsIntervalMinutes, FMBaseController.TranslateText("Transaction Download Interval (minutes)") + ":", new { @class = "formfieldtitle" })
+            </div>
+            <div class="col-md-3 formfield">
+                @Html.TextBoxFor(m => m.GeneralConfiguration.DownloadTransactionsIntervalMinutes, new { @class = "formfield", @maxlength = "4" } )
+            </div>
+            <div class="col-md-3">
+                @Html.LabelFor(m => m.GeneralConfiguration.DownloadEventsIntervalMinutes, FMBaseController.TranslateText("Event Download Interval (minutes)") + ":", new { @class = "formfieldtitle" })
+            </div>
+            <div class="col-md-3 formfield">
+                @Html.TextBoxFor(m => m.GeneralConfiguration.DownloadEventsIntervalMinutes, new { @class = "formfield", @maxlength = "4" })
+            </div>
+        </div>
+    <div class="row" style="margin-top: 15px">
+        <div class="col-md-3"></div>
+        <div class="col-md-10">
+            <input type='submit' value='@FMBaseController.TranslateText("OK")' id="btnOK" name="submitButton" class="formfieldtitle pushButton" />
+        </div>
+    </div>
+    }
+</div>

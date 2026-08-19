@@ -1,0 +1,120 @@
+﻿#DeviceAlarmMapsPartial th {
+    background-color: rgb(242, 242, 242);
+    color: rgb(153, 153, 153);
+    font-size: 14px;
+    border-bottom: 0px;
+}
+
+#DeviceAlarmMapsPartial label {
+    color: rgb(153,153,153) !important;
+}
+
+
+#DeviceAlarmMapsPartial .dataTables_scrollHeadInner {
+        background-color: rgb(242, 242, 242);
+        border-bottom: 1px solid rgb(153, 153, 153);
+}
+
+#DeviceAlarmMapsPartial .selected {
+	  background-color: rgb(230,230,230) !important;
+}
+
+
+#DeviceAlarmMapsPartial .tab-name {
+    margin-bottom: 0px;
+    font-weight: normal;
+}
+
+#DeviceAlarmMapsPartial .tab-rename {
+    color: rgb( 90,126,178);
+    background: transparent;
+    font-weight: bold;
+    border: none;
+}
+#DeviceAlarmMapsPartial .tab-rename:focus {
+    outline-style: none;
+}
+
+.DeviceAlarmMapsNumberColumn {
+	width: 35px;
+}
+
+.ui-front {
+    z-index: 10000 !important;
+}
+
+/* Ensures that the x shows up in the right hand corner
+    of the dialog
+*/
+.ui-dialog .ui-dialog-titlebar-close span {
+        margin: 0;
+    }
+.ui-button-icon-only .ui-icon {
+        bottom: 0px;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        padding: 0;
+    }
+
+#DeviceAlarmMapsPartial h4, #DeviceAlarmMapsPartial h5, #DeviceAlarmMapsPartial h6 {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+#DeviceAlarmMapsPartial .anchor-add-table {
+    height: 35px;
+    margin-top: 8px;
+    width: 30px;
+    padding: 5px 0px 0px 4px !important;
+}
+
+    #DeviceAlarmMapsPartial .anchor-add-table label {
+        background: url("../../fmwebapp/images/Add-Blue.png");
+        width: 0px;
+        height: 0px;
+        padding: 10px 10px 10px 10px;
+        background-repeat: no-repeat;
+    }
+
+.DeviceAlarmMapsHeader {
+	padding: 0px;
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+.DeviceAlarmMapsHeader .close {
+	padding: 5px !important;
+	position: absolute;
+	top: 8px;
+	right: 18px;
+}
+
+.form-control{
+	border-radius: 0px !important;
+}
+
+#DeviceAlarmMapsEditorScreen .modal, #DeviceAlarmMapsEditorScreen .modal-content{
+    background-color: white !important;
+}
+
+#DeviceAlarmMapsEditorScreen .ui-pnotify {
+	  z-index: 1051; /* make sure the notification are above the scroll bars and not hidden by them*/
+}
+
+#DeviceAlarmMapsEditorScreen button[disabled] {
+    cursor: not-allowed;
+}
+
+.DeviceAlarmMapsNameColumn {
+    padding-right: 12px !important;
+}
+
+button.disabled{
+	cursor: not-allowed;
+}
+
+body .modal {
+	width: 750px !important;
+	margin-left: -375px  !important;
+}

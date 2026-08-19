@@ -1,0 +1,851 @@
+﻿@using Varec.CommonComponents.EngineeringUnitsLibrary
+@using FMBusinessObjects.DataObjects
+@using FuelsManager.Areas.Controllers
+@using FuelsManager.Areas.InventoryManagement.Controllers
+@model FuelsManager.Areas.InventoryManagement.ViewModels.ModuleEditorModel
+
+<style>
+		#ModuleEditorDivScroll {
+			padding-top: 15px;
+			height: calc(100vh - 250px);
+			margin-bottom: 0px !important;
+		}
+
+		#ModuleEditorDivScroll .collapse {
+			padding-bottom: 15px;
+		}
+
+
+		#ModuleEditorDivScroll .btn-toolbar {
+			margin-left: 0px;
+		}
+
+		#ModuleEditorDivScroll .separator-label {
+			color: #b2b2b2;
+		}
+
+		.moduleeditorsectionhorizontalline {
+			 margin-left: 175px;
+			 margin-right: 50px;
+			 top: 10px;
+			 border-bottom-style: solid;
+			 height: 10px;
+			 border-width: thin;
+			 border-color: rgb(153,153,153);
+		}
+
+		.settingsection a[aria-expanded=true] .expand-icon {
+			 width: 24px;
+			 height: 25px;
+			 background-image: url('@(Url.Content("~/fmwebapp/images/Selection Up.png"))');
+
+
+		}
+
+		.settingsection a[aria-expanded=false] .expand-icon {
+			 width: 24px;
+			 height: 25px;
+			 background-image: url('@(Url.Content("~/fmwebapp/images/Selection Down.png"))');
+
+
+				 }
+
+		.settingsection a:focus {
+			 outline: none;
+		}
+
+	#editor {
+			 min-height: 500px;
+		}
+
+		.ui-dialog {
+				 z-index: 1070;
+			 }
+
+
+		/* This is for making the controls have a red border when in error. */
+		.has-error .form-control {
+				 border-color: red;
+				 border-width: 3px;
+			 }
+
+		/* This is for making the controls have a red border when in error. */
+		.has-error .form-control:focus {
+			border-color: red;
+			 border-width: 3px;
+		}
+
+		/* This is for making the controls have a red border when in error. */
+		.has-error .ace_editor {
+				 border-color: red;
+				 border-width: 3px;
+				 border-style: solid;
+			 }
+
+		/* This is for making the controls have a red border when in error. */
+		.has-error .ace_editor:focus {
+			border-color: red;
+			 border-width: 3px;
+			 border-style: solid;
+		}
+
+
+		.FuelsManager-table-header th {
+			 color: rgb(153,153,153);
+			 font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+			 font-weight: bold;
+			 line-height: 30px;
+			 border-width: 1px;
+		}
+
+		.booleanImgSelect.disabled {
+			 cursor: not-allowed;
+			 }
+
+		.deleteImg.disabled {
+			 cursor: not-allowed;
+			 }
+
+		.disabled {
+			cursor: not-allowed;
+		}
+
+
+</style>
+
+
+@{
+	var createButton = @FMBaseController.TranslateText("C&reate");
+	var cancelButton = @FMBaseController.TranslateText("&Cancel");
+	var addTagButton = @FMBaseController.TranslateText("&Add Tag");
+	var deleteTagButton = @FMBaseController.TranslateText("&Delete Tag");
+	var addSettingButton = @FMBaseController.TranslateText("A&dd Setting");
+	var deleteSettingButton = @FMBaseController.TranslateText("Delete Setting");
+	var csharpModule = string.IsNullOrEmpty(Model.Module.ModuleScript);
+	var standardModule = Model.Module.Standard;
+	var disabled = (csharpModule || Model.ReadOnly) ? "disabled='disabled'" : "";
+	var addDisabled = (csharpModule || Model.ReadOnly) ? "disabled='disabled'" : "";
+	var deleteDisabled = (csharpModule || Model.ReadOnly) ? "disabled='disabled'" : "";
+	var deleteImg = Url.Content((csharpModule || Model.ReadOnly) ? "~/fmwebapp/images/Delete-column-inactive.png" : "~/fmwebapp/images/Delete-column.png");
+	var deleteImgClass = (csharpModule || Model.ReadOnly) ? "deleteImg disabled" : "deleteImg";
+	var moduleTagInputToggleClass = (csharpModule || Model.ReadOnly) ? "booleanImgSelect disabled" : "booleanImgSelect";
+	var pushButtonCursor = (csharpModule || Model.ReadOnly) ? "cursor: not-allowed !important;" : "";
+	var ReadOnlyDisabled = (Model.ReadOnly) ? "disabled='disabled'" : "";
+
+}
+
+@Html.Hidden("moduleGuid", @Model.Module.ModuleGuid.ToString())
+@Html.Hidden("moduleLibrary", @Model.ModuleLibrary.ToString())
+@Html.Hidden("standardModule", standardModule)
+@Html.Hidden("csharpModule", csharpModule)
+
+@Html.Hidden("Errors", FMBaseController.TranslateText("Errors"))
+@Html.Hidden("ModuleNameMustBeNonNull", FMBaseController.TranslateText("ModuleEditor|Module Name must be non null."))
+@Html.Hidden("ModuleNameMustBeAlphanumeric", FMBaseController.TranslateText("ModuleEditor|Module Name must be alphanumeric."))
+@Html.Hidden("ModuleNameMustBeginWithAlphaCharacter", FMBaseController.TranslateText("ModuleEditor|Module Name must begin with Alphabetic character."))
+@Html.Hidden("TagNameMustBeNonNull", FMBaseController.TranslateText("ModuleEditor|Tag Name must be non null."))
+@Html.Hidden("TagNameMustBeginWithAlphaCharacter", FMBaseController.TranslateText("ModuleEditor|Tag Name must begin with Alphabetic character."))
+@Html.Hidden("TagNameMustBeAlphanumeric", FMBaseController.TranslateText("ModuleEditor|Tag Name must be alphanumeric."))
+@Html.Hidden("TagNameMustNotMatchModuleName", FMBaseController.TranslateText("ModuleEditor|Tag Name must not match Module Name."))
+@Html.Hidden("ParameterNameMustBeNonNull", FMBaseController.TranslateText("ModuleEditor|Parameter Name must be non null."))
+@Html.Hidden("ParameterNameMustBeAlphanumeric", FMBaseController.TranslateText("ModuleEditor|Parameter Name must be alphanumeric with no spaces."))
+@Html.Hidden("ParameterNameMustBeginWithAlphaCharacter", FMBaseController.TranslateText("ModuleEditor|Parameter Name must begin with Alphabetic character."))
+@Html.Hidden("SettingNameMustBeNonNull", FMBaseController.TranslateText("ModuleEditor|Setting Name must be non null."))
+@Html.Hidden("SettingNameMustBeAlphanumeric", FMBaseController.TranslateText("ModuleEditor|Setting Name must be alphanumeric."))
+@Html.Hidden("SettingNameMustBeginWithAlphaCharacter", FMBaseController.TranslateText("ModuleEditor|Setting Name must begin with Alphabetic character."))
+@Html.Hidden("PropertyNameMustBeNonNull", FMBaseController.TranslateText("ModuleEditor|Property Name must be non null."))
+@Html.Hidden("PropertyNameMustBeAlphanumeric", FMBaseController.TranslateText("ModuleEditor|Property Name must be alphanumeric with no spaces."))
+@Html.Hidden("PropertyNameMustBeginWithAlphaCharacter", FMBaseController.TranslateText("ModuleEditor|Property Name must begin with Alphabetic character."))
+@Html.Hidden("DuplicateTags", FMBaseController.TranslateText("ModuleEditor|Duplicate Tag Names."))
+@Html.Hidden("DuplicateParameters", FMBaseController.TranslateText("ModuleEditor|Duplicate Parameter Names."))
+@Html.Hidden("DuplicateSettings", FMBaseController.TranslateText("ModuleEditor|Duplicate Setting Names."))
+@Html.Hidden("DuplicateProperties", FMBaseController.TranslateText("ModuleEditor|Duplicate Property Names."))
+@Html.Hidden("SettingMustNotMatchTag", FMBaseController.TranslateText("ModuleEditor|Setting Name must not match Tag Name."))
+@Html.Hidden("SettingMustHaveRateTag", FMBaseController.TranslateText("ModuleEditor|Setting \"Rate Modules Settings\" must have Tag with Parameter Name \"Rate\"."))
+@Html.Hidden("ReadOnly", (Model.ReadOnly))
+
+
+
+
+
+
+
+
+<div class="row">
+	<div class="form-group col-sm-5 col-md-5">
+		<label class="control-label" for="MEModuleName">@FMBaseController.TranslateText("ModuleEditor|MODULE NAME")</label>
+		<div class="form-group col-sm-12 col-md-12">
+			<input class="form-control input-md" id="MEModuleName" maxlength="30" name="MEModuleName" type="text" value="@Model.Module.ID" placeholder="@FMBaseController.TranslateText("ModuleEditor|New Module")" @ReadOnlyDisabled>
+		</div>
+	</div>
+	<div class="form-group col-sm-7 col-md-7">
+		<label class="control-label" for="MEModuleDescription">@FMBaseController.TranslateText("ModuleEditor|DESCRIPTION")</label>
+		<div class="form-group col-sm-12 col-md-12">
+			<input class="form-control input-md" id="MEModuleDescription" maxlength="50" name="MEModuleDescriptiont" type="text" value = "@Model.Module.Description" placeholder="@FMBaseController.TranslateText("ModuleEditor|Description")" @ReadOnlyDisabled>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div id="ModuleEditorDivScroll" class="col-md-12">
+		<div class="row settingsection">
+			<a href="#METags" data-toggle="collapse" class="col-sm-12 col-md-12 col-lg-12" aria-expanded="true">
+				<span class="pull-left separator-label">@FMBaseController.TranslateText("ModuleEditor|TAGS")</span>
+				<span id="expandModuleTags" class="pull-right">
+					<div class="expand-icon"></div>
+				</span>
+			</a>
+			<div class="moduleeditorsectionhorizontalline"></div>
+		</div>
+
+		<div id="empty_moduleeditortagrow" class="hidden">
+			<table>
+				<tbody>
+					<tr>
+						<td class="tagColumnID col-md-3 text-left">
+							<img name="ModuleTagDeleteTag" class="deleteImg" src='~/fmwebapp/images/Delete-column.png' />
+							<input class="form-control column-tag-name" name="ModuleTagTagID" type="text" maxlength="50" style="width:80%; display:inline-block">
+						</td>
+						<td class="tagColumnParameterName col-md-2">
+							<input class="form-control input-md text-left" name="ModuleTagParameter" type="text">
+						</td>
+						<td class="tagColumnDataType col-md-2">
+							@Html.DropDownList("ModuleTagDataType", new SelectList(Model.TagDataTypes.Select(s => new SelectListItem { Value = s.Key, Text = s.Value }).OrderBy(x => x.Text), "Value", "Text"), new { @class = "form-control moduleDataTypeList", onchange = "ChangeModuleDataType( this);" })
+						</td>
+						<td class="tagColumnInputOutputType col-md-2">
+							@Html.DropDownList("ModuleTagInputOutputType", ((IList<PointTemplateTag.PointTagInputOutputType>)Enum.GetValues(typeof(PointTemplateTag.PointTagInputOutputType))).Select(s => new SelectListItem { Text = FMBaseController.TranslateText(Enum.GetName(typeof(PointTemplateTag.PointTagInputOutputType), s)), Value = ((int)s).ToString() }).OrderBy(x => x.Text), new { @class = "form-control" })
+						</td>
+						<td class="tagColumnUnitType col-md-2">
+							@Html.DropDownList("ModuleTagEngineeringUnitsType", new SelectList(((EngineeringUnitType[])Enum.GetValues(typeof(EngineeringUnitType))).ToList().Except(new List<EngineeringUnitType> { EngineeringUnitType.FmuAll, EngineeringUnitType.FmuArea, EngineeringUnitType.FmuEnergy, EngineeringUnitType.FmuPower, EngineeringUnitType.FmuTime }).Select(s => new SelectListItem { Text = EngineeringUnits.GetUnitTypeString(s), Value = ((int)s).ToString() }).OrderBy(x => x.Text), "Value", "Text"), new { @class = "form-control" }).Disable(csharpModule)
+						</td>
+						<td class="tagColumnInput col-md-1 text-center">
+							<img name="ModuleTagInput" class="booleanImgSelect" draggable="false" data-value="true" title="Yes" alt="toggleOn" src="~/fmwebapp/images/On.png">
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div id="METags" class="row collapse in" aria-expanded="true">
+			<div class="form-group col-sm-12 col-md-12 col-lg-12">
+				<table id="ModuleTagsTable" class="table table-striped table-responsive table-hover FuelsManager-table-header">
+					<thead>
+						<tr>
+							<th class="col-md-3 text-center">@FMBaseController.TranslateText("ModuleEditor|TAG NAME")</th>
+							<th class="col-md-2 text-center">@FMBaseController.TranslateText("ModuleEditor|PARAMETER NAME")</th>
+							<th class="col-md-2 text-center">@FMBaseController.TranslateText("ModuleEditor|DATA TYPE")</th>
+							<th class="col-md-2 text-center">@FMBaseController.TranslateText("ModuleEditor|DATA SOURCE")</th>
+							<th class="col-md-2 text-center">@FMBaseController.TranslateText("ModuleEditor|UNIT TYPE")</th>
+							<th class="col-md-1 text-center">@FMBaseController.TranslateText("ModuleEditor|INPUT")</th>
+						</tr>
+					</thead>
+					<tbody>
+						@for (int i = 0; i < Model.Module.ModuleData.ModuleTags.Length; i++)
+						{
+						var moduleTag = Model.Module.ModuleData.ModuleTags[i];
+						var tagInputOutputTypes = new SelectList(@Model.TagInputOutputTypes.Select(s => new SelectListItem { Value = s.Value, Text = s.Text }).OrderBy(x => x.Text), "Value", "Text", (int)moduleTag.InputOutputType);
+						if (moduleTag.Input == false)
+						{
+						tagInputOutputTypes = new SelectList(@Model.OutputTagChangeAgents.Select(s => new SelectListItem { Value = s.Value, Text = s.Text }).OrderBy(x => x.Text), "Value", "Text", (int)moduleTag.InputOutputType);
+						}
+
+						<tr>
+							<td class="tagColumnID col-md-3 text-left" style="overflow: auto; white-space: nowrap">
+								<img name="ModuleTagDeleteTag" class="@deleteImgClass" src='@deleteImg' @deleteDisabled/>
+								@Html.TextBox("ModuleTagTagID", moduleTag.TagID, new { @class = "form-control column-tag-id", @maxlength = "50", @style = "width:85%; display:inline-block" }).Disable(Model.Module.Standard || Model.ReadOnly)
+							</td>
+							<td class="tagColumnParameterName col-md-2 text-left" style="overflow: auto; white-space: nowrap">
+								@Html.TextBox("ModuleTagParameter", moduleTag.ParameterName, new { @class = "form-control column-parameter-name", @style = "width:100%; display:inline-block"}).Disable(csharpModule || Model.ReadOnly)
+							</td>
+							<td class="tagColumnDataType col-md-2 text-left" style="overflow: hidden; white-space: nowrap">
+								@Html.DropDownList("ModuleTagDataType", new SelectList(@Model.TagDataTypes.Select(s => new SelectListItem { Value = s.Key, Text = s.Value }).OrderBy(x => x.Text), "Value", "Text", moduleTag.DataType), new { @class = "form-control" }).Disable(csharpModule || Model.ReadOnly)
+							</td>
+							<td class="tagColumnInputOutputType col-md-2" style="overflow: auto; white-space: nowrap">
+								@Html.DropDownList("ModuleTagInputOutputType", tagInputOutputTypes, new { @class = "form-control" }).Disable(csharpModule || Model.ReadOnly)
+							</td>
+							<td class="tagColumnUnitType col-md-2">
+								@Html.DropDownList("ModuleTagEngineeringUnitsType", new SelectList(((EngineeringUnitType[])Enum.GetValues(typeof(EngineeringUnitType))).ToList().Except(new List<EngineeringUnitType> { EngineeringUnitType.FmuAll, EngineeringUnitType.FmuArea, EngineeringUnitType.FmuEnergy, EngineeringUnitType.FmuPower, EngineeringUnitType.FmuTime }).Select(s => new SelectListItem { Text = EngineeringUnits.GetUnitTypeString(s), Value = ((int)s).ToString() }).OrderBy(x => x.Text), "Value", "Text", ((int)moduleTag.UnitType)), (moduleTag.DataType != "System.Double" && moduleTag.DataType != "System.Single") ? new { @class = "form-control hidden" } : new { @class = "form-control" }).Disable(csharpModule || Model.ReadOnly)
+							</td>
+							<td class="tagColumnInput col-md-1 text-center">
+								<img name="ModuleTagInput" class="@moduleTagInputToggleClass" @disabled draggable="false" @(Html.Raw(moduleTag.Input ? string.Format("data-value='true' title='Yes' alt='toggleOn' src='{0}'", Url.Content("~/fmwebapp/images/On.png")) : string.Format("data-value='false' title='No' alt='toggleOff' src='{0}'", Url.Content("~/fmwebapp/images/Off.png"))))>
+							</td>
+						</tr>
+						}
+					</tbody>
+				</table>
+				<div class="btn-toolbar">
+					<div class="pull-left" role="group">
+						<button id="ModuleEditorAddTagButton" type="button" class="formfieldtitle pushButton" style = "@pushButtonCursor" accessKey="@FMControls.GetAccessKey(addTagButton)" @addDisabled>
+							@Html.Raw(FMControls.FormatButtonText(addTagButton))
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row settingsection">
+			<a href="#MECreateSettings" data-toggle="collapse" class="col-sm-12 col-md-12 col-lg-12" aria-expanded="true">
+				<span class="pull-left separator-label">@FMBaseController.TranslateText("ModuleEditor|SETTINGS")</span>
+				<span id="expandModuleSettings" class="pull-right">
+					<div class="expand-icon"></div>
+				</span>
+			</a>
+			<div class="moduleeditorsectionhorizontalline"></div>
+		</div>
+		<div id="empty_moduleeditorsettingrow" class="hidden">
+			<table>
+				<tbody>
+					<tr>
+						<td class="settingColumnSettingName col-md-3 text-left">
+							<img name="ModuleSettingDeleteSetting" class="deleteImg" src='~/fmwebapp/images/Delete-column.png' />
+							<input class="form-control column-setting-name" name="ModuleSettingSettingName" type="text" style="width:85%; display:inline-block">
+						</td>
+						<td class="settingColumnPropertygName col-md-3 text-left">
+							<input class="form-control column-property-name" name="ModuleSettingPropertyName" type="text" style="width:100%; display:inline-block">
+						</td>
+						<td class="settingColumnDataType col-md-6">
+							@Html.DropDownList("ModuleSettingDataType", new SelectList(Model.PropertyDataTypes.Select(s => new SelectListItem { Value = s.Key, Text = s.Value }).OrderBy(x => x.Text), "Value", "Text"), new { @class = "form-control moduleDataTypeList", onchange = "ChangeModuleDataType( this);" })
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div id="MECreateSettings" class="row collapse in" aria-expanded="true">
+			<div class="form-group col-sm-12 col-md-12 col-lg-12">
+				<table id="ModuleSettingsTable" class="table table-striped table-responsive table-hover FuelsManager-table-header">
+					<thead>
+						<tr>
+							<th class="col-md-3 text-center">@FMBaseController.TranslateText("ModuleEditor|SETTING NAME")</th>
+							<th class="col-md-3 text-center">@FMBaseController.TranslateText("ModuleEditor|PROPERTY NAME")</th>
+							<th class="col-md-6 text-center">@FMBaseController.TranslateText("ModuleEditor|DATA TYPE")</th>
+						</tr>
+					</thead>
+					<tbody>
+						@for (int i = 0; i < Model.Module.ModuleData.ModuleSettings.Length; i++)
+						{
+						var moduleSetting = Model.Module.ModuleData.ModuleSettings[i];
+						<tr>
+							<td class="settingColumnSettingName col-md-3 text-left" style="overflow: auto; white-space: nowrap">
+								<img name="DeleteSetting" class="@deleteImgClass" src='@deleteImg' @deleteDisabled />
+								@Html.TextBox("ModuleSettingSettingName", moduleSetting.SettingName, new { @class = "form-control column-setting-name", @style = "width:85%; display:inline-block;" }).Disable(Model.Module.Standard || Model.ReadOnly)
+							</td>
+							<td class="settingColumnPropertyName col-md-3 text-left" style="overflow: auto; white-space: nowrap">
+								@Html.TextBox("ModuleSettingPropertyName", moduleSetting.PropertyName, new { @class = "form-control column-setting-name", @style = "width:100%; display:inline-block;" }).Disable(csharpModule || Model.ReadOnly)
+							</td>
+							<td class="settingColumnDataType col-md-6 text-left" style="overflow: hidden; white-space: nowrap">
+								@Html.DropDownList("ModuleSettingDataType", new SelectList(@Model.PropertyDataTypes.Select(s => new SelectListItem { Value = s.Key, Text = s.Value }).OrderBy(x => x.Text), "Value", "Text", moduleSetting.DataType), new { @class = "form-control" }).Disable(csharpModule || Model.ReadOnly)
+							</td>
+						</tr>
+						}
+					</tbody>
+				</table>
+				<div class="btn-toolbar">
+					<div class="pull-left" role="group">
+						<button id="ModuleEditorAddSettingButton" type="button" class="formfieldtitle pushButton" style = "@pushButtonCursor" accessKey="@FMControls.GetAccessKey(addSettingButton)" @addDisabled>
+							@Html.Raw(FMControls.FormatButtonText(addSettingButton))
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row settingsection">
+			<a href="#MELogic" data-toggle="collapse" class="col-sm-12 col-md-12 col-lg-12" aria-expanded="false">
+				<span class="pull-left separator-label">@FMBaseController.TranslateText("ModuleEditor|LOGIC")</span>
+				<span id="expandModuleLogic" class="pull-right">
+					<div class="expand-icon"></div>
+				</span>
+			</a>
+			<div class="moduleeditorsectionhorizontalline"></div>
+		</div>
+		<div id="MELogic" class="form-group row collapse col-sm-12 col-md-12 col-lg-12" aria-expanded="false">
+			<div id="editor" @((csharpModule || Model.ReadOnly) ? "disabled='disabled'" : "")>@Model.Module.ModuleScript</div>
+		</div>
+	</div>
+</div>
+
+<div id="dialogboxmessages" class="hidden">
+	<div id="confirm-delete-tag-dialog" title="@FMBaseController.TranslateText("ModuleEditor|Delete Tag")" >
+		<p>@FMBaseController.TranslateText("ModuleEditor|Delete Tag?")<br /></p>
+	</div>
+	<div id="confirm-delete-setting-dialog" title="@FMBaseController.TranslateText("ModuleEditor|Delete Setting")" >
+		<p>@FMBaseController.TranslateText("ModuleEditor|Delete Setting?")<br /></p>
+	</div>
+</div>
+
+
+<script>
+	$(document).ready(function () {
+
+		var editor = ace.edit("editor");
+		editor.setTheme("ace/theme/eclipse");
+		editor.getSession().setMode("ace/mode/javascript");
+		if ($('#ReadOnly').val() === 'True'
+		|| $('#csharpModule').val() === 'True') {
+			editor.setReadOnly(true);
+		}
+
+		if ($('#ReadOnly').val() === 'True') {
+			editor.setReadOnly(true);
+			$('#ModuleEditorSaveButton').addClass('disabled').prop('disabled', true);
+		}
+		else {
+			$('#ModuleEditorSaveButton').removeClass('disabled').prop('disabled', false);
+		}
+
+		if (editor.getValue() != '') {
+			$('#ModuleTagsTable tbody').sortable();
+			$('#ModuleSettingsTable tbody').sortable();
+		}
+
+		// This sets the nice scrolling on the Point Setting section of the page.
+		$('#ModuleEditorDivScroll').niceScroll({
+			cursorwidth: '10px'
+		 , autohidemode: false
+		 , cursorcolor: "#486899"
+		 , background: "#f9f9f9"
+		 , railoffset: true
+		 , railpadding: { top: 0, right: 0, left: -5, bottom: 0 }
+		 , smoothscroll: true
+		});
+
+
+		$('#ModuleEditorAddTagButton').on('click', function () {
+			$("#ModuleTagsTable tbody tr").removeClass("selected");
+
+			var newRow = $("#empty_moduleeditortagrow tbody").children().clone();
+
+			// set the defaults
+			newRow.find('[name=ModuleTagDataType]').val("System.Double"); // default to a number
+			newRow.find('[name=ModuleTagEngineeringUnitsType]').val("15"); // no dimension
+			newRow.find('[name=ModuleTagInputOutputType]').val("1"); // manual
+			newRow.find('tr').addClass('selected');
+			newRow.appendTo("#ModuleTagsTable tbody").find('[name=ModuleTagTagID]').focus();
+		});
+
+		$('#ModuleEditorAddSettingButton').on('click', function () {
+
+			$("#ModuleSettingsTable tbody tr").removeClass("selected");
+
+			var newRow = $("#empty_moduleeditorsettingrow tbody").children().clone();
+
+			// set the defaults
+			newRow.find('[name=ModuleSettingDataType]').val("System.Double"); // default to a number
+			newRow.find('tr').addClass('selected');
+			newRow.appendTo("#ModuleSettingsTable tbody").find('[name=ModuleSettingSettingName]').focus();
+		});
+
+		$("#ModuleTagsTable").on('click', '.booleanImgSelect', function () {
+			// we need to update enable/disable the associated field
+			if ($('#ReadOnly').val() === 'True'
+			|| $('#standardModule').val() === 'True') {
+				return;
+			}
+			var row = $(this).closest('tr');
+
+			if ($(this).attr("data-value") === "true") {
+				$(this).attr("data-value", "false");
+				$(this).attr("alt", "toggleOff");
+				$(this).attr("title", "No");
+				$(this).attr("src", "@(Url.Content("~/fmwebapp/images/Off.png"))");
+
+				var currentInputOutputType = row.find('td.tagColumnInputOutputType select').prop('value');
+
+				var list = '';
+				$('#empty_moduleeditortagrow .tagColumnInputOutputType select').find('option').each(function (index, element) {
+					if (element.value === '0' || element.value === '3') {
+						return;
+					}
+					list += '<option value="' + element.value + '">' + element.text + '</option>';
+				});
+				row.find(".tagColumnInputOutputType select").html(list);
+
+				if (currentInputOutputType !== '0' && currentInputOutputType !== '3') {
+					row.find('td.tagColumnInputOutputType select').prop('value', currentInputOutputType);
+				}
+
+
+			}
+			else {
+				$(this).attr("data-value", "true");
+				$(this).attr("alt", "toggleOn");
+				$(this).attr("title", "Yes");
+				$(this).attr("src", "@(Url.Content("~/fmwebapp/images/On.png"))");
+
+				var currentInputOutputType = row.find('td.tagColumnInputOutputType select').prop('value');
+
+				var list = '';
+				$('#empty_moduleeditortagrow .tagColumnInputOutputType select').find('option').each(function (index, element) {
+					list += '<option value="' + element.value + '">' + element.text + '</option>';
+				});
+				row.find(".tagColumnInputOutputType select").html(list);
+
+				row.find('td.tagColumnInputOutputType select').prop('value', currentInputOutputType);
+
+			}
+		});
+
+		// change the Data Type
+		$("#ModuleTagsTable").on('change', '.tagColumnDataType select', function () {
+			var value = $(this).val();
+			var row = $(this).closest('tr');
+			if (value === "System.Double" || value === "System.Single") {
+				row.find('.tagColumnUnitType select').removeClass("hidden");
+				row.find('.tagColumnUnitType select').val("15"); // default to No dimensions
+			}
+			else {
+				row.find('.tagColumnUnitType select').removeClass("hidden").addClass("hidden");
+				row.find('.tagColumnUnitType select').val("16");  // FMU_NONE
+			}
+		});
+
+
+		$("#ModuleTagsTable").on('click', '.deleteImg', function () {
+			if ($("#csharpModule").val() == 'True' || $('#ReadOnly').val() == 'True')
+			{
+				return;
+			}
+			var control = $(this);
+			FMLayout.ConfirmYesNo($('#confirm-delete-tag-dialog'), 'Delete Tag', function () {
+				control.closest('tr').remove();
+			});
+		});
+
+		$("#ModuleSettingsTable").on('click', '.deleteImg', function () {
+			if ($("#csharpModule").val() == 'True' || $('#ReadOnly').val() == 'True')
+			{
+				return;
+			}
+			var control = $(this);
+			FMLayout.ConfirmYesNo($('#confirm-delete-setting-dialog'), 'Delete Setting', function () {
+				control.closest('tr').remove();
+			});
+		});
+
+		var alphaNumericWithSpaceRegex = /[^a-zA-Z0-9\ ]/;
+		var alphaNumericRegex = /[^a-zA-Z0-9]/;
+		var alphaStartRegex = /[^a-zA-Z]/;
+		var hasOwn = Object.prototype.hasOwnProperty;
+		var validationMessages = {
+			errors: $("#Errors").val(),
+			moduleNameMustBeNonNull: $("#ModuleNameMustBeNonNull").val(),
+			moduleNameMustBeAlphanumeric: $("#ModuleNameMustBeAlphanumeric").val(),
+			moduleNameMustBeginWithAlphaCharacter: $("#ModuleNameMustBeginWithAlphaCharacter").val(),
+			tagNameMustBeNonNull: $("#TagNameMustBeNonNull").val(),
+			tagNameMustBeAlphanumeric: $("#TagNameMustBeAlphanumeric").val(),
+			tagNameMustBeginWithAlphaCharacter: $("#TagNameMustBeginWithAlphaCharacter").val(),
+			tagNameMustNotMatchModuleName: $("#TagNameMustNotMatchModuleName").val(),
+			parameterNameMustBeNonNull: $("#ParameterNameMustBeNonNull").val(),
+			parameterNameMustBeAlphanumeric: $("#ParameterNameMustBeAlphanumeric").val(),
+			parameterNameMustBeginWithAlphaCharacter: $("#ParameterNameMustBeginWithAlphaCharacter").val(),
+			settingNameMustBeNonNull: $("#SettingNameMustBeNonNull").val(),
+			settingNameMustBeAlphanumeric: $("#SettingNameMustBeAlphanumeric").val(),
+			settingNameMustBeginWithAlphaCharacter: $("#SettingNameMustBeginWithAlphaCharacter").val(),
+			propertyNameMustBeNonNull: $("#PropertyNameMustBeNonNull").val(),
+			propertyNameMustBeAlphanumeric: $("#PropertyNameMustBeAlphanumeric").val(),
+			propertyNameMustBeginWithAlphaCharacter: $("#PropertyNameMustBeginWithAlphaCharacter").val(),
+			duplicateTags: $("#DuplicateTags").val(),
+			duplicateParameters: $("#DuplicateParameters").val(),
+			duplicateSettings: $("#DuplicateSettings").val(),
+			duplicateProperties: $("#DuplicateProperties").val(),
+			settingMustNotMatchTag: $("#SettingMustNotMatchTag").val(),
+			settingMustHaveRateTag: $("#SettingMustHaveRateTag").val()
+		};
+
+		$('#ModuleEditorSaveButton').off('click');
+
+		$('#ModuleEditorSaveButton').on('click', function () {
+			var inError = false;
+			var errorList = '';
+			var errorKeys = {};
+
+			function addErrorOnce(errorKey, message) {
+				if (!hasOwn.call(errorKeys, errorKey)) {
+					errorKeys[errorKey] = true;
+					errorList += message + '<br>';
+				}
+			}
+
+			var $moduleName = $("#MEModuleName");
+			var $moduleNameParent = $moduleName.parent();
+			$moduleNameParent.removeClass("has-error");
+
+			var moduleName = $moduleName.val();
+			if (moduleName === "") {
+				inError = true;
+				$moduleNameParent.addClass("has-error");
+				addErrorOnce("moduleNameMustBeNonNull", validationMessages.moduleNameMustBeNonNull);
+			}
+
+			if (alphaNumericWithSpaceRegex.test(moduleName)) {
+				inError = true;
+				$moduleNameParent.addClass("has-error");
+				addErrorOnce("moduleNameMustBeAlphanumeric", validationMessages.moduleNameMustBeAlphanumeric);
+			}
+
+			if (alphaStartRegex.test(moduleName[0])) {
+				inError = true;
+				$moduleNameParent.addClass("has-error");
+				addErrorOnce("moduleNameMustBeginWithAlphaCharacter", validationMessages.moduleNameMustBeginWithAlphaCharacter);
+			}
+
+			var moduleDescription = $("#MEModuleDescription").val();
+			var tagList = [];
+			var settingsList = [];
+			var tagNames = {};
+			var parameterNames = {};
+			var settingNames = {};
+			var propertyNames = {};
+			var hasRateTag = false;
+
+			// Get tags and validate them in one pass.
+			$("#ModuleTagsTable tbody tr").each(function () {
+				var $row = $(this);
+				var $tagNameControl = $row.find("[name=ModuleTagTagID]");
+				var $tagNameParent = $tagNameControl.parent();
+				var $parameterControl = $row.find("[name=ModuleTagParameter]");
+				var $parameterParent = $parameterControl.parent();
+
+				$tagNameParent.removeClass("has-error");
+				$parameterParent.removeClass("has-error");
+
+				var tagName = $tagNameControl.val();
+				var parameterName = $parameterControl.val();
+
+				if (tagName === "") {
+					inError = true;
+					$tagNameParent.addClass("has-error");
+					addErrorOnce("tagNameMustBeNonNull", validationMessages.tagNameMustBeNonNull);
+				}
+
+				if (alphaNumericWithSpaceRegex.test(tagName)) {
+					inError = true;
+					$tagNameParent.addClass("has-error");
+					addErrorOnce("tagNameMustBeAlphanumeric", validationMessages.tagNameMustBeAlphanumeric);
+				}
+
+				if (alphaStartRegex.test(tagName[0])) {
+					inError = true;
+					$tagNameParent.addClass("has-error");
+					addErrorOnce("tagNameMustBeginWithAlphaCharacter", validationMessages.tagNameMustBeginWithAlphaCharacter);
+				}
+
+				if (tagName === moduleName) {
+					inError = true;
+					$tagNameParent.addClass("has-error");
+					addErrorOnce("tagNameMustNotMatchModuleName", validationMessages.tagNameMustNotMatchModuleName);
+				}
+
+				if (parameterName === "") {
+					inError = true;
+					$parameterParent.addClass("has-error");
+					addErrorOnce("parameterNameMustBeNonNull", validationMessages.parameterNameMustBeNonNull);
+				}
+
+				if (alphaNumericRegex.test(parameterName)) {
+					inError = true;
+					$parameterParent.addClass("has-error");
+					addErrorOnce("parameterNameMustBeAlphanumeric", validationMessages.parameterNameMustBeAlphanumeric);
+				}
+
+				if (alphaStartRegex.test(parameterName[0])) {
+					inError = true;
+					$parameterParent.addClass("has-error");
+					addErrorOnce("parameterNameMustBeginWithAlphaCharacter", validationMessages.parameterNameMustBeginWithAlphaCharacter);
+				}
+
+				if (hasOwn.call(tagNames, tagName)) {
+					inError = true;
+					$tagNameParent.addClass("has-error");
+					addErrorOnce("duplicateTags", validationMessages.duplicateTags);
+				}
+				else {
+					tagNames[tagName] = true;
+				}
+
+				if (hasOwn.call(parameterNames, parameterName)) {
+					inError = true;
+					$parameterParent.addClass("has-error");
+					addErrorOnce("duplicateParameters", validationMessages.duplicateParameters);
+				}
+				else {
+					parameterNames[parameterName] = true;
+				}
+
+				if (parameterName === "Rate") {
+					hasRateTag = true;
+				}
+
+				tagList.push({
+					TagName: tagName,
+					ParameterName: parameterName,
+					ValueType: $row.find("[name=ModuleTagDataType]").val(),
+					EngineeringUnitsType: $row.find("[name=ModuleTagEngineeringUnitsType]").val(),
+					PointTagInputOutputTypeIndex: $row.find("[name=ModuleTagInputOutputType]").val(),
+					Input: $row.find("[name=ModuleTagInput]").attr("data-value")
+				});
+			});
+
+			// Get settings and validate them in one pass.
+			$("#ModuleSettingsTable tbody tr").each(function () {
+				var $row = $(this);
+				var $settingNameControl = $row.find("[name=ModuleSettingSettingName]");
+				var $settingNameParent = $settingNameControl.parent();
+				var $propertyNameControl = $row.find("[name=ModuleSettingPropertyName]");
+				var $propertyNameParent = $propertyNameControl.parent();
+
+				$settingNameParent.removeClass("has-error");
+				$propertyNameParent.removeClass("has-error");
+
+				var settingName = $settingNameControl.val();
+				var propertyName = $propertyNameControl.val();
+				var settingDataType = $row.find("[name=ModuleSettingDataType]").val();
+
+				if (settingName === "") {
+					inError = true;
+					$settingNameParent.addClass("has-error");
+					addErrorOnce("settingNameMustBeNonNull", validationMessages.settingNameMustBeNonNull);
+				}
+
+				if (alphaNumericWithSpaceRegex.test(settingName)) {
+					inError = true;
+					$settingNameParent.addClass("has-error");
+					addErrorOnce("settingNameMustBeAlphanumeric", validationMessages.settingNameMustBeAlphanumeric);
+				}
+
+				if (alphaStartRegex.test(settingName[0])) {
+					inError = true;
+					$settingNameParent.addClass("has-error");
+					addErrorOnce("settingNameMustBeginWithAlphaCharacter", validationMessages.settingNameMustBeginWithAlphaCharacter);
+				}
+
+				if (propertyName === "") {
+					inError = true;
+					$propertyNameParent.addClass("has-error");
+					addErrorOnce("propertyNameMustBeNonNull", validationMessages.propertyNameMustBeNonNull);
+				}
+
+				if (alphaNumericRegex.test(propertyName)) {
+					inError = true;
+					$propertyNameParent.addClass("has-error");
+					addErrorOnce("propertyNameMustBeAlphanumeric", validationMessages.propertyNameMustBeAlphanumeric);
+				}
+
+				if (alphaStartRegex.test(propertyName[0])) {
+					inError = true;
+					$propertyNameParent.addClass("has-error");
+					addErrorOnce("propertyNameMustBeginWithAlphaCharacter", validationMessages.propertyNameMustBeginWithAlphaCharacter);
+				}
+
+				if (hasOwn.call(settingNames, settingName)) {
+					inError = true;
+					$settingNameParent.addClass("has-error");
+					addErrorOnce("duplicateSettings", validationMessages.duplicateSettings);
+				}
+				else {
+					settingNames[settingName] = true;
+				}
+
+				if (hasOwn.call(propertyNames, propertyName)) {
+					inError = true;
+					$propertyNameParent.addClass("has-error");
+					addErrorOnce("duplicateProperties", validationMessages.duplicateProperties);
+				}
+				else {
+					propertyNames[propertyName] = true;
+				}
+
+				if (hasOwn.call(tagNames, settingName)) {
+					inError = true;
+					$settingNameParent.addClass("has-error");
+					addErrorOnce("settingMustNotMatchTag", validationMessages.settingMustNotMatchTag);
+				}
+
+				if (settingDataType === "FMBusinessObjects.DataObjects.RateModuleSettings" && !hasRateTag) {
+					inError = true;
+					$settingNameParent.addClass("has-error");
+					addErrorOnce("settingMustHaveRateTag", validationMessages.settingMustHaveRateTag);
+				}
+
+				settingsList.push({
+					SettingName: settingName,
+					PropertyName: propertyName,
+					ValueType: settingDataType
+				});
+			});
+
+			var script = editor.getValue();
+			$("#MELogic").removeClass("has-error");
+			if ($("#csharpModule").val() == "False" && (script === null || script.match(/^ *$/) !== null)) {
+				inError = true;
+				$("#MELogic").addClass("has-error");
+			}
+
+			if (inError) {
+				FMLayout.Alert(errorList, validationMessages.errors, null);
+				return;
+			}
+
+			// close all the notifications currently openned
+			FMErrorAndExceptionHandling.CloseNotifications();
+
+			var token = $("input[name=__RequestVerificationToken]").val();
+			var headers = {};
+			headers["__RequestVerificationToken"] = token;
+
+			var module = { id: moduleName, guid: $("#moduleGuid").val(), description: moduleDescription, tags: JSON.stringify(tagList), settings: JSON.stringify(settingsList), script: script };
+
+			$("#ModuleEditorSaveButton").addClass("disabled").prop("disabled", true);
+
+			$.ajax({
+				url: '@Url.Action("SaveModule", "ModuleEditor")',
+				cache: false,
+				type: "POST",
+				headers: headers,
+				data: module,
+				success: function (response) {
+					FMErrorAndExceptionHandling.HandleMessages(response, function (data, inError) {
+						if (!inError) {
+							$("#EditModuleModal").modal("hide");
+							window.location.reload(true);
+						}
+						else {
+							$("#ModuleEditorSaveButton").removeClass("disabled").prop("disabled", false);
+						}
+
+						// hide the saving animation
+						$(".loadingDiv").remove();
+					});
+				},
+				error: function (xhr, textStatus, error) {
+					FMErrorAndExceptionHandling.ShowException(xhr,
+						textStatus,
+						error,
+						function () {
+							$("#ModuleEditorSaveButton").removeClass("disabled").prop("disabled", false);
+
+							// hide the saving animation
+							$(".loadingDiv").remove();
+						});
+				}
+			});
+		});
+
+		ChangeModuleDataType = function (control) {
+			if ($(control).val() !== "System.Double") {
+				$(control).parent().parent().find('[name=ModuleEngineeringUnitsType]').val("FmuNodim");
+				$(control).parent().parent().find('[name=ModuleEngineeringUnitsType]').attr("disabled", true);
+			}
+			else {
+				$(control).parent().parent().find('[name=ModuleEngineeringUnitsType]').attr("disabled", false);
+			}
+		}
+
+		$('#ModuleEditorDeleteTagButton').on('click', function () {
+			if ($("#ModuleParameters tbody tr.selected").length > 0) {
+				$("#ModuleParameters tbody tr.selected").remove();
+			}
+		});
+	});
+</script>
+
