@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<KyubitExport>
+  <ExportObject ObjectType="50">
+    <DataSourceName>FuelsManagerDWClient</DataSourceName>
+    <Type>1</Type>
+    <ConnString>__fLQOo8TAx0fA2JVrPkp+UMtQySxKp5uKKjmuIsrx4aCJ8reaXtV12C3QflLq7HVufgsH2/XbNgLhR2V3h3Wo+w==</ConnString>
+    <Server>1552PWC-HB\NEPTUNE</Server>
+    <DBName>FuelsManager DW Client</DBName>
+    <UserName>
+    </UserName>
+    <Password>
+    </Password>
+    <Status>
+    </Status>
+    <UNQ>372c450a-6cdd-4e35-bfe2-b6b54bda6c9b</UNQ>
+  </ExportObject>
+</KyubitExport>

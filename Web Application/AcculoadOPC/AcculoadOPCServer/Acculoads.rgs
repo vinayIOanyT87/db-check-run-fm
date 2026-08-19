@@ -1,0 +1,27 @@
+HKCR
+{
+	AcculoadOPCServer.Acculoads.1 = s 'Acculoads Class'
+	{
+		CLSID = s '{41D54854-8705-400A-9B22-F58B58088BE7}'
+	}
+	AcculoadOPCServer.Acculoads = s 'Acculoads Class'
+	{
+		CLSID = s '{41D54854-8705-400A-9B22-F58B58088BE7}'
+		CurVer = s 'AcculoadOPCServer.Acculoads.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {41D54854-8705-400A-9B22-F58B58088BE7} = s 'Acculoads Class'
+		{
+			ProgID = s 'AcculoadOPCServer.Acculoads.1'
+			VersionIndependentProgID = s 'AcculoadOPCServer.Acculoads'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{4BDC9779-8FEB-4C9A-B27F-9BF823497410}'
+		}
+	}
+}

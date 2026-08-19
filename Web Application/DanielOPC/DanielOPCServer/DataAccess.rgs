@@ -1,0 +1,27 @@
+HKCR
+{
+	DanielOPCServer.DataAccess.1 = s 'DataAccess Class'
+	{
+		CLSID = s '{6FFB871D-D415-48BA-8765-C67C60025028}'
+	}
+	DanielOPCServer.DataAccess = s 'DataAccess Class'
+	{
+		CLSID = s '{6FFB871D-D415-48BA-8765-C67C60025028}'
+		CurVer = s 'DanielOPCServer.DataAccess.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {6FFB871D-D415-48BA-8765-C67C60025028} = s 'DataAccess Class'
+		{
+			ProgID = s 'DanielOPCServer.DataAccess.1'
+			VersionIndependentProgID = s 'DanielOPCServer.DataAccess'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{4B9EC677-DB8A-4A49-B644-02BB18FA0809}'
+		}
+	}
+}

@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{D2ABAB84-BF74-430A-B69E-9DC6D40DDA17}") = "FuelsManagerDWSSAS", "FuelsManagerDWSSAS\FuelsManagerDWSSAS.dwproj", "{132A4EC1-169D-4DBE-817D-82BC064DF48F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|Default = Development|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{132A4EC1-169D-4DBE-817D-82BC064DF48F}.Development|Default.ActiveCfg = Development
+		{132A4EC1-169D-4DBE-817D-82BC064DF48F}.Development|Default.Build.0 = Development
+		{132A4EC1-169D-4DBE-817D-82BC064DF48F}.Development|Default.Deploy.0 = Development
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B381D5EA-EFCD-412C-8C6D-A9E6FCF5673D}
+	EndGlobalSection
+EndGlobal

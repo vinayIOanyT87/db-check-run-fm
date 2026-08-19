@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>FuelsManagerArchive</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{dd03d2d3-e02b-4a74-b59f-f22c2092c290}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>FuelsManagerDBArchive</RootNamespace>
+    <AssemblyName>FuelsManagerDBArchive</AssemblyName>
+    <ModelCollation>1033,CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
+    <ValidateCasingOnIdentifiers>False</ValidateCasingOnIdentifiers>
+    <DacApplicationName>FuelsManagerDBArchive</DacApplicationName>
+    <TargetFrameworkProfile />
+    <CompatibilityMode>100</CompatibilityMode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>..\dacpacs\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <SqlTargetName>FuelsManagerDBArchive</SqlTargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>..\dacpacs\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <SqlTargetName>FuelsManagerDBArchive</SqlTargetName>
+  </PropertyGroup>
+  <!-- VS10 without SP1 will not have VisualStudioVersion set, so do that here -->
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
+    <!-- Default to the v10.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">12.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="Security\" />
+    <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="dbo\User Defined Types\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="..\FuelsManager\dbo\User Defined Types\udtUserID.sql">
+      <Link>dbo\User Defined Types\udtUserID.sql</Link>
+    </Build>
+    <Build Include="dbo\Tables\tblAlarmAndEventLog.sql" />
+    <Build Include="dbo\Tables\tblAuditLog.sql" />
+    <Build Include="dbo\Tables\tblEquipmentMaintenanceLog.sql" />
+    <Build Include="dbo\Tables\tblEquipmentQualityTagLog.sql" />
+    <Build Include="dbo\Tables\tblMaintenanceReasons.sql" />
+    <Build Include="dbo\Tables\tblTankMaintenanceLog.sql" />
+    <Build Include="dbo\Tables\tblTankQualityTagLog.sql" />
+    <Build Include="dbo\Tables\tblTestEquipmentResults.sql" />
+    <Build Include="dbo\Tables\tblTestSetEquipmentResults.sql" />
+    <Build Include="dbo\Tables\tblTestSetTankResults.sql" />
+    <Build Include="dbo\Tables\tblTestTankResults.sql" />
+    <Build Include="dbo\Tables\tblTransactionLineItems.sql" />
+    <Build Include="dbo\Tables\tblTransactionLineItemUserData.sql" />
+    <Build Include="dbo\Tables\tblTransactionLinks.sql" />
+    <Build Include="dbo\Tables\tblTransactionNotes.sql" />
+    <Build Include="dbo\Tables\tblTransactionPIDX.sql" />
+    <Build Include="dbo\Tables\tblTransactions.sql" />
+    <Build Include="dbo\Tables\tblTransactionSignature.sql" />
+    <Build Include="dbo\Tables\tblTransactionSubLineItems.sql" />
+    <Build Include="dbo\Tables\tblTransactionTransportLineItems.sql" />
+    <Build Include="dbo\Tables\tblTransactionUserData.sql" />
+    <Build Include="dbo\Tables\tblTransactionWeightReadings.sql" />
+  </ItemGroup>
+</Project>

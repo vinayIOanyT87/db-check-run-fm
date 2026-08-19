@@ -1,0 +1,6 @@
+/Action:Extract
+/OverWriteFiles:True
+/SourceServerName:<SERVER_INSTANCE_NAME>
+/SourceDatabaseName:<DATABASE_NAME_HERE>
+/TargetFile:<FILE_NAME>.dacpac
+/p:ExtractAllTableData=true

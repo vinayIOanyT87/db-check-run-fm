@@ -1,0 +1,1074 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="2/21/2020 11:33:33 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="9GGGPL2"
+  DTS:CreatorName="LEIDOS-CORP\bapooh"
+  DTS:DTSID="{D95250AB-7F72-4429-BBB7-E1F9645D23D8}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1300.371"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="AlarmAndEventDataExtraction"
+  DTS:PackageType="5"
+  DTS:VersionBuild="4"
+  DTS:VersionGUID="{A716A5E1-A668-4979-95EA-9065D1909FF0}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{F3A69144-1C9F-4952-9D43-432D4FF04EAF}"
+      DTS:ObjectName="ArchivingMode">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue"
+        xml:space="preserve"></DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="7"
+      DTS:DTSID="{B784EC91-5846-40D7-B0F6-864236F54959}"
+      DTS:ObjectName="LoadDate">
+      <DTS:Property
+        DTS:DataType="7"
+        DTS:Name="ParameterValue">2/25/2020 1:34:59 PM</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="20"
+      DTS:DTSID="{EE4909F0-B86F-4DE4-87AD-9791770D6E69}"
+      DTS:ObjectName="ParentAuditKey">
+      <DTS:Property
+        DTS:DataType="20"
+        DTS:Name="ParameterValue">0</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="20"
+      DTS:DTSID="{BA50C532-5C7E-47EA-85A5-A458FB2206D9}"
+      DTS:ObjectName="RecordKeyEnd">
+      <DTS:Property
+        DTS:DataType="20"
+        DTS:Name="ParameterValue">0</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="20"
+      DTS:DTSID="{1FBF37AB-DF67-4E38-9E1D-FD41D808D762}"
+      DTS:ObjectName="RecordKeyStart">
+      <DTS:Property
+        DTS:DataType="20"
+        DTS:Name="ParameterValue">0</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{25AE8DA4-DF81-48D4-963B-73CB23567403}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="AuditKey">
+      <DTS:VariableValue
+        DTS:DataType="20">0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\AlarmAndEventLog Data Extraction"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{00bb5ac2-2668-4f73-8a34-8c600838b02e}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="AlarmAndEventLog Data Extraction"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[staging].[tblAlarmAndEventLog]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{0CD76D1A-1889-422A-8670-BA73FA2E881D}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[StagingCM]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CreatedDate]"
+                      cachedDataType="dbTimeStampOffset"
+                      cachedName="CreatedDate"
+                      cachedScale="7"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CreatedDate]"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[CreatedDate]" />
+                    <inputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CreatedBy]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="CreatedBy"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CreatedBy]"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[CreatedBy]" />
+                    <inputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SiteGuid]"
+                      cachedDataType="guid"
+                      cachedName="SiteGuid"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SiteGuid]"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[SiteGuid]" />
+                    <inputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID]"
+                      cachedDataType="wstr"
+                      cachedLength="120"
+                      cachedName="ID"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ID]"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID]" />
+                    <inputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SourceNode]"
+                      cachedDataType="wstr"
+                      cachedLength="256"
+                      cachedName="SourceNode"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SourceNode]"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[SourceNode]" />
+                    <inputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SequenceNumber]"
+                      cachedDataType="i8"
+                      cachedName="SequenceNumber"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SequenceNumber]"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[SequenceNumber]" />
+                    <inputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Source]"
+                      cachedDataType="wstr"
+                      cachedLength="120"
+                      cachedName="Source"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Source]"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[Source]" />
+                    <inputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Alarm]"
+                      cachedDataType="bool"
+                      cachedName="Alarm"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Alarm]"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[Alarm]" />
+                    <inputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[AssociatedData]"
+                      cachedDataType="nText"
+                      cachedName="AssociatedData"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AssociatedData]"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[AssociatedData]" />
+                    <inputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CategoryID]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="CategoryID"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CategoryID]"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[CategoryID]" />
+                    <inputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[PriorityID]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="PriorityID"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PriorityID]"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[PriorityID]" />
+                    <inputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Acknowledged]"
+                      cachedDataType="bool"
+                      cachedName="Acknowledged"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Acknowledged]"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[Acknowledged]" />
+                    <inputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UpdatedDate]"
+                      cachedDataType="dbTimeStampOffset"
+                      cachedName="UpdatedDate"
+                      cachedScale="7"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UpdatedDate]"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[UpdatedDate]" />
+                    <inputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UpdatedBy]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="UpdatedBy"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UpdatedBy]"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[UpdatedBy]" />
+                    <inputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[AlarmAndEventLogGuid]"
+                      cachedDataType="guid"
+                      cachedName="AlarmAndEventLogGuid"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AlarmAndEventLogGuid]"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[AlarmAndEventLogGuid]" />
+                    <inputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[RowVersionInt]"
+                      cachedDataType="i8"
+                      cachedName="RowVersionInt"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SourceRowVersion]"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[RowVersionInt]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SequenceNumber]"
+                      dataType="i8"
+                      name="SequenceNumber" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Source]"
+                      dataType="wstr"
+                      length="120"
+                      name="Source" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Alarm]"
+                      dataType="bool"
+                      name="Alarm" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ID]"
+                      dataType="wstr"
+                      length="120"
+                      name="ID" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AssociatedData]"
+                      dataType="nText"
+                      name="AssociatedData" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CategoryID]"
+                      dataType="wstr"
+                      length="50"
+                      name="CategoryID" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PriorityID]"
+                      dataType="wstr"
+                      length="50"
+                      name="PriorityID" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Acknowledged]"
+                      dataType="bool"
+                      name="Acknowledged" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CreatedDate]"
+                      dataType="dbTimeStampOffset"
+                      name="CreatedDate"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CreatedBy]"
+                      dataType="wstr"
+                      length="100"
+                      name="CreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UpdatedDate]"
+                      dataType="dbTimeStampOffset"
+                      name="UpdatedDate"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[UpdatedBy]"
+                      dataType="wstr"
+                      length="100"
+                      name="UpdatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AlarmAndEventLogGuid]"
+                      dataType="guid"
+                      name="AlarmAndEventLogGuid" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SiteGuid]"
+                      dataType="guid"
+                      name="SiteGuid" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SourceNode]"
+                      dataType="wstr"
+                      length="256"
+                      name="SourceNode" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[_RowVersion]"
+                      dataType="bytes"
+                      length="8"
+                      name="_RowVersion" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SourceRowVersion]"
+                      dataType="i8"
+                      name="SourceRowVersion" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[IgnoreRecord]"
+                      dataType="bool"
+                      name="IgnoreRecord" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[IsProcessed]"
+                      dataType="bool"
+                      name="IsProcessed" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SKey]"
+                      dataType="i4"
+                      name="SKey" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[InventoryDate]"
+                      dataType="dbDate"
+                      name="InventoryDate" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ArchiveDate]"
+                      dataType="dbTimeStampOffset"
+                      name="ArchiveDate"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ETLProcessKey]"
+                      dataType="i8"
+                      name="ETLProcessKey" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">EXEC [archive].[usp_GetAlarmAndEventLog] ?, ?, ?</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping">"@cutOffDate:Input",{B784EC91-A7B9-40D7-B0F6-864236F54959};"@beginAlarmAndEventLogKey:Input",{1FBF37AB-2098-4E38-9E1D-FD41D808D762};"@endAlarmAndEventLogKey:Input",{BA50C532-A381-47EA-85A5-A458FB2206D9};</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="{9BE2D1CF-4CEF-403E-AE67-AE8DF88C8196}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[SourceFuelsManagerCM]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[CreatedDate]"
+                      dataType="dbTimeStampOffset"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CreatedDate]"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[CreatedDate]"
+                      name="CreatedDate"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[CreatedBy]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CreatedBy]"
+                      length="100"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[CreatedBy]"
+                      name="CreatedBy"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[_RowVersion]"
+                      dataType="bytes"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[_RowVersion]"
+                      length="8"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[_RowVersion]"
+                      name="_RowVersion"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[SiteGuid]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SiteGuid]"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[SiteGuid]"
+                      name="SiteGuid"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[RowVersionInt]"
+                      dataType="i8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[RowVersionInt]"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[RowVersionInt]"
+                      name="RowVersionInt"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID]"
+                      length="120"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID]"
+                      name="ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[SourceNode]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SourceNode]"
+                      length="256"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[SourceNode]"
+                      name="SourceNode"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[SequenceNumber]"
+                      dataType="i8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SequenceNumber]"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[SequenceNumber]"
+                      name="SequenceNumber"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[Source]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Source]"
+                      length="120"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[Source]"
+                      name="Source"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[Alarm]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Alarm]"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[Alarm]"
+                      name="Alarm"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[AssociatedData]"
+                      dataType="nText"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AssociatedData]"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[AssociatedData]"
+                      name="AssociatedData"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[CategoryID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CategoryID]"
+                      length="50"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[CategoryID]"
+                      name="CategoryID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[PriorityID]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PriorityID]"
+                      length="50"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[PriorityID]"
+                      name="PriorityID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[Acknowledged]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Acknowledged]"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[Acknowledged]"
+                      name="Acknowledged"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[UpdatedDate]"
+                      dataType="dbTimeStampOffset"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[UpdatedDate]"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[UpdatedDate]"
+                      name="UpdatedDate"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[UpdatedBy]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[UpdatedBy]"
+                      length="100"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[UpdatedBy]"
+                      name="UpdatedBy"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[AlarmAndEventLogGuid]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AlarmAndEventLogGuid]"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].Columns[AlarmAndEventLogGuid]"
+                      name="AlarmAndEventLogGuid"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CreatedDate]"
+                      dataType="dbTimeStampOffset"
+                      name="CreatedDate"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CreatedBy]"
+                      dataType="wstr"
+                      length="100"
+                      name="CreatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[_RowVersion]"
+                      dataType="bytes"
+                      length="8"
+                      name="_RowVersion" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SiteGuid]"
+                      dataType="guid"
+                      name="SiteGuid" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[RowVersionInt]"
+                      dataType="i8"
+                      name="RowVersionInt" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID]"
+                      dataType="wstr"
+                      length="120"
+                      name="ID" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SourceNode]"
+                      dataType="wstr"
+                      length="256"
+                      name="SourceNode" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SequenceNumber]"
+                      dataType="i8"
+                      name="SequenceNumber" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Source]"
+                      dataType="wstr"
+                      length="120"
+                      name="Source" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Alarm]"
+                      dataType="bool"
+                      name="Alarm" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AssociatedData]"
+                      dataType="nText"
+                      name="AssociatedData" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CategoryID]"
+                      dataType="wstr"
+                      length="50"
+                      name="CategoryID" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PriorityID]"
+                      dataType="wstr"
+                      length="50"
+                      name="PriorityID" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Acknowledged]"
+                      dataType="bool"
+                      name="Acknowledged" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[UpdatedDate]"
+                      dataType="dbTimeStampOffset"
+                      name="UpdatedDate"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[UpdatedBy]"
+                      dataType="wstr"
+                      length="100"
+                      name="UpdatedBy" />
+                    <externalMetadataColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AlarmAndEventLogGuid]"
+                      dataType="guid"
+                      name="AlarmAndEventLogGuid" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SequenceNumber]"
+                      dataType="i8"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SequenceNumber]"
+                      name="SequenceNumber" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Source]"
+                      dataType="wstr"
+                      length="120"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Source]"
+                      name="Source" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Alarm]"
+                      dataType="bool"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Alarm]"
+                      name="Alarm" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID]"
+                      dataType="wstr"
+                      length="120"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID]"
+                      name="ID" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AssociatedData]"
+                      dataType="nText"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AssociatedData]"
+                      name="AssociatedData" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CategoryID]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CategoryID]"
+                      name="CategoryID" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PriorityID]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PriorityID]"
+                      name="PriorityID" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Acknowledged]"
+                      dataType="bool"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Acknowledged]"
+                      name="Acknowledged" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CreatedDate]"
+                      dataType="dbTimeStampOffset"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CreatedDate]"
+                      name="CreatedDate"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CreatedBy]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CreatedBy]"
+                      name="CreatedBy" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[UpdatedDate]"
+                      dataType="dbTimeStampOffset"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[UpdatedDate]"
+                      name="UpdatedDate"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[UpdatedBy]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[UpdatedBy]"
+                      name="UpdatedBy" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AlarmAndEventLogGuid]"
+                      dataType="guid"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AlarmAndEventLogGuid]"
+                      name="AlarmAndEventLogGuid" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[_RowVersion]"
+                      dataType="bytes"
+                      length="8"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[_RowVersion]"
+                      name="_RowVersion" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SiteGuid]"
+                      dataType="guid"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SiteGuid]"
+                      name="SiteGuid" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SourceNode]"
+                      dataType="wstr"
+                      length="256"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SourceNode]"
+                      name="SourceNode" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[RowVersionInt]"
+                      dataType="i8"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[RowVersionInt]"
+                      name="RowVersionInt" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\AlarmAndEventLog Data Extraction.Paths[OLE DB Source Output]"
+              endId="Package\AlarmAndEventLog Data Extraction\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\AlarmAndEventLog Data Extraction\OLE DB Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Close Audit Record"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{3eb8cc97-b810-4168-997a-7d8eac787bea}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Close Audit Record"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4F5AE697-7607-41BD-97E4-4208069BDC4B}"
+          SQLTask:SqlStatementSource="UPDATE dbo.tblETLAudit&#xA; SET ExecStopDT = getdate()&#xA; , SuccessfulProcessingInd = 'Y'&#xA;WHERE &#xA; AuditKey = @AuditId" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@AuditId"
+            SQLTask:DtsVariableName="User::AuditKey"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="12"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Open Audit Record"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{ab69d8cb-4004-48b2-8295-9f46a36c96ca}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Open Audit Record"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4F5AE697-7607-41BD-97E4-4208069BDC4B}"
+          SQLTask:SqlStatementSource="INSERT INTO dbo.tblETLAudit&#xA;(Operation, ParentAuditKey, PkgName, PkgGUID , PkgVersionGUID , PkgVersionMajor , PkgVersionMinor , ExecStartDT)&#xA;Values  ('ETL', @ParentAuditKey, @PkgName , @PkgGUID , @PkgVersionGUID , @PkgVersionMajor , @PkgVersionMinor , @ExecStartDT)&#xA;&#xA;-- Get the key we just entered.&#xA;SELECT cast(IDENT_CURRENT('dbo.tblETLAudit') AS bigint) AS AuditKey"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="0"
+            SQLTask:DtsVariableName="User::AuditKey" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@PkgName"
+            SQLTask:DtsVariableName="System::PackageName"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="16"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@PkgVersionGUID"
+            SQLTask:DtsVariableName="System::VersionGUID"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="16"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@PkgGUID"
+            SQLTask:DtsVariableName="System::PackageID"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="16"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@PkgVersionMajor"
+            SQLTask:DtsVariableName="System::VersionMajor"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="11"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@PkgVersionMinor"
+            SQLTask:DtsVariableName="System::VersionMinor"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="11"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@ExecStartDt"
+            SQLTask:DtsVariableName="System::StartTime"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="6"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@ParentAuditKey"
+            SQLTask:DtsVariableName="$Package::ParentAuditKey"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="12"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{6020c1d0-e699-4728-bad8-48bd32e188a7}"
+      DTS:From="Package\Open Audit Record"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\AlarmAndEventLog Data Extraction" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{de244388-fa89-46e0-bd40-c37a7bf67bb7}"
+      DTS:From="Package\AlarmAndEventLog Data Extraction"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Close Audit Record" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="243.2,41.6"
+          Id="Package\AlarmAndEventLog Data Extraction"
+          TopLeft="30.8571423608429,159.999998541439" />
+        <NodeLayout
+          Size="167.2,41.6"
+          Id="Package\Close Audit Record"
+          TopLeft="69.714285879719,284.752942892424" />
+        <NodeLayout
+          Size="167.2,41.6"
+          Id="Package\Open Audit Record"
+          TopLeft="73.1428573666786,60" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="154.599999863761,101.6">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,58.3999985414393"
+              Start="0,0"
+              End="0,50.8999985414393">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,50.8999985414393" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="152.885714120281,201.599998541439">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,83.1529443509847"
+              Start="0,0"
+              End="0,75.6529443509847">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,75.6529443509847" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\AlarmAndEventLog Data Extraction">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="149.6,41.6"
+          Id="Package\AlarmAndEventLog Data Extraction\OLE DB Source"
+          TopLeft="112.571430488509,66.7294112756592" />
+        <NodeLayout
+          Size="170.4,41.6"
+          Id="Package\AlarmAndEventLog Data Extraction\OLE DB Destination"
+          TopLeft="101.14285886531,168.235296477084" />
+        <EdgeLayout
+          Id="Package\AlarmAndEventLog Data Extraction.Paths[OLE DB Source Output]"
+          TopLeft="186.857144676909,108.329411275659">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,59.9058852014244"
+              Start="0,0"
+              End="0,52.4058852014244">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.4058852014244" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\AlarmAndEventLog Data Extraction\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\AlarmAndEventLog Data Extraction\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

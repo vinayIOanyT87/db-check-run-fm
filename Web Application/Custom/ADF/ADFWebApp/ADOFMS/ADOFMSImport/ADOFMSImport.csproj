@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4008393F-8980-4FB6-B0A6-7D5B4B1F1A25}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ADOFMSImport</RootNamespace>
+    <AssemblyName>ADOFMSImport</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AccountingBLL, Version=8.0.1.0, Culture=neutral, PublicKeyToken=58084a0c81667f78, processorArchitecture=x86" />
+    <Reference Include="AccountingServices, Version=8.0.1.0, Culture=neutral, PublicKeyToken=58084a0c81667f78, processorArchitecture=x86" />
+    <Reference Include="ConsolidatedBLL, Version=8.0.1.0, Culture=neutral, PublicKeyToken=db2f0e25c6376a0d, processorArchitecture=x86" />
+    <Reference Include="ConsolidatedDataObjects, Version=8.0.1.0, Culture=neutral, PublicKeyToken=a6e5a6cd2a415de3, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="FMCommon, Version=8.0.1.0, Culture=neutral, PublicKeyToken=e6190a5bf6c69d61, processorArchitecture=x86" />
+    <Reference Include="Gnu.Getopt, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>binaries\Gnu.Getopt.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.ConvertEngUnits, Version=7.1.1.0, Culture=neutral, PublicKeyToken=1787102fc47374e8">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Binaries\Interop.ConvertEngUnits.dll</HintPath>
+    </Reference>
+    <Reference Include="PriceCalculator, Version=8.0.1.0, Culture=neutral, PublicKeyToken=1ddbd8b466737be5, processorArchitecture=x86" />
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ArgParser.cs" />
+    <Compile Include="DataObjects\CSVObject.cs" />
+    <Compile Include="DataObjects\DataObject.cs" />
+    <Compile Include="DataObjects\Interfaces\IDataObject.cs" />
+    <Compile Include="DataObjects\IssuesObject.cs" />
+    <Compile Include="DataObjects\SalesObject.cs" />
+    <Compile Include="DataObjects\TransactionObject.cs" />
+    <Compile Include="Defaults.cs" />
+    <Compile Include="Logger.cs" />
+    <Compile Include="LoggerManager.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Parsers\CSVMultiParser.cs" />
+    <Compile Include="Parsers\Interfaces\IParser.cs" />
+    <Compile Include="Parsers\Parser.cs" />
+    <Compile Include="Runner.cs" />
+    <Compile Include="Transformers\Interfaces\ITransformer.cs" />
+    <Compile Include="Transformers\IssuesTransformer.cs" />
+    <Compile Include="Transformers\SalesTransformer.cs" />
+    <Compile Include="Transformers\Transformer.cs" />
+    <Compile Include="Transformers\TransformerManager.cs" />
+    <Compile Include="Validators\CSVFileValidator.cs" />
+    <Compile Include="Validators\Interfaces\IValidator.cs" />
+    <Compile Include="Validators\FileValidator.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

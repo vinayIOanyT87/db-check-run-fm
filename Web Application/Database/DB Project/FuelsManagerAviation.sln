@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2035
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "FuelsManagerDBAviation", "FuelsManagerDBAviation\FuelsManagerDBAviation.sqlproj", "{C1E288F8-DA63-4568-8095-8C9568220D4B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "9.2UpgradeTo9.x", "9.2UpgradeTo9.x", "{FCDCCFB8-D81D-4985-A4C6-5A713FFD7C4C}"
+	ProjectSection(SolutionItems) = preProject
+		FuelsManagerDBAviation\9.2UpgradeTo9.x\10.33.16.167.FuelsManagerDBAviation.publish.xml = FuelsManagerDBAviation\9.2UpgradeTo9.x\10.33.16.167.FuelsManagerDBAviation.publish.xml
+		FuelsManagerDBAviation\9.2UpgradeTo9.x\10.33.16.212.FuelsManagerDBAviation.publish.xml = FuelsManagerDBAviation\9.2UpgradeTo9.x\10.33.16.212.FuelsManagerDBAviation.publish.xml
+		FuelsManagerDBAviation\9.2UpgradeTo9.x\CreateUpgradeScript.ps1 = FuelsManagerDBAviation\9.2UpgradeTo9.x\CreateUpgradeScript.ps1
+		FuelsManagerDBAviation\9.2UpgradeTo9.x\Migration.log = FuelsManagerDBAviation\9.2UpgradeTo9.x\Migration.log
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C1E288F8-DA63-4568-8095-8C9568220D4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1E288F8-DA63-4568-8095-8C9568220D4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1E288F8-DA63-4568-8095-8C9568220D4B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{C1E288F8-DA63-4568-8095-8C9568220D4B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C1E288F8-DA63-4568-8095-8C9568220D4B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C1E288F8-DA63-4568-8095-8C9568220D4B}.Debug|Mixed Platforms.Deploy.0 = Debug|Any CPU
+		{C1E288F8-DA63-4568-8095-8C9568220D4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1E288F8-DA63-4568-8095-8C9568220D4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1E288F8-DA63-4568-8095-8C9568220D4B}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{C1E288F8-DA63-4568-8095-8C9568220D4B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C1E288F8-DA63-4568-8095-8C9568220D4B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C1E288F8-DA63-4568-8095-8C9568220D4B}.Release|Mixed Platforms.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ED09F8D8-82C2-422E-A2D9-4ADDB72E4F5F}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 2
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://1552-div-team:8080/tfs/varec
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = FuelsManagerDBAviation\\FuelsManagerDBAviation.sqlproj
+		SccProjectName1 = FuelsManagerDBAviation
+		SccLocalPath1 = FuelsManagerDBAviation
+	EndGlobalSection
+EndGlobal

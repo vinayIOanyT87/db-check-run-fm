@@ -1,0 +1,12 @@
+﻿<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="DestinationReportingCM"
+  DTS:DTSID="{52CDA5C0-7D5C-44C7-A998-2FA7F478AAF6}"
+  DTS:CreationName="OLEDB">
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=D-DW2K6L3\NEPTUNE;Initial Catalog=FuelsManagerDWDB;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;Application Name=SSIS-FuelsManagerDWSSIS-{52CDA5C0-7D5C-44C7-A998-2FA7F478AAF6}D-DW2K6L3\NEPTUNE.FuelsManagerDWDB1;" />
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

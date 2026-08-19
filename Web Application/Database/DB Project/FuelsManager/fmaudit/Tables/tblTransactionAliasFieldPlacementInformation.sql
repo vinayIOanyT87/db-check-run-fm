@@ -1,0 +1,34 @@
+﻿CREATE TABLE [fmaudit].[tblTransactionAliasFieldPlacementInformation]
+(
+	[TransactionAliasFieldPlacementInformationGuid]   UNIQUEIDENTIFIER  NULL
+,	[TransactionAliasGuid]  UNIQUEIDENTIFIER   NULL
+,	[PlacementInformation]  NVARCHAR (MAX)     NULL
+,   [CreatedBy]             nvarchar (100)     NULL
+,   [CreatedDate]           DATETIMEOFFSET     NULL
+,   [UpdatedBy]             nvarchar (100)     NULL
+,   [UpdatedDate]           DATETIMEOFFSET     NULL
+,   [OriginalRowVersion]    BINARY(8)          NULL
+,	[_AuditEventType] CHAR(1) NULL
+,	[_AuditEventSequence] TINYINT NULL CONSTRAINT DF_tblTransactionAliasFieldPlacementInformation_AuditEventSequence DEFAULT 0
+,	[_AuditSiteGuid] UNIQUEIDENTIFIER NULL
+,	[_AuditSessionGuid] UNIQUEIDENTIFIER NULL
+,	[_AuditUserID] udtUserID NULL
+,	[_AuditSessionTokenID] UNIQUEIDENTIFIER NULL
+,	[_AuditCreatedDate] DATETIMEOFFSET(7) NULL CONSTRAINT DF_tblTransactionAliasFieldPlacementInformation_AuditCreatedDate DEFAULT sysdatetimeoffset()
+,	[_AuditGUID] UNIQUEIDENTIFIER NOT NULL CONSTRAINT DF_tblTransactionAliasFieldPlacementInformation_AuditGUID DEFAULT newid()
+,	[_AuditRowVersion] ROWVERSION 
+,	[_ClusterIdx] BIGINT IDENTITY (1, 1) NOT NULL 
+,	[_AuditContext] VARBINARY(128) NULL 
+)
+GO
+
+CREATE NONCLUSTERED INDEX [IX_tblTransactionAliasFieldPlacementInformation_AuditGUID] ON [fmaudit].[tblTransactionAliasFieldPlacementInformation](_AuditGUID ASC)
+GO
+
+CREATE NONCLUSTERED INDEX [IX_tblTransactionAliasFieldPlacementInformation_AuditRowVersion_EventType_EventSequence] ON [fmaudit].[tblTransactionAliasFieldPlacementInformation] 
+	([_AuditRowVersion] ASC, [_AuditEventType] ASC, [_AuditEventSequence] ASC) 
+	INCLUDE ([_AuditSiteGuid], [_AuditSessionGuid], [_AuditUserID], [_AuditGUID]) 
+	WITH (STATISTICS_NORECOMPUTE = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
+GO
+
+CREATE CLUSTERED INDEX [IX_tblTransactionAliasFieldPlacementInformation_ClusterIdx] ON [fmaudit].[tblTransactionAliasFieldPlacementInformation](_ClusterIdx ASC)

@@ -1,0 +1,404 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="2/17/2020 12:36:53 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="9GGGPL2"
+  DTS:CreatorName="LEIDOS-CORP\bapooh"
+  DTS:DTSID="{FAC3D970-1B1B-4394-9844-050313F723CC}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1300.371"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="ProcessInitialisation"
+  DTS:PackageType="5"
+  DTS:VersionBuild="15"
+  DTS:VersionGUID="{6E15094B-FD71-42D0-9D92-E8765078E3C4}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:Description="OnlineMode,OfflineMode"
+      DTS:DTSID="{EC714458-8EDC-45C3-B990-3E492B6831D6}"
+      DTS:ObjectName="ArchivingMode">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">OnlineMode</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="20"
+      DTS:DTSID="{4BC7CE2A-9FE9-46A1-85A7-41953C264DBD}"
+      DTS:ObjectName="ParentAuditKey">
+      <DTS:Property
+        DTS:DataType="20"
+        DTS:Name="ParameterValue">0</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{332EA246-1D8E-4B82-B917-E37930EFBE6B}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="AuditKey">
+      <DTS:VariableValue
+        DTS:DataType="20">0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Close Audit Record"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{b97dc30a-9c9e-4c3d-8433-bb07850184f9}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Close Audit Record"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4F5AE697-7607-41BD-97E4-4208069BDC4B}"
+          SQLTask:SqlStatementSource="UPDATE dbo.tblETLAudit&#xA; SET ExecStopDT = getdate()&#xA; , SuccessfulProcessingInd = 'Y'&#xA;WHERE &#xA; AuditKey = @AuditId" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@AuditId"
+            SQLTask:DtsVariableName="User::AuditKey"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="12"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Disable Triggers For Offline Archiving"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{4e8ae1df-2eb1-4fd0-a6a0-6d247218c7f8}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Disable Triggers For Offline Archiving"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9BE2D1CF-4CEF-403E-AE67-AE8DF88C8196}"
+          SQLTask:SqlStatementSource="EXEC [archive].[usp_DisableTriggersForOfflineArchiving]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Open Audit Record"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{b2846e97-6584-4e3d-a3c9-b5c3e30c6f73}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Open Audit Record"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4F5AE697-7607-41BD-97E4-4208069BDC4B}"
+          SQLTask:SqlStatementSource="INSERT INTO dbo.tblETLAudit&#xA;(Operation, ParentAuditKey, PkgName, PkgGUID , PkgVersionGUID , PkgVersionMajor , PkgVersionMinor , ExecStartDT)&#xA;Values  ('ETL', @ParentAuditKey, @PkgName , @PkgGUID , @PkgVersionGUID , @PkgVersionMajor , @PkgVersionMinor , @ExecStartDT)&#xA;&#xA;-- Get the key we just entered.&#xA;SELECT cast(IDENT_CURRENT('dbo.tblETLAudit') AS bigint) AS AuditKey"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="0"
+            SQLTask:DtsVariableName="User::AuditKey" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@PkgName"
+            SQLTask:DtsVariableName="System::PackageName"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="16"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@PkgVersionGUID"
+            SQLTask:DtsVariableName="System::VersionGUID"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="16"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@PkgGUID"
+            SQLTask:DtsVariableName="System::PackageID"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="16"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@PkgVersionMajor"
+            SQLTask:DtsVariableName="System::VersionMajor"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="11"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@PkgVersionMinor"
+            SQLTask:DtsVariableName="System::VersionMinor"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="11"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@ExecStartDt"
+            SQLTask:DtsVariableName="System::StartTime"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="6"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@ParentAuditKey"
+            SQLTask:DtsVariableName="$Package::ParentAuditKey"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="12"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Reset Processed Records Table"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{3a19b4be-beda-4e5a-bf55-7fe787c12193}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Reset Processed Records Table"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9BE2D1CF-4CEF-403E-AE67-AE8DF88C8196}"
+          SQLTask:SqlStatementSource="EXEC [archive].[usp_ResetProcessedRecordsTable]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Reset Staging Tables"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{3EDA1239-4D24-4C6E-A437-F5E7ADA4B7A2}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Reset Staging Tables"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{0CD76D1A-1889-422A-8670-BA73FA2E881D}"
+          SQLTask:SqlStatementSource="EXEC [staging].[usp_ResetStagingTables] 'AllScopes'" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{684B3DA3-36D7-44AD-A889-43B60E4F2E14}"
+      DTS:From="Package\Open Audit Record"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Reset Staging Tables" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{A22D89E0-379D-47F2-A015-A41E04B6E2EE}"
+      DTS:From="Package\Reset Staging Tables"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Reset Processed Records Table" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{B5412CB0-15CC-4DD1-B63C-FC2BF08A0BE6}"
+      DTS:EvalOp="3"
+      DTS:Expression="@[$Package::ArchivingMode] == &quot;OfflineMode&quot;"
+      DTS:From="Package\Reset Processed Records Table"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Disable Triggers For Offline Archiving" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{A66411DC-B522-4ECB-A8A7-CBDBF2C89B29}"
+      DTS:From="Package\Disable Triggers For Offline Archiving"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Close Audit Record" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{621C5814-AAE4-40CB-BC7A-62738E8F65BC}"
+      DTS:EvalOp="3"
+      DTS:Expression="@[$Package::ArchivingMode] != &quot;OfflineMode&quot;"
+      DTS:From="Package\Reset Processed Records Table"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Close Audit Record" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="215.2,41.6"
+          Id="Package\Close Audit Record"
+          TopLeft="163.428574211743,432.941178761388" />
+        <NodeLayout
+          Size="253.6,41.6"
+          Id="Package\Disable Triggers For Offline Archiving"
+          TopLeft="12.0000002043587,313.788234702114" />
+        <NodeLayout
+          Size="167.2,41.6"
+          Id="Package\Open Audit Record"
+          TopLeft="185.714287855187,30.6352937058181" />
+        <NodeLayout
+          Size="224.8,41.6"
+          Id="Package\Reset Processed Records Table"
+          TopLeft="157.714288400144,209.505883742864" />
+        <NodeLayout
+          Size="176.8,41.6"
+          Id="Package\Reset Staging Tables"
+          TopLeft="181.714288808862,124.188237035811" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="269.714288332024,72.2352937058181">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,51.9529433299929"
+              Start="0,0"
+              End="0,44.4529433299929">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,44.4529433299929" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="270.114288604503,165.788237035811">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,43.7176467070531"
+              Start="0,0"
+              End="0,36.2176467070531">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.2176467070531" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="233.980955066811,251.105883742864">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-95.180954862452,62.6823509592504"
+              Start="0,0"
+              End="-95.180954862452,55.1823509592504">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.3387312711599" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,21.3387312711599"
+                    Point2="0,25.3387312711599"
+                    Point3="-4,25.3387312711599" />
+                  <mssgle:LineSegment
+                    End="-91.180954862452,25.3387312711599" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-91.180954862452,25.3387312711599"
+                    Point2="-95.180954862452,25.3387312711599"
+                    Point3="-95.180954862452,29.3387312711599" />
+                  <mssgle:LineSegment
+                    End="-95.180954862452,55.1823509592504" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-55.590477431226,30.3387312711599,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="138.800000204359,355.388234702114">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="97.6952406740508,77.552944059273"
+              Start="0,0"
+              End="97.6952406740508,70.052944059273">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,42.1883585651907" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,42.1883585651907"
+                    Point2="0,46.1883585651907"
+                    Point3="4,46.1883585651907" />
+                  <mssgle:LineSegment
+                    End="93.6952406740508,46.1883585651907" />
+                  <mssgle:CubicBezierSegment
+                    Point1="93.6952406740508,46.1883585651907"
+                    Point2="97.6952406740508,46.1883585651907"
+                    Point3="97.6952406740508,50.1883585651907" />
+                  <mssgle:LineSegment
+                    End="97.6952406740508,70.052944059273" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="305.904764639277,251.105883742864">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,181.835295018524"
+              Start="0,0"
+              End="0,174.335295018524">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,174.335295018524" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-8,79.1676475092618,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

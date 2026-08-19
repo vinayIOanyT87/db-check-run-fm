@@ -1,0 +1,68 @@
+**************************
+** Adding custom objects (e.g.: stored procedures or/and user function) 
+** for specific solutions (e.g.: Aviation, Defense, Terminal Automation) into DB Project
+**************************
+Until the writing of this instruction the Database Project has exposed limitations for processing "Pre" or "Post" type of scripts that may contain DDL commands (e.g.: Create, Drop, GO). Hence, for FuelsManager' specific features to be deployed they must be added into DB Project as dynamic Transaction-SQL. Even though dynamic scripts will not be validated during a build process of the DB Project itself, it will still be verified during the deployment of the database, including during the unit testing phase.
+
+To add a new custom object into DB Project proceed as follows:
+
+1. Implement and unit test your object (stored procedure or user function) locally;
+2. Once implementation and testing is complete script out the object.
+3. Convert the generated script make proper changes for the script to be executed through EXEC sp_executesql command. This may include:
+
+	a. replace all single quote (') per double single quote ('') - not double quote (");
+	b. wrap the script between single quotes;
+	c. add EXEC sp_executesql N to the beggining of the script;
+	
+	example:
+
+	-- Original script generated for usp_MyTest
+
+	IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[usp_MyTest]') AND type in (N'P', N'PC'))
+		DROP PROCEDURE [dbo].[usp_MyTest]
+	GO
+
+	CREATE PROCEDURE [dbo].[usp_MyTest]
+	AS
+	BEGIN
+		SET NOCOUNT ON;
+		PRINT 'Reading data from MyTest table...'
+		SELECT MyTestId, MyTestDesc FROM [tblMyTest] b
+	END;
+
+	GO
+
+
+	-- Converted script:
+
+	EXEC sp_executesql N'IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N''[dbo].[usp_MyTest]'') AND type in (N''P'', N''PC''))
+	DROP PROCEDURE [dbo].[usp_MyTest]'
+
+
+	EXEC sp_executesql N'CREATE PROCEDURE [dbo].[usp_MyTest]
+
+	AS
+	BEGIN
+		SET NOCOUNT ON;
+
+		PRINT ''Reading data from MyTest table...''
+	SELECT MyTestId, MyTestDesc FROM [tblMyTest] b
+	END;'
+
+	Notice that:
+	- Single quotes (') got replaced by double single quotes ('')
+	- "GO" statements were dropped
+	- Two block of commands were warpped by single quote and the following command got added to beginning of each block" EXEC sp_executesql N
+
+	If you are using SQL Server 2012, it may script out your script ready for sp_executesql already. In this you do not have to replace single quotes per double single quotes.
+
+4. Locate the subfolder's solution under which your object is to be deployed as follows:
+	- Aviation: Objects for Avaiation deployment
+	- Core: Object for all solutions
+	- Defense: For defense only
+	- Terminal Automation: For Terminal Automation
+5. Once the solution has been identified, navigate the folder the object belongs to, like Post Script, Stored Procedure:
+6. Name the script using the following convention: <FMSolution>.<Object Type>.<Schema>.<Object Name>. Example: Aviation.Function.dbo.udf_CompanyList.sql
+7. Locate the main Pre (Script.PreDeploymentMain.sql) or Post script (Script.PostDeploymentMain.sql), seek the section that pertains to the FuelsManager Solution and modified the file so it will invoke the script you've added into the solution's folder.
+8. Execute a build
+9. Publish the database on your local system and verify whether the new (or changes) object got deployed succesfully.

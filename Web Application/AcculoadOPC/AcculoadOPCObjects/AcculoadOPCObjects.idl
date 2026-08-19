@@ -1,0 +1,293 @@
+/******************************************************************************
+
+	FILE NAME:		AcculoadOPCObjects.idl
+
+
+	PURPOSE:			IDL source for AcculoadOPCObjects.dll
+
+
+	COMMENTS:
+
+		Copyright (C) E+H Systems & Gauging, Inc. Norcross, GA, USA, 2000
+
+		This file shall not be copied or reproduced in any form without
+				the express written consent of Endress+Hauser.
+
+
+	AUTHOR(S):	W. Gray
+
+
+	VERSION:		1.0.4  Current version
+
+
+
+	MODIFICATION HISTORY:
+		Date:			By:			Reason:
+		---------	----------  -------------------------------------------
+		01/17/2007	W.Gray		7.3.1.0 - Added support for TCP/IP
+
+		08/12/2009	W.Gray		7.4.6.0 - Added support for Accuload III-SA (CSI-5640)
+
+*******************************************************************************/
+
+// This file will be processed by the MIDL tool to
+// produce the type library (AcculoadOPCObjects.tlb) and marshalling code.
+
+#include "mtxattr.h"
+#include "IComCollection.idl"
+import "oaidl.idl";
+import "ocidl.idl";
+
+typedef enum ACCULOAD_TYPE
+{
+	ACCULOAD_2_STD = 0,
+	ACCULOAD_2_SEQ = 1,
+	ACCULOAD_2_RBM = 2,
+	ACCULOAD_III_Q	= 3,
+	MICROLOAD_NET = 4,
+	MULTILOAD_II_SMP = 5,
+	ACCULOAD_III_SA = 6,
+	MULTILOAD_II = 7,
+	SMITH_PROXIMITY = 8,
+	RCU_II_OPEN = 9,
+	RCU_II_RCU = 10,
+	MAX_ACCULOAD_TYPE = 11
+} ACCULOAD_TYPE;
+
+typedef enum ACCULOAD_BAUD
+{
+	ACCULOAD_BAUD_1200 = 0,
+	ACCULOAD_BAUD_2400 = 1,
+	ACCULOAD_BAUD_4800 = 2,
+	ACCULOAD_BAUD_9600 = 3,
+	ACCULOAD_BAUD_19200 = 4,
+	ACCULOAD_BAUD_38400 = 5,
+	MAX_ACCULOAD_BAUD = 6
+} ACCULOAD_BAUD;
+
+typedef enum ACCULOAD_PARITY
+{
+	ACCULOAD_PARITY_NONE = 0,
+	ACCULOAD_PARITY_EVEN = 1,
+	ACCULOAD_PARITY_ODD = 2,
+	MAX_ACCULOAD_PARITY = 3
+} ACCULOAD_PARITY;
+
+typedef enum ACCULOAD_DATA_BITS
+{
+	DATA_BITS_7 = 0,
+	DATA_BITS_8 = 1,
+	MAX_ACCULOAD_DATA_BITS = 2
+} ACCULOAD_DATA_BITS;
+
+typedef enum ACCULOAD_STOP_BITS
+{
+	STOP_BITS_1 = 0,
+	STOP_BITS_2 = 1,
+	MAX_ACCULOAD_STOP_BITS = 2
+} ACCULOAD_STOP_BITS;
+
+typedef enum ACCULOAD_ARM_TYPE
+{
+	STRAIGHT = 0,
+	SEQUENTIAL = 1,
+	RATIO = 2,
+	SIDE_STREAM = 3,
+	UNLOADING = 4,
+	NONE = 5,
+	MAX_ACCULOAD_ARM_TYPE = 6
+} ACCULOAD_ARM_TYPE;
+
+[
+	object,
+	uuid(BF426B41-95C8-4133-8D29-F87FAA245631),
+	dual,
+	nonextensible,
+	helpstring("IAccuload Interface"),
+	pointer_default(unique)
+]
+interface IAccuload : IDispatch{
+	[propget, id(1), helpstring("property Index")] HRESULT Index([out, retval] LONG* pVal);
+	[propput, id(1), helpstring("property Index")] HRESULT Index([in] LONG newVal);
+	[propget, id(2), helpstring("property ID")] HRESULT ID([out, retval] BSTR* pVal);
+	[propput, id(2), helpstring("property ID")] HRESULT ID([in] BSTR newVal);
+	[propget, id(3), helpstring("property Type")] HRESULT Type([out, retval] ACCULOAD_TYPE* pVal);
+	[propput, id(3), helpstring("property Type")] HRESULT Type([in] ACCULOAD_TYPE newVal);
+	[propget, id(4), helpstring("property PortIndex")] HRESULT PortIndex([out, retval] LONG* pVal);
+	[propput, id(4), helpstring("property PortIndex")] HRESULT PortIndex([in] LONG newVal);
+	[propget, id(5), helpstring("property Arms")] HRESULT Arms([out, retval] IDispatch** pVal);
+	[propput, id(5), helpstring("property Arms")] HRESULT Arms([in] IDispatch* newVal);
+	[propget, id(6), helpstring("property PortID")] HRESULT PortID([out, retval] BSTR* pVal);
+	[propput, id(6), helpstring("property PortID")] HRESULT PortID([in] BSTR newVal);
+	[propget, id(7), helpstring("property NetworkCommunications")] HRESULT NetworkCommunications([out, retval] VARIANT_BOOL* pVal);
+	[propput, id(7), helpstring("property NetworkCommunications")] HRESULT NetworkCommunications([in] VARIANT_BOOL newVal);
+	[propget, id(8), helpstring("property IPAddress")] HRESULT IPAddress([out, retval] BSTR* pVal);
+	[propput, id(8), helpstring("property IPAddress")] HRESULT IPAddress([in] BSTR newVal);
+	[id(9), helpstring("method TypeID")] HRESULT TypeID([in] ACCULOAD_TYPE Type,[out,retval] BSTR* pVal);
+	[id(10), helpstring("method Load")] HRESULT Load([in] IDispatch* pDispatch);
+	[id(11), helpstring("method Reset")] HRESULT Reset(void);
+	[propget, id(12), helpstring("property InsertSQL")] HRESULT InsertSQL([out, retval] BSTR* pVal);
+	[propget, id(13), helpstring("property UpdateSQL")] HRESULT UpdateSQL([out, retval] BSTR* pVal);
+	[propget, id(14), helpstring("property PurgeSQL")] HRESULT PurgeSQL([out, retval] BSTR* pVal);
+	[propget, id(15), helpstring("property SelectSQL")] HRESULT SelectSQL([out, retval] BSTR* pVal);
+	[propget, id(16), helpstring("property SelectByIDSQL")] HRESULT SelectByIDSQL([out, retval] BSTR* pVal);
+	[propget, id(17), helpstring("property EnumerateSQL")] HRESULT EnumerateSQL([out, retval] BSTR* pVal);
+};
+[
+	object,
+	uuid(D8D7DC94-F668-44A1-B378-014B96D9D872),
+	dual,
+	nonextensible,
+	helpstring("IAcculoadCollection Interface"),
+	pointer_default(unique)
+]
+interface IAcculoadCollection : IDispatch{
+	DECLARE_COM_COLLECTION(IAccuload)
+};
+
+[
+	object,
+	uuid(E745F9FB-6EA9-45A9-BEF3-1158BF525CA9),
+	dual,
+	nonextensible,
+	helpstring("IArm Interface"),
+	pointer_default(unique)
+]
+interface IArm : IDispatch{
+	[propget, id(1), helpstring("property Index")] HRESULT Index([out, retval] LONG* pVal);
+	[propput, id(1), helpstring("property Index")] HRESULT Index([in] LONG newVal);
+	[propget, id(2), helpstring("property AcculoadIndex")] HRESULT AcculoadIndex([out, retval] LONG* pVal);
+	[propput, id(2), helpstring("property AcculoadIndex")] HRESULT AcculoadIndex([in] LONG newVal);
+	[propget, id(3), helpstring("property Number")] HRESULT Number([out, retval] unsigned char* pVal);
+	[propput, id(3), helpstring("property Number")] HRESULT Number([in] unsigned char newVal);
+	[propget, id(4), helpstring("property Address")] HRESULT Address([out, retval] unsigned char* pVal);
+	[propput, id(4), helpstring("property Address")] HRESULT Address([in] unsigned char newVal);
+	[propget, id(5), helpstring("property Type")] HRESULT Type([out, retval] ACCULOAD_ARM_TYPE* pVal);
+	[propput, id(5), helpstring("property Type")] HRESULT Type([in] ACCULOAD_ARM_TYPE newVal);
+	[propget, id(6), helpstring("property Products")] HRESULT Products([out, retval] unsigned char* pVal);
+	[propput, id(6), helpstring("property Products")] HRESULT Products([in] unsigned char newVal);
+	[id(7), helpstring("method TypeID")] HRESULT TypeID([in] ACCULOAD_ARM_TYPE Type,[out,retval] BSTR* pVal);
+	[id(8), helpstring("method Load")] HRESULT Load([in] IDispatch* pRecordset);
+	[id(9), helpstring("method Reset")] HRESULT Reset(void);
+	[propget, id(10), helpstring("property InsertSQL")] HRESULT InsertSQL([out, retval] BSTR* pVal);
+	[propget, id(11), helpstring("property UpdateSQL")] HRESULT UpdateSQL([out, retval] BSTR* pVal);
+	[propget, id(12), helpstring("property PurgeSQL")] HRESULT PurgeSQL([out, retval] BSTR* pVal);
+	[propget, id(13), helpstring("property SelectSQL")] HRESULT SelectSQL([out, retval] BSTR* pVal);
+	[propget, id(14), helpstring("property SelectByAcculoadIndexAndNumberSQL")] HRESULT SelectByAcculoadIndexAndNumberSQL([out, retval] BSTR* pVal);
+	[propget, id(15), helpstring("property EnumerateByAcculoadIndexSQL")] HRESULT EnumerateByAcculoadIndexSQL([out, retval] BSTR* pVal);
+};
+[
+	object,
+	uuid(4F575503-5589-4230-88E3-D5393BDFCF57),
+	dual,
+	nonextensible,
+	helpstring("IArmCollection Interface"),
+	pointer_default(unique)
+]
+interface IArmCollection : IDispatch{
+	DECLARE_COM_COLLECTION(IArm)
+};
+[
+	object,
+	uuid(2C637431-EC5C-4B67-8B78-ABC946AE671A),
+	dual,
+	nonextensible,
+	helpstring("IPort Interface"),
+	pointer_default(unique)
+]
+interface IPort : IDispatch{
+	[propget, id(1), helpstring("property Index")] HRESULT Index([out, retval] LONG* pVal);
+	[propput, id(1), helpstring("property Index")] HRESULT Index([in] LONG newVal);
+	[propget, id(2), helpstring("property ID")] HRESULT ID([out, retval] BSTR* pVal);
+	[propput, id(2), helpstring("property ID")] HRESULT ID([in] BSTR newVal);
+	[propget, id(3), helpstring("property Baud")] HRESULT Baud([out, retval] ACCULOAD_BAUD* pVal);
+	[propput, id(3), helpstring("property Baud")] HRESULT Baud([in] ACCULOAD_BAUD newVal);
+	[propget, id(4), helpstring("property DataBits")] HRESULT DataBits([out, retval] ACCULOAD_DATA_BITS* pVal);
+	[propput, id(4), helpstring("property DataBits")] HRESULT DataBits([in] ACCULOAD_DATA_BITS newVal);
+	[propget, id(5), helpstring("property Parity")] HRESULT Parity([out, retval] ACCULOAD_PARITY* pVal);
+	[propput, id(5), helpstring("property Parity")] HRESULT Parity([in] ACCULOAD_PARITY newVal);
+	[propget, id(6), helpstring("property StopBits")] HRESULT StopBits([out, retval] ACCULOAD_STOP_BITS* pVal);
+	[propput, id(6), helpstring("property StopBits")] HRESULT StopBits([in] ACCULOAD_STOP_BITS newVal);
+	[id(7), helpstring("method BaudID")] HRESULT BaudID([in] ACCULOAD_BAUD Baud,[out,retval] BSTR* pVal);
+	[id(8), helpstring("method DataBitsID")] HRESULT DataBitsID([in] ACCULOAD_DATA_BITS DataBits,[out,retval] BSTR* pVal);
+	[id(9), helpstring("method ParityID")] HRESULT ParityID([in] ACCULOAD_PARITY Parity,[out,retval] BSTR* pVal);
+	[id(10), helpstring("method StopBitsID")] HRESULT StopBitsID([in] ACCULOAD_STOP_BITS StopBits,[out,retval] BSTR* pVal);
+	[id(11), helpstring("method Load")] HRESULT Load([in] IDispatch* pDispatch);
+	[id(12), helpstring("method Reset")] HRESULT Reset(void);
+	[propget, id(13), helpstring("property InsertSQL")] HRESULT InsertSQL([out, retval] BSTR* pVal);
+	[propget, id(14), helpstring("property UpdateSQL")] HRESULT UpdateSQL([out, retval] BSTR* pVal);
+	[propget, id(15), helpstring("property PurgeSQL")] HRESULT PurgeSQL([out, retval] BSTR* pVal);
+	[propget, id(16), helpstring("property SelectSQL")] HRESULT SelectSQL([out, retval] BSTR* pVal);
+	[propget, id(17), helpstring("property SelectByIDSQL")] HRESULT SelectByIDSQL([out, retval] BSTR* pVal);
+	[propget, id(18), helpstring("property EnumerateSQL")] HRESULT EnumerateSQL([out, retval] BSTR* pVal);
+};
+[
+	object,
+	uuid(D3ECA1A0-D582-40EA-AD38-BA6516F6DE1D),
+	dual,
+	nonextensible,
+	helpstring("IPortCollection Interface"),
+	pointer_default(unique)
+]
+interface IPortCollection : IDispatch{
+	DECLARE_COM_COLLECTION(IPort)
+};
+[
+	uuid(3E903A1B-9024-481B-B125-92A3C6BB042A),
+	version(1.0),
+	helpstring("AcculoadOPCObjects 1.0 Type Library")
+]
+library AcculoadOPCObjectsLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(6C1646B1-E5C0-4EF8-A454-8828BAD2CD07),
+		helpstring("Accuload Class")
+	]
+	coclass Accuload
+	{
+		[default] interface IAccuload;
+	};
+	[
+		uuid(BB618EBC-0E8F-4797-BFFB-46A2C1473D3E),
+		helpstring("AcculoadCollection Class")
+	]
+	coclass AcculoadCollection
+	{
+		[default] interface IAcculoadCollection;
+	};
+
+
+	[
+		uuid(29EFEBEE-2CB2-4D09-8A2F-8225796DBAB7),
+		helpstring("Arm Class")
+	]
+	coclass Arm
+	{
+		[default] interface IArm;
+	};
+	[
+		uuid(FBFF08AB-D838-41FB-ACB3-6CA87D4BF5FD),
+		helpstring("ArmCollection Class")
+	]
+	coclass ArmCollection
+	{
+		[default] interface IArmCollection;
+	};
+	[
+		uuid(71C97AF2-71F4-424B-914E-035C066E0975),
+		helpstring("Port Class")
+	]
+	coclass Port
+	{
+		[default] interface IPort;
+	};
+	[
+		uuid(37D1D842-8F5C-4314-ACBE-AC540626B9C9),
+		helpstring("PortCollection Class")
+	]
+	coclass PortCollection
+	{
+		[default] interface IPortCollection;
+	};
+};

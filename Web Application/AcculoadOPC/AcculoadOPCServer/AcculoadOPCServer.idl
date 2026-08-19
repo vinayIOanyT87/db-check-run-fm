@@ -1,0 +1,127 @@
+// AcculoadOPCServer.idl : IDL source for AcculoadOPCServer
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (AcculoadOPCServer.tlb) and marshalling code.
+
+#include "mtxattr.h"
+import "oaidl.idl";
+import "ocidl.idl";
+import "opcda.idl";
+
+[
+	object,
+	uuid(2415FC12-F24B-48C6-9B36-13BD0303189C),
+	dual,
+	nonextensible,
+	helpstring("IDataAccess Interface"),
+	pointer_default(unique)
+]
+interface IDataAccess : IDispatch{
+	[id(1), helpstring("method GetRecordSet")] HRESULT GetRecordSet(BSTR bstrSQL, [out,retval] IDispatch** ppRecordSet);
+	[id(2), helpstring("method ExecuteQuery")] HRESULT ExecuteQuery(BSTR bstrSQL);
+};
+[
+	object,
+	uuid(D1EBB062-7933-45BE-8F3E-044052154558),
+	dual,
+	nonextensible,
+	helpstring("IAcculoads Interface"),
+	pointer_default(unique)
+]
+interface IAcculoads : IDispatch{
+	[id(1), helpstring("method Enumerate")] HRESULT Enumerate([out,retval] IDispatch** ppAcculoadCollection);
+	[id(2), helpstring("method Add")] HRESULT Add([in] IDispatch* pAccuload,[out,retval] LONG* pIndex);
+	[id(3), helpstring("method Modify")] HRESULT Modify([in] IDispatch* pAccuload);
+	[id(4), helpstring("method Purge")] HRESULT Purge([in] LONG lIndex);
+	[id(5), helpstring("method GetIndex")] HRESULT GetIndex([in] BSTR bstrID, [out,retval] LONG* pIndex);
+	[id(6), helpstring("method Get")] HRESULT Get([in] LONG lIndex, [out,retval] IDispatch** ppAccuload);
+};
+[
+	object,
+	uuid(BD2E1B2F-73DF-41E7-826E-FC7B2E28F847),
+	dual,
+	nonextensible,
+	helpstring("IArms Interface"),
+	pointer_default(unique)
+]
+interface IArms : IDispatch{
+	[id(1), helpstring("method EnumerateByAcculoadIndex")] HRESULT EnumerateByAcculoadIndex([in] LONG lIndex,[out,retval] IDispatch** ppAcculoadCollection);
+	[id(2), helpstring("method Add")] HRESULT Add([in] IDispatch* pArm,[out,retval] LONG* pIndex);
+	[id(3), helpstring("method Modify")] HRESULT Modify([in] IDispatch* pArm);
+	[id(4), helpstring("method Purge")] HRESULT Purge([in] LONG lIndex);
+	[id(5), helpstring("method GetIndex")] HRESULT GetIndex([in] LONG lAcculoadIndex, [in] unsigned char bNumber, [out,retval] LONG* pIndex);
+	[id(6), helpstring("method Get")] HRESULT Get([in] LONG lIndex, [out,retval] IDispatch** ppArm);
+	[id(7), helpstring("method ModifyCollection")] HRESULT ModifyCollection([in] LONG lIndex, [in] IDispatch* pArms);
+};
+[
+	object,
+	uuid(993CDAB0-B262-426D-855B-8440B6CBFF2C),
+	dual,
+	nonextensible,
+	helpstring("IPorts Interface"),
+	pointer_default(unique)
+]
+interface IPorts : IDispatch{
+	[id(1), helpstring("method Enumerate")] HRESULT Enumerate([out,retval] IDispatch** ppPortCollection);
+	[id(2), helpstring("method Add")] HRESULT Add([in] IDispatch* pPort,[out,retval] LONG* pIndex);
+	[id(3), helpstring("method Modify")] HRESULT Modify([in] IDispatch* pPort);
+	[id(4), helpstring("method Purge")] HRESULT Purge([in] LONG lIndex);
+	[id(5), helpstring("method GetIndex")] HRESULT GetIndex([in] BSTR bstrID, [out,retval] LONG* pIndex);
+	[id(6), helpstring("method Get")] HRESULT Get([in] LONG lIndex, [out,retval] IDispatch** ppPort);
+	[id(7), helpstring("method EnumeratePortIDs")] HRESULT EnumeratePortIDs([out,retval] VARIANT* pIDs);
+};
+[
+	uuid(4BDC9779-8FEB-4C9A-B27F-9BF823497410),
+	version(1.0),
+	helpstring("AcculoadOPCServer 1.0 Type Library")
+]
+library AcculoadOPCServerLib
+{
+	importlib("stdole2.tlb");
+
+	[
+		uuid(EAA93515-F290-45DC-928E-CCBDE674A288),
+		custom(TLBATTR_TRANS_SUPPORTED,0),
+		helpstring("DataAccess Class")
+	]
+	coclass DataAccess
+	{
+		[default] interface IDataAccess;
+	};
+	[
+		uuid(41D54854-8705-400A-9B22-F58B58088BE7),
+		custom(TLBATTR_TRANS_REQUIRED,0),
+		helpstring("Acculoads Class")
+	]
+	coclass Acculoads
+	{
+		[default] interface IAcculoads;
+	};
+	[
+		uuid(91AA0986-E49B-4683-99F9-412BCABC3766),
+		custom(TLBATTR_TRANS_REQUIRED,0),
+		helpstring("Arms Class")
+	]
+	coclass Arms
+	{
+		[default] interface IArms;
+	};
+	[
+		uuid(E70484C1-08F4-4E58-99F8-FD68D1F500CE),
+		helpstring("OPCServer Class")
+	]
+	coclass OPCServer
+	{
+		[default] interface IOPCServer;
+		interface IOPCBrowseServerAddressSpace;
+	};	
+	[
+		uuid(2070F4BA-651D-4268-9F5A-1EBE0A137141),
+		helpstring("Ports Class")
+	]
+	coclass Ports
+	{
+		[default] interface IPorts;
+	};
+};

@@ -1,0 +1,300 @@
+﻿CREATE TABLE [fmaudit].[tblSites](
+	[ID] nvarchar (30) NULL
+,	[Number] nvarchar (30) NULL
+,	[SPLCCode] nvarchar (30) NULL
+,	[Address1] nvarchar (30) NULL
+,	[Address2] nvarchar (30) NULL
+,	[City] nvarchar (60) NULL
+,	[State] nvarchar (20) NULL
+,	[Zip] nvarchar (11) NULL
+,	[Country] nvarchar (30) NULL
+,	[Phone] nvarchar (20) NULL
+,	[FAX] nvarchar (20) NULL
+,	[EmailAddress] nvarchar (30) NULL
+,	[EmergencyContact] nvarchar (30) NULL
+,	[EmergencyPhone] nvarchar (20) NULL
+,	[Enabled] bit NULL
+,	[SiteGroupFlag] bit NULL
+,	[TimeZone] nvarchar (50) NULL
+,	[LevelUnitIndex] int NULL
+,	[TemperatureUnitIndex] int NULL
+,	[DensityUnitIndex] int NULL
+,	[PressureUnitIndex] int NULL
+,	[FlowUnitIndex] int NULL
+,	[VolumeUnitIndex] int NULL
+,	[MassUnitIndex] int NULL
+,	[AdditiveVolumeUnitIndex] int NULL
+,	[AdditiveProfileCycleAmountUnitIndex] int NULL
+,	[AdditiveProfileRateUnitIndex] int NULL
+,	[LevelDecimalPlaces] tinyint NULL
+,	[TemperatureDecimalPlaces] tinyint NULL
+,	[DensityDecimalPlaces] tinyint NULL
+,	[PressureDecimalPlaces] tinyint NULL
+,	[FlowDecimalPlaces] tinyint NULL
+,	[VolumeDecimalPlaces] tinyint NULL
+,	[MassDecimalPlaces] tinyint NULL
+,	[AdditiveVolumeDecimalPlaces] tinyint NULL
+,	[AdditiveProfileCycleAmountDecimalPlaces] tinyint NULL
+,	[AdditiveProfileRateDecimalPlaces] tinyint NULL
+,	[InhibitAccessAfterHours] bit NULL
+,	[InhibitMultipleCardIns] bit NULL
+,	[AccessCardInRequired] bit NULL
+,	[CheckSiteNumber] bit NULL
+,	[PromptForCustomerCard] bit NULL
+,	[PromptForTractorOrTanker] bit NULL
+,	[PromptForFirstTrailer] bit NULL
+,	[PromptForSecondTrailer] bit NULL
+,	[PromptForCompartment] bit NULL
+,	[EnforceDriverEquipmentMatch] bit NULL
+,	[EnableAdditiveAccounting] bit NULL
+,	[UseCompanyEquipmentIdentifiers] bit NULL
+,	[UseLastKnownGoodTankData] bit NULL
+,	[MaximumLoadAmount] float NULL
+,	[MaximumLoadTime] int NULL
+,	[MaximumIdleTime] int NULL
+,	[MaximumFlushAmount] float NULL
+,	[MaximumMeterProvingAmount] float NULL
+,	[MaximumReturnsAmount] float NULL
+,	[MaximumNumberOfActiveArms] int NULL
+,	[DriverTimeoutPeriod] int NULL
+,	[DriverWarningPeriod] int NULL
+,	[MaximumPrompts] int NULL
+,	[MaximumVehicleWeight] float NULL
+,	[LoadByNet] bit NULL
+,	[PromptForShipmentNumber] bit NULL
+,	[MaximumProductTemperature] float NULL
+,	[ListEquipment] bit NULL
+,	[DeferStationChanges] bit NULL
+,	[InhibitBOLWithBrokenBlends] bit NULL
+,	[InhibitBOLWithImproperAdditization] bit NULL
+,	[InhibitOverweightBOL] bit NULL
+,	[ExceptionBOLPrinter] nvarchar (80) NULL
+,	[EnableAutomaticBOLPrinting] bit NULL
+,	[AutomaticBOLStartNumber] int NULL
+,	[AutomaticBOLEndNumber] int NULL
+,	[AutomaticBOLNextNumber] int NULL
+,	[SeparateManualBOLNumbering] bit NULL
+,	[ManualBOLStartNumber] int NULL
+,	[ManualBOLEndNumber] int NULL
+,	[ManualBOLNextNumber] int NULL
+,	[TransactionStartNumber] int NULL
+,	[TransactionEndNumber] int NULL
+,	[TransactionNextNumber] int NULL
+,	[OrderStartNumber] int NULL
+,	[OrderEndNumber] int NULL
+,	[OrderNextNumber] int NULL
+,	[NumberPrefix] nvarchar (10) NULL
+,	[OpenTransactionWindow] int NULL
+,	[AdministrativeLockDate] datetimeoffset NULL
+,	[OperationalLockDate] datetimeoffset NULL
+,	[MaximumDaysToRetainLogs] int NULL
+,	[EnableDebugLogging] bit NULL
+,	[EnableAuditLogging] bit NULL
+,	[AutomaticallyPrintAlarmsAndEvents] bit NULL
+,	[AlarmAndEventPrinter] nvarchar (80) NULL
+,	[MailServer] nvarchar (50) NULL
+,	[MailFrom] nvarchar (50) NULL
+,	[MailUserName] nvarchar (50) NULL
+,	[MailPassword] nvarchar (50) NULL
+,	[DialupName] nvarchar (50) NULL
+,	[SCADASystem] nvarchar (50) NULL
+,	[InhibitTemplateGraphics] bit NULL
+,	[RefreshInterval] int NULL
+,	[InhibitEndOfDayOperations] bit NULL
+,	[InhibitEndOfMonthOperations] bit NULL
+,	[EndOfDayWarningPeriod] int NULL
+,	[InhibitAutomaticPhysicalInventory] bit NULL
+,	[InhibitAutomaticMeterCloseout] bit NULL
+,	[InhibitAutomaticReportGeneration] bit NULL
+,	[InhibitAutomaticAdjustmentDistribution] bit NULL
+,	[InhibitAutomaticCloseout] bit NULL
+,	[InhibitTankScan] bit NULL
+,	[ReportDirectory] nvarchar (80) NULL
+,	[ManageReports] bit NULL
+,	[ManagedReportDirectory] nvarchar (80) NULL
+,	[VRURateLimit] float NULL
+,	[VRUHourlyLimit] float NULL
+,	[VRUDailyLimit] float NULL
+,	[VRUYearlyLimit] float NULL
+,	[VRUCurrentYearLimit] float NULL
+,	[VRURateActual] float NULL
+,	[VRUHourlyActual] float NULL
+,	[VRUDailyActual] float NULL
+,	[VRUYearlyActual] float NULL
+,	[VRUCurrentYearActual] float NULL
+,	[VRURateLimitEnabled] bit NULL
+,	[VRUHourlyLimitEnabled] bit NULL
+,	[VRUDailyLimitEnabled] bit NULL
+,	[VRUYearlyLimitEnabled] bit NULL
+,	[VRUCurrentYearLimitEnabled] bit NULL
+,	[WatchdogPeriod] int NULL
+,	[WatchdogCounterStart] int NULL
+,	[WatchdogCounterEnd] int NULL
+,	[NumberDecimalSeparator] nvarchar (1) NULL
+,	[NumberGroupSeparator] nvarchar (1) NULL
+,	[ListSeparator] nvarchar (1) NULL
+,	[TimePattern] nvarchar (20) NULL
+,	[TimeSeparator] nvarchar (1) NULL
+,	[AMSymbol] nvarchar (2) NULL
+,	[PMSymbol] nvarchar (2) NULL
+,	[ShortDatePattern] nvarchar (20) NULL
+,	[DateSeparator] nvarchar (1) NULL
+,	[LongDatePattern] nvarchar (30) NULL
+,	[TwoDigitCalendarEndYear] int NULL
+,	[UserData1] nvarchar (60) NULL
+,	[UserData2] nvarchar (60) NULL
+,	[UserData3] nvarchar (60) NULL
+,	[UserData4] nvarchar (60) NULL
+,	[UserData5] nvarchar (60) NULL
+,	[UserData6] nvarchar (60) NULL
+,	[UserData7] nvarchar (60) NULL
+,	[UserData8] nvarchar (60) NULL
+,	[CreatedDate] datetimeoffset NULL
+,	[CreatedBy] nvarchar (100) NULL
+,	[UpdatedDate] datetimeoffset NULL
+,	[UpdatedBy] nvarchar (100) NULL
+,	[MinTimeAllowedToChangePwd] int NULL
+,	[MinPwdCharacterLength] int NULL
+,	[PwdExpirationInDays] int NULL
+,	[PwdLockoutThreshold] int NULL
+,	[CheckForPreviousPwd] bit NULL
+,	[StrongPwdUse] int NULL
+,	[PwdHistoryCount] int NULL
+,	[ApplyToAllSiteMembers] bit NULL
+,	[InactivityDisablePeriod] int NULL
+,	[EnforceSingleOwner] bit NULL
+,	[InhibitBOLSummaryAutoPopulate] bit NULL
+,	[InhibitOrderSummaryAutoPopulate] bit NULL
+,	[InhibitSupplyOrderSummaryAutoPopulate] bit NULL
+,	[InvoiceStartNumber] int NULL
+,	[InvoiceEndNumber] int NULL
+,	[InvoiceNextNumber] int NULL
+,	[PromptForReturns] bit NULL
+,	[PromptForTruckCard] bit NULL
+,	[StartingShortCardNumber] int NULL
+,	[UseShortCardNumber] bit NULL
+,	[ExcessVarianceCount] tinyint NULL
+,	[ExcessVarianceTolerance] float NULL
+,	[DisableArchivePeriod] int NULL
+,	[ExportArchiveDir] nvarchar (255) NULL
+,	[ImportArchiveDir] nvarchar (255) NULL
+,	[GroupLedgerByID] bit NULL
+,	[InhibitSiteLedgerRollup] bit NULL
+,	[UseTankReconciliation] bit NULL
+,	[SiteGuid] uniqueidentifier NULL
+,	[LookupNumberGroupSizesTypeIndex] int NULL
+,	[LookupQuantityDisplayDefaultIndex] tinyint NULL
+,	[LookupSecondaryStorageFillMethodIndex] tinyint NULL
+,	[LookupMailConnectModeIndex] tinyint NULL
+,	[LookupWatchdogModeIndex] tinyint NULL
+,	[Contact1Name] nvarchar (30) NULL
+,	[Contact1Address1] nvarchar (30) NULL
+,	[Contact1Address2] nvarchar (30) NULL
+,	[Contact1City] nvarchar (60) NULL
+,	[Contact1State] nvarchar (20) NULL
+,	[Contact1Zip] nvarchar (11) NULL
+,	[Contact1Country] nvarchar (30) NULL
+,	[Contact1PhoneOffice] nvarchar (20) NULL
+,	[Contact1Fax] nvarchar (20) NULL
+,	[Contact1EmailAddress] nvarchar (30) NULL
+,	[Contact2Name] nvarchar (30) NULL
+,	[Contact2Address1] nvarchar (30) NULL
+,	[Contact2Address2] nvarchar (30) NULL
+,	[Contact2City] nvarchar (60) NULL
+,	[Contact2State] nvarchar (20) NULL
+,	[Contact2Zip] nvarchar (11) NULL
+,	[Contact2Country] nvarchar (30) NULL
+,	[Contact2PhoneOffice] nvarchar (20) NULL
+,	[Contact2Fax] nvarchar (20) NULL
+,	[Contact2EmailAddress] nvarchar (30) NULL
+,	[Contact1PhoneMobile] nvarchar (20) NULL
+,	[Contact2PhoneMobile] nvarchar (20) NULL
+,	[EnablePasswordHint] bit NULL
+,	[EnablePasswordReset] bit NULL
+,	[MeterReconciliationToleranceIsPercent] bit NULL
+,	[MeterReconciliationReportName] nvarchar (60) NULL
+,	[TranslatedHelpURL] nvarchar (250) NULL
+,	[AllowUseOfSpecialChars] bit NULL
+,	[EnablePeriodicSyncFlag] bit NULL
+,	[PeriodicSyncIntervalMinutes] int NULL
+,  [DisableSyncTransferFlag] bit NULL
+,	[CardInTimeout] int NULL
+,	[TerminalControlNumber] nvarchar (9) NULL
+,	[BlockCloseOnUnpostedBOL] bit NULL
+,	[InhibitLoadRackCardIns] bit NULL
+,	[PromptForThirdTrailer] bit NULL
+,	[PromptForTransactionCompletion] bit NULL
+,	[InhibitCustomerConfirmationPrompt] bit NULL
+,	[EnableBOLPDFArchiving] bit NULL
+,	[BOLPDFArchivingPath] nvarchar (50) NULL
+,	[RequireTrailerScully] bit NULL
+,	[Latitude] float NULL
+,	[Longitude] float NULL
+,	[Zoom] int NULL
+,	[GlobalAccessToPersonnel] bit NULL
+,	[GlobalAccessToEquipment] bit NULL
+,	[Enterprise] bit NULL
+,	[OperateTabGroups] bit NULL
+,	[OriginalRowVersion] BINARY(8) NULL
+,	[EnterpriseUserId] nvarchar (100) NULL
+,	[EnterprisePassword] varbinary (256) NULL
+,	[EnterpriseSite] nvarchar (30) NULL
+,  [ActiveDirectorySiteGroupGuid] UNIQUEIDENTIFIER   NULL
+,	[ServerEndPoint]		nvarchar(250) NULL
+,	[SecurityMode]			nvarchar(50) NULL
+,	[SecurityPolicy]		nvarchar(50) NULL
+,	[MessageEncoding]		nvarchar(50) NULL
+,	[UserIdentityMethod]	nvarchar(50) NULL
+,	[UserId]				nvarchar(250) NULL
+,	[UserPassword]			nvarchar(250) NULL
+,	[UserCertificatePath]	nvarchar(250) NULL
+,	[MaximumDaysToRetainArchive] INT NULL
+,	[EnforceSalesOrderLimit] BIT NULL
+,  [LeakDetectionQuietSamples] INT NULL
+,  [LeakDetectionQuietTime] INT NULL
+,  [LeakDetectionQuietTimeFactor] INT NULL
+,  [LeakDetectionUseMinWait] BIT NULL
+,  [LeakDetectionReport] NVARCHAR(60) NULL
+,  [LeakDetectionPrinter] NVARCHAR(80) NULL
+,	[EnableAutomaticMovementTicketPrinting] BIT NULL
+,	[MovementTicketReport]	NVARCHAR(60) NULL
+,	[MovementTicketPrinter]	 NVARCHAR(80) NULL
+,	[_AuditEventType] CHAR(1) NULL
+,	[_AuditEventSequence] TINYINT NULL CONSTRAINT DF_tblSites_AuditEventSequence DEFAULT 0
+,	[_AuditSiteGuid] UNIQUEIDENTIFIER NULL
+,	[_AuditSessionGuid] UNIQUEIDENTIFIER NULL
+,	[_AuditUserID] udtUserID NULL
+,	[_AuditSessionTokenID] UNIQUEIDENTIFIER NULL
+,	[_AuditCreatedDate] DATETIMEOFFSET(7) NULL CONSTRAINT DF_tblSites_AuditCreatedDate DEFAULT sysdatetimeoffset()
+,	[_AuditGUID] UNIQUEIDENTIFIER NOT NULL CONSTRAINT DF_tblSites_AuditGUID DEFAULT newid()
+,	[_AuditRowVersion] ROWVERSION 
+,	[_ClusterIdx] BIGINT IDENTITY (1, 1) NOT NULL 
+,	[_AuditContext] VARBINARY(128) NULL 
+,  [MaxOperateTabsAllowed] INT NULL
+,  [CloseoutTime] TIME NULL
+,  [PointGroupFileExportDirectory]	NVARCHAR(255) NULL
+,  [PointGroupDefaultFileName] NVARCHAR(255) NULL
+,  [EnableMovementTicketPDFArchiving] BIT NULL
+,  [MovementTicketFileExportDirectory]	NVARCHAR(255) NULL
+,  [MovementTicketExportFileName] NVARCHAR(255) NULL
+,	[MovementNumber] INT NULL
+)
+
+
+
+
+GO
+
+CREATE NONCLUSTERED INDEX [IX_tblSites_AuditGUID] ON [fmaudit].[tblSites](_AuditGUID ASC) 
+GO
+
+CREATE NONCLUSTERED INDEX [IX_tblSites_AuditRowVersion_EventType_EventSequence] ON [fmaudit].[tblSites] 
+	([_AuditRowVersion] ASC, [_AuditEventType] ASC, [_AuditEventSequence] ASC) 
+	INCLUDE ([_AuditSiteGuid], [_AuditSessionGuid], [_AuditUserID], [_AuditGUID]) 
+	WITH (STATISTICS_NORECOMPUTE = OFF, DROP_EXISTING = OFF, ONLINE = OFF) 
+GO
+
+CREATE INDEX [IX_tblSites__AuditRowVersion] ON [fmaudit].[tblSites] ([_AuditRowVersion]) 
+INCLUDE ([_AuditEventType],[_AuditEventSequence],[_AuditSiteGuid],[_AuditSessionGuid],[_AuditUserID],[_AuditCreatedDate],[_AuditGUID])
+GO
+CREATE CLUSTERED INDEX [IX_tblSites_ClusterIdx] ON [fmaudit].[tblSites](_ClusterIdx ASC)

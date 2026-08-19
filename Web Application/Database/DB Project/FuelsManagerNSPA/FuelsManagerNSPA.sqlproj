@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>FuelsManagerNSPA</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{7dd44e83-de04-4b3f-911c-321b0f2440ba}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql110DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>FuelsManagerNSPA</RootNamespace>
+    <AssemblyName>FuelsManagerNSPA</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <DacApplicationName>FuelsManagerDB</DacApplicationName>
+    <DacVersion>1.0.0.2</DacVersion>
+    <TargetFrameworkProfile />
+    <ValidateCasingOnIdentifiers>False</ValidateCasingOnIdentifiers>
+    <DacDescription>FuelsManagerDB - NSPA Schema</DacDescription>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>..\dacpacs</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>
+    </NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>..\dacpacs</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>
+    </NoWarn>
+  </PropertyGroup>
+  <!-- VS10 without SP1 will not have VisualStudioVersion set, so do that here -->
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
+    <!-- Default to the v10.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">12.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="dbo" />
+    <Folder Include="dbo\Functions" />
+    <Folder Include="dbo\Stored Procedures" />
+    <Folder Include="dbo\Tables" />
+    <Folder Include="dbo\User Defined Types" />
+    <Folder Include="dbo\Views" />
+    <Folder Include="dbo\Stored Procedures\Procs1" />
+    <Folder Include="FMScripts" />
+    <Folder Include="FMScripts\DataUpload" />
+    <Folder Include="rpt\" />
+    <Folder Include="rpt\Functions\" />
+    <Folder Include="rpt\Stored Procedures\" />
+    <Folder Include="Scripts\" />
+    <Folder Include="lookup" />
+    <Folder Include="lookup\Tables" />
+    <Folder Include="dbo\Stored Procedures\UserDefined" />
+    <Folder Include="dbo\Tables\Core Table Extensions" />
+    <Folder Include="dbo\Tables\Core Table Extensions\Constraints" />
+    <Folder Include="dbo\Tables\Core Table Extensions\Indexes" />
+    <Folder Include="dbo\Tables\Core Table Extensions\Triggers" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Functions\udf_GetSiteListforFuelCard.sql" />
+    <Build Include="rpt\Functions\udf_Nspa_OverAllocation_FuelCards.sql" />
+    <Build Include="rpt\Functions\udf_Nspa_OverAllocation_Monthly.sql" />
+    <Build Include="rpt\Functions\udf_Nspa_OverAllocation_Daily.sql" />
+    <Build Include="rpt\Functions\udf_Nspa_OverAllocation_Transaction.sql" />
+    <Build Include="rpt\Stored Procedures\nspa_GetSiteManagerList.sql" />
+    <Build Include="rpt\Stored Procedures\usp_Nspa_OverAllocationReport_FuelCard.sql" />
+    <Build Include="rpt\Stored Procedures\usp_Nspa_OverAllocationReport_Transaction.sql" />
+    <Build Include="rpt\Stored Procedures\usp_DsMonthYearList_LongMonth.sql" />
+    <Build Include="rpt\Stored Procedures\usp_NspaReceiptReport_Section1.sql" />
+    <Build Include="rpt\Stored Procedures\usp_NspaReceiptReport_Section2.sql" />
+    <None Include="Scripts\ScriptsIgnoredOnImport.sql" />
+    <Build Include="rpt\Stored Procedures\nspa_SitesFromSiteGroup.sql" />
+    <Build Include="rpt\Functions\udf_Nspa_ConsumptionReport_MonthParam.sql" />
+    <Build Include="rpt\Functions\udf_Nspa_SitesFromSiteGroup.sql" />
+    <Build Include="rpt\Stored Procedures\usp_Nspa_GetSiteManagerList.sql" />
+    <Build Include="rpt\Stored Procedures\usp_Nspa_GetVolumeUnitName.sql" />
+    <Build Include="rpt\Stored Procedures\usp_Nspa_OverdueDeliveriesReport.sql" />
+    <Build Include="rpt\Stored Procedures\usp_Nspa_PhysicalInventoryReport.sql" />
+    <Build Include="lookup\Tables\tblReportApprovalState.sql" />
+    <Build Include="dbo\Tables\tblReportApprovals.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_DeleteReportApproval.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_EnumerateReportApproval.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_GetAllEquipmentForFuelCardSitesByFuelCardIdentity.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_GetAssignedEquipmentByFuelCardIdentity.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_GetEOMReportApprovalMaxRowVersion.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_GetFuelCardsByID.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_GetFuelCardsByISAFID.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_GetReportApprovalByGuid.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_GetResetAdminLockForEOMReportApproval.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_InsertReportApproval.sql" />
+    <Build Include="dbo\Stored Procedures\Procs1\gsp_ReportApprovalsDeleteByLookupReportApprovalStateIndex.sql" />
+    <Build Include="dbo\Stored Procedures\Procs1\gsp_ReportApprovalsDeleteByRowGuid.sql" />
+    <Build Include="dbo\Stored Procedures\Procs1\gsp_ReportApprovalsDeleteBySiteGuid.sql" />
+    <Build Include="dbo\Stored Procedures\Procs1\gsp_ReportApprovalsInsertByPK.sql" />
+    <Build Include="dbo\Stored Procedures\Procs1\gsp_ReportApprovalsUpdateByPK.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\NSPA_ConsumptionReport.sql" />
+    <Build Include="dbo\Functions\NSPA_ConsumptionReport_MonthParam.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\NSPA_ConsumptionReport_SitesAvailable.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\nspa_GetSiteManagerList.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\nspa_GetVolumeUnitName.sql" />
+    <Build Include="dbo\Functions\NSPA_OverAllocation_Daily.sql" />
+    <Build Include="dbo\Functions\NSPA_OverAllocation_FuelCards.sql" />
+    <Build Include="dbo\Functions\NSPA_OverAllocation_Monthly.sql" />
+    <Build Include="dbo\Functions\NSPA_OverAllocation_Transaction.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\NSPA_OverAllocationReport_FuelCard.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\NSPA_OverAllocationReport_Transaction.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\NSPA_PhysicalInventoryReport.sql" />
+    <Build Include="dbo\Functions\NSPA_SitesFromSiteGroup.sql" />
+    <Build Include="dbo\Functions\udp_NSPA_ReconciliationException_MeterVariance.sql" />
+    <Build Include="dbo\Functions\udp_NSPA_MeterReconciliation_GaugedThroughput.sql" />
+    <Build Include="dbo\Functions\udp_NSPA_MeterReconciliation_MeterThroughput.sql" />
+    <Build Include="dbo\Functions\udp_NSPA_MeterReconciliation_TransThroughput.sql" />
+    <Build Include="dbo\Functions\udp_NSPA_ReconciliationException_Closeouts.sql" />
+    <Build Include="dbo\Functions\udp_NSPA_ReconciliationException_EoM.sql" />
+    <Build Include="dbo\Functions\udp_NSPA_ReconciliationException_InventoryVariance.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\udp_GetSiteManagerList.sql" />
+    <Build Include="dbo\Functions\udp_SitesFromSiteGroup.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_NSPA_MeterReconciliationReport.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_NSPA_ReconciliationExceptionReport.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\usp_NSPA_StockLevelSubReport.sql" />
+    <Build Include="rpt\Stored Procedures\usp_DsMonthYearList_LongMonth_WithDefault.sql" />
+    <Build Include="rpt\Stored Procedures\Nspa_GetAdjustmentSubtotals.sql" />
+    <Build Include="rpt\Stored Procedures\usp_Nspa_ReconciliationException_Part2.sql" />
+    <Build Include="rpt\Stored Procedures\usp_Nspa_ReconciliationException_Part1.sql" />
+    <Build Include="dbo\Functions\udf_IsDocumentNumberUnique.sql" />
+    <None Include="dbo\Tables\Core Table Extensions\Constraints\CK_tblTransactions_DocumentNumberUniqueness.sql" />
+    <Build Include="dbo\Tables\Core Table Extensions\Indexes\IX_tblTransactions_DocumentNumberUniquenessCheckSupport.sql" />
+    <Build Include="dbo\Tables\Core Table Extensions\Triggers\trg_ins_tblExportResultDetails_ForSAP.sql" />
+    <Build Include="dbo\Tables\Core Table Extensions\Triggers\trg_ins_tblTransactions_ForQueue.sql" />
+    <Build Include="dbo\Tables\Core Table Extensions\Triggers\trg_insupd_tblTransactionLineItems_ForQueue.sql" />
+    <Build Include="dbo\Stored Procedures\UserDefined\NSPA_ConsumptionReport_Filterable.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Script.PostDeploymentMain.sql" />
+    <None Include="FMScripts\DataUpload\Script.IncrementalDataMaintenance.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PreDeploy Include="Script.PreDeploymentMain.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <ArtifactReference Include="..\dacpacs\FuelsManagerDB.dacpac">
+      <HintPath>..\dacpacs\FuelsManagerDB.dacpac</HintPath>
+      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
+    </ArtifactReference>
+    <ArtifactReference Include="$(DacPacRootPath)\Extensions\Microsoft\SQLDB\Extensions\SqlServer\Azure\SqlSchemas\master.dacpac">
+      <HintPath>$(DacPacRootPath)\Extensions\Microsoft\SQLDB\Extensions\SqlServer\Azure\SqlSchemas\master.dacpac</HintPath>
+      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
+      <DatabaseVariableLiteralValue>master</DatabaseVariableLiteralValue>
+      <Private>False</Private>
+    </ArtifactReference>
+    <ArtifactReference Include="..\dacpacs\FuelsManagerCore.dacpac">
+      <HintPath>..\dacpacs\FuelsManagerCore.dacpac</HintPath>
+      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
+    </ArtifactReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FMScripts\DataUpload\Script.FirstTimeDataUpload.sql" />
+  </ItemGroup>
+</Project>

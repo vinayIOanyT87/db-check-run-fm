@@ -1,0 +1,12 @@
+﻿<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="SourceFuelsManagerCM"
+  DTS:DTSID="{CA917001-9F79-4308-AAC9-14EF27B32867}"
+  DTS:CreationName="OLEDB">
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=D-DW2K6L3\NEPTUNE;Initial Catalog=FuelsManagerBaltimoreDB;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;Application Name=SSIS-FuelsManagerDWSSIS-{CA917001-9F79-4308-AAC9-14EF27B32867}D-DW2K6L3\NEPTUNE.FuelsManagerFtRucker12DB;" />
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

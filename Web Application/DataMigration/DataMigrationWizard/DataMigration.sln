@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataMigration", "DataMigration.csproj", "{3A799ACF-9BE1-4299-89EC-74B4DE842B9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizard.UI", "Wizard.UI\Wizard.UI.csproj", "{3024540D-30F2-4C0A-92AE-E09A6FE2B380}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3A799ACF-9BE1-4299-89EC-74B4DE842B9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A799ACF-9BE1-4299-89EC-74B4DE842B9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A799ACF-9BE1-4299-89EC-74B4DE842B9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A799ACF-9BE1-4299-89EC-74B4DE842B9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3024540D-30F2-4C0A-92AE-E09A6FE2B380}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3024540D-30F2-4C0A-92AE-E09A6FE2B380}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3024540D-30F2-4C0A-92AE-E09A6FE2B380}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3024540D-30F2-4C0A-92AE-E09A6FE2B380}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

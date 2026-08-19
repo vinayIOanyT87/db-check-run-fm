@@ -1,0 +1,1429 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<TransactionFeed DataVersion="7.0">
+	<Header>
+		<FeedName>ExampleFeed</FeedName>
+		<ContactInfo>
+			<Name>John Doe</Name>
+			<Telephone>800-555-1111</Telephone>
+			<Email>john.doe@void.null</Email>
+		</ContactInfo>
+		<DateTimeSent>2004-09-03T20:20:30Z</DateTimeSent>
+		<HoursDifferenceFromGMT>5</HoursDifferenceFromGMT>
+		<DaylightSavingsIndicator>false</DaylightSavingsIndicator>
+	</Header>
+	<TrxnS Count="19">
+		<!--  
+			///////////////////////////////
+			// PrimaryAdjustment
+			///////////////////////////////
+		-->
+		<PrimaryAdjustment>
+			<Site>SiteAdmin</Site>
+			<ID>BA001</ID>
+			<TransactionAlias>Adjustment</TransactionAlias>
+			<TrxnDateTime>2004-09-01T18:00:00Z</TrxnDateTime>
+			<InventoryDate>2004-09-01</InventoryDate>
+			<TicketSource>Manual</TicketSource>
+			<DocumentNumber>1234567</DocumentNumber>
+			<Owner>OWNER 1</Owner>
+			<Manager>MANAGER 1</Manager>
+			<CloseOutDateTime>2004-09-02T05:00:00Z</CloseOutDateTime>
+			<ReversalType>U</ReversalType>
+			<ReversedTransactionID>Reversed TID 1</ReversedTransactionID>
+			<LineItems>
+				<LineItem>
+					<SequenceNumber>1</SequenceNumber>
+					<DocumentNumber>DN 1</DocumentNumber>
+					<ProductInfo>
+						<ProductCode>JP8</ProductCode>
+						<Product>00000989847</Product>
+						<ProductType>Jet Fuel</ProductType>
+						<FreezePoint>32.0</FreezePoint>
+						<FreezePointUnits>FMT_DegF</FreezePointUnits>
+					</ProductInfo>
+					<AccountingData>
+						<Customs>Domestic</Customs>
+						<Density>0.81</Density>
+						<DensityUnits>FMD_USLbGal</DensityUnits>
+						<Temperature>70</Temperature>
+						<TemperatureUnits>FMT_DegF</TemperatureUnits>
+						<Gravity />
+						<GravityUnits>FMD_DegAPI</GravityUnits>
+						<VCF>1.178</VCF>
+						<Quantity>
+							<Gross>123.0</Gross>
+							<Net>144.9</Net>
+							<Units>FMV_USGal</Units>
+						</Quantity>
+					</AccountingData>
+					<RequestedBy>Requested By</RequestedBy>
+				</LineItem>
+			</LineItems>
+			<Notes>This is an adjustment to primary inventory</Notes>
+			<UserFields>
+				<UserField>
+					<Name>User Data A</Name>
+					<Value>234AE3F32B</Value>
+				</UserField>
+				<UserField>
+					<Name>User Data B</Name>
+					<Value>1</Value>
+				</UserField>
+			</UserFields>
+			<DeleteFlag>true</DeleteFlag>
+		</PrimaryAdjustment>
+		<!--  
+			///////////////////////////////
+			// SecondaryAdjustment
+			///////////////////////////////
+		-->
+		<SecondaryAdjustment>
+			<Site>Site A</Site>
+			<ID>BA002</ID>
+			<TransactionAlias>Adjustment</TransactionAlias>
+			<TrxnDateTime>2004-09-01T18:00:00Z</TrxnDateTime>
+			<InventoryDate>2004-09-01</InventoryDate>
+			<CloseOutDateTime>2004-09-02T05:00:00Z</CloseOutDateTime>
+			<TicketSource>Manual</TicketSource>
+			<DocumentNumber>1234567</DocumentNumber>
+			<Owner>OWNER 1</Owner>
+			<Manager>MANAGER 1</Manager>
+			<ReversalType>O</ReversalType>
+			<LineItems>
+				<LineItem>
+					<SequenceNumber>1</SequenceNumber>
+					<ProductInfo>
+						<ProductCode>JP8</ProductCode>
+						<Product>00000989847</Product>
+						<ProductType>Jet Fuel</ProductType>
+					</ProductInfo>
+					<AccountingData>
+						<Customs>Domestic</Customs>
+						<Density>0.81</Density>
+						<DensityUnits>FMD_USLbGal</DensityUnits>
+						<Temperature>70</Temperature>
+						<TemperatureUnits>FMT_DegF</TemperatureUnits>
+						<Gravity />
+						<GravityUnits>FMD_DegAPI</GravityUnits>
+						<VCF>1.178</VCF>
+						<Quantity>
+							<Gross>123.0</Gross>
+							<Net>144.9</Net>
+							<Units>FMV_USGal</Units>
+						</Quantity>
+					</AccountingData>
+				</LineItem>
+			</LineItems>
+			<Notes>This is an adjustment to secondary inventory</Notes>
+			<GroundEquipment>
+				<StandardID>1231232</StandardID>
+				<ID>232</ID>
+				<Type>TANKER</Type>
+			</GroundEquipment>
+		</SecondaryAdjustment>
+		<!--  
+			///////////////////////////////
+			// PrimaryDefuel
+			///////////////////////////////
+		-->
+		<PrimaryDefuel>
+			<Site>Site A</Site>
+			<ID>DEF100</ID>
+			<TransactionAlias>Defuel</TransactionAlias>
+			<TrxnDateTime>2004-09-01T21:00:00Z</TrxnDateTime>
+			<InventoryDate>2004-09-01</InventoryDate>
+			<CloseOutDateTime>2004-09-02T05:00:00Z</CloseOutDateTime>
+			<TicketSource>Manual</TicketSource>
+			<DocumentNumber>1234567</DocumentNumber>
+			<ShippingDocumentNumber>1234567</ShippingDocumentNumber>
+			<ShipmentNumber>1234567</ShipmentNumber>
+			<Owner>OWNER 1</Owner>
+			<Manager>MANAGER 1</Manager>
+			<ShipTo>Consumer 1</ShipTo>
+			<LinkedDocumentNumber>ABC100</LinkedDocumentNumber>
+			<ReversalType>R</ReversalType>
+			<LoadID>LoadID 12345</LoadID>
+			<LineItems>
+				<LineItem>
+					<SequenceNumber>1</SequenceNumber>
+					<ProductInfo>
+						<ProductCode>JP8</ProductCode>
+						<Product>00000989847</Product>
+						<ProductType>Jet Fuel</ProductType>
+						<ProductPrice>6.99</ProductPrice>
+					</ProductInfo>
+					<AccountingData>
+						<Customs>Domestic</Customs>
+						<Density>0.81</Density>
+						<DensityUnits>FMD_USLbGal</DensityUnits>
+						<Temperature>70</Temperature>
+						<TemperatureUnits>FMT_DegF</TemperatureUnits>
+						<Gravity />
+						<GravityUnits>FMD_DegAPI</GravityUnits>
+						<VCF>1.178</VCF>
+						<Quantity>
+							<Gross>1000</Gross>
+							<Net>1178</Net>
+							<Units>FMV_USGal</Units>
+						</Quantity>
+					</AccountingData>
+					<MeterReadings>
+						<MeterFactor>1.0</MeterFactor>
+						<MeterStart>18500</MeterStart>
+						<MeterStop>18100</MeterStop>
+						<StartTime>2004-09-01T18:00:00Z</StartTime>
+						<StopTime>2004-09-01T18:50:00Z</StopTime>
+					</MeterReadings>
+					<ContractNumber>C001</ContractNumber>
+					<CLIN>1</CLIN>
+					<ArmNumber>2</ArmNumber>
+					<LineNumber>3</LineNumber>
+					<Operator>Operator 1</Operator>
+				</LineItem>
+			</LineItems>
+			<PaymentInfo>
+				<BillTo>CONSUMER</BillTo>
+				<CreditCard>
+					<Amount>0.00</Amount>
+					<CurrencyType>U.S. Dollars</CurrencyType>
+					<CardName />
+					<CardType />
+					<CardNumber />
+					<Expiration />
+				</CreditCard>
+				<Cash>
+					<Amount>0.00</Amount>
+					<CurrencyType>U.S. Dollars</CurrencyType>
+				</Cash>
+			</PaymentInfo>
+			<FuelingData>
+				<SimultaneousFueling>false</SimultaneousFueling>
+				<EstimatedFuelingDuration>90</EstimatedFuelingDuration>
+				<EstimatedFuelingDurationUnits>FMT_Min</EstimatedFuelingDurationUnits>
+				<FinishTime>2004-09-01T20:39:00Z</FinishTime>
+				<FuelingDataUnits>LBS</FuelingDataUnits>
+				<RequestedAmount>
+					<Compartment>
+						<Location>Left</Location>
+						<Quantity>200</Quantity>
+					</Compartment>
+					<Compartment>
+						<Location>Center</Location>
+						<Quantity>0</Quantity>
+					</Compartment>
+					<Compartment>
+						<Location>Right</Location>
+						<Quantity>200</Quantity>
+					</Compartment>
+				</RequestedAmount>
+				<BeginningAmount>
+					<Compartment>
+						<Location>Left</Location>
+						<Quantity>1000</Quantity>
+					</Compartment>
+					<Compartment>
+						<Location>Center</Location>
+						<Quantity>1000</Quantity>
+					</Compartment>
+					<Compartment>
+						<Location>Right</Location>
+						<Quantity>1000</Quantity>
+					</Compartment>
+				</BeginningAmount>
+				<FinalAmount>
+					<Compartment>
+						<Location>Left</Location>
+						<Quantity>180</Quantity>
+					</Compartment>
+					<Compartment>
+						<Location>Center</Location>
+						<Quantity>10</Quantity>
+					</Compartment>
+					<Compartment>
+						<Location>Right</Location>
+						<Quantity>180</Quantity>
+					</Compartment>
+				</FinalAmount>
+			</FuelingData>
+			<Location>
+				<Code>SFO</Code>
+				<Gate>HANGER</Gate>
+			</Location>
+			<!-- Strip Notes of all special XML characters or encode the special 
+				 characters into their repsective XML values-->
+			<Notes>Defuel. Aviation type.</Notes>
+			<!-- Strip UserFields of all special XML characters or encode the special 
+				 characters into their repsective XML values-->
+		</PrimaryDefuel>
+		<!--  
+			///////////////////////////////
+			// SecondaryDefuel
+			///////////////////////////////
+		-->
+		<SecondaryDefuel>
+			<Site>Site A</Site>
+			<ID>DEF102</ID>
+			<TransactionAlias>Defuel</TransactionAlias>
+			<TrxnDateTime>2004-09-01T21:00:00Z</TrxnDateTime>
+			<InventoryDate>2004-09-01</InventoryDate>
+			<CloseOutDateTime>2004-09-02T05:00:00Z</CloseOutDateTime>
+			<TicketSource>Dispatch</TicketSource>
+			<DocumentNumber>1234567</DocumentNumber>
+			<LinkedDocumentNumber>ABC100</LinkedDocumentNumber>
+			<Owner>OWNER</Owner>
+			<Manager>MANAGER</Manager>
+			<ShipTo>CONSUMER</ShipTo>
+			<ReversalType>O</ReversalType>
+			<LineItems>
+				<LineItem>
+					<SequenceNumber>1</SequenceNumber>
+					<ProductInfo>
+						<ProductCode>JP8</ProductCode>
+						<Product>00000989847</Product>
+						<ProductType>Jet Fuel</ProductType>
+						<ProductPrice>6.99</ProductPrice>
+					</ProductInfo>
+					<AccountingData>
+						<Vendor>VENDOR</Vendor>
+						<Density>0.81</Density>
+						<DensityUnits>FMD_USLbGal</DensityUnits>
+						<Temperature>70</Temperature>
+						<TemperatureUnits>FMT_DegF</TemperatureUnits>
+						<Gravity></Gravity>
+						<GravityUnits>FMD_DegAPI</GravityUnits>
+						<VCF>1.178</VCF>
+						<Quantity>
+							<Gross>1000</Gross>
+							<Net>1178</Net>
+							<Units>FMV_USGal</Units>
+						</Quantity>
+						<Customs>Domestic</Customs>
+					</AccountingData>
+				</LineItem>
+			</LineItems>
+			<PaymentInfo>
+				<BillTo>CONSUMER</BillTo>
+				<CreditCard>
+					<Amount>0.00</Amount>
+					<CurrencyType>U.S. Dollars</CurrencyType>
+					<CardName />
+					<CardType />
+					<CardNumber />
+					<Expiration />
+				</CreditCard>
+				<Cash>
+					<Amount>0.00</Amount>
+					<CurrencyType>U.S. Dollars</CurrencyType>
+				</Cash>
+			</PaymentInfo>
+			<FuelingData>
+				<SimultaneousFueling>false</SimultaneousFueling>
+				<EstimatedFuelingDuration>90</EstimatedFuelingDuration>
+				<EstimatedFuelingDurationUnits>FMT_Min</EstimatedFuelingDurationUnits>
+				<FinishTime>2004-09-01T20:39:00Z</FinishTime>
+				<FuelingDataUnits>LBS</FuelingDataUnits>
+				<RequestedAmount>
+					<Compartment>
+						<Location>Left</Location>
+						<Quantity>200</Quantity>
+					</Compartment>
+					<Compartment>
+						<Location>Center</Location>
+						<Quantity>0</Quantity>
+					</Compartment>
+					<Compartment>
+						<Location>Right</Location>
+						<Quantity>200</Quantity>
+					</Compartment>
+				</RequestedAmount>
+				<BeginningAmount>
+					<Compartment>
+						<Location>Left</Location>
+						<Quantity>1000</Quantity>
+					</Compartment>
+					<Compartment>
+						<Location>Center</Location>
+						<Quantity>1000</Quantity>
+					</Compartment>
+					<Compartment>
+						<Location>Right</Location>
+						<Quantity>1000</Quantity>
+					</Compartment>
+				</BeginningAmount>
+				<FinalAmount>
+					<Compartment>
+						<Location>Left</Location>
+						<Quantity>180</Quantity>
+					</Compartment>
+					<Compartment>
+						<Location>Center</Location>
+						<Quantity>10</Quantity>
+					</Compartment>
+					<Compartment>
+						<Location>Right</Location>
+						<Quantity>180</Quantity>
+					</Compartment>
+				</FinalAmount>
+			</FuelingData>
+			<FromEquipment>
+				<Aircraft>
+					<StandardID>N2054EH</StandardID>
+					<ID>2054</ID>
+					<Type>757</Type>
+				</Aircraft>
+			</FromEquipment>
+			<ToEquipment>
+				<GroundEquipment>
+					<StandardID>31448</StandardID>
+					<ID>445</ID>
+					<Type>DEFULER</Type>
+					<Meters>
+						<Meter>
+							<MeterID>MET1</MeterID>
+							<MeterStart>18500</MeterStart>
+							<MeterStop>18100</MeterStop>
+						</Meter>
+					</Meters>
+					<StartTime>2004-09-01T18:00:00Z</StartTime>
+					<StopTime>2004-09-01T18:50:00Z</StopTime>
+					<OperatorID>jdoe</OperatorID>
+				</GroundEquipment>
+			</ToEquipment>
+			<Location>
+				<Code>SFO</Code>
+				<Gate>HANGER</Gate>
+			</Location>
+			<!-- Strip Notes of all special XML characters or encode the special 
+				 characters into their repsective XML values-->
+			<Notes>Defuel. Aviation type.</Notes>
+			<!-- Strip UserFields of all special XML characters or encode the special 
+				 characters into their repsective XML values-->
+		</SecondaryDefuel>
+		<!--  
+			///////////////////////////////
+			// PrimaryDisbursement
+			///////////////////////////////
+		-->
+		<PrimaryDisbursement>
+			<Site>Site A</Site>
+			<ID>ISS100</ID>
+			<TransactionAlias>Issue</TransactionAlias>
+			<TrxnDateTime>2004-09-01T21:00:00Z</TrxnDateTime>
+			<InventoryDate>2004-09-01</InventoryDate>
+			<CloseOutDateTime>2004-09-02T05:00:00Z</CloseOutDateTime>
+			<TicketSource>Manual</TicketSource>
+			<DocumentNumber>1234567</DocumentNumber>
+			<LinkedDocumentNumber>ABC100</LinkedDocumentNumber>
+			<ReversalType>O</ReversalType>
+			<Owner>OWNER</Owner>
+			<Manager>MANAGER</Manager>
+			<ShipTo>CONSUMER</ShipTo>
+			<LineItems>
+				<LineItem>
+					<SequenceNumber>1</SequenceNumber>
+					<ProductInfo>
+						<ProductCode>JP8</ProductCode>
+						<Product>00000989847</Product>
+						<ProductType>Jet Fuel</ProductType>
+						<ProductPrice>6.99</ProductPrice>
+					</ProductInfo>
+					<AccountingData>
+						<Customs>Domestic</Customs>
+						<FromVendor>VENDOR</FromVendor>
+						<Density>0.81</Density>
+						<DensityUnits>FMD_USLbGal</DensityUnits>
+						<Temperature>70</Temperature>
+						<TemperatureUnits>FMT_DegF</TemperatureUnits>
+						<Gravity></Gravity>
+						<GravityUnits>FMD_DegAPI</GravityUnits>
+						<VCF>1.0356</VCF>
+						<Quantity>
+							<Gross>5000</Gross>
+							<Net>5178</Net>
+							<Units>FMV_USGal</Units>
+						</Quantity>
+					</AccountingData>
+					<Pit>2</Pit>
+					<ReceiptVariance>16</ReceiptVariance>
+					<ReceiptVarianceUnits>FMV_USGal</ReceiptVarianceUnits>
+					<DifferentialPressure>2</DifferentialPressure>
+					<DifferentialPressureUnits>FMV_USGal</DifferentialPressureUnits>
+					<LoadRackVariance>5</LoadRackVariance>
+					<LoadRackVarianceUnits>FMV_USGal</LoadRackVarianceUnits>
+					<SubLineItems>
+						<SubLineItem>
+							<ProductInfo>
+								<ProductCode>JP8</ProductCode>
+								<Product>00000989847</Product>
+								<ProductType>Jet Fuel</ProductType>
+								<FreezePoint>32.0</FreezePoint>
+								<FreezePointUnits>FMT_DegF</FreezePointUnits>
+							</ProductInfo>
+							<AccountingData>
+								<VCF>1.0356</VCF>
+								<Quantity>
+									<Gross>5000</Gross>
+									<Net>5178</Net>
+									<Units>FMV_USGal</Units>
+								</Quantity>
+								<Customs>Domestic</Customs>
+								<Density>0.81</Density>
+								<DensityUnits>FMD_USLbGal</DensityUnits>
+								<Temperature>70</Temperature>
+								<TemperatureUnits>FMT_DegF</TemperatureUnits>
+							</AccountingData>
+							<ArmNumber>4</ArmNumber>
+							<LineNumber>5</LineNumber>
+							<BatchNumber>234234aaa</BatchNumber>
+							<LineFill>10</LineFill>
+							<LineFillUnits>FMV_USGal</LineFillUnits>
+							<BottomVolume>15</BottomVolume>
+							<BottomVolumeUnits>FMV_USGal</BottomVolumeUnits>
+							<NetCapacity>1000</NetCapacity>
+							<NetCapacityUnits>FMV_USGal</NetCapacityUnits>
+							<TankStatus>R</TankStatus>
+							<AdditiveProfile>AddProfile XXX</AdditiveProfile>
+							<MeterReadings>
+								<MeterFactor>1.0</MeterFactor>
+								<MeterStart>10000</MeterStart>
+								<MeterStop>10250</MeterStop>
+								<StartTime>2004-09-01T18:00:00Z</StartTime>
+								<StopTime>2004-09-01T18:10:00Z</StopTime>
+							</MeterReadings>
+							<DifferentialPressure>2</DifferentialPressure>
+							<DifferentialPressureUnits>FMV_USGal</DifferentialPressureUnits>
+							<DosageRate>2.5</DosageRate>
+							<DosageRageUnits>Don't know</DosageRageUnits>
+						</SubLineItem>
+					</SubLineItems>
+				</LineItem>
+			</LineItems>
+			<PaymentInfo>
+				<BillTo>CONSUMER</BillTo>
+				<CreditCard>
+					<Amount>100.00</Amount>
+					<CurrencyType>U.S. Dollars</CurrencyType>
+					<CardName>Jane Doe</CardName>
+					<CardType>MC</CardType>
+					<CardNumber>100010010000110</CardNumber>
+					<Expiration>2005-10-31</Expiration>
+				</CreditCard>
+				<Cash>
+					<Amount>0.00</Amount>
+					<CurrencyType>U.S. Dollars</CurrencyType>
+				</Cash>
+			</PaymentInfo>
+			<FuelingData>
+				<SimultaneousFueling>true</SimultaneousFueling>
+				<EstimatedFuelingDuration>50</EstimatedFuelingDuration>
+				<EstimatedFuelingDurationUnits>FMT_Min</EstimatedFuelingDurationUnits>
+				<FuelingDataUnits>LBS</FuelingDataUnits>
+				<FinishTime>2004-09-01T20:39:00Z</FinishTime>
+			</FuelingData>
+			<RouteData>
+				<RouteID>DL532</RouteID>
+				<InternationalRoute>false</InternationalRoute>
+				<RouteOriginationDate>2004-09-01</RouteOriginationDate>
+				<PreviousRouteID>DL335</PreviousRouteID>
+				<OriginStation>ORL</OriginStation>
+				<PreviousStation>ATL</PreviousStation>
+				<NextStation>SFO</NextStation>
+				<FinalStation>LAX</FinalStation>
+			</RouteData>
+			<STD>2004-09-01T22:35:00Z</STD>
+			<ETD>2004-09-01T22:43:00Z</ETD>
+			<STA>2004-09-02T12:47:00Z</STA>
+			<ETA>2004-09-02T12:40:00Z</ETA>
+			<SFT>2004-09-09T12:12:12Z</SFT>
+			<FST>2004-09-08T11:11:11Z</FST>
+			<Location>10A</Location>
+			<Code>SFO</Code>
+			<WeightReadings>
+				<QuantityUnits>FMM_Lb</QuantityUnits>
+				<Compartment>
+					<Name>Left</Name>
+					<RequestedQuantity>5000</RequestedQuantity>
+					<BeginQuantity>1000</BeginQuantity>
+					<FinalQuantity>5100</FinalQuantity>
+				</Compartment>
+				<Compartment>
+					<Name>Center</Name>
+					<RequestedQuantity>4000</RequestedQuantity>
+					<BeginQuantity>500</BeginQuantity>
+					<FinalQuantity>4100</FinalQuantity>
+				</Compartment>
+				<Compartment>
+					<Name>Right</Name>
+					<RequestedQuantity>6000</RequestedQuantity>
+					<BeginQuantity>2000</BeginQuantity>
+					<FinalQuantity>6100</FinalQuantity>
+				</Compartment>
+			</WeightReadings>
+			<!-- Strip Notes of all special XML characters or encode the special 
+				 characters into their repsective XML values-->
+			<Notes>Issue. Aircraft type.</Notes>
+			<!-- Strip UserFields of all special XML characters or encode the special 
+				 characters into their repsective XML values-->
+		</PrimaryDisbursement>
+		<!--  
+			///////////////////////////////
+			// SecondaryDisbursement
+			///////////////////////////////
+		-->
+		<SecondaryDisbursement>
+			<Site>Site A</Site>
+			<ID>ISS102</ID>
+			<TransactionAlias>Issue</TransactionAlias>
+			<TrxnDateTime>2004-09-01T21:00:00Z</TrxnDateTime>
+			<InventoryDate>2004-09-01</InventoryDate>
+			<CloseOutDateTime>2004-09-02T05:00:00Z</CloseOutDateTime>
+			<TicketSource>Dispatch</TicketSource>
+			<DocumentNumber>1234568</DocumentNumber>
+			<LinkedDocumentNumber></LinkedDocumentNumber>
+			<ReversalType>O</ReversalType>
+			<Owner>OWNER</Owner>
+			<Manager>MANAGER</Manager>
+			<ShipTo>CONSUMER</ShipTo>
+			<LineItems>
+				<LineItem>
+					<SequenceNumber>1</SequenceNumber>
+					<ProductInfo>
+						<ProductCode>JP8</ProductCode>
+						<Product>00000989847</Product>
+						<ProductType>Jet Fuel</ProductType>
+						<ProductPrice>6.99</ProductPrice>
+					</ProductInfo>
+					<AccountingData>
+						<Customs>Domestic</Customs>
+						<FromVendor>VENDOR</FromVendor>
+						<Density>0.81</Density>
+						<DensityUnits>FMD_USLbGal</DensityUnits>
+						<Temperature>70</Temperature>
+						<TemperatureUnits>FMT_DegF</TemperatureUnits>
+						<Gravity />
+						<GravityUnits>FMD_DegAPI</GravityUnits>
+						<VCF>1.0</VCF>
+						<Quantity>
+							<Gross>13.0</Gross>
+							<Net>12.8</Net>
+							<Units>FMV_USGal</Units>
+						</Quantity>
+					</AccountingData>
+					<RequestedDateTime>2005-01-01T12:00:00Z</RequestedDateTime>
+					<DispatchedDateTime>2005-01-01T12:00:00Z</DispatchedDateTime>
+					<AcknowledgedDateTime>2005-01-01T12:00:00Z</AcknowledgedDateTime>
+					<OnLocationTime>2005-01-01T12:00:00Z</OnLocationTime>
+					<ValidationDateTime>2005-01-01T12:00:00Z</ValidationDateTime>
+					<CompletionDateTime>2005-01-01T12:00:00Z</CompletionDateTime>
+					<FromEquipment>
+						<Equipment1>
+							<RegistrationID>23456</RegistrationID>
+							<SerialNumber>203</SerialNumber>
+							<EquipmentType>HYDRANT</EquipmentType>
+							<EquipmentModel>H200 Fancy Hydrant Plus</EquipmentModel>
+						</Equipment1>
+					</FromEquipment>
+					<ToEquipment>
+						<Equipment1>
+							<RegistrationID>23456</RegistrationID>
+							<SerialNumber>203</SerialNumber>
+							<EquipmentType>Truck</EquipmentType>
+							<EquipmentModel>Tractor</EquipmentModel>
+						</Equipment1>
+						<Equipment2>
+							<RegistrationID>23456</RegistrationID>
+							<SerialNumber>203</SerialNumber>
+							<EquipmentType>Trailer</EquipmentType>
+						</Equipment2>
+						<Equipment3>
+							<SerialNumber>203</SerialNumber>
+							<EquipmentType>Compartment</EquipmentType>
+						</Equipment3>
+					</ToEquipment>
+				</LineItem>
+			</LineItems>
+			<PaymentInfo>
+				<BillTo>CONSUMER</BillTo>
+				<CreditCard>
+					<Amount>0.00</Amount>
+					<CurrencyType>U.S. Dollars</CurrencyType>
+					<CardName />
+					<CardType />
+					<CardNumber />
+					<Expiration />
+				</CreditCard>
+				<Cash>
+					<Amount>10.00</Amount>
+					<CurrencyType>U.S. Dollars</CurrencyType>
+				</Cash>
+			</PaymentInfo>
+			<Location>
+				<Code>ATL</Code>
+				<Gate />
+			</Location>
+			<!-- Strip Notes of all special XML characters or encode the special 
+				 characters into their repsective XML values-->
+			<Notes>Issue. Ground type.</Notes>
+			<!-- Strip UserFields of all special XML characters or encode the special 
+				 characters into their repsective XML values-->
+		</SecondaryDisbursement>
+		<!--  
+			///////////////////////////////
+			// FillStand
+			///////////////////////////////
+		-->
+		<FillStand>
+			<Site>Site A</Site>
+			<ID>LR106</ID>
+			<TransactionAlias>Load Rack</TransactionAlias>
+			<TrxnDateTime>2004-09-01 21:00:00</TrxnDateTime>
+			<InventoryDate>2004-09-01</InventoryDate>
+			<CloseOutDateTime>2004-09-01T05:00:00Z</CloseOutDateTime>
+			<TicketSource>Manual</TicketSource>
+			<DocumentNumber>123448</DocumentNumber>
+			<ReversalType>O</ReversalType>
+			<Owner>OWNER</Owner>
+			<Manager>MANAGER</Manager>
+			<Carrier>Carrier</Carrier>
+			<LineItems>
+				<LineItem>
+					<SequenceNumber>1</SequenceNumber>
+					<ProductInfo>
+						<ProductCode>ULP</ProductCode>
+						<Product>009287793</Product>
+						<ProductType>ULP Type</ProductType>
+					</ProductInfo>
+					<AccountingData>
+						<Customs>Domestic</Customs>
+						<Density>0.81</Density>
+						<DensityUnits>FMD_USLbGal</DensityUnits>
+						<Temperature>70</Temperature>
+						<TemperatureUnits>FMT_DegF</TemperatureUnits>
+						<Gravity></Gravity>
+						<GravityUnits>FMD_DegAPI</GravityUnits>
+						<VCF>1.1345</VCF>
+						<Quantity>
+							<Gross>100000.0</Gross>
+							<Net>113450.8</Net>
+							<Units>FMV_USGal</Units>
+						</Quantity>
+						<LoadRackVariance>0.00</LoadRackVariance>
+						<LoadRackVarianceUnits>FMV_USGal</LoadRackVarianceUnits>
+					</AccountingData>
+					<SubLineItems>
+						<SubLineItem>
+							<ProductInfo>
+								<ProductCode>ULP</ProductCode>
+								<Product>009287793</Product>
+								<ProductType>ULP Type</ProductType>
+							</ProductInfo>
+							<AccountingData>
+								<Quantity>
+									<Gross>100000.0</Gross>
+									<Net>113450.8</Net>
+									<Units>FMV_USGal</Units>
+								</Quantity>
+							</AccountingData>
+							<AdditiveProfile>Additive Prof 5</AdditiveProfile>
+						</SubLineItem>
+					</SubLineItems>
+				</LineItem>
+			</LineItems>
+			<Notes>This is a LoadRack Transaction</Notes>
+		</FillStand>
+		<!--  
+			///////////////////////////////
+			// Unload
+			///////////////////////////////
+		-->
+		<Unload>
+			<Site>Site A</Site>
+			<ID>LR107</ID>
+			<TransactionAlias>Unload</TransactionAlias>
+			<TrxnDateTime>2004-09-01T21:00:00Z</TrxnDateTime>
+			<InventoryDate>2004-09-01</InventoryDate>
+			<CloseOutDateTime>2004-09-01T05:00:00Z</CloseOutDateTime>
+			<TicketSource>Manual</TicketSource>
+			<DocumentNumber>1234587</DocumentNumber>
+			<ReversalType>O</ReversalType>
+			<Owner>OWNER</Owner>
+			<Manager>MANAGER</Manager>
+			<LineItems>
+				<LineItem>
+					<SequenceNumber>1</SequenceNumber>
+					<ProductInfo>
+						<ProductCode>ULP</ProductCode>
+						<Product>009287793</Product>
+						<ProductType>SomeType</ProductType>
+					</ProductInfo>
+					<AccountingData>
+						<Customs>Domestic</Customs>
+						<ToVendor>VENDOR</ToVendor>
+						<Density>0.81</Density>
+						<DensityUnits>FMD_USLbGal</DensityUnits>
+						<Temperature>70</Temperature>
+						<TemperatureUnits>FMT_DegF</TemperatureUnits>
+						<Gravity></Gravity>
+						<GravityUnits>FMD_DegAPI</GravityUnits>
+						<VCF>1.1345</VCF>
+						<Quantity>
+							<Gross>100000.0</Gross>
+							<Net>113450.8</Net>
+							<Units>FMV_USGal</Units>
+						</Quantity>
+					</AccountingData>
+				</LineItem>
+			</LineItems>
+			<FromEquipment>
+				<GroundEquipment>
+					<StandardID>1231232</StandardID>
+					<ID>232</ID>
+					<Type>Tanker</Type>
+					<Meters>
+						<Meter>
+							<MeterID>MET1</MeterID>
+							<MeterStart>10000</MeterStart>
+							<MeterStop>10013</MeterStop>
+						</Meter>
+					</Meters>
+					<StartTime>2004-09-01T18:00:00Z</StartTime>
+					<StopTime>2004-09-01T18:10:00Z</StopTime>
+					<OperatorID>jdoe</OperatorID>
+				</GroundEquipment>
+			</FromEquipment>
+			<ToEquipment>
+				<GroundEquipment>
+					<StandardID>1231764</StandardID>
+					<ID>764</ID>
+					<Type>LOADRACK</Type>
+				</GroundEquipment>
+			</ToEquipment>
+			<Notes>This is a Unload Transaction</Notes>
+		</Unload>
+		<!--  
+			///////////////////////////////
+			// Receipt (For OWNER_1)
+			///////////////////////////////
+		-->
+		<Receipt>
+			<Site>Site A</Site>
+			<ID>BREC106</ID>
+			<TransactionAlias>Receipt</TransactionAlias>
+			<TrxnDateTime>2004-09-01T21:00:00Z</TrxnDateTime>
+			<InventoryDate>2004-09-01</InventoryDate>
+			<CloseOutDateTime>2004-09-01T05:00:00Z</CloseOutDateTime>
+			<TransRefID>TransRefID 1</TransRefID>
+			<TicketSource>Manual</TicketSource>
+			<DocumentNumber>09809</DocumentNumber>
+			<ReversalType>O</ReversalType>
+			<Owner>Owner R</Owner>
+			<Manager>Manager 3</Manager>
+			<Supplier>SUPPLIER</Supplier>
+			<LineItems>
+				<LineItem>
+					<SequenceNumber>1</SequenceNumber>
+					<ProductInfo>
+						<ProductCode>ULP</ProductCode>
+						<Product>ULP Product</Product>
+						<ProductType>ULP Type</ProductType>
+					</ProductInfo>
+					<AccountingData>
+						<Customs>Domestic</Customs>
+						<ToManager>MANAGER</ToManager>
+						<Carrier>
+							<Name>Carrier</Name>
+							<SCAC>ABCD</SCAC>
+						</Carrier>
+						<ShippingMode>Pipeline</ShippingMode>
+						<Density>0.81</Density>
+						<DensityUnits>FMD_USLbGal</DensityUnits>
+						<Temperature>70</Temperature>
+						<TemperatureUnits>FMT_DegF</TemperatureUnits>
+						<Gravity></Gravity>
+						<GravityUnits>FMD_DegAPI</GravityUnits>
+						<VCF>1.1345</VCF>
+						<Quantity>
+							<Gross>50000.0</Gross>
+							<Net>56725.0</Net>
+							<Units>FMV_USGal</Units>
+						</Quantity>
+					</AccountingData>
+					<BatchNumber>Batch 1</BatchNumber>
+				</LineItem>
+			</LineItems>
+			<Notes>This is a Book Receipt for OWNER_1.</Notes>
+		</Receipt>
+		<!--  
+			///////////////////////////////
+			// Receipt (For OWNER_2)
+			///////////////////////////////
+		-->
+		<Receipt>
+			<Site>Site A</Site>
+			<ID>BREC108</ID>
+			<TransactionAlias>Receipt</TransactionAlias>
+			<TrxnDateTime>2004-09-01T21:00:00Z</TrxnDateTime>
+			<InventoryDate>2004-09-01</InventoryDate>
+			<CloseOutDateTime>2004-09-01T05:00:00Z</CloseOutDateTime>
+			<DocumentNumber>09810</DocumentNumber>
+			<TicketSource>Manual</TicketSource>
+			<ReversalType>O</ReversalType>
+			<Owner>OWNER_2</Owner>
+			<Manager>MANAGER</Manager>
+			<Supplier>SUPPLIER</Supplier>
+			<LineItems>
+				<LineItem>
+					<SequenceNumber>1</SequenceNumber>
+					<ProductInfo>
+						<ProductCode>ULP</ProductCode>
+						<Product>ULP Product</Product>
+						<ProductType>ULP Type</ProductType>
+					</ProductInfo>
+					<AccountingData>
+						<Customs>Domestic</Customs>
+						<Carrier>
+							<Name>Carrier</Name>
+							<SCAC>ABCD</SCAC>
+						</Carrier>
+						<ShippingMode>Pipeline</ShippingMode>
+						<Density>0.81</Density>
+						<DensityUnits>FMD_USLbGal</DensityUnits>
+						<Temperature>70</Temperature>
+						<TemperatureUnits>FMT_DegF</TemperatureUnits>
+						<Gravity></Gravity>
+						<GravityUnits>FMD_DegAPI</GravityUnits>
+						<VCF>1.1345</VCF>
+						<Quantity>
+							<Gross>50000.0</Gross>
+							<Net>56725.0</Net>
+							<Units>FMV_USGal</Units>
+						</Quantity>
+						<ReceiptVariance>123</ReceiptVariance>
+						<ReceiptVarianceUnits>Barrels</ReceiptVarianceUnits>
+					</AccountingData>
+				</LineItem>
+			</LineItems>
+			<Notes>This is a Book Receipt for OWNER_2.</Notes>
+		</Receipt>
+		<!--  
+			///////////////////////////////
+			// Request
+			///////////////////////////////
+		-->
+		<Request>
+			<Site>Site A</Site>
+			<ID>REQ001</ID>
+			<TransactionAlias>Request</TransactionAlias>
+			<TrxnDateTime>2004-09-01T21:00:00Z</TrxnDateTime>
+			<InventoryDate>2004-09-01</InventoryDate>
+			<CloseOutDateTime>2004-09-01T05:00:00Z</CloseOutDateTime>
+			<ReversalType>O</ReversalType>
+			<TicketSource>Manual</TicketSource>
+			<DocumentNumber>abc123</DocumentNumber>
+			<Owner>Owner A</Owner>
+			<Manager>MANAGER</Manager>
+			<Supplier>SUPPLIER 1</Supplier>
+			<RequestedDeliveryDate>2004-01-01</RequestedDeliveryDate>
+			<LineItems>
+				<LineItem>
+					<SequenceNumber>1</SequenceNumber>
+					<ProductInfo>
+						<ProductCode>ULP</ProductCode>
+						<Product>ULP Product</Product>
+						<ProductType>ULP Type</ProductType>
+					</ProductInfo>
+					<AccountingData>
+						<Quantity>
+							<Gross>50000.0</Gross>
+							<Net>50000.0</Net>
+							<Units>FMV_USGal</Units>
+						</Quantity>
+					</AccountingData>
+				</LineItem>
+			</LineItems>
+			<Notes></Notes>
+		</Request>
+		<!--  
+			///////////////////////////////
+			// ConsumerTransfer A
+			///////////////////////////////
+		-->
+		<ConsumerTransfer>
+			<Site>Site A</Site>
+			<ID>BT004</ID>
+			<TransactionAlias>MidFlightRefuel</TransactionAlias>
+			<TrxnDateTime>2004-09-01T21:00:00Z</TrxnDateTime>
+			<InventoryDate>2004-09-01</InventoryDate>
+			<CloseOutDateTime>2004-09-01T05:00:00Z</CloseOutDateTime>
+			<TicketSource>Manual</TicketSource>
+			<DocumentNumber>324566</DocumentNumber>
+			<ConjoinedTransID>BT005</ConjoinedTransID>
+			<ReversalType>O</ReversalType>
+			<Owner>OWNER_1</Owner>
+			<Manager>MANAGER_1</Manager>
+			<ShipTo>Consumer 1</ShipTo>
+			<LineItems>
+				<LineItem>
+					<SequenceNumber>1</SequenceNumber>
+					<ProductInfo>
+						<ProductCode>ULP</ProductCode>
+						<Product>ULP Product</Product>
+						<ProductType>ULP Type</ProductType>
+					</ProductInfo>
+					<AccountingData>
+						<Consumer>CONSUMER_1</Consumer>
+						<Density>0.81</Density>
+						<DensityUnits>FMD_USLbGal</DensityUnits>
+						<Temperature>70</Temperature>
+						<TemperatureUnits>FMT_DegF</TemperatureUnits>
+						<Gravity></Gravity>
+						<GravityUnits>FMD_DegAPI</GravityUnits>
+						<VCF>1.1345</VCF>
+						<Quantity>
+							<Gross>-50000.0</Gross>
+							<Net>-56725.0</Net>
+							<Units>FMV_USGal</Units>
+						</Quantity>
+						<Customs>Domestic</Customs>
+					</AccountingData>
+				</LineItem>
+			</LineItems>
+			<FromEquipment>
+				<GroundEquipment>
+					<StandardID>1231231</StandardID>
+					<ID>231</ID>
+					<Type>TANK</Type>
+					<OperatorID>jdoe</OperatorID>
+				</GroundEquipment>
+			</FromEquipment>
+			<ToEquipment>
+				<GroundEquipment>
+					<StandardID>1231232</StandardID>
+					<ID>232</ID>
+					<Type>TANK</Type>
+					<OperatorID>jdoe</OperatorID>
+				</GroundEquipment>
+			</ToEquipment>
+			<PaymentInfo>
+				<BillTo>AEDA</BillTo>
+				<Cash>
+					<PaymentAmount units="US Dollars">100</PaymentAmount>
+				</Cash>
+			</PaymentInfo>
+			<Notes>This is a consumer Transfer.</Notes>
+		</ConsumerTransfer>
+		<!--  
+			///////////////////////////////
+			// ConsumerTransfer B
+			///////////////////////////////
+		-->
+		<ConsumerTransfer>
+			<Site>Site A</Site>
+			<ID>BT005</ID>
+			<TransactionAlias>MidFlightRefuel</TransactionAlias>
+			<TrxnDateTime>2004-09-01T21:00:00Z</TrxnDateTime>
+			<InventoryDate>2004-09-01</InventoryDate>
+			<CloseOutDateTime>2004-09-01T05:00:00Z</CloseOutDateTime>
+			<TicketSource>Manual</TicketSource>
+			<DocumentNumber>6767575</DocumentNumber>
+			<ConjoinedTransID>BT004</ConjoinedTransID>
+			<ReversalType>O</ReversalType>
+			<Owner>OWNER_2</Owner>
+			<Manager>MANAGER_2</Manager>
+			<ShipTo>Consumer 1</ShipTo>
+			<LineItems>
+				<LineItem>
+					<SequenceNumber>1</SequenceNumber>
+					<ProductInfo>
+						<ProductCode>ULP</ProductCode>
+						<Product>ULP Product</Product>
+						<ProductType>ULP Type</ProductType>
+					</ProductInfo>
+					<AccountingData>
+						<Consumer>CONSUMER_2</Consumer>
+						<Density>0.81</Density>
+						<DensityUnits>FMD_USLbGal</DensityUnits>
+						<Temperature>70</Temperature>
+						<TemperatureUnits>FMT_DegF</TemperatureUnits>
+						<Gravity></Gravity>
+						<GravityUnits>FMD_DegAPI</GravityUnits>
+						<VCF>1.1345</VCF>
+						<Quantity>
+							<Gross>50000.0</Gross>
+							<Net>56725.0</Net>
+							<Units>FMV_USGal</Units>
+						</Quantity>
+						<Customs>Domestic</Customs>
+					</AccountingData>
+				</LineItem>
+			</LineItems>
+		</ConsumerTransfer>
+		<!--  
+			///////////////////////////////
+			// MeterMovement (Meter Rotation Example)
+			///////////////////////////////
+		-->
+		<MeterMovement>
+			<Site>Site A</Site>
+			<ID>ROT002</ID>
+			<TransactionAlias>Rotation</TransactionAlias>
+			<TrxnDateTime>2004-09-01T21:00:00Z</TrxnDateTime>
+			<InventoryDate>2004-09-01</InventoryDate>
+			<CloseOutDateTime>2004-09-01T05:00:00Z</CloseOutDateTime>
+			<DocumentNumber>23423424</DocumentNumber>
+			<TicketSource>Manual</TicketSource>
+			<ReversalType>O</ReversalType>
+			<Manager>MANAGER</Manager>
+			<Owner>OWNER</Owner>
+			<ShipTo>ShipToDoesn'tMakeSense</ShipTo>
+			<LineItems>
+				<LineItem>
+					<SequenceNumber>1</SequenceNumber>
+					<AccountingData>
+						<Density>0.81</Density>
+						<DensityUnits>FMD_USLbGal</DensityUnits>
+						<Temperature>70</Temperature>
+						<TemperatureUnits>FMT_DegF</TemperatureUnits>
+						<Gravity></Gravity>
+						<GravityUnits>FMD_DegAPI</GravityUnits>
+						<VCF>1.1345</VCF>
+						<Quantity>
+							<Gross>500.0</Gross>
+							<Net>567.0</Net>
+							<Units>FMV_USGal</Units>
+						</Quantity>
+					</AccountingData>
+				</LineItem>
+			</LineItems>
+			<GroundEquipment>
+				<StandardID>1231231</StandardID>
+				<ID>231</ID>
+				<Type>HYDRANT</Type>
+				<Meters>
+					<Meter>
+						<ID>MET1</ID>
+						<Start>12100</Start>
+						<Stop>12600</Stop>
+					</Meter>
+				</Meters>
+				<StartTime>2004-09-02T22:00:00Z</StartTime>
+				<StopTime>2004-09-02T22:34:00Z</StopTime>
+				<OperatorID>jdoe</OperatorID>
+			</GroundEquipment>
+			<Notes></Notes>
+		</MeterMovement>
+		<!--  
+			///////////////////////////////
+			// MeterMovement (Daily Meter Closeout Example)
+			///////////////////////////////
+		-->
+		<MeterMovement>
+			<Site>Site A</Site>
+			<ID>DMC002</ID>
+			<TransactionAlias>24 Hr</TransactionAlias>
+			<TrxnDateTime>2004-09-01T21:00:00Z</TrxnDateTime>
+			<InventoryDate>2004-09-01</InventoryDate>
+			<CloseOutDateTime>2004-09-01T05:00:00Z</CloseOutDateTime>
+			<DocumentNumber>23423424</DocumentNumber>
+			<TicketSource>Manual</TicketSource>
+			<ReversalType>O</ReversalType>
+			<Manager>MANAGER</Manager>
+			<Owner>OWNER</Owner>
+			<ShipTo>ShipToDoesn'tMakeSense</ShipTo>
+			<LineItems>
+				<LineItem>
+					<SequenceNumber>1</SequenceNumber>
+					<ProductInfo>
+						<ProductCode>ULP</ProductCode>
+						<Product>ULP Product</Product>
+						<ProductType>ULP Type</ProductType>
+					</ProductInfo>
+					<AccountingData>
+						<FromManager>MANAGER</FromManager>
+						<Density>0.81</Density>
+						<DensityUnits>FMD_USLbGal</DensityUnits>
+						<Temperature>70</Temperature>
+						<TemperatureUnits>FMT_DegF</TemperatureUnits>
+						<Gravity></Gravity>
+						<GravityUnits>FMD_DegAPI</GravityUnits>
+						<VCF>1.1345</VCF>
+						<Quantity>
+							<Gross>500.0</Gross>
+							<Net>567.0</Net>
+							<Units>FMV_USGal</Units>
+						</Quantity>
+					</AccountingData>
+				</LineItem>
+			</LineItems>
+			<GroundEquipment>
+				<StandardID>1231231</StandardID>
+				<ID>231</ID>
+				<Type>HYDRANT</Type>
+				<Meters>
+					<Meter>
+						<ID>MET1</ID>
+						<Start>12100</Start>
+						<Stop>12600</Stop>
+					</Meter>
+				</Meters>
+				<StartTime>2004-09-02T22:00:00Z</StartTime>
+				<StopTime>2004-09-02T22:34:00Z</StopTime>
+				<OperatorID>jdoe</OperatorID>
+			</GroundEquipment>
+		</MeterMovement>
+		<!--  
+			///////////////////////////////
+			// OwnerTransfer
+			///////////////////////////////
+		-->
+		<OwnerTransfer>
+			<Site>Site A</Site>
+			<ID>BT004</ID>
+			<TransactionAlias>Transfer</TransactionAlias>
+			<TrxnDateTime>2004-09-01T21:00:00Z</TrxnDateTime>
+			<InventoryDate>2004-09-01</InventoryDate>
+			<CloseOutDateTime>2004-09-01T05:00:00Z</CloseOutDateTime>
+			<TicketSource>Manual</TicketSource>
+			<DocumentNumber>25262646</DocumentNumber>
+			<ConjoinedTransID>BT104</ConjoinedTransID>
+			<ReversalType>O</ReversalType>
+			<Owner>OWNER_1</Owner>
+			<Manager>MANAGER_1</Manager>
+			<LineItems>
+				<LineItem>
+					<SequenceNumber>1</SequenceNumber>
+					<ProductInfo>
+						<ProductCode>ULP</ProductCode>
+						<Product>ULP Product</Product>
+						<ProductType>ULP Type</ProductType>
+					</ProductInfo>
+					<AccountingData>
+						<Density>0.81</Density>
+						<DensityUnits>FMD_USLbGal</DensityUnits>
+						<Temperature>70</Temperature>
+						<TemperatureUnits>FMT_DegF</TemperatureUnits>
+						<Gravity></Gravity>
+						<GravityUnits>FMD_DegAPI</GravityUnits>
+						<VCF>1.1345</VCF>
+						<Quantity>
+							<Gross>-50000.0</Gross>
+							<Net>-56725.0</Net>
+							<Units>FMV_USGal</Units>
+						</Quantity>
+						<Customs>Domestic</Customs>
+					</AccountingData>
+				</LineItem>
+			</LineItems>
+			<FromEquipment>
+				<GroundEquipment>
+					<StandardID>1231231</StandardID>
+					<ID>231</ID>
+					<Type>TANK</Type>
+					<OperatorID>jdoe</OperatorID>
+				</GroundEquipment>
+			</FromEquipment>
+			<ToEquipment>
+				<GroundEquipment>
+					<StandardID>1231232</StandardID>
+					<ID>232</ID>
+					<Type>TANK</Type>
+					<OperatorID>jdoe</OperatorID>
+				</GroundEquipment>
+			</ToEquipment>
+			<PaymentInfo>
+				<BillTo>AEDA</BillTo>
+				<Cash>
+					<PaymentAmount units="US Dollars">100</PaymentAmount>
+				</Cash>
+			</PaymentInfo>
+			<Notes></Notes>
+		</OwnerTransfer>
+		<OwnerTransfer>
+			<Site>Site A</Site>
+			<ID>BT104</ID>
+			<TransactionAlias>Transfer</TransactionAlias>
+			<TrxnDateTime>2004-09-01T21:00:00Z</TrxnDateTime>
+			<InventoryDate>2004-09-01</InventoryDate>
+			<CloseOutDateTime>2004-09-01T05:00:00Z</CloseOutDateTime>
+			<TicketSource>Manual</TicketSource>
+			<DocumentNumber>25262646</DocumentNumber>
+			<ConjoinedTransID>BT004</ConjoinedTransID>
+			<ReversalType>O</ReversalType>
+			<Owner>OWNER_2</Owner>
+			<Manager>MANAGER_2</Manager>
+			<LineItems>
+				<LineItem>
+					<SequenceNumber>1</SequenceNumber>
+					<ProductInfo>
+						<ProductCode>ULP</ProductCode>
+						<Product>ULP Product</Product>
+						<ProductType>ULP Type</ProductType>
+					</ProductInfo>
+					<AccountingData>
+						<Density>0.81</Density>
+						<DensityUnits>FMD_USLbGal</DensityUnits>
+						<Temperature>70</Temperature>
+						<TemperatureUnits>FMT_DegF</TemperatureUnits>
+						<Gravity></Gravity>
+						<GravityUnits>FMD_DegAPI</GravityUnits>
+						<VCF>1.1345</VCF>
+						<Quantity>
+							<Gross>50000.0</Gross>
+							<Net>56725.0</Net>
+							<Units>FMV_USGal</Units>
+						</Quantity>
+						<Customs>Domestic</Customs>
+					</AccountingData>
+				</LineItem>
+			</LineItems>
+		</OwnerTransfer>
+		<!--  
+			///////////////////////////////
+			// PhysicalInventory
+			///////////////////////////////
+		-->
+		<PhysicalInventory>
+			<Site>Site A</Site>
+			<ID>PI107</ID>
+			<TransactionAlias>Physical Inventory</TransactionAlias>
+			<TrxnDateTime>2004-09-01T21:00:00Z</TrxnDateTime>
+			<InventoryDate>2004-09-01</InventoryDate>
+			<CloseOutDateTime>2004-09-01T05:00:00Z</CloseOutDateTime>
+			<TicketSource>Manual</TicketSource>
+			<DocumentNumber>46246824</DocumentNumber>
+			<ReversalType>O</ReversalType>
+			<Manager>MANAGER</Manager>
+			<LineItems>
+				<LineItem>
+					<SequenceNumber>1</SequenceNumber>
+					<ProductInfo>
+						<ProductCode>ULP</ProductCode>
+						<Product>ULP Product</Product>
+						<ProductType>ULP Type</ProductType>
+					</ProductInfo>
+					<AccountingData>
+						<Density>0.81</Density>
+						<DensityUnits>FMD_USLbGal</DensityUnits>
+						<Temperature>70</Temperature>
+						<TemperatureUnits>FMT_DegF</TemperatureUnits>
+						<Gravity></Gravity>
+						<GravityUnits>FMD_DegAPI</GravityUnits>
+						<VCF>1.1345</VCF>
+						<Quantity>
+							<Gross>4238753.0</Gross>
+							<Net>4808865.3</Net>
+							<Units>FMV_USGal</Units>
+						</Quantity>
+						<Customs>Domestic</Customs>
+					</AccountingData>
+					<LineFill>10</LineFill>
+					<LineFillUnits>FMV_USGal</LineFillUnits>
+					<BottomVolume>15</BottomVolume>
+					<BottomVolumeUnits>FMV_USGal</BottomVolumeUnits>
+					<NetCapacity>1000</NetCapacity>
+					<NetCapacityUnits>FMV_USGal</NetCapacityUnits>
+					<TankStatus>R</TankStatus>
+				</LineItem>
+			</LineItems>
+			<StorageLocation>
+				<StorageLocationID>77463TNK</StorageLocationID>
+				<StorageType>TANK</StorageType>
+			</StorageLocation>
+			<Notes>This is a physical inventory.</Notes>
+		</PhysicalInventory>
+		<!--  
+			///////////////////////////////
+			// PrimaryRegrade
+			///////////////////////////////
+		-->
+		<PrimaryRegrade>
+			<Site>Site A</Site>
+			<ID>REG009</ID>
+			<TransactionAlias>Regrade</TransactionAlias>
+			<TrxnDateTime>2004-09-01T21:00:00Z</TrxnDateTime>
+			<InventoryDate>2004-09-01</InventoryDate>
+			<CloseOutDateTime>2004-09-02T05:00:00Z</CloseOutDateTime>
+			<DocumentNumber>25252646</DocumentNumber>
+			<TicketSource>Manual</TicketSource>
+			<ConjoinedTransID>REG109</ConjoinedTransID>
+			<ReversalType>O</ReversalType>
+			<Owner>OWNER</Owner>
+			<Manager>MANAGER</Manager>
+			<LineItems>
+				<LineItem>
+					<SequenceNumber>1</SequenceNumber>
+					<ProductInfo>
+						<ProductCode>ULP</ProductCode>
+						<Product>ULP Product</Product>
+						<ProductType>ULP Type</ProductType>
+					</ProductInfo>
+					<AccountingData>
+						<Density>0.81</Density>
+						<DensityUnits>FMD_USLbGal</DensityUnits>
+						<Temperature>70</Temperature>
+						<TemperatureUnits>FMT_DegF</TemperatureUnits>
+						<Gravity></Gravity>
+						<GravityUnits>FMD_DegAPI</GravityUnits>
+						<VCF>1.1345</VCF>
+						<Quantity>
+							<Gross>5000.0</Gross>
+							<Net>5673.0</Net>
+							<Units>FMV_USGal</Units>
+						</Quantity>
+						<Customs>Domestic</Customs>
+					</AccountingData>
+				</LineItem>
+			</LineItems>
+			<Notes></Notes>
+		</PrimaryRegrade>
+		<!--  
+			///////////////////////////////
+			// SecondaryRegrade
+			///////////////////////////////
+		-->
+		<SecondaryRegrade>
+			<Site>Site A</Site>
+			<ID>REG109</ID>
+			<TransactionAlias>Regrade</TransactionAlias>
+			<TrxnDateTime>2004-09-01T21:00:00Z</TrxnDateTime>
+			<InventoryDate>2004-09-01</InventoryDate>
+			<CloseOutDateTime>2004-09-02T05:00:00Z</CloseOutDateTime>
+			<DocumentNumber>25252646</DocumentNumber>
+			<TicketSource>Manual</TicketSource>
+			<ConjoinedTransID>REG009</ConjoinedTransID>
+			<ReversalType>O</ReversalType>
+			<Owner>OWNER</Owner>
+			<Manager>MANAGER</Manager>
+			<LineItems>
+				<LineItem>
+					<SequenceNumber>1</SequenceNumber>
+					<ProductInfo>
+						<ProductCode>ULP</ProductCode>
+						<Product>ULP Product</Product>
+						<ProductType>ULP Type</ProductType>
+					</ProductInfo>
+					<AccountingData>
+						<Vendor>VENDOR</Vendor>
+						<Density>0.81</Density>
+						<DensityUnits>FMD_USLbGal</DensityUnits>
+						<Temperature>70</Temperature>
+						<TemperatureUnits>FMT_DegF</TemperatureUnits>
+						<Gravity></Gravity>
+						<GravityUnits>FMD_DegAPI</GravityUnits>
+						<VCF>1.1345</VCF>
+						<Quantity>
+							<Gross>5000.0</Gross>
+							<Net>5673.0</Net>
+							<Units>FMV_USGal</Units>
+						</Quantity>
+						<Customs>Domestic</Customs>
+					</AccountingData>
+				</LineItem>
+			</LineItems>
+			<Notes></Notes>
+		</SecondaryRegrade>
+		<BadAlias>
+			<Site>siteadmin</Site>
+		</BadAlias>
+	</TrxnS>
+</TransactionFeed>

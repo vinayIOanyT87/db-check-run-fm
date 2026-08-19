@@ -1,0 +1,27 @@
+HKCR
+{
+	DanielOPCObjects.DanLoadCollection.1 = s 'DanLoadCollection Class'
+	{
+		CLSID = s '{0CD850DB-6A02-4AF3-AAED-8FE6F7CFFA31}'
+	}
+	DanielOPCObjects.DanLoadCollection = s 'DanLoadCollection Class'
+	{
+		CLSID = s '{0CD850DB-6A02-4AF3-AAED-8FE6F7CFFA31}'
+		CurVer = s 'DanielOPCObjects.DanLoadCollection.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {0CD850DB-6A02-4AF3-AAED-8FE6F7CFFA31} = s 'DanLoadCollection Class'
+		{
+			ProgID = s 'DanielOPCObjects.DanLoadCollection.1'
+			VersionIndependentProgID = s 'DanielOPCObjects.DanLoadCollection'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{D783BBFF-74D7-4466-A2A8-A897AE458013}'
+		}
+	}
+}

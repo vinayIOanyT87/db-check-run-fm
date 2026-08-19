@@ -1,0 +1,7 @@
+﻿CREATE PARTITION SCHEME [AnnualPS] AS PARTITION [AnnualPF] TO
+--([PRIMARY])
+([fg_FACT_Start],
+[fg_FACT_2000], [fg_FACT_2001], [fg_FACT_2002], [fg_FACT_2003], [fg_FACT_2004], [fg_FACT_2005], [fg_FACT_2006], [fg_FACT_2007], [fg_FACT_2008], [fg_FACT_2009],
+[fg_FACT_2010], [fg_FACT_2011], [fg_FACT_2012], [fg_FACT_2013], [fg_FACT_2014], [fg_FACT_2015], [fg_FACT_2016], [fg_FACT_2017], [fg_FACT_2018], [fg_FACT_2019],
+[fg_FACT_2020], [fg_FACT_2021], [fg_FACT_2022], [fg_FACT_2023], [fg_FACT_2024], [fg_FACT_2025], [fg_FACT_2026], [fg_FACT_2027], [fg_FACT_2028], [fg_FACT_2029],
+[fg_FACT_2030], [fg_FACT_2031], [fg_FACT_2032], [fg_FACT_2033], [fg_FACT_2034], [fg_FACT_2035], [fg_FACT_2036], [fg_FACT_2037], [fg_FACT_2038], [fg_FACT_2039])

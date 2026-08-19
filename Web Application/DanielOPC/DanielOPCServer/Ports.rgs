@@ -1,0 +1,27 @@
+HKCR
+{
+	DanielOPCServer.Ports.1 = s 'Ports Class'
+	{
+		CLSID = s '{265331A0-40D0-4DEC-B614-1A21CDC5CC1F}'
+	}
+	DanielOPCServer.Ports = s 'Ports Class'
+	{
+		CLSID = s '{265331A0-40D0-4DEC-B614-1A21CDC5CC1F}'
+		CurVer = s 'DanielOPCServer.Ports.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {265331A0-40D0-4DEC-B614-1A21CDC5CC1F} = s 'Ports Class'
+		{
+			ProgID = s 'DanielOPCServer.Ports.1'
+			VersionIndependentProgID = s 'DanielOPCServer.Ports'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{4B9EC677-DB8A-4A49-B644-02BB18FA0809}'
+		}
+	}
+}

@@ -1,0 +1,81 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "FuelsManagerDB", "FuelsManager\FuelsManagerDB.sqlproj", "{7F667BA9-8731-445B-9CBC-18F40B02E318}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "FuelsManagerTA", "FuelsManagerTA\FuelsManagerTA.sqlproj", "{3BCFF8B0-805E-4513-810F-219F4350D677}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "FuelsManagerSync", "FuelsManagerSync\FuelsManagerSync.sqlproj", "{7D036490-D86D-401C-9F71-56E82344A68B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7F667BA9-8731-445B-9CBC-18F40B02E318} = {7F667BA9-8731-445B-9CBC-18F40B02E318}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7F667BA9-8731-445B-9CBC-18F40B02E318}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F667BA9-8731-445B-9CBC-18F40B02E318}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F667BA9-8731-445B-9CBC-18F40B02E318}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{7F667BA9-8731-445B-9CBC-18F40B02E318}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7F667BA9-8731-445B-9CBC-18F40B02E318}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7F667BA9-8731-445B-9CBC-18F40B02E318}.Debug|Mixed Platforms.Deploy.0 = Debug|Any CPU
+		{7F667BA9-8731-445B-9CBC-18F40B02E318}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F667BA9-8731-445B-9CBC-18F40B02E318}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F667BA9-8731-445B-9CBC-18F40B02E318}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{7F667BA9-8731-445B-9CBC-18F40B02E318}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{7F667BA9-8731-445B-9CBC-18F40B02E318}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{7F667BA9-8731-445B-9CBC-18F40B02E318}.Release|Mixed Platforms.Deploy.0 = Release|Any CPU
+		{3BCFF8B0-805E-4513-810F-219F4350D677}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BCFF8B0-805E-4513-810F-219F4350D677}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BCFF8B0-805E-4513-810F-219F4350D677}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{3BCFF8B0-805E-4513-810F-219F4350D677}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3BCFF8B0-805E-4513-810F-219F4350D677}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3BCFF8B0-805E-4513-810F-219F4350D677}.Debug|Mixed Platforms.Deploy.0 = Debug|Any CPU
+		{3BCFF8B0-805E-4513-810F-219F4350D677}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BCFF8B0-805E-4513-810F-219F4350D677}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BCFF8B0-805E-4513-810F-219F4350D677}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{3BCFF8B0-805E-4513-810F-219F4350D677}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3BCFF8B0-805E-4513-810F-219F4350D677}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3BCFF8B0-805E-4513-810F-219F4350D677}.Release|Mixed Platforms.Deploy.0 = Release|Any CPU
+		{7D036490-D86D-401C-9F71-56E82344A68B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D036490-D86D-401C-9F71-56E82344A68B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D036490-D86D-401C-9F71-56E82344A68B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{7D036490-D86D-401C-9F71-56E82344A68B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7D036490-D86D-401C-9F71-56E82344A68B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7D036490-D86D-401C-9F71-56E82344A68B}.Debug|Mixed Platforms.Deploy.0 = Debug|Any CPU
+		{7D036490-D86D-401C-9F71-56E82344A68B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D036490-D86D-401C-9F71-56E82344A68B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D036490-D86D-401C-9F71-56E82344A68B}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{7D036490-D86D-401C-9F71-56E82344A68B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{7D036490-D86D-401C-9F71-56E82344A68B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{7D036490-D86D-401C-9F71-56E82344A68B}.Release|Mixed Platforms.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6499286A-0463-4E9E-88A9-730E0678A87F}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 4
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://1552-div-team:8080/tfs/varec
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = FuelsManager\\FuelsManagerDB.sqlproj
+		SccLocalPath1 = .
+		SccProjectFilePathRelativizedFromConnection1 = FuelsManager\\
+		SccProjectUniqueName2 = FuelsManagerTA\\FuelsManagerTA.sqlproj
+		SccProjectName2 = FuelsManagerTA
+		SccLocalPath2 = FuelsManagerTA
+		SccProjectUniqueName3 = FuelsManagerSync\\FuelsManagerSync.sqlproj
+		SccProjectName3 = FuelsManagerSync
+		SccLocalPath3 = FuelsManagerSync
+	EndGlobalSection
+EndGlobal

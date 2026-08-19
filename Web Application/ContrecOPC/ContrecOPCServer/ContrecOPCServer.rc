@@ -1,0 +1,394 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "1 TYPELIB ""ContrecOPCServer.tlb""\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 9,0,0,0
+ PRODUCTVERSION 9,0,0,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904e4"
+        BEGIN
+            VALUE "CompanyName", "TODO: <Company name>"
+            VALUE "FileDescription", "TODO: <File description>"
+            VALUE "FileVersion", "9.0.0.0"
+            VALUE "InternalName", "ContrecOPCServer.dll"
+            VALUE "LegalCopyright", "TODO: (c) <Company name>.  All rights reserved."
+            VALUE "OriginalFilename", "ContrecOPCServer.dll"
+            VALUE "ProductName", "TODO: <Product name>"
+            VALUE "ProductVersion", "9.0.0.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// REGISTRY
+//
+
+IDR_CONTRECOPCSERVER    REGISTRY                "ContrecOPCServer.rgs"
+IDR_CONTRECS            REGISTRY                "Contrecs.rgs"
+IDR_DATAACCESS          REGISTRY                "DataAccess.rgs"
+IDR_PORTS               REGISTRY                "Ports.rgs"
+IDR_OPCSERVER           REGISTRY                "OPCServer.rgs"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_PROJNAME            "ContrecOPCServer"
+    IDS_VENDOR_INFO         "Contrec OPC Server by Varec Inc."
+    IDS_ERROR_PORT_EXISTS   "Port Exists"
+    IDS_ERROR_PORT_NOT_FOUND "Port Not Found"
+    IDS_STARTED             "Started"
+    IDS_HARDWARE_KEY_FAILURE "Hardware Key Failure"
+    IDS_STOPPED             "Stopped"
+    IDS_ERROR_ID_REQUIRED   "ID Required"
+    IDS_ERROR_CONTREC_EXISTS "Contrec Exists"
+    IDS_ERROR_CONTREC_NOT_FOUND "Contrec Not Found"
+    IDS_STATUS              "Status"
+    IDS_PRIMARY_ALARM       "Primary Alarm"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_OPC_E_INVALIDHANDLE "Invalid Server Handle."
+    IDS_OPC_E_BADTYPE       "Server cannot convert data to the requested type."
+    IDS_OPC_E_PUBLIC        "Illegal operation on a Public Group."
+    IDS_OPC_E_BADRIGHTS     "Access Rights do not allow this operation."
+    IDS_OPC_E_UNKNOWNITEMID "This ItemID is not known."
+    IDS_OPC_E_INVALIDITEMID "This ItemID is not valid."
+    IDS_OPC_E_INVALIDFILTER "The filter string is not valid."
+    IDS_OPC_E_UNKNOWNPATH   "The Item's access path is not known."
+END
+
+STRINGTABLE
+BEGIN
+    IDS_OPC_E_RANGE         "The value is out of range."
+    IDS_OPC_E_DUPLICATENAME "Duplicate group name is not allowed."
+    IDS_OPC_S_UNSUPPORTEDRATE "The requested data rate is not supported."
+    IDS_OPC_S_CLAMP         "The value was written but its output was clamped."
+    IDS_OPC_S_INUSE         "Illegal operation while the object is in use."
+    IDS_OPC_E_INVALIDCONFIGFILE "The configuration file is an invalid format."
+    IDS_OPC_E_NOTFOUND      "Get Key"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_PASS_CODE_ENTRY_IN_PROGRESS "Pass Code Entry In Progress"
+    IDS_OPERATION_TIMEDOUT  "Operation Timedout"
+    IDS_RECIPE_SELECTED     "Recipe Selected"
+    IDS_ADDITIVES_SELECTED  "Additives Selected"
+    IDS_PRESET_ENTERED      "Preset Entered"
+    IDS_KEYPAD_DATA_AVAILABLE "Keypad Data Available"
+    IDS_PROGRAM_CODE_CHANGED "Program Code Changed"
+    IDS_TRANSACTION_IN_PROGRESS "Transaction In Progress"
+    IDS_BATCH_IN_PROGRESS   "Batch In Progress"
+    IDS_KEY_PRESSED         "Key Pressed"
+    IDS_TRANSACTION_ENDED   "Transaction Ended"
+    IDS_BATCH_COMPLTE       "Batch Complete"
+    IDS_BATCH_ABORTED       "Batch Aborted"
+    125                     "Intermediate Alarm Stopped Batch"
+    IDS_CONTREC_STATUS      "1010 System Status"
+    IDS_LASTTRANS_NUMBER    "Last Transaction Number"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_FIRSTARM_NUMBER     "First Arm Number"
+    IDS_NUMBER_ARMS         "Number of Arms"
+    IDS_ARM_STATUS          "Arm Status"
+    IDS_ARM2_STATUS         "Arm 2 Status"
+    IDS_ARM3_STATUS         "Arm 3 Status"
+    IDS_ARM4_STATUS         "Arm 4 Status"
+    IDS_ARMS                "Arms"
+    IDS_ARM_1               "Arm 1"
+    IDS_ARM_2               "Arm 2"
+    IDS_ARM_3               "Arm 3"
+    IDS_ARM_4               "Arm 4"
+    IDS_GROSS_VOLUME        "Batch Gross Volume"
+    IDS_NET_VOLUME          "Batch Net Volume"
+    IDS_ARMS_TOTALS         "Arm Totals"
+    IDS_APPLICATION_VERSION "Application Version"
+    IDS_APPLICATION_VERSION_DATETIME "Version Date Time"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ARM_FLOW_RATE       "Flow Rate"
+    IDS_ARM_TEMPERATURE     "Temperature"
+    IDS_ARM_LASTLOAD_TEMPERATURE "Last Load Temperature"
+    IDS_APPLICATION_SYSTEM_DATETIME "1010 Date Time"
+    IDS_APPLICATION_POWERCYCLE_DATETIME "Power Cycle Date Time"
+    IDS_APPLICATION_COMMAND_FIELD "Command Field"
+    IDS_BATCH_INPROGRESS    "Batch In Progress"
+    IDS_DISPLAY_PROMPT      "Display Prompt"
+    IDS_DISPLAY_MESSAGE     "Display Message"
+    IDS_REMOTE_AUTHORIZE    "Remote Authorize"
+    IDS_GET_DRIVER_PIN_NUMBER "Driver Pin Number"
+    IDS_ENTERED_TRUCK_ID    "Truck ID"
+    IDS_LOAD_NUMBER         "Load Number"
+    IDS_GETANSWER_MESSAGE   "Get Answer Prompt"
+    IDS_ENTERED_DATA        "Entered Data"
+    IDS_HIDDENANSWER_MESSAGE "Hidden Message Prompt"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_TERMINATE_TRANSACTION "Terminate Transaction"
+    IDS_UNAUTHORIZED_FLOW   "Unauthorized Flow"
+    IDS_POWERFAIL_ALARM     "Power Fail Detected"
+    IDS_ALARMS_BRANCH       "Alarms"
+    IDS_POWERFAIL_ALARM_CLEAR "Clear Power Fail"
+    IDS_VALVE_CLOSE_FAILURE "Valve Close Failure"
+    IDS_DENSITY_FAILURE     "Density Failure"
+    IDS_COMPONENT           "Component"
+    IDS_BLOCK_VALVE_CLOSE_FAILURE "Block Valve Close Failure"
+    IDS_ADDITIVE            "Additive"
+    IDS_FAILURE             "Failure"
+    IDS_SET_DATE_AND_TIME   "Set Date and Time"
+    IDS_RESET_PRIMARY_ALARMS "Reset Primary Alarms"
+    IDS_TIMEOUT_OPERATION   "Timeout Operation"
+    IDS_PROMPT_RECIPE       "Prompt Recipe"
+    IDS_REQUEST_SELECTED_RECIPE "Request Selected Recipe"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_KEYPAD_DATA         "Keypad Data"
+    IDS_SET_PROGRAM_CODE_VALUE "Set Program Code Value"
+    IDS_READ_PROGRAM_CODE_VALUE "Read Program Code Value"
+    IDS_COMPONENT_TOTALIZERS "Component Totalizers"
+    IDS_END_TRANSACTION     "End Transaction"
+    IDS_CLEAR_DISPLAY       "Clear Display"
+    IDS_ADDITIVE_TOTALIZERS "Additive Totalizers"
+    IDS_AUTHORIZE_TRANSACTION "Authorize Transaction"
+    IDS_PROMPT_PRESET_VOLUME "Prompt Preset Volume"
+    IDS_REQUEST_PRESET_VOLUME "Request Preset Volume"
+    IDS_AUTHORIZE_BATCH     "Authorize Batch"
+    IDS_GROSS_TOTALIZER_START "Gross Totalizer Start"
+    IDS_AVERAGE_TEMPERATURE "Average Temperature"
+    IDS_AVERAGE_DENSITY     "Average Density"
+    IDS_AVERAGE_PRESSURE    "Average Pressure"
+    IDS_END_BATCH           "End Batch"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_LAST_KEY_PRESSED    "Last Key Pressed"
+    IDS_BATCH_VALUES        "Batch Values"
+    IDS_BATCH_SEQUENCE_NUMBER "Batch Sequence Number"
+    IDS_TRANSACTION_SEQUENCE_NUMBER "Transaction Sequence Number"
+    IDS_RECIPE_NUMBER       "Recipe Number"
+    IDS_START_DATETIME      "Start DateTime"
+    IDS_END_DATETIME        "End DateTime"
+    IDS_NUMBER_OF_METERS    "Number Of Meters"
+    IDS_NUMBER_OF_COMPONENTS "Number Of Components"
+    IDS_NUMBER_OF_ADDITIVES "Number Of Additives"
+    IDS_GROSS_TOTALIZER_END "Gross Totalizer End"
+    IDS_NET_TOTALIZER_START "Net Totalizer Start"
+    IDS_NET_TOTALIZER_END   "Net Totalizer End"
+    IDS_NUMBER_OF_DATA_PROMPTS "Number Of Data Prompts"
+    IDS_PERCENT             "Percent"
+    IDS_GROSS_TOTALIZER     "Gross Totalizer"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_NET_TOTALIZER       "Net Totalizer"
+    IDS_COMPONENT_VALUES    "Component Values"
+    IDS_AVERAGE_VALVE_CLOSURES "Average Valve Closures"
+    IDS_INPUT               "Input"
+    IDS_RTD                 "RTD"
+    IDS_CURRENT_LOOP        "Current Loop"
+    IDS_DISCRETE            "Discrete"
+    IDS_OUTPUT              "Output"
+    IDS_LOADING             "Loading"
+    IDS_BATCH_ERROR         "Batch Error"
+    IDS_BATCH_COMPLETE      "Batch Complete"
+    IDS_PAUSED              "Paused"
+    IDS_STRING_OK           "OK"
+    IDS_DISPLAY_MESSAGE_TIMEOUT "Display Message Time-out"
+    IDS_SET_MESSAGE_TIMEOUT "Set Message Time-out"
+    IDS_ALTER_ARM_NAME      "Alter Arm Name"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_LOAD_NUMBER_RESPONSE "Load Number Response"
+    IDS_COMPARTMENT_RESPONSE "Compartment Response"
+    IDS_BATCH_TOTALS        "Batch Totals"
+    IDS_TRANSACTION_COMPLETE "Transaction Complete"
+    IDS_ARM_PRESET_AMOUNT   "Preset Amount"
+    IDS_ARM_ERROR_STATUS    "Arm Error Status"
+    IDS_ACCUM_GROSS_VOLUME  "Accumulated Gross Volume"
+    IDS_ACCUM_NET_VOLUME    "Accumulated Net Volume"
+    IDS_BATCH_AVER_TEMP     "Batch Avaerage Temperature"
+    IDS_BATCH_PROD_DENSITY  "Batch Product Density"
+    IDS_BATCH_COMPARTMENT_NUMBER "Batch Compartment Number"
+    IDS_BATCH_RETURNED_QTY  "Batch Returned Quantity"
+    IDS_ARM_DENSITY         "Arm Density"
+    IDS_INITIAL_MESSAGE     "Initial Message"
+    IDS_INITIAL_MESSAGE_CONTROLLED "Initial Message Controlled"
+    IDS_ISSUE_GETTOUCHKEY_PROMPT "Issue Get Touch Key Prompt"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_GET_TOUCHKEY_DATA   "Touch Key Value"
+    IDS_READ_ARM_DENSITY    "Read Configured Density"
+    IDS_ISSUE_MANAGER_RESET "Manager Reset"
+    IDS_ISSUE_RESET_DATE_TIME "Reset Date Time"
+    IDS_ISSUE_SET_PIN_NUMBERS "Set Pin Numbers"
+    IDS_OPTION              "Option Settings"
+    IDS_GET_OPTION_TESTMODE "Test Mode"
+    IDS_GET_OPTION_DEADMANTIMER "Deadman Timer"
+    IDS_GET_OPTION_ILLEGALACCESS "Illegal Access"
+    IDS_GET_OPTION_ALARMONFAULT "Alarm on Fault"
+    IDS_GET_OPTION_COMPARTMENTPROMPT "Prompt for Compartment"
+    IDS_GET_OPTION_RETURNPROMPT "Prompt for Returns"
+    IDS_GET_OPTION_LOADNUMBERPROMPT "Prompt for Load Number"
+    IDS_GET_OPTION_LOADSCHEDULING "Load Scheduling"
+    IDS_GET_OPTION_SLAVEMODE "Slave Mode"
+    IDS_GET_OPTION_REMOTEAUTH "Remote Authorize"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_GET_OPTION_SIMARMLOADING "Simultaneous Arm Loading"
+    IDS_GET_OPTION_PRESETQUANPROMPT "Prompt for Preset Quantity"
+    IDS_GET_OPTION_MULLOADSPERARM "Multiple Loads per Arm"
+    IDS_GET_OPTION_MAXPRESET "Maximum Preset"
+    IDS_GET_DRIVER_TOUCH_KEY "Driver Touch Key"
+    IDS_ISSUE_REMOTEAUTH_ERRORMESSAGE "Remote Auth Error"
+    IDS_GET_TRUCK_PIN_NUMBER "Truck Pin Number"
+    IDS_GET_TRUCK_TOUCH_KEY "Truck Touch Key"
+    IDS_SET_STORED_TRANSACTION_NUMBER "Set Transaction Number"
+    IDS_STORED_TRANSACTIONS "Stored Transactions"
+    IDS_GET_STORED_TRANSACTION_UNITADDRESS "Unit Address"
+    IDS_READ_ARM_BATCH_TRANSACTION_NUMBER "Batch Transaction Number"
+    IDS_GET_STORED_TRANSACTION_TRANSACTIONUMBER "Transaction Number"
+    IDS_GET_STORED_TRANSACTION_DATE "Date"
+    IDS_GET_STORED_TRANSACTION_STARTTIME "Start Time"
+    IDS_GET_STORED_TRANSACTION_STOPTIME "Stop Time"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_GET_STORED_TRANSACTION_CALIBRATIONNUMBER "Calibration Number"
+    IDS_GET_STORED_TRANSACTION_ENTRYSTART "Entry Start"
+    IDS_GET_STORED_TRANSACTION_ENTRYSTOP "Entry Stop"
+    IDS_GET_STORED_TRANSACTION_DRIVERINDEX "Driver Index"
+    IDS_GET_STORED_TRANSACTION_TRUCKINDEX "Truck Index"
+    IDS_GET_STORED_TRANSACTION_LOADNUMBER "Load Number"
+    IDS_GET_STORED_TRANSACTION_ARMNUMBER "Number of Arms"
+    IDS_GET_STORED_TRANSACTION_ARM1DENSITY "Arm 1 Density"
+    IDS_GET_STORED_TRANSACTION_ARM2DENSITY "Arm 2 Density"
+    IDS_GET_STORED_TRANSACTION_ARM3DENSITY "Arm 3 Density"
+    IDS_GET_STORED_TRANSACTION_ARM4DENSITY "Arm 4 Density"
+    IDS_GET_STORED_TRANSACTION_UNIQUENUMBER "Unique Number"
+    IDS_GET_STORED_TRANSACTION_FIRSTARMNUMBER "First Arm Number"
+    IDS_GET_STORED_TRANSACTION_CHECKSUMRESULT "Checksum Result"
+    IDS_STORED_ENTRIES      "Stored Entries"
+    IDS_SET_STORED_ENTRIES_NUMBER "Set Entry Number"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_GET_STORED_ENTRIES_ENTRYNUMBER "Entry Number"
+    IDS_GET_STORED_ENTRIES_TRANSACTIONNUMBER "Transaction Number"
+    IDS_GET_STORED_ENTRIES_ARMNUMBER "Arm Number"
+    IDS_GET_STORED_ENTRIES_COMPARTMENTNUMBER "Compartment Number"
+    IDS_GET_STORED_ENTRIES_GROSSTOTAL "Gross Total"
+    IDS_GET_STORED_ENTRIES_NETTOTAL "Net Total"
+    IDS_GET_STORED_ENTRIES_GROSSACCUMBEFORE "Gross Accum Before"
+    IDS_GET_STORED_ENTRIES_GROSSACCUMAFTER "Gross Accum After"
+    IDS_GET_STORED_ENTRIES_NETACCUMBEFORE "Net Accum Before"
+    IDS_GET_STORED_ENTRIES_NETACCUMAFTER "Net Accum After"
+    IDS_GET_STORED_ENTRIES_AVERTEMP "Average Temperature"
+    IDS_GET_STORED_ENTRIES_PRESETQUANTITY "Preset Quantity"
+    IDS_GET_STORED_ENTRIES_ERRORSTATUS "Error Status"
+    IDS_GET_STORED_ENTRIES_RETURNQUANTITY "Return Quantity"
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+1 TYPELIB "ContrecOPCServer.tlb"
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

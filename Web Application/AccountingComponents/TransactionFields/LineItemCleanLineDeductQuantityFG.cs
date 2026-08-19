@@ -1,0 +1,147 @@
+namespace TransactionFields
+{
+	using System.Web.UI;
+	using System.Web.UI.WebControls;
+
+	using FMBusinessObjects.DataObjects;
+
+	/// <summary>
+	/// Summary description for LineItemNumber01FG.
+	/// </summary>
+	public class LineItemCleanLineDeductQuantityFG : NumericTextFieldGenerator, ILineItemField, ISublineItemField
+	{
+		public const string CLIENT_SIDE_SCRIPT_LINEITEM_NUMBER01 = "CLIENT_SIDE_SCRIPT_LINEITEM_CLEANLINEDEDUCTQUANTITY";
+		public const string CLIENT_SIDE_KEY_LINEITEM_NUMBER01 = "CLIENT_SIDE_KEY_LINEITEM_CLEANLINEDEDUCTQUANTITY";
+
+		public LineItemCleanLineDeductQuantityFG()
+		{
+		}
+
+		/// <summary>
+		/// Returns the FieldID of the field generator
+		/// </summary>
+		public override string FieldID
+		{
+			get
+			{
+				return "LineItem CleanLineDeductQuantity";
+			}
+		}
+
+		public override ENumericType NumericType
+		{
+			get
+			{
+				return ENumericType.Double;
+			}
+		}
+
+		/// <summary>
+		/// This property will return the unit type which is set to default.
+		/// </summary>
+		public override SITE_VARIABLE_TYPE UnitType
+		{
+			get { return SITE_VARIABLE_TYPE.DEFAULT; }
+		}
+
+		/// <summary>
+		/// This method handles special ASP control functions such as client side scripting.
+		/// </summary>
+		/// <param name="control"></param>
+		protected override void SpecializeControl(WebControl control)
+		{
+			base.SpecializeControl(control);
+			var updatePanel = control.Controls[0] as UpdatePanel;
+
+			if (updatePanel != null)
+			{
+				var textBox = updatePanel.ContentTemplateContainer.Controls[0] as TextBox;
+
+				if (textBox == null)
+				{
+					return;
+				}
+
+				// Register client scripts for this control if the custom client script registered is registered.
+				var customClientScript = control.Page.Session[CUSTOM_CLIENT_SCRIPT_NAME] as string;
+
+				if (!string.IsNullOrEmpty(customClientScript))
+				{
+					//Delay client side scripting until page pre-render event in case user clicks edit button of a
+					//line item while editing another line item. Such situation causes this method to be called 
+					//twice, once for for each line item. Since client side script is  allowed only once to be registered,
+					//later line item's client script is ignored, which is the one we actually want.
+					textBox.Page.Session[LineItemNumber01FG.CLIENT_SIDE_SCRIPT_LINEITEM_NUMBER01] =
+						"<script type=\"text/javascript\"><!--\n" +
+						"var oLineItemNumber01TextBox  = document.getElementById('" + textBox.ClientID + "');\n " +
+						"\n//--></script>";
+
+					textBox.Attributes.Add("onChange", "javascript:try{MasterOnChange('" + this.FieldID + "');}catch(err){;}");
+				}
+			}
+		}
+
+		#region ILineItemField Members
+
+		public object GetDataValue(LineItemDO inLineItem)
+		{
+			if (inLineItem.CleanLineDeductQuantity == null)
+			{
+				return null;
+			}
+
+			return inLineItem.CleanLineDeductQuantity.Value;
+		}
+
+		public string GetDataText(LineItemDO inLineItem)
+		{
+			return ((ILineItemField) this).GetDataValue(inLineItem).ToString();
+		}
+
+		public void SetDataValue(LineItemDO inLineItem, object newValue)
+		{
+			if (newValue == null)
+			{
+				inLineItem.CleanLineDeductQuantity = null;
+			}
+			else
+			{
+				inLineItem.CleanLineDeductQuantity = (double) newValue;
+			}
+
+			OnFieldChanged();
+		}
+		#endregion
+
+		#region ISublineItemField Members
+		object ISublineItemField.GetDataValue(SubLineItemDO inSublineItem)
+		{
+			if (inSublineItem.CleanLineDeductQuantity == null)
+			{
+				return null;
+			}
+
+			return inSublineItem.CleanLineDeductQuantity.Value;
+		}
+
+		string ISublineItemField.GetDataText(SubLineItemDO inSublineItem)
+		{
+			return ((ISublineItemField) this).GetDataValue(inSublineItem).ToString();
+		}
+
+		void ISublineItemField.SetDataValue(SubLineItemDO inSublineItem, object newValue)
+		{
+			if (newValue == null)
+			{
+				inSublineItem.CleanLineDeductQuantity = null;
+			}
+			else
+			{
+				inSublineItem.CleanLineDeductQuantity = (double) newValue;
+			}
+
+			OnFieldChanged();
+		}
+		#endregion
+	}
+}

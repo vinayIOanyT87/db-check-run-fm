@@ -1,0 +1,22 @@
+DB Project has tow different files that can be used to maintain data within the database as follows:
+
+1. The Script.FirstTimeDataUpload.sql file contains scripts that insert records into a table only once, like a new lookup table. This script checks if the table has no record to decide whether to insert records or not.
+2. The Script.IncrementalDataMaintenance.sql file is where you want to append scripts that will insert data into an already populated table (in this case you must add record checking control statement such as "IF NOT EXISTS...". You should use this script as well for record updates or deletion of an existing record.
+
+Instructions modify data as follows:
+
+1 - Populating a new table:
+
+- Open the Script.FirstTimeDataUpload.sql file located on \FMScripts\Core\DataUpload folder
+- Add your "INSERT..." statement within an "IF (SELECT COUNT(*) FROM <TABLE_NAME>) = 0" control block.
+- Save, build and deploy your project. Check if the table got populated properly.
+
+2 - Add incremental insert(s)
+- Open the Script.IncrementalDataMaintenance.sql file located on \FMScripts\Core\DataUpload folder
+- Add your "INSERT..." statement within a record check command such as "IF NOT EXISTS (SELECT * FROM <TABLE_NAME> WHERE <RECORD_UNIQUE_CONDITION>).
+- Save, build and deploy your project. Check if the table got populated properly.
+
+2 - Update or delete a record
+- Open the Script.IncrementalDataMaintenance.sql file located on \FMScripts\Core\DataUpload folder
+- Add your "UPDATE..." or "DELETE..." statement
+- Save, build and deploy your project. Check if the table got populated properly.

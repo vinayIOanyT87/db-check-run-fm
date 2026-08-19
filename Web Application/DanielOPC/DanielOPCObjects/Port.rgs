@@ -1,0 +1,27 @@
+HKCR
+{
+	DanielOPCObjects.Port.1 = s 'Port Class'
+	{
+		CLSID = s '{B140A6E9-E0DD-4C4F-B973-630CCA43136D}'
+	}
+	DanielOPCObjects.Port = s 'Port Class'
+	{
+		CLSID = s '{B140A6E9-E0DD-4C4F-B973-630CCA43136D}'
+		CurVer = s 'DanielOPCObjects.Port.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {B140A6E9-E0DD-4C4F-B973-630CCA43136D} = s 'Port Class'
+		{
+			ProgID = s 'DanielOPCObjects.Port.1'
+			VersionIndependentProgID = s 'DanielOPCObjects.Port'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{D783BBFF-74D7-4466-A2A8-A897AE458013}'
+		}
+	}
+}

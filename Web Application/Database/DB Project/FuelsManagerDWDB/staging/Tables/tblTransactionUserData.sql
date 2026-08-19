@@ -1,0 +1,80 @@
+﻿/*
+	DROP TABLE [staging].[tblTransactionUserData]
+*/
+CREATE TABLE [staging].[tblTransactionUserData](
+	[SKey] [int] IDENTITY(1,1) NOT NULL,
+	[TransactionUserDataGuid] [uniqueidentifier] NULL,
+	[TransactionUserDataKey] [nvarchar](50) NULL,
+
+	[TransactionGuid] [uniqueidentifier] NULL,
+	[TransactionKey] [nvarchar](50) NULL,
+	[UserData1] [nvarchar](255) NULL,
+	[UserData2] [nvarchar](255) NULL,
+	[UserData3] [nvarchar](255) NULL,	
+	[UserData4] [nvarchar](255) NULL,
+	[UserData4SI] [float] NULL,
+	[UserData4USGallon] [float] NULL,
+	[UserData5] [nvarchar](255) NULL,
+	[UserData5SI] [float] NULL,
+	[UserData5USGallon] [float] NULL,
+	[UserData6] [nvarchar](255) NULL,
+	[UserData6SI] [float] NULL,
+	[UserData6USGallon] [float] NULL,
+	[UserData7] [nvarchar](255) NULL,
+	[UserData8] [nvarchar](255) NULL,
+	[UserData9] [nvarchar](255) NULL,
+	[UserData10] [nvarchar](255) NULL,
+	[UserData11] [nvarchar](255) NULL,
+	[UserData12] [nvarchar](255) NULL,
+	[UserData13] [nvarchar](255) NULL,
+	[UserData14] [nvarchar](255) NULL,
+	[UserData15] [nvarchar](255) NULL,
+	[UserData16] [nvarchar](255) NULL,
+	[UserData17] [nvarchar](255) NULL,
+	[UserData18] [nvarchar](255) NULL,
+	[UserData19] [nvarchar](255) NULL,
+	[UserData20] [nvarchar](255) NULL,
+	[UserData21] [nvarchar](255) NULL,
+	[UserData22] [nvarchar](255) NULL,
+	[UserData23] [nvarchar](255) NULL,
+	[UserData24] [nvarchar](255) NULL,
+	[DetermineMethodLikeAorE] [bit] NULL,
+	[CreatedDate] [datetimeoffset](7) NULL,
+	[CreatedBy] [nvarchar](100) NULL,
+	[UpdatedDate] [datetimeoffset](7) NULL,
+	[UpdatedBy] [nvarchar](100) NULL,
+	--System Fields
+	[RecordUpdatedDate] [datetimeoffset](7) NULL,
+	[CombinedUpdatedDate] [datetimeoffset](7) NULL,
+	[CombinedUpdatedDateSKey] [int] NULL,
+	[IsRecordDeleted] [bit] NOT NULL,
+	[IsRecordAddedByETL] [bit] NOT NULL,
+	[IgnoreRecord] [bit] NOT NULL,
+	[IsProcessed] [bit] NOT NULL,
+	[CDCSKey] [int] NULL,
+	[SourceRowVersion] [bigint] NULL,
+	[CDCRowVersion] [bigint] NULL,
+	[_RowVersion] [timestamp] NOT NULL,
+ CONSTRAINT [PK_tblTransactionUserData] PRIMARY KEY CLUSTERED 
+(
+	[SKey] ASC
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF)
+)
+GO
+ALTER TABLE [staging].[tblTransactionUserData] ADD  DEFAULT ((0)) FOR [IsRecordDeleted]
+GO
+ALTER TABLE [staging].[tblTransactionUserData] ADD  DEFAULT ((0)) FOR [IsRecordAddedByETL]
+GO
+ALTER TABLE [staging].[tblTransactionUserData] ADD  DEFAULT ((0)) FOR [IgnoreRecord]
+GO
+ALTER TABLE [staging].[tblTransactionUserData] ADD  DEFAULT ((0)) FOR [IsProcessed]
+GO
+CREATE NONCLUSTERED INDEX [IX_tblTransactionUserData_TransactionKey] ON [staging].[tblTransactionUserData]
+(
+	[TransactionGuid] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+CREATE NONCLUSTERED INDEX [IX_tblTransactionUserData_TransactionUserDataKey] ON [staging].[tblTransactionUserData]
+(
+	[TransactionUserDataGuid] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]

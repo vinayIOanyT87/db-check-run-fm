@@ -1,0 +1,24 @@
+﻿CREATE FUNCTION [dbo].[udf_GetAssignedQualificationPersonnelLicenseListForSite](
+@sync_context_site_guid uniqueidentifier
+)
+RETURNS @tblQualificationsList TABLE
+(
+	[PersonnelLicenseToSiteGuid] [uniqueidentifier]
+	,[QualificationGuid] [uniqueidentifier]
+	,[OwnerSiteGuid] [uniqueidentifier]
+	,[AssignedToSiteGuid] [uniqueidentifier]
+)
+AS
+BEGIN
+	-- In the case of entity assignment, the current model always contains a self-assigned entity assignment back to the owning site so we can leverage this to find
+	-- all assigned entities.
+	--
+	INSERT INTO @tblQualificationsList 
+		SELECT [map].[tblEntityPersonnelLicenseToSite].[PersonnelLicenseToSiteGuid], [dbo].[tblQualifications].[QualificationGuid], [dbo].[tblQualifications].[SiteGuid] 'OwnerSiteGuid', [map].[tblEntityPersonnelLicenseToSite].[SiteGuid] 'AssignedToSiteGuid'
+			FROM [map].[tblEntityPersonnelLicenseToSite]
+				INNER JOIN [dbo].[tblQualifications]
+					ON [map].[tblEntityPersonnelLicenseToSite].[QualificationGuid] = [dbo].[tblQualifications].[QualificationGuid]
+			WHERE [map].[tblEntityPersonnelLicenseToSite].[SiteGuid] = @sync_context_site_guid
+
+	RETURN;
+END

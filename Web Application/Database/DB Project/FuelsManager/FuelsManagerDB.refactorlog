@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="9d4b827c-9cc4-4ea0-8ce5-4faadfe905aa" ChangeDateTime="04/18/2023 21:57:59">
+    <Property Name="ElementName" Value="[dbo].[tblSites].[LeakDetectionQuiteSamples]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[tblSites]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LeakDetectionQuietSamples" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ca1b8801-bccf-4d9e-9dd4-389ec39464cb" ChangeDateTime="04/18/2023 21:58:09">
+    <Property Name="ElementName" Value="[dbo].[tblSites].[LeakDetectionQuiteTime]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[tblSites]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LeakDetectionQuietTime" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="2d92c0c7-f5b8-4a76-af72-0bc13e01fca8" ChangeDateTime="04/18/2023 21:58:18">
+    <Property Name="ElementName" Value="[dbo].[tblSites].[LeakDetectionQuiteTimeFactor]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[tblSites]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LeakDetectionQuietTimeFactor" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="190f7ac5-fb6f-442c-aef9-dce57732f618" ChangeDateTime="04/18/2023 21:58:28">
+    <Property Name="ElementName" Value="[dbo].[tblSites].[LeakDetectionUseMinWeight]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[tblSites]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LeakDetectionUseMinWait" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f8af05b1-743a-4131-bd80-af2cb115ed61" ChangeDateTime="04/18/2023 21:59:29">
+    <Property Name="ElementName" Value="[dbo].[tblSitesShadow].[LeakDetectionQuiteSamples]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[tblSitesShadow]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LeakDetectionQuietSamples" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="158571c0-4283-4929-9bd2-7a91f52e9876" ChangeDateTime="04/18/2023 21:59:36">
+    <Property Name="ElementName" Value="[dbo].[tblSitesShadow].[LeakDetectionQuiteTime]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[tblSitesShadow]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LeakDetectionQuietTime" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="73215227-57a0-470e-acd9-927fddaccecb" ChangeDateTime="04/18/2023 21:59:42">
+    <Property Name="ElementName" Value="[dbo].[tblSitesShadow].[LeakDetectionQuiteTimeFactor]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[tblSitesShadow]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LeakDetectionQuietTimeFactor" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="cacda6c7-1fc8-4166-80f4-78ae4dd45859" ChangeDateTime="04/18/2023 21:59:50">
+    <Property Name="ElementName" Value="[dbo].[tblSitesShadow].[LeakDetectionUseMinWeight]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[tblSitesShadow]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LeakDetectionUseMinWait" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0ddddc75-a424-40a1-85a5-b38a359bdfcb" ChangeDateTime="04/18/2023 22:00:35">
+    <Property Name="ElementName" Value="[fmaudit].[tblSites].[LeakDetectionQuiteSamples]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[fmaudit].[tblSites]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LeakDetectionQuietSamples" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0b5de847-370c-4d8b-ad44-6502de30a4f7" ChangeDateTime="04/18/2023 22:00:40">
+    <Property Name="ElementName" Value="[fmaudit].[tblSites].[LeakDetectionQuiteTime]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[fmaudit].[tblSites]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LeakDetectionQuietTime" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="3b15d947-82d8-4bc7-8f4d-b8a718f76b2c" ChangeDateTime="04/18/2023 22:00:47">
+    <Property Name="ElementName" Value="[fmaudit].[tblSites].[LeakDetectionQuiteTimeFactor]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[fmaudit].[tblSites]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LeakDetectionQuietTimeFactor" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="84120727-e943-4245-a491-8ae71e4a2a0e" ChangeDateTime="04/18/2023 22:00:55">
+    <Property Name="ElementName" Value="[fmaudit].[tblSites].[LeakDetectionUseMinWeight]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[fmaudit].[tblSites]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LeakDetectionUseMinWait" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="24afd90e-468e-4569-b4b2-04442f9f1da6" ChangeDateTime="04/28/2023 20:04:26">
+    <Property Name="ElementName" Value="[dbo].[tblLeakReport].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[tblLeakReport]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LeakReportId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7ff78ef8-b6bd-4d15-8a10-caef3612b1b7" ChangeDateTime="04/28/2023 20:41:48">
+    <Property Name="ElementName" Value="[dbo].[tblLeakReportGraph].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[tblLeakReportGraph]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LeakReportId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="1a680e72-5137-4e03-abb0-d4a669102910" ChangeDateTime="04/28/2023 20:42:16">
+    <Property Name="ElementName" Value="[dbo].[tblLeakReportGraph].[SampleVolume]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[tblLeakReportGraph]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="SampleTime" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5d27ec5d-1af3-4bce-b6a0-a8a4f264787e" ChangeDateTime="04/28/2023 20:42:28">
+    <Property Name="ElementName" Value="[dbo].[tblLeakReportGraph].[Sa]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[tblLeakReportGraph]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="SampleVolume" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="1e5304ff-3056-4b95-98cc-d99a58a7776e" ChangeDateTime="05/02/2023 15:19:33">
+    <Property Name="ElementName" Value="[dbo].[tblLeakReport].[WaterLevelStop]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[tblLeakReport]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="WaterLevelEnd" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="9f2a4e7f-2525-4c85-bc1e-44538580e65c" ChangeDateTime="05/10/2023 18:47:39">
+    <Property Name="ElementName" Value="[dbo].[tblLeakReport].[Constructionmaterial]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[tblLeakReport]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ConstructionMaterial" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="804f263f-e544-4647-b977-56cd67a5f3a2" ChangeDateTime="01/29/2024 03:31:46">
+    <Property Name="ElementName" Value="[dbo].[tblLeakReport].[PointTag]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[tblLeakReport]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PointId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="76988222-2c0a-41ea-b02d-ba8e9e4a72b9" ChangeDateTime="12/13/2024 20:02:37">
+    <Property Name="ElementName" Value="[dbo].[tblSiteCloseoutTime].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[tblSiteCloseoutTime]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="SiteGuid" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="1ece1b5f-d0c6-4c36-83fd-4edb83d3b24a" ChangeDateTime="12/13/2024 20:07:37">
+    <Property Name="ElementName" Value="[dbo].[tblSiteCloseoutTime].[CreatedBy]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[tblSiteCloseoutTime]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CreatedDate" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="25817d40-f2de-410f-a804-b75c3ecc29bc" ChangeDateTime="12/13/2024 20:10:25">
+    <Property Name="ElementName" Value="[dbo].[tblSiteCloseoutTime].[SiteGuid]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[tblSiteCloseoutTime]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="SiteCloseoutTimeGuid" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="cfb3f587-0a37-4eb3-82b4-07214d17ce33" ChangeDateTime="02/27/2025 13:53:17">
+    <Property Name="ElementName" Value="[dbo].[tblSites].[MovementFileExportDirectory]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[tblSites]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MovementTicketFileExportDirectory" />
+  </Operation>
+</Operations>

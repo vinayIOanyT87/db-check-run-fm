@@ -1,0 +1,12 @@
+﻿<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="StagingCM"
+  DTS:DTSID="{EFA333B6-B51E-4CC8-982E-5305FAB1FE33}"
+  DTS:CreationName="OLEDB">
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=D-DW2K6L3\NEPTUNE;Initial Catalog=FuelsManagerDWDB;Provider=SQLNCLI11.1;Integrated Security=SSPI;Application Name=SSIS-FuelsManagerDWSSIS-{EFA333B6-B51E-4CC8-982E-5305FAB1FE33}D-DW2K6L3\NEPTUNE.FuelsManagerDWDB1;Auto Translate=False;" />
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

@@ -1,0 +1,455 @@
+﻿<Dimension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100" xmlns:ddl200="http://schemas.microsoft.com/analysisservices/2010/engine/200" xmlns:ddl200_200="http://schemas.microsoft.com/analysisservices/2010/engine/200/200" xmlns:ddl300="http://schemas.microsoft.com/analysisservices/2011/engine/300" xmlns:ddl300_300="http://schemas.microsoft.com/analysisservices/2011/engine/300/300" xmlns:ddl400="http://schemas.microsoft.com/analysisservices/2012/engine/400" xmlns:ddl400_400="http://schemas.microsoft.com/analysisservices/2012/engine/400/400" xmlns:ddl500="http://schemas.microsoft.com/analysisservices/2013/engine/500" xmlns:ddl500_500="http://schemas.microsoft.com/analysisservices/2013/engine/500/500" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0" dwd:design-time-name="4588ea39-66fc-45fe-8daa-e481d4b917e0" xmlns="http://schemas.microsoft.com/analysisservices/2003/engine">
+  <ID>Dim Equipment</ID>
+  <Name>Dim Equipment</Name>
+  <CreatedTimestamp>0001-01-01T05:00:00Z</CreatedTimestamp>
+  <LastSchemaUpdate>0001-01-01T05:00:00Z</LastSchemaUpdate>
+  <Annotations>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramLayout</Name>
+      <Value>
+        <dds xmlns="">
+          <diagram fontclsid="{0BE35203-8F91-11CE-9DE3-00AA004BB851}" mouseiconclsid="{0BE35204-8F91-11CE-9DE3-00AA004BB851}" defaultlayout="MSDDS.Rectilinear" defaultlineroute="MSDDS.Rectilinear" version="7" nextobject="8" scale="100" pagebreakanchorx="0" pagebreakanchory="0" pagebreaksizex="0" pagebreaksizey="0" scrollleft="-3182" scrolltop="-2147" gridx="150" gridy="150" marginx="5000" marginy="5000" zoom="100" x="11139" y="14314" backcolor="16777215" defaultpersistence="2" PrintPageNumbersMode="3" PrintMarginTop="0" PrintMarginBottom="635" PrintMarginLeft="0" PrintMarginRight="0" marqueeselectionmode="0" mousepointer="0" snaptogrid="0" autotypeannotation="1" showscrollbars="1" viewpagebreaks="0" donotforceconnectorsbehindshapes="1" backpictureclsid="{00000000-0000-0000-0000-000000000000}">
+            <font>
+              <ddsxmlobjectstreamwrapper binary="01000000900144420100065461686f6d61" />
+            </font>
+            <mouseicon>
+              <ddsxmlobjectstreamwrapper binary="6c74000000000000" />
+            </mouseicon>
+          </diagram>
+          <layoutmanager>
+            <ddsxmlobj />
+          </layoutmanager>
+          <ddscontrol controlprogid="DdsShapes.DdsObjectManagedBridge" tooltip="DimEquipmentType" left="20" top="0" logicalid="4" controlid="1" masterid="0" hint1="0" hint2="0" width="4577" height="5000" noresize="0" nomove="0" nodefaultattachpoints="0" autodrag="1" usedefaultiddshape="1" selectable="1" showselectionhandles="1" allownudging="1" isannotation="0" dontautolayout="0" groupcollapsed="0" tabstop="1" visible="1" snaptogrid="0">
+            <control>
+              <ddsxmlobjectstreaminitwrapper binary="000e0000e111000088130000" />
+            </control>
+            <layoutobject>
+              <ddsxmlobj>
+                <property name="LogicalObject" value="dbo_DimEquipmentType" vartype="8" />
+              </ddsxmlobj>
+            </layoutobject>
+            <shape groupshapeid="0" groupnode="0" />
+          </ddscontrol>
+          <ddscontrol controlprogid="DdsShapes.DdsObjectManagedBridge" tooltip="DimEquipment" left="218" top="7400" logicalid="5" controlid="2" masterid="0" hint1="0" hint2="0" width="4180" height="5000" noresize="0" nomove="0" nodefaultattachpoints="0" autodrag="1" usedefaultiddshape="1" selectable="1" showselectionhandles="1" allownudging="1" isannotation="0" dontautolayout="0" groupcollapsed="0" tabstop="1" visible="1" snaptogrid="0">
+            <control>
+              <ddsxmlobjectstreaminitwrapper binary="000e00005410000088130000" />
+            </control>
+            <layoutobject>
+              <ddsxmlobj>
+                <property name="LogicalObject" value="dbo_DimEquipment" vartype="8" />
+              </ddsxmlobj>
+            </layoutobject>
+            <shape groupshapeid="0" groupnode="0" />
+          </ddscontrol>
+          <ddscontrol controlprogid="MSDDS.Polyline" left="1909" top="4501" logicalid="6" controlid="3" masterid="0" hint1="0" hint2="0" width="799" height="3199" noresize="0" nomove="0" nodefaultattachpoints="1" autodrag="0" usedefaultiddshape="0" selectable="1" showselectionhandles="0" allownudging="1" isannotation="0" dontautolayout="0" groupcollapsed="0" tabstop="1" visible="1" snaptogrid="0">
+            <control>
+              <ddsxmlobj>
+                <polyline endtypedst="6" endtypesrc="3" usercolor="0" linestyle="0" linerender="1" customendtypedstid="0" customendtypesrcid="0" adornsvisible="1" />
+              </ddsxmlobj>
+            </control>
+            <layoutobject>
+              <ddsxmlobj>
+                <property name="LogicalObject" value="dataSet.Relations[DimEquipment-DimEquipmentType]" vartype="8" />
+                <property name="Virtual" value="0" vartype="11" />
+                <property name="VisibleAP" value="0" vartype="3" />
+              </ddsxmlobj>
+            </layoutobject>
+            <connector lineroutestyle="MSDDS.Rectilinear" sourceid="1" destid="2" sourceattachpoint="7" destattachpoint="6" segmenteditmode="0" bendpointeditmode="0" bendpointvisibility="0" relatedid="0" virtual="0">
+              <point x="2308" y="5000" />
+              <point x="2308" y="7400" />
+            </connector>
+          </ddscontrol>
+        </dds>
+      </Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:ShowFriendlyNames</Name>
+      <Value>true</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:ShowRelationshipNames</Name>
+      <Value>false</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:UseDiagramDefaultLayout</Name>
+      <Value>true</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramViewPortLeft</Name>
+      <Value>-3182</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramViewPortTop</Name>
+      <Value>-2147</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramBoundingLeft</Name>
+      <Value>20</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramBoundingTop</Name>
+      <Value>0</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramZoom</Name>
+      <Value>100</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:ARDiagramLayout</Name>
+      <Value>
+        <DiagramLayout ZoomPercent="100" ViewPortX="0" ViewPortY="0" xmlns="">
+          <Shapes NodeWidth="189">
+            <Shape Id="S Key" Expanded="false">
+              <Attributes>
+                <Attribute Id="S Key" />
+                <Attribute Id="Description" />
+                <Attribute Id="In Use" />
+                <Attribute Id="Serial Number" />
+              </Attributes>
+              <Position x="20" y="20" />
+            </Shape>
+            <Shape Id="Model" Expanded="false">
+              <Attributes>
+                <Attribute Id="Model" />
+              </Attributes>
+              <Position x="261" y="20" />
+            </Shape>
+            <Shape Id="Make" Expanded="false">
+              <Attributes>
+                <Attribute Id="Make" />
+              </Attributes>
+              <Position x="502" y="20" />
+            </Shape>
+            <Shape Id="Equipment Id" Expanded="false">
+              <Attributes>
+                <Attribute Id="Equipment Id" />
+              </Attributes>
+              <Position x="261" y="68" />
+            </Shape>
+            <Shape Id="Equipment Type Name" Expanded="false">
+              <Attributes>
+                <Attribute Id="Equipment Type Name" />
+              </Attributes>
+              <Position x="502" y="68" />
+            </Shape>
+            <Shape Id="Equipment Type Class" Expanded="false">
+              <Attributes>
+                <Attribute Id="Equipment Type Class" />
+              </Attributes>
+              <Position x="743" y="68" />
+            </Shape>
+          </Shapes>
+        </DiagramLayout>
+      </Value>
+    </Annotation>
+  </Annotations>
+  <LastProcessed>0001-01-01T05:00:00Z</LastProcessed>
+  <State>Unprocessed</State>
+  <Source xsi:type="DataSourceViewBinding" dwd:design-time-name="d1501432-399e-43a5-90fa-5f138939a10d">
+    <DataSourceViewID>Fuels Manager DW</DataSourceViewID>
+  </Source>
+  <UnknownMember>Visible</UnknownMember>
+  <ErrorConfiguration dwd:design-time-name="572d0320-6738-4a4f-82d4-9afedf92a984">
+    <KeyNotFound>ReportAndStop</KeyNotFound>
+    <KeyDuplicate>ReportAndStop</KeyDuplicate>
+    <NullKeyNotAllowed>ReportAndStop</NullKeyNotAllowed>
+  </ErrorConfiguration>
+  <CurrentStorageMode>Molap</CurrentStorageMode>
+  <Attributes>
+    <Attribute dwd:design-time-name="448d3da1-92a8-4b71-886f-f95ea50fbc4c">
+      <ID>S Key</ID>
+      <Name>S Key</Name>
+      <Usage>Key</Usage>
+      <EstimatedCount>7372</EstimatedCount>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="6e4a8bea-464c-4249-8506-c1abb318b4d5">
+          <DataType>Integer</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="37c02e34-af89-4105-8c92-0eae0f63a35c">
+            <TableID>dbo_DimEquipment</TableID>
+            <ColumnID>SKey</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <AttributeRelationships>
+        <AttributeRelationship dwd:design-time-name="2fb26e8e-962b-4655-91cc-a107f4c4356c">
+          <AttributeID>Equipment Id</AttributeID>
+          <RelationshipType>Rigid</RelationshipType>
+          <Name>Equipment Id</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="330283ef-a053-4f95-998a-c606d70c9213">
+          <AttributeID>Description</AttributeID>
+          <Name>Equipment Description</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="9278f5bb-cc0b-49ea-a5f8-b1cb35a43e70">
+          <AttributeID>In Use</AttributeID>
+          <Name>In Use</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="6125f7fa-7592-4484-85cb-b520be700e03">
+          <AttributeID>Serial Number</AttributeID>
+          <Name>Serial Number</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="c93a794f-52f6-4e3a-8c72-bd413ab4c515">
+          <AttributeID>Model</AttributeID>
+          <RelationshipType>Rigid</RelationshipType>
+          <Name>Model</Name>
+        </AttributeRelationship>
+      </AttributeRelationships>
+      <OrderBy>Key</OrderBy>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="9f9e0ad9-1298-4c46-8a46-a804e143daf2">
+      <ID>Equipment Id</ID>
+      <Name>Equipment Id</Name>
+      <EstimatedCount>7372</EstimatedCount>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="bd5e2889-7170-40df-8679-0ddf3ceafc94">
+          <DataType>Integer</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="fbfad719-02a5-4194-a919-4f1e3bacd24e">
+            <TableID>dbo_DimEquipment</TableID>
+            <ColumnID>EquipmentTypeSKey</ColumnID>
+          </Source>
+        </KeyColumn>
+        <KeyColumn dwd:design-time-name="823c44c0-d325-4152-a5a0-b2eea8860bc1">
+          <DataType>WChar</DataType>
+          <DataSize>30</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="8b1e969d-ea59-4c12-b68f-a06503dba7fd">
+            <TableID>dbo_DimEquipment</TableID>
+            <ColumnID>EquipmentId</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <NameColumn dwd:design-time-name="97a02323-c7f4-47c7-8d4a-cd8095a561b3">
+        <DataType>WChar</DataType>
+        <DataSize>30</DataSize>
+        <Source xsi:type="ColumnBinding" dwd:design-time-name="163f9a0e-c0af-4c29-aebe-5ec03ed24af0">
+          <TableID>dbo_DimEquipment</TableID>
+          <ColumnID>EquipmentId</ColumnID>
+        </Source>
+      </NameColumn>
+      <AttributeRelationships>
+        <AttributeRelationship dwd:design-time-name="0688f8e8-c892-4bf5-a933-a84aa159fc5e">
+          <AttributeID>Equipment Type Name</AttributeID>
+          <RelationshipType>Rigid</RelationshipType>
+          <Name>Equipment Type Name</Name>
+        </AttributeRelationship>
+      </AttributeRelationships>
+      <ValueColumn dwd:design-time-name="9f819d14-8aea-4e37-b743-c51a317460c1">
+        <DataType>WChar</DataType>
+        <DataSize>30</DataSize>
+        <Source xsi:type="ColumnBinding" dwd:design-time-name="66d3ec9b-d894-4807-86e5-3d198a1ca6bc">
+          <TableID>dbo_DimEquipment</TableID>
+          <ColumnID>EquipmentId</ColumnID>
+        </Source>
+      </ValueColumn>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="d8648d72-2d37-4968-ad0c-c7a106ac0dfd">
+      <ID>Description</ID>
+      <Name>Equipment Description</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="f6eb06be-bf9a-4ad5-a982-11efa4ccd669">
+          <DataType>WChar</DataType>
+          <DataSize>50</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="13bb1e2a-38ce-4678-988a-f266449fb18a">
+            <TableID>dbo_DimEquipment</TableID>
+            <ColumnID>Description</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="a656ce36-6e46-4a37-851e-77683173e920">
+      <ID>In Use</ID>
+      <Name>In Use</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="42a38a9a-edd9-4fd1-be2b-6f2def06bf85">
+          <DataType>Boolean</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="da7e672f-324f-44cf-b3f9-8aaaa38e1fd9">
+            <TableID>dbo_DimEquipment</TableID>
+            <ColumnID>InUse</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="5e3451b4-a689-4c63-a066-8c6435bc3498">
+      <ID>Serial Number</ID>
+      <Name>Serial Number</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="4a72fef9-fa55-43c0-acd5-cf934282ef73">
+          <DataType>WChar</DataType>
+          <DataSize>30</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="7c832386-ad0b-4638-9864-c9f0c6a448d9">
+            <TableID>dbo_DimEquipment</TableID>
+            <ColumnID>SerialNumber</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="ee6a04a3-78a4-4ef1-b95b-b3f62b52cd7e">
+      <ID>Equipment Type Class</ID>
+      <Name>Equipment Type Class</Name>
+      <EstimatedCount>5</EstimatedCount>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="4adf49ec-e8e3-452f-bdfb-c0a8065512ff">
+          <DataType>WChar</DataType>
+          <DataSize>100</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="46d187bd-4844-44c4-bb82-37366ad902d2">
+            <TableID>dbo_DimEquipmentType</TableID>
+            <ColumnID>EquipmentTypeClass</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="8d2652f9-e5ac-45da-b0fb-69427840068f">
+      <ID>Equipment Type Name</ID>
+      <Name>Equipment Type Name</Name>
+      <EstimatedCount>5</EstimatedCount>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="3c5a29d9-87ec-48ca-8d1d-e7304c7cfa7c">
+          <DataType>WChar</DataType>
+          <DataSize>100</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="5b7ce0bb-45d9-46a4-9be2-303351979eb8">
+            <TableID>dbo_DimEquipmentType</TableID>
+            <ColumnID>EquipmentTypeClass</ColumnID>
+          </Source>
+        </KeyColumn>
+        <KeyColumn dwd:design-time-name="411113ad-69d8-45f2-a670-5c5129729744">
+          <DataType>WChar</DataType>
+          <DataSize>50</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="10bda5b6-f30e-4c27-9d33-e46c9477973b">
+            <TableID>dbo_DimEquipmentType</TableID>
+            <ColumnID>EquipmentTypeName</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <NameColumn dwd:design-time-name="c48c7fe5-a65a-4080-9c84-a84c3d9d5844">
+        <DataType>WChar</DataType>
+        <DataSize>50</DataSize>
+        <Source xsi:type="ColumnBinding" dwd:design-time-name="e3705174-7a9b-4ec0-85f7-1b5c8d725afc">
+          <TableID>dbo_DimEquipmentType</TableID>
+          <ColumnID>EquipmentTypeName</ColumnID>
+        </Source>
+      </NameColumn>
+      <AttributeRelationships>
+        <AttributeRelationship dwd:design-time-name="201e5a2b-3d23-41be-9ddb-04903701834a">
+          <AttributeID>Equipment Type Class</AttributeID>
+          <RelationshipType>Rigid</RelationshipType>
+          <Name>Equipment Type Class</Name>
+        </AttributeRelationship>
+      </AttributeRelationships>
+      <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="bdc3efaf-1831-44f6-94b3-02eaad9f5f6a">
+      <ID>Make</ID>
+      <Name>Make</Name>
+      <EstimatedCount>8</EstimatedCount>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="5571edf0-78de-4705-84a2-e57fd2204f04">
+          <DataType>WChar</DataType>
+          <DataSize>20</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="416b954d-95a2-4bb3-ac37-609a6e44418e">
+            <TableID>dbo_DimEquipment</TableID>
+            <ColumnID>Make</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="f0e01884-139a-4f1f-b207-794638537417">
+      <ID>Model</ID>
+      <Name>Model</Name>
+      <EstimatedCount>12</EstimatedCount>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="bf5ab3f7-de4c-4976-b3b2-2be79823a9a8">
+          <DataType>WChar</DataType>
+          <DataSize>20</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="2b06960d-c882-451c-a750-b67bff95d2ff">
+            <TableID>dbo_DimEquipment</TableID>
+            <ColumnID>Make</ColumnID>
+          </Source>
+        </KeyColumn>
+        <KeyColumn dwd:design-time-name="b7517887-c0f4-415e-a42e-5afdd2bff172">
+          <DataType>WChar</DataType>
+          <DataSize>50</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="9475d1d4-91ef-46f7-85df-be01123e1b93">
+            <TableID>dbo_DimEquipment</TableID>
+            <ColumnID>Model</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <NameColumn dwd:design-time-name="c63a3730-9c82-41d9-8703-e67961ba0731">
+        <DataType>WChar</DataType>
+        <DataSize>50</DataSize>
+        <Source xsi:type="ColumnBinding" dwd:design-time-name="7282336f-989b-4c79-ae2c-7f34b161b1e0">
+          <TableID>dbo_DimEquipment</TableID>
+          <ColumnID>Model</ColumnID>
+        </Source>
+      </NameColumn>
+      <AttributeRelationships>
+        <AttributeRelationship dwd:design-time-name="03b8d7c1-b7f5-4d15-86f1-4114a823637b">
+          <AttributeID>Make</AttributeID>
+          <RelationshipType>Rigid</RelationshipType>
+          <Name>Make</Name>
+        </AttributeRelationship>
+      </AttributeRelationships>
+      <AttributeHierarchyVisible>false</AttributeHierarchyVisible>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+  </Attributes>
+  <Hierarchies>
+    <Hierarchy dwd:design-time-name="70e6b380-c53f-45da-bc1b-2fe97e5ba6a8">
+      <ID>Hierarchy</ID>
+      <Name>Equipment Make and Model Hierarchy</Name>
+      <Levels>
+        <Level dwd:design-time-name="858799ad-bb86-42db-9787-ed4ca4acb9b4">
+          <ID>Make</ID>
+          <Name>Make</Name>
+          <SourceAttributeID>Make</SourceAttributeID>
+        </Level>
+        <Level dwd:design-time-name="3ed0e34f-f690-4a32-a882-6554e26c5859">
+          <ID>Model</ID>
+          <Name>Model</Name>
+          <SourceAttributeID>Model</SourceAttributeID>
+        </Level>
+      </Levels>
+    </Hierarchy>
+    <Hierarchy dwd:design-time-name="7846803e-5f11-4aba-b7d5-0bdcffed69b4">
+      <ID>Hierarchy 1</ID>
+      <Name>Equipment Type Hierarchy</Name>
+      <Levels>
+        <Level dwd:design-time-name="db7f11d1-f969-4a94-b0f9-2ec283723785">
+          <ID>Equipment Type Class</ID>
+          <Name>Equipment Type Class</Name>
+          <SourceAttributeID>Equipment Type Class</SourceAttributeID>
+        </Level>
+        <Level dwd:design-time-name="cc30d3ff-194d-4b0b-a31e-2d6a0af80766">
+          <ID>Equipment Type Name</ID>
+          <Name>Equipment Type Name</Name>
+          <SourceAttributeID>Equipment Type Name</SourceAttributeID>
+        </Level>
+        <Level dwd:design-time-name="18388733-7aae-438b-99ce-15a53e2d2bda">
+          <ID>Equipment Id</ID>
+          <Name>Equipment Id</Name>
+          <SourceAttributeID>Equipment Id</SourceAttributeID>
+        </Level>
+      </Levels>
+    </Hierarchy>
+  </Hierarchies>
+  <ddl300:ProcessingState>Unprocessed</ddl300:ProcessingState>
+</Dimension>

@@ -1,0 +1,23 @@
+﻿/*
+
+	DROP TABLE [lookup].[tblSyncConflictResolutionStatus]
+
+*/
+CREATE TABLE [lookup].[tblSyncConflictResolutionStatus] (
+    [SyncConflictResolutionStatusIndex] BIGINT             NOT NULL,
+    [SyncConflictResolutionStatusGuid]  UNIQUEIDENTIFIER   NOT NULL,
+    [StatusCode]                        NVARCHAR (80)      NOT NULL,
+    [StatusName]                        NVARCHAR (100)     NOT NULL,
+    [LongDescription]                   NVARCHAR (1024)    NULL,
+    [CreatedDate]                       DATETIMEOFFSET (7) NOT NULL,
+    [CreatedBy]                         [dbo].[udtUserID]  NULL,
+    [UpdatedDate]                       DATETIMEOFFSET (7) NULL,
+    [UpdatedBy]                         [dbo].[udtUserID]  NULL,
+    [_RowVersion]                       ROWVERSION         NOT NULL,
+    [SequenceOrder]                     INT                NULL,
+    [_ClusterIdx]                       BIGINT             IDENTITY (1, 1) NOT NULL,
+    CONSTRAINT [PK_SyncConflictResolutionStatus] PRIMARY KEY NONCLUSTERED ([SyncConflictResolutionStatusIndex] ASC)
+);
+GO
+CREATE UNIQUE CLUSTERED INDEX [IX_tblSyncConflictResolutionStatus_ClusterIdx]
+    ON [lookup].[tblSyncConflictResolutionStatus]([_ClusterIdx] ASC);

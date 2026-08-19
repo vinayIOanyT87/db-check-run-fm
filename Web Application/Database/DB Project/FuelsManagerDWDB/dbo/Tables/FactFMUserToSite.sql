@@ -1,0 +1,23 @@
+﻿/*
+	DROP TABLE [dbo].[FactFMUserToSite]
+*/
+CREATE TABLE [dbo].[FactFMUserToSite] (
+    [SKey]               INT                IDENTITY (1, 1) NOT NULL,
+    [FMUserSKey]         INT                NULL,
+    [SiteSKey]           INT                NULL,
+    [_RecordUpdatedDate] DATETIMEOFFSET (7) NULL,
+    [_DeletedFlag]       BIT                NULL,
+    CONSTRAINT [PK_FactFMUserToSite] PRIMARY KEY CLUSTERED ([SKey] ASC) WITH (FILLFACTOR = 100)
+)
+GO
+CREATE NONCLUSTERED INDEX [IX_FactFMUserToSite_FMUserSKey_SiteSKey] ON [dbo].[FactFMUserToSite]
+(
+	[FMUserSKey] ASC
+)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+CREATE NONCLUSTERED INDEX [IX_FactFMUserToSite_SiteSKey] ON [dbo].[FactFMUserToSite]
+(
+	[SiteSKey] ASC
+)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]

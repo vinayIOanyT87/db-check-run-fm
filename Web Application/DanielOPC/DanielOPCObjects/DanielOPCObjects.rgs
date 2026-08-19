@@ -1,0 +1,11 @@
+HKCR
+{
+	NoRemove AppID
+	{
+		'%APPID%' = s 'DanielOPCObjects'
+		'DanielOPCObjects.DLL'
+		{
+			val AppID = s '%APPID%'
+		}
+	}
+}

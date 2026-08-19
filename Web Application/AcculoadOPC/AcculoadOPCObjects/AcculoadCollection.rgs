@@ -1,0 +1,27 @@
+HKCR
+{
+	AcculoadOPCObjects.AcculoadCollection.1 = s 'AcculoadCollection Class'
+	{
+		CLSID = s '{BB618EBC-0E8F-4797-BFFB-46A2C1473D3E}'
+	}
+	AcculoadOPCObjects.AcculoadCollection = s 'AcculoadCollection Class'
+	{
+		CLSID = s '{BB618EBC-0E8F-4797-BFFB-46A2C1473D3E}'
+		CurVer = s 'AcculoadOPCObjects.AcculoadCollection.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {BB618EBC-0E8F-4797-BFFB-46A2C1473D3E} = s 'AcculoadCollection Class'
+		{
+			ProgID = s 'AcculoadOPCObjects.AcculoadCollection.1'
+			VersionIndependentProgID = s 'AcculoadOPCObjects.AcculoadCollection'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{3E903A1B-9024-481B-B125-92A3C6BB042A}'
+		}
+	}
+}

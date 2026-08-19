@@ -1,0 +1,82 @@
+--
+-- This file contains the name of DB Changes scripts that were applied to the Baseline database
+--
+
+-- 09/28/2012
+8.0.5.0-1024 WI-29538 Recreate Del Generated Stored procedures.sql
+8.0.5.0-1025 WI-31449 Generated Stored procedures for Update.sql
+8.0.5.0-1026 WI-31315 Generated Stored procedures for Inserts.sql
+8.0.5.0-1027 WI-31479 Add ReportServerUserName and ReportServerPassword columns to tblSystemSetting.sql
+8.0.5.0-1028 WI-31524 Create tables Mobile Devices.sql
+8.0.5.0-1029 WI-28721 Meter Reconciliation - Change tblSites.MeterReconciliationToleranceIsPercent to NOT NULL.sql
+8.0.5.0-1030 WI-28721 Meter Reconciliation - Recreate usp_MeterSelect.sql
+8.0.5.0-1031 WI-28720 Meter Reconciliation - Recreate usp_MeterReconciliationSelectDetailInformation.sql
+8.0.5.0-1032 WI-28721 Meter Reconciliation - Recreate usp_MeterAssetSelect.sql
+8.0.5.0-1033 WI-28721 Meter Reconciliation - Update meter reconciliation security right assignment to use SYSDATETIMEOFFSET.sql
+8.0.5.0-1034 WI-28721 Meter Reconciliation - Recreate FK constraints on map tblMeterToTank.sql
+8.0.5.0-1035 WI-31651 Generated Stored Procedure - Delete To Handle Cascade Del And Upd.sql
+8.0.5.0-1036 WI-31470 Create lookup.tblMenuItemType.sql
+8.0.5.0-1037 WI-31510 Tabular View - Config - Aliases to include in Dispatch.sql
+8.0.5.0-1038 WI-31652 Create Dispatch Grid Column Tables.sql
+8.0.5.0-1039 WI-28721 Meter Reconciliation - Add default to tblSites.MeterReconciliationToleranceIsPercent.sql
+8.0.5.0-1040 WI-31829 Updated script to Create tables Mobile Devices.sql
+8.0.5.0-1041 WI-31434 Service Request Messaging - Create Tables.sql
+8.0.5.0-1042 WI-31447 Service Request Messaging - Create tblSRMConfiguration procedures.sql
+8.0.5.0-1043 WI-31447 Service Request Messaging - Create tblSRMAdaptor procedures.sql
+8.0.5.0-1044 WI-31447 Service Request Messaging - Create tblSRMMessage procedures.sql
+8.0.5.0-1045 WI-31447 Service Request Messaging - Create tblSRMMessageProcessingResult procedures.sql
+8.0.5.0-1046 WI-31447 Service Request Messaging - Create tblSRMAdaptorIATAToSite procedures.sql
+8.0.5.0-1047 WI-31447 Service Request Messaging - Create usp_SRMMessageCleanup.sql
+8.0.5.0-1048 WI-31447 Service Request Messaging - Create usp_SRMMessageRetryQueueSelectMessagesToBeRetried.sql
+8.0.5.0-1049 WI-31447 Service Request Messaging - Add security rights.sql
+8.0.5.0-1050 WI-31803 Service Request Messaging - Create tblSRMAdaptorFPES.sql
+8.0.5.0-1051 WI-31803 Service Request Messaging - Create tblSRMAdaptorFPES procedures.sql
+8.0.5.0-1052 WI-33197 Record Versioning - Prototyping - Prepare Entity Tables for Record Versioning.sql
+8.0.5.0-1053 WI-33376 Create Unique Index on ID and SiteGuid.sql
+8.0.5.0-1054 WI-31447 Service Request Messaging - Fix clustered index on map tblSRMAdaptorIATAToSite.sql
+8.0.5.0-1055 WI-31803 Service Request Messaging - Fix clustered index name for tblSRMAdaptorFPES.sql
+8.0.5.0-1056 WI-33412 Site To Site Map - Modify Table and usp_UpdateDB.sql
+8.0.5.0-1057 WI-33376 Fix Unique Index on tblSites ID.sql
+8.0.5.0-1058 WI-33579 Updated script for clustered indexes to Create tables Mobile Devices.sql
+8.0.5.0-1059 WI-33580 Changed column types to Create tables Mobile Devices.sql
+8.0.5.0-1060 WI-34308 Fix FK defect on map tblEntityQuerySettingToSite.sql
+8.0.5.0-1061 WI-33200 Record Versioning - Prototyping - Create and Set Up tblEntitySegmentTemplate.sql
+8.0.5.0-1062 WI-35802 Record Versioning - Prototyping - Create and Set Up tblEntityExternalRelationship.sql
+8.0.5.0-1063 WI-33201 Record Versioning - Prototyping - Create and Set Up tblEntityRecordVersioningFieldConfig.sql
+8.0.5.0-1064 WI-31797 Add tblSites.TranslatedHelpURL.sql
+8.0.5.0-1065 WI-31797 Add DefaultHelpURL Setting.sql
+8.0.5.0-1066 WI-31797 Create tblHelpMapping.sql
+
+
+-- 07/12/2012
+8.0.5.0-1005 WI-30566 Create Custom Toolbar Command Tables.sql
+8.0.5.0-1006 WI-31188 Rename fm_PopulateDB to usp_PopulateDB.sql
+8.0.5.0-1007 WI-31065 Support for password reminders (hints).sql
+8.0.5.0-1008 WI-31066 Forgotten Password Feature.sql
+8.0.5.0-1009 WI-Task 31070 GainLoss Distribution .sql
+8.0.5.0-1010 WI-31188 Add Configuration Settings to usp_PopulateDB.sql
+8.0.5.0-1011 WI-28721 Meter Reconciliation - Add settings fields to tblSites.sql
+8.0.5.0-1012 WI-28721 Meter Reconciliation - Create usp_MeterSelect.sql
+8.0.5.0-1013 WI-28719 Meter Reconciliation - Create udf_MeterReconciliationSelectCloseoutInformation.sql
+8.0.5.0-1014 WI-28719 Meter Reconciliation - Create usp_MeterReconciliationSelectSummaryInformation.sql
+8.0.5.0-1015 WI-28720 Meter Reconciliation - Create usp_MeterReconciliationSelectDetailInformation.sql
+8.0.5.0-1016 WI-28721 Meter Reconciliation - Create usp_MeterAssetSelect.sql
+8.0.5.0-1017 WI-28721 Meter Reconciliation - Add security rights to Admin Group.sql
+8.0.5.0-1018 WI-30595 Update tblConfigurationSetting.sql
+8.0.5.0-1019 WI-31082 Create Dispatch Configuration Tables.sql
+8.0.5.0-1020 WI-31323 Drop DF_tblListViews_LookupListViewStandardTypeIndex.sql
+8.0.5.0-1021 WI-31323 Drop DF_tblListViewFields_LookupStandardFieldTypeIndex.sql
+8.0.5.0-1022 WI-28721 Meter Reconciliation - Drop Cascade Updates and Deletes on map tblMeterToTank.sql
+8.0.5.0-1023 WI-31334 Drop usp_EnumerateByCriterionNoRole.sql
+
+-- 06/22/2012
+
+8.0.5.0-1001 WI-30870 Drop Unused SP and CLR function.sql
+8.0.5.0-1002 WI-29538 Create Stored Procedure DEL by GUID.sql
+8.0.5.0-1003 WI-29538 Create Stored Procedure DEL by FK.sql
+8.0.5.0-1004 WI-30870 Rename columns on lookup tblListViewFieldType.sql
+
+
+
+
+

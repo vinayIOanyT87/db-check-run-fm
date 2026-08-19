@@ -1,0 +1,109 @@
+// ContrecOPCServer.idl : IDL source for ContrecOPCServer
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (ContrecOPCServer.tlb) and marshalling code.
+
+#include "mtxattr.h"
+import "oaidl.idl";
+import "ocidl.idl";
+import "opcda.idl";
+
+[
+	object,
+	uuid(A3B7EB56-6763-426A-8BC5-9E7CA27F77CB),
+	dual,
+	nonextensible,
+	helpstring("IDataAccess Interface"),
+	pointer_default(unique)
+]
+interface IDataAccess : IDispatch{
+	[id(1), helpstring("method GetRecordSet")] HRESULT GetRecordSet(BSTR bstrSQL, [out,retval] IDispatch** ppRecordSet);
+	[id(2), helpstring("method ExecuteQuery")] HRESULT ExecuteQuery(BSTR bstrSQL);
+};
+[
+	object,
+	uuid(C412CB25-436D-4536-8E3E-4BDD0FBDE869),
+	dual,
+	nonextensible,
+	helpstring("IContrecs Interface"),
+	pointer_default(unique)
+]
+interface IContrecs : IDispatch{
+	[id(1), helpstring("method Enumerate")] HRESULT Enumerate([out,retval] IDispatch** ppContrecCollection);
+	[id(2), helpstring("method Add")] HRESULT Add([in] IDispatch* pContrec,[out,retval] LONG* pIndex);
+	[id(3), helpstring("method Modify")] HRESULT Modify([in] IDispatch* pContrec);
+	[id(4), helpstring("method Purge")] HRESULT Purge([in] LONG lIndex);
+	[id(5), helpstring("method GetIndex")] HRESULT GetIndex([in] BSTR bstrID, [out,retval] LONG* pIndex);
+	[id(6), helpstring("method Get")] HRESULT Get([in] LONG lIndex, [out,retval] IDispatch** ppContrec);
+};
+[
+	object,
+	uuid(D7A227C0-D386-408A-8B2D-E00E2F270D32),
+	dual,
+	nonextensible,
+	helpstring("IPorts Interface"),
+	pointer_default(unique)
+]
+interface IPorts : IDispatch{
+	[id(1), helpstring("method Enumerate")] HRESULT Enumerate([out,retval] IDispatch** ppCardReaderCollection);
+	[id(2), helpstring("method Add")] HRESULT Add([in] IDispatch* pCardReader,[out,retval] LONG* pIndex);
+	[id(3), helpstring("method Modify")] HRESULT Modify([in] IDispatch* pCardReader);
+	[id(4), helpstring("method Purge")] HRESULT Purge([in] LONG lIndex);
+	[id(5), helpstring("method GetIndex")] HRESULT GetIndex([in] BSTR bstrID, [out,retval] LONG* pIndex);
+	[id(6), helpstring("method Get")] HRESULT Get([in] LONG lIndex, [out,retval] IDispatch** ppCardReader);
+	[id(7), helpstring("method EnumeratePortIDs")] HRESULT EnumeratePortIDs([out,retval] VARIANT* pIDs);
+};
+//[
+//	object,
+//	uuid(4153915E-E2B5-49F0-B9D4-7847D6ED5BAF),
+//	dual,
+//	nonextensible,
+//	helpstring("IOPCServer Interface"),
+//	pointer_default(unique)
+//]
+//interface IOPCServer : IDispatch{
+//};
+[
+	uuid(827959BA-0A20-493C-9EE1-8D007BF8C73B),
+	version(1.0),
+	helpstring("ContrecOPCServer 1.0 Type Library")
+]
+library ContrecOPCServerLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(59DB8E98-D175-49A8-997B-8D342154B9D7),
+		helpstring("Contrecs Class")
+	]
+	coclass Contrecs
+	{
+		[default] interface IContrecs;
+	};
+	[
+		uuid(2089945A-98ED-4FFB-B475-6C5358BE7466),
+		helpstring("DataAccess Class")
+	]
+	coclass DataAccess
+	{
+		[default] interface IDataAccess;
+	};
+	[
+		uuid(2B2CCFD9-9EF7-48BB-BEF4-C58C0C43409D),
+		custom(TLBATTR_TRANS_REQUIRED,0),
+		helpstring("Ports Class")
+	]
+	coclass Ports
+	{
+		[default] interface IPorts;
+	};
+	[
+		uuid(AF670D94-703A-4993-B1DF-1ABEA195A294),
+		helpstring("OPCServer Class")
+	]
+	coclass OPCServer
+	{
+		[default] interface IOPCServer;
+		interface IOPCBrowseServerAddressSpace;
+	};
+};

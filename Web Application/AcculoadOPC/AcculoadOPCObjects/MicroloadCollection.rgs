@@ -1,0 +1,27 @@
+HKCR
+{
+	AcculoadOPCObjects.MicroloadCollection.1 = s 'MicroloadCollection Class'
+	{
+		CLSID = s '{A25F2B37-0120-461d-B59C-47F97B5DB8E9}'
+	}
+	AcculoadOPCObjects.MicroloadCollection = s 'MicroloadCollection Class'
+	{
+		CLSID = s '{A25F2B37-0120-461d-B59C-47F97B5DB8E9}'
+		CurVer = s 'AcculoadOPCObjects.MicroloadCollection.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {A25F2B37-0120-461d-B59C-47F97B5DB8E9} = s 'MicroloadCollection Class'
+		{
+			ProgID = s 'AcculoadOPCObjects.MicroloadCollection.1'
+			VersionIndependentProgID = s 'AcculoadOPCObjects.MicroloadCollection'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{3E903A1B-9024-481B-B125-92A3C6BB042A}'
+		}
+	}
+}

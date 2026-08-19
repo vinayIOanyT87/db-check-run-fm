@@ -1,0 +1,6 @@
+﻿CREATE TYPE [map].[FMAEProductIDType] AS TABLE
+(
+	FMAEProductID NVARCHAR(30) NOT NULL,
+	ProductGuid UNIQUEIDENTIFIER NOT NULL,
+	UserID dbo.udtUserID NOT NULL
+)

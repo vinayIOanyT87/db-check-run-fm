@@ -1,0 +1,11 @@
+Note: Make sure the capicom.dll has been registered using regsvr32.exe (administrator prompt).
+
+Run the tool from the command line using the following parameters.
+
+DataImportExportWizard.exe /a:EncryptOnly /aes /i:ServerName\InstanceName /db:DatabaseName
+
+Examples:
+
+DataImportExportWizard.exe /a:EncryptOnly /aes /i:.\SQLSERVER2014 /db:FuelsManagerDB
+DataImportExportWizard.exe /a:EncryptOnly /aes /i:MYCOMPUTER\SQLSERVER2014 /db:FuelsManagerDB_Doraville
+DataImportExportWizard.exe /a:EncryptOnly /aes /i:SERVERNAME\SQLSERVER2014 /db:FuelsManagerDB_Doraville

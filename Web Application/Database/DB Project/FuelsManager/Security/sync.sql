@@ -1,0 +1,9 @@
+﻿CREATE SCHEMA [sync]
+    AUTHORIZATION [dbo];
+
+
+
+
+
+
+

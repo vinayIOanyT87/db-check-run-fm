@@ -1,0 +1,288 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "winres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""winres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "1 TYPELIB ""DanielOPCServer.tlb""\r\n"
+    "#include ""messages.rc""\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 9,0,0,0
+ PRODUCTVERSION 9,0,0,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904e4"
+        BEGIN
+            VALUE "CompanyName", "Varec, Inc."
+            VALUE "FileDescription", "DanielOPCServer.dll"
+            VALUE "FileVersion", "9.0.0.0"
+            VALUE "InternalName", "DanielOPCServer.dll"
+            VALUE "LegalCopyright", "(c) Varec, Inc.  All rights reserved."
+            VALUE "OriginalFilename", "DanielOPCServer.dll"
+            VALUE "ProductName", "DanielOPCServer"
+            VALUE "ProductVersion", "9.0.0.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// REGISTRY
+//
+
+IDR_DANIELOPCSERVER     REGISTRY                "DanielOPCServer.rgs"
+IDR_DATAACCESS          REGISTRY                "DataAccess.rgs"
+IDR_DANLOADS            REGISTRY                "DanLoads.rgs"
+IDR_PORTS               REGISTRY                "Ports.rgs"
+IDR_OPCSERVER           REGISTRY                "OPCServer.rgs"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_PROJNAME            "DanielOPCServer"
+    IDS_VENDOR_INFO         "Daniel OPC Server by Varec Inc."
+    IDS_ERROR_PORT_EXISTS   "Port Exists"
+    IDS_ERROR_PORT_NOT_FOUND "Port Not Found"
+    IDS_STARTED             "Started"
+    IDS_HARDWARE_KEY_FAILURE "Hardware Key Failure"
+    IDS_STOPPED             "Stopped"
+    IDS_ERROR_ID_REQUIRED   "ID Required"
+    IDS_ERROR_DANLOAD_EXISTS "DANLoad Exists"
+    IDS_ERROR_DANLOAD_NOT_FOUND "DANLoad Not Found"
+    IDS_STATUS              "Status"
+    IDS_PRIMARY_ALARM       "Primary Alarm"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_OPC_E_INVALIDHANDLE "Invalid Server Handle."
+    IDS_OPC_E_BADTYPE       "Server cannot convert data to the requested type."
+    IDS_OPC_E_PUBLIC        "Illegal operation on a Public Group."
+    IDS_OPC_E_BADRIGHTS     "Access Rights do not allow this operation."
+    IDS_OPC_E_UNKNOWNITEMID "This ItemID is not known."
+    IDS_OPC_E_INVALIDITEMID "This ItemID is not valid."
+    IDS_OPC_E_INVALIDFILTER "The filter string is not valid."
+    IDS_OPC_E_UNKNOWNPATH   "The Item's access path is not known."
+END
+
+STRINGTABLE
+BEGIN
+    IDS_OPC_E_RANGE         "The value is out of range."
+    IDS_OPC_E_DUPLICATENAME "Duplicate group name is not allowed."
+    IDS_OPC_S_UNSUPPORTEDRATE "The requested data rate is not supported."
+    IDS_OPC_S_CLAMP         "The value was written but its output was clamped."
+    IDS_OPC_S_INUSE         "Illegal operation while the object is in use."
+    IDS_OPC_E_INVALIDCONFIGFILE "The configuration file is an invalid format."
+    IDS_OPC_E_NOTFOUND      "Get Key"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_PASS_CODE_ENTRY_IN_PROGRESS "Pass Code Entry In Progress"
+    IDS_OPERATION_TIMEDOUT  "Operation Timedout"
+    IDS_RECIPE_SELECTED     "Recipe Selected"
+    IDS_ADDITIVES_SELECTED  "Additives Selected"
+    IDS_PRESET_ENTERED      "Preset Entered"
+    IDS_KEYPAD_DATA_AVAILABLE "Keypad Data Available"
+    IDS_PROGRAM_CODE_CHANGED "Program Code Changed"
+    IDS_TRANSACTION_IN_PROGRESS "Transaction In Progress"
+    IDS_BATCH_IN_PROGRESS   "Batch In Progress"
+    IDS_KEY_PRESSED         "Key Pressed"
+    IDS_TRANSACTION_ENDED   "Transaction Ended"
+    IDS_BATCH_COMPLTE       "Batch Complete"
+    IDS_BATCH_ABORTED       "Batch Aborted"
+    125                     "Intermediate Alarm Stopped Batch"
+    IDS_MANUAL              "Manual"
+    IDS_BATCH_AUTHORIZED    "Batch Authorized"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_TRANSACTION_AUTHORIZED "Transaction Authorized"
+    IDS_TRANSACTION_END_REQUESTED "Transaction End Requested"
+    IDS_BATCH_ENDED         "Batch Ended"
+    IDS_KEYPAD_AND_DISPLAY_LOCKED "Keypad & Display Locked"
+    IDS_BATCH_STOPPED       "Batch Stopped"
+    IDS_PROGRAM_MODE        "Program Mode"
+    IDS_FLOWING             "Flowing"
+    IDS_START_COMMUNICATIONS "Start Communications"
+    IDS_DISPLAY_MESSAGE     "Display Message"
+    IDS_CHANGE_OPERATING_MODE "Change Operating Mode"
+    IDS_SWING_ARM           "Swing Arm"
+    IDS_GROSS_VOLUME        "Gross Volume"
+    IDS_NET_VOLUME          "Net Volume"
+    IDS_SAFETY              "Safety"
+    IDS_SAFETY_2            "Safety 2"
+    IDS_SAFETY_3            "Safety 3"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_SAFETY_4            "Safety 4"
+    IDS_SAFETY_5            "Safety 5"
+    IDS_SAFETY_6            "Safety 6"
+    IDS_SAFETY_7            "Safety 7"
+    IDS_SAFETY_8            "Safety 8"
+    IDS_OLDEST_ALARM        "Oldest Alarm"
+    IDS_PRIMARY_DISPLAY_FAILURE "Primary Display Failure"
+    IDS_SECONDARY_DISPLAY_FAILURE "Secondary Display Failure"
+    IDS_CHANNEL_A_COMM_FAILURE "Channel A Comm Failure"
+    IDS_CHANNEL_B_COMM_FAILURE "Channel B Comm Failure"
+    IDS_BLEND               "Blend"
+    IDS_ALARMS              "Alarms"
+    IDS_METER               "Meter"
+    IDS_LOW_FLOW            "Low Flow"
+    IDS_HIGH_FLOW           "High Flow"
+    IDS_VALVE_CLOSED_EARLY  "Valve Closed Early"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_FLOW_TIMEOUT        "Flow Time Out"
+    IDS_UNAUTHORIZED_FLOW   "Unauthorized Flow"
+    IDS_PULSE_SECURITY_ERROR "Pulse Security Error"
+    IDS_TEMPERATURE_FAILURE "Temperature Failure"
+    IDS_PRESSURE_FAILURE    "Pressure Failure"
+    IDS_VALVE_CLOSE_FAILURE "Valve Close Failure"
+    IDS_DENSITY_FAILURE     "Density Failure"
+    IDS_COMPONENT           "Component"
+    IDS_BLOCK_VALVE_CLOSE_FAILURE "Block Valve Close Failure"
+    IDS_ADDITIVE            "Additive"
+    IDS_FAILURE             "Failure"
+    IDS_SET_DATE_AND_TIME   "Set Date and Time"
+    IDS_RESET_PRIMARY_ALARMS "Reset Primary Alarms"
+    IDS_TIMEOUT_OPERATION   "Timeout Operation"
+    IDS_PROMPT_RECIPE       "Prompt Recipe"
+    IDS_REQUEST_SELECTED_RECIPE "Request Selected Recipe"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_KEYPAD_DATA         "Keypad Data"
+    IDS_SET_PROGRAM_CODE_VALUE "Set Program Code Value"
+    IDS_READ_PROGRAM_CODE_VALUE "Read Program Code Value"
+    IDS_COMPONENT_TOTALIZERS "Component Totalizers"
+    IDS_END_TRANSACTION     "End Transaction"
+    IDS_CLEAR_DISPLAY       "Clear Display"
+    IDS_ADDITIVE_TOTALIZERS "Additive Totalizers"
+    IDS_AUTHORIZE_TRANSACTION "Authorize Transaction"
+    IDS_PROMPT_PRESET_VOLUME "Prompt Preset Volume"
+    IDS_REQUEST_PRESET_VOLUME "Request Preset Volume"
+    IDS_AUTHORIZE_BATCH     "Authorize Batch"
+    IDS_GROSS_TOTALIZER_START "Gross Totalizer Start"
+    IDS_AVERAGE_TEMPERATURE "Average Temperature"
+    IDS_AVERAGE_DENSITY     "Average Density"
+    IDS_AVERAGE_PRESSURE    "Average Pressure"
+    IDS_END_BATCH           "End Batch"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_LAST_KEY_PRESSED    "Last Key Pressed"
+    IDS_BATCH_VALUES        "Batch Values"
+    IDS_BATCH_SEQUENCE_NUMBER "Batch Sequence Number"
+    IDS_TRANSACTION_SEQUENCE_NUMBER "Transaction Sequence Number"
+    IDS_RECIPE_NUMBER       "Recipe Number"
+    IDS_START_DATETIME      "Start DateTime"
+    IDS_END_DATETIME        "End DateTime"
+    IDS_NUMBER_OF_METERS    "Number Of Meters"
+    IDS_NUMBER_OF_COMPONENTS "Number Of Components"
+    IDS_NUMBER_OF_ADDITIVES "Number Of Additives"
+    IDS_GROSS_TOTALIZER_END "Gross Totalizer End"
+    IDS_NET_TOTALIZER_START "Net Totalizer Start"
+    IDS_NET_TOTALIZER_END   "Net Totalizer End"
+    IDS_NUMBER_OF_DATA_PROMPTS "Number Of Data Prompts"
+    IDS_PERCENT             "Percent"
+    IDS_GROSS_TOTALIZER     "Gross Totalizer"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_NET_TOTALIZER       "Net Totalizer"
+    IDS_COMPONENT_VALUES    "Component Values"
+    IDS_AVERAGE_VALVE_CLOSURES "Average Valve Closures"
+    IDS_INPUT               "Input"
+    IDS_RTD                 "RTD"
+    IDS_CURRENT_LOOP        "Current Loop"
+    IDS_DISCRETE            "Discrete"
+    IDS_OUTPUT              "Output"
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+1 TYPELIB "DanielOPCServer.tlb"
+#include "messages.rc"
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

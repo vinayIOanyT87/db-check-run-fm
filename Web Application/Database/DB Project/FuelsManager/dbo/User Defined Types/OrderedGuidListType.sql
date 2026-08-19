@@ -1,0 +1,5 @@
+﻿CREATE TYPE [dbo].[OrderedGuidListType] AS TABLE
+(
+	[Order] INT NOT NULL,
+	[Guid] UNIQUEIDENTIFIER NOT NULL
+)

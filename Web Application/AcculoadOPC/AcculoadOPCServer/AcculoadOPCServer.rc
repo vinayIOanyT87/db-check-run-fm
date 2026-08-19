@@ -1,0 +1,669 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "1 TYPELIB ""AcculoadOPCServer.tlb""\r\n"
+    "#include ""messages.rc""\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 9,0,0,0
+ PRODUCTVERSION 9,0,0,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904e4"
+        BEGIN
+            VALUE "CompanyName", "Varec, Inc."
+            VALUE "FileDescription", "AcculoadOPCServer"
+            VALUE "FileVersion", "9.0.0.0"
+            VALUE "InternalName", "AcculoadOPCServer.dll"
+            VALUE "LegalCopyright", "(c) Varec, Inc.  All rights reserved."
+            VALUE "OriginalFilename", "AcculoadOPCServer.dll"
+            VALUE "ProductName", "AcculoadOPCServer"
+            VALUE "ProductVersion", "9.0.0.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// REGISTRY
+//
+
+IDR_ACCULOADOPCSERVER   REGISTRY                "AcculoadOPCServer.rgs"
+
+IDR_DATAACCESS          REGISTRY                "DataAccess.rgs"
+
+IDR_ACCULOADS           REGISTRY                "Acculoads.rgs"
+
+IDR_ARMS                REGISTRY                "Arms.rgs"
+
+IDR_OPCSERVER           REGISTRY                "OPCServer.rgs"
+
+IDR_PORTS               REGISTRY                "Ports.rgs"
+
+IDR_MICROLOADS          REGISTRY                "Microloads.rgs"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_PROJNAME            "AcculoadOPCServer"
+    IDS_ERROR_ACCESS_DENIED "Access Denied"
+    IDS_ERROR_ACCULOAD_EXISTS "Accuload Exists"
+    IDS_ERROR_ACCULOAD_NOT_FOUND "Accuload Not Found"
+    IDS_ERROR_ARM_EXISTS    "Arm Exists"
+    IDS_ERROR_ARM_NOT_FOUND "Arm Not Found"
+    IDS_ERROR_ID_REQUIRED   "ID Required"
+    IDS_ERROR_AT_LEAST_ONE_ARM_REQUIRED "At Least One Load Arm Required"
+    IDS_ERROR_ADDRESS_CONFLICT "Load Arm Address Conflict"
+    IDS_ERROR_PRODUCTS      "Load Arm Product Quantity Error"
+    IDS_VENDOR_INFO         "Accuload OPC Server by Varec Inc."
+    IDS_CURRENT_FLOW_RATE_UNITS_MIN "Current Flow Rate Units/Min"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_MASS_METER_TUBE     "Mass Meter Tube"
+    IDS_ERROR_MICROLOAD_NOT_FOUND "Microload Not Found"
+    IDS_ERROR_MICROLOAD_EXISTS "Microload Exists"
+    IDS_WRITE_FIFTH_LINE    "Write Fifth Line"
+    IDS_WRITE_SIXTH_LINE    "Write Sixth Line"
+    IDS_WRITE_SEVENTH_LINE  "Write Seventh Line"
+    IDS_MASS_METER_COMM_FAIL "Mass Meter Comm Fail"
+    IDS_MASS_METER_OVERDRIVE "Mass Meter Overdrive"
+    IDS_CURRENT_PRESSURE    "Current Pressure"
+    IDS_VAPOR_PRESSURE      "Vapor Pressure"
+    IDS_TIME_OF_LAST_POWER_FAIL "Time of Last Power Fail"
+    IDS_PROGRAM_CODE_CHANGE "Program Code Change"
+    IDS_RESET_POWER_FAIL_ALARM "Reset Power-fail Alarm"
+    IDS_INPUT_IN_PROGRESS   "Input In Progress"
+    IDS_INPUT_DONE          "Input Done"
+    IDS_TERMINAL_COMMAND    "Terminal Command"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_OPC_E_INVALIDHANDLE "Invalid Server Handle."
+    IDS_OPC_E_BADTYPE       "Server cannot convert data to the requested type."
+    IDS_OPC_E_PUBLIC        "Illegal operation on a Public Group."
+    IDS_OPC_E_BADRIGHTS     "Access Rights do not allow this operation."
+    IDS_OPC_E_UNKNOWNITEMID "This ItemID is not known."
+    IDS_OPC_E_INVALIDITEMID "This ItemID is not valid."
+    IDS_OPC_E_INVALIDFILTER "The filter string is not valid."
+    IDS_OPC_E_UNKNOWNPATH   "The Item's access path is not known."
+END
+
+STRINGTABLE
+BEGIN
+    IDS_OPC_E_RANGE         "The value is out of range."
+    IDS_OPC_E_DUPLICATENAME "Duplicate group name is not allowed."
+    IDS_OPC_S_UNSUPPORTEDRATE "The requested data rate is not supported."
+    IDS_OPC_S_CLAMP         "The value was written but its output was clamped."
+    IDS_OPC_S_INUSE         "Illegal operation while the object is in use."
+    IDS_OPC_E_INVALIDCONFIGFILE "The configuration file is an invalid format."
+    IDS_OPC_E_NOTFOUND      "Get Key"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_DYNAMIC_VALUES      "Dynamic Values"
+    IDS_SYSTEM              "System"
+    IDS_CURRENT_FLOW_RATE_UNITS_HR "Current Flow Rate Units/Hr"
+    IDS_CURRENT_RECIPE      "Current Recipe"
+    IDS_PRODUCT_NUMBER      "Product %d"
+    IDS_ALLOCATE_RECIPES    "Allocate Recipes"
+    IDS_AUTHORIZE_TRANSACTION "Authorize Transaction"
+    IDS_CURRENT_PRESET_UNITS_MIN "Current Preset Units/Min"
+    IDS_CURRENT_DELIVERED_VOLUME "Current Delivered Volume"
+    IDS_CURRENT_REMAINING_VOLUME "Current Remaining Volume"
+    IDS_PROGRAM_ERROR       "Program Error"
+    IDS_BACK_PRESSURE       "Back Pressure"
+    IDS_AVERAGE_API         "Average API"
+    IDS_AVERAGE_REFERENCE_DENSITY "Average Reference Density"
+    IDS_AVERAGE_RELATIVE_DENSITY "Average Relative Density"
+    IDS_HIGH_DENSITY        "High Density"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_AVERAGE_VAPOR_PRESSURE "Average Vapor Pressure"
+    IDS_HIGH_FLOW           "High Flow"
+    IDS_HIGH_PRESSURE       "High Pressure"
+    IDS_HIGH_TEMPERATURE    "High Temperature"
+    IDS_CURRENT_TEMPERATURE "Current Temperature"
+    IDS_CURRENT_DENSITY     "Current Density"
+    IDS_CURRENT_METER_FACTOR "Current Meter Factor"
+    IDS_CURRENT_VALVE_REQUESTED_POSITION "Current Valve Requested Position"
+    IDS_CURRENT_PERCENTAGE_OF_BATCH "Current Percentage of Batch"
+    IDS_DESIRED_PERCENTAGE_OF_BATCH "Desired Percentage of Batch"
+    IDS_LOW_DENSITY         "Low Density"
+    IDS_LOW_FLOW            "Low Flow"
+    IDS_LOW_PRESSURE        "Low Pressure"
+    IDS_LOW_TEMPERATURE     "Low Temperature"
+    IDS_ZERO_FLOW           "Zero Flow"
+    IDS_RAW_VOLUME          "Raw Volume"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_GROSS_VOLUME        "Gross Volume"
+    IDS_GST_VOLUME          "GST Volume"
+    IDS_GSV_VOLUME          "GSV Volume"
+    IDS_MASS_TOTAL          "Mass Total"
+    IDS_TRANSACTION         "Transaction"
+    IDS_AVERAGE_TEMPERATURE "Average Temperature"
+    IDS_AVERAGE_DENSITY     "Average Density"
+    IDS_AVERAGE_PRESSURE    "Average Pressure"
+    IDS_AVERAGE_METER_FACTOR "Average Meter Factor"
+    IDS_AVERAGE_CTL         "Average CTL"
+    IDS_AVERAGE_CPL         "Average CPL"
+    IDS_VOLUME              "Volume"
+    IDS_RESET_STANDBY_MODE  "Reset Standby Mode"
+    IDS_RESET_POWERFAIL     "Reset Powerfail"
+    IDS_CURRENT_BATCH       "Current Batch"
+    IDS_PRESET_AMOUNT       "Preset Amount"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_CARD_STATUS         "Card Status"
+    IDS_CONFIGURED          "Configured"
+    IDS_ADDITIVES           "Additives"
+    IDS_BATCH               "Batch"
+    IDS_ALARMS              "Alarms"
+    IDS_ROM_BAD             "ROM Bad"
+    IDS_RAM_BAD             "RAM Bad"
+    IDS_FLASH_ERROR         "Flash Error"
+    IDS_RAM_CORRUPT         "RAM Corrupt"
+    IDS_FLASH_BACKUP_BAD    "Flash Backup Bad"
+    IDS_SYS_PROG_ERROR      "Sys Prog Error"
+    IDS_EAAI_FAILURE        "EAAI Failure"
+    IDS_WATCHDOG            "Watchdog"
+    IDS_BSE_FAILURE         "BSE Failure"
+    IDS_PASSCODE_RESET      "Passcode Reset"
+    IDS_POWERFAIL           "Powerfail"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_COMMUNICATION       "Communication"
+    IDS_CIVACON_COMM_FAILURE "Civacon Comm Failure"
+    IDS_SHARED_PRINTER      "Shared Printer"
+    IDS_PTB_PRINTER         "PTB Printer"
+    IDS_USER_ALARM_01       "User Alarm 01"
+    IDS_USER_ALARM_02       "User Alarm 02"
+    IDS_USER_ALARM_03       "User Alarm 03"
+    IDS_USER_ALARM_04       "User Alarm 04"
+    IDS_USER_ALARM_05       "User Alarm 05"
+    IDS_USER_ALARM_06       "User Alarm 06"
+    IDS_USER_ALARM_07       "User Alarm 07"
+    IDS_USER_ALARM_08       "User Alarm 08"
+    IDS_USER_ALARM_09       "User Alarm 09"
+    IDS_USER_ALARM_10       "User Alarm 10"
+    IDS_ADD_PAK_1_POWERFAIL "Add-Pak 1 Powerfail"
+    IDS_ADD_PAK_2_POWERFAIL "Add-Pak 2 Powerfail"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ADD_PAK_1_DIAGNOSTIC "Add-Pak 1 Diagnostic"
+    IDS_ADD_PAK_2_DIAGNOSTIC "Add-Pak 2 Diagnostic"
+    IDS_ADD_PAK_1_AUTO_DETECT_FAILED "Add-Pak 1 Auto-Detect Failed"
+    IDS_ADD_PAK_2_AUTO_DETECT_FAILED "Add-Pak 2 Auto-Detect Failed"
+    IDS_ADD_PAK_1_COMM_FAIL "Add-Pak 1 Comm Fail"
+    IDS_ADD_PAK_2_COMM_FAIL "Add-Pak 2 Comm Fail"
+    IDS_DISPLAY_FAILURE     "Display Failure"
+    IDS_OVERRUN             "Overrun"
+    IDS_BLOCK_VALVE         "Block Valve"
+    IDS_BLEND_HIGH          "Blend High"
+    IDS_BLEND_LOW           "Blend Low"
+    IDS_TICKET              "Ticket"
+    IDS_CLEAN_LINE          "Clean Line"
+    IDS_ADDITIVE_CLEAN_LINE "Additive Clean Line"
+    IDS_INJECTOR_NUMBER     "Injector %02d"
+    IDS_FEEDBACK            "Feedback"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_LOW_ADD_ERROR       "Low Add Error"
+    IDS_EXCESS_PULSES       "Excess Pulses"
+    IDS_NO_PULSES           "No Pulses"
+    IDS_FREQUENCY           "Frequency"
+    IDS_UNAUTH_FAILED       "Unauth. Failed"
+    IDS_GENERAL_ADDITIVE_ERROR "General Additive Error"
+    IDS_OVER_SPEED          "Over-Speed"
+    IDS_COMMAND_REFUSED     "Command Refused"
+    IDS_AUTODETECT_FAIL     "Autodetect Fail"
+    IDS_COMM_ERROR          "Comm Error"
+    IDS_METER_NUMBER        "Meter %d"
+    IDS_TRANSMITTER_INTEGRITY "Transmitter Integrity"
+    IDS_ARM_NUMBER          "Arm %d"
+    IDS_PULSE_SECURITY      "Pulse Security"
+    IDS_VALVE_FAULT         "Valve Fault"
+    IDS_TEMPERATURE_PROBE   "Temperature Probe"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_PRESSURE_TRANSMITTER "Pressure Transmitter"
+    IDS_DENSITY_TRANSMITTER "Density Transmitter"
+    IDS_TURBINE_METER       "TurbineMeter"
+    IDS_INCLUDE_ADDITIVE_TOTALS 
+                            "Include Flow-controlled Additive Totals in Product Totals"
+    IDS_END_BATCH           "End Batch"
+    IDS_STATUS              "Status"
+    IDS_AUTHORIZED          "Authorized"
+    IDS_FLOWING             "Flowing"
+    IDS_RELEASED            "Released"
+    IDS_PROGRAM_MODE        "Program Mode"
+    IDS_KEYPAD_DATA_PENDING "Keypad Data Pending"
+    IDS_BATCH_DONE          "Batch Done"
+    IDS_TRANSACTION_IN_PROGRESS "Transaction in Progress"
+    IDS_IN_STANDBY_MODE     "In Standby Mode"
+    IDS_STORAGE_FULL        "Storage Full"
+    IDS_STANDBY_TRANSACTIONS_EXIST "Standby Transactions Exist"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ALARM               "Alarm"
+    IDS_RECIPE              "Recipe"
+    IDS_CURRENT_REFERENCE_DENSITY "Current Reference Density"
+    IDS_FLOW_CONTROLLED_ADDITIVES "Flow Controlled Additives"
+    IDS_RESET_COMM_FAIL_ALARM "Reset Communications Failure"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_TRANSACTION_DONE    "Transaction Done"
+    IDS_TYPE                "Type"
+    IDS_POWER_FAIL_OCCURED  "Power-fail Occurred"
+    IDS_DISPLAY_MESSAGE_TIME_OUT "Display Message Time-out"
+    IDS_DELAYED_PROMPT_IN_EFFECT "Delayed Prompt In Effect"
+    IDS_INPUT_01            "01"
+    IDS_INPUT_02            "02"
+    IDS_INPUT_03            "03"
+    IDS_INPUT_04            "04"
+    IDS_INPUT_05            "05"
+    IDS_INPUT_06            "06"
+    IDS_INPUT_07            "07"
+    IDS_INPUT_08            "08"
+    IDS_INPUT_09            "09"
+    IDS_INPUT_10            "10"
+    IDS_INPUT_11            "11"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_INPUT_12            "12"
+    IDS_INPUT_13            "13"
+    IDS_INPUT_14            "14"
+    IDS_INPUT_15            "15"
+    IDS_INPUT_16            "16"
+    IDS_INPUT_17            "17"
+    IDS_INPUT_18            "18"
+    IDS_INPUT_19            "19"
+    IDS_INPUT_20            "20"
+    IDS_INPUT_21            "21"
+    IDS_INPUT_22            "22"
+    IDS_INPUT_23            "23"
+    IDS_INPUT_24            "24"
+    IDS_INPUT_25            "25"
+    IDS_INPUT_26            "26"
+    IDS_INPUT_27            "27"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_INPUT_28            "28"
+    IDS_INPUT_29            "29"
+    IDS_INPUT_30            "30"
+    IDS_INPUT_31            "31"
+    IDS_INPUT_32            "32"
+    IDS_INPUT_33            "33"
+    IDS_INPUT_34            "34"
+    IDS_INPUT_35            "35"
+    IDS_INPUT_36            "36"
+    IDS_INPUT_37            "37"
+    IDS_INPUT_38            "38"
+    IDS_INPUT_39            "39"
+    IDS_INPUT_40            "40"
+    IDS_INPUT_41            "41"
+    IDS_INPUT_42            "42"
+    IDS_INPUT_43            "43"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_CHECKING_ENTRIES    "Checking Entries"
+    IDS_PRINTING_IN_PROGRESS "Printing In Progress"
+    IDS_PERMISSIVE_DELAY    "Permissive Delay"
+    IDS_PROGRAM_VALUE_CHANGED "Program Value Changed"
+    IDS_END_TRANSACTION     "End Transaction"
+    IDS_STOP                "Stop"
+    IDS_START               "Start"
+    IDS_SWING_ARM_POSITION  "Swing Arm Position"
+    IDS_METER               "Meter"
+    IDS_WRITE_SECOND_LINE   "Write Second Line"
+    IDS_WRITE_THIRD_LINE    "Write Third Line"
+    IDS_WRITE_FOURTH_LINE   "Write Fourth Line"
+    IDS_WRITE_FIRST_LINE_WITH_PROMPT "Write First Line With Prompt"
+    IDS_WRITE_FIRST_LINE_WITH_PROMPT_ON_SET 
+                            "Write First Line With Prompt On Set"
+    IDS_WRITE_FIRST_LINE_WITH_PROMPT_ON_SET_NO_ECHO 
+                            "Write First Line With Prompt On Set No Echo"
+    IDS_WRITE_FIRST_LINE_WITH_PROMPT_NO_ECHO 
+                            "Write First Line With Prompt No Echo"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_KEYPAD_DATA         "Keypad Data"
+    IDS_DATA                "Data"
+    IDS_NEW_CARD_DATA       "New Card Data"
+    IDS_I_O_CONTROL         "I/O Control"
+    IDS_GREEN_LED           "Green LED"
+    IDS_RED_LED             "Red LED"
+    IDS_BEEP                "Beep"
+    IDS_CONTACT             "Contact"
+    IDS_CARD_READER         "Card Reader"
+    IDS_RESET_DATA          "Reset Data"
+    IDS_RELEASE_KEYPAD_AND_DISPLAY "Release Keypad and Display"
+    IDS_PROMPTS             "Prompts"
+    IDS_RESET_TRANSACTION_DONE "Reset Transaction Done"
+    IDS_RESET_BATCH_DONE    "Reset Batch Done"
+    IDS_NON_RESETTABLE_TOTALS "Non-Resettable Totals"
+    IDS_STARTED             "Started"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_STOPPED             "Stopped"
+    IDS_HARDWARE_KEY_FAILURE 
+                            "Failed to Detect Hardware Key and Tag Database will not be created."
+    IDS_TEMPERATURE         "Temperature"
+    IDS_PRESSURE            "Pressure"
+    IDS_DENSITY             "Density"
+    IDS_ANALOG_INPUTS       "Analog Inputs"
+    IDS_DIGITAL_OUTPUTS     "Digital Outputs"
+    IDS_DIGITAL_INPUTS      "Digital Inputs"
+    IDS_RECIPES             "Recipes"
+    IDS_USED                "Used"
+    IDS_NAME                "Name"
+    IDS_HM_CLASS_PRODUCT    "Hazerdous Material Class Product"
+    IDS_1ST_DELIVERED       "1st Delivered"
+    IDS_1ST_PERCENTAGE      "1st Percentage"
+    IDS_2ND_DELIVERED       "2nd Delivered"
+    IDS_2ND_PERCENTAGE      "2nd Percentage"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_3RD_DELIVERED       "3rd Delivered"
+    IDS_3RD_PERCENTAGE      "3rd Percentage"
+    IDS_4TH_DELIVERED       "4th Delivered"
+    IDS_4TH_PERCENTAGE      "4th Percentage"
+    IDS_5TH_DELIVERED       "5th Delivered"
+    IDS_5TH_PERCENTAGE      "5th Percentage"
+    IDS_6TH_DELIVERED       "6th Delivered"
+    IDS_6TH_PERCENTAGE      "6th Percentage"
+    IDS_CLEAN_LINE_DEDUCT   "Clean Line Deduct"
+    IDS_ADDITIVE_INJECTOR_AMOUNT_PER_CYCLE 
+                            "Additive Injector %02d Amount/Cycle"
+    IDS_ADDITIVE_INJECTOR_RATE "Additive Injector %02d Rate"
+    IDS_ADDITIVE_INJECTOR_PRODUCTS_USING_INJECTOR 
+                            "Additive Injector %02d Products Using Injector"
+    IDS_PRODUCT             "Product"
+    IDS_HOST_UP             "Host Up"
+    IDS_SET_DATE_AND_TIME   "Set Date And Time"
+    IDS_AUTHORIZE_AND_SET_BATCH_AMOUNT "Authorize And Set Batch Amount"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_CLEAR_TRANSACTIONS  "Clear Transactions"
+    IDS_ERROR_PORT_EXISTS   "Port Exists"
+    IDS_ERROR_PORT_NOT_FOUND "Port Not Found"
+    IDS_LOG_OUT_OF_PROGRAM_MODE "Log Out of Program Mode"
+    IDS_STOP_ALL_ARMS       "Stop All Arms"
+    IDS_METER_FACTOR        "Current Meter Factor"
+    IDS_GET_BATCH_NUMBER    "Get Batch Number"
+    IDS_GET_KEY             "Get Key"
+    IDS_PRESETTING_IN_PROGRESS "Presetting In Progress"
+    IDS_FORCE_FULL_SCREEN_VIEW "Force Full Screen View"
+    IDS_READ_REGISTER       "Read Register"
+    IDS_WRITE_REGISTER      "Write Register"
+    IDS_RCU_TRANS_HEADER    "RCU Trans Header"
+    IDS_PROVING_MODE        "Proving Mode"
+    IDS_POWER_UP            "Power Up"
+    IDS_RCU_STATUS          "RCU Status"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_AUTHORIZE_PRESET    "Authorize Preset"
+    IDS_CLEAR_ALARMS        "Clear Alarms"
+    IDS_ADDITIVE_ALARMS     "Additive Alarms"
+    IDS_FCM_COMM            "FCM Comm"
+    IDS_PERMISSIVE          "Permissive"
+    IDS_UNDER_ADDITIZED     "Under Additized"
+    IDS_OVER_ADDITIZED      "Over Additized"
+    IDS_PUMP_STATUS         "Pump Status"
+    IDS_INJECTION           "Injection"
+    IDS_UNAUTHORIZED_FLOW   "Unauthorized Flow"
+    IDS_LINE_NOT_FLUSHED    "Line Not Flushed"
+    IDS_METER_CREEP         "Meter Creep"
+    IDS_METER_ALARMS        "Meter Alarms"
+    IDS_FCM_INVALID_CONFIG  "FCM Invalid Config"
+    IDS_FCM_WDT_RESET       "FCM Wdt Reset"
+    IDS_FCM_COMM_TIMEOUT    "FCM Comm Timeout"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_EXCESS_FLOW         "Excess Flow"
+    IDS_QUAD_ENCODING       "Quad Encoding"
+    IDS_DENSITY_ERROR       "Density Error"
+    IDS_TEMP_ERROR          "Temp Error"
+    IDS_VALVE_CONTROL       "Valve Control"
+    IDS_PRESSURE_ERROR      "Pressure Error"
+    IDS_QUAD_ENCODING_A     "Quad Encoding A"
+    IDS_QUAD_ENCODING_B     "Quad Encoding B"
+    IDS_COMPONENT_ALARMS    "Component Alarms"
+    IDS_METER_ALARM         "Meter Alarm"
+    IDS_OVER_BLEND          "Over Blend"
+    IDS_UNDER_BLEND         "Under Blend"
+    IDS_API_TABLE           "API Table"
+    IDS_BAY_ALARMS          "Bay Alarms"
+    IDS_PERMISSIVE_0        "Permissive 0"
+    IDS_PERMISSIVE_1        "Permissive 1"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_PERMISSIVE_2        "Permissive 2"
+    IDS_PERMISSIVE_3        "Permissive 3"
+    IDS_PERMISSIVE_4        "Permissive 4"
+    IDS_PERMISSIVE_5        "Permissive 5"
+    IDS_PERMISSIVE_6        "Permissive 6"
+    IDS_PERMISSIVE_7        "Permissive 7"
+    IDS_ALL_STOP            "All Stop"
+    IDS_PCM_COMM            "PCM Comm"
+    IDS_PRINTER_ERROR       "Printer Error"
+    IDS_FCM_TRACE           "FCM Trace"
+    IDS_PRESET_ALARMS       "Preset Alarms"
+    IDS_SWING_ARM_PERMISSIVE "Swing Arm Permissive"
+    IDS_BAY                 "Bay"
+    IDS_COMPONENT           "Component"
+    IDS_ADDITIVE            "Additive"
+    IDS_METER_STOP          "Meter Stop"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ENABLE_PRESET       "Enable Preset"
+    IDS_CONFIGURATION_ERROR "Configuration Error"
+    IDS_BATCH_COMPLETE      "Batch Complete"
+    IDS_BATCH_END           "Batch End"
+    IDS_PRESET_MESSAGE      "Preset Message"
+    IDS_PRESET_STATUS       "Preset Status"
+    IDS_STATE               "State"
+    IDS_ENABLED             "Enabled"
+    IDS_HOST_ENABLED        "Host Enabled"
+    IDS_FLOW_ACTIVE         "Flow Active"
+    IDS_BATCH_AUTHORIZED    "Batch Authorized"
+    IDS_REMOTE_MSG          "Remote Message"
+    IDS_REMOTE_DESC         "Remote Description"
+    IDS_LOAD_COMPLETE       "Load Complete"
+    IDS_BATCH_END_DONE      "Batch End Done"
+    IDS_ARCHIVED            "Archived"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_BATCH_CLEARED       "Batch Cleared"
+    IDS_CLEAR_LOAD          "Clear Load"
+    IDS_LOAD_CLEARED        "Load Cleared"
+    IDS_TRANS_DONE          "Transaction Done"
+    IDS_PRESET_QUANTITY     "Preset Quantity"
+    IDS_FLOW_RATE           "Flow Rate"
+    IDS_GROSS_TOTALIZER     "Gross Totalizer"
+    IDS_PROGRAM_KEY_ACTIVE  "Program Key Active"
+    IDS_NET_VOLUME          "Net Volume"
+    IDS_WEIGHTS_AND_MEASURES_KEY_ACTIVE "W&M Key Active"
+    IDS_TERMINATING_KEY     "Terminating Key"
+    IDS_FHOSTUP             "FHOSTUP"
+    IDS_FPOWERUP            "FPOWERUP"
+    IDS_FHOSTDOWN           "FHOSTDOWN"
+    IDS_FCLEARPROD          "FCLEARPROD"
+    IDS_PRESET_STATE        "Preset State"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_LOG_MSG_QUEUED      "Log Message Queued"
+    IDS_TRANSACTION_TERMINATION "Transaction Termination"
+    IDS_AVERAGE_CTPL        "Average CTPL"
+    IDS_CARD_NUMBER         "Card Number"
+    IDS_COMPONENT1          "Component1"
+    IDS_COMPONENT2          "Component2"
+    IDS_COMPONENT3          "Component3"
+    IDS_COMPONENT4          "Component4"
+    IDS_COMPONENT5          "Component5"
+    IDS_COMPONENT6          "Component6"
+    IDS_COMPONENT7          "Component7"
+    IDS_COMPONENT8          "Component8"
+    IDS_CLEAN_LINE_PRODUCT  "Clean Line Product"
+    IDS_ARM_CLEAN_LINE_AMOUNT "Arm Clean Line Amount"
+    IDS_ARM_CLEAN_LINE_PRODUCT "Arm Clean Line Product"
+    IDS_ARM_CLEAN_LINE_BLEND "Arm Clean Line Blend"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_QUERY_CARD          "Query Card"
+    IDS_CLEAR_DISPLAY       "Clear Display"
+    IDS_DISPLAY_TEXT        "Display Text"
+    IDS_KEY_INPUT           "Key Input"
+    IDS_STRING_INPUT        "String Input"
+    IDS_QUERY_INPUT         "Query Input"
+    IDS_ABORT_INPUT         "Abort Input"
+    IDS_RESET_DISPLAY       "Reset Display"
+    IDS_PORT_0              "Port 0"
+    IDS_PORT_1              "Port 1"
+    IDS_PORT_2              "Port 2"
+    IDS_PORT_3              "Port 3"
+    IDS_PORT_8              "Port 8"
+    IDS_PORT_10             "Port 10"
+    IDS_PORT_11             "Port 11"
+    IDS_PORT_12             "Port 12"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_NET_TOTALIZER       "Net Totalizer"
+    IDS_ARM_PRODUCT_CONFIGURATION "Arm Product Configuration"
+    IDS_NUMBER_OF_ARMS      "Number Of Arms"
+    IDS_PRESET_ARM_NUMBER   "Preset Arm Number"
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+1 TYPELIB "AcculoadOPCServer.tlb"
+#include "messages.rc"
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

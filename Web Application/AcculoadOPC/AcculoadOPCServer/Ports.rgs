@@ -1,0 +1,27 @@
+HKCR
+{
+	AcculoadOPCServer.Ports.1 = s 'Ports Class'
+	{
+		CLSID = s '{2070F4BA-651D-4268-9F5A-1EBE0A137141}'
+	}
+	AcculoadOPCServer.Ports = s 'Ports Class'
+	{
+		CLSID = s '{2070F4BA-651D-4268-9F5A-1EBE0A137141}'
+		CurVer = s 'AcculoadOPCServer.Ports.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {2070F4BA-651D-4268-9F5A-1EBE0A137141} = s 'Ports Class'
+		{
+			ProgID = s 'AcculoadOPCServer.Ports.1'
+			VersionIndependentProgID = s 'AcculoadOPCServer.Ports'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{4BDC9779-8FEB-4C9A-B27F-9BF823497410}'
+		}
+	}
+}

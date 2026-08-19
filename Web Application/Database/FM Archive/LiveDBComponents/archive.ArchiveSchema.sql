@@ -1,0 +1,1 @@
+EXEC ('CREATE SCHEMA archive')

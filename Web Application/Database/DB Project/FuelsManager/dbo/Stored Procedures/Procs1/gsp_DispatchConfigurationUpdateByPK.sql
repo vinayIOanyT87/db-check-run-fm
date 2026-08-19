@@ -1,0 +1,197 @@
+﻿CREATE PROCEDURE [dbo].[gsp_DispatchConfigurationUpdateByPK]
+(
+		@DispatchConfigurationGuid uniqueidentifier
+	,	@SiteGuid uniqueidentifier=NULL
+	,	@ID nvarchar(50)=NULL
+	,	@DisplayCurrentTime bit=NULL
+	,	@DispatchDataRefreshPeriod int=NULL
+	,	@TabularViewDisplayMilitaryDate bit=NULL
+	,	@QuantityNotZeroCheck bit=NULL
+	,	@ExactlyOneManagerCheck bit=NULL
+	,	@ExactlyOneOwnerCheck bit=NULL
+	,	@DispatchFuelAdditiveFlagCheck bit=NULL
+	,	@FastLogFuelAdditiveFlagCheck bit=NULL
+	,	@FillstandVolumeWithinToleranceCheck bit=NULL
+	,	@ReturnToBulkVolumeWithinToleranceCheck bit=NULL
+	,	@RecirculationVolumesGreaterThanZeroCheck bit=NULL
+	,	@OperatorIsInCheck bit=NULL
+	,	@OperatorNotAssignedCheck bit=NULL
+	,	@OperatorHasRequiredTrainingCheck bit=NULL
+	,	@OperatorTrainingNotExpiredCheck bit=NULL
+	,	@OperatorNotLockedOutCheck bit=NULL
+	,	@OperatorHasRequiredQualificationsCheck bit=NULL
+	,	@OperatorQualificationsNotExpiredCheck bit=NULL
+	,	@DefuelStatusCheck bit=NULL
+	,	@RefuelStatusCheck bit=NULL
+	,	@EquipmentFuelGradeCheck bit=NULL
+	,	@EquipmentNotLockedOutCheck bit=NULL
+	,	@EquipmentNotAssignedCheck bit=NULL
+	,	@EquipmentInServiceCheck bit=NULL
+	,	@TagLicenseNotExpiredCheck bit=NULL
+	,	@TestInspectionNotExpiredCheck bit=NULL
+	,	@QualityControlCheckupDateCheck bit=NULL
+	,	@CautionQualityTagCheck bit=NULL
+	,	@WarningQualityTagCheck bit=NULL
+	,	@DangerQualityTagCheck bit=NULL
+	,	@UpdatedDate datetimeoffset(7)=NULL
+	,	@UpdatedBy udtUserID=NULL
+	,	@EnableServiceRequests bit=NULL
+	,	@AutomaticRestartDelay int=NULL
+	,	@EquipmentRequired bit=NULL
+	,	@PersonnelRequired bit=NULL
+	,	@FillToActualOrStandard int=NULL
+	,	@OperationalWindowPastHours int=NULL
+	,	@OperationalWindowFutureHours int=NULL
+	,	@ShowGridLines bit=NULL
+	,	@StaticTimeDisplay bit=NULL
+	,	@UseArrivalTime bit=NULL
+	,	@UseStartTime bit=NULL
+	,	@UseStopTime bit=NULL
+	,	@FuelsManagerReportURL nvarchar(max)=NULL
+	,	@_RowVersion timestamp=NULL OUTPUT
+	,	@NullOverrideSiteGuid BIT=0 
+	,	@NullOverrideID BIT=0 
+	,	@NullOverrideDisplayCurrentTime BIT=0 
+	,	@NullOverrideDispatchDataRefreshPeriod BIT=0 
+	,	@NullOverrideTabularViewDisplayMilitaryDate BIT=0 
+	,	@NullOverrideQuantityNotZeroCheck BIT=0 
+	,	@NullOverrideExactlyOneManagerCheck BIT=0 
+	,	@NullOverrideExactlyOneOwnerCheck BIT=0 
+	,	@NullOverrideDispatchFuelAdditiveFlagCheck BIT=0 
+	,	@NullOverrideFastLogFuelAdditiveFlagCheck BIT=0 
+	,	@NullOverrideFillstandVolumeWithinToleranceCheck BIT=0 
+	,	@NullOverrideReturnToBulkVolumeWithinToleranceCheck BIT=0 
+	,	@NullOverrideRecirculationVolumesGreaterThanZeroCheck BIT=0 
+	,	@NullOverrideOperatorIsInCheck BIT=0 
+	,	@NullOverrideOperatorNotAssignedCheck BIT=0 
+	,	@NullOverrideOperatorHasRequiredTrainingCheck BIT=0 
+	,	@NullOverrideOperatorTrainingNotExpiredCheck BIT=0 
+	,	@NullOverrideOperatorNotLockedOutCheck BIT=0 
+	,	@NullOverrideOperatorHasRequiredQualificationsCheck BIT=0 
+	,	@NullOverrideOperatorQualificationsNotExpiredCheck BIT=0 
+	,	@NullOverrideDefuelStatusCheck BIT=0 
+	,	@NullOverrideRefuelStatusCheck BIT=0 
+	,	@NullOverrideEquipmentFuelGradeCheck BIT=0 
+	,	@NullOverrideEquipmentNotLockedOutCheck BIT=0 
+	,	@NullOverrideEquipmentNotAssignedCheck BIT=0 
+	,	@NullOverrideEquipmentInServiceCheck BIT=0 
+	,	@NullOverrideTagLicenseNotExpiredCheck BIT=0 
+	,	@NullOverrideTestInspectionNotExpiredCheck BIT=0 
+	,	@NullOverrideQualityControlCheckupDateCheck BIT=0 
+	,	@NullOverrideCautionQualityTagCheck BIT=0 
+	,	@NullOverrideWarningQualityTagCheck BIT=0 
+	,	@NullOverrideDangerQualityTagCheck BIT=0 
+	,	@NullOverrideUpdatedDate BIT=0 
+	,	@NullOverrideEnableServiceRequests BIT=0 
+	,	@NullOverrideAutomaticRestartDelay BIT=0 
+	,	@NullOverrideEquipmentRequired BIT=0 
+	,	@NullOverridePersonnelRequired BIT=0 
+	,	@NullOverrideFillToActualOrStandard BIT=0 
+	,	@NullOverrideOperationalWindowPastHours BIT=0 
+	,	@NullOverrideOperationalWindowFutureHours BIT=0 
+	,	@NullOverrideShowGridLines BIT=0 
+	,	@NullOverrideStaticTimeDisplay BIT=0 
+	,	@NullOverrideUseArrivalTime BIT=0 
+	,	@NullOverrideUseStartTime BIT=0 
+	,	@NullOverrideUseStopTime BIT=0 
+	,	@NullOverrideFuelsManagerReportURL BIT=0 
+)
+	AS
+	BEGIN
+	------------------------------------------------------------------------------------------------------
+	-- Stored procedure: [dbo].[gsp_DispatchConfigurationUpdateByPK] 
+	-- Author: DBA - Auto generated
+	-- Version/Date: 1.0.003 / 2014-02-05 16:52:29.4643936 -05:00
+	-- Purpose: Update table [dbo].[tblDispatchConfiguration]
+	-- Notes:
+	-- 1. @DispatchConfigurationGuid and @UpdatedBy are required parameter.
+	-- 2. If a value other than NULL is passed on @_RowVersion parameter then the stored procedure verifies whether _RowVersion of the record matches with the  
+	--    @_RowVersion parameter and it will throw an exception if they don't match, otherwise it saves the parameters regardless.
+	-- 3. The @_RowVersion output parameter will always be updated with new timestamp generated by the updating of the record.
+	-- 4. To update a column with NULL then set the corresponding "@NullOverride..." parameter to 1 and either pass NULL through the correlated parameter 
+	--    or do not include the parameter at all. 
+	--    Example - Saving NULL to SiteGuid on tblEquipment:
+	--            EXEC gsp_EquipmentUpdateByPK @EquipmentGuid='0000-...',@SiteGuid=NULL, @NullOverrideSiteGuid=1 
+	--       or   EXEC gsp_EquipmentUpdateByPK @EquipmentGuid='0000-...', @NullOverrideSiteGuid=1 
+	------------------------------------------------------------------------------------------------------
+	SET NOCOUNT ON;
+	BEGIN TRY
+		IF @_RowVersion IS NOT NULL AND NOT EXISTS(SELECT 1 FROM [dbo].[tblDispatchConfiguration] WHERE DispatchConfigurationGuid=@DispatchConfigurationGuid AND _RowVersion=@_RowVersion)
+		BEGIN
+			RAISERROR('Attempted to modify a stale copy of the record',16,1);
+			RETURN;
+		END
+ 
+		UPDATE [dbo].[tblDispatchConfiguration] SET
+			[SiteGuid]=(CASE ISNULL(@NullOverrideSiteGuid,0) WHEN 1 THEN @SiteGuid ELSE ISNULL(@SiteGuid,[SiteGuid]) END)
+		,	[ID]=(CASE ISNULL(@NullOverrideID,0) WHEN 1 THEN @ID ELSE ISNULL(@ID,[ID]) END)
+		,	[DisplayCurrentTime]=(CASE ISNULL(@NullOverrideDisplayCurrentTime,0) WHEN 1 THEN @DisplayCurrentTime ELSE ISNULL(@DisplayCurrentTime,[DisplayCurrentTime]) END)
+		,	[DispatchDataRefreshPeriod]=(CASE ISNULL(@NullOverrideDispatchDataRefreshPeriod,0) WHEN 1 THEN @DispatchDataRefreshPeriod ELSE ISNULL(@DispatchDataRefreshPeriod,[DispatchDataRefreshPeriod]) END)
+		,	[TabularViewDisplayMilitaryDate]=(CASE ISNULL(@NullOverrideTabularViewDisplayMilitaryDate,0) WHEN 1 THEN @TabularViewDisplayMilitaryDate ELSE ISNULL(@TabularViewDisplayMilitaryDate,[TabularViewDisplayMilitaryDate]) END)
+		,	[QuantityNotZeroCheck]=(CASE ISNULL(@NullOverrideQuantityNotZeroCheck,0) WHEN 1 THEN @QuantityNotZeroCheck ELSE ISNULL(@QuantityNotZeroCheck,[QuantityNotZeroCheck]) END)
+		,	[ExactlyOneManagerCheck]=(CASE ISNULL(@NullOverrideExactlyOneManagerCheck,0) WHEN 1 THEN @ExactlyOneManagerCheck ELSE ISNULL(@ExactlyOneManagerCheck,[ExactlyOneManagerCheck]) END)
+		,	[ExactlyOneOwnerCheck]=(CASE ISNULL(@NullOverrideExactlyOneOwnerCheck,0) WHEN 1 THEN @ExactlyOneOwnerCheck ELSE ISNULL(@ExactlyOneOwnerCheck,[ExactlyOneOwnerCheck]) END)
+		,	[DispatchFuelAdditiveFlagCheck]=(CASE ISNULL(@NullOverrideDispatchFuelAdditiveFlagCheck,0) WHEN 1 THEN @DispatchFuelAdditiveFlagCheck ELSE ISNULL(@DispatchFuelAdditiveFlagCheck,[DispatchFuelAdditiveFlagCheck]) END)
+		,	[FastLogFuelAdditiveFlagCheck]=(CASE ISNULL(@NullOverrideFastLogFuelAdditiveFlagCheck,0) WHEN 1 THEN @FastLogFuelAdditiveFlagCheck ELSE ISNULL(@FastLogFuelAdditiveFlagCheck,[FastLogFuelAdditiveFlagCheck]) END)
+		,	[FillstandVolumeWithinToleranceCheck]=(CASE ISNULL(@NullOverrideFillstandVolumeWithinToleranceCheck,0) WHEN 1 THEN @FillstandVolumeWithinToleranceCheck ELSE ISNULL(@FillstandVolumeWithinToleranceCheck,[FillstandVolumeWithinToleranceCheck]) END)
+		,	[ReturnToBulkVolumeWithinToleranceCheck]=(CASE ISNULL(@NullOverrideReturnToBulkVolumeWithinToleranceCheck,0) WHEN 1 THEN @ReturnToBulkVolumeWithinToleranceCheck ELSE ISNULL(@ReturnToBulkVolumeWithinToleranceCheck,[ReturnToBulkVolumeWithinToleranceCheck]) END)
+		,	[RecirculationVolumesGreaterThanZeroCheck]=(CASE ISNULL(@NullOverrideRecirculationVolumesGreaterThanZeroCheck,0) WHEN 1 THEN @RecirculationVolumesGreaterThanZeroCheck ELSE ISNULL(@RecirculationVolumesGreaterThanZeroCheck,[RecirculationVolumesGreaterThanZeroCheck]) END)
+		,	[OperatorIsInCheck]=(CASE ISNULL(@NullOverrideOperatorIsInCheck,0) WHEN 1 THEN @OperatorIsInCheck ELSE ISNULL(@OperatorIsInCheck,[OperatorIsInCheck]) END)
+		,	[OperatorNotAssignedCheck]=(CASE ISNULL(@NullOverrideOperatorNotAssignedCheck,0) WHEN 1 THEN @OperatorNotAssignedCheck ELSE ISNULL(@OperatorNotAssignedCheck,[OperatorNotAssignedCheck]) END)
+		,	[OperatorHasRequiredTrainingCheck]=(CASE ISNULL(@NullOverrideOperatorHasRequiredTrainingCheck,0) WHEN 1 THEN @OperatorHasRequiredTrainingCheck ELSE ISNULL(@OperatorHasRequiredTrainingCheck,[OperatorHasRequiredTrainingCheck]) END)
+		,	[OperatorTrainingNotExpiredCheck]=(CASE ISNULL(@NullOverrideOperatorTrainingNotExpiredCheck,0) WHEN 1 THEN @OperatorTrainingNotExpiredCheck ELSE ISNULL(@OperatorTrainingNotExpiredCheck,[OperatorTrainingNotExpiredCheck]) END)
+		,	[OperatorNotLockedOutCheck]=(CASE ISNULL(@NullOverrideOperatorNotLockedOutCheck,0) WHEN 1 THEN @OperatorNotLockedOutCheck ELSE ISNULL(@OperatorNotLockedOutCheck,[OperatorNotLockedOutCheck]) END)
+		,	[OperatorHasRequiredQualificationsCheck]=(CASE ISNULL(@NullOverrideOperatorHasRequiredQualificationsCheck,0) WHEN 1 THEN @OperatorHasRequiredQualificationsCheck ELSE ISNULL(@OperatorHasRequiredQualificationsCheck,[OperatorHasRequiredQualificationsCheck]) END)
+		,	[OperatorQualificationsNotExpiredCheck]=(CASE ISNULL(@NullOverrideOperatorQualificationsNotExpiredCheck,0) WHEN 1 THEN @OperatorQualificationsNotExpiredCheck ELSE ISNULL(@OperatorQualificationsNotExpiredCheck,[OperatorQualificationsNotExpiredCheck]) END)
+		,	[DefuelStatusCheck]=(CASE ISNULL(@NullOverrideDefuelStatusCheck,0) WHEN 1 THEN @DefuelStatusCheck ELSE ISNULL(@DefuelStatusCheck,[DefuelStatusCheck]) END)
+		,	[RefuelStatusCheck]=(CASE ISNULL(@NullOverrideRefuelStatusCheck,0) WHEN 1 THEN @RefuelStatusCheck ELSE ISNULL(@RefuelStatusCheck,[RefuelStatusCheck]) END)
+		,	[EquipmentFuelGradeCheck]=(CASE ISNULL(@NullOverrideEquipmentFuelGradeCheck,0) WHEN 1 THEN @EquipmentFuelGradeCheck ELSE ISNULL(@EquipmentFuelGradeCheck,[EquipmentFuelGradeCheck]) END)
+		,	[EquipmentNotLockedOutCheck]=(CASE ISNULL(@NullOverrideEquipmentNotLockedOutCheck,0) WHEN 1 THEN @EquipmentNotLockedOutCheck ELSE ISNULL(@EquipmentNotLockedOutCheck,[EquipmentNotLockedOutCheck]) END)
+		,	[EquipmentNotAssignedCheck]=(CASE ISNULL(@NullOverrideEquipmentNotAssignedCheck,0) WHEN 1 THEN @EquipmentNotAssignedCheck ELSE ISNULL(@EquipmentNotAssignedCheck,[EquipmentNotAssignedCheck]) END)
+		,	[EquipmentInServiceCheck]=(CASE ISNULL(@NullOverrideEquipmentInServiceCheck,0) WHEN 1 THEN @EquipmentInServiceCheck ELSE ISNULL(@EquipmentInServiceCheck,[EquipmentInServiceCheck]) END)
+		,	[TagLicenseNotExpiredCheck]=(CASE ISNULL(@NullOverrideTagLicenseNotExpiredCheck,0) WHEN 1 THEN @TagLicenseNotExpiredCheck ELSE ISNULL(@TagLicenseNotExpiredCheck,[TagLicenseNotExpiredCheck]) END)
+		,	[TestInspectionNotExpiredCheck]=(CASE ISNULL(@NullOverrideTestInspectionNotExpiredCheck,0) WHEN 1 THEN @TestInspectionNotExpiredCheck ELSE ISNULL(@TestInspectionNotExpiredCheck,[TestInspectionNotExpiredCheck]) END)
+		,	[QualityControlCheckupDateCheck]=(CASE ISNULL(@NullOverrideQualityControlCheckupDateCheck,0) WHEN 1 THEN @QualityControlCheckupDateCheck ELSE ISNULL(@QualityControlCheckupDateCheck,[QualityControlCheckupDateCheck]) END)
+		,	[CautionQualityTagCheck]=(CASE ISNULL(@NullOverrideCautionQualityTagCheck,0) WHEN 1 THEN @CautionQualityTagCheck ELSE ISNULL(@CautionQualityTagCheck,[CautionQualityTagCheck]) END)
+		,	[WarningQualityTagCheck]=(CASE ISNULL(@NullOverrideWarningQualityTagCheck,0) WHEN 1 THEN @WarningQualityTagCheck ELSE ISNULL(@WarningQualityTagCheck,[WarningQualityTagCheck]) END)
+		,	[DangerQualityTagCheck]=(CASE ISNULL(@NullOverrideDangerQualityTagCheck,0) WHEN 1 THEN @DangerQualityTagCheck ELSE ISNULL(@DangerQualityTagCheck,[DangerQualityTagCheck]) END)
+		,	[UpdatedDate]=ISNULL(@UpdatedDate,SYSDATETIMEOFFSET())
+		,	[UpdatedBy]= ISNULL(@UpdatedBy,SUSER_SNAME())
+		,	[EnableServiceRequests]=(CASE ISNULL(@NullOverrideEnableServiceRequests,0) WHEN 1 THEN @EnableServiceRequests ELSE ISNULL(@EnableServiceRequests,[EnableServiceRequests]) END)
+		,	[AutomaticRestartDelay]=(CASE ISNULL(@NullOverrideAutomaticRestartDelay,0) WHEN 1 THEN @AutomaticRestartDelay ELSE ISNULL(@AutomaticRestartDelay,[AutomaticRestartDelay]) END)
+		,	[EquipmentRequired]=(CASE ISNULL(@NullOverrideEquipmentRequired,0) WHEN 1 THEN @EquipmentRequired ELSE ISNULL(@EquipmentRequired,[EquipmentRequired]) END)
+		,	[PersonnelRequired]=(CASE ISNULL(@NullOverridePersonnelRequired,0) WHEN 1 THEN @PersonnelRequired ELSE ISNULL(@PersonnelRequired,[PersonnelRequired]) END)
+		,	[FillToActualOrStandard]=(CASE ISNULL(@NullOverrideFillToActualOrStandard,0) WHEN 1 THEN @FillToActualOrStandard ELSE ISNULL(@FillToActualOrStandard,[FillToActualOrStandard]) END)
+		,	[OperationalWindowPastHours]=(CASE ISNULL(@NullOverrideOperationalWindowPastHours,0) WHEN 1 THEN @OperationalWindowPastHours ELSE ISNULL(@OperationalWindowPastHours,[OperationalWindowPastHours]) END)
+		,	[OperationalWindowFutureHours]=(CASE ISNULL(@NullOverrideOperationalWindowFutureHours,0) WHEN 1 THEN @OperationalWindowFutureHours ELSE ISNULL(@OperationalWindowFutureHours,[OperationalWindowFutureHours]) END)
+		,	[ShowGridLines]=(CASE ISNULL(@NullOverrideShowGridLines,0) WHEN 1 THEN @ShowGridLines ELSE ISNULL(@ShowGridLines,[ShowGridLines]) END)
+		,	[StaticTimeDisplay]=(CASE ISNULL(@NullOverrideStaticTimeDisplay,0) WHEN 1 THEN @StaticTimeDisplay ELSE ISNULL(@StaticTimeDisplay,[StaticTimeDisplay]) END)
+		,	[UseArrivalTime]=(CASE ISNULL(@NullOverrideUseArrivalTime,0) WHEN 1 THEN @UseArrivalTime ELSE ISNULL(@UseArrivalTime,[UseArrivalTime]) END)
+		,	[UseStartTime]=(CASE ISNULL(@NullOverrideUseStartTime,0) WHEN 1 THEN @UseStartTime ELSE ISNULL(@UseStartTime,[UseStartTime]) END)
+		,	[UseStopTime]=(CASE ISNULL(@NullOverrideUseStopTime,0) WHEN 1 THEN @UseStopTime ELSE ISNULL(@UseStopTime,[UseStopTime]) END)
+		,	[FuelsManagerReportURL]=(CASE ISNULL(@NullOverrideFuelsManagerReportURL,0) WHEN 1 THEN @FuelsManagerReportURL ELSE ISNULL(@FuelsManagerReportURL,[FuelsManagerReportURL]) END)
+		WHERE	DispatchConfigurationGuid=@DispatchConfigurationGuid;
+ 
+		SELECT @_RowVersion=_RowVersion        
+		FROM [dbo].[tblDispatchConfiguration]           
+		WHERE DispatchConfigurationGuid=@DispatchConfigurationGuid;
+	
+ 
+	END TRY
+	BEGIN CATCH        
+		DECLARE	@_ErrMessage NVARCHAR(2048)      
+				, @_ErrNumber INT           
+				, @_ErrProcName NVARCHAR(126)           
+				, @_ErrLineNumber INT;            
+		SET @_ErrMessage = ERROR_MESSAGE();        
+		SET @_ErrNumber = ERROR_NUMBER();        
+		SET @_ErrProcName= ERROR_PROCEDURE();        
+		SET @_ErrLineNumber = ERROR_LINE();            
+		SET @_ErrMessage = 'Error: ' + @_ErrMessage + CHAR(13)+CHAR(10)                 
+						+ 'Number: ' + CAST(@_ErrNumber AS VARCHAR(20)) + CHAR(13)+CHAR(10)                 
+						+ 'Procedure Name: gsp_DispatchConfigurationUpdateByPK' + CHAR(13)+CHAR(10)                  
+						+ 'Line Number: ' + ISNULL(CAST(@_ErrLineNumber AS VARCHAR(20)),'') + CHAR(13)+CHAR(10);         
+		RAISERROR(@_ErrMessage,18,1);      
+	END CATCH    
+END     
+	

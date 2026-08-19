@@ -1,0 +1,3 @@
+﻿CREATE TYPE [dbo].[udtUserID]
+    FROM NVARCHAR (100) NULL;
+

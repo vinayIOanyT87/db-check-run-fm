@@ -1,0 +1,27 @@
+HKCR
+{
+	ContrecOPCServer.DataAccess.1 = s 'DataAccess Class'
+	{
+		CLSID = s '{2089945A-98ED-4FFB-B475-6C5358BE7466}'
+	}
+	ContrecOPCServer.DataAccess = s 'DataAccess Class'
+	{
+		CLSID = s '{2089945A-98ED-4FFB-B475-6C5358BE7466}'
+		CurVer = s 'ContrecOPCServer.DataAccess.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {2089945A-98ED-4FFB-B475-6C5358BE7466} = s 'DataAccess Class'
+		{
+			ProgID = s 'ContrecOPCServer.DataAccess.1'
+			VersionIndependentProgID = s 'ContrecOPCServer.DataAccess'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{827959BA-0A20-493C-9EE1-8D007BF8C73B}'
+		}
+	}
+}

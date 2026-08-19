@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="AuditCM"
+  DTS:DTSID="{4F5AE697-7607-41BD-97E4-4208069BDC4B}"
+  DTS:CreationName="ADO.NET:System.Data.SqlClient.SqlConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectionString="Data Source=9GGGPL2\SATURNE;Initial Catalog=FuelsManagerNSPAArchiveDB;Integrated Security=True;Application Name=SSIS-FuelsManagerArchiveSSIS-{4F5AE697-7607-41BD-97E4-4208069BDC4B}9GGGPL2\SATURNE.FuelsManagerNSPAArchiveDB;" />
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

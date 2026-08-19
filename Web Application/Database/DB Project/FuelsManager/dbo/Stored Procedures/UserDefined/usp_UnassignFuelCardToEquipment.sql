@@ -1,0 +1,25 @@
+﻿/*
+=============================================
+Author: George Peters
+Create date: 3/25/14
+Description:
+
+Disassociate a Fuel Card from a piece of Equipment
+=============================================
+*/
+CREATE PROCEDURE [dbo].[usp_UnassignFuelCardToEquipment]
+(
+	@EquipmentGuid UNIQUEIDENTIFIER,
+	@FuelCardGuid UNIQUEIDENTIFIER
+)
+AS
+BEGIN
+	SET NOCOUNT OFF
+
+	IF (@EquipmentGuid IS NOT NULL AND @FuelCardGuid IS NOT NULL)
+	BEGIN
+		-- Currently FuelsManager only allows a single Fuel Card to be associated with a piece of equipment.  This should be changed in the
+		-- future which would convert this stored procedure into an Insert on an intersection table.
+		UPDATE [dbo].[tblEquipment] SET [FuelCardGuid] = NULL WHERE [EquipmentGuid] = @EquipmentGuid AND [FuelCardGuid] = @FuelCardGuid
+	END
+END

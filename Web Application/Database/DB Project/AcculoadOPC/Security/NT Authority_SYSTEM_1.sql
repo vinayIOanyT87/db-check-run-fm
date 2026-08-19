@@ -1,0 +1,3 @@
+﻿CREATE SCHEMA [NT Authority\SYSTEM]
+    AUTHORIZATION [NT Authority\SYSTEM];
+

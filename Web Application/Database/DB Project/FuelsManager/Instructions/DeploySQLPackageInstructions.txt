@@ -1,0 +1,42 @@
+**************************
+** Build Project
+**************************
+- Before publishing the DB Project, make sure the project has been successfully built.
+- Note: Ignore any "SQL80001: Incorrect syntax near ':'" error that may occour during the build.
+
+
+**************************
+** SQLPackage.exe utility notes
+**************************
+1. SQLPackage.exe utility can me used to deploy a DacPac database definition to a target database. It can also be used to extract the definition and data from a database into a Dacpac file.
+
+2. To download SQLPackage.exe utility for Visual Studio 2012 go to  http://msdn.microsoft.com/en-us/jj650015
+
+3. When running SQLPackage.exe utility on a Leidos domain you may have to open the Windows command.exe utility under "local admin" account so SQLPackage.exe can successfully register the database on Data Tier Applicaiton.
+
+4. To update an exisitng database which has not been created through DB Project (or is not registered for Data Tier Application) you must manually register the database as Data tier Application prior to upgrading it.
+   Instructions to register the database as follows:
+   a. When doing it on a Leidos domain system you may have to login using a local administrator account;
+   b. Open SQL Server Management Studio - SSMS
+   c. Find the target database
+   d. Right click the database and select "Tasks", then "Register as a Data Tier Application..." option.
+   e. Use the Wizard to complete the parameters then click the "Complete" button.
+
+5. For documentation on SQLPackage.exe, including the actions it performs as well as list of acceptable parameters, go to http://msdn.microsoft.com/en-us/library/hh550080%28v=vs.103%29.aspx. Once installed, SQLPacakge.exe should be located at <Program File>\Microsoft SQL Server\110\DAC\bin folder.
+
+6. Example for deploying a FuelsManagerDB.dacpac file:
+   - Modify the DeployPublishDacPac.txt file include the server name, database name, and file name.
+   - From the command line invoke SQLPackage followed by @DeployPublishDacPac.txt, as follows:
+     SQLPackage @DeployPublishDacPac.txt and hit <Enter>.
+
+7. The database deployment process should kick off and status should be shown as the process continues on until it completes.
+
+**************************
+** Using Visual Studio "Publish" to update a database
+**************************
+1. From Visual Studio, right-click the FuelsManagerDB file on Solution Explorer and select "Publish" option or, from the Build menu, select "Publish FuelsManagerDB" option;
+2. Enter the connection infromation by clicking the "Edit" button.
+3. Enter the database name
+4. In case you want your database to be setup for updates via DB Project then select "Register as a Data-tier application". Please note that this option may fail due to Leidos domain constraints.
+   -- If fails, proceed without the "Register as a Data-tier application" and later, run SSMS undel local admin account and register the database itself.
+5. Click Publish

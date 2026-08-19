@@ -1,0 +1,85 @@
+﻿-- ========================================================================================
+-- Author:      <Author,,George Peters>
+-- Create date: <Create Date,System.DateTime,>
+-- SyncTable  : dbo.tblEquipmentTypes
+-- Description: Get Updated Records
+-- Enumerations:
+--      @sync_request_type  = MANUAL (0), PERIODIC (1), SCHEDULED (2), RESYNC (3), INIT (4)
+-- ========================================================================================
+CREATE PROCEDURE [sync].[gsp_ClientSelectIncrementalUpdates_tblEquipmentTypes]
+@sync_initialized bit,
+@sync_last_received_anchor bigint,
+@sync_new_received_anchor bigint,
+@sync_start_daterange datetimeoffset(7),
+@sync_end_daterange datetimeoffset(7),
+@sync_filter_by_daterange bit,
+@sync_client_id_binary binary(16),
+@sync_client_id uniqueidentifier,
+@sync_server_id_binary binary(16),
+@sync_context_site_guid uniqueidentifier,
+@sync_context_site_id nvarchar(30),
+@sync_context_site_guid_list nvarchar(1024),
+@sync_context_site_id_list nvarchar(1024),
+@sync_table_name nvarchar(512),
+@sync_batch_size_tblEquipmentTypes int,
+@sync_bypass_insert_update_extraction bit,
+@sync_request_type int
+AS
+BEGIN
+    DECLARE @minValidVersion BigInt 
+
+    DECLARE @sync_last_received_anchor_varbinary varbinary(8)
+    DECLARE @sync_new_received_anchor_varbinary varbinary(8)
+
+    SET @sync_last_received_anchor_varbinary = CONVERT(varbinary(8), @sync_last_received_anchor);
+    SET @sync_new_received_anchor_varbinary = CONVERT(varbinary(8), @sync_new_received_anchor);
+
+    -- During an initial synchronization, we don't want to bring back any updates since we 
+    -- should be picking them up with the select incremental inserts 
+    --
+    IF ((@sync_request_type = 4)
+        OR (@sync_bypass_insert_update_extraction IS NOT NULL AND @sync_bypass_insert_update_extraction = 1))
+    BEGIN
+        SELECT [dbo].[tblEquipmentTypes].[EqTypeName],[dbo].[tblEquipmentTypes].[EqTypeDescription],[dbo].[tblEquipmentTypes].[Capacity],[dbo].[tblEquipmentTypes].[SafeFill],[dbo].[tblEquipmentTypes].[Make],[dbo].[tblEquipmentTypes].[Model],[dbo].[tblEquipmentTypes].[Year],[dbo].[tblEquipmentTypes].[CreatedDate],[dbo].[tblEquipmentTypes].[CreatedBy],[dbo].[tblEquipmentTypes].[UpdatedDate],[dbo].[tblEquipmentTypes].[UpdatedBy],[dbo].[tblEquipmentTypes].[DeleteFlag],[dbo].[tblEquipmentTypes].[IssPt],[dbo].[tblEquipmentTypes].[MultiCompartment],[dbo].[tblEquipmentTypes].[EquipmentTypeGuid],[dbo].[tblEquipmentTypes].[SiteGuid],[dbo].[tblEquipmentTypes].[LookupEquipmentTypeIndex],[dbo].[tblEquipmentTypes].[ProductGuid],[dbo].[tblEquipmentTypes].[CustomerDesignator],[dbo].[tblEquipmentTypes].[ServiceTime],[dbo].[tblEquipmentTypes].[VolumeUnits],[dbo].[tblEquipmentTypes].[VolumeDecimalPlaces],[dbo].[tblEquipmentTypes].[MassUnits],[dbo].[tblEquipmentTypes].[MassDecimalPlaces],[dbo].[tblEquipmentTypes].[WingToWingToleranceType],[dbo].[tblEquipmentTypes].[WingToWingToleranceValue],[dbo].[tblEquipmentTypes].[TankToTankToleranceType],[dbo].[tblEquipmentTypes].[TankToTankToleranceValue],[dbo].[tblEquipmentTypes].[FuelServiceToleranceType],[dbo].[tblEquipmentTypes].[FuelServiceToleranceValue],[dbo].[tblEquipmentTypes].[FuelServiceToleranceMaxType],[dbo].[tblEquipmentTypes].[FuelServiceToleranceMaxValue],[dbo].[tblEquipmentTypes].[AllowFuelingByWeight],[dbo].[tblEquipmentTypes].[LookupCompanyRoleIndex], [dbo].[tblEquipmentTypes].[_RowVersion]
+            FROM [dbo].[tblEquipmentTypes]
+            WHERE 1=2;
+            
+        RETURN;
+    END
+
+    IF (@sync_batch_size_tblEquipmentTypes IS NULL OR 
+        (@sync_batch_size_tblEquipmentTypes IS NOT NULL AND @sync_batch_size_tblEquipmentTypes = 0))
+    BEGIN
+        SET @sync_batch_size_tblEquipmentTypes = 2147483647;
+    END
+
+            SELECT TOP(@sync_batch_size_tblEquipmentTypes) WITH TIES [EqTypeName],[EqTypeDescription],[Capacity],[SafeFill],[Make],[Model],[Year],[CreatedDate],[CreatedBy],[UpdatedDate],[UpdatedBy],[DeleteFlag],[IssPt],[MultiCompartment],[EquipmentTypeGuid],[SiteGuid],[LookupEquipmentTypeIndex],[ProductGuid],[CustomerDesignator],[ServiceTime],[VolumeUnits],[VolumeDecimalPlaces],[MassUnits],[MassDecimalPlaces],[WingToWingToleranceType],[WingToWingToleranceValue],[TankToTankToleranceType],[TankToTankToleranceValue],[FuelServiceToleranceType],[FuelServiceToleranceValue],[FuelServiceToleranceMaxType],[FuelServiceToleranceMaxValue],[AllowFuelingByWeight],[LookupCompanyRoleIndex],_RowVersion
+            FROM (
+                SELECT TOP(@sync_batch_size_tblEquipmentTypes) WITH TIES [dbo].[tblEquipmentTypes].[EqTypeName],[dbo].[tblEquipmentTypes].[EqTypeDescription],[dbo].[tblEquipmentTypes].[Capacity],[dbo].[tblEquipmentTypes].[SafeFill],[dbo].[tblEquipmentTypes].[Make],[dbo].[tblEquipmentTypes].[Model],[dbo].[tblEquipmentTypes].[Year],[dbo].[tblEquipmentTypes].[CreatedDate],[dbo].[tblEquipmentTypes].[CreatedBy],[dbo].[tblEquipmentTypes].[UpdatedDate],[dbo].[tblEquipmentTypes].[UpdatedBy],[dbo].[tblEquipmentTypes].[DeleteFlag],[dbo].[tblEquipmentTypes].[IssPt],[dbo].[tblEquipmentTypes].[MultiCompartment],[dbo].[tblEquipmentTypes].[EquipmentTypeGuid],[dbo].[tblEquipmentTypes].[SiteGuid],[dbo].[tblEquipmentTypes].[LookupEquipmentTypeIndex],[dbo].[tblEquipmentTypes].[ProductGuid],[dbo].[tblEquipmentTypes].[CustomerDesignator],[dbo].[tblEquipmentTypes].[ServiceTime],[dbo].[tblEquipmentTypes].[VolumeUnits],[dbo].[tblEquipmentTypes].[VolumeDecimalPlaces],[dbo].[tblEquipmentTypes].[MassUnits],[dbo].[tblEquipmentTypes].[MassDecimalPlaces],[dbo].[tblEquipmentTypes].[WingToWingToleranceType],[dbo].[tblEquipmentTypes].[WingToWingToleranceValue],[dbo].[tblEquipmentTypes].[TankToTankToleranceType],[dbo].[tblEquipmentTypes].[TankToTankToleranceValue],[dbo].[tblEquipmentTypes].[FuelServiceToleranceType],[dbo].[tblEquipmentTypes].[FuelServiceToleranceValue],[dbo].[tblEquipmentTypes].[FuelServiceToleranceMaxType],[dbo].[tblEquipmentTypes].[FuelServiceToleranceMaxValue],[dbo].[tblEquipmentTypes].[AllowFuelingByWeight],[dbo].[tblEquipmentTypes].[LookupCompanyRoleIndex],sync.udf_GetMaxRowVersion(CT.UpdatedRowVersion,MAPCT.UpdatedRowVersion,NULL) AS '_RowVersion'
+                    FROM [dbo].[tblEquipmentTypes]
+                        INNER JOIN (SELECT [EquipmentTypeToSiteGuid],[EquipmentTypeGuid],[OwnerSiteGuid],[AssignedToSiteGuid] FROM [dbo].[udf_GetAssignedEquipmentTypeListForSite](@sync_context_site_guid)) data
+                            ON [dbo].[tblEquipmentTypes].[EquipmentTypeGuid] = data.[EquipmentTypeGuid]
+                        INNER JOIN [track].[tblEquipmentTypes] CT
+                            ON CT.PK_EquipmentTypeGuid = [dbo].[tblEquipmentTypes].[EquipmentTypeGuid] 
+                        INNER JOIN [track].[tblEntityEquipmentTypeToSite] MAPCT
+                            ON MAPCT.PK_EquipmentTypeToSiteGuid = data.[EquipmentTypeToSiteGuid] 
+                    WHERE (((CT.UpdatedRowVersion > @sync_last_received_anchor_varbinary)
+                            AND (CT.UpdatedRowVersion <= @sync_new_received_anchor_varbinary)
+                            AND (CT.UpdatedRowVersion > CT.InsertedRowVersion)
+                            AND (CT.UpdatedContext IS NULL OR CT.UpdatedContext <> @sync_server_id_binary))   -- USE THE SERVER ID HERE SO WE DO NOT RETURN WHAT WAS JUST RECEIVED
+                            OR ((MAPCT.UpdatedRowVersion > @sync_last_received_anchor_varbinary)
+                            AND (MAPCT.UpdatedRowVersion <= @sync_new_received_anchor_varbinary)
+                            AND (MAPCT.UpdatedRowVersion > MAPCT.InsertedRowVersion)
+                            AND (MAPCT.UpdatedContext IS NULL OR MAPCT.UpdatedContext <> @sync_server_id_binary)))   -- USE THE SERVER ID HERE SO WE DO NOT RETURN WHAT WAS JUST RECEIVED
+                ORDER BY [_RowVersion] ASC
+            ) rs1
+            ORDER BY [_RowVersion] ASC;
+
+    SET @minValidVersion = 0;   -- This is used to detect Change Tracking cleanup
+                                -- If we support this, we should add a column to SynchronizationTable
+                                -- that records the MinValidVersion after change tracking information for
+                                -- a table gets cleaned up.  I don't think this will be necessary.
+    
+    IF @minValidVersion > @sync_last_received_anchor 
+        RAISERROR(N'(SIU)Time between synchronization has exceeded the maximum amount of time for table ''%s'' (MIN: %I64d, LAST: %I64d).  To avoid data corruption and old data, the client must reinitialize its local database with a current refresh from the server.', 16, 3, @sync_table_name, @minValidVersion, @sync_last_received_anchor) 
+END

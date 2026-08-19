@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+<KyubitExport>
+  <ExportObject ObjectType="70">
+    <KPIName>KPI_PhysicalInventory01</KPIName>
+    <KPIShortName>
+    </KPIShortName>
+    <Description>
+    </Description>
+    <KPIStatus>
+    </KPIStatus>
+    <KPIValue>
+    </KPIValue>
+    <KPICompareValue>
+    </KPICompareValue>
+    <AnalysisID>3055</AnalysisID>
+    <QueryID>
+    </QueryID>
+    <SuccessAnalysisID>3056</SuccessAnalysisID>
+    <SuccessQueryID>
+    </SuccessQueryID>
+    <FailAnalysisID>3056</FailAnalysisID>
+    <FailQueryID>
+    </FailQueryID>
+    <PartialSuccessAnalysisID>
+    </PartialSuccessAnalysisID>
+    <PartialSuccessQueryID>
+    </PartialSuccessQueryID>
+    <CompleteSuccessAnalysisID>
+    </CompleteSuccessAnalysisID>
+    <CompleteSuccessQueryID>
+    </CompleteSuccessQueryID>
+    <LastChangeAnalysisID>
+    </LastChangeAnalysisID>
+    <LastChangeQueryID>
+    </LastChangeQueryID>
+    <Definition>PFN1Y2Nlc3NNb2RlbD5IaWdoZXJJc0JldHRlcjwvU3VjY2Vzc01vZGVsPjxLUElTY2hlbWE+MjwvS1BJU2NoZW1hPjxTaG93RGVsdGE+Qm90dG9tPC9TaG93RGVsdGE+PERlbHRhUGVyY2VudD5GYWxzZTwvRGVsdGFQZXJjZW50PjxNaW5pQ2hhcnQ+TGluZV9DaGFydDwvTWluaUNoYXJ0PjxLUElTcGVjaWZpY01lYXN1cmVVbmlxdWUgLz48U3VjY2Vzc1NwZWNpZmljTWVhc3VyZVVuaXF1ZT5bTWVhc3VyZXNdLltTdG9jayBHb29kIExpbWl0IFNJXTwvU3VjY2Vzc1NwZWNpZmljTWVhc3VyZVVuaXF1ZT48RmFpbFNwZWNpZmljTWVhc3VyZVVuaXF1ZT5bTWVhc3VyZXNdLltTdG9jayBMb3cgTGltaXQgU0ldPC9GYWlsU3BlY2lmaWNNZWFzdXJlVW5pcXVlPjxQYXJ0aWFsU3VjY2Vzc1NwZWNpZmljTWVhc3VyZVVuaXF1ZSAvPjxDb21wbGV0ZVN1Y2Nlc3NTcGVjaWZpY01lYXN1cmVVbmlxdWUgLz48TGFzdENoYW5nZVNwZWNpZmljTWVhc3VyZVVuaXF1ZSAvPg==</Definition>
+    <Unit>#,#.##</Unit>
+    <Product>
+    </Product>
+    <UNQ>fb708aec-b7d9-49aa-a808-70a24d889e2c</UNQ>
+    <Dependency ObjectType="30" UNQ="ac6c08d2-c40d-4f07-871e-30fc2386aac9" Tag="AnalysisID" ExportedID="3055" />
+    <Dependency ObjectType="30" UNQ="9c27e202-0cb5-4817-b4d1-e8a8b1e581b0" Tag="SuccessAnalysisID" ExportedID="3056" />
+    <Dependency ObjectType="30" UNQ="9c27e202-0cb5-4817-b4d1-e8a8b1e581b0" Tag="FailAnalysisID" ExportedID="3056" />
+  </ExportObject>
+  <ExportObject ObjectType="30">
+    <AnalysisType>1</AnalysisType>
+    <Title>PR_PhysicalInventoryLastXDays</Title>
+    <Description>
+    </Description>
+    <AnalysisDefinition>PEFuYWx5c2lzRGVmaW5pdGlvbj48TWVhc3VyZXM+PE1lYXN1cmUgTWVhc3VyZVRpdGxlPSJHcm9zc1BoeXNpY2FsSW52ZW50b3J5U0kiIE1lYXN1cmVVbmlxdWU9IltNZWFzdXJlc10uW0dyb3NzUGh5c2ljYWxJbnZlbnRvcnlTSV0iIE1lYXN1cmVBZ2dyZWdhdGU9IjEiIEFsdEZvcm1hdD0iIywjLiMwIiBEb05vdENhbGN1bGF0ZT0iRmFsc2UiIC8+PC9NZWFzdXJlcz48Um93VHJlZT48QXhpc1NldCBMZXZlbD0iW0ludmVudG9yeSBEYXRlXS5bRGF0ZSBLZXldLltEYXRlIEtleV0iIC8+PFJvd0xldmVscz48TGV2ZWwgTGV2ZWxVbmlxdWU9IltJbnZlbnRvcnkgRGF0ZV0uW0RhdGUgS2V5XS5bRGF0ZSBLZXldIiBMZXZlbFRpdGxlPSJJbnZlbnRvcnkgRGF0ZS5EYXRlIEtleSIgLz48L1Jvd0xldmVscz48L1Jvd1RyZWU+PENvbHVtblRyZWUgLz48QWxsRmlsdGVycz48RmlsdGVyIEhpZXJhcmNoeT0iW0ludmVudG9yeSBEYXRlXS5bWWVhck1vbnRoRGF5IEhpZXJhcmNoeV0iIEhpZXJhcmNoeVRpdGxlPSJJbnZlbnRvcnkgRGF0ZS5ZZWFyTW9udGhEYXkgSGllcmFyY2h5IiBGaWx0ZXJNZW1iZXJzPSIjIyNMYXN0IERheSAoMTM5MCkiIEZpbHRlck1lbWJlcnNUaXRsZXM9Ikxhc3QgRGF5ICgxMzkwKSIgVXNlV0hFUkVjbGF1c2U9IkZhbHNlIiBFeGNlcHRTZWxlY3RlZD0iRmFsc2UiIEhpZGRlbj0iRmFsc2UiIC8+PC9BbGxGaWx0ZXJzPjxMZXZlbFByb3BlcnR5RGVmaW5pdGlvbnMgLz48QWxsQ2FsY3VsYXRlZE1lbWJlcnMgLz48QWxsQWRIb2NMZXZlbE1EWCAvPjxHZW5lcmFscyBTZXROb25FbXB0eT0iVHJ1ZSIgU2hvd1RvdGFscz0iU3VtIiBNZWFzdXJlR3JvdXBGaWx0ZXI9IiIgU2F2ZWRMQ0lEPSIwIiBBUFZlcnNpb249IjYuNC4wLjAiIEFnZ3JlZ2F0ZU9wZXJhdGlvbj0iMSIgQ29sdW1uV2lkdGg9IjEiIENhdGVnb3J5Q29sdW1uV2lkdGg9IjEiIFNob3dBZ2dyZWdhdGVBc1Nlcmllcz0iRmFsc2UiIFZhbHVlQmFyPSIiIFJlcG9ydENvbnRpbnVlQW5hbHlzaXM9IjEiIFJlcG9ydEFkZEZpbHRlcnM9IjEiIFBlZWtDYXRlZ29yeT0iIiBQZWVrU2VyaWVzPSIiIFRvZ2dsZUFyZWFzPSIxOzE7MSIgQ2FsY3VsYXRlZE1lbWJlcnNCZWhhdmlvcj0iMCIgSXNUaW1lSW50ZWxsaWdlbmNlQ2F0ZWdvcnk9IkZhbHNlIiBNZW1iZXJQcm9wZXJ0aWVzVGl0bGVzPSJGYWxzZSI+PExldmVsU29ydGluZ3M+PExldmVsU29ydGluZyBMZXZlbFVuaXF1ZT0iW0ludmVudG9yeSBEYXRlXS5bRGF0ZSBLZXldLltEYXRlIEtleV0iIFNvcnRCeT0iTWVtYmVyS2V5IiBTb3J0aW5nQXNjPSJGYWxzZSIgLz48L0xldmVsU29ydGluZ3M+PC9HZW5lcmFscz48Q2hhcnREZXNpZ24gQ2hhcnRUeXBlPSIxMCIgQ2hhcnRUaGVtZT0iMCIgRW5hYmxlM0Q9IkZhbHNlIiBQYWxsZXRlPSIxMiIgU2VtaVRyYW5zcGFyZW50PSJGYWxzZSIgU2hvd1ZhbHVlcz0iRmFsc2UiIFBpZURldGFpbHM9IkNhdGVnb3JpZXNQZXJjZW50YWdlIiAvPjxGb3JtYXR0aW5nIC8+PC9BbmFseXNpc0RlZmluaXRpb24+</AnalysisDefinition>
+    <Definition>
+    </Definition>
+    <OverallFilters>
+    </OverallFilters>
+    <LevelDefinitions>
+    </LevelDefinitions>
+    <GridChartCombination>1</GridChartCombination>
+    <UNQ>ac6c08d2-c40d-4f07-871e-30fc2386aac9</UNQ>
+    <Dependency ObjectType="50" UNQ="d267080c-651e-40fc-981f-103b01854679" />
+  </ExportObject>
+  <ExportObject ObjectType="50">
+    <DataSourceName>FuelsManagerDW</DataSourceName>
+    <Type>1</Type>
+    <ConnString>__fLQOo8TAx0fA2JVrPkp+UMtQySxKp5uKKjmuIsrx4aCJ8reaXtV12C3QflLq7HVufgsH2/XbNgLhR2V3h3Wo+w==</ConnString>
+    <Server>1552PWC-HB\NEPTUNE</Server>
+    <DBName>Fuels Manager DW</DBName>
+    <UserName>
+    </UserName>
+    <Password>
+    </Password>
+    <Status>
+    </Status>
+    <UNQ>d267080c-651e-40fc-981f-103b01854679</UNQ>
+  </ExportObject>
+  <ExportObject ObjectType="30">
+    <AnalysisType>1</AnalysisType>
+    <Title>PR_ProductStockLimits</Title>
+    <Description>
+    </Description>
+    <AnalysisDefinition>PEFuYWx5c2lzRGVmaW5pdGlvbj48TWVhc3VyZXM+PE1lYXN1cmUgTWVhc3VyZVRpdGxlPSJTdG9jayBMb3cgTGltaXQgU0kiIE1lYXN1cmVVbmlxdWU9IltNZWFzdXJlc10uW1N0b2NrIExvdyBMaW1pdCBTSV0iIE1lYXN1cmVBZ2dyZWdhdGU9IjEiIC8+PE1lYXN1cmUgTWVhc3VyZVRpdGxlPSJTdG9jayBHb29kIExvdyBMaW1pdCBTSSIgTWVhc3VyZVVuaXF1ZT0iW01lYXN1cmVzXS5bU3RvY2sgR29vZCBMb3cgTGltaXQgU0ldIiBNZWFzdXJlQWdncmVnYXRlPSIxIiAvPjxNZWFzdXJlIE1lYXN1cmVUaXRsZT0iU3RvY2sgR29vZCBMaW1pdCBTSSIgTWVhc3VyZVVuaXF1ZT0iW01lYXN1cmVzXS5bU3RvY2sgR29vZCBMaW1pdCBTSV0iIE1lYXN1cmVBZ2dyZWdhdGU9IjEiIC8+PE1lYXN1cmUgTWVhc3VyZVRpdGxlPSJTdG9jayBHb29kIEhpZ2ggTGltaXQgU0kiIE1lYXN1cmVVbmlxdWU9IltNZWFzdXJlc10uW1N0b2NrIEdvb2QgSGlnaCBMaW1pdCBTSV0iIE1lYXN1cmVBZ2dyZWdhdGU9IjEiIC8+PE1lYXN1cmUgTWVhc3VyZVRpdGxlPSJTdG9jayBIaWdoIExpbWl0IFNJIiBNZWFzdXJlVW5pcXVlPSJbTWVhc3VyZXNdLltTdG9jayBIaWdoIExpbWl0IFNJXSIgTWVhc3VyZUFnZ3JlZ2F0ZT0iMSIgLz48L01lYXN1cmVzPjxSb3dUcmVlPjxBeGlzU2V0IExldmVsPSJbUHJvZHVjdF0uW1Byb2R1Y3QgSWRdLltQcm9kdWN0IElkXSIgLz48Um93TGV2ZWxzPjxMZXZlbCBMZXZlbFVuaXF1ZT0iW1Byb2R1Y3RdLltQcm9kdWN0IElkXS5bUHJvZHVjdCBJZF0iIExldmVsVGl0bGU9IlByb2R1Y3QgSWQiIC8+PC9Sb3dMZXZlbHM+PC9Sb3dUcmVlPjxDb2x1bW5UcmVlIC8+PEFsbEZpbHRlcnMgLz48TGV2ZWxQcm9wZXJ0eURlZmluaXRpb25zIC8+PEFsbENhbGN1bGF0ZWRNZW1iZXJzIC8+PEFsbEFkSG9jTGV2ZWxNRFggLz48R2VuZXJhbHMgU2V0Tm9uRW1wdHk9IlRydWUiIFNob3dUb3RhbHM9IlN1bSIgTWVhc3VyZUdyb3VwRmlsdGVyPSIiIFNhdmVkTENJRD0iMCIgQVBWZXJzaW9uPSI2LjQuMC4wIiBBZ2dyZWdhdGVPcGVyYXRpb249IjEiIENvbHVtbldpZHRoPSIxIiBDYXRlZ29yeUNvbHVtbldpZHRoPSIxIiBTaG93QWdncmVnYXRlQXNTZXJpZXM9IkZhbHNlIiBWYWx1ZUJhcj0iIiBSZXBvcnRDb250aW51ZUFuYWx5c2lzPSIxIiBSZXBvcnRBZGRGaWx0ZXJzPSIxIiBQZWVrQ2F0ZWdvcnk9IiIgUGVla1Nlcmllcz0iIiBUb2dnbGVBcmVhcz0iMTsxOzEiIENhbGN1bGF0ZWRNZW1iZXJzQmVoYXZpb3I9IjAiIElzVGltZUludGVsbGlnZW5jZUNhdGVnb3J5PSJGYWxzZSIgTWVtYmVyUHJvcGVydGllc1RpdGxlcz0iRmFsc2UiIC8+PENoYXJ0RGVzaWduIENoYXJ0VHlwZT0iMTAiIENoYXJ0VGhlbWU9IjAiIEVuYWJsZTNEPSJGYWxzZSIgUGFsbGV0ZT0iMTIiIFNlbWlUcmFuc3BhcmVudD0iRmFsc2UiIFNob3dWYWx1ZXM9IkZhbHNlIiBQaWVEZXRhaWxzPSJDYXRlZ29yaWVzUGVyY2VudGFnZSIgLz48Rm9ybWF0dGluZyAvPjwvQW5hbHlzaXNEZWZpbml0aW9uPg==</AnalysisDefinition>
+    <Definition>
+    </Definition>
+    <OverallFilters>
+    </OverallFilters>
+    <LevelDefinitions>
+    </LevelDefinitions>
+    <GridChartCombination>1</GridChartCombination>
+    <UNQ>9c27e202-0cb5-4817-b4d1-e8a8b1e581b0</UNQ>
+    <Dependency ObjectType="50" UNQ="b78261be-00a3-4be2-92f3-a158fdfa39a8" />
+  </ExportObject>
+  <ExportObject ObjectType="50">
+    <DataSourceName>FuelsManagerDWPrototype</DataSourceName>
+    <Type>1</Type>
+    <ConnString>__fLQOo8TAx0fA2JVrPkp+UMtQySxKp5uKKjmuIsrx4aCJ8reaXtV12C3QflLq7HVufgsH2/XbNgIhSrdkY1N8PppY8gQkCLf1</ConnString>
+    <Server>1552PWC-HB\NEPTUNE</Server>
+    <DBName>Fuels Manager DW</DBName>
+    <UserName>
+    </UserName>
+    <Password>
+    </Password>
+    <Status>
+    </Status>
+    <UNQ>b78261be-00a3-4be2-92f3-a158fdfa39a8</UNQ>
+  </ExportObject>
+  <ExportObject ObjectType="70">
+    <KPIName>KPI_PhysicalInventory02</KPIName>
+    <KPIShortName>
+    </KPIShortName>
+    <Description>
+    </Description>
+    <KPIStatus>
+    </KPIStatus>
+    <KPIValue>
+    </KPIValue>
+    <KPICompareValue>
+    </KPICompareValue>
+    <AnalysisID>3055</AnalysisID>
+    <QueryID>
+    </QueryID>
+    <SuccessAnalysisID>3056</SuccessAnalysisID>
+    <SuccessQueryID>
+    </SuccessQueryID>
+    <FailAnalysisID>3056</FailAnalysisID>
+    <FailQueryID>
+    </FailQueryID>
+    <PartialSuccessAnalysisID>3056</PartialSuccessAnalysisID>
+    <PartialSuccessQueryID>
+    </PartialSuccessQueryID>
+    <CompleteSuccessAnalysisID>3056</CompleteSuccessAnalysisID>
+    <CompleteSuccessQueryID>
+    </CompleteSuccessQueryID>
+    <LastChangeAnalysisID>
+    </LastChangeAnalysisID>
+    <LastChangeQueryID>
+    </LastChangeQueryID>
+    <Definition>PFN1Y2Nlc3NNb2RlbD5NaWRkbGVSYW5nZTwvU3VjY2Vzc01vZGVsPjxLUElTY2hlbWE+MjwvS1BJU2NoZW1hPjxTaG93RGVsdGE+Qm90dG9tPC9TaG93RGVsdGE+PERlbHRhUGVyY2VudD5GYWxzZTwvRGVsdGFQZXJjZW50PjxNaW5pQ2hhcnQ+TGluZV9DaGFydDwvTWluaUNoYXJ0PjxLUElTcGVjaWZpY01lYXN1cmVVbmlxdWUgLz48U3VjY2Vzc1NwZWNpZmljTWVhc3VyZVVuaXF1ZT5bTWVhc3VyZXNdLltTdG9jayBHb29kIEhpZ2ggTGltaXQgU0ldPC9TdWNjZXNzU3BlY2lmaWNNZWFzdXJlVW5pcXVlPjxGYWlsU3BlY2lmaWNNZWFzdXJlVW5pcXVlPltNZWFzdXJlc10uW1N0b2NrIExvdyBMaW1pdCBTSV08L0ZhaWxTcGVjaWZpY01lYXN1cmVVbmlxdWU+PFBhcnRpYWxTdWNjZXNzU3BlY2lmaWNNZWFzdXJlVW5pcXVlPltNZWFzdXJlc10uW1N0b2NrIEdvb2QgTG93IExpbWl0IFNJXTwvUGFydGlhbFN1Y2Nlc3NTcGVjaWZpY01lYXN1cmVVbmlxdWU+PENvbXBsZXRlU3VjY2Vzc1NwZWNpZmljTWVhc3VyZVVuaXF1ZT5bTWVhc3VyZXNdLltTdG9jayBIaWdoIExpbWl0IFNJXTwvQ29tcGxldGVTdWNjZXNzU3BlY2lmaWNNZWFzdXJlVW5pcXVlPjxMYXN0Q2hhbmdlU3BlY2lmaWNNZWFzdXJlVW5pcXVlIC8+</Definition>
+    <Unit>#,#.#</Unit>
+    <Product>
+    </Product>
+    <UNQ>d80e82f5-174a-4c45-afae-dfc8f3ab017d</UNQ>
+    <Dependency ObjectType="30" UNQ="ac6c08d2-c40d-4f07-871e-30fc2386aac9" Tag="AnalysisID" ExportedID="3055" />
+    <Dependency ObjectType="30" UNQ="9c27e202-0cb5-4817-b4d1-e8a8b1e581b0" Tag="SuccessAnalysisID" ExportedID="3056" />
+    <Dependency ObjectType="30" UNQ="9c27e202-0cb5-4817-b4d1-e8a8b1e581b0" Tag="FailAnalysisID" ExportedID="3056" />
+    <Dependency ObjectType="30" UNQ="9c27e202-0cb5-4817-b4d1-e8a8b1e581b0" Tag="PartialSuccessAnalysisID" ExportedID="3056" />
+    <Dependency ObjectType="30" UNQ="9c27e202-0cb5-4817-b4d1-e8a8b1e581b0" Tag="CompleteSuccessAnalysisID" ExportedID="3056" />
+  </ExportObject>
+</KyubitExport>

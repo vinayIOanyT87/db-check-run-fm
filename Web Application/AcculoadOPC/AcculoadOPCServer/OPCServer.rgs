@@ -1,0 +1,31 @@
+HKCR
+{
+	Varec.AcculoadOPCServer.1 = s 'Varec Accuload OPCServer Class'
+	{
+		CLSID = s '{E70484C1-08F4-4E58-99F8-FD68D1F500CE}'
+	}
+	Varec.AcculoadOPCServer = s 'Varec Accuload OPCServer Class'
+	{
+		CLSID = s '{E70484C1-08F4-4E58-99F8-FD68D1F500CE}'
+		CurVer = s 'Varec.AcculoadOPCServer.1'
+        OPC
+        {
+            Vendor = s 'Varec'
+        }
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {E70484C1-08F4-4E58-99F8-FD68D1F500CE} = s 'Varec Accuload OPCServer Class'
+		{
+			ProgID = s 'Varec.AcculoadOPCServer.1'
+			VersionIndependentProgID = s 'Varec.AcculoadOPCServer'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{4BDC9779-8FEB-4C9A-B27F-9BF823497410}'
+		}
+	}
+}

@@ -1,0 +1,206 @@
+/******************************************************************************
+
+	FILE NAME:		DanielOPCObjects.idl
+
+
+	PURPOSE:			IDL source for DanielOPCObjects.dll
+
+
+	COMMENTS:
+
+		Copyright (C) Varec, Inc. Norcross, GA, USA, 2007
+
+		This file shall not be copied or reproduced in any form without
+				the express written consent of Varec.
+
+
+	AUTHOR(S):	W. Gray
+
+
+	VERSION:		1.0.1  Current version
+
+
+
+	MODIFICATION HISTORY:
+		Date:			By:			Reason:
+		---------	----------  -------------------------------------------
+*******************************************************************************/
+
+// This file will be processed by the MIDL tool to
+// produce the type library (DanielOPCObjects.tlb) and marshalling code.
+
+#include "mtxattr.h"
+#include "IComCollection.idl"
+#include "olectl.h"
+import "oaidl.idl";
+import "ocidl.idl";
+
+typedef enum DANLOAD_TYPE
+{
+	DANLOAD6000 = 0,
+	MAX_DANLOAD_TYPE = 1
+} DANLOAD_TYPE;
+
+typedef enum DANLOAD_BAUD
+{
+	DANLOAD_BAUD_1200 = 0,
+	DANLOAD_BAUD_2400 = 1,
+	DANLOAD_BAUD_4800 = 2,
+	DANLOAD_BAUD_9600 = 3,
+	DANLOAD_BAUD_19200 = 4,
+	DANLOAD_BAUD_38400 = 5,
+	MAX_DANLOAD_BAUD = 6
+} DANLOAD_BAUD;
+
+typedef enum DANLOAD_PARITY
+{
+	DANLOAD_PARITY_NONE = 0,
+	DANLOAD_PARITY_EVEN = 1,
+	DANLOAD_PARITY_ODD = 2,
+	MAX_DANLOAD_PARITY = 3
+} DANLOAD_PARITY;
+
+typedef enum DANLOAD_DATA_BITS
+{
+	DATA_BITS_7 = 0,
+	DATA_BITS_8 = 1,
+	MAX_DANLOAD_DATA_BITS = 2
+} DANLOAD_DATA_BITS;
+
+typedef enum DANLOAD_STOP_BITS
+{
+	STOP_BITS_1 = 0,
+	STOP_BITS_2 = 1,
+	MAX_DANLOAD_STOP_BITS = 2
+} DANLOAD_STOP_BITS;
+
+
+[
+	object,
+	uuid(24DEED9D-30F2-489E-87B3-964D428E42E9),
+	dual,
+	nonextensible,
+	helpstring("IPort Interface"),
+	pointer_default(unique)
+]
+interface IPort : IDispatch{
+	[propget, id(1), helpstring("property Index")] HRESULT Index([out, retval] LONG* pVal);
+	[propput, id(1), helpstring("property Index")] HRESULT Index([in] LONG newVal);
+	[propget, id(2), helpstring("property ID")] HRESULT ID([out, retval] BSTR* pVal);
+	[propput, id(2), helpstring("property ID")] HRESULT ID([in] BSTR newVal);
+	[propget, id(3), helpstring("property Baud")] HRESULT Baud([out, retval] DANLOAD_BAUD* pVal);
+	[propput, id(3), helpstring("property Baud")] HRESULT Baud([in] DANLOAD_BAUD newVal);
+	[propget, id(4), helpstring("property DataBits")] HRESULT DataBits([out, retval] DANLOAD_DATA_BITS* pVal);
+	[propput, id(4), helpstring("property DataBits")] HRESULT DataBits([in] DANLOAD_DATA_BITS newVal);
+	[propget, id(5), helpstring("property Parity")] HRESULT Parity([out, retval] DANLOAD_PARITY* pVal);
+	[propput, id(5), helpstring("property Parity")] HRESULT Parity([in] DANLOAD_PARITY newVal);
+	[propget, id(6), helpstring("property StopBits")] HRESULT StopBits([out, retval] DANLOAD_STOP_BITS* pVal);
+	[propput, id(6), helpstring("property StopBits")] HRESULT StopBits([in] DANLOAD_STOP_BITS newVal);
+	[id(7), helpstring("method BaudID")] HRESULT BaudID([in] DANLOAD_BAUD Baud,[out,retval] BSTR* pVal);
+	[id(8), helpstring("method DataBitsID")] HRESULT DataBitsID([in] DANLOAD_DATA_BITS DataBits,[out,retval] BSTR* pVal);
+	[id(9), helpstring("method ParityID")] HRESULT ParityID([in] DANLOAD_PARITY Parity,[out,retval] BSTR* pVal);
+	[id(10), helpstring("method StopBitsID")] HRESULT StopBitsID([in] DANLOAD_STOP_BITS StopBits,[out,retval] BSTR* pVal);
+	[id(11), helpstring("method Load")] HRESULT Load([in] IDispatch* pDispatch);
+	[id(12), helpstring("method Reset")] HRESULT Reset(void);
+	[propget, id(13), helpstring("property InsertSQL")] HRESULT InsertSQL([out, retval] BSTR* pVal);
+	[propget, id(14), helpstring("property UpdateSQL")] HRESULT UpdateSQL([out, retval] BSTR* pVal);
+	[propget, id(15), helpstring("property PurgeSQL")] HRESULT PurgeSQL([out, retval] BSTR* pVal);
+	[propget, id(16), helpstring("property SelectSQL")] HRESULT SelectSQL([out, retval] BSTR* pVal);
+	[propget, id(17), helpstring("property SelectByIDSQL")] HRESULT SelectByIDSQL([out, retval] BSTR* pVal);
+	[propget, id(18), helpstring("property EnumerateSQL")] HRESULT EnumerateSQL([out, retval] BSTR* pVal);
+};
+[
+	object,
+	uuid(4C6547E4-DFA5-4355-AF4D-A97E641B7ED8),
+	dual,
+	nonextensible,
+	helpstring("IDanLoad Interface"),
+	pointer_default(unique)
+]
+interface IDanLoad : IDispatch{
+	[propget, id(1), helpstring("property Index")] HRESULT Index([out, retval] LONG* pVal);
+	[propput, id(1), helpstring("property Index")] HRESULT Index([in] LONG newVal);
+	[propget, id(2), helpstring("property ID")] HRESULT ID([out, retval] BSTR* pVal);
+	[propput, id(2), helpstring("property ID")] HRESULT ID([in] BSTR newVal);
+	[propget, id(3), helpstring("property Type")] HRESULT Type([out, retval] DANLOAD_TYPE* pVal);
+	[propput, id(3), helpstring("property Type")] HRESULT Type([in] DANLOAD_TYPE newVal);
+	[propget, id(4), helpstring("property PortIndex")] HRESULT PortIndex([out, retval] LONG* pVal);
+	[propput, id(4), helpstring("property PortIndex")] HRESULT PortIndex([in] LONG newVal);
+	[propget, id(5), helpstring("property PortID")] HRESULT PortID([out, retval] BSTR* pVal);
+	[propput, id(5), helpstring("property PortID")] HRESULT PortID([in] BSTR newVal);
+	[propget, id(6), helpstring("property Address")] HRESULT Address([out, retval] unsigned char* pVal);
+	[propput, id(6), helpstring("property Address")] HRESULT Address([in] unsigned char newVal);
+	[id(7), helpstring("method TypeID")] HRESULT TypeID([in] DANLOAD_TYPE Type,[out,retval] BSTR* pVal);
+	[id(8), helpstring("method Load")] HRESULT Load([in] IDispatch* pDispatch);
+	[id(9), helpstring("method Reset")] HRESULT Reset(void);
+	[propget, id(10), helpstring("property InsertSQL")] HRESULT InsertSQL([out, retval] BSTR* pVal);
+	[propget, id(11), helpstring("property UpdateSQL")] HRESULT UpdateSQL([out, retval] BSTR* pVal);
+	[propget, id(12), helpstring("property PurgeSQL")] HRESULT PurgeSQL([out, retval] BSTR* pVal);
+	[propget, id(13), helpstring("property SelectSQL")] HRESULT SelectSQL([out, retval] BSTR* pVal);
+	[propget, id(14), helpstring("property SelectByIDSQL")] HRESULT SelectByIDSQL([out, retval] BSTR* pVal);
+	[propget, id(15), helpstring("property EnumerateSQL")] HRESULT EnumerateSQL([out, retval] BSTR* pVal);
+};
+[
+	object,
+	uuid(2AEBF73A-01C7-4A92-BB3F-0C366FA029B0),
+	dual,
+	nonextensible,
+	helpstring("IPortCollection Interface"),
+	pointer_default(unique)
+]
+interface IPortCollection : IDispatch{
+	DECLARE_COM_COLLECTION(IPort)
+};
+
+[
+	object,
+	uuid(1F782045-9027-4D15-BDEC-9994985F2AEE),
+	dual,
+	nonextensible,
+	helpstring("IDanLoadCollection Interface"),
+	pointer_default(unique)
+]
+interface IDanLoadCollection : IDispatch{
+	DECLARE_COM_COLLECTION(IDanLoad)
+};
+[
+	uuid(D783BBFF-74D7-4466-A2A8-A897AE458013),
+	version(1.0),
+	helpstring("DanielOPCObjects 1.0 Type Library")
+]
+library DanielOPCObjectsLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(B140A6E9-E0DD-4C4F-B973-630CCA43136D),
+		helpstring("Port Class")
+	]
+	coclass Port
+	{
+		[default] interface IPort;
+	};
+	[
+		uuid(B32780E5-1D56-4A71-8C4C-FFB8C7428888),
+		helpstring("DanLoad Class")
+	]
+	coclass DanLoad
+	{
+		[default] interface IDanLoad;
+	};
+	[
+		uuid(93ED554D-DE90-4090-A9E6-8CA89F97EAD1),
+		helpstring("PortCollection Class")
+	]
+	coclass PortCollection
+	{
+		[default] interface IPortCollection;
+	};
+	[
+		uuid(0CD850DB-6A02-4AF3-AAED-8FE6F7CFFA31),
+		helpstring("DanLoadCollection Class")
+	]
+	coclass DanLoadCollection
+	{
+		[default] interface IDanLoadCollection;
+	};
+};

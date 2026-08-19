@@ -1,0 +1,287 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CE205DE5-7765-4EAE-8F48-0228694455CA}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>XMLImport</AssemblyName>
+    <AssemblyOriginatorKeyFile>FMStrongNameKey.snk</AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>XMLImport</RootNamespace>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <SignAssembly>true</SignAssembly>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+    <PublishUrl>http://localhost/XMLImport/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.EnterpriseServices">
+      <Name>System.EnterpriseServices</Name>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="Unity.Abstractions, Version=3.3.1.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Unity.Abstractions.3.3.1\lib\net47\Unity.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Varec.CommonComponents.EngineeringUnitsLibrary">
+      <HintPath>..\..\Binaries\Varec.CommonComponents.EngineeringUnitsLibrary.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ConsumerTransferPopulater.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FillStandPopulater.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OwnerTransferPopulater.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PhysicalInventoryPopulater.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PrimaryAdjustmentPopulater.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PrimaryDefuelPopulater.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PrimaryDisbursementPopulater.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PrimaryRegradePopulater.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ReceiptPopulater.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RequestPopulater.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SecondaryAdjustmentPopulater.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SecondaryDefuelPopulater.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SecondaryDisbursementPopulater.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SecondaryRegradePopulater.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TransactionDOM.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TransactionFactory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TransactionPopulater.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TransactionPopulaterBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Type12Populater.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UnloadPopulater.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XMLImportProcessor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="FMStrongNameKey.snk" />
+    <None Include="packages.config" />
+    <None Include="Properties\DataSources\FMBusinessObjects.DataObjects.AlarmAndEventClass.datasource" />
+    <None Include="Properties\DataSources\FMBusinessObjects.DataObjects.AppointmentClass.datasource" />
+    <None Include="Properties\DataSources\FMBusinessObjects.DataObjects.CompanyClass.datasource" />
+    <None Include="Properties\DataSources\FMBusinessObjects.DataObjects.ControllerLogClass.datasource" />
+    <None Include="Properties\DataSources\FMBusinessObjects.DataObjects.DispatchTransactionsDO.datasource" />
+    <None Include="Properties\DataSources\FMBusinessObjects.DataObjects.EntityToSiteMapClass.datasource" />
+    <None Include="Properties\DataSources\FMBusinessObjects.DataObjects.EquipmentClass.datasource" />
+    <None Include="Properties\DataSources\FMBusinessObjects.DataObjects.EquipmentQualityTagLogClass.datasource" />
+    <None Include="Properties\DataSources\FMBusinessObjects.DataObjects.EquipmentTypeClass.datasource" />
+    <None Include="Properties\DataSources\FMBusinessObjects.DataObjects.FuelCardClass.datasource" />
+    <None Include="Properties\DataSources\FMBusinessObjects.DataObjects.GetTransactionDO.datasource" />
+    <None Include="Properties\DataSources\FMBusinessObjects.DataObjects.InventoryDateDO.datasource" />
+    <None Include="Properties\DataSources\FMBusinessObjects.DataObjects.PersonClass.datasource" />
+    <None Include="Properties\DataSources\FMBusinessObjects.DataObjects.ProductClass.datasource" />
+    <None Include="Properties\DataSources\FMBusinessObjects.DataObjects.QualityTagClass.datasource" />
+    <None Include="Properties\DataSources\FMBusinessObjects.DataObjects.SaveTransactionsResultDO.datasource" />
+    <None Include="Properties\DataSources\FMBusinessObjects.DataObjects.SecurityClass.datasource" />
+    <None Include="Properties\DataSources\FMBusinessObjects.DataObjects.SiteClass.datasource" />
+    <None Include="Properties\DataSources\FMBusinessObjects.DataObjects.StationClass.datasource" />
+    <None Include="Properties\DataSources\FMBusinessObjects.DataObjects.TankClass.datasource" />
+    <None Include="Properties\DataSources\FMBusinessObjects.DataObjects.TransactionAliasClass.datasource" />
+    <None Include="Properties\DataSources\FMBusinessObjects.DataObjects.TransactionAliasNameClass.datasource" />
+    <None Include="Properties\DataSources\FMBusinessObjects.DataObjects.TransactionDO.datasource" />
+    <None Include="Properties\DataSources\FMBusinessObjects.DataObjects.TransactionPIDXCollectionDO.datasource" />
+    <None Include="Properties\DataSources\FMBusinessObjects.DataObjects.UserClass.datasource" />
+    <None Include="Properties\DataSources\FMBusinessObjects.DataObjects.UserDataFieldClass.datasource" />
+    <None Include="Properties\DataSources\System.Data.DataSet.datasource" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\FMBusinessObjects\FMBusinessObjects.csproj">
+      <Project>{F3910E2B-3E67-4B25-874F-822EC69A6FEF}</Project>
+      <Name>FMBusinessObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\FMDepedencyManager\FMDepedencyManager.csproj">
+      <Project>{5F2AB5F2-AF9C-4829-B715-2EB7986B3417}</Project>
+      <Name>FMDepedencyManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\FMWebAPIBusinessLogic\FMWebAPIBusinessLogic.csproj">
+      <Project>{8B0FC199-CD96-43EC-A2F9-C2AF10BE4F0D}</Project>
+      <Name>FMWebAPIBusinessLogic</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>IF "$(TeamBuild)" == "true" (
+exit 0
+) ELSE (
+"$(SolutionDir)FMBuildUtils\GacUtil40\gacutil" /uf "$(TargetName)"
+"$(SolutionDir)FMBuildUtils\GacUtil40\gacutil" /i "$(TargetPath)"
+)</PostBuildEvent>
+  </PropertyGroup>
+</Project>

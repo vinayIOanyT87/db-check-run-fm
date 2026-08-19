@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<KyubitExport>
+  <ExportObject ObjectType="40">
+    <DashboardName>Prototype Dashboard</DashboardName>
+    <DashboardDesc>
+    </DashboardDesc>
+    <DashboardType>1</DashboardType>
+    <Layout>2</Layout>
+    <HeaderText>
+    </HeaderText>
+    <FooterText>
+    </FooterText>
+    <HeaderAlign>null</HeaderAlign>
+    <FooterAlign>left</FooterAlign>
+    <ColumnCount>1</ColumnCount>
+    <Options>PFNsaWRlc0RlbGF5PjE1PC9TbGlkZXNEZWxheT48U2xpZGVzQ2FjaGVUaW1lb3V0PjA8L1NsaWRlc0NhY2hlVGltZW91dD48Q29sb3JQYWxsZXRlPjA8L0NvbG9yUGFsbGV0ZT48VGlsZUJvcmRlcj50aWxlQm9yZGVyU2hhZG93U3F1YXJlPC9UaWxlQm9yZGVyPjxEYXNoYm9hcmRCYWNrZ3JvdW5kPiNmNWY1ZjU8L0Rhc2hib2FyZEJhY2tncm91bmQ+PER5bmFtaWNUaXRsZT4wPC9EeW5hbWljVGl0bGU+PEF1dG9TbGljaW5nPjA8L0F1dG9TbGljaW5nPjxMYXlvdXRXaWR0aD4xMDAwPC9MYXlvdXRXaWR0aD48TGF5b3V0SGVpZ2h0PjEyMDA8L0xheW91dEhlaWdodD48SGlkZUNvbnRpbnVlQW5hbHlzaXM+bnVsbDwvSGlkZUNvbnRpbnVlQW5hbHlzaXM+PEZpbHRlcnNIaWRkZW4+MDwvRmlsdGVyc0hpZGRlbj48RmlsdGVyc1BhbmVsV2lkdGg+MjUwPC9GaWx0ZXJzUGFuZWxXaWR0aD48TWVtYmVyQ29sb3JzIC8+PEZvbnRTaXplPjEyPC9Gb250U2l6ZT48Rm9udFNpemVMYWJlbHM+OTwvRm9udFNpemVMYWJlbHM+PEFsdExvZ28gLz48U2xpY2VycyAvPg==</Options>
+    <UNQ>125169bf-8ea2-41df-bea6-e7f39035c09f</UNQ>
+    <Dependency ObjectType="50" UNQ="372c450a-6cdd-4e35-bfe2-b6b54bda6c9b" />
+    <Tile>
+      <TileName>Analysis_GeoGrossQuantity</TileName>
+      <TileDesc>
+      </TileDesc>
+      <PresentationType>Geo_Map</PresentationType>
+      <ColumnNo>0</ColumnNo>
+      <ColumnOrder>0</ColumnOrder>
+      <Definition>PEN1c3RvbVVSTCAvPjxHZW9NYXA+d29ybGQ7V29ybGQ8L0dlb01hcD48U3BlY2lmaWNNZWFzdXJlVW5pcXVlIC8+PFNwZWNpZmljTWVhc3VyZVRpdGxlIC8+PG9wdF9kaXNwbGF5dmFsdWVzPlRvcFNob3J0NTwvb3B0X2Rpc3BsYXl2YWx1ZXM+PG9wdF9kb21pbmFudHNlcmllcz4wPC9vcHRfZG9taW5hbnRzZXJpZXM+PG9wdF9jb2xvcnBhbGxldGU+Mzwvb3B0X2NvbG9ycGFsbGV0ZT48b3B0X2xlZnQ+MDwvb3B0X2xlZnQ+PG9wdF90b3A+NDIwPC9vcHRfdG9wPjxvcHRfd2lkdGg+NjMwPC9vcHRfd2lkdGg+PG9wdF9oZWlnaHQ+NDAwPC9vcHRfaGVpZ2h0Pg==</Definition>
+      <MultiValueAnalysisID>52f82e42-c59b-49b9-bba7-8aba1476181a</MultiValueAnalysisID>
+      <MultiValueQueryID />
+      <KPIID />
+    </Tile>
+    <Dependency ObjectType="30" UNQ="52f82e42-c59b-49b9-bba7-8aba1476181a" />
+    <Tile>
+      <TileName>Analysis_GrossQuantityProductAlias</TileName>
+      <TileDesc>
+      </TileDesc>
+      <PresentationType>HeatMap</PresentationType>
+      <ColumnNo>0</ColumnNo>
+      <ColumnOrder>1</ColumnOrder>
+      <Definition>PEN1c3RvbVVSTCAvPjxTcGVjaWZpY01lYXN1cmVVbmlxdWUgLz48U3BlY2lmaWNNZWFzdXJlVGl0bGUgLz48b3B0X3Bpdm90dGlsZT4wPC9vcHRfcGl2b3R0aWxlPjxvcHRfZGlzcGxheXZhbHVlcz5Ob25lPC9vcHRfZGlzcGxheXZhbHVlcz48b3B0X2F4aXN0aXRsZXM+MDwvb3B0X2F4aXN0aXRsZXM+PG9wdF9yYW5nZWNvbG9ycz5AQEhpZ2gkJDUwMDAwMDAwMCQkI2Y1YzE0NyQkMTAwMDAwMDAwMCQkI2IwMmIxY0BATWVkaXVtJCQzMDAwMDAwMDAkJCNhOGZmYTQkJDUwMDAwMDAwMCQkIzA0NTMwMEBATG93JCQwJCQjNzNmN2Y3JCQzMDAwMDAwMDAkJCMxNDRiZGU8L29wdF9yYW5nZWNvbG9ycz48b3B0X3Nlcmllc2FnZ3JlZ2F0ZT5Ob25lPC9vcHRfc2VyaWVzYWdncmVnYXRlPjxvcHRfbGVmdD4wPC9vcHRfbGVmdD48b3B0X3RvcD44MzA8L29wdF90b3A+PG9wdF93aWR0aD4xMDEwPC9vcHRfd2lkdGg+PG9wdF9oZWlnaHQ+MzgwPC9vcHRfaGVpZ2h0Pg==</Definition>
+      <MultiValueAnalysisID>c44cfe8f-bd64-46f0-aa83-696161c8e333</MultiValueAnalysisID>
+      <MultiValueQueryID />
+      <KPIID />
+    </Tile>
+    <Dependency ObjectType="30" UNQ="c44cfe8f-bd64-46f0-aa83-696161c8e333" />
+    <Tile>
+      <TileName>KPI_PhysicalInventory</TileName>
+      <TileDesc>
+      </TileDesc>
+      <PresentationType>KPI</PresentationType>
+      <ColumnNo>0</ColumnNo>
+      <ColumnOrder>2</ColumnOrder>
+      <Definition>PEN1c3RvbVVSTCAvPjxTcGVjaWZpY01lYXN1cmVVbmlxdWUgLz48U3BlY2lmaWNNZWFzdXJlVGl0bGUgLz48b3B0X2NvbG9ybWV0ZXI+Tm9uZTwvb3B0X2NvbG9ybWV0ZXI+PG9wdF9nYXVnZWxhc3RjaGFuZ2U+Tm9uZTwvb3B0X2dhdWdlbGFzdGNoYW5nZT48b3B0X2dhdWdla3BpPk5vbmU8L29wdF9nYXVnZWtwaT48b3B0X2dhdWdlcG9pbnRlcj4xPC9vcHRfZ2F1Z2Vwb2ludGVyPjxvcHRfYW5pbWxhc3Q+U2hvdzwvb3B0X2FuaW1sYXN0PjxvcHRfbGVmdD4wPC9vcHRfbGVmdD48b3B0X3RvcD4wPC9vcHRfdG9wPjxvcHRfd2lkdGg+NDAwPC9vcHRfd2lkdGg+PG9wdF9oZWlnaHQ+MTIwPC9vcHRfaGVpZ2h0Pg==</Definition>
+      <MultiValueAnalysisID />
+      <MultiValueQueryID />
+      <KPIID>fb708aec-b7d9-49aa-a808-70a24d889e2c</KPIID>
+    </Tile>
+    <Dependency ObjectType="70" UNQ="fb708aec-b7d9-49aa-a808-70a24d889e2c" />
+    <Tile>
+      <TileName>KPI_PhysicalInventory (2)</TileName>
+      <TileDesc>
+      </TileDesc>
+      <PresentationType>Gauge_Meter</PresentationType>
+      <ColumnNo>0</ColumnNo>
+      <ColumnOrder>3</ColumnOrder>
+      <Definition>PEN1c3RvbVVSTCAvPjxTcGVjaWZpY01lYXN1cmVVbmlxdWUgLz48U3BlY2lmaWNNZWFzdXJlVGl0bGUgLz48b3B0X2NvbG9ybWV0ZXI+Q29tcGxldGU8L29wdF9jb2xvcm1ldGVyPjxvcHRfZ2F1Z2VsYXN0Y2hhbmdlPk5vbmU8L29wdF9nYXVnZWxhc3RjaGFuZ2U+PG9wdF9nYXVnZWtwaT5Ob25lPC9vcHRfZ2F1Z2VrcGk+PG9wdF9nYXVnZXBvaW50ZXI+MTwvb3B0X2dhdWdlcG9pbnRlcj48b3B0X2xlZnQ+MDwvb3B0X2xlZnQ+PG9wdF90b3A+MTMwPC9vcHRfdG9wPjxvcHRfd2lkdGg+NDAwPC9vcHRfd2lkdGg+PG9wdF9oZWlnaHQ+MjkwPC9vcHRfaGVpZ2h0Pg==</Definition>
+      <MultiValueAnalysisID />
+      <MultiValueQueryID />
+      <KPIID>fb708aec-b7d9-49aa-a808-70a24d889e2c</KPIID>
+    </Tile>
+    <Dependency ObjectType="70" UNQ="fb708aec-b7d9-49aa-a808-70a24d889e2c" />
+    <Tile>
+      <TileName>KPI_PhysicalInventory02</TileName>
+      <TileDesc>
+      </TileDesc>
+      <PresentationType>Gauge_Meter</PresentationType>
+      <ColumnNo>0</ColumnNo>
+      <ColumnOrder>4</ColumnOrder>
+      <Definition>PEN1c3RvbVVSTCAvPjxTcGVjaWZpY01lYXN1cmVVbmlxdWUgLz48U3BlY2lmaWNNZWFzdXJlVGl0bGUgLz48b3B0X2NvbG9ybWV0ZXI+Q29tcGxldGU8L29wdF9jb2xvcm1ldGVyPjxvcHRfZ2F1Z2VsYXN0Y2hhbmdlPk5vbmU8L29wdF9nYXVnZWxhc3RjaGFuZ2U+PG9wdF9nYXVnZWtwaT5Ob25lPC9vcHRfZ2F1Z2VrcGk+PG9wdF9nYXVnZXBvaW50ZXI+MTwvb3B0X2dhdWdlcG9pbnRlcj48b3B0X2xlZnQ+NDIwPC9vcHRfbGVmdD48b3B0X3RvcD4wPC9vcHRfdG9wPjxvcHRfd2lkdGg+NDcwPC9vcHRfd2lkdGg+PG9wdF9oZWlnaHQ+MjUwPC9vcHRfaGVpZ2h0Pg==</Definition>
+      <MultiValueAnalysisID />
+      <MultiValueQueryID />
+      <KPIID>d80e82f5-174a-4c45-afae-dfc8f3ab017d</KPIID>
+    </Tile>
+    <Dependency ObjectType="70" UNQ="d80e82f5-174a-4c45-afae-dfc8f3ab017d" />
+    <OLAPFilterMembers>PEZpbHRlcj48RGF0YVNvdXJjZUlEPjM3MmM0NTBhLTZjZGQtNGUzNS1iZmUyLWI2YjU0YmRhNmM5YjwvRGF0YVNvdXJjZUlEPjxIaWVyYXJjaHk+W1Byb2R1Y3RdLltQcm9kdWN0IElkXTwvSGllcmFyY2h5PjxIaWVyYXJjaHlDYXB0aW9uPlByb2R1Y3QgSWQ8L0hpZXJhcmNoeUNhcHRpb24+PFNlbGVjdGVkTWVtYmVycz5bUHJvZHVjdF0uW1Byb2R1Y3QgSWRdLiZhbXA7WzEyNjMwXSw8L1NlbGVjdGVkTWVtYmVycz48U2VsZWN0ZWRNZW1iZXJzVGl0bGVzPjEyNjMwISEhPC9TZWxlY3RlZE1lbWJlcnNUaXRsZXM+PE91dHB1dFBhcmFtZXRlcj48L091dHB1dFBhcmFtZXRlcj48RmlsdGVySW5wdXRUeXBlPjwvRmlsdGVySW5wdXRUeXBlPjxVc2VXSEVSRWNsYXVzZT48L1VzZVdIRVJFY2xhdXNlPjxFeGNlcHRTZWxlY3RlZD48L0V4Y2VwdFNlbGVjdGVkPjwvRmlsdGVyPg==</OLAPFilterMembers>
+  </ExportObject>
+</KyubitExport>

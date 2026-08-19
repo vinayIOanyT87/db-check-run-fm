@@ -1,0 +1,368 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0502C3DC-4F60-4936-B5D7-A6AE5709F3E6}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DataImportExportWizard</RootNamespace>
+    <AssemblyName>DataImportExportWizard</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>DataImportExportWizard.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>FMStrongNameKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CmdLine">
+      <HintPath>..\..\Binaries\CmdLine.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.4.369, Culture=neutral, PublicKeyToken=1b03e6acf1164f73">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Binaries\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.CAPICOM, Version=2.1.0.0, Culture=neutral, PublicKeyToken=5c365e6b1443fb6f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\Binaries\Interop.CAPICOM.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.ConnectionInfo, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft SQL Server\100\SDK\Assemblies\Microsoft.SqlServer.ConnectionInfo.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Management.Sdk.Sfc, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft SQL Server\100\SDK\Assemblies\Microsoft.SqlServer.Management.Sdk.Sfc.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Smo, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft SQL Server\100\SDK\Assemblies\Microsoft.SqlServer.Smo.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.SmoExtended, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft SQL Server\100\SDK\Assemblies\Microsoft.SqlServer.SmoExtended.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.SqlEnum, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft SQL Server\100\SDK\Assemblies\Microsoft.SqlServer.SqlEnum.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Constants\CryptConstants.cs" />
+    <Compile Include="Constants\DataImportExportActionType.cs" />
+    <Compile Include="Constants\Guids.cs" />
+    <Compile Include="Interfaces\IMigrationForm.cs" />
+    <Compile Include="Interfaces\ILoggerService.cs" />
+    <Compile Include="InternalClasses\Logger\BaseTarget.cs" />
+    <Compile Include="InternalClasses\Logger\LogFile.cs" />
+    <Compile Include="InternalClasses\Logger\LoggerImpl.cs" />
+    <Compile Include="InternalClasses\Logger\LogMessage.cs" />
+    <Compile Include="InternalClasses\Logger\LogQueue.cs" />
+    <Compile Include="InternalClasses\Logger\LogWriter.cs" />
+    <Compile Include="InternalClasses\LogClient\ILogger.cs" />
+    <Compile Include="InternalClasses\LogClient\Logger.cs" />
+    <Compile Include="InternalClasses\LogClient\StopWatch.cs" />
+    <Compile Include="InternalClasses\MigrationFormBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InternalClasses\MigrationFormBase.Designer.cs">
+      <DependentUpon>MigrationFormBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AutoApplicationContext.cs" />
+    <Compile Include="ReEncryptPasswordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReEncryptPasswordForm.Designer.cs">
+      <DependentUpon>ReEncryptPasswordForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Constants\WizardStepType.cs" />
+    <Compile Include="InternalClasses\DataImportExportWizardOption.cs" />
+    <Compile Include="Program.Options.cs" />
+    <Compile Include="Constants\StringConstants.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StringConstants.resx</DependentUpon>
+    </Compile>
+    <Compile Include="FinalPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FinalPage.Designer.cs">
+      <DependentUpon>FinalPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InternalClasses\BaseExport.cs" />
+    <Compile Include="InternalClasses\BaseImport.cs" />
+    <Compile Include="InternalClasses\EnterpriseExport.cs" />
+    <Compile Include="InternalClasses\EnterpriseImport.cs" />
+    <Compile Include="InternalClasses\ImportExportBase.cs" />
+    <Compile Include="SeventhPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SeventhPage.Designer.cs">
+      <DependentUpon>SeventhPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SixthPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SixthPage.Designer.cs">
+      <DependentUpon>SixthPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StatusProcessingUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StatusProcessingUserControl.Designer.cs">
+      <DependentUpon>StatusProcessingUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ThirdPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ThirdPage.Designer.cs">
+      <DependentUpon>ThirdPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FourthPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FourthPage.Designer.cs">
+      <DependentUpon>FourthPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FifthPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FifthPage.Designer.cs">
+      <DependentUpon>FifthPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccess\DAService.cs" />
+    <Compile Include="DataImportExportWizardSheet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataImportExportWizardSheet.Designer.cs">
+      <DependentUpon>DataImportExportWizardSheet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExistingSites.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExistingSites.Designer.cs">
+      <DependentUpon>ExistingSites.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FirstPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FirstPage.Designer.cs">
+      <DependentUpon>FirstPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ErrorPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ErrorPage.Designer.cs">
+      <DependentUpon>ErrorPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SecondPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SecondPage.Designer.cs">
+      <DependentUpon>SecondPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UtilityObjects\AppSettingsHelper.cs" />
+    <Compile Include="UtilityObjects\LoggerServiceClass.cs" />
+    <Compile Include="WelcomePage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="WelcomePage.Designer.cs">
+      <DependentUpon>WelcomePage.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Constants\StringConstants.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>StringConstants.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReEncryptPasswordForm.resx">
+      <DependentUpon>ReEncryptPasswordForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FinalPage.resx">
+      <DependentUpon>FinalPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeventhPage.resx">
+      <DependentUpon>SeventhPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SixthPage.resx">
+      <DependentUpon>SixthPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StatusProcessingUserControl.resx">
+      <DependentUpon>StatusProcessingUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ThirdPage.resx">
+      <DependentUpon>ThirdPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FourthPage.resx">
+      <DependentUpon>FourthPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FifthPage.resx">
+      <DependentUpon>FifthPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataImportExportWizardSheet.resx">
+      <DependentUpon>DataImportExportWizardSheet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExistingSites.resx">
+      <DependentUpon>ExistingSites.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FirstPage.resx">
+      <DependentUpon>FirstPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ErrorPage.resx">
+      <DependentUpon>ErrorPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="SecondPage.resx">
+      <DependentUpon>SecondPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WelcomePage.resx">
+      <DependentUpon>WelcomePage.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="FMStrongNameKey.snk" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="UpgradeEncryption.cmd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\SharedComponents\EncryptionLibrary\Crypt\Crypt.csproj">
+      <Project>{00e3fab7-cf2c-4468-a9b9-4ed849043861}</Project>
+      <Name>Crypt</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SharedComponents\Wizard.UI\Wizard.UI.csproj">
+      <Project>{3024540d-30f2-4c0a-92ae-e09a6fe2b380}</Project>
+      <Name>Wizard.UI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DBScripts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Instructions.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

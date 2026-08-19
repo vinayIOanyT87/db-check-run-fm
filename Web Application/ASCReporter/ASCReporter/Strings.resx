@@ -1,0 +1,275 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CreateAviationAuthorizationsTable" xml:space="preserve">
+    <value>CREATE TABLE ##ASC_AVIATION_REFUELER_AUTHORIZATION (
+	[ndx] [int] IDENTITY (1, 1) NOT NULL ,
+	[SpecialFuel] [nvarchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[PeacetimeVATC400] [float] NULL ,
+	[PeacetimeVATC1800] [float] NULL ,
+	[PeacetimeVATC2700] [float] NULL ,
+	[PeacetimeVATC3500] [float] NULL ,
+	[PeacetimeVATC3501] [float] NULL ,
+	[PeacetimeVATA] [int] NULL ,
+	[PeacetimeVATB] [int] NULL ,
+	[PeacetimeVATH] [int] NULL ,
+	[PeacetimeVATJ] [int] NULL ,
+	[PeacetimeVATK] [int] NULL ,
+	[PeacetimeVATL] [int] NULL ,
+	[PeacetimeVATM] [int] NULL ,
+	[PeacetimeVATN] [int] NULL ,
+	[PeacetimeVATP] [int] NULL ,
+	[PeacetimeVATQ] [int] NULL ,
+	[PeacetimeVATX] [int] NULL ,
+	[PeacetimeOther] [int] NULL ,
+	[WartimeVATC400] [int] NULL ,
+	[WartimeVATC1800] [int] NULL ,
+	[WartimeVATC2700] [int] NULL ,
+	[WartimeVATC3500] [int] NULL ,
+	[WartimeVATC3501] [int] NULL ,
+	[WartimeHydrantUsage] [float] NULL ,
+	[WartimeVATA] [int] NULL ,
+	[WartimeVATB] [int] NULL ,
+	[WartimeVATH] [int] NULL ,
+	[WartimeVATJ] [int] NULL ,
+	[WartimeVATK] [int] NULL ,
+	[WartimeVATL] [int] NULL ,
+	[WartimeVATM] [int] NULL ,
+	[WartimeVATN] [int] NULL ,
+	[WartimeVATP] [int] NULL ,
+	[WartimeVATQ] [int] NULL ,
+	[WartimeVATX] [int] NULL ,
+	[WartimeOther] [int] NULL ,
+)</value>
+  </data>
+  <data name="CreateAviationProductClassTable" xml:space="preserve">
+    <value>CREATE TABLE #ASC_AVIATIONPRODUCT_CLASS (
+	[ndx] [int] IDENTITY (1,1) NOT NULL, [Grade] [nchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[Class] [nvarchar] (10) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL)</value>
+  </data>
+  <data name="CreateDefuelActivityTable" xml:space="preserve">
+    <value>CREATE TABLE #DefuelActivity
+   (
+   REQUEST_DATE datetime NOT NULL,
+   totalruncount int NOT NULL)</value>
+  </data>
+  <data name="CreateDefuelExcludedDaysShadowTable" xml:space="preserve">
+    <value>CREATE TABLE #ASC_DEFUEL_EXCLUDED_DAYS_SHADOW (
+	[ndx] [int],
+	[SpecialFuel] [nvarchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[ExcludedDay] [datetime] NOT NULL ,
+)</value>
+  </data>
+  <data name="CreateDefuelExcludedDaysTable" xml:space="preserve">
+    <value>CREATE TABLE #ASC_DEFUEL_EXCLUDED_DAYS (
+	[ndx] [int] IDENTITY (1, 1),
+	[SpecialFuel] [nvarchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[ExcludedDay] [datetime] NOT NULL ,
+)</value>
+  </data>
+  <data name="CreateFuelingPeakDaysTable" xml:space="preserve">
+    <value>CREATE TABLE ##ASC_FUELING_PEAK_DAYS (
+	[ndx] [int] IDENTITY (1, 1) ,
+	[FuelingType] [nvarchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL , -- Ground, Refuel, Defuel
+	[SpecialFuel] [nvarchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL , -- Special, Standard, Diesel, Unleaded, Leaded
+	[PeakDay] [datetime] NOT NULL ,
+	[Total] [int] NOT NULL,
+	[Refuel400] [int] NOT NULL,
+	[Refuel1800] [int] NOT NULL ,
+	[Refuel2700] [int] NOT NULL ,
+	[Refuel3500] [int] NOT NULL ,
+	[Refuel3501] [int] NOT NULL ,
+)</value>
+  </data>
+  <data name="CreateGroundActivityTable" xml:space="preserve">
+    <value>CREATE TABLE #GroundActivity
+   (
+   REQUEST_DATE datetime NOT NULL,
+   totalquantity float  NOT NULL)</value>
+  </data>
+  <data name="CreateGroundExcludedDaysShadowTable" xml:space="preserve">
+    <value>CREATE TABLE #ASC_GROUND_EXCLUDED_DAYS_SHADOW (
+	[ndx] [int] NOT NULL ,
+	[FuelType] [nvarchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[ExcludedDay] [datetime] NOT NULL ,
+)</value>
+  </data>
+  <data name="CreateGroundExcludedDaysTable" xml:space="preserve">
+    <value>CREATE TABLE #ASC_GROUND_EXCLUDED_DAYS (
+	[ndx] [int] IDENTITY (1, 1) NOT NULL ,
+	[FuelType] [nvarchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[ExcludedDay] [datetime] NOT NULL ,
+)</value>
+  </data>
+  <data name="CreateGroundProductClassTable" xml:space="preserve">
+    <value>CREATE TABLE #ASC_GROUNDPRODUCT_CLASS (
+	[ndx] [int] IDENTITY(1,1) NOT NULL, [Grade] [nchar] (3) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[Class] [nvarchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL)</value>
+  </data>
+  <data name="CreateRefuelActivityTable" xml:space="preserve">
+    <value>CREATE TABLE #RefuelActivity
+   (
+   REQUEST_DATE datetime NOT NULL,
+   totalruncount int NOT NULL,
+   run400count int NOT NULL,
+   run1800count int NOT NULL,
+   run2700count int NOT NULL,
+   run3500count int NOT NULL,
+   run3501count int NOT NULL
+   )</value>
+  </data>
+  <data name="CreateRefuelExcludedDaysShadowTable" xml:space="preserve">
+    <value>CREATE TABLE #ASC_REFUEL_EXCLUDED_DAYS_SHADOW (
+	[ndx] [int],
+	[SpecialFuel] [nvarchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[ExcludedDay] [datetime] NOT NULL ,
+)</value>
+  </data>
+  <data name="CreateRefuelExcludedDaysTable" xml:space="preserve">
+    <value>CREATE TABLE #ASC_REFUEL_EXCLUDED_DAYS (
+	[ndx] [int] IDENTITY (1, 1),
+	[SpecialFuel] [nvarchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[ExcludedDay] [datetime] NOT NULL ,
+)</value>
+  </data>
+  <data name="DieselMaxCaption" xml:space="preserve">
+    <value>Max 1 Day of Heating/Diesel Fuel
+Gallon Amount</value>
+  </data>
+  <data name="DropDefuelExcludedDaysShadowTable" xml:space="preserve">
+    <value>DROP TABLE #ASC_DEFUEL_EXCLUDED_DAYS_SHADOW</value>
+  </data>
+  <data name="DropGroundExcludedDaysShadowTable" xml:space="preserve">
+    <value>DROP TABLE #ASC_GROUND_EXCLUDED_DAYS_SHADOW</value>
+  </data>
+  <data name="DropRefuelExcludedDaysShadowTable" xml:space="preserve">
+    <value>DROP TABLE #ASC_REFUEL_EXCLUDED_DAYS_SHADOW</value>
+  </data>
+  <data name="LeadedMaxCaption" xml:space="preserve">
+    <value>Max 1 Day of Leaded Gasoline
+Gallon Amount</value>
+  </data>
+  <data name="UnleadedMaxCaption" xml:space="preserve">
+    <value>Max 1 Day of Unleaded Gasoline
+Gallon Amount</value>
+  </data>
+  <data name="WaitCloseDatabaseAccess" xml:space="preserve">
+    <value>Please wait until the database query has finished before closing the dialog.</value>
+  </data>
+</root>

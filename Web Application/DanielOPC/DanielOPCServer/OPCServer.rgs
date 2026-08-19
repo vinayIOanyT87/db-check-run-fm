@@ -1,0 +1,31 @@
+HKCR
+{
+	Varec.DanielOPCServer.1 = s 'Varec Daniel OPCServer Class'
+	{
+		CLSID = s '{9E033B12-2D79-41db-8AC0-D8EBF45A5B6A}'
+	}
+	Varec.DanielOPCServer = s 'Varec Daniel OPCServer Class'
+	{
+		CLSID = s '{9E033B12-2D79-41db-8AC0-D8EBF45A5B6A}'
+		CurVer = s 'Varec.DanielOPCServer.1'
+      OPC
+      {
+         Vendor = s 'Varec'
+      }
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {9E033B12-2D79-41db-8AC0-D8EBF45A5B6A} = s 'Varec Daniel OPCServer Class'
+		{
+			ProgID = s 'Varec.DanielOPCServer.1'
+			VersionIndependentProgID = s 'Varec.DanielOPCServer'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{4B9EC677-DB8A-4A49-B644-02BB18FA0809}'
+		}
+	}
+}

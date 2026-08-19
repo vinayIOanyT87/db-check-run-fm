@@ -1,0 +1,27 @@
+HKCR
+{
+	ContrecOPCObjects.Contrec.1 = s 'Contrec Class'
+	{
+		CLSID = s '{8A6F9478-08B3-47FC-B016-4BCCF709EE8F}'
+	}
+	ContrecOPCObjects.Contrec = s 'Contrec Class'
+	{
+		CLSID = s '{8A6F9478-08B3-47FC-B016-4BCCF709EE8F}'
+		CurVer = s 'ContrecOPCObjects.Contrec.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {8A6F9478-08B3-47FC-B016-4BCCF709EE8F} = s 'Contrec Class'
+		{
+			ProgID = s 'ContrecOPCObjects.Contrec.1'
+			VersionIndependentProgID = s 'ContrecOPCObjects.Contrec'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{C31FF61C-5215-4A9F-A438-A426227D15A0}'
+		}
+	}
+}

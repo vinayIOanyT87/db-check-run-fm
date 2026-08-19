@@ -1,0 +1,27 @@
+HKCR
+{
+	Varec.ContrecOPCServer.1 = s 'OPCServer Class'
+	{
+		CLSID = s '{AF670D94-703A-4993-B1DF-1ABEA195A294}'
+	}
+	Varec.ContrecOPCServer = s 'Varec Contrec OPCServer Class'
+	{
+		CLSID = s '{AF670D94-703A-4993-B1DF-1ABEA195A294}'
+		CurVer = s 'Varec.ContrecOPCServer.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {AF670D94-703A-4993-B1DF-1ABEA195A294} = s 'Varec Contrec OPCServer Class'
+		{
+			ProgID = s 'Varec.ContrecOPCServer.1'
+			VersionIndependentProgID = s 'Varec.ContrecOPCServer'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{827959BA-0A20-493C-9EE1-8D007BF8C73B}'
+		}
+	}
+}

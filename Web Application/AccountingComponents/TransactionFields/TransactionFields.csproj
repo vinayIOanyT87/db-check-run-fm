@@ -1,0 +1,1046 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F4826516-FD4C-4BF1-9917-ACE6D59D8F70}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>TransactionFields</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>TransactionFields</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+    <PublishUrl>http://localhost/TransactionFields/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\FMBusinessObjects\FMBusinessObjects.csproj">
+      <Project>{F3910E2B-3E67-4B25-874F-822EC69A6FEF}</Project>
+      <Name>FMBusinessObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SharedComponents\FMControls\FMControls.csproj">
+      <Project>{ca977939-220e-4069-bc51-8530cd9350ce}</Project>
+      <Name>FMControls</Name>
+    </ProjectReference>
+    <Reference Include="AjaxControlToolkit, Version=3.0.30512.14583, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Binaries\AjaxControlToolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.EnterpriseServices">
+      <Name>System.EnterpriseServices</Name>
+    </Reference>
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web">
+      <Name>System.Web</Name>
+    </Reference>
+    <Reference Include="System.Web.Extensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Varec.CommonComponents.EngineeringUnitsLibrary">
+      <HintPath>..\..\Binaries\Varec.CommonComponents.EngineeringUnitsLibrary.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Varec.CommonComponents.VolumeCorrection">
+      <HintPath>..\..\Binaries\Varec.CommonComponents.VolumeCorrection.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdditionalInformationFG.cs" />
+    <Compile Include="ADFTransactionDateTimeFG.cs" />
+    <Compile Include="AGRBeginQuantity.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AGRFinalQuantity.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AGRGridGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AGRQuantityGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AGRRequestedQuantity.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AGR_CompartmentID.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AssociatedCLINFG.cs" />
+    <Compile Include="AssociatedDocumentNumberFG.cs" />
+    <Compile Include="AssocTxControl.cs" />
+    <Compile Include="AutoCompleteFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BaseEquipmentFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BillToFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BrokenBlendFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BulkPaymentNumber.cs" />
+    <Compile Include="CardExpirationFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CardNameFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CardNumberFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CardTypeFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CarrierFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CashAmountFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CheckBoxGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CloseoutDateFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CompanyTextButtonGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CompartmentTextButtonGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ConjoinedTransIdFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ContactFirstNameFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ContactInfoFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ContactSurnameFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CountryFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CreatedByFG.cs" />
+    <Compile Include="CreatedDateFG.cs" />
+    <Compile Include="CreditAmountFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CustomCheckBoxGenerator.cs" />
+    <Compile Include="CustomTextButtonGenerator.cs" />
+    <Compile Include="Date01FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Date02FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Date03FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Date04FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DateGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DateTimeGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DeleteFlagFG.cs" />
+    <Compile Include="DensityUnitFG.cs" />
+    <Compile Include="DestinationEquipmentFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DestinationEquipmentModelFG.cs" />
+    <Compile Include="DestinationEquipmentTypeFG.cs" />
+    <Compile Include="DestinationSerialNumberFG.cs" />
+    <Compile Include="DispatchedDateTimeFG.cs" />
+    <Compile Include="DocumentNumberFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DriverIdentificationNumberFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DropDownGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EffectiveDateFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EquipmentTextBoxGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EquipmentTypeFG.cs" />
+    <Compile Include="ErrorFlagFG.cs" />
+    <Compile Include="EstimatedFuelingDurationFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ETA_FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ETD_FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ExpirationDateFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FieldConfiguration.cs" />
+    <Compile Include="FieldGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FinalStationFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Flag01FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Flag02FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Flag03FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Flag04FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Flag05FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Flag06FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FlowUnitFG.cs" />
+    <Compile Include="FMFieldRequiredException.cs" />
+    <Compile Include="FromBillToFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FromCarrierFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FromManagerFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FromOwnerFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FromShipToFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FromSourceEquipmentFG.cs" />
+    <Compile Include="FST_FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FuelAdditiveFlagFG.cs" />
+    <Compile Include="FuelCardFG.cs" />
+    <Compile Include="FuelTimeFG.cs" />
+    <Compile Include="GateFG.cs" />
+    <Compile Include="GaugeReadingsUnitConverter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HeaderEquipmentFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IHeaderField.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ILineItemField.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ImproperAdditizationFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InterfaceData01FG.cs" />
+    <Compile Include="InterfaceData02FG.cs" />
+    <Compile Include="InterfaceData03FG.cs" />
+    <Compile Include="InterfaceData04FG.cs" />
+    <Compile Include="InterfaceData05FG.cs" />
+    <Compile Include="InterfaceData06FG.cs" />
+    <Compile Include="InterfaceData07FG.cs" />
+    <Compile Include="InterfaceData08FG.cs" />
+    <Compile Include="InternationalRouteFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InventoryDateFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <None Include="app.config" />
+    <None Include="InvoiceNumberFG.cs" />
+    <Compile Include="InvoiceQueryFG.cs" />
+    <Compile Include="IssuePointFG.cs" />
+    <Compile Include="IssuePointNumberFG.cs" />
+    <Compile Include="ISublineItemField.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ITransportLineItemField.cs" />
+    <Compile Include="IWeightReadingField.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegacyNumberFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LevelUnitFG.cs" />
+    <Compile Include="LineItemAcknowledgedDateTime.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemAdditiveProfileIDFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemAlternativeGrossVolumeFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemAlternativeNetVolumeFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemAlternativeUnitsFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemArmNumberFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemBaseCostFG.cs" />
+    <Compile Include="LineItemBatchNumberFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemBottomVolumeFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemCleanLineDeductItemFG.cs" />
+    <Compile Include="LineItemCleanLineDeductQuantityFG.cs" />
+    <Compile Include="LineItemCleanLineItemFG.cs" />
+    <Compile Include="LineItemCleanLinePackQuantityFG.cs" />
+    <Compile Include="LineItemCLIN_FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemCloseoutDateFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemCOAIDFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemCOANoteFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemCOAWaiverFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemCompartmentsEmptyFG.cs" />
+    <Compile Include="LineItemCompartmentsPreviouslyLoadedFG.cs" />
+    <Compile Include="LineItemCompletionDateTimeFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemContaminatePromptFG.cs" />
+    <Compile Include="LineItemContractNumberFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemCurrencyUnitFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemCurrencyUnitLabelFG.cs" />
+    <Compile Include="LineItemCustomsFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemDate01FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemDate02FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemDate03FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemDate04FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemDeliveredGrossManualValueFlagFG.cs" />
+    <Compile Include="LineItemDeliveredGrossQuantityFG.cs" />
+    <Compile Include="LineItemDeliveredNetManualValueFlagFG.cs" />
+    <Compile Include="LineItemDeliveredNetQuantityFG.cs" />
+    <Compile Include="LineItemDeliveryLocationFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemDeliveryLocationLabelFG.cs" />
+    <Compile Include="LineItemDensityFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemDensityUnitFG.cs" />
+    <Compile Include="LineItemDestinationCompartmentID_FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemDestinationEquipmentFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemDifferentialPressureFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemDispatchedDateTimeFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemDocumentNumberFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemEndDeliveryDateFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemEngineeringUnitsIndexFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemEngUnitFG.cs" />
+    <Compile Include="LineItemEquipmentFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemEquipmentTypeFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemExchangeRateFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemFlag01FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemFlag02FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemFlag03FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemFlag04FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemFlag05FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemFlag06FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemFlowUnitFG.cs" />
+    <Compile Include="LineItemFreezePointFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemFromProductFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemFromStorageLocationFG.cs" />
+    <Compile Include="LineItemGridGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemGrossManualValueFlagFG.cs" />
+    <Compile Include="LineItemGrossQuantityFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemGrossQuantityReceivedFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemGrossQuantityRemainingFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemInvoiceLineNumberFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemInvoiceNumberFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemLevelUnitFG.cs" />
+    <Compile Include="LineItemLineFillFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemLineNumberFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemLoadingLocationFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemLoadRackVarianceFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemMassFG.cs" />
+    <Compile Include="LineItemMassManualValueFlagFG.cs" />
+    <Compile Include="LineItemMassPackageSizeFG.cs" />
+    <Compile Include="LineItemMassQuantityFG.cs" />
+    <Compile Include="LineItemMassReceivedFG.cs" />
+    <Compile Include="LineItemMassRemainingFG.cs" />
+    <Compile Include="LineItemMassUnitFG.cs" />
+    <Compile Include="LineItemMeterFactorFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemMeterID_FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemMeterStartFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemMeterStartTimeFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemMeterStopFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemMeterStopTime.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemMeterTotalFG.cs" />
+    <Compile Include="LineItemNetCapacityFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemNetManualValueFlagFG.cs" />
+    <Compile Include="LineItemNetQuantityFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemNetQuantityReceivedFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemNetQuantityRemainingFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemNetVolumeIndicatorFG.cs" />
+    <Compile Include="LineItemNonDomesticPriceFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemNoteFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemNumber01FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemNumber02FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemNumber03FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemNumber04FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemNumber05FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemNumber06FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemOdometerFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemOdometerHoursFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemOnCostFG.cs" />
+    <Compile Include="LineItemOnLocationTimeFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemOperatorFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemPackageManualValueFlagFG.cs" />
+    <Compile Include="LineItemPackageQuantityFG.cs" />
+    <Compile Include="LineItemParentFuelOrderNumberFG.cs" />
+    <Compile Include="LineItemParentReceiptNumberFG.cs" />
+    <Compile Include="LineItemPartialFillFG.cs" />
+    <Compile Include="LineItemPitFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemPresetAmountFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemPressureFG.cs" />
+    <Compile Include="LineItemPressureUnitFG.cs" />
+    <Compile Include="LineItemProductFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemProductPriceFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemProductsLabelFG.cs" />
+    <Compile Include="LineItemQualityTestNumberFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemReceiptVarianceFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemRequestedByFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemRequestedDateTimeFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemRequestedDeliveryDateFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemSelectedQualityFG.cs" />
+    <Compile Include="LineItemSequenceNumberFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemSourceCompartmentID_FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemSourceEquipmentFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemSpecialInstructionFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemStorageLocationFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemTankLevelFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemTankLevelUnitsFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemTankStatusFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemTax1FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemTax2FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemTax3FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemTax4FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemTax5FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemTemperatureFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemTemperatureUnitFG.cs" />
+    <Compile Include="LineItemToProductFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemToStorageLocationFG.cs" />
+    <Compile Include="LineItemTotalForeignPriceFG.cs" />
+    <Compile Include="LineItemTotalOnCostFG.cs" />
+    <Compile Include="LineItemTotalPriceWithTaxFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemTotalValueFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemTransactionQualityFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemTransactionStatusFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemUserDataListFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemUserDataTextFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemValidationDateTimeFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemValueRemainingFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemVarianceFG.cs" />
+    <Compile Include="LineItemVcfFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemVcfManualValueFlagFG.cs" />
+    <Compile Include="LineItemVolumeFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LineItemVolumePackageSizeFG.cs" />
+    <Compile Include="LineItemVolumeUnitFG.cs" />
+    <Compile Include="MassUnitFG.cs" />
+    <Compile Include="LineItemParentDocumentNumberFG.cs" />
+    <Compile Include="MeterIDTextButtonGenerator.cs" />
+    <Compile Include="OperatorNameFG.cs" />
+    <Compile Include="ParentUserData03FG.cs" />
+    <Compile Include="ParentTextFieldGenerator.cs" />
+    <Compile Include="PressureUnitFG.cs" />
+    <Compile Include="RadioNumberFG.cs" />
+    <Compile Include="ReasonCodeFG.cs" />
+    <Compile Include="ResponseTimeFG.cs" />
+    <Compile Include="ROSupplierFG.cs" />
+    <Compile Include="TemperatureUnitFG.cs" />
+    <Compile Include="TextField.cs" />
+    <Compile Include="TotalForeignPriceFG.cs" />
+    <Compile Include="TotalMassQuantityFG.cs" />
+    <Compile Include="TotalOnCostFG.cs" />
+    <Compile Include="EngUnitFG.cs" />
+    <Compile Include="TransactionErrorFG.cs" />
+    <Compile Include="VolumeUnitFG.cs" />
+    <Compile Include="LinkedDocumentNumberFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LoadID_FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ManagerFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NextStationFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NotesFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Number01FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Number02FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Number03FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Number04FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Number05FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Number06FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NumericTextFieldGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OperatorID_FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OperatorTextButtonGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OriginApplicationFG.cs" />
+    <Compile Include="OriginStationFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OwnerFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PONFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PreviousRoutingID_FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PreviousStationFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ProductTextButtonGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="QuantityReceivedFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ReadyForPaymentFG.cs" />
+    <Compile Include="RequestedDateTimeFG.cs" />
+    <Compile Include="RequestedDeliveryDateFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ReversalTypeFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ReversedTransID_FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RouteOriginationDateFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RouteStationGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RoutingID_FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SCACCodeFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ScheduledDateFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SFT_FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ShipmentNumberFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ShipperFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ShippingDocumentNumberFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ShipToFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SiteFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceEquipmentFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SourceEquipmentModelFG.cs" />
+    <Compile Include="SourceEquipmentTypeFG.cs" />
+    <Compile Include="SourceSerialNumberFG.cs" />
+    <Compile Include="STA_FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="STD_FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SubmittedToAccountingFG.cs" />
+    <Compile Include="SupplierFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TankTextButtonGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TextFieldGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TicketMode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TicketSourceFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TimeEndFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TimeInFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TimeOutFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ToBillToFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ToCarrierFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ToManagerFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ToOwnerFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ToShipToFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TotalExciseFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TotalGrossQuantityFG.cs" />
+    <Compile Include="TotalGSTFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TotalMarkupFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TotalNetQuantityFG.cs" />
+    <Compile Include="TotalPriceAmountFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TotalPriceWithTaxFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AssociatedTransportOrderNumberFG.cs" />
+    <Compile Include="TransportCompanyComboBoxGeneratorBase.cs" />
+    <Compile Include="TransportInfoGridGenerator.cs" />
+    <Compile Include="TransactionContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TransactionDateTimeFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TransactionFieldGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TransactionStatusFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TransactionTypeFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TransactionUserFieldGenerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TransAliasFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TransID_FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TransportAddress1FG.cs" />
+    <Compile Include="TransportAddress2FG.cs" />
+    <Compile Include="TransportCityFG.cs" />
+    <Compile Include="TransportLocationNameFG.cs" />
+    <Compile Include="TransportOrderNumberFG.cs" />
+    <Compile Include="TransportPOCNameFG.cs" />
+    <Compile Include="TransportPOCPhoneFG.cs" />
+    <Compile Include="TransportStateFG.cs" />
+    <Compile Include="TransportZipFG.cs" />
+    <Compile Include="TransReferenceID_FG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UpdateDateFG.cs" />
+    <Compile Include="UpdatedByFG.cs" />
+    <Compile Include="UserDataListFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UserDataTextFG.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

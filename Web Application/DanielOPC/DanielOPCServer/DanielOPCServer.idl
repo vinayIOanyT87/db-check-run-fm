@@ -1,0 +1,101 @@
+// DanielOPCServer.idl : IDL source for DanielOPCServer
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (DanielOPCServer.tlb) and marshalling code.
+
+#include "mtxattr.h"
+import "oaidl.idl";
+import "ocidl.idl";
+import "opcda.idl";
+
+[
+	object,
+	uuid(1218B83B-2946-41C8-BE64-7AF687989104),
+	dual,
+	nonextensible,
+	helpstring("IDataAccess Interface"),
+	pointer_default(unique)
+]
+interface IDataAccess : IDispatch{
+	[id(1), helpstring("method GetRecordSet")] HRESULT GetRecordSet(BSTR bstrSQL, [out,retval] IDispatch** ppRecordSet);
+	[id(2), helpstring("method ExecuteQuery")] HRESULT ExecuteQuery(BSTR bstrSQL);
+};
+[
+	object,
+	uuid(C836DAF6-6EF0-492D-9DB8-4E1CFDE58003),
+	dual,
+	nonextensible,
+	helpstring("IDanLoads Interface"),
+	pointer_default(unique)
+]
+interface IDanLoads : IDispatch{
+	[id(1), helpstring("method Enumerate")] HRESULT Enumerate([out,retval] IDispatch** ppAcculoadCollection);
+	[id(2), helpstring("method Add")] HRESULT Add([in] IDispatch* pAccuload,[out,retval] LONG* pIndex);
+	[id(3), helpstring("method Modify")] HRESULT Modify([in] IDispatch* pAccuload);
+	[id(4), helpstring("method Purge")] HRESULT Purge([in] LONG lIndex);
+	[id(5), helpstring("method GetIndex")] HRESULT GetIndex([in] BSTR bstrID, [out,retval] LONG* pIndex);
+	[id(6), helpstring("method Get")] HRESULT Get([in] LONG lIndex, [out,retval] IDispatch** ppAccuload);
+};
+[
+	object,
+	uuid(6F92560C-9F70-4176-9311-6A0C3387FEB7),
+	dual,
+	nonextensible,
+	helpstring("IPorts Interface"),
+	pointer_default(unique)
+]
+interface IPorts : IDispatch{
+	[id(1), helpstring("method Enumerate")] HRESULT Enumerate([out,retval] IDispatch** ppCardReaderCollection);
+	[id(2), helpstring("method Add")] HRESULT Add([in] IDispatch* pCardReader,[out,retval] LONG* pIndex);
+	[id(3), helpstring("method Modify")] HRESULT Modify([in] IDispatch* pCardReader);
+	[id(4), helpstring("method Purge")] HRESULT Purge([in] LONG lIndex);
+	[id(5), helpstring("method GetIndex")] HRESULT GetIndex([in] BSTR bstrID, [out,retval] LONG* pIndex);
+	[id(6), helpstring("method Get")] HRESULT Get([in] LONG lIndex, [out,retval] IDispatch** ppCardReader);
+	[id(7), helpstring("method EnumeratePortIDs")] HRESULT EnumeratePortIDs([out,retval] VARIANT* pIDs);
+};
+[
+	uuid(4B9EC677-DB8A-4A49-B644-02BB18FA0809),
+	version(1.0),
+	helpstring("DanielOPCServer 1.0 Type Library")
+]
+library DanielOPCServerLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(6FFB871D-D415-48BA-8765-C67C60025028),
+		custom(TLBATTR_TRANS_SUPPORTED,0),
+		helpstring("DataAccess Class")
+	]
+	coclass DataAccess
+	{
+		[default] interface IDataAccess;
+	};
+	[
+		uuid(54F57ECB-6111-4A9A-AFA6-ABC5B3C4FF59),
+		custom(TLBATTR_TRANS_REQUIRED,0),
+		helpstring("DanLoads Class")
+	]
+	coclass DanLoads
+	{
+		[default] interface IDanLoads;
+	};
+	[
+		uuid(265331A0-40D0-4DEC-B614-1A21CDC5CC1F),
+		custom(TLBATTR_TRANS_REQUIRED,0),
+		helpstring("Ports Class")
+	]
+	coclass Ports
+	{
+		[default] interface IPorts;
+	};
+	[
+		uuid(9E033B12-2D79-41db-8AC0-D8EBF45A5B6A),
+		helpstring("OPCServer Class")
+	]
+	coclass OPCServer
+	{
+		[default] interface IOPCServer;
+		interface IOPCBrowseServerAddressSpace;
+	};
+};

@@ -1,0 +1,27 @@
+HKCR
+{
+	AcculoadOPCObjects.ArmCollection.1 = s 'ArmCollection Class'
+	{
+		CLSID = s '{FBFF08AB-D838-41FB-ACB3-6CA87D4BF5FD}'
+	}
+	AcculoadOPCObjects.ArmCollection = s 'ArmCollection Class'
+	{
+		CLSID = s '{FBFF08AB-D838-41FB-ACB3-6CA87D4BF5FD}'
+		CurVer = s 'AcculoadOPCObjects.ArmCollection.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {FBFF08AB-D838-41FB-ACB3-6CA87D4BF5FD} = s 'ArmCollection Class'
+		{
+			ProgID = s 'AcculoadOPCObjects.ArmCollection.1'
+			VersionIndependentProgID = s 'AcculoadOPCObjects.ArmCollection'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{3E903A1B-9024-481B-B125-92A3C6BB042A}'
+		}
+	}
+}

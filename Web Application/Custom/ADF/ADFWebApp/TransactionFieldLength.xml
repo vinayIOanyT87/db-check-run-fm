@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TxConfiguration>
+  <TxFieldLengths>
+    <FieldLength fieldName="LineItemUserData3" length="10" Desc="Total Foreign Price" TxAlias="Direct Fuel Purchase" />
+    <FieldLength fieldName="LineItemUserData3" length="10" Desc="Total Foreign Price" TxAlias="Commercial" />
+    <FieldLength fieldName="LineItemUserData2" length="10" Desc="Total Price (AUD)" TxAlias="Direct Fuel Purchase" />
+    <FieldLength fieldName="LineItemUserData2" length="10" Desc="Total Price (AUD)" TxAlias="Commercial" />
+	  <FieldLength fieldName="LineItemUserData14" length="10" Desc="On-Cost" TxAlias="Invoice" />
+	  <FieldLength fieldName="LineItemUserData14" length="10" Desc="On-Cost" TxAlias="Sale (Aviation)" />
+	  <FieldLength fieldName="LineItemUserData14" length="10" Desc="On-Cost" TxAlias="Sale (Marine)" />
+	  <FieldLength fieldName="LineItemUserData14" length="10" Desc="On-Cost" TxAlias="Sale (Ground)" />
+	  <FieldLength fieldName="LineItemUserData14" length="10" Desc="On-Cost" TxAlias="Recovery" />
+  </TxFieldLengths>
+  <TxConditionalFields>
+    <ConditionalField Conditional="False" TxAlias="" fieldName="" Desc="" />
+  </TxConditionalFields>
+  <TxTransferDisplayNames>
+    <TxTransferDisplayName TxAlias="" fieldName="" fromName="" toName="" toRequired="False"></TxTransferDisplayName>
+  </TxTransferDisplayNames>
+  <TxFieldGlossaryExemptions>
+    <GlossaryExemption fieldName="" Exempt="False" />
+  </TxFieldGlossaryExemptions>
+</TxConfiguration>

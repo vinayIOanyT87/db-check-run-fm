@@ -1,0 +1,27 @@
+HKCR
+{
+	ContrecOPCObjects.Port.1 = s 'Port Class'
+	{
+		CLSID = s '{3C30C23A-8C48-4CC2-B992-9AFAD5394D8E}'
+	}
+	ContrecOPCObjects.Port = s 'Port Class'
+	{
+		CLSID = s '{3C30C23A-8C48-4CC2-B992-9AFAD5394D8E}'
+		CurVer = s 'ContrecOPCObjects.Port.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {3C30C23A-8C48-4CC2-B992-9AFAD5394D8E} = s 'Port Class'
+		{
+			ProgID = s 'ContrecOPCObjects.Port.1'
+			VersionIndependentProgID = s 'ContrecOPCObjects.Port'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{C31FF61C-5215-4A9F-A438-A426227D15A0}'
+		}
+	}
+}

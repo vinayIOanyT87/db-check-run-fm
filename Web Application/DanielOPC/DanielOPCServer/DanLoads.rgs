@@ -1,0 +1,27 @@
+HKCR
+{
+	DanielOPCServer.DanLoads.1 = s 'DanLoads Class'
+	{
+		CLSID = s '{54F57ECB-6111-4A9A-AFA6-ABC5B3C4FF59}'
+	}
+	DanielOPCServer.DanLoads = s 'DanLoads Class'
+	{
+		CLSID = s '{54F57ECB-6111-4A9A-AFA6-ABC5B3C4FF59}'
+		CurVer = s 'DanielOPCServer.DanLoads.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {54F57ECB-6111-4A9A-AFA6-ABC5B3C4FF59} = s 'DanLoads Class'
+		{
+			ProgID = s 'DanielOPCServer.DanLoads.1'
+			VersionIndependentProgID = s 'DanielOPCServer.DanLoads'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Both'
+			}
+			val AppID = s '%APPID%'
+			'TypeLib' = s '{4B9EC677-DB8A-4A49-B644-02BB18FA0809}'
+		}
+	}
+}

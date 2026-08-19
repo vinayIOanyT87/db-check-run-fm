@@ -1,0 +1,171 @@
+﻿CREATE TABLE [dbo].[tblAggProductByTransDay](
+	[index] [int] IDENTITY(1,1) NOT NULL,
+	[SiteGuid] UNIQUEIDENTIFIER NOT NULL,
+	[TransDate] [date] NOT NULL,
+	[ProductGuid] UNIQUEIDENTIFIER NOT NULL,
+	[Total] [float] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[index] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 70) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+CREATE TRIGGER [dbo].[trg_Audit_del_tblAggProductByTransDay] ON [dbo].[tblAggProductByTransDay] AFTER DELETE 
+AS
+BEGIN
+	SET NOCOUNT ON;
+	-- Verifies whether the trigger is active based on configuration and Audit
+	-- rules which are resolved by the User Defined Function [fmaudit].[udf_DisableTriggerByAuditRule]
+	IF [fmaudit].[udf_DisableTriggerByAuditRule]('dbo','tblAggProductByTransDay','D')=1 
+		RETURN
+	DECLARE @_AuditEventType CHAR(1)
+	,	@_AuditEventSequence TINYINT
+	,	@_AuditSessionGUID UNIQUEIDENTIFIER
+	,	@_AuditSessionTokenID UNIQUEIDENTIFIER
+	,	@_AuditSiteGUID UNIQUEIDENTIFIER
+	,	@_AuditGUID UNIQUEIDENTIFIER
+	,	@_AuditDateTime DATETIMEOFFSET
+	,	@_UserId NVARCHAR(100)
+	,	@_AuditContext varbinary(128);
+	SET @_AuditDateTime = SYSDATETIMEOFFSET();
+	SET @_AuditEventType= 'D'; -- For Deletes 
+	SET @_AuditEventSequence= 1; 
+	SELECT	@_AuditSessionGUID=s.SessionGuid 
+		,	@_AuditSessionTokenID=s.SessionTokenID 
+		,	@_AuditSiteGUID=s.SiteGuid
+		,	@_UserId=u.UserId
+		,	@_AuditContext=s.SynchronizationNodeGuid
+	FROM map.tblSessionToSQLProcess m 
+	INNER JOIN  tblSessions s ON m.SessionGuid=s.SessionGuid 
+	LEFT JOIN dbo.tblUsers u ON u.UserGuid=s.UserGuid 
+	WHERE m.SqlServerSessionID=@@SPID;
+
+	-- If the changes were made as a result of a trigger being fired, then the update was not being done as a result of a synchronized changed directly to this table. 
+	-- Treat the change as a local change so it can be synchronized back to the remote system. 
+	IF ((SELECT trigger_nestlevel()) > 1) 
+	BEGIN 
+		SET @_AuditContext = NULL 
+	END 
+
+	-- If it has been determined that this trigger is being fired in response to the synchronization process propagating changes from one system to another, 
+	-- do not audit the changes.  When tblAuditLog is synchronized, it will contain the original audit event(s) any and all changes to this record. 
+	IF (@_AuditContext IS NOT NULL) 
+	BEGIN 
+		RETURN
+	END
+
+	IF @_UserId IS NULL
+		SET @_UserId = SUSER_NAME()
+	INSERT INTO [fmaudit].tblAggProductByTransDay (
+		[index]
+	,	[SiteGuid]
+	,	[TransDate]
+	,	[ProductGuid]
+	,	[Total]
+	,	[_AuditEventType]
+	,	[_AuditEventSequence]
+	,	[_AuditSessionGUID]
+	,	[_AuditSessionTokenID]
+	,	[_AuditCreatedDate]
+	,	[_AuditSiteGUID]
+	,	[_AuditGUID]
+	,	[_AuditUserId]
+	,	[_AuditContext]
+	)
+	SELECT 
+		d.[index]
+	,	d.[SiteGuid]
+	,	d.[TransDate]
+	,	d.[ProductGuid]
+	,	d.[Total]
+	,	@_AuditEventType
+	,	@_AuditEventSequence
+	,	@_AuditSessionGUID
+	,	@_AuditSessionTokenID
+	,	@_AuditDateTime
+	,	@_AuditSiteGUID
+	,	NEWID()
+	,	@_UserId
+	,	@_AuditContext
+	FROM deleted d
+END
+GO
+CREATE TRIGGER [dbo].[trg_Audit_ins_tblAggProductByTransDay] ON [dbo].[tblAggProductByTransDay] AFTER INSERT 
+AS
+BEGIN
+	SET NOCOUNT ON;
+	-- Verifies whether the trigger is active based on configuration and Audit
+	-- rules which are resolved by the User Defined Function [fmaudit].[udf_DisableTriggerByAuditRule]
+	IF [fmaudit].[udf_DisableTriggerByAuditRule]('dbo','tblAggProductByTransDay','D')=1 
+		RETURN
+	DECLARE @_AuditEventType CHAR(1)
+	,	@_AuditEventSequence TINYINT
+	,	@_AuditSessionGUID UNIQUEIDENTIFIER
+	,	@_AuditSessionTokenID UNIQUEIDENTIFIER
+	,	@_AuditSiteGUID UNIQUEIDENTIFIER
+	,	@_AuditGUID UNIQUEIDENTIFIER
+	,	@_AuditDateTime DATETIMEOFFSET
+	,	@_UserId NVARCHAR(100)
+	,	@_AuditContext varbinary(128);
+	SET @_AuditDateTime = SYSDATETIMEOFFSET();
+	SET @_AuditEventType= 'I' -- For Inserts 
+	SET @_AuditEventSequence= 1 
+	SELECT	@_AuditSessionGUID=s.SessionGuid 
+		,	@_AuditSessionTokenID=s.SessionTokenID 
+		,	@_AuditSiteGUID=s.SiteGuid
+		,	@_UserId=u.UserId
+		,	@_AuditContext=s.SynchronizationNodeGuid
+	FROM map.tblSessionToSQLProcess m 
+	INNER JOIN  tblSessions s ON m.SessionGuid=s.SessionGuid 
+	LEFT JOIN dbo.tblUsers u ON u.UserGuid=s.UserGuid 
+	WHERE m.SqlServerSessionID=@@SPID 
+
+	-- If the changes were made as a result of a trigger being fired, then the update was not being done as a result of a synchronized changed directly to this table. 
+	-- Treat the change as a local change so it can be synchronized back to the remote system. 
+	IF ((SELECT trigger_nestlevel()) > 1) 
+	BEGIN 
+		SET @_AuditContext = NULL 
+	END 
+
+	-- If it has been determined that this trigger is being fired in response to the synchronization process propagating changes from one system to another, 
+	-- do not audit the changes.  When tblAuditLog is synchronized, it will contain the original audit event(s) any and all changes to this record. 
+	IF (@_AuditContext IS NOT NULL) 
+	BEGIN 
+		RETURN
+	END
+
+	IF @_UserId IS NULL
+		SET @_UserId = SUSER_NAME()
+	INSERT INTO [fmaudit].tblAggProductByTransDay (
+		[index]
+	,	[SiteGuid]
+	,	[TransDate]
+	,	[ProductGuid]
+	,	[Total]
+	,	[_AuditEventType]
+	,	[_AuditEventSequence]
+	,	[_AuditSessionGUID]
+	,	[_AuditSessionTokenID]
+	,	[_AuditCreatedDate]
+	,	[_AuditSiteGUID]
+	,	[_AuditGUID]
+	,	[_AuditUserId]
+	,	[_AuditContext]
+	)
+	SELECT 
+		i.[index]
+	,	i.[SiteGuid]
+	,	i.[TransDate]
+	,	i.[ProductGuid]
+	,	i.[Total]
+	,	@_AuditEventType
+	,	@_AuditEventSequence
+	,	@_AuditSessionGUID
+	,	@_AuditSessionTokenID
+	,	@_AuditDateTime
+	,	@_AuditSiteGUID
+	,	NEWID()
+	,	@_UserId
+	,	@_AuditContext
+	FROM inserted i
+END

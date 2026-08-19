@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<KyubitExport>
+  <ExportObject ObjectType="30">
+    <AnalysisType>1</AnalysisType>
+    <Title>SH_DWLastLoadDate</Title>
+    <Description>
+    </Description>
+    <AnalysisDefinition>PEFuYWx5c2lzRGVmaW5pdGlvbj48TWVhc3VyZXM+PE1lYXN1cmUgTWVhc3VyZVRpdGxlPSJUcmFuc2FjdGlvbkNvdW50IiBNZWFzdXJlVW5pcXVlPSJbTWVhc3VyZXNdLltUcmFuc2FjdGlvbkNvdW50XSIgTWVhc3VyZUFnZ3JlZ2F0ZT0iMSIgLz48L01lYXN1cmVzPjxSb3dUcmVlPjxBeGlzU2V0IExldmVsPSJbU3lzdGVtIEluZm9dLltMYXN0IFJlZnJlc2ggRGF0ZV0uW0xhc3QgUmVmcmVzaCBEYXRlXSIgLz48Um93TGV2ZWxzPjxMZXZlbCBMZXZlbFVuaXF1ZT0iW1N5c3RlbSBJbmZvXS5bTGFzdCBSZWZyZXNoIERhdGVdLltMYXN0IFJlZnJlc2ggRGF0ZV0iIExldmVsVGl0bGU9Ikxhc3QgUmVmcmVzaCBEYXRlIiAvPjwvUm93TGV2ZWxzPjwvUm93VHJlZT48Q29sdW1uVHJlZSAvPjxBbGxGaWx0ZXJzIC8+PExldmVsUHJvcGVydHlEZWZpbml0aW9ucyAvPjxBbGxDYWxjdWxhdGVkTWVtYmVycyAvPjxBbGxBZEhvY0xldmVsTURYIC8+PEdlbmVyYWxzIFNldE5vbkVtcHR5PSJUcnVlIiBTaG93VG90YWxzPSJTdW0iIE1lYXN1cmVHcm91cEZpbHRlcj0iIiBTYXZlZExDSUQ9IjAiIEFQVmVyc2lvbj0iNi40LjAuMCIgQWdncmVnYXRlT3BlcmF0aW9uPSIxIiBDb2x1bW5XaWR0aD0iMSIgQ2F0ZWdvcnlDb2x1bW5XaWR0aD0iMSIgQ2F0ZWdvcnlXaWR0aEV4cGxpY2l0PSJbU3lzdGVtIEluZm9dLltMYXN0IFJlZnJlc2ggRGF0ZV0uW0xhc3QgUmVmcmVzaCBEYXRlXSMjIzIzNyIgU2hvd0FnZ3JlZ2F0ZUFzU2VyaWVzPSJGYWxzZSIgVmFsdWVCYXI9IiIgUmVwb3J0Q29udGludWVBbmFseXNpcz0iMSIgUmVwb3J0QWRkRmlsdGVycz0iMSIgUGVla0NhdGVnb3J5PSIiIFBlZWtTZXJpZXM9IiIgVG9nZ2xlQXJlYXM9IjE7MTsxIiBDYWxjdWxhdGVkTWVtYmVyc0JlaGF2aW9yPSIwIiBJc1RpbWVJbnRlbGxpZ2VuY2VDYXRlZ29yeT0iRmFsc2UiIE1lbWJlclByb3BlcnRpZXNUaXRsZXM9IkZhbHNlIiAvPjxDaGFydERlc2lnbiBDaGFydFR5cGU9IjEwIiBDaGFydFRoZW1lPSIwIiBFbmFibGUzRD0iRmFsc2UiIFBhbGxldGU9IjEyIiBTZW1pVHJhbnNwYXJlbnQ9IkZhbHNlIiBTaG93VmFsdWVzPSJGYWxzZSIgUGllRGV0YWlscz0iQ2F0ZWdvcmllc1BlcmNlbnRhZ2UiIC8+PEZvcm1hdHRpbmcgLz48L0FuYWx5c2lzRGVmaW5pdGlvbj4=</AnalysisDefinition>
+    <Definition>
+    </Definition>
+    <OverallFilters>
+    </OverallFilters>
+    <LevelDefinitions>
+    </LevelDefinitions>
+    <GridChartCombination>1</GridChartCombination>
+    <UNQ>9686cda5-fb01-4940-a6a2-7f5998a67885</UNQ>
+    <Dependency ObjectType="50" UNQ="372c450a-6cdd-4e35-bfe2-b6b54bda6c9b" />
+  </ExportObject>
+  <ExportObject ObjectType="50">
+    <DataSourceName>FuelsManagerDWClient</DataSourceName>
+    <Type>1</Type>
+    <ConnString>__fLQOo8TAx0fA2JVrPkp+UMtQySxKp5uKKjmuIsrx4aCJ8reaXtV12C3QflLq7HVufgsH2/XbNgLhR2V3h3Wo+w==</ConnString>
+    <Server>1552PWC-HB\NEPTUNE</Server>
+    <DBName>FuelsManager DW Client</DBName>
+    <UserName>
+    </UserName>
+    <Password>
+    </Password>
+    <Status>
+    </Status>
+    <UNQ>372c450a-6cdd-4e35-bfe2-b6b54bda6c9b</UNQ>
+  </ExportObject>
+</KyubitExport>

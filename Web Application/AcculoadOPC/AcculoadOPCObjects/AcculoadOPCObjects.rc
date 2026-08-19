@@ -1,0 +1,156 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "1 TYPELIB ""AcculoadOPCObjects.tlb""\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 9,0,0,0
+ PRODUCTVERSION 9,0,0,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904e4"
+        BEGIN
+            VALUE "CompanyName", "Varec, Inc."
+            VALUE "FileDescription", "AcculoadOPCObjects"
+            VALUE "FileVersion", "9.0.0.0"
+            VALUE "InternalName", "AcculoadOPCObjects.dll"
+            VALUE "LegalCopyright", "(c) Varec, Inc.  All rights reserved."
+            VALUE "OriginalFilename", "AcculoadOPCObjects.dll"
+            VALUE "ProductName", "AcculoadOPCObjects"
+            VALUE "ProductVersion", "9.0.0.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// REGISTRY
+//
+
+IDR_ACCULOADOPCOBJECTS  REGISTRY                "AcculoadOPCObjects.rgs"
+
+IDR_ACCULOAD            REGISTRY                "Accuload.rgs"
+
+IDR_ACCULOADCOLLECTION  REGISTRY                "AcculoadCollection.rgs"
+
+IDR_ARM                 REGISTRY                "Arm.rgs"
+
+IDR_ARMCOLLECTION       REGISTRY                "ArmCollection.rgs"
+IDR_PORT                REGISTRY                "Port.rgs"
+
+IDR_PORTCOLLECTION      REGISTRY                "PortCollection.rgs"
+
+IDR_MICROLOAD           REGISTRY                "Microload.rgs"
+
+IDR_MICROLOADCOLLECTION REGISTRY                "MicroloadCollection.rgs"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_PROJNAME            "AcculoadOPCObjects"
+    IDS_STRAIGHT            "Straight"
+    IDS_SEQUENTIAL          "Sequential"
+    IDS_RATIO               "Ratio"
+    IDS_ACCULOAD_2_STD      "Accuload 2 STD"
+    IDS_ACCULOAD_2_SEQ      "Accuload 2 SEQ"
+    IDS_ACCULOAD_2_RBM      "Accuload 2 RBM"
+    IDS_ACCULOAD_III_Q      "Accuload III-Q/IV"
+    IDS_UNDEFINED           "Undefined"
+    IDS_SIDE_STREAM         "Side Stream"
+    IDS_UNLOADING           "Offloading"
+    IDS_MULTILOAD_II_SMP    "Multiload II SMP"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_ACCULOAD_III_SA     "Accuload III-SA"
+    IDS_MULTILOAD_II        "Multiload II"
+    IDS_SMITH_PROXIMITY     "Smith Proximity"
+    IDS_RCU_II_OPEN         "RCU II - Open Protocol"
+    IDS_RCU_II_MULTILOAD    "RCU II - RCU Protocol"
+    IDS_NONE                "None"
+    IDS_MICROLOAD_NET       "Microload.net"
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+1 TYPELIB "AcculoadOPCObjects.tlb"
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

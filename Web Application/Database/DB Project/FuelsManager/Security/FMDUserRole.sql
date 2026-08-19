@@ -1,0 +1,3 @@
+﻿CREATE ROLE [FMDUserRole]
+    AUTHORIZATION [dbo];
+

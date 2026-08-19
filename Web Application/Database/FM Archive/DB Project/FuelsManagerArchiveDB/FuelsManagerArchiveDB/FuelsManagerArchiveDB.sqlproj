@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>FuelsManagerArchiveDB</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{6e53ddcc-3d3d-4bbc-bf27-98215420299d}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>FuelsManagerArchiveDB</RootNamespace>
+    <AssemblyName>FuelsManagerArchiveDB</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="dbo" />
+    <Folder Include="dbo\Tables" />
+    <Folder Include="dbo\User Defined Types" />
+    <Folder Include="lookup" />
+    <Folder Include="staging" />
+    <Folder Include="staging\Functions" />
+    <Folder Include="staging\Stored Procedures" />
+    <Folder Include="Security\" />
+    <Folder Include="lookup\Tables\" />
+    <Folder Include="Scripts\" />
+    <Folder Include="staging\Tables\" />
+    <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="Storage" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Security\staging.sql" />
+    <Build Include="dbo\User Defined Types\udtUserID.sql" />
+    <Build Include="dbo\Tables\tblAlarmAndEventLog.sql" />
+    <Build Include="dbo\Tables\tblAlarmAndEvents.sql" />
+    <Build Include="dbo\Tables\tblAuditLog.sql" />
+    <Build Include="dbo\Tables\tblExportResultDetails.sql" />
+    <Build Include="dbo\Tables\tblTransactionLineItems.sql" />
+    <Build Include="dbo\Tables\tblExportResults.sql" />
+    <Build Include="dbo\Tables\tblTransactionLineItemUserData.sql" />
+    <Build Include="dbo\Tables\tblTransactionLinks.sql" />
+    <Build Include="dbo\Tables\tblTransactionNotes.sql" />
+    <Build Include="dbo\Tables\tblTransactionPIDX.sql" />
+    <Build Include="dbo\Tables\tblTransactions.sql" />
+    <Build Include="dbo\Tables\tblTransactionSignature.sql" />
+    <Build Include="dbo\Tables\tblTransactionSubLineItems.sql" />
+    <Build Include="dbo\Tables\tblTransactionTransportLineItems.sql" />
+    <Build Include="dbo\Tables\tblTransactionUserData.sql" />
+    <Build Include="dbo\Tables\tblTransactionWeightReadings.sql" />
+    <Build Include="Security\lookup.sql" />
+    <Build Include="lookup\Tables\tblActivationStatus.sql" />
+    <Build Include="lookup\Tables\tblAggregateField.sql" />
+    <Build Include="lookup\Tables\tblAirplaneTankLocation.sql" />
+    <Build Include="lookup\Tables\tblAirplaneTankToleranceType.sql" />
+    <Build Include="lookup\Tables\tblAllocationType.sql" />
+    <Build Include="lookup\Tables\tblApplicationStringType.sql" />
+    <Build Include="lookup\Tables\tblAssetTrackingDeviceType.sql" />
+    <Build Include="lookup\Tables\tblAssetTrackingMessageState.sql" />
+    <Build Include="lookup\Tables\tblAssetTrackingPayloadType.sql" />
+    <Build Include="lookup\Tables\tblChangeQueueRecordType.sql" />
+    <Build Include="lookup\Tables\tblCompanyCrossReferenceType.sql" />
+    <Build Include="lookup\Tables\tblCompanyMapType.sql" />
+    <Build Include="lookup\Tables\tblCompanyRole.sql" />
+    <Build Include="lookup\Tables\tblConsortiumType.sql" />
+    <Build Include="lookup\Tables\tblCurrencyUnit.sql" />
+    <Build Include="lookup\Tables\tblCustomToolbarCommandType.sql" />
+    <Build Include="lookup\Tables\tblCustomToolbarType.sql" />
+    <Build Include="lookup\Tables\tblDayOfWeek.sql" />
+    <Build Include="lookup\Tables\tblDeviceTankType.sql" />
+    <Build Include="lookup\Tables\tblDispatchGridColumnType.sql" />
+    <Build Include="lookup\Tables\tblDispatchGridType.sql" />
+    <Build Include="lookup\Tables\tblEngineeringUnit.sql" />
+    <Build Include="lookup\Tables\tblEquipmentType.sql" />
+    <Build Include="lookup\Tables\tblExportResultType.sql" />
+    <Build Include="lookup\Tables\tblFillMethod.sql" />
+    <Build Include="lookup\Tables\tblFilterField.sql" />
+    <Build Include="lookup\Tables\tblFuelCardLimitPeriod.sql" />
+    <Build Include="lookup\Tables\tblListViewFieldType.sql" />
+    <Build Include="lookup\Tables\tblListViewType.sql" />
+    <Build Include="lookup\Tables\tblListViewStandardType.sql" />
+    <Build Include="lookup\Tables\tblMailServerConnectMode.sql" />
+    <Build Include="lookup\Tables\tblMajorCorrectionType.sql" />
+    <Build Include="lookup\Tables\tblMapSource.sql" />
+    <Build Include="lookup\Tables\tblMenuItemType.sql" />
+    <Build Include="lookup\Tables\tblMessageFrequencyType.sql" />
+    <Build Include="lookup\Tables\tblMessageLocationType.sql" />
+    <Build Include="lookup\Tables\tblMinorCorrectionType.sql" />
+    <Build Include="lookup\Tables\tblPersonnelRole.sql" />
+    <Build Include="lookup\Tables\tblNumberGroupSizesType.sql" />
+    <Build Include="lookup\Tables\tblPointServiceHealthStatus.sql" />
+    <Build Include="lookup\Tables\tblPointTagInputOutputType.sql" />
+    <Build Include="lookup\Tables\tblPresetType.sql" />
+    <Build Include="lookup\Tables\tblProductType.sql" />
+    <Build Include="lookup\Tables\tblProcessVariableType.sql" />
+    <Build Include="lookup\Tables\tblQualificationType.sql" />
+    <Build Include="lookup\Tables\tblQuantityDisplay.sql" />
+    <Build Include="lookup\Tables\tblResetMethod.sql" />
+    <Build Include="lookup\Tables\tblScheduleType.sql" />
+    <Build Include="lookup\Tables\tblResetPeriod.sql" />
+    <Build Include="lookup\Tables\tblRight.sql" />
+    <Build Include="lookup\Tables\tblServiceType.sql" />
+    <Build Include="lookup\Tables\tblSRMAdaptorFilterType.sql" />
+    <Build Include="lookup\Tables\tblStandardFieldType.sql" />
+    <Build Include="lookup\Tables\tblStationInterfaceType.sql" />
+    <Build Include="lookup\Tables\tblStationType.sql" />
+    <Build Include="lookup\Tables\tblSyncConflictResolutionStatus.sql" />
+    <Build Include="lookup\Tables\tblSyncConflictType.sql" />
+    <Build Include="lookup\Tables\tblSyncControllerStep.sql" />
+    <Build Include="lookup\Tables\tblSyncRequestType.sql" />
+    <Build Include="lookup\Tables\tblSyncSessionState.sql" />
+    <Build Include="lookup\Tables\tblSyncTransferType.sql" />
+    <Build Include="lookup\Tables\tblSyncSessionStatus.sql" />
+    <Build Include="lookup\Tables\tblTestSetStatus.sql" />
+    <Build Include="lookup\Tables\tblTimeZone.sql" />
+    <Build Include="lookup\Tables\tblTransactionFieldType.sql" />
+    <Build Include="lookup\Tables\tblTransactionOrigin.sql" />
+    <Build Include="lookup\Tables\tblTransactionQuality.sql" />
+    <Build Include="lookup\Tables\tblTransactionStatus.sql" />
+    <Build Include="lookup\Tables\tblTransactionTypes.sql" />
+    <Build Include="lookup\Tables\tblUserDataType.sql" />
+    <Build Include="lookup\Tables\tblVariantType.sql" />
+    <Build Include="lookup\Tables\tblVesselType.sql" />
+    <Build Include="lookup\Tables\tblWatchdogMode.sql" />
+    <Build Include="dbo\Tables\tblETLAudit.sql" />
+    <None Include="Scripts\ScriptsIgnoredOnImport.sql" />
+    <Build Include="staging\Tables\tblAlarmAndEventLog.sql" />
+    <Build Include="staging\Tables\tblAuditLog.sql" />
+    <Build Include="staging\Tables\tblExportResultDetails.sql" />
+    <Build Include="staging\Tables\tblExportResults.sql" />
+    <Build Include="staging\Tables\tblTransactionLineItems.sql" />
+    <Build Include="staging\Tables\tblTransactionLineItemUserData.sql" />
+    <Build Include="staging\Tables\tblTransactionLinks.sql" />
+    <Build Include="staging\Tables\tblTransactionNotes.sql" />
+    <Build Include="staging\Tables\tblTransactionPIDX.sql" />
+    <Build Include="staging\Tables\tblTransactions.sql" />
+    <Build Include="staging\Tables\tblTransactionSignature.sql" />
+    <Build Include="staging\Tables\tblTransactionTransportLineItems.sql" />
+    <Build Include="staging\Tables\tblTransactionUserData.sql" />
+    <Build Include="staging\Tables\tblTransactionWeightReadings.sql" />
+    <Build Include="staging\Tables\tblTransactionSubLineItems.sql" />
+    <Build Include="staging\Tables\tblInsertedRecords.sql" />
+    <Build Include="staging\Tables\tblUpdatedRecords.sql" />
+    <Build Include="staging\Stored Procedures\usp_ValidateAuditLogLoading.sql" />
+    <Build Include="staging\Stored Procedures\usp_ValidateAlarmAndEventLogLoading.sql" />
+    <Build Include="staging\Stored Procedures\usp_MarkBatchAsComplete.sql" />
+    <Build Include="staging\Stored Procedures\usp_ResetStagingTables.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadTransactionWeightReadings.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadTransactionUserData.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadTransactionTransportLineItems.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadTransactionSubLineItems.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadTransactionSignature.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadTransactionHeaders.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadTransactionPIDX.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadTransactionNotes.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadTransactionLinks.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadTransactionLineItemUserData.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadTransactionLineItems.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadExportResults.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadExportResultDetails.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadAuditLog.sql" />
+    <Build Include="staging\Stored Procedures\usp_ValidateTransactionLoading.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadAlarmAndEventLog.sql" />
+    <Build Include="staging\Stored Procedures\usp_PresetAlarmAndEventLog.sql" />
+    <Build Include="staging\Stored Procedures\usp_PresetAuditLog.sql" />
+    <Build Include="staging\Stored Procedures\usp_PresetTransactions.sql" />
+    <Build Include="lookup\Tables\tblReportApprovalState.sql" />
+    <Build Include="dbo\Stored Procedures\usp_ResetStaticTables.sql" />
+    <Build Include="staging\Functions\udf_DateTimeToDateKey.sql" />
+    <Build Include="Storage\AnnualPF.sql" />
+    <Build Include="Storage\AnnualPS.sql" />
+    <Build Include="Storage\ArchiveFilegroups.sql" />
+    <Build Include="Storage\ArchiveFilegroupFiles.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <SqlCmdVariable Include="FMArchiveDefaultDataPath">
+      <DefaultValue>
+      </DefaultValue>
+      <Value>$(SqlCmdVar__1)</Value>
+    </SqlCmdVariable>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>DevDB</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{3a445c31-dc60-478f-b4e9-3443f5ed1050}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql110DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>DevDB</RootNamespace>
+    <AssemblyName>DevDB</AssemblyName>
+    <ModelCollation>1033,CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
+    <CompatibilityMode>110</CompatibilityMode>
+    <IncludeSchemaNameInFileName>False</IncludeSchemaNameInFileName>
+    <ValidateCasingOnIdentifiers>False</ValidateCasingOnIdentifiers>
+    <GenerateCreateScript>False</GenerateCreateScript>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <SuppressTSqlWarnings>71562</SuppressTSqlWarnings>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="sync\" />
+    <Folder Include="sync\Tables\" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="Security\" />
+    <Folder Include="sync\Functions\" />
+    <Folder Include="dbo\Functions\" />
+    <Folder Include="dbo\Stored Procedures\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="sync\Tables\tblTableExclusion.sql" />
+    <Build Include="sync\Tables\tblSyncTableTemplateData.sql" />
+    <Build Include="dbo\Tables\StoredProcedureTemplate.sql" />
+    <Build Include="dbo\Tables\MyTest.sql" />
+    <Build Include="sync\Functions\udf_GetDependencyLevel.sql" />
+    <Build Include="sync\Functions\udf_GetMappedScopeLevel.sql" />
+    <Build Include="dbo\Functions\udf_DateTimeOffSetToString.sql" />
+    <Build Include="dbo\Functions\udf_UniqueIdentifierToString.sql" />
+    <Build Include="dbo\Functions\udf_ToUnicodeString.sql" />
+    <Build Include="dbo\Functions\udf_SplitTableName.sql" />
+    <Build Include="dbo\Functions\udf_GetPrimaryKeyInfo.sql" />
+    <Build Include="dbo\Functions\udf_GetForeignKeyInfo_New.sql" />
+    <Build Include="dbo\Functions\udf_GetForeignKeyInfo.sql" />
+    <Build Include="dbo\Functions\udf_GetTableColumnInfo.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GenerateInsertScriptForLookup.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GenerateDropAllStoredProcScript.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GenerateSyncChangeTrackingTriggers.sql" />
+    <Build Include="dbo\Stored Procedures\usp_RecreateAuditTriggerUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\usp_RecreateAuditTriggerInsert.sql" />
+    <Build Include="dbo\Stored Procedures\usp_RecreateAuditTriggerDelete.sql" />
+    <Build Include="dbo\Stored Procedures\usp_RecreateAuditDropAllTables.sql" />
+    <Build Include="dbo\Stored Procedures\usp_CreateAuditTriggerUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\usp_DropAllAuditTriggers.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GenerateStoredProcDeleteByFK.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GenerateStoredProcDeleteByRowGuid.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GenerateStoredProcInsertByPK.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GenerateStoredProcUpdateByPK.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetTableInfo.sql" />
+    <Build Include="dbo\Stored Procedures\usp_RecreateAuditTables.sql" />
+    <Build Include="dbo\Stored Procedures\LongPrint.sql" />
+    <Build Include="Security\sync.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <SqlCmdVariable Include="FMDB">
+      <DefaultValue>FuelsManagerDB</DefaultValue>
+      <Value>$(SqlCmdVar__2)</Value>
+    </SqlCmdVariable>
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Script.PostDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <ArtifactReference Include="$(DacPacRootPath)\Extensions\Microsoft\SQLDB\Extensions\SqlServer\110\SqlSchemas\master.dacpac">
+      <HintPath>$(DacPacRootPath)\Extensions\Microsoft\SQLDB\Extensions\SqlServer\110\SqlSchemas\master.dacpac</HintPath>
+      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
+      <DatabaseVariableLiteralValue>master</DatabaseVariableLiteralValue>
+    </ArtifactReference>
+  </ItemGroup>
+</Project>

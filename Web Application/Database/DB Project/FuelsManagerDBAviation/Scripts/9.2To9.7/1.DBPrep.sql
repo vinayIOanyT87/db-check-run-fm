@@ -1,0 +1,385 @@
+﻿/**********************************************************/
+--prep for db update:
+use FuelsManagerDB
+
+--add default entry for help mapping
+IF (SELECT COUNT(*) FROM [dbo].[tblHelpMapping] WHERE HelpContextKey = '(default)')=0
+BEGIN
+	INSERT INTO [dbo].[tblHelpMapping] ([HelpMappingGuid], [HelpContextKey], [HelpPage], [CreatedDate], [CreatedBy], [UpdatedDate], [UpdatedBy]) VALUES (N'037762e0-c385-481f-982f-dfea7925bf5a', N'(default)', N'Overview.htm', N'9/24/2012 11:24:21 AM -04:00', N'SAIC-US-EAST\dossantosa', N'9/24/2012 11:24:21 AM -04:00', N'SAIC-US-EAST\dossantosa')
+END
+
+--delete duplicate transaction notes
+DECLARE @guid uniqueidentifier	
+DECLARE DuplicateTransactionGuids CURSOR 
+	FOR SELECT TOP 1000 TransactionGuid FROM [tblTransactionNotes] GROUP BY TransactionGuid HAVING COUNT(TransactionGuid) > 1
+OPEN DuplicateTransactionGuids
+FETCH NEXT FROM DuplicateTransactionGuids INTO @guid
+WHILE @@FETCH_STATUS = 0  
+BEGIN  
+	  DELETE TOP(1) FROM [tblTransactionNotes] WHERE TransactionGuid = @guid 
+      FETCH NEXT FROM DuplicateTransactionGuids INTO @guid 
+END 
+CLOSE DuplicateTransactionGuids;  
+DEALLOCATE DuplicateTransactionGuids; 
+
+--drop all primary key constraints as they are recreated
+ALTER TABLE track.tblActivationStatus DROP PK_track_tblActivationStatus
+ALTER TABLE track.tblAdditiveProfiles DROP PK_track_tblAdditiveProfiles
+ALTER TABLE track.tblAggregateField DROP PK_track_tblAggregateField
+ALTER TABLE track.tblAirplaneTank DROP PK_track_tblAirplaneTank
+ALTER TABLE track.tblAirplaneTankLocation DROP PK_track_tblAirplaneTankLocation
+ALTER TABLE track.tblAirplaneTankToleranceType DROP PK_track_tblAirplaneTankToleranceType
+ALTER TABLE track.tblAlarmAndEvents DROP PK_track_tblAlarmAndEvents
+ALTER TABLE track.tblAlarmPriorities DROP PK_track_tblAlarmPriorities
+ALTER TABLE track.tblAlarmPriorityToEmailGroup DROP PK_track_tblAlarmPriorityToEmailGroup
+ALTER TABLE track.tblAllocationLineItems DROP PK_track_tblAllocationLineItems
+ALTER TABLE track.tblAllocations DROP PK_track_tblAllocations
+ALTER TABLE track.tblAllocationType DROP PK_track_tblAllocationType
+ALTER TABLE track.tblApplicationString DROP PK_track_tblApplicationString
+ALTER TABLE track.tblApplicationStringToAlarmEventCategory DROP PK_track_tblApplicationStringToAlarmEventCategory
+ALTER TABLE track.tblApplicationStringToDotHazardousMessage DROP PK_track_tblApplicationStringToDotHazardousMessage
+ALTER TABLE track.tblApplicationStringToEmailAddress DROP PK_track_tblApplicationStringToEmailAddress
+ALTER TABLE track.tblApplicationStringToEntryMessage DROP PK_track_tblApplicationStringToEntryMessage
+ALTER TABLE track.tblApplicationStringToExitMessage DROP PK_track_tblApplicationStringToExitMessage
+ALTER TABLE track.tblApplicationStringToFootNoteProduct DROP PK_track_tblApplicationStringToFootNoteProduct
+ALTER TABLE track.tblApplicationStringToFootNoteShipper DROP PK_track_tblApplicationStringToFootNoteShipper
+ALTER TABLE track.tblApplicationStringToFootNoteShipTo DROP PK_track_tblApplicationStringToFootNoteShipTo
+ALTER TABLE track.tblApplicationStringToFootNoteShipToState DROP PK_track_tblApplicationStringToFootNoteShipToState
+ALTER TABLE track.tblApplicationStringToProductMessage DROP PK_track_tblApplicationStringToProductMessage
+ALTER TABLE track.tblApplicationStringType DROP PK_track_tblApplicationStringType
+ALTER TABLE track.tblAppointmentEquipment DROP PK_track_tblAppointmentEquipment
+ALTER TABLE track.tblAppointmentPersonnel DROP PK_track_tblAppointmentPersonnel
+ALTER TABLE track.tblAppointmentTank DROP PK_track_tblAppointmentTank
+ALTER TABLE track.tblArchivedUsers DROP PK_track_tblArchivedUsers
+ALTER TABLE track.tblAssociatedTransactionAliases DROP PK_track_tblAssociatedTransactionAliases
+ALTER TABLE track.tblAutoDistributionReasonCodes DROP PK_track_tblAutoDistributionReasonCodes
+ALTER TABLE track.tblAutoDistributionRule DROP PK_track_tblAutoDistributionRule
+ALTER TABLE track.tblBulkPaymentLinks DROP PK_track_tblBulkPaymentLinks
+ALTER TABLE track.tblChangeTrackingSession DROP PK_tblChangeTrackingSession
+ALTER TABLE track.tblCloseoutInventory DROP PK_track_tblCloseoutInventory
+ALTER TABLE track.tblCompanies DROP PK_track_tblCompanies
+ALTER TABLE track.tblCompanyAuthorizedCarrierToCompany DROP PK_track_tblCompanyAuthorizedCarrierToCompany
+ALTER TABLE track.tblCompanyBillToToShipper DROP PK_track_tblCompanyBillToToShipper
+ALTER TABLE track.tblCompanyCompanyToCompanyGroup DROP PK_track_tblCompanyCompanyToCompanyGroup
+ALTER TABLE track.tblCompanyCompanyToUserGroup DROP PK_track_tblCompanyCompanyToUserGroup
+ALTER TABLE track.tblCompanyLoadOwnerToManager DROP PK_track_tblCompanyLoadOwnerToManager
+ALTER TABLE track.tblCompanyMapType DROP PK_track_tblCompanyMapType
+ALTER TABLE track.tblCompanyOffLoadOwnerToManager DROP PK_track_tblCompanyOffLoadOwnerToManager
+ALTER TABLE track.tblCompanyPersonnelAssignedToCompany DROP PK_track_tblCompanyPersonnelAssignedToCompany
+ALTER TABLE track.tblCompanyPersonnelToShipToBillTo DROP PK_track_tblCompanyPersonnelToShipToBillTo
+ALTER TABLE track.tblCompanyPersonnelToSupplierOwner DROP PK_track_tblCompanyPersonnelToSupplierOwner
+ALTER TABLE track.tblCompanyRole DROP PK_track_tblCompanyRole
+ALTER TABLE track.tblCompanyShipperToOwner DROP PK_track_tblCompanyShipperToOwner
+ALTER TABLE track.tblCompanyShipToToBillTo DROP PK_track_tblCompanyShipToToBillTo
+ALTER TABLE track.tblCompanySupplierToOwner DROP PK_track_tblCompanySupplierToOwner
+ALTER TABLE track.tblCompanyToRole DROP PK_track_tblCompanyToRole
+ALTER TABLE track.tblControllersLog DROP PK_track_tblControllersLog
+ALTER TABLE track.tblControllersLogToTransaction DROP PK_track_tblControllersLogToTransaction
+ALTER TABLE track.tblCurrencies DROP PK_track_tblCurrencies
+ALTER TABLE track.tblCurrencyLineItems DROP PK_track_tblCurrencyLineItems
+ALTER TABLE track.tblCurrencyUnit DROP PK_track_tblCurrencyUnit
+ALTER TABLE track.tblCustomToolbar DROP PK_track_tblCustomToolbar
+ALTER TABLE track.tblCustomToolbarCommandType DROP PK_track_tblCustomToolbarCommandType
+ALTER TABLE track.tblCustomToolbarType DROP PK_track_tblCustomToolbarType
+ALTER TABLE track.tblDataDictionaries DROP PK_track_tblDataDictionaries
+ALTER TABLE track.tblDayOfWeek DROP PK_track_tblDayOfWeek
+ALTER TABLE track.tblDispatchConfiguration DROP PK_track_tblDispatchConfiguration
+ALTER TABLE track.tblDispatchGrid DROP PK_track_tblDispatchGrid
+ALTER TABLE track.tblDispatchGridColumnType DROP PK_track_tblDispatchGridColumnType
+ALTER TABLE track.tblDispatchGridType DROP PK_track_tblDispatchGridType
+ALTER TABLE track.tblEmailGroups DROP PK_track_tblEmailGroups
+ALTER TABLE track.tblEngineeringUnit DROP PK_track_tblEngineeringUnit
+ALTER TABLE track.tblEntityAdditiveProfileToSite DROP PK_track_tblEntityAdditiveProfileToSite
+ALTER TABLE track.tblEntityAlarmAndEventCategoryToSite DROP PK_track_tblEntityAlarmAndEventCategoryToSite
+ALTER TABLE track.tblEntityAlarmAndEventToSite DROP PK_track_tblEntityAlarmAndEventToSite
+ALTER TABLE track.tblEntityAlarmPriorityToSite DROP PK_track_tblEntityAlarmPriorityToSite
+ALTER TABLE track.tblEntityAllocationGroupToSite DROP PK_track_tblEntityAllocationGroupToSite
+ALTER TABLE track.tblEntityAppointmentEquipmentToSite DROP PK_track_tblEntityAppointmentEquipmentToSite
+ALTER TABLE track.tblEntityAppointmentPersonnelToSite DROP PK_track_tblEntityAppointmentPersonnelToSite
+ALTER TABLE track.tblEntityAppointmentTankToSite DROP PK_track_tblEntityAppointmentTankToSite
+ALTER TABLE track.tblEntityAutoDistributionReasonCodeToSite DROP PK_track_tblEntityAutoDistributionReasonCodeToSite
+ALTER TABLE track.tblEntityAutoDistributionRuleToSite DROP PK_track_tblEntityAutoDistributionRuleToSite
+ALTER TABLE track.tblEntityCompanyCertificateAndPermitToSite DROP PK_track_tblEntityCompanyCertificateAndPermitToSite
+ALTER TABLE track.tblEntityCompanyGroupToSite DROP PK_track_tblEntityCompanyGroupToSite
+ALTER TABLE track.tblEntityCompanyToSite DROP PK_track_tblEntityCompanyToSite
+ALTER TABLE track.tblEntityCompanyTypeToSite DROP PK_track_tblEntityCompanyTypeToSite
+ALTER TABLE track.tblEntityDataDictionaryToSite DROP PK_track_tblEntityDataDictionaryToSite
+ALTER TABLE track.tblEntityDispatchConfigurationToSite DROP PK_track_tblEntityDispatchConfigurationToSite
+ALTER TABLE track.tblEntityDotHazardousMessagesToSite DROP PK_track_tblEntityDotHazardousMessagesToSite
+ALTER TABLE track.tblEntityEmailAddressToSite DROP PK_track_tblEntityEmailAddressToSite
+ALTER TABLE track.tblEntityEmailGroupToSite DROP PK_track_tblEntityEmailGroupToSite
+ALTER TABLE track.tblEntityEntryMessageToSite DROP PK_track_tblEntityEntryMessageToSite
+ALTER TABLE track.tblEntityEquipmentTagAndLicenseToSite DROP PK_track_tblEntityEquipmentTagAndLicenseToSite
+ALTER TABLE track.tblEntityEquipmentTestAndInspectionToSite DROP PK_track_tblEntityEquipmentTestAndInspectionToSite
+ALTER TABLE track.tblEntityEquipmentToSite DROP PK_track_tblEntityEquipmentToSite
+ALTER TABLE track.tblEntityEquipmentTypeToSite DROP PK_track_tblEntityEquipmentTypeToSite
+ALTER TABLE track.tblEntityExitMessageToSite DROP PK_track_tblEntityExitMessageToSite
+ALTER TABLE track.tblEntityExternalAttribute DROP PK_track_tblEntityExternalAttribute
+ALTER TABLE track.tblEntityFootNoteToSite DROP PK_track_tblEntityFootNoteToSite
+ALTER TABLE track.tblEntityFuelCardLimitToSite DROP PK_track_tblEntityFuelCardLimitToSite
+ALTER TABLE track.tblEntityFuelCardToSite DROP PK_track_tblEntityFuelCardToSite
+ALTER TABLE track.tblEntityFuelCardTypeToSite DROP PK_track_tblEntityFuelCardTypeToSite
+ALTER TABLE track.tblEntityIATACodeToSite DROP PK_track_tblEntityIATACodeToSite
+ALTER TABLE track.tblEntityLedgerAggregateColumnToSite DROP PK_track_tblEntityLedgerAggregateColumnToSite
+ALTER TABLE track.tblEntityLedgerViewToSite DROP PK_track_tblEntityLedgerViewToSite
+ALTER TABLE track.tblEntityListViewToSite DROP PK_track_tblEntityListViewToSite
+ALTER TABLE track.tblEntityMobileDeviceProfileToSite DROP PK_track_tblEntityMobileDeviceProfileToSite
+ALTER TABLE track.tblEntityPersonnelLicenseToSite DROP PK_track_tblEntityPersonnelLicenseToSite
+ALTER TABLE track.tblEntityPersonnelQualificationToSite DROP PK_track_tblEntityPersonnelQualificationToSite
+ALTER TABLE track.tblEntityPersonnelToSite DROP PK_track_tblEntityPersonnelToSite
+ALTER TABLE track.tblEntityPersonnelTrainingToSite DROP PK_track_tblEntityPersonnelTrainingToSite
+ALTER TABLE track.tblEntityProcessVariableMessageToSite DROP PK_track_tblEntityProcessVariableMessageToSite
+ALTER TABLE track.tblEntityProductGroupToSite DROP PK_track_tblEntityProductGroupToSite
+ALTER TABLE track.tblEntityProductMessageToSite DROP PK_track_tblEntityProductMessageToSite
+ALTER TABLE track.tblEntityProductToSite DROP PK_track_tblEntityProductToSite
+ALTER TABLE track.tblEntityQualityTagToSite DROP PK_track_tblEntityQualityTagToSite
+ALTER TABLE track.tblEntityQuerySettingToSite DROP PK_track_tblEntityQuerySettingToSite
+ALTER TABLE track.tblEntityRecordVersioningFieldConfig DROP PK_track_tblEntityRecordVersioningFieldConfig
+ALTER TABLE track.tblEntitySegmentTemplate DROP PK_track_tblEntitySegmentTemplate
+ALTER TABLE track.tblEntityStandingOfferToSite DROP PK_track_tblEntityStandingOfferToSite
+ALTER TABLE track.tblEntityTestSetToSite DROP PK_track_tblEntityTestSetToSite
+ALTER TABLE track.tblEntityTestToSite DROP PK_track_tblEntityTestToSite
+ALTER TABLE track.tblEntityTransactionAliasToSite DROP PK_track_tblEntityTransactionAliasToSite
+ALTER TABLE track.tblEntityUserDataToSite DROP PK_track_tblEntityUserDataToSite
+ALTER TABLE track.tblEntityUserGroupToSite DROP PK_track_tblEntityUserGroupToSite
+ALTER TABLE track.tblEntityUserToSite DROP PK_track_tblEntityUserToSite
+ALTER TABLE track.tblEquipment DROP PK_track_tblEquipment
+ALTER TABLE track.tblEquipmentMaintenanceLog DROP PK_track_tblEquipmentMaintenanceLog
+ALTER TABLE track.tblEquipmentQualityTagLog DROP PK_track_tblEquipmentQualityTagLog
+ALTER TABLE track.tblEquipmentType DROP PK_track_tblEquipmentType
+ALTER TABLE track.tblEquipmentTypes DROP PK_track_tblEquipmentTypes
+ALTER TABLE track.tblExcise DROP PK_track_tblExcise
+ALTER TABLE track.tblExciseToCompany DROP PK_track_tblExciseToCompany
+ALTER TABLE track.tblExportResultDetails DROP PK_track_tblExportResultDetails
+ALTER TABLE track.tblExportResults DROP PK_track_tblExportResults
+ALTER TABLE track.tblExportResultType DROP PK_track_tblExportResultType
+ALTER TABLE track.tblFillMethod DROP PK_track_tblFillMethod
+ALTER TABLE track.tblFilterField DROP PK_track_tblFilterField
+ALTER TABLE track.tblFilterViews DROP PK_track_tblFilterViews
+ALTER TABLE track.tblFuelCardLimit DROP PK_track_tblFuelCardLimit
+ALTER TABLE track.tblFuelCardLimitLineItem DROP PK_track_tblFuelCardLimitLineItem
+ALTER TABLE track.tblFuelCardLimitPeriod DROP PK_track_tblFuelCardLimitPeriod
+ALTER TABLE track.tblFuelCardLimitToFuelCard DROP PK_track_tblFuelCardLimitToFuelCard
+ALTER TABLE track.tblFuelCards DROP PK_track_tblFuelCards
+ALTER TABLE track.tblGates DROP PK_track_tblGates
+ALTER TABLE track.tblGeneralConfiguration DROP PK_track_tblGeneralConfiguration
+ALTER TABLE track.tblGeneralConfigurationAliases DROP PK_track_tblGeneralConfigurationAliases
+ALTER TABLE track.tblGroups DROP PK_track_tblGroups
+ALTER TABLE track.tblGroupToLedgerView DROP PK_track_tblGroupToLedgerView
+ALTER TABLE track.tblGroupToRight DROP PK_track_tblGroupToRight
+ALTER TABLE track.tblGroupToTransactionAlias DROP PK_track_tblGroupToTransactionAlias
+ALTER TABLE track.tblHouseCards DROP PK_track_tblHouseCards
+ALTER TABLE track.tblIATA DROP PK_track_tblIATA
+ALTER TABLE track.tblLedgerAggregateColumns DROP PK_track_tblLedgerAggregateColumns
+ALTER TABLE track.tblLedgerAggregateColumnToTransactionAlias DROP PK_track_tblLedgerAggregateColumnToTransactionAlias
+ALTER TABLE track.tblListViewFields DROP PK_track_tblListViewFields
+ALTER TABLE track.tblListViewFieldType DROP PK_track_tblListViewFieldType
+ALTER TABLE track.tblListViews DROP PK_track_tblListViews
+ALTER TABLE track.tblListViewStandardType DROP PK_track_tblListViewStandardType
+ALTER TABLE track.tblListViewType DROP PK_track_tblListViewType
+ALTER TABLE track.tblLoadArms DROP PK_track_tblLoadArms
+ALTER TABLE track.tblMailServerConnectMode DROP PK_track_tblMailServerConnectMode
+ALTER TABLE track.tblMaintenanceReasons DROP PK_track_tblMaintenanceReasons
+ALTER TABLE track.tblMajorCorrectionType DROP PK_track_tblMajorCorrectionType
+ALTER TABLE track.tblManagerGroupToAutoDistributionRule DROP PK_track_tblManagerGroupToAutoDistributionRule
+ALTER TABLE track.tblManagerToAutoDistributionRule DROP PK_track_tblManagerToAutoDistributionRule
+ALTER TABLE track.tblMenuItemType DROP PK_track_tblMenuItemType
+ALTER TABLE track.tblMessageFrequencyType DROP PK_track_tblMessageFrequencyType
+ALTER TABLE track.tblMessageLocationType DROP PK_track_tblMessageLocationType
+ALTER TABLE track.tblMessageLog DROP PK_track_tblMessageLog
+ALTER TABLE track.tblMessages DROP PK_track_tblMessages
+ALTER TABLE track.tblMeter DROP PK_track_tblMeter
+ALTER TABLE track.tblMeterToTank DROP PK_track_tblMeterToTank
+ALTER TABLE track.tblMobileDevice DROP PK_track_tblMobileDevice
+ALTER TABLE track.tblMobileDeviceProfile DROP PK_track_tblMobileDeviceProfile
+ALTER TABLE track.tblMobileDeviceProfileAnalogInput DROP PK_track_tblMobileDeviceProfileAnalogInput
+ALTER TABLE track.tblMobileDeviceProfilePrinter DROP PK_track_tblMobileDeviceProfilePrinter
+ALTER TABLE track.tblMobileDeviceProfileToMobileDevice DROP PK_track_tblMobileDeviceProfileToMobileDevice
+ALTER TABLE track.tblNotes DROP PK_track_tblNotes
+ALTER TABLE track.tblNumberGroupSizesType DROP PK_track_tblNumberGroupSizesType
+ALTER TABLE track.tblOPCConnections DROP PK_track_tblOPCConnections
+ALTER TABLE track.tblOwnerCloseout DROP PK_track_tblOwnerCloseout
+ALTER TABLE track.tblOwnerGroupToAutoDistributionRule DROP PK_track_tblOwnerGroupToAutoDistributionRule
+ALTER TABLE track.tblOwnerToAutoDistributionRule DROP PK_track_tblOwnerToAutoDistributionRule
+ALTER TABLE track.tblPersonnel DROP PK_track_tblPersonnel
+ALTER TABLE track.tblPersonnelRole DROP PK_track_tblPersonnelRole
+ALTER TABLE track.tblPersonnelToRole DROP PK_track_tblPersonnelToRole
+ALTER TABLE track.tblPIDXProfiles DROP PK_track_tblPIDXProfiles
+ALTER TABLE track.tblPIDXProfileToCompany DROP PK_track_tblPIDXProfileToCompany
+ALTER TABLE track.tblPresetType DROP PK_track_tblPresetType
+ALTER TABLE track.tblProcessVariableAdditiveInputPermissive DROP PK_track_tblProcessVariableAdditiveInputPermissive
+ALTER TABLE track.tblProcessVariableAdditiveOutputPermissive DROP PK_track_tblProcessVariableAdditiveOutputPermissive
+ALTER TABLE track.tblProcessVariableComponentInputPermissive DROP PK_track_tblProcessVariableComponentInputPermissive
+ALTER TABLE track.tblProcessVariableComponentOutputPermissive DROP PK_track_tblProcessVariableComponentOutputPermissive
+ALTER TABLE track.tblProcessVariableEquipment DROP PK_track_tblProcessVariableEquipment
+ALTER TABLE track.tblProcessVariableExternalComponentBlendPercentage DROP PK_track_tblProcessVariableExternalComponentBlendPercentage
+ALTER TABLE track.tblProcessVariableExternalComponentInputPermissive DROP PK_track_tblProcessVariableExternalComponentInputPermissive
+ALTER TABLE track.tblProcessVariableExternalComponentOutputPermissive DROP PK_track_tblProcessVariableExternalComponentOutputPermissive
+ALTER TABLE track.tblProcessVariableLoadArm DROP PK_track_tblProcessVariableLoadArm
+ALTER TABLE track.tblProcessVariableLoadArmInputPermissive DROP PK_track_tblProcessVariableLoadArmInputPermissive
+ALTER TABLE track.tblProcessVariableLoadArmOutputPermissive DROP PK_track_tblProcessVariableLoadArmOutputPermissive
+ALTER TABLE track.tblProcessVariableNoAdditiveInputPermissive DROP PK_track_tblProcessVariableNoAdditiveInputPermissive
+ALTER TABLE track.tblProcessVariableNoAdditiveOutputPermissive DROP PK_track_tblProcessVariableNoAdditiveOutputPermissive
+ALTER TABLE track.tblProcessVariablePresetInjector DROP PK_track_tblProcessVariablePresetInjector
+ALTER TABLE track.tblProcessVariableRecipeInputPermissive DROP PK_track_tblProcessVariableRecipeInputPermissive
+ALTER TABLE track.tblProcessVariableRecipeOutputPermissive DROP PK_track_tblProcessVariableRecipeOutputPermissive
+ALTER TABLE track.tblProcessVariableSite DROP PK_track_tblProcessVariableSite
+ALTER TABLE track.tblProcessVariableStation DROP PK_track_tblProcessVariableStation
+ALTER TABLE track.tblProcessVariableStationInputPermissive DROP PK_track_tblProcessVariableStationInputPermissive
+ALTER TABLE track.tblProcessVariableStationOutputPermissive DROP PK_track_tblProcessVariableStationOutputPermissive
+ALTER TABLE track.tblProcessVariableTank DROP PK_track_tblProcessVariableTank
+ALTER TABLE track.tblProcessVariableType DROP PK_track_tblProcessVariableType
+ALTER TABLE track.tblProductGroupToAutoDistributionRule DROP PK_track_tblProductGroupToAutoDistributionRule
+ALTER TABLE track.tblProducts DROP PK_track_tblProducts
+ALTER TABLE track.tblProductToAdditiveProfile DROP PK_track_tblProductToAdditiveProfile
+ALTER TABLE track.tblProductToAutoDistributionRule DROP PK_track_tblProductToAutoDistributionRule
+ALTER TABLE track.tblProductToBlendComponent DROP PK_track_tblProductToBlendComponent
+ALTER TABLE track.tblProductToCompany DROP PK_track_tblProductToCompany
+ALTER TABLE track.tblProductToCompanyGroup DROP PK_track_tblProductToCompanyGroup
+ALTER TABLE track.tblProductToLedgerView DROP PK_track_tblProductToLedgerView
+ALTER TABLE track.tblProductToPresetComponentTankOrTankGroup DROP PK_track_tblProductToPresetComponentTankOrTankGroup
+ALTER TABLE track.tblProductToPresetExternalComponent DROP PK_track_tblProductToPresetExternalComponent
+ALTER TABLE track.tblProductToPresetInjector DROP PK_track_tblProductToPresetInjector
+ALTER TABLE track.tblProductToPresetRecipe DROP PK_track_tblProductToPresetRecipe
+ALTER TABLE track.tblProductToProductGroup DROP PK_track_tblProductToProductGroup
+ALTER TABLE track.tblProductToSupplierProductCompany DROP PK_track_tblProductToSupplierProductCompany
+ALTER TABLE track.tblProductToTransactionAliasExclusion DROP PK_track_tblProductToTransactionAliasExclusion
+ALTER TABLE track.tblProductToUnavailableInventoryCompany DROP PK_track_tblProductToUnavailableInventoryCompany
+ALTER TABLE track.tblProductType DROP PK_track_tblProductType
+ALTER TABLE track.tblQualificationCompanyCertificateAndPermitToCompany DROP PK_track_tblQualificationCompanyCertificateAndPermitToCompany
+ALTER TABLE track.tblQualificationEquipmentTagAndLicenseToEquipment DROP PK_track_tblQualificationEquipmentTagAndLicenseToEquipment
+ALTER TABLE track.tblQualificationEquipmentTestAndInspectionToEquipment DROP PK_track_tblQualificationEquipmentTestAndInspectionToEquipment
+ALTER TABLE track.tblQualificationEquipmentTestAndInspectionToStation DROP PK_track_tblQualificationEquipmentTestAndInspectionToStation
+ALTER TABLE track.tblQualificationPersonLicenseToPerson DROP PK_track_tblQualificationPersonLicenseToPerson
+ALTER TABLE track.tblQualificationPersonQualificationToEquipmentType DROP PK_track_tblQualificationPersonQualificationToEquipmentType
+ALTER TABLE track.tblQualificationPersonQualificationToPerson DROP PK_track_tblQualificationPersonQualificationToPerson
+ALTER TABLE track.tblQualificationPersonQualificationToStation DROP PK_track_tblQualificationPersonQualificationToStation
+ALTER TABLE track.tblQualificationPersonTrainingToEquipmentType DROP PK_track_tblQualificationPersonTrainingToEquipmentType
+ALTER TABLE track.tblQualificationPersonTrainingToPerson DROP PK_track_tblQualificationPersonTrainingToPerson
+ALTER TABLE track.tblQualificationPersonTrainingToStation DROP PK_track_tblQualificationPersonTrainingToStation
+ALTER TABLE track.tblQualifications DROP PK_track_tblQualifications
+ALTER TABLE track.tblQualificationType DROP PK_track_tblQualificationType
+ALTER TABLE track.tblQualityTags DROP PK_track_tblQualityTags
+ALTER TABLE track.tblQuantityDisplay DROP PK_track_tblQuantityDisplay
+ALTER TABLE track.tblQueryDefaults DROP PK_track_tblQueryDefaults
+ALTER TABLE track.tblReserveLevels DROP PK_track_tblReserveLevels
+ALTER TABLE track.tblResetMethod DROP PK_track_tblResetMethod
+ALTER TABLE track.tblResetPeriod DROP PK_track_tblResetPeriod
+ALTER TABLE track.tblRight DROP PK_track_tblRight
+ALTER TABLE track.tblScheduleCompanyAccess DROP PK_track_tblScheduleCompanyAccess
+ALTER TABLE track.tblScheduleHoliday DROP PK_track_tblScheduleHoliday
+ALTER TABLE track.tblSchedulePersonnelAccess DROP PK_track_tblSchedulePersonnelAccess
+ALTER TABLE track.tblScheduleTerminalOperation DROP PK_track_tblScheduleTerminalOperation
+ALTER TABLE track.tblScheduleType DROP PK_track_tblScheduleType
+ALTER TABLE track.tblServiceType DROP PK_track_tblServiceType
+ALTER TABLE track.tblSites DROP PK_track_tblSites
+ALTER TABLE track.tblSitesAncillaryData DROP PK_track_tblSitesAncillaryData
+ALTER TABLE track.tblSiteToSite DROP PK_track_tblSiteToSite
+ALTER TABLE track.tblSRMAdaptorIATAToSite DROP PK_track_tblSRMAdaptorIATAToSite
+ALTER TABLE track.tblStandardFieldType DROP PK_track_tblStandardFieldType
+ALTER TABLE track.tblStandingOffers DROP PK_track_tblStandingOffers
+ALTER TABLE track.tblStationInterfaceType DROP PK_track_tblStationInterfaceType
+ALTER TABLE track.tblStations DROP PK_track_tblStations
+ALTER TABLE track.tblStationType DROP PK_track_tblStationType
+ALTER TABLE track.tblTankGroups DROP PK_track_tblTankGroups
+ALTER TABLE track.tblTankMaintenanceLog DROP PK_track_tblTankMaintenanceLog
+ALTER TABLE track.tblTankQualityTagLog DROP PK_track_tblTankQualityTagLog
+ALTER TABLE track.tblTanks DROP PK_track_tblTanks
+ALTER TABLE track.tblTankToTankGroup DROP PK_track_tblTankToTankGroup
+ALTER TABLE track.tblTestDefinitions DROP PK_track_tblTestDefinitions
+ALTER TABLE track.tblTestDefinitionToTestSetDefinition DROP PK_track_tblTestDefinitionToTestSetDefinition
+ALTER TABLE track.tblTestEquipmentResults DROP PK_track_tblTestEquipmentResults
+ALTER TABLE track.tblTestSetDefinitions DROP PK_track_tblTestSetDefinitions
+ALTER TABLE track.tblTestSetEquipmentResults DROP PK_track_tblTestSetEquipmentResults
+ALTER TABLE track.tblTestSetStatus DROP PK_track_tblTestSetStatus
+ALTER TABLE track.tblTestSetTankResults DROP PK_track_tblTestSetTankResults
+ALTER TABLE track.tblTestTankResults DROP PK_track_tblTestTankResults
+ALTER TABLE track.tblTransactionAliases DROP PK_track_tblTransactionAliases
+ALTER TABLE track.tblTransactionAliasFields DROP PK_track_tblTransactionAliasFields
+ALTER TABLE track.tblTransactionAliasToAutoDistributionRule DROP PK_track_tblTransactionAliasToAutoDistributionRule
+ALTER TABLE track.tblTransactionAliasToStatus DROP PK_track_tblTransactionAliasToStatus
+ALTER TABLE track.tblTransactionFieldType DROP PK_track_tblTransactionFieldType
+ALTER TABLE track.tblTransactionLineItems DROP PK_track_tblTransactionLineItems
+ALTER TABLE track.tblTransactionLineItemUserData DROP PK_track_tblTransactionLineItemUserData
+ALTER TABLE track.tblTransactionLinks DROP PK_track_tblTransactionLinks
+ALTER TABLE track.tblTransactionNotes DROP PK_track_tblTransactionNotes
+ALTER TABLE track.tblTransactionOrigin DROP PK_track_tblTransactionOrigin
+ALTER TABLE track.tblTransactionPIDX DROP PK_track_tblTransactionPIDX
+ALTER TABLE track.tblTransactionQuality DROP PK_track_tblTransactionQuality
+ALTER TABLE track.tblTransactions DROP PK_track_tblTransactions
+ALTER TABLE track.tblTransactionSignature DROP PK_track_tblTransactionSignature
+ALTER TABLE track.tblTransactionStatus DROP PK_track_tblTransactionStatus
+ALTER TABLE track.tblTransactionSubLineItems DROP PK_track_tblTransactionSubLineItems
+ALTER TABLE track.tblTransactionTransportLineItems DROP PK_track_tblTransactionTransportLineItems
+ALTER TABLE track.tblTransactionTypes DROP PK_track_tblTransactionTypes
+ALTER TABLE track.tblTransactionUserData DROP PK_track_tblTransactionUserData
+ALTER TABLE track.tblTransactionWeightReadings DROP PK_track_tblTransactionWeightReadings
+ALTER TABLE track.tblUserDataFieldCompany DROP PK_track_tblUserDataFieldCompany
+ALTER TABLE track.tblUserDataFieldEquipment DROP PK_track_tblUserDataFieldEquipment
+ALTER TABLE track.tblUserDataFieldFuelCard DROP PK_track_tblUserDataFieldFuelCard
+ALTER TABLE track.tblUserDataFieldPersonnel DROP PK_track_tblUserDataFieldPersonnel
+ALTER TABLE track.tblUserDataFieldProduct DROP PK_track_tblUserDataFieldProduct
+ALTER TABLE track.tblUserDataFieldSite DROP PK_track_tblUserDataFieldSite
+ALTER TABLE track.tblUserDataFieldTransactionAlias DROP PK_track_tblUserDataFieldTransactionAlias
+ALTER TABLE track.tblUserDataFieldTransactionAliasLineItem DROP PK_track_tblUserDataFieldTransactionAliasLineItem
+ALTER TABLE track.tblUserDataListValueCompany DROP PK_track_tblUserDataListValueCompany
+ALTER TABLE track.tblUserDataListValueEquipment DROP PK_track_tblUserDataListValueEquipment
+ALTER TABLE track.tblUserDataListValueFuelCard DROP PK_track_tblUserDataListValueFuelCard
+ALTER TABLE track.tblUserDataListValuePersonnel DROP PK_track_tblUserDataListValuePersonnel
+ALTER TABLE track.tblUserDataListValueProduct DROP PK_track_tblUserDataListValueProduct
+ALTER TABLE track.tblUserDataListValueSite DROP PK_track_tblUserDataListValueSite
+ALTER TABLE track.tblUserDataListValueTransactionAlias DROP PK_track_tblUserDataListValueTransactionAlias
+ALTER TABLE track.tblUserDataListValueTransactionAliasLineItem DROP PK_track_tblUserDataListValueTransactionAliasLineItem
+ALTER TABLE track.tblUserDataType DROP PK_track_tblUserDataType
+ALTER TABLE track.tblUsers DROP PK_track_tblUsers
+ALTER TABLE track.tblUserToGroup DROP PK_track_tblUserToGroup
+ALTER TABLE track.tblVariantType DROP PK_track_tblVariantType
+ALTER TABLE track.tblVesselType DROP PK_track_tblVesselType
+ALTER TABLE track.tblWatchdogMode DROP PK_track_tblWatchdogMode
+ALTER TABLE track.tblWeightedAverageCosts DROP PK_track_tblWeightedAverageCosts
+
+/*********************************************************/
+--notes:
+-- SELECT * FROM [tblTransactionNotes] 
+-- WHERE TransactionGuid IN (
+-- SELECT TOP 1000 TransactionGuid FROM [tblTransactionNotes] 
+-- GROUP BY TransactionGuid
+-- HAVING COUNT(TransactionGuid) > 1) ORDER BY TransactionGuid
+
+-- USE MASTER
+-- ALTER DATABASE FuelsManagerDB	
+-- SET MULTI_USER;
+-- GO
+
+
+-- USE master
+-- SELECT session_id
+-- FROM sys.dm_exec_sessions
+-- WHERE database_id  = db_id('FuelsManagerDB')
+-- --kill 1000000000
+
+-- use FuelsManagerDB
+-- select SyncTableToScopeMapColumnGuid 
+-- from sync.tblSyncTableToScopeMapColumn
+-- GROUP BY SyncTableToScopeMapColumnGuid
+-- HAVING COUNT(*) > 1
+
+
+-- SELECT SyncTableToScopeMapColumnGuid, * from sync.tblSyncTableToScopeMapColumn WHERE SyncTableToScopeMapColumnGuid = 'FA336C6A-350E-42A3-8C3F-840CE8F3472F'
+
+-- SELECT * FROM sync.tblSyncTableToScopeMapColumn WHERE sync.tblSyncTableToScopeMapColumn._ClusterIdx	IN (6241,6242,6243,6244)
+-- DBCC CHECKCONSTRAINTS('sync.tblSyncTableToScopeMapColumn')
+
+
+-- SELECT 
+-- 	--s.name,
+--     --t.Name,
+-- 	--kc.Name,
+-- 	--*
+-- 	FORMATMESSAGE('ALTER TABLE %s.%s DROP %s', s.name, t.name, kc.name)
+-- FROM sys.tables t
+-- INNER JOIN sys.key_constraints kc ON t.object_id = kc.parent_object_id
+-- INNER JOIN sys.schemas s ON kc.schema_id = s.schema_id
+-- WHERE s.name = 'track'
+-- AND kc.type_desc = 'PRIMARY_KEY_CONSTRAINT'
+-- ORDER BY s.Name, t.Name

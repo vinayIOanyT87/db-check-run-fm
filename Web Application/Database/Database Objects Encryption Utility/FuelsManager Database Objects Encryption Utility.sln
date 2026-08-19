@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuelsManager Database Objects Encryption Utility", "FuelsManager Database Objects Encryption Utility\FuelsManager Database Objects Encryption Utility.csproj", "{E17D01B4-6CDA-49EC-973B-E37741803746}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 2
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://ser-1552-team:8080/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = FuelsManager\u0020Database\u0020Objects\u0020Encryption\u0020Utility\\FuelsManager\u0020Database\u0020Objects\u0020Encryption\u0020Utility.csproj
+		SccProjectName1 = FuelsManager\u0020Database\u0020Objects\u0020Encryption\u0020Utility
+		SccLocalPath1 = FuelsManager\u0020Database\u0020Objects\u0020Encryption\u0020Utility
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E17D01B4-6CDA-49EC-973B-E37741803746}.Debug|x86.ActiveCfg = Debug|x86
+		{E17D01B4-6CDA-49EC-973B-E37741803746}.Debug|x86.Build.0 = Debug|x86
+		{E17D01B4-6CDA-49EC-973B-E37741803746}.Release|x86.ActiveCfg = Release|x86
+		{E17D01B4-6CDA-49EC-973B-E37741803746}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

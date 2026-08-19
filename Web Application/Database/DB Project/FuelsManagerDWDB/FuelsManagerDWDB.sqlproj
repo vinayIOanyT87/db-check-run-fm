@@ -1,0 +1,356 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>FuelsManagerDWDB</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{0a29c668-e7ae-4fa9-acff-b0abea8494ed}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql150DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>FuelsManagerDWDB</RootNamespace>
+    <AssemblyName>FuelsManagerDWDB</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="dbo" />
+    <Folder Include="dboData" />
+    <Folder Include="lookup" />
+    <Folder Include="map" />
+    <Folder Include="Scripts" />
+    <Folder Include="Security" />
+    <Folder Include="staging" />
+    <Folder Include="Storage" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="dbo\Functions\" />
+    <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="lookup\Tables\" />
+    <Folder Include="map\Tables\" />
+    <Folder Include="staging\Tables\" />
+    <Folder Include="staging\Stored Procedures\" />
+    <Folder Include="staging\Functions\" />
+    <Folder Include="map\Functions\" />
+    <Folder Include="dbo\Views\" />
+    <Folder Include="rpt" />
+    <Folder Include="rpt\Functions\" />
+    <Folder Include="rpt\Stored Procedures\" />
+    <Folder Include="mapData" />
+    <Folder Include="map\Stored Procedures" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Security\map.sql" />
+    <Build Include="Security\staging.sql" />
+    <Build Include="Storage\AnnualPF.sql" />
+    <Build Include="Storage\AnnualPS.sql" />
+    <Build Include="Storage\DBFileGroups.sql" />
+    <Build Include="Storage\DBFilegroupFiles.sql" />
+    <Build Include="dbo\Tables\DimAutoDistributionReasonCodes.sql" />
+    <Build Include="dbo\Tables\DimCompany.sql" />
+    <Build Include="dbo\Tables\DimDate.sql" />
+    <Build Include="dbo\Tables\DimEquipment.sql" />
+    <Build Include="dbo\Tables\DimEquipmentType.sql" />
+    <Build Include="dbo\Tables\DimFMUser.sql" />
+    <Build Include="dbo\Tables\DimPersonnel.sql" />
+    <Build Include="dbo\Tables\DimProduct.sql" />
+    <Build Include="dbo\Tables\DimSite.sql" />
+    <Build Include="dbo\Tables\DimSystemInfo.sql" />
+    <Build Include="dbo\Tables\DimTime.sql" />
+    <Build Include="dbo\Tables\DimTransactionAlias.sql" />
+    <Build Include="dbo\Tables\FactCloseoutSnapshot.sql" />
+    <Build Include="dbo\Tables\FactTransaction.sql" />
+    <Build Include="dbo\Tables\tblETLAudit.sql" />
+    <Build Include="dbo\Functions\udf_ConvertFromSIUnits.sql" />
+    <Build Include="dbo\Functions\udf_ConvertToSIUnits.sql" />
+    <Build Include="dbo\Stored Procedures\usp_LoadDateDimension.sql" />
+    <Build Include="dbo\Stored Procedures\usp_LoadDummyEntries.sql" />
+    <Build Include="dbo\Stored Procedures\usp_LoadTimeDimension.sql" />
+    <Build Include="dbo\Stored Procedures\usp_UpdateDimSystemInfo.sql" />
+    <Build Include="map\Tables\tblCompanyToRole.sql" />
+    <Build Include="map\Tables\tblCompanyToUserGroup.sql" />
+    <Build Include="map\Tables\tblEntityCompanyToSite.sql" />
+    <Build Include="map\Tables\tblEntityEquipmentToSite.sql" />
+    <Build Include="map\Tables\tblEntityPersonnelToSite.sql" />
+    <Build Include="map\Tables\tblEntityProductToSite.sql" />
+    <Build Include="map\Tables\tblEntityTransactionAliasToSite.sql" />
+    <Build Include="map\Tables\tblEntityUserToSite.sql" />
+    <Build Include="map\Tables\tblSiteToSite.sql" />
+    <Build Include="map\Tables\tblUserToUserGroup.sql" />
+    <Build Include="staging\Tables\tblAutoDistributionReasonCodes.sql" />
+    <Build Include="staging\Tables\tblCompanies.sql" />
+    <Build Include="staging\Tables\tblCompanyToRole.sql" />
+    <Build Include="staging\Tables\tblCompanyToUserGroup.sql" />
+    <Build Include="staging\Tables\tblEntityCompanyToSite.sql" />
+    <Build Include="staging\Tables\tblEntityEquipmentToSite.sql" />
+    <Build Include="staging\Tables\tblEntityPersonnelToSite.sql" />
+    <Build Include="staging\Tables\tblEntityProductToSite.sql" />
+    <Build Include="staging\Tables\tblEntityTransactionAliasToSite.sql" />
+    <Build Include="staging\Tables\tblEntityUserToSite.sql" />
+    <Build Include="staging\Tables\tblEquipment.sql" />
+    <Build Include="staging\Tables\tblEquipmentTypes.sql" />
+    <Build Include="staging\Tables\tblETLTempVariables.sql" />
+    <Build Include="staging\Tables\tblOwnerCloseout.sql" />
+    <Build Include="staging\Tables\tblPersonnel.sql" />
+    <Build Include="staging\Tables\tblProducts.sql" />
+    <Build Include="staging\Tables\tblSites.sql" />
+    <Build Include="staging\Tables\tblSiteToSite.sql" />
+    <Build Include="staging\Tables\tblTransactionAliases.sql" />
+    <Build Include="staging\Tables\tblTransactionLineItems.sql" />
+    <Build Include="staging\Tables\tblTransactionLineItemUserData.sql" />
+    <Build Include="staging\Tables\tblTransactionNotes.sql" />
+    <Build Include="staging\Tables\tblTransactions.sql" />
+    <Build Include="staging\Tables\tblTransactionUserData.sql" />
+    <Build Include="staging\Tables\tblUsers.sql" />
+    <Build Include="staging\Tables\tblUserToUserGroup.sql" />
+    <Build Include="staging\Stored Procedures\usp_GetLastProcessedRowVersions.sql" />
+    <Build Include="staging\Stored Procedures\usp_IgnoreDimensionDuplicateRecords.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadLevel0Tables.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadLevel1Tables.sql" />
+    <Build Include="staging\Stored Procedures\usp_ResetStagingTables.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadCompanyToUserMap.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadEntityToSiteMappings.sql" />
+    <Build Include="staging\Stored Procedures\usp_SetDimensionLevel0References.sql" />
+    <Build Include="staging\Stored Procedures\usp_PresetDimensionForeignAttributes.sql" />
+    <Build Include="staging\Stored Procedures\usp_SetLookupReferencesForDimensions.sql" />
+    <Build Include="lookup\Tables\tblLookup.sql" />
+    <Build Include="staging\Stored Procedures\usp_ResetEntityToSiteMappings.sql" />
+    <Build Include="staging\Stored Procedures\usp_SetDimensionLevel1References.sql" />
+    <Build Include="staging\Stored Procedures\usp_UpdateLevel1TablesSelfReferences.sql" />
+    <Build Include="staging\Tables\tblEntityDateRange.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadLevel2Tables.sql" />
+    <Build Include="staging\Tables\tblSiteHierarchyBridge.sql" />
+    <Build Include="dbo\Tables\FactSiteHierarchyBridge.sql" />
+    <Build Include="dbo\Tables\FactFMUserToSite.sql" />
+    <Build Include="dbo\Tables\FactFMUserToCompany.sql" />
+    <Build Include="map\Functions\udf_GetSiteHierarchy.sql" />
+    <Build Include="map\Tables\tblCompanyToMasterRecord.sql" />
+    <Build Include="map\Tables\tblCompanyToSiteRecordVersion.sql" />
+    <Build Include="map\Tables\tblEquipmentToMasterRecord.sql" />
+    <Build Include="map\Tables\tblEquipmentToSiteRecordVersion.sql" />
+    <Build Include="map\Tables\tblProductToMasterRecord.sql" />
+    <Build Include="map\Tables\tblProductToSiteRecordVersion.sql" />
+    <Build Include="map\Tables\tblPersonnelToMasterRecord.sql" />
+    <Build Include="map\Tables\tblTransactionAliasToMasterRecord.sql" />
+    <Build Include="map\Tables\tblPersonnelToSiteRecordVersion.sql" />
+    <Build Include="map\Tables\tblTransactionAliasToSiteRecordVersion.sql" />
+    <Build Include="staging\Stored Procedures\usp_IgnoreChangesOnUnsupportedLevel1Fields.sql" />
+    <Build Include="staging\Stored Procedures\usp_AdjustLevel1HistoricalEndDates.sql" />
+    <Build Include="staging\Tables\tblProductComparisonTemp.sql" />
+    <Build Include="staging\Tables\tblCompanyComparisonTemp.sql" />
+    <Build Include="staging\Tables\tblEquipmentComparisonTemp.sql" />
+    <Build Include="staging\Tables\tblPersonnelComparisonTemp.sql" />
+    <Build Include="staging\Tables\tblTransactionAliasComparisonTemp.sql" />
+    <Build Include="staging\Tables\tblEntityChecksum.sql" />
+    <Build Include="staging\Stored Procedures\usp_UpdateCompanyRecordVersionMappings.sql" />
+    <Build Include="staging\Stored Procedures\usp_UpdateEquipmentRecordVersionMappings.sql" />
+    <Build Include="staging\Stored Procedures\usp_UpdateProductRecordVersionMappings.sql" />
+    <Build Include="staging\Stored Procedures\usp_UpdatePersonnelRecordVersionMappings.sql" />
+    <Build Include="staging\Stored Procedures\usp_UpdateTransactionAliasRecordVersionMappings.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadCompanyMasterRecordToDateRange.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadProductMasterRecordToDateRange.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadEquipmentMasterRecordToDateRange.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadPersonnelMasterRecordToDateRange.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadTransactionAliasMasterRecordToDateRange.sql" />
+    <Build Include="staging\Tables\tblCompanyMasterRecordToDateRange.sql" />
+    <Build Include="staging\Tables\tblEquipmentMasterRecordToDateRange.sql" />
+    <Build Include="staging\Tables\tblProductMasterRecordToDateRange.sql" />
+    <Build Include="staging\Tables\tblPersonnelMasterRecordToDateRange.sql" />
+    <Build Include="staging\Tables\tblTransactionAliasMasterRecordToDateRange.sql" />
+    <Build Include="staging\Tables\tblCompanyToSiteRecordVersion.sql" />
+    <Build Include="staging\Tables\tblCompanyToSiteRecordVersionTemp.sql" />
+    <Build Include="staging\Tables\tblEquipmentToSiteRecordVersion.sql" />
+    <Build Include="staging\Tables\tblEquipmentToSiteRecordVersionTemp.sql" />
+    <Build Include="staging\Tables\tblProductToSiteRecordVersion.sql" />
+    <Build Include="staging\Tables\tblProductToSiteRecordVersionTemp.sql" />
+    <Build Include="staging\Tables\tblPersonnelToSiteRecordVersionTemp.sql" />
+    <Build Include="staging\Tables\tblPersonnelToSiteRecordVersion.sql" />
+    <Build Include="staging\Tables\tblTransactionAliasToSiteRecordVersionTemp.sql" />
+    <Build Include="staging\Tables\tblTransactionAliasToSiteRecordVersion.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadEntityToMasterRecordMappings.sql" />
+    <Build Include="dbo\Stored Procedures\usp_LoadTransactionTypeDimension.sql" />
+    <Build Include="staging\Functions\udf_GetBaselineDate.sql" />
+    <Build Include="staging\Tables\tblConjoinTransactionLineItems.sql" />
+    <Build Include="staging\Tables\tblConjoinTransactions.sql" />
+    <Build Include="staging\Stored Procedures\usp_ConvertUnitOfMeasures.sql" />
+    <Build Include="staging\Stored Procedures\usp_GetHistoricalMinTimestamp.sql" />
+    <Build Include="staging\Stored Procedures\usp_IgnoreDimensionIntermediateRecords.sql" />
+    <Build Include="staging\Stored Procedures\usp_ResetHistoricalStartDates.sql" />
+    <Build Include="staging\Stored Procedures\usp_ResetTransactionStagingTables.sql" />
+    <Build Include="staging\Stored Procedures\usp_SetHistoricalDateFields.sql" />
+    <Build Include="dbo\Tables\DimTransactionType.sql" />
+    <Build Include="dbo\Tables\DimTransactionAttributes.sql" />
+    <Build Include="dbo\Tables\DimWindowsLoginUser.sql" />
+    <Build Include="dbo\Tables\FactWindowsLoginUserToFMUser.sql" />
+    <Build Include="staging\Stored Procedures\usp_AddMissingTransactionEntitiesById.sql" />
+    <Build Include="staging\Stored Procedures\usp_AddMissingTransactionEntitiesByKey.sql" />
+    <Build Include="staging\Stored Procedures\usp_CaptureInventoryYears.sql" />
+    <Build Include="staging\Stored Procedures\usp_GetMissingConjoinHeaders.sql" />
+    <Build Include="staging\Stored Procedures\usp_GetMissingConjoinLineItems.sql" />
+    <Build Include="staging\Stored Procedures\usp_IgnoreTransactionDuplicateRecords.sql" />
+    <Build Include="staging\Stored Procedures\usp_IgnoreTransactionIntermediateRecords.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadMissingEntities.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadTransactionAttributes.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadTransactionHeaders.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadTransactionLineItems.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadTransactionLineUserData.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadTransactionUserData.sql" />
+    <Build Include="staging\Stored Procedures\usp_PrepDimensionAttributes.sql" />
+    <Build Include="staging\Stored Procedures\usp_SetLookupReferencesForLineItems.sql" />
+    <Build Include="staging\Stored Procedures\usp_SetLookupReferencesForTransactionHeaders.sql" />
+    <Build Include="staging\Stored Procedures\usp_SetMissingTransactionEntityKeyReferencesById.sql" />
+    <Build Include="staging\Stored Procedures\usp_SetNonHistoricalDimensionUpdatedDate.sql" />
+    <Build Include="staging\Stored Procedures\usp_SetTransactionAttributesKey.sql" />
+    <Build Include="staging\Stored Procedures\usp_SetTransactionDateTimeKeyReferences.sql" />
+    <Build Include="staging\Stored Procedures\usp_SetTransactionHeaderConjoinReferences.sql" />
+    <Build Include="staging\Stored Procedures\usp_SetTransactionHeaderLevel1References.sql" />
+    <Build Include="staging\Stored Procedures\usp_SetTransactionLevel0References.sql" />
+    <Build Include="staging\Stored Procedures\usp_SetTransactionLineItemConjoinReferences.sql" />
+    <Build Include="staging\Stored Procedures\usp_SetTransactionLineItemLevel1References.sql" />
+    <Build Include="staging\Stored Procedures\usp_SetTransactionUpdatedDate.sql" />
+    <Build Include="staging\Stored Procedures\usp_TrimTransactionEntityIdFields.sql" />
+    <Build Include="staging\Stored Procedures\usp_UpdateConjoinTransactionsForHeaders.sql" />
+    <Build Include="staging\Stored Procedures\usp_UpdateConjoinTransactionsForLineItems.sql" />
+    <Build Include="staging\Stored Procedures\usp_UpdateTransactionHeaderProcessedFlags.sql" />
+    <Build Include="staging\Tables\tblEditedFactTransaction.sql" />
+    <Build Include="staging\Tables\tblInsertedLineItems.sql" />
+    <Build Include="staging\Tables\tblInsertedRecordsTemp.sql" />
+    <Build Include="staging\Tables\tblMissingEntitiesTempOne.sql" />
+    <Build Include="staging\Tables\tblMissingEntitiesTempTwo.sql" />
+    <Build Include="staging\Tables\tblProcessedInventoryYears.sql" />
+    <Build Include="staging\Tables\tblTransactionAttributes.sql" />
+    <Build Include="staging\Tables\tblUpdatedRecordsTemp.sql" />
+    <Build Include="dbo\Functions\udf_ConvertToDateKey.sql" />
+    <Build Include="dbo\Functions\udf_ConvertToDateTime.sql" />
+    <Build Include="dbo\Functions\udf_ConvertToTimeKey.sql" />
+    <Build Include="dbo\Views\vw_FactTransaction.sql" />
+    <Build Include="dbo\Tables\FactPhysicalInventorySnapshot.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadPhysicalInventoryFromLineItems.sql" />
+    <Build Include="dbo\Views\vw_FactCloseoutSnapshot.sql" />
+    <Build Include="dbo\Views\vw_FactCloseoutSnapshotDetails.sql" />
+    <Build Include="dbo\Views\vw_Site.sql" />
+    <Build Include="dbo\Views\vw_SiteGroup.sql" />
+    <Build Include="dbo\Views\vw_WindowsLoginUserToCompany.sql" />
+    <Build Include="dbo\Views\vw_WindowsLoginUserToSite.sql" />
+    <Build Include="dbo\Views\vw_WindowsLoginUserToSiteGroup.sql" />
+    <Build Include="dbo\Views\vw_FactPhysicalInventory.sql" />
+    <Build Include="dbo\Stored Procedures\usp_CloseAuditLogRecord.sql" />
+    <Build Include="staging\Stored Procedures\usp_PresetTransactionLineItems.sql" />
+    <Build Include="staging\Tables\tblStations.sql" />
+    <Build Include="staging\Tables\tblLoadArms.sql" />
+    <Build Include="Security\rpt.sql" />
+    <Build Include="rpt\Functions\udf_GetAuthorisedSites.sql" />
+    <Build Include="rpt\Functions\udf_GetAuthorisedCompanies.sql" />
+    <Build Include="rpt\Functions\udf_GetDimensionParameterValues.sql" />
+    <Build Include="rpt\Stored Procedures\usp_GetFactTransactionDetails.sql" />
+    <Build Include="rpt\Stored Procedures\usp_GetAuthorisedSites.sql" />
+    <Build Include="rpt\Stored Procedures\usp_GetFactTransactionDetailsParamList.sql" />
+    <Build Include="dbo\Tables\FactTransactionSummary.sql" />
+    <Build Include="staging\Tables\tblTransactionSummary.sql" />
+    <Build Include="staging\Stored Procedures\usp_PresetTransactionSummary.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadTransactionSummary.sql" />
+    <Build Include="staging\Tables\tblTransactionSummaryAttributes.sql" />
+    <Build Include="staging\Tables\tblEditedFactTransactionSummary.sql" />
+    <Build Include="dbo\Views\vw_FactTransactionSummary.sql" />
+    <Build Include="Security\lookup.sql" />
+    <Build Include="dbo\Stored Procedures\usp_DeleteDummyTransaction.sql" />
+    <Build Include="dbo\Functions\udf_GetWeekDayName.sql" />
+    <Build Include="staging\Stored Procedures\usp_PresetTransactionHeaders.sql" />
+    <Build Include="staging\Stored Procedures\usp_SetDimensionAlternateKeys.sql" />
+    <Build Include="staging\Stored Procedures\usp_SetTransactionHeaderAlternateKeys.sql" />
+    <Build Include="staging\Stored Procedures\usp_SetTransactionLineItemAlternateKeys.sql" />
+    <Build Include="staging\Stored Procedures\usp_SetTransactionLineUserDataAlternateKeys.sql" />
+    <Build Include="staging\Stored Procedures\usp_SetTransactionUserDataAlternateKeys.sql" />
+    <Build Include="staging\Tables\tblTransactionSubLineItems.sql" />
+    <Build Include="staging\Stored Procedures\usp_PresetTransactionSubLineItems.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadTransactionSubLineItems.sql" />
+    <Build Include="staging\Stored Procedures\usp_SetTransactionSubLineItemAlternateKeys.sql" />
+    <Build Include="staging\Stored Procedures\usp_SetTransactionSubLineItemLevel1References.sql" />
+    <Build Include="staging\Tables\tblConjoinTransactionSubLineItems.sql" />
+    <Build Include="staging\Stored Procedures\usp_GetMissingConjoinSubLineItems.sql" />
+    <Build Include="staging\Stored Procedures\usp_UpdateConjoinTransactionsForSubLineItems.sql" />
+    <Build Include="staging\Stored Procedures\usp_SetLookupReferencesForSubLineItems.sql" />
+    <Build Include="staging\Stored Procedures\usp_SetTransactionSubLineItemConjoinReferences.sql" />
+    <Build Include="staging\Stored Procedures\usp_ResetTransactionNullIndicatorAlternateKeys.sql" />
+    <Build Include="staging\Stored Procedures\usp_UpdateTransactionUserDataProcessedFlags.sql" />
+    <Build Include="staging\Stored Procedures\usp_UpdateTransactionLineItemUserDataProcessedFlags.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadPhysicalInventoryFromSubLineItems.sql" />
+    <Build Include="dbo\Tables\DimStation.sql" />
+    <Build Include="dbo\Tables\DimLoadArm.sql" />
+    <Build Include="staging\Stored Procedures\usp_SetTransactionHeaderEmptyIDFieldsToNull.sql" />
+    <Build Include="staging\Stored Procedures\usp_SetTransactionLineItemEmptyIDFieldsToNull.sql" />
+    <Build Include="staging\Stored Procedures\usp_SetTransactionSubLineItemEmptyIDFieldsToNull.sql" />
+    <Build Include="dbo\Tables\tblSystemSettings.sql" />
+    <Build Include="staging\Tables\tblTanks.sql" />
+    <Build Include="dbo\Tables\DimTank.sql" />
+    <Build Include="dbo\Tables\DimUnitOfMeasure.sql" />
+    <Build Include="staging\Tables\tblPartialTransactionSegment.sql" />
+    <Build Include="staging\Stored Procedures\usp_IdentifyMissingSegmentsForLineItemChanges.sql" />
+    <Build Include="staging\Stored Procedures\usp_IdentifyMissingSegmentsForSubLineItemChanges.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadPartialTransactionLineItems.sql" />
+    <Build Include="staging\Stored Procedures\usp_LoadPartialTransactionSubLineItems.sql" />
+    <Build Include="staging\Tables\tblApplicationString.sql" />
+    <Build Include="dbo\Stored Procedures\usp_UpdateCDCActivationDate.sql" />
+    <Build Include="map\Tables\tblSSASPartitionToRangeCriteria.sql" />
+    <Build Include="dbo\Tables\tblPreRunMDXQueries.sql" />
+    <Build Include="map\Stored Procedures\usp_GetPartitionXMLAScript.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <SqlCmdVariable Include="FMDWDefaultDataPath">
+      <DefaultValue>
+      </DefaultValue>
+      <Value>$(SqlCmdVar__1)</Value>
+    </SqlCmdVariable>
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Scripts\Script.PostDeploymentMain.sql" />
+    <None Include="dboData\dbo.DimSystemInfo.refdata.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="dboData\dbo.tblSystemSettings.refdata.sql" />
+    <None Include="dboData\dbo.DimUnitOfMeasure.refdata.sql" />
+    <None Include="mapData\map.tblSSASPartitionToRangeCriteria.refdata.sql" />
+    <None Include="dboData\dbo.tblPreRunMDXQueries.refdata.sql" />
+  </ItemGroup>
+</Project>

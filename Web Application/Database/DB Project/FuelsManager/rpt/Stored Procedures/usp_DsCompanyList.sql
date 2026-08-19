@@ -1,0 +1,8 @@
+﻿
+CREATE PROCEDURE [rpt].[usp_DsCompanyList]
+@LoginSiteGuid UNIQUEIDENTIFIER, @SiteGuid UNIQUEIDENTIFIER, @Role INT, @HasAllItem BIT
+AS
+BEGIN
+	SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+	SELECT* FROM udf_CompanyList(@LoginSiteGuid,@SiteGuid,@Role,@HasAllItem) ORDER BY CompanyName
+END
